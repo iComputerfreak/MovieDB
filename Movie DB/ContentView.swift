@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct ContentView : View {
+    
+    let api = JustWatchAPI(locale: "de_DE")
+    
     var body: some View {
-        Text("Hello World")
+        Text("Hello, world!")
     }
 }
 

@@ -9,6 +9,9 @@
 import XCTest
 @testable import Movie_DB
 
+
+// TODO: Create unit tests for Models Codable implementations
+
 class Movie_DBTests: XCTestCase {
 
     override func setUp() {
@@ -19,15 +22,36 @@ class Movie_DBTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testMovie() {
+        
     }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
+        }
+    }
+    
+    func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
+        let data: Data
+        
+        guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
+            else {
+                fatalError("Couldn't find \(filename) in main bundle.")
+        }
+        
+        do {
+            data = try Data(contentsOf: file)
+        } catch {
+            fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
 
