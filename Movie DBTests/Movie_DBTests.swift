@@ -164,5 +164,13 @@ class Movie_DBTests: XCTestCase {
         XCTAssertEqual(cal.component(.month, from: date), month)
         XCTAssertEqual(cal.component(.day, from: date), day)
     }
+    
+    let api = TMDBAPI()
+    
+    func testCustom() {
+        print("Starting Call")
+        api.searchResults(for: "Matrix")
+        sleep(10)
+    }
 
 }

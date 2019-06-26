@@ -29,7 +29,7 @@ protocol TMDBData: Codable, Equatable {
     var status: String { get set }
     
     // Extended Data
-    /// The language the movie was originally created in as an ISO-639-1 string
+    /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     var originalLanguage: String { get set }
     /// The id of the media on IMDB.com
     var imdbID: String? { get set }
@@ -145,9 +145,9 @@ struct Video: Codable, Equatable {
     var type: VideoType
     /// The resolution of the video
     var resolution: Int
-    /// The ISO-639-1 language code
+    /// The ISO-639-1 language code  (e.g. 'en')
     var language: String
-    /// The ISO-3166-1 country code
+    /// The ISO-3166-1 country code (e.g. 'US')
     var country: String
     
     enum CodingKeys: String, CodingKey {

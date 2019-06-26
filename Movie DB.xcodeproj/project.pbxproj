@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB3648BA22C3D9760096FE39 /* TMDBWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = AB3648B922C3D9760096FE39 /* TMDBWrapper */; };
+		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
+		AB3648BF22C3DDA70096FE39 /* AddMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMovieView.swift */; };
 		AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718C022C0312B00F429E4 /* AppDelegate.swift */; };
 		AB6718C322C0312B00F429E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718C222C0312B00F429E4 /* SceneDelegate.swift */; };
 		AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718C422C0312B00F429E4 /* ContentView.swift */; };
@@ -38,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
+		AB3648BE22C3DDA70096FE39 /* AddMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMovieView.swift; sourceTree = "<group>"; };
 		AB6718BD22C0312B00F429E4 /* Movie DB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6718C022C0312B00F429E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB6718C222C0312B00F429E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB3648BA22C3D9760096FE39 /* TMDBWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB3648BD22C3DD8B0096FE39 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB3648BE22C3DDA70096FE39 /* AddMovieView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB6718B422C0312A00F429E4 = {
 			isa = PBXGroup;
 			children = (
@@ -104,10 +118,11 @@
 			isa = PBXGroup;
 			children = (
 				AB6718F522C113F800F429E4 /* JFUtils.swift */,
-				AB6718F222C110F500F429E4 /* JustWatch API */,
-				AB6718E222C0314100F429E4 /* Models */,
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
 				AB6718C222C0312B00F429E4 /* SceneDelegate.swift */,
+				AB6718F222C110F500F429E4 /* APIs */,
+				AB6718E222C0314100F429E4 /* Models */,
+				AB3648BD22C3DD8B0096FE39 /* Views */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				AB6718C622C0312B00F429E4 /* Assets.xcassets */,
 				AB6718CB22C0312B00F429E4 /* LaunchScreen.storyboard */,
@@ -149,12 +164,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AB6718F222C110F500F429E4 /* JustWatch API */ = {
+		AB6718F222C110F500F429E4 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
 				AB6718F322C1110500F429E4 /* JustWatchAPI.swift */,
+				AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */,
 			);
-			path = "JustWatch API";
+			path = APIs;
 			sourceTree = "<group>";
 		};
 		AB6718FD22C2A0B900F429E4 /* Resources */ = {
@@ -182,6 +198,9 @@
 			dependencies = (
 			);
 			name = "Movie DB";
+			packageProductDependencies = (
+				AB3648B922C3D9760096FE39 /* TMDBWrapper */,
+			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
 			productType = "com.apple.product-type.application";
@@ -232,6 +251,9 @@
 				Base,
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
+			packageReferences = (
+				AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */,
+			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -278,6 +300,8 @@
 				AB6718F422C1110500F429E4 /* JustWatchAPI.swift in Sources */,
 				AB6718C322C0312B00F429E4 /* SceneDelegate.swift in Sources */,
 				AB6718E622C0317800F429E4 /* Movie.swift in Sources */,
+				AB3648BF22C3DDA70096FE39 /* AddMovieView.swift in Sources */,
+				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
 				AB6718F822C2675300F429E4 /* JustWatchData.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */,
@@ -541,6 +565,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iComputerfreak/TheMovieDatabaseSwiftWrapper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB3648B922C3D9760096FE39 /* TMDBWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */;
+			productName = TMDBWrapper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB6718B522C0312A00F429E4 /* Project object */;
 }
