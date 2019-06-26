@@ -24,6 +24,7 @@
 		AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F922C2910800F429E4 /* TMDBMovieData.swift */; };
 		AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */; };
 		AB6718FF22C2A0B900F429E4 /* TMDB Movie.json in Resources */ = {isa = PBXBuildFile; fileRef = AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */; };
+		ABC1A27B22C3BD2900A49001 /* TMDB Show.json in Resources */ = {isa = PBXBuildFile; fileRef = ABC1A27A22C3BD2900A49001 /* TMDB Show.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		AB6718F922C2910800F429E4 /* TMDBMovieData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMovieData.swift; sourceTree = "<group>"; };
 		AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowData.swift; sourceTree = "<group>"; };
 		AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TMDB Movie.json"; sourceTree = "<group>"; };
+		ABC1A27A22C3BD2900A49001 /* TMDB Show.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TMDB Show.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */,
+				ABC1A27A22C3BD2900A49001 /* TMDB Show.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABC1A27B22C3BD2900A49001 /* TMDB Show.json in Resources */,
 				AB6718FF22C2A0B900F429E4 /* TMDB Movie.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,14 @@ import Foundation
     
 }*/
 
+struct JFUtils {
+    static func dateFromTMDBString(_ string: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: string)
+    }
+}
+
 
 extension Dictionary {
     func percentEscaped() -> String {

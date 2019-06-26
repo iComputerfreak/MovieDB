@@ -25,10 +25,10 @@ struct TMDBShowData: TMDBData {
     var voteAverage: Float
     var voteCount: Int
     
-    var castWrapper: CastWrapper
-    var keywordsWrapper: KeywordsWrapper
-    var translationsWrapper: TranslationsWrapper
-    var videosWrapper: VideosWrapper
+    var castWrapper: CastWrapper?
+    var keywordsWrapper: KeywordsWrapper?
+    var translationsWrapper: TranslationsWrapper?
+    var videosWrapper: VideosWrapper?
     
     // Exclusive properties
     /// The date when the show was first aired

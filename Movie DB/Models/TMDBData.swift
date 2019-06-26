@@ -29,7 +29,7 @@ protocol TMDBData: Codable {
     var status: String { get set }
     
     // Extended Data
-    /// The language the movie was originally created in
+    /// The language the movie was originally created in as an ISO-639-1 string
     var originalLanguage: String { get set }
     /// The id of the media on IMDB.com
     var imdbID: String? { get set }
@@ -48,42 +48,42 @@ protocol TMDBData: Codable {
     
     // Computed Properties
     /// The list of actors
-    var cast: [CastMember] { get }
+    var cast: [CastMember]? { get }
     /// A list of keywords that match the media
-    var keywords: [String] { get }
+    var keywords: [String]? { get }
     /// A list of languages the media was translated to
-    var translations: [String] { get }
+    var translations: [String]? { get }
     /// The links to the media trailers
-    var trailers: [Video] { get }
+    var trailers: [Video]? { get }
     
     // Codable Helper properties
     /// The wrapper containing the cast
     /// - Important:Use `TMDBData.cast` to access the cast members
-    var castWrapper: CastWrapper { get set }
+    var castWrapper: CastWrapper? { get set }
     /// The wrapper containing the list of keywords
     /// - Important: Use `TMDBData.keywords` to access the keywords
-    var keywordsWrapper: KeywordsWrapper { get set }
+    var keywordsWrapper: KeywordsWrapper? { get set }
     /// The wrapper containing the list of translations
     /// - Important: Use `TMDBData.translations` to access the translations
-    var translationsWrapper: TranslationsWrapper { get set }
+    var translationsWrapper: TranslationsWrapper? { get set }
     /// The wrapper containing the list of videos
     /// - Important: Use `TMDB.trailers` to access the trailers
-    var videosWrapper: VideosWrapper { get set }
+    var videosWrapper: VideosWrapper? { get set }
 }
 
 /// Implements the computed properties
 extension TMDBData {
-    var cast: [CastMember] {
-        self.castWrapper.cast
+    var cast: [CastMember]? {
+        self.castWrapper?.cast
     }
-    var keywords: [String] {
-        self.keywordsWrapper.keywords.map { $0.name }
+    var keywords: [String]? {
+        self.keywordsWrapper?.keywords.map { $0.name }
     }
-    var translations: [String] {
-        self.translationsWrapper.translations.map { $0.englishName }
+    var translations: [String]? {
+        self.translationsWrapper?.translations.map { $0.englishName }
     }
-    var trailers: [Video] {
-        self.videosWrapper.videos.filter { $0.type == .trailer }
+    var trailers: [Video]? {
+        self.videosWrapper?.videos.filter { $0.type == .trailer }
     }
 }
 
@@ -124,7 +124,7 @@ struct CastMember: Codable {
 }
 
 /// Represents a video on some external site
-struct Video: Codable {
+struct Video: Codable, Equatable {
     
     enum VideoType: String, Codable {
         case trailer = "Trailer"
@@ -163,7 +163,7 @@ struct Video: Codable {
 
 // MARK: - Codable Helper Structs
 /// Represents a Media genre
-struct Genre: Codable {
+struct Genre: Codable, Equatable {
     /// The ID of the genre on TMDB
     var id: Int
     /// The name of the genre
@@ -176,7 +176,7 @@ struct Genre: Codable {
 }
 
 /// Represents a production company
-struct ProductionCompany: Codable {
+struct ProductionCompany: Codable, Equatable {
     /// The ID of the production company on TMDB
     var id: Int
     /// The name of the production company

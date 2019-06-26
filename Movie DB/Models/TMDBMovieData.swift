@@ -25,14 +25,16 @@ struct TMDBMovieData: TMDBData {
     var voteAverage: Float
     var voteCount: Int
     
-    var castWrapper: CastWrapper
-    var keywordsWrapper: KeywordsWrapper
-    var translationsWrapper: TranslationsWrapper
-    var videosWrapper: VideosWrapper
+    var castWrapper: CastWrapper?
+    var keywordsWrapper: KeywordsWrapper?
+    var translationsWrapper: TranslationsWrapper?
+    var videosWrapper: VideosWrapper?
     
     // Exclusive Properties
+    /// The raw release date formatted as "yyyy-MM-dd"
+    var rawReleaseDate: String
     /// The year, the movie was released
-    var releaseDate: Date
+    var releaseDate: Date? { JFUtils.dateFromTMDBString(self.rawReleaseDate) }
     /// Runtime in minutes
     var runtime: Int?
     /// The production budget in dollars
@@ -62,7 +64,7 @@ struct TMDBMovieData: TMDBData {
         case voteCount = "vote_count"
         
         // Exclusive properties
-        case releaseDate = "release_date"
+        case rawReleaseDate = "release_date"
         case runtime
         case budget
         case revenue
@@ -70,6 +72,6 @@ struct TMDBMovieData: TMDBData {
         case isAdult = "adult"
         
         // Filled externally by separate API calls
-        case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
+        //case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
     }
 }
