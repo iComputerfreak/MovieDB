@@ -12,7 +12,7 @@ import UIKit
 // MARK: TMDB Data
 
 /// Represents a set of data about the media from themoviedb.org
-protocol TMDBData: Codable {
+protocol TMDBData: Codable, Equatable {
     // Basic Data
     var id: Int { get set }
     /// The name of the media
@@ -90,7 +90,7 @@ extension TMDBData {
 // MARK: - Property Structs
 
 /// Represents an actor starring in a specific movie
-struct CastMember: Codable {
+struct CastMember: Codable, Equatable {
     /// The name of the actor
     var name: String
     /// The name of the actor in the media
@@ -200,7 +200,7 @@ struct ProductionCompany: Codable, Equatable {
 
 /// Represents a set of credits info containing the cast members
 /// Only the cast members will be decoded/encoded. Other values will be ignored
-struct CastWrapper: Codable {
+struct CastWrapper: Codable, Equatable {
     var cast: [CastMember]
     
     enum CodingKeys: String, CodingKey {
@@ -226,7 +226,7 @@ struct CastWrapper: Codable {
 
 /// Represents a wrapper containing the keywords
 /// Only the keywords will be decoded/encoded. Other values will be ignored
-struct KeywordsWrapper: Codable {
+struct KeywordsWrapper: Codable, Equatable {
     var keywords: [KeywordWrapper]
     
     enum CodingKeys: String, CodingKey {
@@ -249,7 +249,7 @@ struct KeywordsWrapper: Codable {
 }
 
 /// Represents a wrapper containing a single keyword
-struct KeywordWrapper: Codable {
+struct KeywordWrapper: Codable, Equatable {
     // ID is not used, but still decoded (simpler than overriding De-/Encodable)
     /// The ID of the keyword
     var id: Int
@@ -260,7 +260,7 @@ struct KeywordWrapper: Codable {
 // MARK: Translations
 
 /// Represents a wrapper containing a list of translation wrappers
-struct TranslationsWrapper: Codable {
+struct TranslationsWrapper: Codable, Equatable {
     // ID is not used, but still decoded (simpler than overriding De-/Encodable)
     /// The ID of the translations list
     var id: Int
@@ -270,7 +270,7 @@ struct TranslationsWrapper: Codable {
 
 /// Represents a wrapper containing a translation
 /// Only the keywords will be decoded/encoded. Other values will be ignored
-struct TranslationWrapper: Codable {
+struct TranslationWrapper: Codable, Equatable {
     /// The localized name of the language
     var name: String
     /// The english name of the language
@@ -301,7 +301,7 @@ struct TranslationWrapper: Codable {
 // MARK: Videos
 
 /// Represents a wrapper containing a list of Videos
-struct VideosWrapper: Codable {
+struct VideosWrapper: Codable, Equatable {
     // ID is not used, but still decoded (simpler than overriding De-/Encodable)
     /// The ID of the result
     var id: Int

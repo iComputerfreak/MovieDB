@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class Media {
+class Media<TMDBType: TMDBData> {
     /// The data from TMDB
-    var tmdbData: TMDBData?
+    var tmdbData: TMDBType?
     /// The data from JustWatch.com
     var justWatchData: JustWatchData?
     /// A rating between 0 and 10 (no Rating and 5 stars)

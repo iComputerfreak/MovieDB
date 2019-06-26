@@ -85,7 +85,6 @@ class Movie_DBTests: XCTestCase {
             ProductionCompany(id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US")
         ]
         
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
@@ -119,6 +118,22 @@ class Movie_DBTests: XCTestCase {
         XCTAssertEqual(show.type, "Scripted")
         XCTAssertEqual(show.voteAverage, 8.2)
         XCTAssertEqual(show.voteCount, 4682)
+    }
+    
+    func testEncode() {
+        
+        // Decoding is already fully tested. We assume it works correctly
+        let movie: TMDBMovieData = load("TMDB Movie.json")
+        let movieData = try? JSONEncoder().encode(movie)
+        XCTAssertNotNil(movieData)
+        let movie2 = try? JSONDecoder().decode(TMDBMovieData.self, from: movieData!)
+        XCTAssertEqual(movie, movie2)
+        
+        let show: TMDBShowData = load("TMDB Show.json")
+        let showData = try? JSONEncoder().encode(show)
+        XCTAssertNotNil(showData)
+        let show2 = try? JSONDecoder().decode(TMDBShowData.self, from: showData!)
+        XCTAssertEqual(show, show2)
     }
     
     func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {

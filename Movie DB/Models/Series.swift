@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Series: Media {
+class Series: Media<TMDBShowData> {
     
     typealias EpisodeNumber = (season: Int, episode: Int)
     
