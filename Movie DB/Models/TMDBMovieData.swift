@@ -33,7 +33,7 @@ struct TMDBMovieData: TMDBData {
     // Exclusive Properties
     /// The raw release date formatted as "yyyy-MM-dd"
     var rawReleaseDate: String
-    /// The year, the movie was released
+    /// The date, the movie was released
     var releaseDate: Date? { JFUtils.dateFromTMDBString(self.rawReleaseDate) }
     /// Runtime in minutes
     var runtime: Int?
