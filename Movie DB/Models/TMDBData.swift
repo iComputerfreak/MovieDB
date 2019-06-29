@@ -12,8 +12,9 @@ import UIKit
 // MARK: TMDB Data
 
 /// Represents a set of data about the media from themoviedb.org
-protocol TMDBData: Codable, Equatable {
+protocol TMDBData: Codable {
     // Basic Data
+    /// The TMDB ID of the media
     var id: Int { get set }
     /// The name of the media
     var title: String { get set }
@@ -27,10 +28,10 @@ protocol TMDBData: Codable, Equatable {
     var overview: String? { get set }
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
     var status: String { get set }
-    
-    // Extended Data
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     var originalLanguage: String { get set }
+    
+    // Extended Data
     /// The id of the media on IMDB.com
     var imdbID: String? { get set }
     /// A list of companies that produced the media

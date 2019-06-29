@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Movie: Media<TMDBMovieData> {
+class Movie: Media {
     
     /// Whether the user has watched the media (partly or fully)
     var watched: Bool = false

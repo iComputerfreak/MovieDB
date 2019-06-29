@@ -9,11 +9,14 @@
 import SwiftUI
 
 struct ContentView : View {
-    
-    let api = JustWatchAPI(locale: "de_DE")
-    
     var body: some View {
-        Text("Hello, world!")
+        TabbedView {
+            Text("Home")
+                .tag(0)
+            
+            AddMediaView()
+                .tag(1)
+        }
     }
 }
 

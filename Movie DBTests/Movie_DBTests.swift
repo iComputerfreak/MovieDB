@@ -9,7 +9,6 @@
 import XCTest
 @testable import Movie_DB
 
-// TODO: Use rawReleaseDate everywhere!!!
 // TODO: Create unit tests for Models Codable implementations
 
 class Movie_DBTests: XCTestCase {
@@ -35,7 +34,7 @@ class Movie_DBTests: XCTestCase {
         ]
         
         // Test, if the Decoding works
-        let movie: TMDBMovieData = load("TMDB Movie.json")
+        let movie: TMDBMovieData = TestingUtils.load("TMDB Movie.json")
         XCTAssertFalse(movie.isAdult)
         XCTAssertEqual(movie.budget, 63000000)
         XCTAssertEqual(movie.genres, [Genre(id: 18, name: "Drama")])
@@ -88,7 +87,7 @@ class Movie_DBTests: XCTestCase {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
-        let show: TMDBShowData = load("TMDB Show.json")
+        let show: TMDBShowData = TestingUtils.load("TMDB Show.json")
         XCTAssertEqual(show.episodeRuntime, [60])
         XCTAssertEqual(show.rawFirstAirDate, "2011-04-17")
         XCTAssertNotNil(show.firstAirDate)
@@ -123,39 +122,17 @@ class Movie_DBTests: XCTestCase {
     func testEncode() {
         
         // Decoding is already fully tested. We assume it works correctly
-        let movie: TMDBMovieData = load("TMDB Movie.json")
+        let movie: TMDBMovieData = TestingUtils.load("TMDB Movie.json")
         let movieData = try? JSONEncoder().encode(movie)
         XCTAssertNotNil(movieData)
         let movie2 = try? JSONDecoder().decode(TMDBMovieData.self, from: movieData!)
         XCTAssertEqual(movie, movie2)
         
-        let show: TMDBShowData = load("TMDB Show.json")
+        let show: TMDBShowData = TestingUtils.load("TMDB Show.json")
         let showData = try? JSONEncoder().encode(show)
         XCTAssertNotNil(showData)
         let show2 = try? JSONDecoder().decode(TMDBShowData.self, from: showData!)
         XCTAssertEqual(show, show2)
-    }
-    
-    func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
-        let data: Data
-        
-        guard let file = Bundle(for: Movie_DBTests.self).url(forResource: filename, withExtension: nil)
-            else {
-                fatalError("Couldn't find \(filename) in main bundle.")
-        }
-        
-        do {
-            data = try Data(contentsOf: file)
-        } catch {
-            fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode(T.self, from: data)
-        } catch {
-            fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
-        }
     }
     
     func testEqualDateParts(_ date: Date, _ year: Int, _ month: Int, _ day: Int) {
