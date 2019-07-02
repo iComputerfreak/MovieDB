@@ -11,6 +11,7 @@ import TMDBWrapper
 
 struct TMDBAPI {
     
+    let apiKey: String
     /// The ISO-639-1 language code
     var language: String = "de"
     var region: String = "DE"
@@ -18,29 +19,40 @@ struct TMDBAPI {
         return "\(language)-\(region)"
     }
     
-    init() {
-        
+    func getMedia<T: TMDBData>(by id: Int, type: MediaType, completion: @escaping (T?) -> Void) {
+        let url = "https://api.themoviedb.org/3/\(type.rawValue)/\(id)"
+        if id == 48891 {
+            print("Break here")
+        }
+        JFUtils.getRequest(url, parameters: [
+            "api_key": apiKey,
+            "language": locale
+        ]) { (data) in
+            guard let data = data else {
+                // On fail, call the completion with nil, so the caller knows, it failed
+                print("JFUtils.getRequest returned nil")
+                completion(nil)
+                return
+            }
+            let result = try! JSONDecoder().decode(T.self, from: data)
+            completion(result)
+        }
     }
     
-    /*func getMovieData() -> TMDBMovieData {
-        
-    }*/
+    // Convenience function
+    func getMovie(by id: Int, completion: @escaping (TMDBMovieData?) -> Void) {
+        getMedia(by: id, type: .movie, completion: completion)
+    }
     
-    func searchResults(for query: String) {
-        print("Starting Search")
-        SearchMDB.movie(query: query, language: locale, page: 1, includeAdult: true, year: nil, primaryReleaseYear: nil) {
-            data, movies in
-            print(String(describing: movies?[0].title))
-            print(String(describing: movies?[0].overview))
-            print("Success")
-        }
-        print("Done")
+    // Convenience function
+    func getShow(by id: Int, completion: @escaping (TMDBShowData?) -> Void) {
+        getMedia(by: id, type: .show, completion: completion)
     }
     
     func searchMedia(_ name: String, includeAdult: Bool = true, completion: @escaping ([TMDBSearchResult]?) -> Void) {
         let searchURL = "https://api.themoviedb.org/3/search/multi"
         let parameters: [String: Any?] = [
-            "api_key": JFLiterals.apiKey.rawValue,
+            "api_key": apiKey,
             "language": locale,
             "query": name,
             "include_adult": includeAdult,

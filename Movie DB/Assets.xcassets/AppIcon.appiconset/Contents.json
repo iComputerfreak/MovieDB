@@ -49,6 +49,12 @@
       "scale" : "3x"
     },
     {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "icon.png",
+      "scale" : "1x"
+    },
+    {
       "size" : "20x20",
       "idiom" : "ipad",
       "filename" : "Icon-Notification.png",
@@ -103,26 +109,20 @@
       "scale" : "2x"
     },
     {
-      "size" : "1024x1024",
-      "idiom" : "ios-marketing",
-      "filename" : "icon.png",
-      "scale" : "1x"
-    },
-    {
       "size" : "24x24",
       "idiom" : "watch",
       "filename" : "AppIcon24x24@2x.png",
-      "scale" : "2x",
+      "subtype" : "38mm",
       "role" : "notificationCenter",
-      "subtype" : "38mm"
+      "scale" : "2x"
     },
     {
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "filename" : "AppIcon27.5x27.5@2x.png",
-      "scale" : "2x",
+      "subtype" : "42mm",
       "role" : "notificationCenter",
-      "subtype" : "42mm"
+      "scale" : "2x"
     },
     {
       "size" : "29x29",
@@ -142,49 +142,49 @@
       "size" : "40x40",
       "idiom" : "watch",
       "filename" : "AppIcon40x40@2x.png",
-      "scale" : "2x",
+      "subtype" : "38mm",
       "role" : "appLauncher",
-      "subtype" : "38mm"
-    },
-    {
-      "size" : "44x44",
-      "idiom" : "watch",
-      "filename" : "AppIcon44x44@2x.png",
-      "scale" : "2x",
-      "role" : "appLauncher",
-      "subtype" : "40mm"
-    },
-    {
-      "size" : "50x50",
-      "idiom" : "watch",
-      "filename" : "AppIcon50x50@2x.png",
-      "scale" : "2x",
-      "role" : "appLauncher",
-      "subtype" : "44mm"
+      "scale" : "2x"
     },
     {
       "size" : "86x86",
       "idiom" : "watch",
       "filename" : "AppIcon86x86@2x.png",
-      "scale" : "2x",
+      "subtype" : "38mm",
       "role" : "quickLook",
-      "subtype" : "38mm"
+      "scale" : "2x"
     },
     {
       "size" : "98x98",
       "idiom" : "watch",
       "filename" : "AppIcon98x98@2x.png",
-      "scale" : "2x",
+      "subtype" : "42mm",
       "role" : "quickLook",
-      "subtype" : "42mm"
+      "scale" : "2x"
+    },
+    {
+      "size" : "50x50",
+      "idiom" : "watch",
+      "filename" : "AppIcon50x50@2x.png",
+      "subtype" : "44mm",
+      "role" : "appLauncher",
+      "scale" : "2x"
+    },
+    {
+      "size" : "44x44",
+      "idiom" : "watch",
+      "filename" : "AppIcon44x44@2x.png",
+      "subtype" : "40mm",
+      "role" : "appLauncher",
+      "scale" : "2x"
     },
     {
       "size" : "108x108",
       "idiom" : "watch",
       "filename" : "AppIcon108x108@2x.png",
-      "scale" : "2x",
+      "subtype" : "44mm",
       "role" : "quickLook",
-      "subtype" : "44mm"
+      "scale" : "2x"
     },
     {
       "size" : "1024x1024",

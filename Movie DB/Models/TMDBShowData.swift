@@ -103,7 +103,7 @@ struct Season: Codable, Equatable {
     /// A short description of the season
     var overview: String
     /// A path to the poster image of the season on TMDB
-    var imagePath: String
+    var imagePath: String?
     /// The date when the season aired
     var rawAirDate: String
     /// The date, the season aired

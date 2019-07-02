@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /*enum JFLiterals: String {
     
@@ -50,6 +51,10 @@ struct JFUtils {
             
             completion(data)
         }.resume()
+    }
+    
+    static func getTMDBImageURL(path: String, size: Int = 500) -> String {
+        return "https://image.tmdb.org/t/p/w\(size)/\(path)"
     }
 }
 

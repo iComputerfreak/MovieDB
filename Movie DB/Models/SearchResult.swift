@@ -110,6 +110,8 @@ struct TMDBShowSearchResult: TMDBSearchResult, Identifiable {
 }
 
 struct SearchResult: Codable {
+    struct Empty: Decodable {}
+    
     var results: [TMDBSearchResult]
     
     init(from decoder: Decoder) throws {
@@ -128,10 +130,15 @@ struct SearchResult: Codable {
             case "movie":
                 self.results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
             case "tv":
-                self.results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
+                if let a = try? arrayContainer2.decode(TMDBShowSearchResult.self) {
+                    self.results.append(a)
+                } else {
+                    let b = try arrayContainer2.decode(TMDBMovieData.self)
+                    print(b)
+                }
             default:
                 // Skip the other entry (probably type person)
-                _ = try arrayContainer2.decodeNil()
+                _ = try? arrayContainer2.decode(Empty.self)
             }
         }
         

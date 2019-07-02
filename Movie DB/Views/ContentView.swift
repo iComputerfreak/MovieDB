@@ -11,11 +11,13 @@ import SwiftUI
 struct ContentView : View {
     var body: some View {
         TabbedView {
-            Text("Home")
+            LibraryHome()
                 .tag(0)
+                .tabItemLabel(Text("Library"))
             
             AddMediaView()
                 .tag(1)
+                .tabItemLabel(Text("Add Movie"))
         }
     }
 }
