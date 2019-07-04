@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import TMDBWrapper
 
 struct TMDBAPI {
     
@@ -19,11 +18,8 @@ struct TMDBAPI {
         return "\(language)-\(region)"
     }
     
-    func getMedia<T: TMDBData>(by id: Int, type: MediaType, completion: @escaping (T?) -> Void) {
+    func getMedia(by id: Int, type: MediaType, completion: @escaping (TMDBData?) -> Void) {
         let url = "https://api.themoviedb.org/3/\(type.rawValue)/\(id)"
-        if id == 48891 {
-            print("Break here")
-        }
         JFUtils.getRequest(url, parameters: [
             "api_key": apiKey,
             "language": locale
@@ -34,19 +30,12 @@ struct TMDBAPI {
                 completion(nil)
                 return
             }
-            let result = try! JSONDecoder().decode(T.self, from: data)
-            completion(result)
+            if type == .movie {
+                completion(try? JSONDecoder().decode(TMDBMovieData.self, from: data))
+            } else {
+                completion(try? JSONDecoder().decode(TMDBShowData.self, from: data))
+            }
         }
-    }
-    
-    // Convenience function
-    func getMovie(by id: Int, completion: @escaping (TMDBMovieData?) -> Void) {
-        getMedia(by: id, type: .movie, completion: completion)
-    }
-    
-    // Convenience function
-    func getShow(by id: Int, completion: @escaping (TMDBShowData?) -> Void) {
-        getMedia(by: id, type: .show, completion: completion)
     }
     
     func searchMedia(_ name: String, includeAdult: Bool = true, completion: @escaping ([TMDBSearchResult]?) -> Void) {

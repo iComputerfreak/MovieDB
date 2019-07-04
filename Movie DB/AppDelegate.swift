@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TMDBWrapper
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,9 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        TMDBConfig.apikey = "e4304a9deeb9ed2d62eb61d7b9a2da71"
-        
+                
         return true
     }
 

@@ -12,6 +12,7 @@ import Combine
 struct LibraryHome : View {
     
     @State private var media: [Media] = []
+    @State private var isAddingMedia: Bool = false
     
     func didAppear() {
         loadPlaceholderData()
@@ -27,10 +28,18 @@ struct LibraryHome : View {
             List(media) { media in
                 LibraryRow(mediaObject: media)
             }
+            .presentation(isAddingMedia ? Modal(AddMediaView(media: $media, isAddingMedia: $isAddingMedia), onDismiss: {
+                self.isAddingMedia = false
+                print("Dismissed")
+            }) : nil)
             
-                .navigationBarItems(trailing: PresentationButton(destination: AddMediaView()) {
-                    Image(systemName: "plus")
-                })
+                .navigationBarItems(trailing:
+                    Button(action: {
+                        self.isAddingMedia = true
+                    }, label: {
+                        Image(systemName: "plus")
+                    })
+                )
                 .navigationBarTitle(Text("Home"))
         }
             .onAppear(perform: self.didAppear)
@@ -38,53 +47,24 @@ struct LibraryHome : View {
     }
     
     func loadPlaceholderData() {
-        var i = 0
         // Load some movies from TMDB to fill the library
-        let api = TMDBAPI(apiKey: JFLiterals.apiKey.rawValue)
+        let api = TMDBAPI(apiKey: JFLiterals.apiKey)
         let movies = ["John Wick 3", "The Matrix", "Brooklyn Nine Nine", "Inception", "World War Z", "Game of Thrones"]
         for movie in movies {
-            let media = Media(id: i, tmdbData: nil, justWatchData: nil, type: .movie)
-            i += 1
-            // Get the id
             api.searchMedia(movie) { (results: [TMDBSearchResult]?) in
                 guard let results = results else {
                     print("Error getting results for '\(movie)'")
                     return
                 }
                 // Add the first search result
-                guard let id = results.first?.id else {
+                guard let first = results.first else {
                     print("No results for '\(movie)'")
                     return
                 }
-                guard let type = results.first?.mediaType else {
-                    print("Error getting type of the first media of '\(movie)'")
-                    return
-                }
-                media.type = type
-                print("\(movie): \(id)")
-                if type == .movie {
-                    // Get the movie details
-                    api.getMovie(by: id) { (data) in
-                        guard let data = data else {
-                            print("Error getting details of '\(movie)'")
-                            return
-                        }
-                        print("ID \(media.id) loaded TMDB Data (\(data.title))")
-                        media.tmdbData = data
-                    }
-                } else {
-                    // Get the show details
-                    api.getShow(by: id) { (data) in
-                        guard let data = data else {
-                            print("Error getting details of '\(movie)'")
-                            return
-                        }
-                        print("ID \(media.id) loaded TMDB Data (\(data.title))")
-                        media.tmdbData = data
-                    }
-                }
+                let media = Media(from: first)
+                print("\(movie): \(first.id)")
+                self.media.append(media)
             }
-            self.media.append(media)
         }
     }
 }

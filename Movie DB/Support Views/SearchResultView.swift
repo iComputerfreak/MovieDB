@@ -10,30 +10,34 @@ import SwiftUI
 
 struct SearchResultView : View {
     
-    // Typical poster ratio is 1.5 height to 1.0 width
-    let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
+    /// The search result to display
+    @State var result: TMDBSearchResult
     
-    var title: String
-    var imagePath: String?
+    /// The image used as a thumbnail for the search results
     @State var image: UIImage?
-    var year: Int?
-    var overview: String?
-    var type: MediaType
-    var isAdult: Bool?
     
-    var yearString: String {
-        guard let year = year else {
-            return ""
+    /// Returns either the release year of the movie or the year of the first air date of the show
+    var year: Int? {
+        let year = (result as? TMDBMovieSearchResult)?.releaseDate ?? (result as? TMDBShowSearchResult)?.firstAirDate
+        guard let _ = year else {
+            return nil
         }
-        return " (\(year))"
+        return JFUtils.yearOfDate(year!)
     }
     
+    /// Whether the media is a movie and that movie is for adults only
+    
+    
+    // View did appear
     func didAppear() {
-        guard let imagePath = self.imagePath else {
+        guard let imagePath = result.imagePath else {
+            print("\(result.title) has no thumbnail")
             return
         }
-        JFUtils.getRequest(JFUtils.getTMDBImageURL(path: imagePath), parameters: [:]) { (data) in
+        let urlString = JFUtils.getTMDBImageURL(path: imagePath)
+        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
+                print("Error getting search result image")
                 return
             }
             self.image = UIImage(data: data)
@@ -42,35 +46,28 @@ struct SearchResultView : View {
     
     var body: some View {
         HStack {
-            if image != nil {
+            if (image != nil) {
+                // Thumbnail image
                 Image(uiImage: image!)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: thumbnailSize.width, height: thumbnailSize.height, alignment: .center)
+                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
             } else {
-                if (self.type == MediaType.movie) {
-                    Image(systemName: "film")
-                        .resizable()
-                        // FIXME: Aspect ratio does not fit right (tv and film should be smaller)
-                        .aspectRatio(0.9, contentMode: .fit)
-                        .padding(5)
-                        .frame(width: thumbnailSize.width, height: thumbnailSize.height, alignment: .center)
-                } else {
-                    Image(systemName: "tv")
-                        .resizable()
-                        .aspectRatio(1.0, contentMode: .fit)
-                        .padding(5)
-                        .frame(width: thumbnailSize.width, height: thumbnailSize.height, alignment: .center)
-                }
+                // Placeholder image
+                Image(systemName: (result.mediaType == .movie ? "film" : "tv"))
+                    .resizable()
+                    .aspectRatio((result.mediaType == .movie ? 0.9 : 1.0), contentMode: .fit)
+                    .padding(5)
+                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
             }
             VStack(alignment: .leading) {
-                Text("\(title)")
+                Text("\(result.title)")
                     .bold()
                 HStack {
-                    if isAdult != nil && isAdult! {
+                    if (result.isAdultMovie ?? false) {
                         Image(systemName: "a.square")
                     }
-                    Text(type == .movie ? "Movie" : "Series")
+                    Text(result.mediaType == .movie ? "Movie" : "Series")
                         .italic()
                     Text(year != nil ? "(\(String(describing: year!)))" : "")
                 }

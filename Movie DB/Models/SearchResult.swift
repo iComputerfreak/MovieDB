@@ -33,6 +33,13 @@ protocol TMDBSearchResult: Codable {
     var voteAverage: Float { get set }
     /// The number of votes that were cast on TMDB
     var voteCount: Int { get set }
+    /// Whether the result is a movie and is for adults only
+    var isAdultMovie: Bool? { get }
+}
+
+// Implementations
+extension TMDBSearchResult {
+    var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
 }
 
 struct TMDBMovieSearchResult: TMDBSearchResult, Identifiable {

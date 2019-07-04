@@ -142,12 +142,7 @@ class Movie_DBTests: XCTestCase {
         XCTAssertEqual(cal.component(.day, from: date), day)
     }
     
-    let api = TMDBAPI()
+    let api = TMDBAPI(apiKey: JFLiterals.apiKey)
     
-    func testCustom() {
-        print("Starting Call")
-        api.searchResults(for: "Matrix")
-        sleep(10)
-    }
 
 }

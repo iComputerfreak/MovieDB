@@ -15,6 +15,9 @@ struct AddMediaView : View {
     @State private var searchText: String = ""
     @Environment(\.isPresented) var isPresented
     
+    @Binding var media: [Media]
+    @Binding var isAddingMedia: Bool
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -24,7 +27,7 @@ struct AddMediaView : View {
                         self.results = []
                         return
                     }
-                    let api = TMDBAPI(apiKey: JFLiterals.apiKey.rawValue)
+                    let api = TMDBAPI(apiKey: JFLiterals.apiKey)
                     api.searchMedia(self.searchText) { (results: [TMDBSearchResult]?) in
                         guard let results = results else {
                             print("Error getting results")
@@ -37,22 +40,21 @@ struct AddMediaView : View {
                     }
                 })
                 
-                List(self.results.identified(by: \TMDBSearchResult.id)) { (result: TMDBSearchResult) in
-                    SearchResultView(title: result.title,
-                                     imagePath: result.imagePath,
-                                     year: self.yearFromMediaResult(result),
-                                     overview: result.overview,
-                                     type: result.mediaType,
-                                     isAdult: (result as? TMDBMovieSearchResult)?.isAdult)
+                List(self.results.identified(by: \TMDBSearchResult.id), action: { result in
+                    print("Selected \(result.title)")
+                    self.media.append(Media(from: result))
+                    self.isAddingMedia = false
+                }) { (result: TMDBSearchResult) in
+                    SearchResultView(result: result)
                 }
             }
                 .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
-                .navigationBarItems(leading: Button(action: {
-                    // FIXME: After dimissing, the view cannot be opened again
-                    self.isPresented?.value = false
+                // No Cancel button (use swipe gesture)
+                /*.navigationBarItems(leading: Button(action: {
+                    self.isAddingMedia = false
                 }, label: {
                     Text("Cancel")
-                }))
+                }))*/
         }
     }
     
@@ -74,7 +76,8 @@ struct AddMediaView : View {
 #if DEBUG
 struct AddMediaView_Previews : PreviewProvider {
     static var previews: some View {
-        AddMediaView()
+        Text("Not implemented")
+        //AddMediaView()
     }
 }
 #endif

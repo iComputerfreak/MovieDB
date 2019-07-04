@@ -9,16 +9,10 @@
 import SwiftUI
 
 struct ContentView : View {
+    
+    // Show the currently selected view style (list/grid)
     var body: some View {
-        TabbedView {
-            LibraryHome()
-                .tag(0)
-                .tabItemLabel(Text("Library"))
-            
-            AddMediaView()
-                .tag(1)
-                .tabItemLabel(Text("Add Movie"))
-        }
+        LibraryHome()
     }
 }
 

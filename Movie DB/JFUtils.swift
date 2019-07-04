@@ -58,8 +58,10 @@ struct JFUtils {
     }
 }
 
-enum JFLiterals: String {
-    case apiKey = "e4304a9deeb9ed2d62eb61d7b9a2da71"
+struct JFLiterals {
+    static let apiKey = "e4304a9deeb9ed2d62eb61d7b9a2da71"
+    // Typical poster ratio is 1.5 height to 1.0 width
+    static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
 }
 
 extension Dictionary where Key == String, Value == Any? {

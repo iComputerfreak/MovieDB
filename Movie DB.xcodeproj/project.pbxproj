@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
-		AB3648BA22C3D9760096FE39 /* TMDBWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = AB3648B922C3D9760096FE39 /* TMDBWrapper */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
 		AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB6478D722C7B2A300F3E14E /* JFSwiftUI */; };
@@ -35,6 +34,7 @@
 		AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */; };
 		AB6718FF22C2A0B900F429E4 /* TMDB Movie.json in Resources */ = {isa = PBXBuildFile; fileRef = AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */; };
 		ABC1A27B22C3BD2900A49001 /* TMDB Show.json in Resources */ = {isa = PBXBuildFile; fileRef = ABC1A27A22C3BD2900A49001 /* TMDB Show.json */; };
+		ABF13EEB22CE4A41006AF6EC /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF13EEA22CE4A41006AF6EC /* AppTests.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +80,7 @@
 		AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowData.swift; sourceTree = "<group>"; };
 		AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TMDB Movie.json"; sourceTree = "<group>"; };
 		ABC1A27A22C3BD2900A49001 /* TMDB Show.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TMDB Show.json"; sourceTree = "<group>"; };
+		ABF13EEA22CE4A41006AF6EC /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,7 +90,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
-				AB3648BA22C3D9760096FE39 /* TMDBWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +174,7 @@
 				AB6478DF22C7C91700F3E14E /* TestingUtils.swift */,
 				AB6718D722C0312B00F429E4 /* Movie_DBTests.swift */,
 				AB6478DB22C7C73C00F3E14E /* TMDBSearchTests.swift */,
+				ABF13EEA22CE4A41006AF6EC /* AppTests.swift */,
 				AB6718D922C0312B00F429E4 /* Info.plist */,
 			);
 			path = "Movie DBTests";
@@ -230,7 +231,6 @@
 			);
 			name = "Movie DB";
 			packageProductDependencies = (
-				AB3648B922C3D9760096FE39 /* TMDBWrapper */,
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
 			);
 			productName = "Movie DB";
@@ -284,7 +284,6 @@
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
-				AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */,
 				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
@@ -351,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB6478DC22C7C73C00F3E14E /* TMDBSearchTests.swift in Sources */,
+				ABF13EEB22CE4A41006AF6EC /* AppTests.swift in Sources */,
 				AB6478E022C7C91700F3E14E /* TestingUtils.swift in Sources */,
 				AB6718D822C0312B00F429E4 /* Movie_DBTests.swift in Sources */,
 			);
@@ -607,14 +607,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/iComputerfreak/TheMovieDatabaseSwiftWrapper.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFSwiftUI.git";
@@ -626,11 +618,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB3648B922C3D9760096FE39 /* TMDBWrapper */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AB3648B822C3D9760096FE39 /* XCRemoteSwiftPackageReference "TheMovieDatabaseSwiftWrapper" */;
-			productName = TMDBWrapper;
-		};
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;

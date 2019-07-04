@@ -15,11 +15,29 @@ struct LibraryRow : View {
     var body: some View {
         HStack {
             if (mediaObject.thumbnail != nil) {
+                // Thumbnail image
                 Image(uiImage: mediaObject.thumbnail!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
+            } else {
+                // Placeholder image
+                Image(systemName: (mediaObject.type == .movie ? "film" : "tv"))
+                    .resizable()
+                    .aspectRatio((mediaObject.type == .movie ? 0.9 : 1.0), contentMode: .fit)
+                    .padding(5)
+                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
             }
-            VStack {
+            VStack(alignment: .leading) {
                 Text(mediaObject.tmdbData?.title ?? "Loading...")
-                Text(mediaObject.type.rawValue)
+                if mediaObject.isAdult ?? false {
+                    Image(systemName: "a.square")
+                }
+                if mediaObject.type == .movie {
+                    Image(systemName: "m.square")
+                } else {
+                    Image(systemName: "s.square")
+                }
             }
         }
     }
@@ -28,7 +46,7 @@ struct LibraryRow : View {
 #if DEBUG
 struct LibraryRow_Previews : PreviewProvider {
     static var previews: some View {
-        LibraryRow(mediaObject: Media(id: 0, tmdbData: nil, justWatchData: nil, type: .movie))
+        LibraryRow(mediaObject: Media(type: .movie))
     }
 }
 #endif
