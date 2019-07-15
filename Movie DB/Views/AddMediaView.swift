@@ -14,9 +14,15 @@ struct AddMediaView : View {
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
     @Environment(\.isPresented) var isPresented
+    @EnvironmentObject private var library: MediaLibrary
     
-    @Binding var media: [Media]
     @Binding var isAddingMedia: Bool
+    @State private var alertShown: Bool = false
+    @State private var alertTitle: String? = nil
+    
+    func didAppear() {
+        
+    }
     
     var body: some View {
         NavigationView {
@@ -42,7 +48,14 @@ struct AddMediaView : View {
                 
                 List(self.results.identified(by: \TMDBSearchResult.id), action: { result in
                     print("Selected \(result.title)")
-                    self.media.append(Media(from: result))
+                    if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
+                        // Already added
+                        //Alert(title: Text("Already added"), message: Text("You already have '\(result.title)' in your library."), dismissButton: .default(Text("Ok")))
+                        self.alertTitle = result.title
+                        self.alertShown = true
+                    } else {
+                        self.library.mediaList.append(Media(from: result))
+                    }
                     self.isAddingMedia = false
                 }) { (result: TMDBSearchResult) in
                     SearchResultView(result: result)
@@ -55,7 +68,11 @@ struct AddMediaView : View {
                 }, label: {
                     Text("Cancel")
                 }))*/
+                .presentation($alertShown) {
+                    Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
+                }
         }
+        .onAppear(perform: self.didAppear)
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Int? {

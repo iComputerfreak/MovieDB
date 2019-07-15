@@ -30,10 +30,16 @@ struct TMDBAPI {
                 completion(nil)
                 return
             }
-            if type == .movie {
-                completion(try? JSONDecoder().decode(TMDBMovieData.self, from: data))
-            } else {
-                completion(try? JSONDecoder().decode(TMDBShowData.self, from: data))
+            do {
+                if type == .movie {
+                    completion(try JSONDecoder().decode(TMDBMovieData.self, from: data))
+                } else {
+                    completion(try JSONDecoder().decode(TMDBShowData.self, from: data))
+                }
+            } catch let e as DecodingError {
+                print("Error decoding: \(e)")
+            } catch {
+                print("Other error")
             }
         }
     }

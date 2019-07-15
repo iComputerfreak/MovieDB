@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-protocol JustWatchData {
+protocol JustWatchData: Codable {
     
 }
 

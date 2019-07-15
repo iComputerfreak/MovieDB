@@ -30,6 +30,7 @@ struct LibraryRow : View {
             }
             VStack(alignment: .leading) {
                 Text(mediaObject.tmdbData?.title ?? "Loading...")
+                    .lineLimit(2)
                 if mediaObject.isAdult ?? false {
                     Image(systemName: "a.square")
                 }

@@ -12,7 +12,7 @@ struct ContentView : View {
     
     // Show the currently selected view style (list/grid)
     var body: some View {
-        LibraryHome()
+        LibraryHome().environmentObject(MediaLibrary())
     }
 }
 

@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0E31F822D5102500327CB7 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E31F722D5102500327CB7 /* Test.swift */; };
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
+		AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */; };
+		AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
 		AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB6478D722C7B2A300F3E14E /* JFSwiftUI */; };
@@ -49,7 +52,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB0E31F722D5102500327CB7 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		AB11C30B22CA3E1A0057105A /* LibraryHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryHome.swift; sourceTree = "<group>"; };
+		AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetail.swift; sourceTree = "<group>"; };
+		AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
 		AB6478D922C7B8E800F3E14E /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
@@ -109,6 +115,8 @@
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				AB11C30B22CA3E1A0057105A /* LibraryHome.swift */,
 				AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */,
+				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
+				AB0E31F722D5102500327CB7 /* Test.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -191,6 +199,7 @@
 				AB6718E522C0317800F429E4 /* Movie.swift */,
 				AB6718EB22C0324D00F429E4 /* Series.swift */,
 				AB6478D922C7B8E800F3E14E /* SearchResult.swift */,
+				AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -328,6 +337,7 @@
 				AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultView.swift in Sources */,
 				AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */,
+				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
 				AB6478DA22C7B8E800F3E14E /* SearchResult.swift in Sources */,
 				AB6718EC22C0324D00F429E4 /* Series.swift in Sources */,
 				AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */,
@@ -340,7 +350,9 @@
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
 				AB6718F822C2675300F429E4 /* JustWatchData.swift in Sources */,
+				AB0E31F822D5102500327CB7 /* Test.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
+				AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */,
 				AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

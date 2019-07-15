@@ -11,11 +11,11 @@ import Combine
 
 struct LibraryHome : View {
     
-    @State private var media: [Media] = []
+    @EnvironmentObject private var library: MediaLibrary
     @State private var isAddingMedia: Bool = false
     
     func didAppear() {
-        loadPlaceholderData()
+        //loadPlaceholderData()
     }
     
     func didDisappear() {
@@ -25,15 +25,23 @@ struct LibraryHome : View {
     var body: some View {
         NavigationView {
                 
-            List(media) { media in
-                LibraryRow(mediaObject: media)
+            List(library.mediaList) { mediaObject in
+                NavigationLink(destination: MediaDetail(mediaObject: mediaObject)) {
+                    LibraryRow(mediaObject: mediaObject)
+                }
             }
-            .presentation(isAddingMedia ? Modal(AddMediaView(media: $media, isAddingMedia: $isAddingMedia), onDismiss: {
+            .presentation(isAddingMedia ? Modal(AddMediaView(isAddingMedia: $isAddingMedia).environmentObject(library), onDismiss: {
                 self.isAddingMedia = false
                 print("Dismissed")
             }) : nil)
             
-                .navigationBarItems(trailing:
+                .navigationBarItems(/*leading:
+                    Button(action: {
+                        self.library.mediaList = []
+                        self.loadPlaceholderData()
+                    }, label: {
+                        Text("Reset")
+                    }), */trailing:
                     Button(action: {
                         self.isAddingMedia = true
                     }, label: {
@@ -49,7 +57,7 @@ struct LibraryHome : View {
     func loadPlaceholderData() {
         // Load some movies from TMDB to fill the library
         let api = TMDBAPI(apiKey: JFLiterals.apiKey)
-        let movies = ["John Wick 3", "The Matrix", "Brooklyn Nine Nine", "Inception", "World War Z", "Game of Thrones"]
+        let movies = ["John Wick 3", "The Matrix", "Brooklyn Nine Nine", "Inception", "World War Z", "Game of Thrones", "How to Get Away with Murder", "Scandal"]
         for movie in movies {
             api.searchMedia(movie) { (results: [TMDBSearchResult]?) in
                 guard let results = results else {
@@ -63,7 +71,7 @@ struct LibraryHome : View {
                 }
                 let media = Media(from: first)
                 print("\(movie): \(first.id)")
-                self.media.append(media)
+                self.library.mediaList.append(media)
             }
         }
     }

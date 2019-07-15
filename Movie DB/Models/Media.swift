@@ -12,14 +12,16 @@ import SwiftUI
 import Combine
 import JFSwiftUI
 
-class Media: Identifiable, BindableObject {
+class Media: Identifiable, BindableObject, Codable {
     typealias PublisherType = PassthroughSubject<Void, Never>
     var didChange = PublisherType()
     
-    enum InitializationError: Error {
+    enum MediaError: Error {
         case noData
+        case encodingFailed(String)
     }
     
+    // Media ID Creation
     /// Contains the next free collection id
     private static var _nextID = -1
     /// Returns the next free library id
@@ -42,6 +44,7 @@ class Media: Identifiable, BindableObject {
     var tmdbData: TMDBData? {
         didSet {
             sendChange()
+            print("Loading thumbnail for \(self.tmdbData?.title ?? "Unknown")")
             loadThumbnail()
         }
     }
@@ -79,6 +82,17 @@ class Media: Identifiable, BindableObject {
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
     
+    /// The year of the release or first airing of the media
+    var year: Int? {
+        let cal = Calendar.current
+        if let movieData = tmdbData as? TMDBMovieData, let releaseDate = movieData.releaseDate {
+            return cal.component(.year, from: releaseDate)
+        } else if let showData = tmdbData as? TMDBShowData, let airDate = showData.firstAirDate {
+            return cal.component(.year, from: airDate)
+        }
+        return nil
+    }
+    
     init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [String] = []) {
         self.id = Self.nextID
         self.tmdbData = tmdbData
@@ -97,7 +111,7 @@ class Media: Identifiable, BindableObject {
         let api = TMDBAPI(apiKey: JFLiterals.apiKey)
         api.getMedia(by: searchResult.id, type: searchResult.mediaType) { (data) in
             guard let data = data else {
-                print("Error getting TMDB Data for id \(searchResult.title)")
+                print("Error getting TMDB Data for \(searchResult.mediaType.rawValue): \(searchResult.title) [\(searchResult.id)]")
                 return
             }
             self.tmdbData = data
@@ -108,8 +122,8 @@ class Media: Identifiable, BindableObject {
     }
     
     func sendChange() {
-        DispatchQueue.main.sync {
-            didChange.send()
+        DispatchQueue.main.async {
+            self.didChange.send()
         }
     }
     
@@ -128,6 +142,73 @@ class Media: Identifiable, BindableObject {
             }
             self.thumbnail = UIImage(data: data)
         }
+    }
+    
+    // MARK: Codable Conformance
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.type = try container.decode(MediaType.self, forKey: .type)
+        if type == .movie {
+            self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
+            self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
+        } else {
+            self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
+            self.justWatchData = try container.decodeIfPresent(JustWatchShowData.self, forKey: .justWatchData)
+        }
+        self.personalRating = try container.decode(Int.self, forKey: .personalRating)
+        self.tags = try container.decode([String].self, forKey: .tags)
+        // TODO: Save and load thumbnail to disk separately
+        // Save the image
+        let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
+        if let data = try? Data(contentsOf: imagePath) {
+            self.thumbnail = UIImage(data: data)
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
+        try container.encode(self.type, forKey: .type)
+        if self.type == .movie {
+            if let tmdbData = (self.tmdbData as? TMDBMovieData) {
+                try container.encode(tmdbData, forKey: .tmdbData)
+            }
+            if let justWatchData = (self.justWatchData as? JustWatchMovieData) {
+                try container.encode(justWatchData, forKey: .justWatchData)
+            }
+        } else {
+            if let tmdbData = (self.tmdbData as? TMDBShowData) {
+                try container.encode(tmdbData, forKey: .tmdbData)
+            }
+            if let justWatchData = (self.justWatchData as? JustWatchShowData) {
+                try container.encode(justWatchData, forKey: .justWatchData)
+            }
+        }
+        try container.encode(self.personalRating, forKey: .personalRating)
+        try container.encode(self.tags, forKey: .tags)
+        
+        // Save the image
+        if let data = self.thumbnail?.pngData() {
+            let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
+            do {
+                try data.write(to: imagePath)
+            } catch let e {
+                print(e)
+            }
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case tmdbData
+        case justWatchData
+        case type
+        case personalRating
+        case tags
+        case thumbnail
     }
 }
 
