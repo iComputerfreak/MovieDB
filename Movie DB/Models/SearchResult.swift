@@ -57,9 +57,9 @@ struct TMDBMovieSearchResult: TMDBSearchResult, Identifiable {
     /// Whether the movie is an adult movie
     var isAdult: Bool
     /// The raw release date formatted as "yyyy-MM-dd"
-    var rawReleaseDate: String
+    var rawReleaseDate: String?
     /// The date, the movie was released
-    var releaseDate: Date? { JFUtils.dateFromTMDBString(self.rawReleaseDate) }
+    var releaseDate: Date? { rawReleaseDate == nil ? nil : JFUtils.dateFromTMDBString(rawReleaseDate!) }
     
     enum CodingKeys: String, CodingKey {
         // Protocol Properties
@@ -148,7 +148,6 @@ struct SearchResult: Codable {
                 _ = try? arrayContainer2.decode(Empty.self)
             }
         }
-        
     }
     
     func encode(to encoder: Encoder) throws {

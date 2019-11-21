@@ -12,9 +12,7 @@ import SwiftUI
 import Combine
 import JFSwiftUI
 
-class Media: Identifiable, BindableObject, Codable {
-    typealias PublisherType = PassthroughSubject<Void, Never>
-    var didChange = PublisherType()
+class Media: Identifiable, ObservableObject, Codable {
     
     enum MediaError: Error {
         case noData
@@ -41,43 +39,21 @@ class Media: Identifiable, BindableObject, Codable {
     /// The internal library id
     let id: Int
     /// The data from TMDB
-    var tmdbData: TMDBData? {
+    @Published var tmdbData: TMDBData? {
         didSet {
-            sendChange()
-            print("Loading thumbnail for \(self.tmdbData?.title ?? "Unknown")")
             loadThumbnail()
         }
     }
     /// The data from JustWatch.com
-    var justWatchData: JustWatchData? {
-        didSet {
-            sendChange()
-        }
-    }
+    @Published var justWatchData: JustWatchData?
     /// The type of media
-    var type: MediaType {
-        didSet {
-            sendChange()
-        }
-    }
+    @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    var personalRating: Int {
-        didSet {
-            sendChange()
-        }
-    }
+    @Published var personalRating: Int
     /// A list of user-specified tags
-    var tags: [String] {
-        didSet {
-            sendChange()
-        }
-    }
+    @Published var tags: [String]
     
-    private(set) var thumbnail: UIImage? = nil {
-        didSet {
-            sendChange()
-        }
-    }
+    @Published private(set) var thumbnail: UIImage? = nil
     
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
@@ -100,6 +76,7 @@ class Media: Identifiable, BindableObject, Codable {
         self.type = type
         self.personalRating = personalRating
         self.tags = tags
+        loadThumbnail()
     }
     
     /// Creates a new Media object from an API Search result and starts the appropriate API calls to fill the data properties
@@ -114,16 +91,20 @@ class Media: Identifiable, BindableObject, Codable {
                 print("Error getting TMDB Data for \(searchResult.mediaType.rawValue): \(searchResult.title) [\(searchResult.id)]")
                 return
             }
-            self.tmdbData = data
+            // Completion closure may be in other thread
+            DispatchQueue.main.async {
+                self.tmdbData = data
+            }
         }
         
         // Get the JustWatch Data
         // TODO: Start JustWatch API Call
     }
     
-    func sendChange() {
+    func sendWillChange() {
+        // Make sure changes will be sent on main thread
         DispatchQueue.main.async {
-            self.didChange.send()
+            self.objectWillChange.send()
         }
     }
     
@@ -134,13 +115,17 @@ class Media: Identifiable, BindableObject, Codable {
         guard let imagePath = tmdbData.imagePath, !tmdbData.imagePath!.isEmpty else {
             return
         }
+        print("Loading thumbnail for \(self.tmdbData?.title ?? "Unknown")")
         let urlString = JFUtils.getTMDBImageURL(path: imagePath)
         JFUtils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
                 print("Unable to get image")
                 return
             }
-            self.thumbnail = UIImage(data: data)
+            // Completion closure may be in other thread
+            DispatchQueue.main.async {
+                self.thumbnail = UIImage(data: data)
+            }
         }
     }
     
@@ -151,6 +136,8 @@ class Media: Identifiable, BindableObject, Codable {
         
         self.id = try container.decode(Int.self, forKey: .id)
         self.type = try container.decode(MediaType.self, forKey: .type)
+        self.personalRating = try container.decode(Int.self, forKey: .personalRating)
+        self.tags = try container.decode([String].self, forKey: .tags)
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
@@ -158,8 +145,6 @@ class Media: Identifiable, BindableObject, Codable {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchShowData.self, forKey: .justWatchData)
         }
-        self.personalRating = try container.decode(Int.self, forKey: .personalRating)
-        self.tags = try container.decode([String].self, forKey: .tags)
         // TODO: Save and load thumbnail to disk separately
         // Save the image
         let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")

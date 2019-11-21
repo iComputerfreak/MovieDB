@@ -57,7 +57,6 @@ struct TMDBAPI {
             guard let data = data else {
                 return
             }
-            
             let result = try? JSONDecoder().decode(SearchResult.self, from: data)
             completion(result?.results)
         }

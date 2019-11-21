@@ -13,7 +13,7 @@ struct AddMediaView : View {
     
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
-    @Environment(\.isPresented) var isPresented
+    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var library: MediaLibrary
     
     @Binding var isAddingMedia: Bool
@@ -46,31 +46,37 @@ struct AddMediaView : View {
                     }
                 })
                 
-                List(self.results.identified(by: \TMDBSearchResult.id), action: { result in
-                    print("Selected \(result.title)")
-                    if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
-                        // Already added
-                        //Alert(title: Text("Already added"), message: Text("You already have '\(result.title)' in your library."), dismissButton: .default(Text("Ok")))
-                        self.alertTitle = result.title
-                        self.alertShown = true
-                    } else {
-                        self.library.mediaList.append(Media(from: result))
+                List {
+                    ForEach(self.results, id: \TMDBSearchResult.id) { (result: TMDBSearchResult) in
+                        Button(action: {
+                            // Action
+                            print("Selected \(result.title)")
+                            if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
+                                // Already added
+                                //Alert(title: Text("Already added"), message: Text("You already have '\(result.title)' in your library."), dismissButton: .default(Text("Ok")))
+                                self.alertTitle = result.title
+                                self.alertShown = true
+                            } else {
+                                self.library.mediaList.append(Media(from: result))
+                            }
+                            self.isAddingMedia = false
+                        }) {
+                            SearchResultView(result: result)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    self.isAddingMedia = false
-                }) { (result: TMDBSearchResult) in
-                    SearchResultView(result: result)
                 }
             }
-                .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
+            .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
                 // No Cancel button (use swipe gesture)
                 /*.navigationBarItems(leading: Button(action: {
-                    self.isAddingMedia = false
-                }, label: {
-                    Text("Cancel")
-                }))*/
-                .presentation($alertShown) {
+                 self.isAddingMedia = false
+                 }, label: {
+                 Text("Cancel")
+                 }))*/
+                .alert(isPresented: $alertShown) {
                     Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
-                }
+            }
         }
         .onAppear(perform: self.didAppear)
     }

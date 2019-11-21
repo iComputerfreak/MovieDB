@@ -10,23 +10,13 @@ import Foundation
 import SwiftUI
 import Combine
 
-/// Represents a wrapper for the Media array conforming to `BindableObject` and adding a few convenience functions
-class MediaLibrary: BindableObject {
+/// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
+class MediaLibrary: ObservableObject {
     
     /// The key used to store the media array in the user defaults
     private let userDefaultsKey = "mediaList"
     
-    // Bindable Protocol
-    typealias PublisherType = PassthroughSubject<Void, Never>
-    var didChange = PassthroughSubject<Void, Never>()
-    
-    var mediaList: [Media] {
-        didSet {
-            DispatchQueue.main.async {
-                self.didChange.send()
-            }
-        }
-    }
+    @Published var mediaList: [Media]
     
     init() {
         // Load the list from user defaults

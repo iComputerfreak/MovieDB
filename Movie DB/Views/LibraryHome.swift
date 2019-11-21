@@ -24,34 +24,36 @@ struct LibraryHome : View {
     
     var body: some View {
         NavigationView {
-                
-            List(library.mediaList) { mediaObject in
-                NavigationLink(destination: MediaDetail(mediaObject: mediaObject)) {
-                    LibraryRow(mediaObject: mediaObject)
+            
+            List {
+                ForEach(library.mediaList) { mediaObject in
+                    NavigationLink(destination:
+                        MediaDetail()
+                            .environmentObject(mediaObject)
+                    ) {
+                        LibraryRow()
+                            .environmentObject(mediaObject)
+                    }
                 }
             }
-            .presentation(isAddingMedia ? Modal(AddMediaView(isAddingMedia: $isAddingMedia).environmentObject(library), onDismiss: {
+                
+            .sheet(isPresented: $isAddingMedia, onDismiss: {
                 self.isAddingMedia = false
-                print("Dismissed")
-            }) : nil)
-            
-                .navigationBarItems(/*leading:
-                    Button(action: {
-                        self.library.mediaList = []
-                        self.loadPlaceholderData()
-                    }, label: {
-                        Text("Reset")
-                    }), */trailing:
+            }, content: {
+                AddMediaView(isAddingMedia: self.$isAddingMedia).environmentObject(self.library)
+            })
+                
+                .navigationBarItems(trailing:
                     Button(action: {
                         self.isAddingMedia = true
                     }, label: {
                         Image(systemName: "plus")
                     })
-                )
+            )
                 .navigationBarTitle(Text("Home"))
         }
-            .onAppear(perform: self.didAppear)
-            .onDisappear(perform: self.didDisappear)
+        .onAppear(perform: self.didAppear)
+        .onDisappear(perform: self.didDisappear)
     }
     
     func loadPlaceholderData() {
@@ -81,6 +83,7 @@ struct LibraryHome : View {
 struct LibraryHome_Previews : PreviewProvider {
     static var previews: some View {
         LibraryHome()
+            .environmentObject(PlaceholderData.mediaLibrary)
     }
 }
 #endif

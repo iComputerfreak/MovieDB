@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LibraryRow : View {
     
-    @State var mediaObject: Media
+    @EnvironmentObject var mediaObject: Media
     
     var body: some View {
         HStack {
@@ -47,7 +47,8 @@ struct LibraryRow : View {
 #if DEBUG
 struct LibraryRow_Previews : PreviewProvider {
     static var previews: some View {
-        LibraryRow(mediaObject: Media(type: .movie))
+        LibraryRow()
+            .environmentObject(Media(type: .movie))
     }
 }
 #endif
