@@ -14,7 +14,7 @@ struct SearchResultView : View {
     @State var result: TMDBSearchResult
     
     /// The image used as a thumbnail for the search results
-    @State var image: UIImage?
+    @State private var image: UIImage?
     
     /// Returns either the release year of the movie or the year of the first air date of the show
     var year: Int? {
@@ -24,9 +24,6 @@ struct SearchResultView : View {
         }
         return JFUtils.yearOfDate(year!)
     }
-    
-    /// Whether the media is a movie and that movie is for adults only
-    
     
     // View did appear
     func didAppear() {
