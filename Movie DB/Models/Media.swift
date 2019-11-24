@@ -19,6 +19,7 @@ class Media: Identifiable, ObservableObject, Codable {
         case encodingFailed(String)
     }
     
+    // MARK: - Properties
     // Media ID Creation
     /// Contains the next free collection id
     private static var _nextID = -1
@@ -27,6 +28,10 @@ class Media: Identifiable, ObservableObject, Codable {
         // Initialize
         if _nextID < 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
+            if _nextID <= 999 {
+                // IDs should always start at 1000 (only for visual effects)
+                _nextID = 1000
+            }
         }
         // Increase _nextID after returning
         defer {
@@ -52,6 +57,8 @@ class Media: Identifiable, ObservableObject, Codable {
     @Published var personalRating: Int
     /// A list of user-specified tags
     @Published var tags: [String]
+    /// Whether the user would watch the media again
+    @Published var watchAgain: Bool?
     
     @Published private(set) var thumbnail: UIImage? = nil
     
@@ -69,22 +76,42 @@ class Media: Identifiable, ObservableObject, Codable {
         return nil
     }
     
-    init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [String] = []) {
+    /// Creates a new `Media` object from the given properties.
+    /// Never instantiate `Media` directly!
+    ///
+    /// - Important: Never instantiate `Media` directly. Always instantiate a concrete subclass!
+    ///
+    /// - Parameters:
+    ///   - type: The type of media
+    ///   - tmdbData: The TMDBData
+    ///   - justWatchData: <#justWatchData description#>
+    ///   - personalRating: <#personalRating description#>
+    ///   - tags: <#tags description#>
+    ///   - watchAgain: <#watchAgain description#>
+    init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [String] = [], watchAgain: Bool? = nil) {
         self.id = Self.nextID
         self.tmdbData = tmdbData
         self.justWatchData = justWatchData
         self.type = type
         self.personalRating = personalRating
         self.tags = tags
+        self.watchAgain = watchAgain
         loadThumbnail()
     }
     
     /// Creates a new Media object from an API Search result and starts the appropriate API calls to fill the data properties
     /// - Parameter searchResult: The result of the API search
-    convenience init(from searchResult: TMDBSearchResult) {
-        self.init(type: searchResult.mediaType)
+    /// - Returns: A concrete subclass of `Media` created from the given search result data
+    static func create(from searchResult: TMDBSearchResult) -> Media {
+        // Create either a movie or a show and return it. Don't instantiate Media directly
+        let media: Media!
+        if searchResult.mediaType == .movie {
+            media = Movie(type: .movie)
+        } else {
+            media = Show(type: .show)
+        }
         
-        // Get the TMDB Data
+        // Get the TMDB Data from the API
         let api = TMDBAPI(apiKey: JFLiterals.apiKey)
         api.getMedia(by: searchResult.id, type: searchResult.mediaType) { (data) in
             guard let data = data else {
@@ -93,19 +120,13 @@ class Media: Identifiable, ObservableObject, Codable {
             }
             // Completion closure may be in other thread
             DispatchQueue.main.async {
-                self.tmdbData = data
+                media.tmdbData = data
             }
         }
         
         // Get the JustWatch Data
         // TODO: Start JustWatch API Call
-    }
-    
-    func sendWillChange() {
-        // Make sure changes will be sent on main thread
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        return media
     }
     
     func loadThumbnail() {
@@ -122,14 +143,14 @@ class Media: Identifiable, ObservableObject, Codable {
                 print("Unable to get image")
                 return
             }
-            // Completion closure may be in other thread
+            // Update the thumbnail in the main thread
             DispatchQueue.main.async {
                 self.thumbnail = UIImage(data: data)
             }
         }
     }
     
-    // MARK: Codable Conformance
+    // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -138,6 +159,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.type = try container.decode(MediaType.self, forKey: .type)
         self.personalRating = try container.decode(Int.self, forKey: .personalRating)
         self.tags = try container.decode([String].self, forKey: .tags)
+        self.watchAgain = try container.decode(Bool.self, forKey: .watchAgain)
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
@@ -174,6 +196,7 @@ class Media: Identifiable, ObservableObject, Codable {
         }
         try container.encode(self.personalRating, forKey: .personalRating)
         try container.encode(self.tags, forKey: .tags)
+        try container.encode(self.watchAgain, forKey: .watchAgain)
         
         // Save the image
         if let data = self.thumbnail?.pngData() {
@@ -193,6 +216,7 @@ class Media: Identifiable, ObservableObject, Codable {
         case type
         case personalRating
         case tags
+        case watchAgain
         case thumbnail
     }
 }

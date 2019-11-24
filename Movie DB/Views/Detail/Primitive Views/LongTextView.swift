@@ -19,15 +19,11 @@ struct LongTextView: View {
     }
     
     var body: some View {
-        VStack(alignment: HorizontalAlignment.leading, spacing: 0) {
-            Text(headline)
-                .font(.caption)
-            // FIXME: This should display as multiple lines, instead of one, currently bugged.
             NavigationLink(destination: preview) {
                 Text(text)
                     .lineLimit(3)
             }
-        }
+            .headline(headline)
     }
     
     private var preview: some View {

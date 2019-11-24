@@ -18,6 +18,7 @@ struct TMDBAPI {
         return "\(language)-\(region)"
     }
     
+    // Returns a concrete subclass
     func getMedia(by id: Int, type: MediaType, completion: @escaping (TMDBData?) -> Void) {
         let url = "https://api.themoviedb.org/3/\(type.rawValue)/\(id)"
         JFUtils.getRequest(url, parameters: [

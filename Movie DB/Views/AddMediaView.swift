@@ -53,11 +53,10 @@ struct AddMediaView : View {
                             print("Selected \(result.title)")
                             if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
                                 // Already added
-                                //Alert(title: Text("Already added"), message: Text("You already have '\(result.title)' in your library."), dismissButton: .default(Text("Ok")))
                                 self.alertTitle = result.title
                                 self.alertShown = true
                             } else {
-                                self.library.mediaList.append(Media(from: result))
+                                self.library.mediaList.append(Media.create(from: result))
                             }
                             self.isAddingMedia = false
                         }) {
@@ -68,12 +67,6 @@ struct AddMediaView : View {
                 }
             }
             .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
-                // No Cancel button (use swipe gesture)
-                /*.navigationBarItems(leading: Button(action: {
-                 self.isAddingMedia = false
-                 }, label: {
-                 Text("Cancel")
-                 }))*/
                 .alert(isPresented: $alertShown) {
                     Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
             }

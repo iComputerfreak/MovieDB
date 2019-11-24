@@ -22,22 +22,48 @@ struct MediaDetail : View {
             // Unwrap the optional data
             mediaObject.tmdbData.map { (data: TMDBData) in
                 List {
-                    // Thumbnail and basic infos
+                    // MARK: - Thumbnail
                     TitleView(title: data.title, year: mediaObject.year, thumbnail: mediaObject.thumbnail)
-                    
-                    Section(header: Text("Basic Information")) {
-                        BasicTextView("ID", text: String(format: "%04d", mediaObject.id))
-                        if !data.genres.isEmpty {
-                            BasicTextView("Genres", text: data.genres.map({ $0.name }).joined(separator: ", "))
+                    // MARK: - User Data
+                    Section(header: Text("User Data")) {
+                        // Rating
+                        RatingView(rating: $mediaObject.personalRating)
+                            .headline("Personal Rating")
+                        // Watched field
+                        if mediaObject.type == .movie {
+                            SimpleValueView<Bool>.createYesNo(value: Binding<Bool?>(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
+                                .headline("Watched?")
+                        } else {
+                            (mediaObject as? Show).map { (show: Show) in
+                                // Has watched show field
+                                Text("")
+                            }
                         }
-                        BasicTextView("Original Title", text: data.originalTitle)
+                        // Watch again field
+                        SimpleValueView<Any>.createYesNo(value: $mediaObject.watchAgain)
+                            .headline("Watch again?")
+                        // Taglist
+                        // Notes
+                    }
+                    // MARK: - Basic Information
+                    Section(header: Text("Basic Information")) {
+                        Text(String(format: "%04d", mediaObject.id))
+                            .headline("ID")
+                        if !data.genres.isEmpty {
+                            Text(data.genres.map({ $0.name }).joined(separator: ", "))
+                            .headline("Genres")
+                        }
+                        Text(data.originalTitle)
+                            .headline("Original Title")
                         data.overview.map {
                             LongTextView("Description", text: $0)
                         }
-                        BasicTextView("Status", text: data.status)
-                        BasicTextView("Original Language", text: JFUtils.languageString(data.originalLanguage))
+                        Text(data.status)
+                            .headline("Status")
+                        Text(JFUtils.languageString(data.originalLanguage))
+                        .headline("Original Language")
                     }
-                    
+                    // MARK: - Extended Information
                     Section(header: Text("Extended Information")) {
                         // FIXME: Not always correct
                         LinkView(headline: "TMDB ID", text: String(data.id), link: "https://www.themoviedb.org/movie/\(data.id)")
@@ -48,11 +74,14 @@ struct MediaDetail : View {
                             LinkView(headline: "Homepage", text: data.homepageURL!, link: data.homepageURL!)
                         }
                         if !data.productionCompanies.isEmpty {
-                            BasicTextView("Production Companies", text: String(data.productionCompanies.map({ $0.name }).joined(separator: ", ")))
+                            Text(String(data.productionCompanies.map({ $0.name }).joined(separator: ", ")))
+                            .headline("Production Companies")
                         }
                         // TMDB Data
-                        BasicTextView("Popularity", text: String(data.popularity))
-                        BasicTextView("Scoring", text: "\(String(format: "%.1f", data.voteAverage))/10.0 points from \(data.voteCount) votes")
+                        Text(String(data.popularity))
+                            .headline("Popularity")
+                        Text("\(String(format: "%.1f", data.voteAverage))/10.0 points from \(data.voteCount) votes")
+                        .headline("Scoring")
                     }
                 }
                 .listStyle(GroupedListStyle())

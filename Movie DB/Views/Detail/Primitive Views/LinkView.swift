@@ -20,12 +20,7 @@ struct LinkView: View {
                 UIApplication.shared.open(link)
             }
         }, label: {
-            VStack(alignment: .leading, spacing: 0) {
-                Text(headline)
-                    .font(.caption)
-                    .foregroundColor(.primary)
-                Text(text)
-            }
+            Text(text)
         })
     }
 }

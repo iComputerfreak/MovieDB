@@ -8,12 +8,11 @@
 
 import Foundation
 
-class Series: Media {
+class Show: Media {
     
     typealias EpisodeNumber = (season: Int, episode: Int)
     
     /// The season and episode number of the episode, the user has watched most recently
-    var lastEpisode: EpisodeNumber?
-    
+    @Published var lastEpisode: EpisodeNumber?
     
 }
