@@ -23,8 +23,8 @@ struct PlaceholderData {
         return try! JSONDecoder().decode(TMDBShowData.self, from: data)
     }
     
-    static let movie = Movie(type: .movie, tmdbData: Self.tmdbMovieData, justWatchData: nil, personalRating: 5, tags: ["tag1", "tag2", "tag3"])
-    static let show = Show(type: .show, tmdbData: Self.tmdbShowData, justWatchData: nil, personalRating: 8, tags: ["tag1", "tag2", "tag4"])
+    static let movie = Movie(type: .movie, tmdbData: Self.tmdbMovieData, justWatchData: nil, personalRating: 5, tags: [Tag("tag1"), Tag("tag2"), Tag("tag3")])
+    static let show = Show(type: .show, tmdbData: Self.tmdbShowData, justWatchData: nil, personalRating: 8, tags: [Tag("tag1"), Tag("tag2"), Tag("tag4")])
     
     static var mediaLibrary: MediaLibrary {
         let library = MediaLibrary.shared

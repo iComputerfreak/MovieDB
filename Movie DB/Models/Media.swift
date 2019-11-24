@@ -28,10 +28,6 @@ class Media: Identifiable, ObservableObject, Codable {
         // Initialize
         if _nextID < 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
-            if _nextID <= 999 {
-                // IDs should always start at 1000 (only for visual effects)
-                _nextID = 1000
-            }
         }
         // Increase _nextID after returning
         defer {
@@ -56,9 +52,11 @@ class Media: Identifiable, ObservableObject, Codable {
     /// A rating between 0 and 10 (no Rating and 5 stars)
     @Published var personalRating: Int
     /// A list of user-specified tags
-    @Published var tags: [String]
+    @Published var tags: [Tag]
     /// Whether the user would watch the media again
     @Published var watchAgain: Bool?
+    /// Personal notes on the media
+    @Published var notes: String
     
     @Published private(set) var thumbnail: UIImage? = nil
     
@@ -76,19 +74,7 @@ class Media: Identifiable, ObservableObject, Codable {
         return nil
     }
     
-    /// Creates a new `Media` object from the given properties.
-    /// Never instantiate `Media` directly!
-    ///
-    /// - Important: Never instantiate `Media` directly. Always instantiate a concrete subclass!
-    ///
-    /// - Parameters:
-    ///   - type: The type of media
-    ///   - tmdbData: The TMDBData
-    ///   - justWatchData: <#justWatchData description#>
-    ///   - personalRating: <#personalRating description#>
-    ///   - tags: <#tags description#>
-    ///   - watchAgain: <#watchAgain description#>
-    init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [String] = [], watchAgain: Bool? = nil) {
+    init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Tag] = [], watchAgain: Bool? = nil, notes: String = "") {
         self.id = Self.nextID
         self.tmdbData = tmdbData
         self.justWatchData = justWatchData
@@ -96,6 +82,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.personalRating = personalRating
         self.tags = tags
         self.watchAgain = watchAgain
+        self.notes = notes
         loadThumbnail()
     }
     
@@ -158,8 +145,9 @@ class Media: Identifiable, ObservableObject, Codable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.type = try container.decode(MediaType.self, forKey: .type)
         self.personalRating = try container.decode(Int.self, forKey: .personalRating)
-        self.tags = try container.decode([String].self, forKey: .tags)
+        self.tags = try container.decode([Tag].self, forKey: .tags)
         self.watchAgain = try container.decode(Bool.self, forKey: .watchAgain)
+        self.notes = try container.decode(String.self, forKey: .notes)
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
@@ -197,6 +185,7 @@ class Media: Identifiable, ObservableObject, Codable {
         try container.encode(self.personalRating, forKey: .personalRating)
         try container.encode(self.tags, forKey: .tags)
         try container.encode(self.watchAgain, forKey: .watchAgain)
+        try container.encode(self.notes, forKey: .notes)
         
         // Save the image
         if let data = self.thumbnail?.pngData() {
@@ -217,6 +206,7 @@ class Media: Identifiable, ObservableObject, Codable {
         case personalRating
         case tags
         case watchAgain
+        case notes
         case thumbnail
     }
 }

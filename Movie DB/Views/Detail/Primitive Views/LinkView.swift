@@ -8,9 +8,9 @@
 
 import SwiftUI
 
+/// Represents a basic text view that shows a clickable link
 struct LinkView: View {
     
-    var headline: String
     var text: String
     var link: String
     
@@ -27,6 +27,6 @@ struct LinkView: View {
 
 struct LinkView_Previews: PreviewProvider {
     static var previews: some View {
-        LinkView(headline: "Headline", text: "Text", link: "https://www.google.de")
+        LinkView(text: "Text", link: "https://www.google.de")
     }
 }

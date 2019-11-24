@@ -10,7 +10,8 @@ import SwiftUI
 
 struct MediaDetail : View {
     
-    @EnvironmentObject var mediaObject: Media
+    @EnvironmentObject private var mediaObject: Media
+    @Environment(\.editMode) private var editMode
     
     var body: some View {
         // Group is needed so swift can infer the return type
@@ -28,22 +29,35 @@ struct MediaDetail : View {
                     Section(header: Text("User Data")) {
                         // Rating
                         RatingView(rating: $mediaObject.personalRating)
+                            .environment(\.editMode, editMode)
                             .headline("Personal Rating")
                         // Watched field
                         if mediaObject.type == .movie {
                             SimpleValueView<Bool>.createYesNo(value: Binding<Bool?>(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
+                                .environment(\.editMode, editMode)
                                 .headline("Watched?")
                         } else {
                             (mediaObject as? Show).map { (show: Show) in
                                 // Has watched show field
                                 Text("")
+                                    .environment(\.editMode, editMode)
+                                    .headline("Watched?")
                             }
                         }
                         // Watch again field
-                        SimpleValueView<Any>.createYesNo(value: $mediaObject.watchAgain)
+                        SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
+                            .environment(\.editMode, editMode)
                             .headline("Watch again?")
                         // Taglist
+                        TagListView($mediaObject.tags)
+                            .environment(\.editMode, editMode)
+                            .headline("Tags")
                         // Notes
+                            NotesView($mediaObject.notes, headline: "Notes")
+                                .environment(\.editMode, editMode)
+                                .headline("Notes")
+                                // Hide the notes, if they are empty and the user is not editing
+                                .hidden(condition: mediaObject.notes.isEmpty && !(editMode?.wrappedValue.isEditing ?? false))
                     }
                     // MARK: - Basic Information
                     Section(header: Text("Basic Information")) {
@@ -51,43 +65,48 @@ struct MediaDetail : View {
                             .headline("ID")
                         if !data.genres.isEmpty {
                             Text(data.genres.map({ $0.name }).joined(separator: ", "))
-                            .headline("Genres")
+                                .headline("Genres")
                         }
                         Text(data.originalTitle)
                             .headline("Original Title")
                         data.overview.map {
-                            LongTextView("Description", text: $0)
+                            LongTextView($0, headline: "Description")
+                                .headline("Description")
                         }
                         Text(data.status)
                             .headline("Status")
                         Text(JFUtils.languageString(data.originalLanguage))
-                        .headline("Original Language")
+                            .headline("Original Language")
                     }
                     // MARK: - Extended Information
                     Section(header: Text("Extended Information")) {
                         // FIXME: Not always correct
-                        LinkView(headline: "TMDB ID", text: String(data.id), link: "https://www.themoviedb.org/movie/\(data.id)")
+                        LinkView(text: String(data.id), link: "https://www.themoviedb.org/movie/\(data.id)")
+                            .headline("TMDB ID")
                         data.imdbID.map {
-                            LinkView(headline: "IMDB ID", text: $0, link: "https://www.imdb.com/title/\($0)")
+                            LinkView(text: $0, link: "https://www.imdb.com/title/\($0)")
+                                .headline("IMDB ID")
                         }
                         if (data.homepageURL != nil && !data.homepageURL!.isEmpty) {
-                            LinkView(headline: "Homepage", text: data.homepageURL!, link: data.homepageURL!)
+                            LinkView(text: data.homepageURL!, link: data.homepageURL!)
+                                .headline("Homepage")
                         }
                         if !data.productionCompanies.isEmpty {
                             Text(String(data.productionCompanies.map({ $0.name }).joined(separator: ", ")))
-                            .headline("Production Companies")
+                                .headline("Production Companies")
                         }
                         // TMDB Data
                         Text(String(data.popularity))
                             .headline("Popularity")
                         Text("\(String(format: "%.1f", data.voteAverage))/10.0 points from \(data.voteCount) votes")
-                        .headline("Scoring")
+                            .headline("Scoring")
                     }
                 }
                 .listStyle(GroupedListStyle())
             }
         }
         .navigationBarTitle(Text(mediaObject.tmdbData?.title ?? ""), displayMode: .inline)
+        .navigationBarItems(trailing: EditButton())
     }
 }
 
@@ -95,7 +114,7 @@ struct MediaDetail : View {
 struct MediaDetail_Previews : PreviewProvider {
     static var previews: some View {
         MediaDetail()
-            .environmentObject(PlaceholderData.movie)
+            .environmentObject(PlaceholderData.movie as Media)
     }
 }
 #endif

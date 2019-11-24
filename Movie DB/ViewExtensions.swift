@@ -54,3 +54,13 @@ extension Image {
         }
     }
 }
+
+extension View {
+    func hidden(condition: Bool) -> some View {
+        if condition {
+            return AnyView(self.hidden())
+        } else {
+            return AnyView(self)
+        }
+    }
+}

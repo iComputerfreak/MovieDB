@@ -16,9 +16,6 @@ class MediaLibrary: ObservableObject, Codable {
     /// The shared `MediaLibrary` instance.
     static let shared = MediaLibrary.load()
     
-    /// The key used to store the media array in the user defaults
-    private static let userDefaultsKey = "mediaList"
-    
     @Published var mediaList: [Media]
     
     private init() {
@@ -30,7 +27,7 @@ class MediaLibrary: ObservableObject, Codable {
     /// Loads the media library from the user defaults, or returns a new one, if none was saved.
     static func load() -> MediaLibrary {
         // Load the media library from user defaults
-        if let data = UserDefaults.standard.data(forKey: userDefaultsKey) {
+        if let data = UserDefaults.standard.data(forKey: JFLiterals.Keys.mediaLibrary) {
             return (try? PropertyListDecoder().decode(MediaLibrary.self, from: data)) ?? MediaLibrary()
         } else {
             return MediaLibrary()
@@ -41,7 +38,7 @@ class MediaLibrary: ObservableObject, Codable {
     @objc func save() {
         // Encode the array into a property list
         let pList = try? PropertyListEncoder().encode(self)
-        UserDefaults.standard.set(pList, forKey: MediaLibrary.userDefaultsKey)
+        UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
         print("Library saved")
     }
     
