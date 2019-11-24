@@ -146,7 +146,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.type = try container.decode(MediaType.self, forKey: .type)
         self.personalRating = try container.decode(Int.self, forKey: .personalRating)
         self.tags = try container.decode([Tag].self, forKey: .tags)
-        self.watchAgain = try container.decode(Bool.self, forKey: .watchAgain)
+        self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try container.decode(String.self, forKey: .notes)
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)

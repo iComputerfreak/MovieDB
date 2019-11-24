@@ -17,12 +17,26 @@ struct RatingView: View {
     
     var body: some View {
         // Valid ratings are 0 to 10 stars (0 to 5 stars)
-        self.starString(0...10 ~= rating ? rating : 0)
-            .padding(.vertical, 5)
+        Group {
+            if editMode?.wrappedValue.isEditing ?? false {
+                self.starString(rating)
+                    .padding(.vertical, 5)
+                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                        .onChanged({ (value) in
+                        print("Location: \(value.location)")
+                    }))
+            } else {
+                self.starString(rating)
+                    .padding(.vertical, 5)
+            }
+        }
     }
     
     private func starString(_ rating: Int) -> some View {
-        HStack {
+        guard 0...10 ~= rating else {
+            return starString(0)
+        }
+        return HStack {
             ForEach(0..<(rating / 2)) { _ in
                 Image(systemName: "star.fill")
             }

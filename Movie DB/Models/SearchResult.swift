@@ -117,34 +117,41 @@ struct TMDBShowSearchResult: TMDBSearchResult, Identifiable {
 }
 
 struct SearchResult: Codable {
-    struct Empty: Decodable {}
+    private struct Empty: Decodable {}
     
     var results: [TMDBSearchResult]
     
+    /// Initializes the interal results array from the given decoder
+    /// - Parameter decoder: The decoder
     init(from decoder: Decoder) throws {
         self.results = []
         // Contains the page and results
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // Contains the TMDBSearchResults array
-        var arrayContainer = try container.nestedUnkeyedContainer(forKey: .results)  //.nestedContainer(keyedBy: NestedCodingKeys.self, forKey: .results)
+        // Create two identical containers, so we can extract the same value twice
+        var arrayContainer = try container.nestedUnkeyedContainer(forKey: .results)
         var arrayContainer2 = try container.nestedUnkeyedContainer(forKey: .results)
         assert(arrayContainer.count == arrayContainer2.count)
         while (!arrayContainer.isAtEnd) {
+            // Decode the media object as a GenericMedia to read the type
             let mediaTypeContainer = try arrayContainer.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
             let mediaType = try mediaTypeContainer.decode(String.self, forKey: .mediaType)
-            //let media = arrayContainer.decode(GenericMedia.self)
+            // Decide based on the media type which type to use for decoding
             switch mediaType {
-            case "movie":
+            case MediaType.movie.rawValue:
                 self.results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
-            case "tv":
-                if let a = try? arrayContainer2.decode(TMDBShowSearchResult.self) {
-                    self.results.append(a)
-                } else {
-                    let b = try arrayContainer2.decode(TMDBMovieData.self)
-                    print(b)
-                }
+            case MediaType.show.rawValue:
+                self.results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
+                // TODO: Do I still need this?!?!
+//                if let a = try? arrayContainer2.decode(TMDBShowSearchResult.self) {
+//                    self.results.append(a)
+//                }
+//                else {
+//                    let b = try arrayContainer2.decode(TMDBMovieData.self)
+//                    print(b)
+//                }
             default:
-                // Skip the other entry (probably type person)
+                // Skip the entry (probably type person)
                 _ = try? arrayContainer2.decode(Empty.self)
             }
         }

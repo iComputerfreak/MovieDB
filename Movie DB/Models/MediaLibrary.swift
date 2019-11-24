@@ -43,24 +43,51 @@ class MediaLibrary: ObservableObject, Codable {
     }
     
     // MARK: - Codable Conformance
+    
     required convenience init(from decoder: Decoder) throws {
         self.init()
-        // Loops through all the container entries and add them to the mediaList as either a Movie or a Show
+        // Contains the page and results
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let mediaObjects = try container.decode([Media].self, forKey: .mediaList)
-        for entity in mediaObjects {
-            if entity.type == .movie {
-                self.mediaList.append(entity as! Movie)
-            } else {
-                self.mediaList.append(entity as! Show)
+        // Contains the TMDBSearchResults array
+        // Create two identical containers, so we can extract the same value twice
+        var mediaObjects = try container.nestedUnkeyedContainer(forKey: .mediaList)
+        var mediaObjects2 = try container.nestedUnkeyedContainer(forKey: .mediaList)
+        assert(mediaObjects.count == mediaObjects2.count)
+        while (!mediaObjects.isAtEnd) {
+            // Decode the media object as a GenericMedia to read the type
+            let mediaTypeContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
+            let mediaType = try mediaTypeContainer.decode(MediaType.self, forKey: .type)
+            print("Type: \(mediaType)")
+            // Decide based on the media type which type to use for decoding
+            switch mediaType {
+            case .movie:
+                self.mediaList.append(try mediaObjects2.decode(Movie.self))
+            case .show:
+                self.mediaList.append(try mediaObjects2.decode(Show.self))
             }
+        }
+    }
+    
+    private struct Empty: Decodable {}
+    
+    private struct GenericMedia: Codable {
+        var type: MediaType
+        enum CodingKeys: String, CodingKey {
+            case type
         }
     }
     
     func encode(to encoder: Encoder) throws {
         // Encode all Media Objects
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(mediaList, forKey: .mediaList)
+        var arrayContainer = container.nestedUnkeyedContainer(forKey: .mediaList)
+        for media in mediaList {
+            if media.type == .movie {
+                try arrayContainer.encode(media as! Movie)
+            } else {
+                try arrayContainer.encode(media as! Show)
+            }
+        }
     }
     
     enum CodingKeys: CodingKey {
