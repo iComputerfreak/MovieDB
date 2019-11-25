@@ -51,8 +51,8 @@ class Media: Identifiable, ObservableObject, Codable {
     @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
     @Published var personalRating: Int
-    /// A list of user-specified tags
-    @Published var tags: [Tag]
+    /// A list of user-specified tags, listed by their id
+    @Published var tags: [Int]
     /// Whether the user would watch the media again
     @Published var watchAgain: Bool?
     /// Personal notes on the media
@@ -74,8 +74,8 @@ class Media: Identifiable, ObservableObject, Codable {
         return nil
     }
     
-    init(type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Tag] = [], watchAgain: Bool? = nil, notes: String = "") {
-        self.id = Self.nextID
+    init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
+        self.id = (id == nil) ? Self.nextID : id!
         self.tmdbData = tmdbData
         self.justWatchData = justWatchData
         self.type = type
@@ -145,7 +145,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.type = try container.decode(MediaType.self, forKey: .type)
         self.personalRating = try container.decode(Int.self, forKey: .personalRating)
-        self.tags = try container.decode([Tag].self, forKey: .tags)
+        self.tags = try container.decode([Int].self, forKey: .tags)
         self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try container.decode(String.self, forKey: .notes)
         if type == .movie {

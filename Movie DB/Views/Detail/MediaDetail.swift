@@ -13,6 +13,32 @@ struct MediaDetail : View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     
+    /*
+     TODO:
+     - Cast
+     - TMDB Keywords in library suche einbinden
+     - Library Suche programmieren
+     - ausgewählte Translations anzeigen (in en, de verfügbar?)
+     - trailer link + in-app browser
+     - verhindern dass geladene media immer neue ID bekommen
+     - Icons bei den Section Headers (Personen-Icon bei User Data, ...)
+     
+     MOVIE:
+     - Release date
+     - runtime
+     - budget
+     - revenue
+     - tagline
+     
+     SHOW:
+     - airdate (first - last)
+     - seasons / episodes info
+     - isInProduction?
+     - type (e.g. scripted)
+     - networks
+     
+     */
+    
     var body: some View {
         // Group is needed so swift can infer the return type
         Group {
@@ -53,11 +79,11 @@ struct MediaDetail : View {
                             .environment(\.editMode, editMode)
                             .headline("Tags")
                         // Notes
-                            NotesView($mediaObject.notes, headline: "Notes")
-                                .environment(\.editMode, editMode)
-                                .headline("Notes")
-                                // Hide the notes, if they are empty and the user is not editing
-                                .hidden(condition: mediaObject.notes.isEmpty && !(editMode?.wrappedValue.isEditing ?? false))
+                        if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
+                            NotesView($mediaObject.notes)
+                            .environment(\.editMode, editMode)
+                            .headline("Notes")
+                        }
                     }
                     // MARK: - Basic Information
                     Section(header: Text("Basic Information")) {

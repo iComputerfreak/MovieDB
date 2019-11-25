@@ -17,27 +17,22 @@ struct RatingView: View {
     
     var body: some View {
         // Valid ratings are 0 to 10 stars (0 to 5 stars)
-        Group {
+        HStack {
+            self.stars(rating)
+                .padding(.vertical, 5)
+                .foregroundColor(Color.yellow)
             if editMode?.wrappedValue.isEditing ?? false {
-                self.starString(rating)
-                    .padding(.vertical, 5)
-                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                        .onChanged({ (value) in
-                        print("Location: \(value.location)")
-                    }))
-            } else {
-                self.starString(rating)
-                    .padding(.vertical, 5)
+                Stepper("", value: $rating, in: 0...10)
             }
         }
     }
     
-    private func starString(_ rating: Int) -> some View {
+    private func stars(_ rating: Int) -> some View {
         guard 0...10 ~= rating else {
-            return starString(0)
+            return stars(0)
         }
         return HStack {
-            ForEach(0..<(rating / 2)) { _ in
+            ForEach(Array(0..<(rating / 2)), id: \.self) { _ in
                 Image(systemName: "star.fill")
             }
             if rating % 2 == 1 {
@@ -45,7 +40,7 @@ struct RatingView: View {
             }
             // Only if there is at least one empty star
             if rating < 9 {
-                ForEach(0..<(10 - rating) / 2) { _ in
+                ForEach(Array(0..<(10 - rating) / 2), id: \.self) { _ in
                     Image(systemName: "star")
                 }
             }

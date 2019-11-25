@@ -8,10 +8,7 @@
 
 import Foundation
 import UIKit
-
-/*enum JFLiterals: String {
-    
-}*/
+import SwiftUI
 
 struct JFUtils {
     
@@ -98,6 +95,12 @@ struct JFUtils {
         // Create the directory, if it not already exists
         try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         return url
+    }
+    
+    /// Returns either black or white, depending on the color scheme
+    /// - Parameter colorScheme: The current color scheme environment variable
+    static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {
+        return colorScheme == .light ? .black : .white
     }
 }
 
