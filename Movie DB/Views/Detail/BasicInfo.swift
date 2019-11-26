@@ -22,7 +22,7 @@ struct BasicInfo: View {
     
     var body: some View {
         mediaObject.tmdbData.map { (data: TMDBData) in
-            Section(header: Text("Basic Information")) {
+            Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
                 Text(String(format: "%04d", mediaObject.id))
                     .headline("ID")
                 if !data.genres.isEmpty {

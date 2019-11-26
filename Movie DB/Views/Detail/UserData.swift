@@ -14,7 +14,7 @@ struct UserData: View {
     @Environment(\.editMode) private var editMode
     
     var body: some View {
-        Section(header: Text("User Data")) {
+        Section(header: HStack { Image(systemName: "person.fill"); Text("User Data") }) {
             // Rating
             RatingView(rating: $mediaObject.personalRating)
                 .environment(\.editMode, editMode)

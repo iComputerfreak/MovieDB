@@ -9,8 +9,6 @@
 import XCTest
 @testable import Movie_DB
 
-// TODO: Create unit tests for Models Codable implementations
-
 class Movie_DBTests: XCTestCase {
 
     override func setUp() {

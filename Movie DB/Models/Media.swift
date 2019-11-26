@@ -75,6 +75,9 @@ class Media: Identifiable, ObservableObject, Codable {
     }
     
     // Only used by constructing subclasses
+    
+    /// Creates a new `Media` object.
+    /// - Important: Only use this initializer on concrete subclasses of `Media`. Never instantiate `Media` itself.
     init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
         self.id = (id == nil) ? Self.nextID : id!
         self.tmdbData = tmdbData
@@ -84,7 +87,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.tags = tags
         self.watchAgain = watchAgain
         self.notes = notes
-        // TODO: Maybe unneccessary, because the thumbnail gets loaded when tmdbData is set
+        // Needed, because didSet of tmdbData does NOT get triggered when set in init!
         loadThumbnail()
     }
     
@@ -157,7 +160,6 @@ class Media: Identifiable, ObservableObject, Codable {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchShowData.self, forKey: .justWatchData)
         }
-        // TODO: Save and load thumbnail to disk separately
         // Save the image
         let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
         if let data = try? Data(contentsOf: imagePath) {

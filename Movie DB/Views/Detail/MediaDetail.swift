@@ -21,25 +21,9 @@ struct MediaDetail : View {
      - trailer link + in-app browser
      - Icons bei den Section Headers (Personen-Icon bei User Data, ...)
      - Make Tags fancy in TagListView
-     - Maybe convert Media to Protocol?
      - keywords, cast, translations, videos have to be filled separately by API calls!!!
      
      - Cast
-     
-     MOVIE:
-     - Release date
-     - runtime
-     - budget
-     - revenue
-     - tagline
-     
-     SHOW:
-     - airdate (first - last)
-     - seasons / episodes info
-     - isInProduction?
-     - type (e.g. scripted)
-     - networks
-     
      */
     
     private var showData: TMDBShowData? {

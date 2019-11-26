@@ -22,7 +22,7 @@ struct CastInfo: View {
     
     var body: some View {
         mediaObject.tmdbData?.cast.map { (cast: [CastMember]) in
-            Section(header: Text("Cast")) {
+            Section(header: HStack { Image(systemName: "person.3.fill"); Text("Cast") }) {
                 ForEach(cast, id: \.self) { (member: CastMember) in
                     Text(member.name)
                 }

@@ -45,7 +45,7 @@ struct TitleView: View {
                 if year != nil {
                     Text(String(year!))
                         .padding(4.0)
-                        .border(Color.primary, width: 2) // TODO: Add corner radius 5
+                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 2))
                 }
             }
         }

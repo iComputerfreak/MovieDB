@@ -22,7 +22,7 @@ struct ExtendedInfo: View {
     
     var body: some View {
         mediaObject.tmdbData.map { (data: TMDBData) in
-            Section(header: Text("Extended Information")) {
+            Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
                 // Movie exclusive data
                 if movieData != nil {
                     movieData!.tagline.map {

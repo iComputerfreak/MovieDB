@@ -13,7 +13,6 @@ struct RatingView: View {
     
     @Binding var rating: Int
     @Environment(\.editMode) private var editMode
-    // TODO: Implement editing
     
     var body: some View {
         // Valid ratings are 0 to 10 stars (0 to 5 stars)

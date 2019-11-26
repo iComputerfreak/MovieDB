@@ -142,14 +142,6 @@ struct SearchResult: Codable {
                 self.results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
             case MediaType.show.rawValue:
                 self.results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
-                // TODO: Do I still need this?!?!
-//                if let a = try? arrayContainer2.decode(TMDBShowSearchResult.self) {
-//                    self.results.append(a)
-//                }
-//                else {
-//                    let b = try arrayContainer2.decode(TMDBMovieData.self)
-//                    print(b)
-//                }
             default:
                 // Skip the entry (probably type person)
                 _ = try? arrayContainer2.decode(Empty.self)
