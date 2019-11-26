@@ -73,12 +73,12 @@ class Movie_DBTests: XCTestCase {
             Genre(id: 18, name: "Drama"),
             Genre(id: 10759, name: "Action & Adventure")
         ]
-        let seasons = [
-            Season(id: 3627, seasonNumber: 0, episodeCount: 14, name: "Specials", overview: "", imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", rawAirDate: "2010-12-05"),
+        let seasons: [Season] = [
+            /*Season(id: 3627, seasonNumber: 0, episodeCount: 14, name: "Specials", overview: "", imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", rawAirDate: "2010-12-05"),
             Season(id: 3624, seasonNumber: 1, episodeCount: 10, name: "Season 1", overview: "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.", imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", rawAirDate: "2011-04-17"),
             // ...
             Season(id: 81266, seasonNumber: 7, episodeCount: 7, name: "Season 7", overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.", imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", rawAirDate: "2017-07-16")
-            
+            */
         ]
         let networks = [
             ProductionCompany(id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US")

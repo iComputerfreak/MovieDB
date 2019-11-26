@@ -118,6 +118,17 @@ struct JFUtils {
     static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {
         return colorScheme == .light ? .black : .white
     }
+    
+    static func loadImage(urlString: String, completion: @escaping (UIImage?) -> ()) {
+        print("Loading image from \(urlString)")
+        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
+            guard let data = data else {
+                print("Unable to get image")
+                return
+            }
+            completion(UIImage(data: data))
+        }
+    }
 }
 
 extension Dictionary where Key == String, Value == Any? {
@@ -130,8 +141,8 @@ extension Dictionary where Key == String, Value == Any? {
             let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             let escapedValue = "\(value ?? "null")".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             return escapedKey + "=" + escapedValue
-            }
-            .joined(separator: "&")
+        }
+        .joined(separator: "&")
     }
 }
 

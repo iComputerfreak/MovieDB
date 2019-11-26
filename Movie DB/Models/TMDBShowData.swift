@@ -105,11 +105,11 @@ class Season: Codable, Hashable, Identifiable {
     /// A short description of the season
     var overview: String?
     /// A path to the poster image of the season on TMDB
-    var imagePath: String? {
+    var imagePath: String?/* {
         didSet {
             loadThumbnail()
         }
-    }
+    }*/
     /// The thumbnail of this season
     private(set) var thumbnail: UIImage? = nil
     /// The date when the season aired
@@ -117,7 +117,7 @@ class Season: Codable, Hashable, Identifiable {
     /// The date, the season aired
     var airDate: Date? { rawAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawAirDate!) }
     
-    func loadThumbnail() {
+    /*func loadThumbnail() {
         guard let imagePath = imagePath, !imagePath.isEmpty else {
             return
         }
@@ -133,9 +133,8 @@ class Season: Codable, Hashable, Identifiable {
                 self.thumbnail = UIImage(data: data)
             }
         }
-    }
+    }*/
     
-    // TODO: IMPLEMENTED CORRECT? Compare all values or only a few key values
     static func == (lhs: Season, rhs: Season) -> Bool {
         return lhs.id == rhs.id &&
             lhs.seasonNumber == rhs.seasonNumber &&

@@ -38,17 +38,27 @@ struct SeasonsInfo: View {
                         // Row 3
                         if season.overview != nil && !season.overview!.isEmpty {
                             Divider()
-                            Text(season.overview!)
+                            NavigationLink(destination: VStack {
+                                Text(season.overview!)
+                                    .padding()
+                                Spacer()
+                                    .navigationBarTitle(season.name)
+                            }) {
+                                Text(season.overview!)
+                                    .lineLimit(2)
+                            }
                         }
                     }
                 }
             }
         }
+        .navigationBarTitle("Seasons")
     }
 }
 
 struct SeasonsInfo_Previews: PreviewProvider {
     static var previews: some View {
         SeasonsInfo()
+            .environmentObject(PlaceholderData.movie)
     }
 }
