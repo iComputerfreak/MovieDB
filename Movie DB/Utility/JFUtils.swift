@@ -88,6 +88,22 @@ struct JFUtils {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
     
+    /// Returns a date formatter to display `Date` values.
+    static var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }
+    
+    /// Returns a number formatter to display money values
+    static var moneyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale.current
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
     /// - Parameter directory: The name of the folder in the documents directory
     static func url(for directory: String) -> URL {
@@ -129,4 +145,14 @@ extension CharacterSet {
         allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
         return allowed
     }()
+}
+
+extension NumberFormatter {
+    func string(from value: Double) -> String? {
+        return self.string(from: NSNumber(value: value))
+    }
+    
+    func string(from value: Int) -> String? {
+        return self.string(from: NSNumber(value: value))
+    }
 }

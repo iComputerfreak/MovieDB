@@ -15,13 +15,16 @@ struct MediaDetail : View {
     
     /*
      TODO:
-     - Cast
      - TMDB Keywords in library suche einbinden
      - Library Suche programmieren
      - ausgewählte Translations anzeigen (in en, de verfügbar?)
      - trailer link + in-app browser
-     - verhindern dass geladene media immer neue ID bekommen
      - Icons bei den Section Headers (Personen-Icon bei User Data, ...)
+     - Make Tags fancy in TagListView
+     - Maybe convert Media to Protocol?
+     - keywords, cast, translations, videos have to be filled separately by API calls!!!
+     
+     - Cast
      
      MOVIE:
      - Release date
@@ -39,99 +42,25 @@ struct MediaDetail : View {
      
      */
     
+    private var showData: TMDBShowData? {
+        mediaObject.tmdbData as? TMDBShowData
+    }
+    
     var body: some View {
         // Group is needed so swift can infer the return type
         Group {
-            if (mediaObject.tmdbData == nil) {
-                Text("Error loading information!")
-            }
-            
-            // Unwrap the optional data
-            mediaObject.tmdbData.map { (data: TMDBData) in
-                List {
-                    // MARK: - Thumbnail
-                    TitleView(title: data.title, year: mediaObject.year, thumbnail: mediaObject.thumbnail)
-                    // MARK: - User Data
-                    Section(header: Text("User Data")) {
-                        // Rating
-                        RatingView(rating: $mediaObject.personalRating)
-                            .environment(\.editMode, editMode)
-                            .headline("Personal Rating")
-                        // Watched field
-                        if mediaObject.type == .movie {
-                            SimpleValueView<Bool>.createYesNo(value: Binding<Bool?>(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
-                                .environment(\.editMode, editMode)
-                                .headline("Watched?")
-                        } else {
-                            (mediaObject as? Show).map { (show: Show) in
-                                // Has watched show field
-                                Text("")
-                                    .environment(\.editMode, editMode)
-                                    .headline("Watched?")
-                            }
-                        }
-                        // Watch again field
-                        SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                            .environment(\.editMode, editMode)
-                            .headline("Watch again?")
-                        // Taglist
-                        TagListView($mediaObject.tags)
-                            .environment(\.editMode, editMode)
-                            .headline("Tags")
-                        // Notes
-                        if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
-                            NotesView($mediaObject.notes)
-                            .environment(\.editMode, editMode)
-                            .headline("Notes")
-                        }
-                    }
-                    // MARK: - Basic Information
-                    Section(header: Text("Basic Information")) {
-                        Text(String(format: "%04d", mediaObject.id))
-                            .headline("ID")
-                        if !data.genres.isEmpty {
-                            Text(data.genres.map({ $0.name }).joined(separator: ", "))
-                                .headline("Genres")
-                        }
-                        Text(data.originalTitle)
-                            .headline("Original Title")
-                        data.overview.map {
-                            LongTextView($0, headline: "Description")
-                                .headline("Description")
-                        }
-                        Text(data.status)
-                            .headline("Status")
-                        Text(JFUtils.languageString(data.originalLanguage))
-                            .headline("Original Language")
-                    }
-                    // MARK: - Extended Information
-                    Section(header: Text("Extended Information")) {
-                        // FIXME: Not always correct
-                        LinkView(text: String(data.id), link: "https://www.themoviedb.org/movie/\(data.id)")
-                            .headline("TMDB ID")
-                        data.imdbID.map {
-                            LinkView(text: $0, link: "https://www.imdb.com/title/\($0)")
-                                .headline("IMDB ID")
-                        }
-                        if (data.homepageURL != nil && !data.homepageURL!.isEmpty) {
-                            LinkView(text: data.homepageURL!, link: data.homepageURL!)
-                                .headline("Homepage")
-                        }
-                        if !data.productionCompanies.isEmpty {
-                            Text(String(data.productionCompanies.map({ $0.name }).joined(separator: ", ")))
-                                .headline("Production Companies")
-                        }
-                        // TMDB Data
-                        Text(String(data.popularity))
-                            .headline("Popularity")
-                        Text("\(String(format: "%.1f", data.voteAverage))/10.0 points from \(data.voteCount) votes")
-                            .headline("Scoring")
-                    }
+            List {
+                TitleView(title: mediaObject.tmdbData?.title ?? "<ERROR>", year: mediaObject.year, thumbnail: mediaObject.thumbnail)
+                UserData()
+                BasicInfo()
+                if mediaObject.tmdbData?.cast != nil {
+                    CastInfo()
                 }
-                .listStyle(GroupedListStyle())
+                ExtendedInfo()
             }
+            .listStyle(GroupedListStyle())
         }
-        .navigationBarTitle(Text(mediaObject.tmdbData?.title ?? ""), displayMode: .inline)
+        .navigationBarTitle(Text(mediaObject.tmdbData?.title ?? "Loading error!"), displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
     }
 }

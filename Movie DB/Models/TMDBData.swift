@@ -91,7 +91,7 @@ extension TMDBData {
 // MARK: - Property Structs
 
 /// Represents an actor starring in a specific movie
-struct CastMember: Codable, Equatable {
+struct CastMember: Codable, Hashable, Equatable {
     /// The name of the actor
     var name: String
     /// The name of the actor in the media

@@ -27,6 +27,7 @@ struct LibraryHome : View {
                             .environmentObject(mediaObject)
                     }
                 }
+                .onDelete { self.library.mediaList.remove(atOffsets: $0) }
             }
                 
             .sheet(isPresented: $isAddingMedia, onDismiss: {

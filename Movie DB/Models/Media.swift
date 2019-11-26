@@ -74,6 +74,7 @@ class Media: Identifiable, ObservableObject, Codable {
         return nil
     }
     
+    // Only used by constructing subclasses
     init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
         self.id = (id == nil) ? Self.nextID : id!
         self.tmdbData = tmdbData
@@ -83,6 +84,7 @@ class Media: Identifiable, ObservableObject, Codable {
         self.tags = tags
         self.watchAgain = watchAgain
         self.notes = notes
+        // TODO: Maybe unneccessary, because the thumbnail gets loaded when tmdbData is set
         loadThumbnail()
     }
     
@@ -120,7 +122,7 @@ class Media: Identifiable, ObservableObject, Codable {
         guard let tmdbData = self.tmdbData else {
             return
         }
-        guard let imagePath = tmdbData.imagePath, !tmdbData.imagePath!.isEmpty else {
+        guard let imagePath = tmdbData.imagePath, !imagePath.isEmpty else {
             return
         }
         print("Loading thumbnail for \(self.tmdbData?.title ?? "Unknown")")

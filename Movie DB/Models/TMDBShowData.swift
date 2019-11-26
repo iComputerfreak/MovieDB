@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct TMDBShowData: TMDBData, Equatable {
     // Protocol properties
@@ -32,13 +33,13 @@ struct TMDBShowData: TMDBData, Equatable {
     
     // Exclusive properties
     /// The raw first air date formatted as "yyyy-MM-dd"
-    var rawFirstAirDate: String
+    var rawFirstAirDate: String?
     /// The date, the show was first aired
-    var firstAirDate: Date? { JFUtils.dateFromTMDBString(self.rawFirstAirDate) }
+    var firstAirDate: Date? { rawFirstAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawFirstAirDate!) }
     /// The raw last air date formatted as "yyyy-MM-dd"
-    var rawLastAirDate: String
+    var rawLastAirDate: String?
     /// The date, the show was last aired
-    var lastAirDate: Date? { JFUtils.dateFromTMDBString(self.rawLastAirDate) }
+    var lastAirDate: Date? { rawLastAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawLastAirDate!) }
     /// The number of seasons the show  has
     var numberOfSeasons: Int
     /// The number of episodes, the show has
@@ -90,8 +91,9 @@ struct TMDBShowData: TMDBData, Equatable {
 
 // MARK: - Property Structs
 
+// This has to be a class for `self.thumbnail` to be changed in the loadThumbnail() function
 /// Represents a season of a show
-struct Season: Codable, Equatable {
+class Season: Codable, Hashable, Identifiable {
     /// The id of the season on TMDB
     var id: Int
     /// The number of the season
@@ -103,11 +105,57 @@ struct Season: Codable, Equatable {
     /// A short description of the season
     var overview: String?
     /// A path to the poster image of the season on TMDB
-    var imagePath: String?
+    var imagePath: String? {
+        didSet {
+            loadThumbnail()
+        }
+    }
+    /// The thumbnail of this season
+    private(set) var thumbnail: UIImage? = nil
     /// The date when the season aired
-    var rawAirDate: String
+    var rawAirDate: String?
     /// The date, the season aired
-    var airDate: Date? { JFUtils.dateFromTMDBString(self.rawAirDate) }
+    var airDate: Date? { rawAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawAirDate!) }
+    
+    func loadThumbnail() {
+        guard let imagePath = imagePath, !imagePath.isEmpty else {
+            return
+        }
+        print("Loading thumbnail for \(name)")
+        let urlString = JFUtils.getTMDBImageURL(path: imagePath)
+        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
+            guard let data = data else {
+                print("Unable to get image")
+                return
+            }
+            // Update the thumbnail in the main thread
+            DispatchQueue.main.async {
+                self.thumbnail = UIImage(data: data)
+            }
+        }
+    }
+    
+    // TODO: IMPLEMENTED CORRECT? Compare all values or only a few key values
+    static func == (lhs: Season, rhs: Season) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.seasonNumber == rhs.seasonNumber &&
+            lhs.episodeCount == rhs.episodeCount &&
+            lhs.name == rhs.name &&
+            lhs.overview == rhs.overview &&
+            lhs.imagePath == rhs.imagePath &&
+            lhs.rawAirDate == rhs.rawAirDate
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(seasonNumber)
+        hasher.combine(episodeCount)
+        hasher.combine(name)
+        hasher.combine(overview)
+        hasher.combine(imagePath)
+        hasher.combine(rawAirDate)
+    }
+    
     
     enum CodingKeys: String, CodingKey {
         case id
