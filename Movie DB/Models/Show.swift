@@ -16,31 +16,4 @@ class Show: Media {
     /// The season and episode number of the episode, the user has watched most recently
     @Published var lastEpisode: EpisodeNumber?
     
-    override var tmdbData: TMDBData? {
-        didSet {
-            loadSeasonThumbnails()
-        }
-    }
-    
-    @Published private(set) var seasonThumbnails: [ObjectIdentifier: UIImage?] = [:]
-    
-    func loadSeasonThumbnails() {
-        guard let showData = self.tmdbData as? TMDBShowData else {
-            return
-        }
-        guard !showData.seasons.isEmpty else {
-            return
-        }
-        print("Loading season thumbnails for \(self.tmdbData?.title ?? "Unknown")")
-        for season in showData.seasons {
-            if let imagePath = season.imagePath {
-                JFUtils.loadImage(urlString: imagePath) { (image) in
-                    DispatchQueue.main.async {
-                        self.seasonThumbnails[season.id] = image
-                    }
-                }
-            }
-        }
-    }
-    
 }

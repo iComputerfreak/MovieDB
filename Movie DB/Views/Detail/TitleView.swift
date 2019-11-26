@@ -33,8 +33,17 @@ struct TitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            TMDBPoster(thumbnail: thumbnail)
-                .padding([.vertical, .trailing])
+            if (thumbnail != nil) {
+                // Thumbnail image
+                Image(uiImage: thumbnail!)
+                    .poster()
+                    .padding([.vertical, .trailing])
+            } else {
+                // Placeholder image
+                JFLiterals.thumbnailPlaceholder
+                    .poster()
+                    .padding([.vertical, .trailing])
+            }
             
             // Title and year
             VStack(alignment: .leading) {

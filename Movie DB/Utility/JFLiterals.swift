@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 struct JFLiterals {
     /// The TMDB API Key
@@ -18,6 +19,9 @@ struct JFLiterals {
     static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
     /// The size of the thumbnail in the `MediaDetail` view
     static let detailPosterSize: CGSize = .init(width: JFLiterals.thumbnailSize.width * _multiplier, height: JFLiterals.thumbnailSize.height * _multiplier)
+    /// The placeholder Image to use instead of a poster
+    static let thumbnailPlaceholder = Image(systemName: "tv")
+    
     
     struct Keys {
         static let allTags = "allTags"

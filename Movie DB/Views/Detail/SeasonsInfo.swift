@@ -11,9 +11,15 @@ import SwiftUI
 struct SeasonsInfo: View {
     
     @EnvironmentObject private var mediaObject: Media
+    /// The season thumbnails
+    @State private var seasonThumbnails: [Int: UIImage?] = [:]
     
     private var showData: TMDBShowData? {
         mediaObject.tmdbData as? TMDBShowData
+    }
+    
+    init() {
+        loadSeasonThumbnails()
     }
     
     // Assumes that showData != nil && !showData!.seasons.isEmpty
@@ -21,7 +27,17 @@ struct SeasonsInfo: View {
         List {
             ForEach(showData!.seasons) { (season: Season) in
                 HStack {
-                    TMDBPoster(thumbnail: season.thumbnail)
+                    // We have to unwrap the subscript result AND the value (UIImage?)
+                    if (self.seasonThumbnails[season.id] != nil && self.seasonThumbnails[season.id]! != nil) {
+                        // Thumbnail image
+                        Image(uiImage: self.seasonThumbnails[season.id]!!)
+                            .poster()
+                    } else {
+                        // Placeholder image
+                        JFLiterals.thumbnailPlaceholder
+                            .poster()
+                            .padding(5)
+                    }
                     VStack(alignment: .leading) {
                         // Row 1
                         HStack {
@@ -49,10 +65,30 @@ struct SeasonsInfo: View {
                             }
                         }
                     }
+                    .padding(.vertical)
                 }
             }
         }
         .navigationBarTitle("Seasons")
+    }
+    
+    func loadSeasonThumbnails() {
+        guard let showData = self.showData else {
+            return
+        }
+        guard !showData.seasons.isEmpty else {
+            return
+        }
+        print("Loading season thumbnails for \(showData.title)")
+        for season in showData.seasons {
+            if let imagePath = season.imagePath {
+                JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
+                    DispatchQueue.main.async {
+                        self.seasonThumbnails[season.id] = image
+                    }
+                }
+            }
+        }
     }
 }
 

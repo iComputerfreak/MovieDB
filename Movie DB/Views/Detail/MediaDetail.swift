@@ -22,6 +22,7 @@ struct MediaDetail : View {
      - Icons bei den Section Headers (Personen-Icon bei User Data, ...)
      - Make Tags fancy in TagListView
      - keywords, cast, translations, videos have to be filled separately by API calls!!!
+     - ensure loadThumbnail() does not get called when loading from file
      
      - Cast
      */

@@ -42,6 +42,7 @@ class Media: Identifiable, ObservableObject, Codable {
     /// The data from TMDB
     @Published var tmdbData: TMDBData? {
         didSet {
+            print("Loading Media thumbnail")
             loadThumbnail()
         }
     }
