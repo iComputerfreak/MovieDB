@@ -22,7 +22,6 @@ struct JFLiterals {
     /// The placeholder Image to use instead of a poster
     static let thumbnailPlaceholder = Image(systemName: "tv")
     
-    
     struct Keys {
         static let allTags = "allTags"
         static let mediaLibrary = "mediaLibrary"

@@ -14,16 +14,7 @@ struct LibraryRow : View {
     
     var body: some View {
         HStack {
-            if (mediaObject.thumbnail != nil) {
-                // Thumbnail image
-                Image(uiImage: mediaObject.thumbnail!)
-                    .poster()
-            } else {
-                // Placeholder image
-                JFLiterals.thumbnailPlaceholder
-                    .poster()
-                    .padding(5)
-            }
+            TMDBPoster(thumbnail: $mediaObject.thumbnail)
             VStack(alignment: .leading) {
                 Text(mediaObject.tmdbData?.title ?? "Loading...")
                     .lineLimit(2)

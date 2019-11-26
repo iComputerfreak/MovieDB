@@ -10,12 +10,8 @@ import SwiftUI
 
 struct TMDBPoster: View {
     
-    let placeholder: Image = Image(systemName: "tv")
-    @State private var thumbnail: UIImage?
-    
-    init(thumbnail: UIImage?) {
-        self._thumbnail = State(wrappedValue: thumbnail)
-    }
+    private let placeholder: Image = Image(systemName: "tv")
+    @Binding var thumbnail: UIImage?
     
     var body: some View {
         // Show either the thumbnail or the placeholder
@@ -36,6 +32,6 @@ struct TMDBPoster: View {
 
 struct TMDBPoster_Previews: PreviewProvider {
     static var previews: some View {
-        TMDBPoster(thumbnail: nil)
+        TMDBPoster(thumbnail: .constant(nil))
     }
 }

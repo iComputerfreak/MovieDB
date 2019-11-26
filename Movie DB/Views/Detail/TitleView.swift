@@ -10,9 +10,9 @@ import SwiftUI
 
 struct TitleView: View {
     
-    var title: String
-    var year: Int?
-    var thumbnail: UIImage?
+    let title: String
+    let year: Int?
+    @State var thumbnail: UIImage?
     
     var body: some View {
         Group {
@@ -33,18 +33,7 @@ struct TitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            if (thumbnail != nil) {
-                // Thumbnail image
-                Image(uiImage: thumbnail!)
-                    .poster()
-                    .padding([.vertical, .trailing])
-            } else {
-                // Placeholder image
-                JFLiterals.thumbnailPlaceholder
-                    .poster()
-                    .padding([.vertical, .trailing])
-            }
-            
+            TMDBPoster(thumbnail: $thumbnail)
             // Title and year
             VStack(alignment: .leading) {
                 Text(title)

@@ -43,20 +43,7 @@ struct SearchResultView : View {
     
     var body: some View {
         HStack {
-            if (image != nil) {
-                // Thumbnail image
-                Image(uiImage: image!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
-            } else {
-                // Placeholder image
-                Image(systemName: (result.mediaType == .movie ? "film" : "tv"))
-                    .resizable()
-                    .aspectRatio((result.mediaType == .movie ? 0.9 : 1.0), contentMode: .fit)
-                    .padding(5)
-                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
-            }
+            TMDBPoster(thumbnail: $image)
             VStack(alignment: .leading) {
                 Text("\(result.title)")
                     .bold()

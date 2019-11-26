@@ -18,26 +18,14 @@ struct SeasonsInfo: View {
         mediaObject.tmdbData as? TMDBShowData
     }
     
-    init() {
-        loadSeasonThumbnails()
-    }
-    
     // Assumes that showData != nil && !showData!.seasons.isEmpty
     var body: some View {
         List {
             ForEach(showData!.seasons) { (season: Season) in
                 HStack {
-                    // We have to unwrap the subscript result AND the value (UIImage?)
-                    if (self.seasonThumbnails[season.id] != nil && self.seasonThumbnails[season.id]! != nil) {
-                        // Thumbnail image
-                        Image(uiImage: self.seasonThumbnails[season.id]!!)
-                            .poster()
-                    } else {
-                        // Placeholder image
-                        JFLiterals.thumbnailPlaceholder
-                            .poster()
-                            .padding(5)
-                    }
+                    TMDBPoster(thumbnail: Binding(get: {
+                        self.seasonThumbnails[season.id] ?? nil
+                    }, set: { _ in }))
                     VStack(alignment: .leading) {
                         // Row 1
                         HStack {
@@ -70,6 +58,9 @@ struct SeasonsInfo: View {
             }
         }
         .navigationBarTitle("Seasons")
+        .onAppear {
+            self.loadSeasonThumbnails()
+        }
     }
     
     func loadSeasonThumbnails() {

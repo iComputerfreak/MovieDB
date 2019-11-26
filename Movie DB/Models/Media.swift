@@ -59,7 +59,7 @@ class Media: Identifiable, ObservableObject, Codable {
     /// Personal notes on the media
     @Published var notes: String
     
-    @Published private(set) var thumbnail: UIImage? = nil
+    @Published var thumbnail: UIImage? = nil
     
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
