@@ -25,8 +25,8 @@ struct ExtendedInfo: View {
             Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
                 // Movie exclusive data
                 if movieData != nil {
-                    movieData!.tagline.map {
-                        Text($0)
+                    if movieData!.tagline != nil && !movieData!.tagline!.isEmpty {
+                        Text(movieData!.tagline!)
                             .headline("Tagline")
                     }
                     if movieData!.budget > 0 {

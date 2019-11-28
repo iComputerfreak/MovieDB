@@ -117,6 +117,12 @@ class Media: Identifiable, ObservableObject, Codable {
             }
         }
         
+        api.getCast(by: searchResult.id, type: searchResult.mediaType) { (wrapper) in
+            DispatchQueue.main.async {
+                media.tmdbData?.castWrapper = wrapper
+            }
+        }
+        
         // Get the JustWatch Data
         // TODO: Start JustWatch API Call
         return media

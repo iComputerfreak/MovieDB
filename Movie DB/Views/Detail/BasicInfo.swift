@@ -29,8 +29,8 @@ struct BasicInfo: View {
                     Text(data.genres.map({ $0.name }).joined(separator: ", "))
                         .headline("Genres")
                 }
-                data.overview.map {
-                    LongTextView($0, headline: "Description")
+                if data.overview != nil && !data.overview!.isEmpty {
+                    LongTextView(data.overview!, headline: "Description")
                         .headline("Description")
                 }
                 // Movie exclusive data
@@ -69,6 +69,12 @@ struct BasicInfo: View {
                     NavigationLink(destination: SeasonsInfo()) {
                         Text("\(showData!.seasons.count) Seasons")
                             .headline("Seasons")
+                    }
+                }
+                // Cast
+                if mediaObject.tmdbData?.cast != nil && !mediaObject.tmdbData!.cast!.isEmpty {
+                    NavigationLink(destination: CastInfo()) {
+                        Text("Cast")
                     }
                 }
             }

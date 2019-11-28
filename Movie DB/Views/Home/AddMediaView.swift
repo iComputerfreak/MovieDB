@@ -11,17 +11,17 @@ import JFSwiftUI
 
 struct AddMediaView : View {
     
+    private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
-    @Environment(\.presentationMode) private var presentationMode
-    @EnvironmentObject private var library: MediaLibrary
-    
-    @Binding var isAddingMedia: Bool
     @State private var alertShown: Bool = false
     @State private var alertTitle: String? = nil
     
-    func didAppear() {
-        
+    @Binding var isAddingMedia: Bool
+    @Environment(\.presentationMode) private var presentationMode
+    
+    init(isAddingMedia: Binding<Bool>) {
+        self._isAddingMedia = isAddingMedia
     }
     
     var body: some View {
@@ -37,10 +37,14 @@ struct AddMediaView : View {
                     api.searchMedia(self.searchText) { (results: [TMDBSearchResult]?) in
                         guard let results = results else {
                             print("Error getting results")
-                            self.results = []
+                            DispatchQueue.main.async {
+                                self.results = []
+                            }
                             return
                         }
-                        self.results = results
+                        DispatchQueue.main.async {
+                            self.results = results
+                        }
                         let names = results.map( { $0.title } )
                         print(names)
                     }
@@ -71,7 +75,6 @@ struct AddMediaView : View {
                     Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
             }
         }
-        .onAppear(perform: self.didAppear)
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Int? {

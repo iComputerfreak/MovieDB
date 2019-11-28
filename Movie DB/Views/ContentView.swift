@@ -12,7 +12,18 @@ struct ContentView : View {
     
     // Show the currently selected view style (list/grid)
     var body: some View {
-        LibraryHome().environmentObject(MediaLibrary.shared)
+        TabView {
+            LibraryHome()
+                .tabItem {
+                    Image(systemName: "film")
+                    Text("Home")
+                }
+            SettingsView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+                }
+        }
     }
 }
 

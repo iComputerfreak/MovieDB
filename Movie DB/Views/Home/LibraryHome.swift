@@ -8,35 +8,58 @@
 
 import SwiftUI
 import Combine
+import JFSwiftUI
 
 struct LibraryHome : View {
     
-    @EnvironmentObject private var library: MediaLibrary
+    @ObservedObject private var library = MediaLibrary.shared
     @State private var isAddingMedia: Bool = false
+    @State private var searchText: String = ""
+    
+    private var filteredMedia: [Media] {
+        if searchText.isEmpty {
+            return library.mediaList
+        }
+        return library.mediaList.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
+    }
     
     var body: some View {
         NavigationView {
-            
-            List {
-                ForEach(library.mediaList) { mediaObject in
-                    NavigationLink(destination:
-                        MediaDetail()
-                            .environmentObject(mediaObject)
-                    ) {
-                        LibraryRow()
-                            .environmentObject(mediaObject)
+            VStack(spacing: 0) {
+                SearchBar(text: $searchText)
+                List {
+                    ForEach(filteredMedia) { mediaObject in
+                        NavigationLink(destination:
+                            MediaDetail()
+                                .environmentObject(mediaObject)
+                        ) {
+                            LibraryRow()
+                                .environmentObject(mediaObject)
+                        }
+                    }
+                    .onDelete { indexSet in
+                        for offset in indexSet {
+                            let id = self.filteredMedia[offset].id
+                            DispatchQueue.main.async {
+                                self.library.mediaList.removeAll(where: { $0.id == id })
+                            }
+                        }
                     }
                 }
-                .onDelete { self.library.mediaList.remove(atOffsets: $0) }
             }
                 
             .sheet(isPresented: $isAddingMedia, onDismiss: {
                 self.isAddingMedia = false
             }, content: {
-                AddMediaView(isAddingMedia: self.$isAddingMedia).environmentObject(self.library)
+                AddMediaView(isAddingMedia: self.$isAddingMedia)
             })
                 
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading: Button(action: {
+                    print("Activating filter")
+                }, label: {
+                    //Image(systemName: "line.horizontal.3.decrease.circle")
+                    Text("Filter")
+                }), trailing:
                     Button(action: {
                         self.isAddingMedia = true
                     }, label: {
@@ -52,7 +75,6 @@ struct LibraryHome : View {
 struct LibraryHome_Previews : PreviewProvider {
     static var previews: some View {
         LibraryHome()
-            .environmentObject(PlaceholderData.mediaLibrary)
     }
 }
 #endif

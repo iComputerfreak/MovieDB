@@ -11,20 +11,41 @@ import SwiftUI
 struct CastInfo: View {
     
     @EnvironmentObject private var mediaObject: Media
+    @State private var personThumbnails: [Int: UIImage?] = [:]
     
-    private var movieData: TMDBMovieData? {
-        mediaObject.tmdbData as? TMDBMovieData
-    }
-    
-    private var showData: TMDBShowData? {
-        mediaObject.tmdbData as? TMDBShowData
+    private var cast: [CastMember] {
+        // Assured by superview, that those are not nil
+        mediaObject.tmdbData!.cast!
     }
     
     var body: some View {
-        mediaObject.tmdbData?.cast.map { (cast: [CastMember]) in
-            Section(header: HStack { Image(systemName: "person.3.fill"); Text("Cast") }) {
-                ForEach(cast, id: \.self) { (member: CastMember) in
+        List {
+            ForEach(cast) { (member: CastMember) in
+                HStack {
+                    TMDBPoster(thumbnail: Binding(get: {
+                        self.personThumbnails[member.id] ?? nil
+                    }, set: { _ in }))
                     Text(member.name)
+                        .headline(member.roleName)
+                }
+            }
+        }
+        .onAppear {
+            self.loadPersonThumbnails()
+        }
+    }
+    
+    func loadPersonThumbnails() {
+        guard let cast = self.mediaObject.tmdbData?.cast else {
+            return
+        }
+        print("Loading person thumbnails for \(mediaObject.tmdbData!.title)")
+        for member in cast {
+            if let imagePath = member.imagePath {
+                JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
+                    DispatchQueue.main.async {
+                        self.personThumbnails[member.id] = image
+                    }
                 }
             }
         }

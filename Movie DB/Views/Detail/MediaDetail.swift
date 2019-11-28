@@ -23,8 +23,9 @@ struct MediaDetail : View {
      - Make Tags fancy in TagListView
      - keywords, cast, translations, videos have to be filled separately by API calls!!!
      - ensure loadThumbnail() does not get called when loading from file
-     
-     - Cast
+     - Settings
+     - Filter UI
+     - Base URL in JFLiterals definieren
      */
     
     private var showData: TMDBShowData? {
@@ -38,9 +39,6 @@ struct MediaDetail : View {
                 TitleView(title: mediaObject.tmdbData?.title ?? "<ERROR>", year: mediaObject.year, thumbnail: mediaObject.thumbnail)
                 UserData()
                 BasicInfo()
-                if mediaObject.tmdbData?.cast != nil {
-                    CastInfo()
-                }
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())

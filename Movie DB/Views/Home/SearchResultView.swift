@@ -37,7 +37,9 @@ struct SearchResultView : View {
                 print("Error getting search result image")
                 return
             }
-            self.image = UIImage(data: data)
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data)
+            }
         }
     }
     

@@ -91,7 +91,8 @@ extension TMDBData {
 // MARK: - Property Structs
 
 /// Represents an actor starring in a specific movie
-struct CastMember: Codable, Hashable, Equatable {
+struct CastMember: Codable, Hashable, Equatable, Identifiable {
+    let id: Int
     /// The name of the actor
     var name: String
     /// The name of the actor in the media
@@ -100,6 +101,7 @@ struct CastMember: Codable, Hashable, Equatable {
     var imagePath: String?
     
     enum CodingKeys: String, CodingKey {
+        case id
         case name
         case roleName = "character"
         case imagePath = "profile_path"
@@ -109,6 +111,7 @@ struct CastMember: Codable, Hashable, Equatable {
     /// Only the name, role name and image path will be decoded
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.roleName = try container.decode(String.self, forKey: .roleName)
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
@@ -118,6 +121,7 @@ struct CastMember: Codable, Hashable, Equatable {
     /// Only the name, role name and image path will be encoded
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.roleName, forKey: .roleName)
         try container.encode(self.imagePath, forKey: .imagePath)

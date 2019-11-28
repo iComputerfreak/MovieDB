@@ -63,4 +63,30 @@ struct TMDBAPI {
         }
     }
     
+    // Returns a concrete subclass
+    func getCast(by id: Int, type: MediaType, completion: @escaping (CastWrapper?) -> Void) {
+        
+        let url = "https://api.themoviedb.org/3/\(type.rawValue)/\(id)/credits"
+        
+        JFUtils.getRequest(url, parameters: [
+            "api_key": apiKey,
+            "language": locale
+        ]) { (data) in
+            guard let data = data else {
+                // On fail, call the completion with nil, so the caller knows, it failed
+                print("JFUtils.getRequest returned nil")
+                completion(nil)
+                return
+            }
+            do {
+                let wrapper = try JSONDecoder().decode(CastWrapper.self, from: data)
+                completion(wrapper)
+            } catch let e as DecodingError {
+                print("Error decoding: \(e)")
+            } catch {
+                print("Other error")
+            }
+        }
+    }
+    
 }
