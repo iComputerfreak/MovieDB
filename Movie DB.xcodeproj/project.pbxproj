@@ -41,7 +41,6 @@
 		AB6718EC22C0324D00F429E4 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EB22C0324D00F429E4 /* Show.swift */; };
 		AB6718EE22C032AA00F429E4 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718ED22C032AA00F429E4 /* Media.swift */; };
 		AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EF22C037E300F429E4 /* TMDBData.swift */; };
-		AB6718F422C1110500F429E4 /* JustWatchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F322C1110500F429E4 /* JustWatchAPI.swift */; };
 		AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* JFUtils.swift */; };
 		AB6718F822C2675300F429E4 /* JustWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F722C2675300F429E4 /* JustWatchData.swift */; };
 		AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F922C2910800F429E4 /* TMDBMovieData.swift */; };
@@ -114,8 +113,6 @@
 		AB6718EB22C0324D00F429E4 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
 		AB6718ED22C032AA00F429E4 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
-		AB6718F122C1015000F429E4 /* API_DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_DOC.md; sourceTree = "<group>"; };
-		AB6718F322C1110500F429E4 /* JustWatchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustWatchAPI.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* JFUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtils.swift; sourceTree = "<group>"; };
 		AB6718F722C2675300F429E4 /* JustWatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustWatchData.swift; sourceTree = "<group>"; };
 		AB6718F922C2910800F429E4 /* TMDBMovieData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMovieData.swift; sourceTree = "<group>"; };
@@ -218,7 +215,6 @@
 		AB6718B422C0312A00F429E4 = {
 			isa = PBXGroup;
 			children = (
-				AB6718F122C1015000F429E4 /* API_DOC.md */,
 				ABA13D592381F02A00E885DD /* README.md */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
@@ -296,7 +292,6 @@
 		AB6718F222C110F500F429E4 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				AB6718F322C1110500F429E4 /* JustWatchAPI.swift */,
 				AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */,
 			);
 			path = APIs;
@@ -486,7 +481,6 @@
 				ABA13D5B2382D29E00E885DD /* ViewExtensions.swift in Sources */,
 				ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */,
 				AB6718EE22C032AA00F429E4 /* Media.swift in Sources */,
-				AB6718F422C1110500F429E4 /* JustWatchAPI.swift in Sources */,
 				AB6718C322C0312B00F429E4 /* SceneDelegate.swift in Sources */,
 				AB6718E622C0317800F429E4 /* Movie.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,

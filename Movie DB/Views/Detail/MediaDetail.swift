@@ -15,11 +15,7 @@ struct MediaDetail : View {
     
     /*
      TODO:
-     - (*) Filter / Sorting
-     - (*) Full Search
-     - (*) Trailers / Translations
      - (*) Fancy Tags
-     - ( ) Bigger Poster in TitleView
      */
     
     private var showData: TMDBShowData? {
