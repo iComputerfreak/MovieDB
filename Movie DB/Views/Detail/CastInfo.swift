@@ -22,9 +22,8 @@ struct CastInfo: View {
         List {
             ForEach(cast) { (member: CastMember) in
                 HStack {
-                    TMDBPoster(thumbnail: Binding(get: {
-                        self.personThumbnails[member.id] ?? nil
-                    }, set: { _ in }))
+                    Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
+                        .thumbnail()
                     Text(member.name)
                         .headline(member.roleName)
                 }

@@ -84,7 +84,7 @@ struct TMDBShowData: TMDBData, Equatable {
         case networks
         
         // Filled externally by separate API calls
-        //case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
+        case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
     }
 }
 

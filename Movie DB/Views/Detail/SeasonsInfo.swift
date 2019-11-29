@@ -23,9 +23,8 @@ struct SeasonsInfo: View {
         List {
             ForEach(showData!.seasons) { (season: Season) in
                 HStack {
-                    TMDBPoster(thumbnail: Binding(get: {
-                        self.seasonThumbnails[season.id] ?? nil
-                    }, set: { _ in }))
+                    Image(uiImage: self.seasonThumbnails[season.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
+                        .thumbnail()
                     VStack(alignment: .leading) {
                         // Row 1
                         HStack {

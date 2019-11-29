@@ -63,6 +63,9 @@ struct TMDBMovieData: TMDBData, Equatable {
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         
+        // Filled externally by separate API calls
+        case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
+        
         // Exclusive properties
         case rawReleaseDate = "release_date"
         case runtime
@@ -70,8 +73,5 @@ struct TMDBMovieData: TMDBData, Equatable {
         case revenue
         case tagline
         case isAdult = "adult"
-        
-        // Filled externally by separate API calls
-        //case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
     }
 }

@@ -45,7 +45,8 @@ struct SearchResultView : View {
     
     var body: some View {
         HStack {
-            TMDBPoster(thumbnail: $image)
+            Image(uiImage: image, defaultImage: JFLiterals.posterPlaceholderName)
+                .thumbnail()
             VStack(alignment: .leading) {
                 Text("\(result.title)")
                     .bold()

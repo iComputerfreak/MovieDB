@@ -1,5 +1,5 @@
 //
-//  PosterModifier.swift
+//  ThumbnailModifier.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 25.11.19.
@@ -11,11 +11,11 @@ import SwiftUI
 
 extension Image {
     
-    func poster() -> some View {
+    func thumbnail(multiplier: CGFloat = 1.0) -> some View {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height, alignment: .center)
+            .frame(width: JFLiterals.thumbnailSize.width * multiplier, height: JFLiterals.thumbnailSize.height * multiplier, alignment: .center)
     }
     
 }

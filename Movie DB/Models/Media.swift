@@ -40,12 +40,7 @@ class Media: Identifiable, ObservableObject, Codable {
     /// The internal library id
     let id: Int
     /// The data from TMDB
-    @Published var tmdbData: TMDBData? {
-        didSet {
-            print("Loading Media thumbnail")
-            loadThumbnail()
-        }
-    }
+    @Published var tmdbData: TMDBData?
     /// The data from JustWatch.com
     @Published var justWatchData: JustWatchData?
     /// The type of media
@@ -88,8 +83,6 @@ class Media: Identifiable, ObservableObject, Codable {
         self.tags = tags
         self.watchAgain = watchAgain
         self.notes = notes
-        // Needed, because didSet of tmdbData does NOT get triggered when set in init!
-        loadThumbnail()
     }
     
     /// Creates a new Media object from an API Search result and starts the appropriate API calls to fill the data properties
@@ -114,12 +107,42 @@ class Media: Identifiable, ObservableObject, Codable {
             // Completion closure may be in other thread
             DispatchQueue.main.async {
                 media.tmdbData = data
+                media.loadThumbnail()
             }
         }
         
-        api.getCast(by: searchResult.id, type: searchResult.mediaType) { (wrapper) in
+        // These calls can finish before the tmdbdata has loaded
+        // TODO: Move the wrappers into the Media class
+        
+        api.getCast(by: searchResult.id, type: searchResult.mediaType) { wrapper in
+            print("[\(searchResult.title)] Loaded \(wrapper?.cast.count ?? -1) Cast Members")
             DispatchQueue.main.async {
+                assert(media.tmdbData != nil)
                 media.tmdbData?.castWrapper = wrapper
+            }
+        }
+        
+        api.getKeywords(by: searchResult.id, type: searchResult.mediaType) { wrapper in
+            print("[\(searchResult.title)] Loaded \(wrapper?.keywords.count ?? -1) Keywords")
+            DispatchQueue.main.async {
+                assert(media.tmdbData != nil)
+                media.tmdbData?.keywordsWrapper = wrapper
+            }
+        }
+        
+        api.getVideos(by: searchResult.id, type: searchResult.mediaType) { wrapper in
+            print("[\(searchResult.title)] Loaded \(wrapper?.videos.count ?? -1) Videos")
+            DispatchQueue.main.async {
+                assert(media.tmdbData != nil)
+                media.tmdbData?.videosWrapper = wrapper
+            }
+        }
+        
+        api.getTranslations(by: searchResult.id, type: searchResult.mediaType) { wrapper in
+            print("[\(searchResult.title)] Loaded \(wrapper?.translations.count ?? -1) Translations")
+            DispatchQueue.main.async {
+                assert(media.tmdbData != nil)
+                media.tmdbData?.translationsWrapper = wrapper
             }
         }
         
@@ -128,23 +151,27 @@ class Media: Identifiable, ObservableObject, Codable {
         return media
     }
     
+    // Only gets triggered in the custom init, so only when creating the object with `Media.create(from:)`
     func loadThumbnail() {
         guard let tmdbData = self.tmdbData else {
+            // Function invoked, without tmdbData being initialized
+            return
+        }
+        guard thumbnail == nil else {
+            // Thumbnail already present, don't download again
             return
         }
         guard let imagePath = tmdbData.imagePath, !imagePath.isEmpty else {
+            // No image path set, no image to load
             return
         }
-        print("Loading thumbnail for \(self.tmdbData?.title ?? "Unknown")")
-        let urlString = JFUtils.getTMDBImageURL(path: imagePath)
-        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
-            guard let data = data else {
-                print("Unable to get image")
-                return
-            }
-            // Update the thumbnail in the main thread
-            DispatchQueue.main.async {
-                self.thumbnail = UIImage(data: data)
+        print("[\(self.tmdbData?.title ?? "nil")] Loading thumbnail...")
+        JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { image in
+            // Only update, if the image is not nil, dont delete existing images
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.thumbnail = image
+                }
             }
         }
     }
@@ -160,17 +187,16 @@ class Media: Identifiable, ObservableObject, Codable {
         self.tags = try container.decode([Int].self, forKey: .tags)
         self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try container.decode(String.self, forKey: .notes)
+        let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
+        if let data = try? Data(contentsOf: imagePath) {
+            self.thumbnail = UIImage(data: data)
+        }
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
         } else {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
             self.justWatchData = try container.decodeIfPresent(JustWatchShowData.self, forKey: .justWatchData)
-        }
-        // Save the image
-        let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
-        if let data = try? Data(contentsOf: imagePath) {
-            self.thumbnail = UIImage(data: data)
         }
     }
     

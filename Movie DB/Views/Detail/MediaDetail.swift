@@ -15,17 +15,11 @@ struct MediaDetail : View {
     
     /*
      TODO:
-     - TMDB Keywords in library suche einbinden
-     - Library Suche programmieren
-     - ausgewählte Translations anzeigen (in en, de verfügbar?)
-     - trailer link + in-app browser
-     - Icons bei den Section Headers (Personen-Icon bei User Data, ...)
-     - Make Tags fancy in TagListView
-     - keywords, cast, translations, videos have to be filled separately by API calls!!!
-     - ensure loadThumbnail() does not get called when loading from file
-     - Settings
-     - Filter UI
-     - Base URL in JFLiterals definieren
+     - (*) Filter / Sorting
+     - (*) Full Search
+     - (*) Trailers / Translations
+     - (*) Fancy Tags
+     - ( ) Bigger Poster in TitleView
      */
     
     private var showData: TMDBShowData? {

@@ -15,12 +15,24 @@ struct LibraryHome : View {
     @ObservedObject private var library = MediaLibrary.shared
     @State private var isAddingMedia: Bool = false
     @State private var searchText: String = ""
+    @State private var sortedAlphabetically = true
     
     private var filteredMedia: [Media] {
-        if searchText.isEmpty {
-            return library.mediaList
+        var list = library.mediaList
+        if !searchText.isEmpty {
+            list = list.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
         }
-        return library.mediaList.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
+        if sortedAlphabetically {
+            list = list.sorted(by: { (media1, media2) in
+                if media1.tmdbData == nil {
+                    return false
+                } else if media2.tmdbData == nil {
+                    return true
+                }
+                return media1.tmdbData!.title.lexicographicallyPrecedes(media2.tmdbData!.title)
+            })
+        }
+        return list
     }
     
     var body: some View {

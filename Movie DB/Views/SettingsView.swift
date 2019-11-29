@@ -9,8 +9,35 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
+    // Settings
+    @State private var showAdults: Bool
+    
+    init() {
+        // Load settings
+        let defaults = UserDefaults.standard
+        self._showAdults = State(wrappedValue: defaults.bool(forKey: Keys.showAdults))
+    }
+    
+    func save() {
+        // Save settings
+        let defaults = UserDefaults.standard
+        defaults.set(self.showAdults, forKey: Keys.showAdults)
+        print("Settings saved.")
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                Toggle(isOn: $showAdults, label: { Text("Show Adult Content") })
+            }
+            .navigationBarTitle("Settings")
+        }
+        .onDisappear(perform: save)
+    }
+    
+    struct Keys {
+        static let showAdults = "showAdults"
     }
 }
 

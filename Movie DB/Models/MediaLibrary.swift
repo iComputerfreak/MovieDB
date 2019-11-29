@@ -57,7 +57,6 @@ class MediaLibrary: ObservableObject, Codable {
             // Decode the media object as a GenericMedia to read the type
             let mediaTypeContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
             let mediaType = try mediaTypeContainer.decode(MediaType.self, forKey: .type)
-            print("Type: \(mediaType)")
             // Decide based on the media type which type to use for decoding
             switch mediaType {
             case .movie:
@@ -66,6 +65,7 @@ class MediaLibrary: ObservableObject, Codable {
                 self.mediaList.append(try mediaObjects2.decode(Show.self))
             }
         }
+        print("Loaded \(self.mediaList.count) Media objects.")
     }
     
     private struct Empty: Decodable {}

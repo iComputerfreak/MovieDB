@@ -142,5 +142,18 @@ class Movie_DBTests: XCTestCase {
     
     let api = TMDBAPI(apiKey: JFLiterals.apiKey)
     
+    func testCastCodable() throws {
+        var tmdbData: TMDBMovieData = TestingUtils.load("TMDB Movie.json")
+        let wrapper: CastWrapper = TestingUtils.load("cast.json")
+        tmdbData.castWrapper = wrapper
+        XCTAssert(tmdbData.cast != nil && !tmdbData.cast!.isEmpty, "Cast wrapper not set properly")
+        let encoded = try JSONEncoder().encode(tmdbData)
+        XCTAssertNotNil(encoded, "Error encoding TMDBData")
+        let decoded = try JSONDecoder().decode(TMDBMovieData.self, from: encoded)
+        XCTAssertNotNil(decoded, "Error decoding TMDBData")
+        XCTAssert(decoded.cast != nil && !decoded.cast!.isEmpty, "Cast did not get de/encoded")
+        print("Test loaded \(decoded.cast!.count) cast members.")
+    }
+    
 
 }

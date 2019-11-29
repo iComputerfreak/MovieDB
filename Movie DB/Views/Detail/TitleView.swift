@@ -16,24 +16,26 @@ struct TitleView: View {
     
     var body: some View {
         Group {
-        if thumbnail == nil {
-            self.titleView
-        } else {
-            NavigationLink(destination:
-                Image(uiImage: thumbnail!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
-            ) {
+            if thumbnail == nil {
                 self.titleView
+            } else {
+                NavigationLink(destination:
+                    Image(uiImage: thumbnail!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding()
+                ) {
+                    self.titleView
+                }
             }
-        }
         }
     }
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            TMDBPoster(thumbnail: $thumbnail)
+            Image(uiImage: thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
+                .thumbnail(multiplier: 2.0)
+                .padding([.vertical, .trailing])
             // Title and year
             VStack(alignment: .leading) {
                 Text(title)

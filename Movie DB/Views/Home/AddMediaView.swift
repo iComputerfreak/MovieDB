@@ -45,8 +45,6 @@ struct AddMediaView : View {
                         DispatchQueue.main.async {
                             self.results = results
                         }
-                        let names = results.map( { $0.title } )
-                        print(names)
                     }
                 })
                 
