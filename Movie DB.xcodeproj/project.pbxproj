@@ -42,7 +42,6 @@
 		AB6718EE22C032AA00F429E4 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718ED22C032AA00F429E4 /* Media.swift */; };
 		AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EF22C037E300F429E4 /* TMDBData.swift */; };
 		AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* JFUtils.swift */; };
-		AB6718F822C2675300F429E4 /* JustWatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F722C2675300F429E4 /* JustWatchData.swift */; };
 		AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F922C2910800F429E4 /* TMDBMovieData.swift */; };
 		AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */; };
 		AB6718FF22C2A0B900F429E4 /* TMDB Movie.json in Resources */ = {isa = PBXBuildFile; fileRef = AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */; };
@@ -79,6 +78,7 @@
 /* Begin PBXFileReference section */
 		AB11C30B22CA3E1A0057105A /* LibraryHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryHome.swift; sourceTree = "<group>"; };
 		AB211CA023917133009590D5 /* cast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cast.json; sourceTree = "<group>"; };
+		AB211CA22391854B009590D5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AB25099D238B1EED00F7A411 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 		AB2742552389D95200744B83 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		AB27425B2389DFEE00744B83 /* WatchedShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedShowView.swift; sourceTree = "<group>"; };
@@ -114,7 +114,6 @@
 		AB6718ED22C032AA00F429E4 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* JFUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtils.swift; sourceTree = "<group>"; };
-		AB6718F722C2675300F429E4 /* JustWatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustWatchData.swift; sourceTree = "<group>"; };
 		AB6718F922C2910800F429E4 /* TMDBMovieData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMovieData.swift; sourceTree = "<group>"; };
 		AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowData.swift; sourceTree = "<group>"; };
 		AB6718FE22C2A0B900F429E4 /* TMDB Movie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "TMDB Movie.json"; sourceTree = "<group>"; };
@@ -216,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				ABA13D592381F02A00E885DD /* README.md */,
+				AB211CA22391854B009590D5 /* LICENSE */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
 				AB6718BE22C0312B00F429E4 /* Products */,
@@ -278,7 +278,6 @@
 				AB6718EF22C037E300F429E4 /* TMDBData.swift */,
 				AB6718F922C2910800F429E4 /* TMDBMovieData.swift */,
 				AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */,
-				AB6718F722C2675300F429E4 /* JustWatchData.swift */,
 				AB6718ED22C032AA00F429E4 /* Media.swift */,
 				AB6718E522C0317800F429E4 /* Movie.swift */,
 				AB6718EB22C0324D00F429E4 /* Show.swift */,
@@ -485,7 +484,6 @@
 				AB6718E622C0317800F429E4 /* Movie.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
-				AB6718F822C2675300F429E4 /* JustWatchData.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */,

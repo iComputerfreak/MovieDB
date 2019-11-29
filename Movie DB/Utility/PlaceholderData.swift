@@ -24,8 +24,8 @@ struct PlaceholderData {
     }
     
     // Use fixed IDs < 0, to prevent collision and prevent counting the static variable up
-    static let movie = Movie(id: -1, type: .movie, tmdbData: Self.tmdbMovieData, justWatchData: nil, personalRating: 5, tags: [0, 1, 2])
-    static let show = Show(id: -2, type: .show, tmdbData: Self.tmdbShowData, justWatchData: nil, personalRating: 8, tags: [2, 3])
+    static let movie = Movie(id: -1, type: .movie, tmdbData: Self.tmdbMovieData, personalRating: 5, tags: [0, 1, 2])
+    static let show = Show(id: -2, type: .show, tmdbData: Self.tmdbShowData, personalRating: 8, tags: [2, 3])
     
     static var mediaLibrary: MediaLibrary {
         let library = MediaLibrary.shared

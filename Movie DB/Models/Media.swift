@@ -41,8 +41,6 @@ class Media: Identifiable, ObservableObject, Codable {
     let id: Int
     /// The data from TMDB
     @Published var tmdbData: TMDBData?
-    /// The data from JustWatch.com
-    @Published var justWatchData: JustWatchData?
     /// The type of media
     @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
@@ -74,10 +72,9 @@ class Media: Identifiable, ObservableObject, Codable {
     
     /// Creates a new `Media` object.
     /// - Important: Only use this initializer on concrete subclasses of `Media`. Never instantiate `Media` itself.
-    init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, justWatchData: JustWatchData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
+    init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
         self.id = (id == nil) ? Self.nextID : id!
         self.tmdbData = tmdbData
-        self.justWatchData = justWatchData
         self.type = type
         self.personalRating = personalRating
         self.tags = tags
@@ -146,8 +143,6 @@ class Media: Identifiable, ObservableObject, Codable {
             }
         }
         
-        // Get the JustWatch Data
-        // TODO: Start JustWatch API Call
         return media
     }
     
@@ -193,10 +188,8 @@ class Media: Identifiable, ObservableObject, Codable {
         }
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
-            self.justWatchData = try container.decodeIfPresent(JustWatchMovieData.self, forKey: .justWatchData)
         } else {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
-            self.justWatchData = try container.decodeIfPresent(JustWatchShowData.self, forKey: .justWatchData)
         }
     }
     
@@ -208,15 +201,9 @@ class Media: Identifiable, ObservableObject, Codable {
             if let tmdbData = (self.tmdbData as? TMDBMovieData) {
                 try container.encode(tmdbData, forKey: .tmdbData)
             }
-            if let justWatchData = (self.justWatchData as? JustWatchMovieData) {
-                try container.encode(justWatchData, forKey: .justWatchData)
-            }
         } else {
             if let tmdbData = (self.tmdbData as? TMDBShowData) {
                 try container.encode(tmdbData, forKey: .tmdbData)
-            }
-            if let justWatchData = (self.justWatchData as? JustWatchShowData) {
-                try container.encode(justWatchData, forKey: .justWatchData)
             }
         }
         try container.encode(self.personalRating, forKey: .personalRating)
@@ -238,7 +225,6 @@ class Media: Identifiable, ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case tmdbData
-        case justWatchData
         case type
         case personalRating
         case tags
