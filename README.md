@@ -23,3 +23,7 @@ Currently still in development.
 * Embed trailers
 * Show some of the translation languages
 * Show streaming service availability (still need an api for that)
+
+## Licensing
+This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).
+For questions or inquiries, feel free to contact me at [dev@jonasfrey.de](mailto:dev@jonasfrey.de).
