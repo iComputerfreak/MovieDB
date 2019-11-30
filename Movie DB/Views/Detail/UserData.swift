@@ -27,7 +27,7 @@ struct UserData: View {
             } else {
                 (mediaObject as? Show).map { (show: Show) in
                     // Has watched show field
-                    Text("")
+                    WatchedShowView()
                         .environment(\.editMode, editMode)
                         .headline("Watched?")
                 }

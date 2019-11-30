@@ -72,7 +72,7 @@ struct BasicInfo: View {
                     }
                 }
                 // Cast
-                if data.cast != nil && !data.cast!.isEmpty {
+                if !mediaObject.cast.isEmpty {
                     NavigationLink(destination: CastInfo()) {
                         Text("Cast")
                     }

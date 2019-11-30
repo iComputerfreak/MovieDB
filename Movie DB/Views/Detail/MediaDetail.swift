@@ -13,11 +13,6 @@ struct MediaDetail : View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     
-    /*
-     TODO:
-     - (*) Fancy Tags
-     */
-    
     private var showData: TMDBShowData? {
         mediaObject.tmdbData as? TMDBShowData
     }

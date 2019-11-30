@@ -25,11 +25,6 @@ struct TMDBMovieData: TMDBData, Equatable {
     var voteAverage: Float
     var voteCount: Int
     
-    var castWrapper: CastWrapper?
-    var keywordsWrapper: KeywordsWrapper?
-    var translationsWrapper: TranslationsWrapper?
-    var videosWrapper: VideosWrapper?
-    
     // Exclusive Properties
     /// The raw release date formatted as "yyyy-MM-dd"
     var rawReleaseDate: String
@@ -62,9 +57,6 @@ struct TMDBMovieData: TMDBData, Equatable {
         case popularity
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-        
-        // Filled externally by separate API calls
-        case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
         
         // Exclusive properties
         case rawReleaseDate = "release_date"

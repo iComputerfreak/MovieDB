@@ -26,11 +26,6 @@ struct TMDBShowData: TMDBData, Equatable {
     var voteAverage: Float
     var voteCount: Int
     
-    var castWrapper: CastWrapper?
-    var keywordsWrapper: KeywordsWrapper?
-    var translationsWrapper: TranslationsWrapper?
-    var videosWrapper: VideosWrapper?
-    
     // Exclusive properties
     /// The raw first air date formatted as "yyyy-MM-dd"
     var rawFirstAirDate: String?
@@ -82,63 +77,5 @@ struct TMDBShowData: TMDBData, Equatable {
         case seasons
         case type
         case networks
-        
-        // Filled externally by separate API calls
-        case keywordsWrapper, castWrapper, translationsWrapper, videosWrapper
     }
-}
-
-
-// MARK: - Property Structs
-
-// This has to be a class for `self.thumbnail` to be changed in the loadThumbnail() function
-/// Represents a season of a show
-struct Season: Codable, Hashable, Identifiable {
-    /// The id of the season on TMDB
-    var id: Int
-    /// The number of the season
-    var seasonNumber: Int
-    /// The number of episodes, this season has
-    var episodeCount: Int
-    /// The name of the season
-    var name: String
-    /// A short description of the season
-    var overview: String?
-    /// A path to the poster image of the season on TMDB
-    var imagePath: String?
-    /// The date when the season aired
-    var rawAirDate: String?
-    /// The date, the season aired
-    var airDate: Date? { rawAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawAirDate!) }
-    
-    static func == (lhs: Season, rhs: Season) -> Bool {
-        return lhs.id == rhs.id &&
-            lhs.seasonNumber == rhs.seasonNumber &&
-            lhs.episodeCount == rhs.episodeCount &&
-            lhs.name == rhs.name &&
-            lhs.overview == rhs.overview &&
-            lhs.imagePath == rhs.imagePath &&
-            lhs.rawAirDate == rhs.rawAirDate
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(seasonNumber)
-        hasher.combine(episodeCount)
-        hasher.combine(name)
-        hasher.combine(overview)
-        hasher.combine(imagePath)
-        hasher.combine(rawAirDate)
-    }
-    
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case seasonNumber = "season_number"
-        case episodeCount = "episode_count"
-        case name
-        case overview
-        case imagePath = "poster_path"
-        case rawAirDate = "air_date"
-    } 
 }

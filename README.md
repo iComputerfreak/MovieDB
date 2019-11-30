@@ -22,7 +22,9 @@ Currently still in development.
 * Searching for keywords and other properties
 * Embed trailers
 * Show some of the translation languages
+* Update function that pulls all tmdbData again, executed every week or so
 * Show streaming service availability (still need an api for that)
+* Notification when a new season is available on your streaming services
 
 ## Licensing
 This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).

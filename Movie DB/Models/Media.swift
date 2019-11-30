@@ -40,19 +40,29 @@ class Media: Identifiable, ObservableObject, Codable {
     /// The internal library id
     let id: Int
     /// The data from TMDB
-    @Published var tmdbData: TMDBData?
+    @Published var tmdbData: TMDBData? = nil
     /// The type of media
     @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    @Published var personalRating: Int
+    @Published var personalRating: Int = 0
     /// A list of user-specified tags, listed by their id
-    @Published var tags: [Int]
+    @Published var tags: [Int] = []
     /// Whether the user would watch the media again
-    @Published var watchAgain: Bool?
+    @Published var watchAgain: Bool? = nil
     /// Personal notes on the media
-    @Published var notes: String
+    @Published var notes: String = ""
     
     @Published var thumbnail: UIImage? = nil
+    
+    // MARK: Loaded from Wrappers
+    /// The list of cast members, that starred in the media
+    @Published var cast: [CastMember] = []
+    /// The list of keywords on TheMovieDB.org
+    @Published var keywords: [String] = []
+    /// The list of translations available for the media
+    @Published var translations: [String] = []
+    /// The list of videos available
+    @Published var videos: [Video] = []
     
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
@@ -72,14 +82,9 @@ class Media: Identifiable, ObservableObject, Codable {
     
     /// Creates a new `Media` object.
     /// - Important: Only use this initializer on concrete subclasses of `Media`. Never instantiate `Media` itself.
-    init(id: Int? = nil, type: MediaType, tmdbData: TMDBData? = nil, personalRating: Int = 0, tags: [Int] = [], watchAgain: Bool? = nil, notes: String = "") {
-        self.id = (id == nil) ? Self.nextID : id!
-        self.tmdbData = tmdbData
+    init(type: MediaType) {
+        self.id = Self.nextID
         self.type = type
-        self.personalRating = personalRating
-        self.tags = tags
-        self.watchAgain = watchAgain
-        self.notes = notes
     }
     
     /// Creates a new Media object from an API Search result and starts the appropriate API calls to fill the data properties
@@ -89,9 +94,9 @@ class Media: Identifiable, ObservableObject, Codable {
         // Create either a movie or a show and return it. Don't instantiate Media directly
         let media: Media!
         if searchResult.mediaType == .movie {
-            media = Movie(type: .movie)
+            media = Movie()
         } else {
-            media = Show(type: .show)
+            media = Show()
         }
         
         // Get the TMDB Data from the API
@@ -107,39 +112,43 @@ class Media: Identifiable, ObservableObject, Codable {
                 media.loadThumbnail()
             }
         }
-        
-        // These calls can finish before the tmdbdata has loaded
-        // TODO: Move the wrappers into the Media class
-        
+                
         api.getCast(by: searchResult.id, type: searchResult.mediaType) { wrapper in
             print("[\(searchResult.title)] Loaded \(wrapper?.cast.count ?? -1) Cast Members")
-            DispatchQueue.main.async {
-                assert(media.tmdbData != nil)
-                media.tmdbData?.castWrapper = wrapper
+            if let cast = wrapper?.cast {
+                DispatchQueue.main.async {
+                    media.cast = cast
+                }
             }
         }
         
         api.getKeywords(by: searchResult.id, type: searchResult.mediaType) { wrapper in
             print("[\(searchResult.title)] Loaded \(wrapper?.keywords.count ?? -1) Keywords")
-            DispatchQueue.main.async {
-                assert(media.tmdbData != nil)
-                media.tmdbData?.keywordsWrapper = wrapper
+            if let keywords = wrapper?.keywords {
+                DispatchQueue.main.async {
+                    // Save only the keyword names, ignore the id
+                    media.keywords = keywords.map({ $0.name })
+                }
             }
         }
         
         api.getVideos(by: searchResult.id, type: searchResult.mediaType) { wrapper in
             print("[\(searchResult.title)] Loaded \(wrapper?.videos.count ?? -1) Videos")
-            DispatchQueue.main.async {
-                assert(media.tmdbData != nil)
-                media.tmdbData?.videosWrapper = wrapper
+            if let videos = wrapper?.videos {
+                DispatchQueue.main.async {
+                    // Save only the trailers
+                    media.videos = videos.filter({ $0.type == .trailer })
+                }
             }
         }
         
         api.getTranslations(by: searchResult.id, type: searchResult.mediaType) { wrapper in
             print("[\(searchResult.title)] Loaded \(wrapper?.translations.count ?? -1) Translations")
-            DispatchQueue.main.async {
-                assert(media.tmdbData != nil)
-                media.tmdbData?.translationsWrapper = wrapper
+            if let translations = wrapper?.translations {
+                DispatchQueue.main.async {
+                    // Save only the localized names, not the english names
+                    media.translations = translations.map({ $0.name })
+                }
             }
         }
         
@@ -222,7 +231,7 @@ class Media: Identifiable, ObservableObject, Codable {
         }
     }
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case tmdbData
         case type
@@ -231,6 +240,10 @@ class Media: Identifiable, ObservableObject, Codable {
         case watchAgain
         case notes
         case thumbnail
+        case cast
+        case keywords
+        case translations
+        case videos
     }
 }
 

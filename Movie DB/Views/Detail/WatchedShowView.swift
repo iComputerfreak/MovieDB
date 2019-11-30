@@ -10,10 +10,102 @@ import SwiftUI
 
 struct WatchedShowView: View {
     
-    // Options: No, Season, Season - Episode
+    @EnvironmentObject private var mediaObject: Media
+    @Environment(\.editMode) private var editMode
+    @State private var isEditing: Bool = false
+    
+    private var watched: Show.EpisodeNumber? {
+        guard let show = mediaObject as? Show else {
+            assert(false, "WatchedShowView must be supplied an EnvironmentObject of type Show.")
+            return nil
+        }
+        return show.lastEpisodeWatched
+    }
+    
+    private var episodeString: String {
+        guard let watched = watched else {
+            return "No"
+        }
+        if watched.episode == nil {
+            return "Season \(watched.season)"
+        } else {
+            return "Season \(watched.season), Episode \(watched.episode!)"
+        }
+    }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if editMode?.wrappedValue.isEditing ?? false {
+                NavigationLink(destination: EditView(show: (mediaObject as! Show)), isActive: $isEditing) {
+                    Text(episodeString)
+                }
+                .onTapGesture {
+                    self.isEditing = true
+                }
+            } else {
+                Text(episodeString)
+            }
+        }
+    }
+    
+    struct EditView: View {
+        
+        var show: Show
+                
+        @State private var season: Int
+        private var seasonWrapper: Binding<Int> {
+            Binding<Int>(get: { self.season }, set: { season in
+                self.season = season
+                if season == 0 {
+                    // Delete
+                    self.show.lastEpisodeWatched = nil
+                } else {
+                    // Update
+                    if self.show.lastEpisodeWatched == nil {
+                        // Create new
+                        self.show.lastEpisodeWatched = Show.EpisodeNumber(season: season)
+                    } else {
+                        // Update
+                        self.show.lastEpisodeWatched!.season = season
+                    }
+                }
+            })
+        }
+        
+        @State private var episode: Int
+        private var episodeWrapper: Binding<Int> {
+            Binding<Int>(get: { self.episode }, set: { episode in
+                self.episode = episode
+                self.show.lastEpisodeWatched?.episode = (episode == 0 ? nil : episode)
+            })
+        }
+        
+        init(show: Show) {
+            self.show = show
+            self._season = State(wrappedValue: show.lastEpisodeWatched?.season ?? 0)
+            self._episode = State(wrappedValue: show.lastEpisodeWatched?.episode ?? 0)
+        }
+        
+        var body: some View {
+            Form {
+                Stepper(value: seasonWrapper) {
+                    if self.season > 0 {
+                        Text("Season \(self.season)")
+                    } else {
+                        Text("Not Watched")
+                    }
+                }
+                if season > 0 {
+                    Stepper(value: episodeWrapper) {
+                        if self.episode > 0 {
+                            Text("Episode \(self.episode)")
+                        } else {
+                            Text("All Episodes")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

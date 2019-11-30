@@ -23,9 +23,20 @@ struct PlaceholderData {
         return try! JSONDecoder().decode(TMDBShowData.self, from: data)
     }
     
-    // Use fixed IDs < 0, to prevent collision and prevent counting the static variable up
-    static let movie = Movie(id: -1, type: .movie, tmdbData: Self.tmdbMovieData, personalRating: 5, tags: [0, 1, 2])
-    static let show = Show(id: -2, type: .show, tmdbData: Self.tmdbShowData, personalRating: 8, tags: [2, 3])
+    static let movie: Movie = {
+        let m = Movie()
+        m.tmdbData = Self.tmdbMovieData
+        m.personalRating = 5
+        m.tags = [0, 1, 2]
+        return m
+    }()
+    static let show: Show = {
+        let s = Show()
+        s.tmdbData = Self.tmdbShowData
+        s.personalRating = 8
+        s.tags = [2, 3]
+        return s
+    }()
     
     static var mediaLibrary: MediaLibrary {
         let library = MediaLibrary.shared

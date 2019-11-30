@@ -54,15 +54,18 @@ class MediaLibrary: ObservableObject, Codable {
         var mediaObjects2 = try container.nestedUnkeyedContainer(forKey: .mediaList)
         assert(mediaObjects.count == mediaObjects2.count)
         while (!mediaObjects.isAtEnd) {
-            // Decode the media object as a GenericMedia to read the type
-            let mediaTypeContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
+            // Get the Movie or Show as a GenericMedia object
+            let movieOrShowContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
+            // Get the Media container (super container) from the Movie/Show
+            let mediaTypeContainer = try movieOrShowContainer.superDecoder().container(keyedBy: GenericMedia.CodingKeys.self)
+            // Read the type of the Media container
             let mediaType = try mediaTypeContainer.decode(MediaType.self, forKey: .type)
             // Decide based on the media type which type to use for decoding
             switch mediaType {
-            case .movie:
-                self.mediaList.append(try mediaObjects2.decode(Movie.self))
-            case .show:
-                self.mediaList.append(try mediaObjects2.decode(Show.self))
+                case .movie:
+                    self.mediaList.append(try mediaObjects2.decode(Movie.self))
+                case .show:
+                    self.mediaList.append(try mediaObjects2.decode(Show.self))
             }
         }
         print("Loaded \(self.mediaList.count) Media objects.")
