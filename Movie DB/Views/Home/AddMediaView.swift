@@ -17,12 +17,7 @@ struct AddMediaView : View {
     @State private var alertShown: Bool = false
     @State private var alertTitle: String? = nil
     
-    @Binding var isAddingMedia: Bool
     @Environment(\.presentationMode) private var presentationMode
-    
-    init(isAddingMedia: Binding<Bool>) {
-        self._isAddingMedia = isAddingMedia
-    }
     
     var body: some View {
         NavigationView {
@@ -60,7 +55,7 @@ struct AddMediaView : View {
                             } else {
                                 self.library.mediaList.append(Media.create(from: result))
                             }
-                            self.isAddingMedia = false
+                            self.presentationMode.wrappedValue.dismiss()
                         }) {
                             SearchResultView(result: result)
                         }

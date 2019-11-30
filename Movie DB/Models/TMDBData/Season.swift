@@ -8,7 +8,6 @@
 
 import Foundation
 
-// This has to be a class for `self.thumbnail` to be changed in the loadThumbnail() function
 /// Represents a season of a show
 struct Season: Codable, Hashable, Identifiable {
     /// The id of the season on TMDB

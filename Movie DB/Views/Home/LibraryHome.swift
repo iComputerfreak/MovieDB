@@ -14,6 +14,7 @@ struct LibraryHome : View {
     
     @ObservedObject private var library = MediaLibrary.shared
     @State private var isAddingMedia: Bool = false
+    @State private var isShowingFilterOptions: Bool = false
     @State private var searchText: String = ""
     @State private var sortedAlphabetically = true
     
@@ -60,24 +61,20 @@ struct LibraryHome : View {
                 }
             }
                 
-            .sheet(isPresented: $isAddingMedia, onDismiss: {
-                self.isAddingMedia = false
-            }, content: {
-                AddMediaView(isAddingMedia: self.$isAddingMedia)
-            })
+                // FIXME: Workaround for using two sheet modifiers
+                .background(
+                    EmptyView()
+                        .sheet(isPresented: $isAddingMedia) { AddMediaView() }
+                        .background(
+                            EmptyView()
+                                .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
+                        )
+                )
                 
-                .navigationBarItems(leading: Button(action: {
-                    print("Activating filter")
-                }, label: {
-                    //Image(systemName: "line.horizontal.3.decrease.circle")
-                    Text("Filter")
-                }), trailing:
-                    Button(action: {
-                        self.isAddingMedia = true
-                    }, label: {
-                        Image(systemName: "plus")
-                    })
-            )
+                .navigationBarItems(leading:
+                    Button(action: { self.isShowingFilterOptions = true }, label: Text("Filter").closure()), trailing:
+                    Button(action: { self.isAddingMedia = true }, label: Image(systemName: "plus").closure())
+                )
                 .navigationBarTitle(Text("Home"))
         }
     }

@@ -63,4 +63,11 @@ extension View {
             return AnyView(self)
         }
     }
+    
+    /// Returns a closure, returning self
+    ///
+    /// Used when providing a single View as label where the argument requires a closure, not a View
+    func closure() -> (() -> Self) {
+        return { self }
+    }
 }

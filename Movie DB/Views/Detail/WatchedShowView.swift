@@ -51,7 +51,7 @@ struct WatchedShowView: View {
     struct EditView: View {
         
         var show: Show
-                
+        
         @State private var season: Int
         private var seasonWrapper: Binding<Int> {
             Binding<Int>(get: { self.season }, set: { season in
@@ -88,19 +88,21 @@ struct WatchedShowView: View {
         
         var body: some View {
             Form {
-                Stepper(value: seasonWrapper) {
-                    if self.season > 0 {
-                        Text("Season \(self.season)")
-                    } else {
-                        Text("Not Watched")
-                    }
-                }
-                if season > 0 {
-                    Stepper(value: episodeWrapper) {
-                        if self.episode > 0 {
-                            Text("Episode \(self.episode)")
+                Section(header: Text("Up to which Episode did you watch?")) {
+                    Stepper(value: seasonWrapper) {
+                        if self.season > 0 {
+                            Text("Season \(self.season)")
                         } else {
-                            Text("All Episodes")
+                            Text("Not Watched")
+                        }
+                    }
+                    if season > 0 {
+                        Stepper(value: episodeWrapper) {
+                            if self.episode > 0 {
+                                Text("Episode \(self.episode)")
+                            } else {
+                                Text("All Episodes")
+                            }
                         }
                     }
                 }
