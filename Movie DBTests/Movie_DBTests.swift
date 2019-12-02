@@ -51,7 +51,7 @@ class Movie_DBTests: XCTestCase {
         testEqualDateParts(movie.releaseDate!, 1999, 10, 12)
         XCTAssertEqual(movie.revenue, 100853753)
         XCTAssertEqual(movie.runtime, 139)
-        XCTAssertEqual(movie.status, "Released")
+        XCTAssertEqual(movie.status, .released)
         XCTAssertEqual(movie.tagline, "How much can you know about yourself if you've never been in a fight?")
         XCTAssertEqual(movie.title, "Fight Club")
         XCTAssertEqual(movie.voteAverage, 7.8)
@@ -111,8 +111,8 @@ class Movie_DBTests: XCTestCase {
         for season in seasons {
             XCTAssert(show.seasons.contains(season))
         }
-        XCTAssertEqual(show.status, "Returning Series")
-        XCTAssertEqual(show.type, "Scripted")
+        XCTAssertEqual(show.status, .returning)
+        XCTAssertEqual(show.type, .scripted)
         XCTAssertEqual(show.voteAverage, 8.2)
         XCTAssertEqual(show.voteCount, 4682)
     }
@@ -141,19 +141,6 @@ class Movie_DBTests: XCTestCase {
     }
     
     let api = TMDBAPI(apiKey: JFLiterals.apiKey)
-    
-    func testCastCodable() throws {
-        var tmdbData: TMDBMovieData = TestingUtils.load("TMDB Movie.json")
-        let wrapper: CastWrapper = TestingUtils.load("cast.json")
-        tmdbData.castWrapper = wrapper
-        XCTAssert(tmdbData.cast != nil && !tmdbData.cast!.isEmpty, "Cast wrapper not set properly")
-        let encoded = try JSONEncoder().encode(tmdbData)
-        XCTAssertNotNil(encoded, "Error encoding TMDBData")
-        let decoded = try JSONDecoder().decode(TMDBMovieData.self, from: encoded)
-        XCTAssertNotNil(decoded, "Error decoding TMDBData")
-        XCTAssert(decoded.cast != nil && !decoded.cast!.isEmpty, "Cast did not get de/encoded")
-        print("Test loaded \(decoded.cast!.count) cast members.")
-    }
     
 
 }

@@ -25,6 +25,11 @@ Currently still in development.
 * Update function that pulls all tmdbData again, executed every week or so
 * Show streaming service availability (still need an api for that)
 * Notification when a new season is available on your streaming services
+* PDF Export
+* CSV Export
+* Marking media as Favorite
+* Country / Langauge Settings
+* Parental Ratings
 
 ## Licensing
 This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).

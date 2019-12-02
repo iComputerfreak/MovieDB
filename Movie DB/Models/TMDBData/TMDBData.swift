@@ -108,11 +108,36 @@ struct Video: Codable, Equatable {
 
 // MARK: - Codable Helper Structs
 /// Represents a Media genre
-struct Genre: Codable, Equatable {
+struct Genre: Codable, Equatable, Hashable {
     /// The ID of the genre on TMDB
     var id: Int
     /// The name of the genre
     var name: String
+    
+    static var allGenres: [Genre] {
+        // TODO: Fill in IDs
+        [
+            Genre(id: 0, name: "Action"),
+            Genre(id: 0, name: "Adventure"),
+            Genre(id: 0, name: "Animation"),
+            Genre(id: 0, name: "Comedy"),
+            Genre(id: 0, name: "Crime"),
+            Genre(id: 0, name: "Documentary"),
+            Genre(id: 0, name: "Drama"),
+            Genre(id: 0, name: "Family"),
+            Genre(id: 0, name: "Fantasy"),
+            Genre(id: 0, name: "History"),
+            Genre(id: 0, name: "Horror"),
+            Genre(id: 0, name: "Music"),
+            Genre(id: 0, name: "Mystery"),
+            Genre(id: 0, name: "Romance"),
+            Genre(id: 0, name: "Science Fiction"),
+            Genre(id: 0, name: "Thriller"),
+            Genre(id: 0, name: "TV Movie"),
+            Genre(id: 0, name: "War"),
+            Genre(id: 0, name: "Western")
+        ]
+    }
 }
 
 /// Represents a production company

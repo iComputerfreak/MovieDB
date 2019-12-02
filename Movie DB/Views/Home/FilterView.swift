@@ -8,55 +8,47 @@
 
 import SwiftUI
 
+/// The string representing a `nil` value in a `Picker`
+fileprivate let nilString = "any"
+
 struct FilterView: View {
     
-    @State private var mediaType: MediaType?
-    /// Translates integer values from and to the `mediaType` property
-    private var mediaTypeProxy: Binding<Int> {
-        Binding<Int>(get: {
-            if let type = self.mediaType {
-                return type == .movie ? 0 : 1
-            }
-            return -1
+    @State private var filterSettings = JFConfig.shared.filterSettings
+    private var mediaTypeProxy: Binding<String> {
+        .init(get: {
+            self.filterSettings.type?.rawValue ?? nilString
         }, set: { type in
-            if type == 0 {
-                self.mediaType = .movie
-            } else if type == 1 {
-                self.mediaType = .show
-            } else {
-                self.mediaType = nil
-            }
+            self.filterSettings.type = type.isNil ? nil : MediaType(rawValue: type)
         })
     }
         
-    init() {
-        // Load all filter settings from the user defaults
-        let defaults = UserDefaults.standard
-        self._mediaType = State<MediaType?>(wrappedValue: defaults.object(forKey: Keys.mediaType) as? MediaType)
-    }
+    init() {}
     
     var body: some View {
         NavigationView {
             Form {
-                Section/*(header: Text("Filter Options"))*/ {
-                Picker("Media Type", selection: mediaTypeProxy) {
-                    Text("Both")
-                        .tag(-1)
-                    Text("Movie")
-                        .tag(0)
-                    Text("Show")
-                        .tag(1)
-                }
-                    Toggle(isOn: .constant(true), label: Text("Show only 'Not Watched'").closure())
+                Section {
+                    // MARK: Media Type
+                    Picker("Media Type", selection: mediaTypeProxy) {
+                        Text("Any")
+                            .tag(nilString)
+                        Text("Movie")
+                            .tag(MediaType.movie.rawValue)
+                        Text("Show")
+                            .tag(MediaType.show.rawValue)
+                    }
+                    // MARK: Genres
+                    FilterMultiPicker(selection: $filterSettings.genres, label: { $0.name }, values: Genre.allGenres, title: Text("Genres"))
                 }
             }
             .navigationBarTitle("Filter Options")
         }
     }
-    
-    struct Keys {
-        static let mediaType = "mediaType"
-    }
+}
+
+fileprivate extension String {
+    /// Whether this string is equal to the `nilString`
+    var isNil: Bool { self == nilString }
 }
 
 struct FilterView_Previews: PreviewProvider {
