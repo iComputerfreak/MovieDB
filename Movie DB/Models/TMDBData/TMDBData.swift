@@ -27,7 +27,7 @@ protocol TMDBData: Codable {
     /// A short media description
     var overview: String? { get set }
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
-    var status: String { get set }
+    var status: MediaStatus { get set }
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     var originalLanguage: String { get set }
     
@@ -132,4 +132,20 @@ struct ProductionCompany: Codable, Equatable {
         case logoPath = "logo_path"
         case originCountry = "origin_country"
     }
+}
+
+/// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
+enum MediaStatus: String, Codable {
+    // MARK: General
+    case planned = "Planned"
+    case inProduction = "In Production"
+    case canceled = "Canceled"
+    // MARK: Show Exclusive
+    case returning = "Returning Series"
+    case pilot = "Pilot"
+    case ended = "Ended"
+    // MARK: Movie Exclusive
+    case rumored = "Rumored"
+    case postProduction = "Post Production"
+    case released = "Released"
 }

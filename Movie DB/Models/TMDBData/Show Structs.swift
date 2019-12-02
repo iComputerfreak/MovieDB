@@ -37,3 +37,13 @@ struct Season: Codable, Hashable, Identifiable {
         case rawAirDate = "air_date"
     }
 }
+
+enum ShowType: String, Codable {
+    case documentary = "Documentary"
+    case news = "News"
+    case miniseries = "Miniseries"
+    case reality = "Reality"
+    case scripted = "Scripted"
+    case talkShow = "Talk Show"
+    case video = "Video"
+}

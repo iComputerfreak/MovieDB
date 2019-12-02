@@ -16,7 +16,7 @@ struct TMDBMovieData: TMDBData, Equatable {
     var imagePath: String?
     var genres: [Genre]
     var overview: String?
-    var status: String
+    var status: MediaStatus
     var originalLanguage: String
     var imdbID: String?
     var productionCompanies: [ProductionCompany]

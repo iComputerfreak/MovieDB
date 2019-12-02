@@ -17,7 +17,7 @@ struct TMDBShowData: TMDBData, Equatable {
     var imagePath: String?
     var genres: [Genre]
     var overview: String?
-    var status: String
+    var status: MediaStatus
     var originalLanguage: String
     var imdbID: String?
     var productionCompanies: [ProductionCompany]
@@ -46,7 +46,7 @@ struct TMDBShowData: TMDBData, Equatable {
     /// The list of seasons the show has
     var seasons: [Season]
     /// The type of the show (e.g. Scripted)
-    var type: String
+    var type: ShowType
     /// The list of networks that publish the show
     var networks: [ProductionCompany]
     

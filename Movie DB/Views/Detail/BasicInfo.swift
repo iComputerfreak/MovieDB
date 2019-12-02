@@ -55,10 +55,10 @@ struct BasicInfo: View {
                     // Redundant with "Status"
                     //Text(showData!.isInProduction ? "Yes" : "No")
                     //    .headline("In Production?")
-                    Text(showData!.type)
+                    Text(showData!.type.rawValue)
                         .headline("Show Type")
                 }
-                Text(data.status)
+                Text(data.status.rawValue)
                     .headline("Status")
                 Text(data.originalTitle)
                     .headline("Original Title")
