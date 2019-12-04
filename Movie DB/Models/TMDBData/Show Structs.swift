@@ -38,7 +38,7 @@ struct Season: Codable, Hashable, Identifiable {
     }
 }
 
-enum ShowType: String, Codable {
+enum ShowType: String, Codable, CaseIterable {
     case documentary = "Documentary"
     case news = "News"
     case miniseries = "Miniseries"

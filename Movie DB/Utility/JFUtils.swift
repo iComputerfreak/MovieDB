@@ -129,6 +129,16 @@ struct JFUtils {
             completion(UIImage(data: data))
         }
     }
+    
+    static func yearBounds() -> ClosedRange<Int> {
+        // TODO: Implement search for lowest and highest year
+        return 1980...2019
+    }
+    
+    static func numberOfSeasonsBounds() -> ClosedRange<Int> {
+        // TODO: Implement search for least and most number of seasons
+        return 0...10
+    }
 }
 
 extension Dictionary where Key == String, Value == Any? {

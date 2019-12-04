@@ -31,6 +31,9 @@ Currently still in development.
 * Country / Langauge Settings
 * Parental Ratings
 
+## Known Bugs
+* It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.
+
 ## Licensing
 This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).
 For questions or inquiries, feel free to contact me at [dev@jonasfrey.de](mailto:dev@jonasfrey.de).

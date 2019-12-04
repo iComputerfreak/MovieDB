@@ -21,6 +21,8 @@ struct JFLiterals {
     static let detailPosterSize: CGSize = .init(width: JFLiterals.thumbnailSize.width * _multiplier, height: JFLiterals.thumbnailSize.height * _multiplier)
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
+    /// The maximum rating a media can get
+    static let maximumRating = 10
     
     struct Keys {
         static let allTags = "allTags"

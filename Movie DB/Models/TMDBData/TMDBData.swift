@@ -160,7 +160,7 @@ struct ProductionCompany: Codable, Equatable {
 }
 
 /// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
-enum MediaStatus: String, Codable {
+enum MediaStatus: String, Codable, CaseIterable {
     // MARK: General
     case planned = "Planned"
     case inProduction = "In Production"
