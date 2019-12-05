@@ -11,6 +11,8 @@ import SwiftUI
 
 struct FilterSettings: Codable {
     
+    static var shared = FilterSettings()
+    
     // MARK: Smart Filters
     
     // MARK: Basic Filters
@@ -21,13 +23,114 @@ struct FilterSettings: Codable {
     var year: ClosedRange<Int>? = nil
     var status: [MediaStatus] = []
     // Show Specific
-    var showType: [ShowType] = []
+    var showTypes: [ShowType] = []
     var numberOfSeasons: ClosedRange<Int>? = nil
         
     // MARK: User Data
     var watched: Bool? = nil
     var watchAgain: Bool? = nil
     var tags: [Int] = []
+    
+    private init() {}
+    
+    // TODO: Measure overhead through applying filter multiple times
+    // Maybe only use one filter with big matching function
+    func apply(on mediaList: [Media]) -> [Media] {
+        return mediaList.filter(matches(_:))
+    }
+    
+    func matches(_ media: Media) -> Bool {
+        // MARK: Media Type
+        if let type = mediaType {
+            if media.type != type {
+                return false
+            }
+        }
+        // MARK: Genres
+        if !genres.isEmpty {
+            if !matchesArray(filterArray: self.genres, actualArray: media.tmdbData?.genres) {
+                return false
+            }
+        }
+        // MARK: Rating
+        if let rating = rating {
+            if !(rating ~= media.personalRating) {
+                return false
+            }
+        }
+        // MARK: Year
+        if let year = year, let mediaYear = media.year {
+            if !(year ~= mediaYear) {
+                return false
+            }
+        }
+        // MARK: Status
+        if !status.isEmpty, let mediaStatus = media.tmdbData?.status {
+            if !status.contains(mediaStatus) {
+                return false
+            }
+        }
+        // MARK: Show Type
+        if !showTypes.isEmpty, let showData = media.tmdbData as? TMDBShowData, let mediaShowType = showData.type {
+            if !showTypes.contains(mediaShowType) {
+                return false
+            }
+        }
+        // MARK: Number of Seasons
+        if let numberOfSeasons = numberOfSeasons, let showData = media.tmdbData as? TMDBShowData, let mediaSeasons = showData.numberOfSeasons {
+            if !(numberOfSeasons ~= mediaSeasons) {
+                return false
+            }
+        }
+        // MARK: Watched
+        if let watched = watched {
+            // Either movie
+            if let movie = media as? Movie {
+                if movie.watched != nil && movie.watched! != watched {
+                    return false
+                }
+            } else if let show = media as? Show {
+                let showWatched = show.lastEpisodeWatched != nil
+                if showWatched != watched {
+                    return false
+                }
+            }
+        }
+        // MARK: Watch again
+        if let watchAgain = watchAgain, let mediaWatchAgain = media.watchAgain {
+            if watchAgain != mediaWatchAgain {
+                return false
+            }
+        }
+        // MARK: Tags
+        if !tags.isEmpty {
+            if !matchesArray(filterArray: tags, actualArray: media.tags) {
+                return false
+            }
+        }
+        
+        // No filter contradicted the media properties
+        return true
+    }
+    
+    private func matchesArray<T: Equatable>(filterArray: [T], actualArray: [T]?) -> Bool {
+        precondition(!filterArray.isEmpty, "Please make sure that the filter array is not empty before calling this function.")
+        guard let actualArray = actualArray, !actualArray.isEmpty else {
+            // Include items that have no data
+            return true
+        }
+        for item in actualArray {
+            if filterArray.contains(item) {
+                // Only one of the genres has to be in the filter array
+                return true
+            }
+        }
+        return false
+    }
+    
+    func reset() {
+        FilterSettings.shared = FilterSettings()
+    }
     
     /// Creates two proxies for the upper and lower bound of the given range Binding
     ///

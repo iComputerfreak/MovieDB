@@ -36,7 +36,7 @@ struct TMDBShowData: TMDBData, Equatable {
     /// The date, the show was last aired
     var lastAirDate: Date? { rawLastAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawLastAirDate!) }
     /// The number of seasons the show  has
-    var numberOfSeasons: Int
+    var numberOfSeasons: Int?
     /// The number of episodes, the show has
     var numberOfEpisodes: Int
     /// The runtime the episodes typically have
@@ -46,7 +46,7 @@ struct TMDBShowData: TMDBData, Equatable {
     /// The list of seasons the show has
     var seasons: [Season]
     /// The type of the show (e.g. Scripted)
-    var type: ShowType
+    var type: ShowType?
     /// The list of networks that publish the show
     var networks: [ProductionCompany]
     

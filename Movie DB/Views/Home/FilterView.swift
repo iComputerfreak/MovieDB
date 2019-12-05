@@ -13,7 +13,10 @@ fileprivate let nilString = "any"
 
 struct FilterView: View {
     
-    @State private var filterSettings = JFConfig.shared.filterSettings
+    @State private var filterSettings = FilterSettings.shared
+    
+    @Environment(\.presentationMode) private var presentationMode
+    
     private var mediaTypeProxy: Binding<String> {
         .init(get: {
             self.filterSettings.mediaType?.rawValue ?? nilString
@@ -103,7 +106,7 @@ struct FilterView: View {
                                 Text("Any")
                                     .foregroundColor(.secondary)
                             } else {
-                                Text("\(self.filterSettings.year!.lowerBound) to \(self.filterSettings.year!.upperBound)")
+                                Text("\(self.filterSettings.year!.lowerBound.description) to \(self.filterSettings.year!.upperBound.description)")
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -113,7 +116,7 @@ struct FilterView: View {
                 }
                 Section(header: Text("Show specific")) {
                     // MARK: - Show Type
-                    FilterMultiPicker(selection: $filterSettings.showType, label: { $0.rawValue }, values: ShowType.allCases, title: Text("Show Type"))
+                    FilterMultiPicker(selection: $filterSettings.showTypes, label: { $0.rawValue }, values: ShowType.allCases, title: Text("Show Type"))
                     // MARK: - Number of Seasons
                     NavigationLink(destination: RangeEditingView(bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSettings.numberOfSeasons, style: .stepper)) {
                         HStack {
@@ -131,6 +134,12 @@ struct FilterView: View {
                 }
             }
             .navigationBarTitle("Filter Options")
+            .navigationBarItems(trailing: Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }, label: Text("Apply").closure()))
+            .navigationBarItems(leading: Button(action: {
+                self.filterSettings.reset()
+            }, label: Text("Reset").closure()))
         }
     }
 }

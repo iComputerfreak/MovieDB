@@ -16,8 +16,6 @@ struct JFConfig {
     @ConfigValue(.showAdults, defaultValue: false) var showAdults: Bool
     @ConfigValue(.country, defaultValue: "DE") var country: String
     @ConfigValue(.language, defaultValue: "de") var language: String
-    // MARK: - Filter Settings
-    @ConfigValue(.filterSettings, defaultValue: FilterSettings(), autoSave: false) var filterSettings: FilterSettings
     // MARK: - Other
     @ConfigValue(.tags, defaultValue: []) var tags: [Tag]
     
@@ -27,7 +25,6 @@ struct JFConfig {
         case showAdults
         case country
         case language
-        case filterSettings
         case tags
     }
     

@@ -13,6 +13,7 @@ import JFSwiftUI
 struct LibraryHome : View {
     
     @ObservedObject private var library = MediaLibrary.shared
+    @State private var filterSettings = FilterSettings.shared
     @State private var isAddingMedia: Bool = false
     @State private var isShowingFilterOptions: Bool = false
     @State private var searchText: String = ""
@@ -20,9 +21,11 @@ struct LibraryHome : View {
     
     private var filteredMedia: [Media] {
         var list = library.mediaList
+        // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
         }
+        // MARK: Sorting
         if sortedAlphabetically {
             list = list.sorted(by: { (media1, media2) in
                 if media1.tmdbData == nil {
@@ -41,7 +44,7 @@ struct LibraryHome : View {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText)
                 List {
-                    ForEach(filteredMedia) { mediaObject in
+                    ForEach(filterSettings.apply(on: filteredMedia)) { mediaObject in
                         NavigationLink(destination:
                             MediaDetail()
                                 .environmentObject(mediaObject)
