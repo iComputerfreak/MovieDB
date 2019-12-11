@@ -64,7 +64,7 @@ struct BasicInfo: View {
                     .headline("Status")
                 Text(data.originalTitle)
                     .headline("Original Title")
-                Text(JFUtils.languageString(data.originalLanguage))
+                Text(JFUtils.languageString(for: data.originalLanguage) ?? data.originalLanguage)
                     .headline("Original Language")
                 // Seasons Info
                 if showData != nil && !showData!.seasons.isEmpty {

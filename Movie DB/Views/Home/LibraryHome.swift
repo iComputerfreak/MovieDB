@@ -13,7 +13,7 @@ import JFSwiftUI
 struct LibraryHome : View {
     
     @ObservedObject private var library = MediaLibrary.shared
-    @State private var filterSettings = FilterSettings.shared
+    @ObservedObject private var filterSettings = FilterSettings.shared
     @State private var isAddingMedia: Bool = false
     @State private var isShowingFilterOptions: Bool = false
     @State private var searchText: String = ""
@@ -36,7 +36,8 @@ struct LibraryHome : View {
                 return media1.tmdbData!.title.lexicographicallyPrecedes(media2.tmdbData!.title)
             })
         }
-        return list
+        // Apply the filter
+        return self.filterSettings.apply(on: list)
     }
     
     var body: some View {
@@ -44,7 +45,7 @@ struct LibraryHome : View {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText)
                 List {
-                    ForEach(filterSettings.apply(on: filteredMedia)) { mediaObject in
+                    ForEach(filteredMedia) { mediaObject in
                         NavigationLink(destination:
                             MediaDetail()
                                 .environmentObject(mediaObject)

@@ -12,6 +12,11 @@ import SwiftUI
 
 struct JFUtils {
     
+    // TODO: On error X-Rate-Limiting, show correct user message
+    // Abort adding media on any loading error so no incomplete media is added (or schedule a reload later)
+    // May have to pass through error from JFUtils function for that
+    // TODO: Hide adult media, if set in config
+    
     /// Converts a string from the TMDB response into a `Date`
     /// - Parameter string: The date-string from TMDB
     static func dateFromTMDBString(_ string: String) -> Date? {
@@ -70,17 +75,15 @@ struct JFUtils {
     /// Returns the human readable language name (in english) from the given ISO-639-1 string
     ///
     ///     languageString("en") // Returns "English"
-    static func languageString(_ string: String) -> String {
-        // TODO: Fully implement
-        return string == "en" ? "English" : string
+    static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
+        return locale.localizedString(forLanguageCode: code)
     }
     
-    /// Returns the human readable country name (in english) from the given ISO-3166-1 string
+    /// Returns the human readable region name (in english) from the given ISO-3166-1 string
     ///
     ///     languageString("US") // Returns "United States"
-    static func countryString(_ string: String) -> String {
-        // TODO: Fully implement
-        return string == "US" ? "United States" : string
+    static func regionString(for code: String, locale: Locale = Locale.current) -> String? {
+        return locale.localizedString(forRegionCode: code)
     }
     
     /// The URL describing the documents directory of the app
@@ -130,14 +133,25 @@ struct JFUtils {
         }
     }
     
+    /// Returns a closed range containing the years of all media objects in the library
     static func yearBounds() -> ClosedRange<Int> {
-        // TODO: Implement search for lowest and highest year
-        return 1980...2019
+        let currentYear = Calendar.current.dateComponents([.year], from: Date()).year ?? 1970
+        let years = MediaLibrary.shared.mediaList.compactMap({ $0.year }).sorted()
+        guard !years.isEmpty else {
+            return currentYear ... currentYear
+        }
+        return years.first! ... years.last!
     }
     
+    /// Returns a closed range containing the season counts from all media objects in the library
     static func numberOfSeasonsBounds() -> ClosedRange<Int> {
-        // TODO: Implement search for least and most number of seasons
-        return 0...10
+        let seasons = MediaLibrary.shared.mediaList.compactMap({ (media: Media) in
+            return (media.tmdbData as? TMDBShowData)?.numberOfSeasons
+        }).sorted()
+        guard !seasons.isEmpty else {
+            return 0...0
+        }
+        return seasons.first! ... seasons.last!
     }
 }
 

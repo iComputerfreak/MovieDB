@@ -15,8 +15,12 @@ struct TMDBAPI {
     
     let apiKey: String
     /// The ISO-639-1 language code
-    var language: String = "de"
-    var region: String = "DE"
+    var language: String {
+        JFConfig.shared.language
+    }
+    var region: String {
+        JFConfig.shared.region
+    }
     var locale: String {
         return "\(language)-\(region)"
     }
@@ -94,7 +98,15 @@ struct TMDBAPI {
     ///   - completion: The code to execute, when the request is completed
     func getKeywords(by id: Int, type: MediaType, completion: @escaping (KeywordsWrapper?) -> Void) {
         let url = "\(baseURL)/\(type.rawValue)/\(id)/keywords"
-        decodeAPIURL(urlString: url, completion: completion)
+        if type == .movie {
+            decodeAPIURL(urlString: url, completion: { (wrapper: MovieKeywordsWrapper?) in
+                completion(wrapper)
+            })
+        } else {
+            decodeAPIURL(urlString: url, completion: { (wrapper: ShowKeywordsWrapper?) in
+                completion(wrapper)
+            })
+        }
     }
     
     /// Fetches the videos for a given media ID and a given `MediaType`.

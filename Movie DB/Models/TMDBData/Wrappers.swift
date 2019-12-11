@@ -42,26 +42,23 @@ struct KeywordWrapper: Codable, Equatable {
 }
 
 /// Represents a wrapper containing the keywords
-/// Only the keywords will be decoded/encoded. Other values will be ignored
-struct KeywordsWrapper: Codable, Equatable {
+protocol KeywordsWrapper {
+    var id: Int { get set }
+    var keywords: [KeywordWrapper] { get set }
+}
+
+struct MovieKeywordsWrapper: KeywordsWrapper, Codable, Equatable {
+    var id: Int
+    var keywords: [KeywordWrapper]
+}
+
+struct ShowKeywordsWrapper: KeywordsWrapper, Codable, Equatable {
+    var id: Int
     var keywords: [KeywordWrapper]
     
     enum CodingKeys: String, CodingKey {
-        case keywords
-    }
-    
-    /// Creates new keywords from the data of the given decoder.
-    /// Only the keywords will be encoded
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.keywords = try container.decode([KeywordWrapper].self, forKey: .keywords)
-    }
-    
-    /// Encodes the keywords to an encoder.
-    /// Only the keywords will be encoded
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.keywords, forKey: .keywords)
+        case id
+        case keywords = "results"
     }
 }
 

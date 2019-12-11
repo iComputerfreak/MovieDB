@@ -19,13 +19,19 @@ struct LibraryRow : View {
             VStack(alignment: .leading) {
                 Text(mediaObject.tmdbData?.title ?? "Loading...")
                     .lineLimit(2)
-                if mediaObject.isAdult ?? false {
-                    Image(systemName: "a.square")
-                }
-                if mediaObject.type == .movie {
-                    Image(systemName: "m.square")
-                } else {
-                    Image(systemName: "s.square")
+                // Under the title
+                HStack {
+                    if mediaObject.isAdult ?? false {
+                        Image(systemName: "a.square")
+                    }
+                    if mediaObject.type == .movie {
+                        Image(systemName: "m.square")
+                    } else {
+                        Image(systemName: "s.square")
+                    }
+                    if mediaObject.year != nil {
+                        Text(mediaObject.year!.description)
+                    }
                 }
             }
         }

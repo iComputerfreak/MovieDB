@@ -15,9 +15,10 @@ Currently still in development.
 * Add custom tags
 * Add custom notes
 * Library Search
+* Filter and sorting options for the library
+* Region / Langauge Settings
 
 ## Planned Features
-* Filter and sorting options for the library
 * Settings option to hide all adult media (in search and library)
 * Searching for keywords and other properties
 * Embed trailers
@@ -28,7 +29,6 @@ Currently still in development.
 * PDF Export
 * CSV Export
 * Marking media as Favorite
-* Country / Langauge Settings
 * Parental Ratings
 
 ## Known Bugs

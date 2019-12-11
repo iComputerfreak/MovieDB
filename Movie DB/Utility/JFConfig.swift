@@ -7,23 +7,40 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct JFConfig {
+class JFConfig: ObservableObject {
     
-    static let shared: JFConfig = JFConfig()
+    static let shared = JFConfig()
     
     // MARK: - Settings
-    @ConfigValue(.showAdults, defaultValue: false) var showAdults: Bool
-    @ConfigValue(.country, defaultValue: "DE") var country: String
-    @ConfigValue(.language, defaultValue: "de") var language: String
+    @ConfigValue(.showAdults, defaultValue: false) var showAdults: Bool {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+    @ConfigValue(.region, defaultValue: Locale.current.regionCode ?? "US") var region: String {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+    @ConfigValue(.language, defaultValue: Locale.current.languageCode ?? "en") var language: String {
+        didSet {
+            objectWillChange.send()
+        }
+    }
     // MARK: - Other
-    @ConfigValue(.tags, defaultValue: []) var tags: [Tag]
+    @ConfigValue(.tags, defaultValue: [], usePlist: true) var tags: [Tag] {
+        didSet {
+            objectWillChange.send()
+        }
+    }
     
     private init() {}
     
     enum ConfigKey: String {
         case showAdults
-        case country
+        case region
         case language
         case tags
     }
@@ -39,16 +56,23 @@ struct JFConfig {
         var wrappedValue: Value {
             didSet {
                 if autoSave {
-                    userDefaults.set(self.wrappedValue, forKey: key.rawValue)
+                    saveValue()
                 }
             }
         }
         /// Whether to automatically save the config value after it has been changed
         var autoSave: Bool
+        var usePlist: Bool
         
-        init(_ key: ConfigKey, defaultValue: Value, autoSave: Bool = true) {
+        init(_ key: ConfigKey, defaultValue: Value, autoSave: Bool = true, usePlist: Bool = false) {
             self.key = key
             self.autoSave = autoSave
+            self.usePlist = usePlist
+            // Load from user defaults directly, if primitive
+            if !usePlist {
+                self.wrappedValue = userDefaults.object(forKey: key.rawValue) as? Value ?? defaultValue
+                return
+            }
             // Load the value as PList encoded data
             if let data = userDefaults.data(forKey: key.rawValue) {
                 do {
@@ -69,6 +93,15 @@ struct JFConfig {
                 return
             }
             // Save the value as a PList
+            saveValue()
+        }
+        
+        // Does not have the check for autoSave like save()
+        private func saveValue() {
+            if !usePlist {
+                userDefaults.set(wrappedValue, forKey: key.rawValue)
+                return
+            }
             do {
                 let encoded = try PropertyListEncoder().encode(self.wrappedValue)
                 userDefaults.set(encoded, forKey: key.rawValue)

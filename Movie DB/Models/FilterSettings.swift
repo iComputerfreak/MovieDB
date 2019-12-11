@@ -9,32 +9,51 @@
 import Foundation
 import SwiftUI
 
-struct FilterSettings: Codable {
-    
-    static var shared = FilterSettings()
-    
+class FilterSettings: ObservableObject, Codable {
+        
+    static private let key = "filterSettings"
+    static let shared = FilterSettings.load()
+        
     // MARK: Smart Filters
     
     // MARK: Basic Filters
-    var mediaType: MediaType? = nil
-    var genres: [Genre] = []
+    @Published var mediaType: MediaType? = nil
+    @Published var genres: [Genre] = []
     // var parentalRating
-    var rating: ClosedRange<Int>? = nil
-    var year: ClosedRange<Int>? = nil
-    var status: [MediaStatus] = []
+    @Published var rating: ClosedRange<Int>? = nil
+    @Published var year: ClosedRange<Int>? = nil
+    @Published var status: [MediaStatus] = []
     // Show Specific
-    var showTypes: [ShowType] = []
-    var numberOfSeasons: ClosedRange<Int>? = nil
+    @Published var showTypes: [ShowType] = []
+    @Published var numberOfSeasons: ClosedRange<Int>? = nil
         
     // MARK: User Data
-    var watched: Bool? = nil
-    var watchAgain: Bool? = nil
-    var tags: [Int] = []
+    @Published var watched: Bool? = nil
+    @Published var watchAgain: Bool? = nil
+    @Published var tags: [Int] = []
     
     private init() {}
     
-    // TODO: Measure overhead through applying filter multiple times
-    // Maybe only use one filter with big matching function
+    static func load() -> FilterSettings {
+        // Load the settings from UserDefaults
+        if let data = UserDefaults.standard.data(forKey: key) {
+            if let settings = try? PropertyListDecoder().decode(FilterSettings.self, from: data) {
+                return settings
+            } else {
+                print("Error decoding filter settings.")
+            }
+        }
+        return FilterSettings()
+    }
+    
+    static func save() {
+        if let data = try? PropertyListEncoder().encode(shared) {
+            UserDefaults.standard.set(data, forKey: key)
+        } else {
+            print("Error encoding filter settings.")
+        }
+    }
+    
     func apply(on mediaList: [Media]) -> [Media] {
         return mediaList.filter(matches(_:))
     }
@@ -129,7 +148,16 @@ struct FilterSettings: Codable {
     }
     
     func reset() {
-        FilterSettings.shared = FilterSettings()
+        self.mediaType = nil
+        self.genres = []
+        self.rating = nil
+        self.year = nil
+        self.status = []
+        self.showTypes = []
+        self.numberOfSeasons = nil
+        self.watched = nil
+        self.watchAgain = nil
+        self.tags = []
     }
     
     /// Creates two proxies for the upper and lower bound of the given range Binding
@@ -172,6 +200,48 @@ struct FilterSettings: Codable {
         }
         
         return (lowerProxy, upperProxy)
+    }
+    
+    // MARK: - Codable Conformance
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.mediaType = try container.decode(MediaType?.self, forKey: .mediaType)
+        self.genres = try container.decode([Genre].self, forKey: .genres)
+        self.rating = try container.decode(ClosedRange<Int>?.self, forKey: .rating)
+        self.year = try container.decode(ClosedRange<Int>?.self, forKey: .year)
+        self.status = try container.decode([MediaStatus].self, forKey: .status)
+        self.showTypes = try container.decode([ShowType].self, forKey: .showTypes)
+        self.numberOfSeasons = try container.decode(ClosedRange<Int>?.self, forKey: .numberOfSeasons)
+        self.watched = try container.decode(Bool?.self, forKey: .watched)
+        self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
+        self.tags = try container.decode([Int].self, forKey: .tags)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.mediaType, forKey: .mediaType)
+        try container.encode(self.genres, forKey: .genres)
+        try container.encode(self.rating, forKey: .rating)
+        try container.encode(self.year, forKey: .year)
+        try container.encode(self.status, forKey: .status)
+        try container.encode(self.showTypes, forKey: .showTypes)
+        try container.encode(self.numberOfSeasons, forKey: .numberOfSeasons)
+        try container.encode(self.watched, forKey: .watched)
+        try container.encode(self.watchAgain, forKey: .watchAgain)
+        try container.encode(self.tags, forKey: .tags)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case mediaType
+        case genres
+        case rating
+        case year
+        case status
+        case showTypes
+        case numberOfSeasons
+        case watched
+        case watchAgain
+        case tags
     }
     
 }

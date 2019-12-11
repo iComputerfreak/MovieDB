@@ -13,7 +13,7 @@ fileprivate let nilString = "any"
 
 struct FilterView: View {
     
-    @State private var filterSettings = FilterSettings.shared
+    @ObservedObject private var filterSettings = FilterSettings.shared
     
     @Environment(\.presentationMode) private var presentationMode
     
@@ -41,11 +41,11 @@ struct FilterView: View {
         
     init() {}
     
-    // TODO: Filtering should include nil values (e.g. filtering for year 2000+ should include movies without a release date)
-    // TODO: Save changed filter on dismiss
-    // TODO: Apply Button
-    // TODO: Fix representation of years in summary label ("From 1.980 to 2.018")
-    
+    func onDisappear() {
+        // Save the filter settings
+        FilterSettings.save()
+    }
+        
     var body: some View {
         NavigationView {
             Form {
@@ -134,13 +134,13 @@ struct FilterView: View {
                 }
             }
             .navigationBarTitle("Filter Options")
-            .navigationBarItems(trailing: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: Text("Apply").closure()))
             .navigationBarItems(leading: Button(action: {
                 self.filterSettings.reset()
-            }, label: Text("Reset").closure()))
+            }, label: Text("Reset").closure()), trailing: Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }, label: Text("Apply").closure()))
         }
+    .onDisappear(perform: onDisappear)
     }
 }
 
