@@ -17,9 +17,9 @@ Currently still in development.
 * Library Search
 * Filter and sorting options for the library
 * Region / Langauge Settings
+* Settings option to hide all adult media (in search and library)
 
 ## Planned Features
-* Settings option to hide all adult media (in search and library)
 * Searching for keywords and other properties
 * Embed trailers
 * Show some of the translation languages

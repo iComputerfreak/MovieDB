@@ -25,6 +25,11 @@ struct LibraryHome : View {
         if !searchText.isEmpty {
             list = list.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
         }
+        // Additionally to the filter, hide adult media, if not explicitly set in config
+        if !JFConfig.shared.showAdults {
+            // Include media where isAdult is not set
+            list = list.filter({ !($0.isAdult ?? false) })
+        }
         // MARK: Sorting
         if sortedAlphabetically {
             list = list.sorted(by: { (media1, media2) in

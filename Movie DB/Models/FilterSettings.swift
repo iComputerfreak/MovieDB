@@ -17,6 +17,7 @@ class FilterSettings: ObservableObject, Codable {
     // MARK: Smart Filters
     
     // MARK: Basic Filters
+    @Published var isAdult: Bool? = nil
     @Published var mediaType: MediaType? = nil
     @Published var genres: [Genre] = []
     // var parentalRating
@@ -59,6 +60,13 @@ class FilterSettings: ObservableObject, Codable {
     }
     
     func matches(_ media: Media) -> Bool {
+        // MARK: Is Adult
+        if let isAdult = isAdult {
+            // If isAdult is not set on the media, ignore this filter!
+            if media.isAdult != nil && media.isAdult != isAdult {
+                return false
+            }
+        }
         // MARK: Media Type
         if let type = mediaType {
             if media.type != type {
@@ -148,6 +156,7 @@ class FilterSettings: ObservableObject, Codable {
     }
     
     func reset() {
+        self.isAdult = nil
         self.mediaType = nil
         self.genres = []
         self.rating = nil
@@ -205,6 +214,7 @@ class FilterSettings: ObservableObject, Codable {
     // MARK: - Codable Conformance
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.isAdult = try container.decode(Bool?.self, forKey: .isAdult)
         self.mediaType = try container.decode(MediaType?.self, forKey: .mediaType)
         self.genres = try container.decode([Genre].self, forKey: .genres)
         self.rating = try container.decode(ClosedRange<Int>?.self, forKey: .rating)
@@ -219,6 +229,7 @@ class FilterSettings: ObservableObject, Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.isAdult, forKey: .isAdult)
         try container.encode(self.mediaType, forKey: .mediaType)
         try container.encode(self.genres, forKey: .genres)
         try container.encode(self.rating, forKey: .rating)
@@ -232,6 +243,7 @@ class FilterSettings: ObservableObject, Codable {
     }
     
     enum CodingKeys: String, CodingKey {
+        case isAdult
         case mediaType
         case genres
         case rating

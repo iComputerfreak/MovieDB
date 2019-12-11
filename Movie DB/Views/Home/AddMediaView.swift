@@ -37,8 +37,19 @@ struct AddMediaView : View {
                             }
                             return
                         }
+                        var filteredResults = results
+                        // Filter out adult media from the search results
+                        if !JFConfig.shared.showAdults {
+                             filteredResults = filteredResults.filter { (searchResult: TMDBSearchResult) in
+                                // Only movie search results contain the adult flag
+                                if let movieResult = searchResult as? TMDBMovieSearchResult {
+                                    return !movieResult.isAdult
+                                }
+                                return true
+                            }
+                        }
                         DispatchQueue.main.async {
-                            self.results = results
+                            self.results = filteredResults
                         }
                     }
                 })

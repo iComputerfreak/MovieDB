@@ -15,7 +15,6 @@ struct JFUtils {
     // TODO: On error X-Rate-Limiting, show correct user message
     // Abort adding media on any loading error so no incomplete media is added (or schedule a reload later)
     // May have to pass through error from JFUtils function for that
-    // TODO: Hide adult media, if set in config
     
     /// Converts a string from the TMDB response into a `Date`
     /// - Parameter string: The date-string from TMDB
