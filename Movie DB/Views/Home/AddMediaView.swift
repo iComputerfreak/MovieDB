@@ -81,12 +81,20 @@ struct AddMediaView : View {
                 }
             }
             .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
-                .alert(isPresented: $alertShown) {
-                    Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
-            }
-            .alert(isPresented: $showLoadingErrorAlert) {
-                Alert(title: Text("Error loading media"), message: Text("The media could not be loaded. Please try again later."), dismissButton: .default(Text("Ok")))
-            }
+                
+                // FUTURE: Workaround for using two alerts
+                .background(
+                    EmptyView()
+                        .alert(isPresented: $alertShown) {
+                            Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
+                        }
+                    .background(
+                        EmptyView()
+                            .alert(isPresented: $showLoadingErrorAlert) {
+                                Alert(title: Text("Error loading media"), message: Text("The media could not be loaded. Please try again later."), dismissButton: .default(Text("Ok")))
+                            }
+                    )
+                )
         }
     }
     

@@ -45,13 +45,13 @@ class MediaLibrary: ObservableObject, Codable {
     }
     
     /// Updates the media library by updaing every media object with API calls again.
-    // TODO: Call regularily
+    // FUTURE: Call regularily, e.g. every week or so
     func update() {
         let api = TMDBAPI.shared
         api.getChanges(from: lastUpdate, to: Date()) { (changes) in
             // Iterate over the library, not the changed IDs for performance reasons
             for media in self.mediaList {
-                if changes.contains(media.id) {
+                if changes.contains(media.tmdbData?.id ?? -1) {
                     // This media has been changed
                     api.updateMedia(media)
                 }

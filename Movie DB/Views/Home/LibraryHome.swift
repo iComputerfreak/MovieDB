@@ -102,7 +102,7 @@ struct LibraryHome : View {
                 }
             }
                 
-                // FIXME: Workaround for using two sheet modifiers
+                // FUTURE: Workaround for using two sheet modifiers
                 .background(
                     EmptyView()
                         .sheet(isPresented: $isAddingMedia) { AddMediaView() }

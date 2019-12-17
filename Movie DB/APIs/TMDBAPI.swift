@@ -45,6 +45,58 @@ class TMDBAPI {
         JFUtils.getRequest(url, parameters: parameters, completion: completion)
     }
     
+    /// Loads multiple pages of results and appends the items
+    /// - Parameters:
+    ///   - path: The API path to use for the request
+    ///   - additionalParameters: Additional parameters to append
+    ///   - maxPages: The number of pages to load at most
+    ///   - pageWrapper: A specific wrapper class to decode the result pages
+    ///   - completion: The closure to execute upon completion
+    func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, completion: @escaping ([PageWrapper.ObjectWrapper]) -> Void) {
+            
+        typealias ObjectWrapper = PageWrapper.ObjectWrapper
+        
+        var results: [ObjectWrapper] = []
+        self.request(path: path, additionalParameters: additionalParameters) { (data) in
+            guard let data = data else {
+                print("Error loading first page of multi page request.")
+                completion([])
+                return
+            }
+            guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
+                print("Error decoding first page of multi page request.")
+                completion([])
+                return
+            }
+            results.append(contentsOf: wrapper.results)
+            let group = DispatchGroup()
+            if wrapper.totalPages <= 1 {
+                return
+            }
+            for page in 2 ... min(wrapper.totalPages, maxPages) {
+                group.enter()
+                self.request(path: path, additionalParameters: additionalParameters.merging(["page": page], uniquingKeysWith: { (_, new) in new })) { (data) in
+                    guard let data = data else {
+                        print("Error loading results page \(page).")
+                        group.leave()
+                        return
+                    }
+                    guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
+                        print("Error decoding results page \(page).")
+                        group.leave()
+                        return
+                    }
+                    results.append(contentsOf: wrapper.results)
+                    group.leave()
+                }
+            }
+            group.notify(queue: .main) {
+                // Once all pages have been loaded and added to the results
+                completion(results)
+            }
+        }
+    }
+    
     // Returns a concrete subclass
     /// Fetches a subclass of `Media` from TheMovieDB.org for a given media ID and a given `MediaType`.
     /// - Parameters:
@@ -98,7 +150,6 @@ class TMDBAPI {
             media?.loadThumbnail()
             tmdbDataGroup.leave()
         }
-        // FIXME: Does this create a Deadlock? Does the completion closure get executed on THIS thread?
         // Wait for TMDBData to be fetched
         tmdbDataGroup.wait()
         
@@ -118,21 +169,27 @@ class TMDBAPI {
     /// 
     /// - Parameter media: The media object to update
     func updateMedia(_ media: Media) {
+        guard let id = media.tmdbData?.id else {
+            // No idea what TMDB ID should be
+            print("Error updating media \(media.id). No TMDB Data set.")
+            return
+        }
         // Update TMDBData
         let group = DispatchGroup()
         group.enter()
-        self.getTMDBData(by: media.id, type: media.type) { (data) in
+        self.getTMDBData(by: id, type: media.type) { (data) in
             guard let data = data else {
-                print("Error updating TMDB data of \(media.type.rawValue) \(media.id)")
+                print("Error updating TMDB data of \(media.type.rawValue) \(id)")
                 group.leave()
                 return
             }
             // If fetching was successful, update the media object and thumbnail
-            media.tmdbData = data
-            media.loadThumbnail()
+            DispatchQueue.main.async {
+                media.tmdbData = data
+                media.loadThumbnail()
+            }
             group.leave()
         }
-        // FIXME: Possible Deadlock
         group.wait()
         // Update cast, keywords, videos and translations
         self.startSeparateAPICalls(media: media, sync: true)
@@ -143,36 +200,54 @@ class TMDBAPI {
     /// - Parameter media: The media object to fill with the API call results
     /// - Parameter sync: Whether the function should be executed synchronously
     private func startSeparateAPICalls(media: Media, sync: Bool = false) {
+        guard let id = media.tmdbData?.id else {
+            // No idea what the TMDB ID should be
+            return
+        }
         let group: DispatchGroup? = sync ? DispatchGroup() : nil
         group?.enter()
-        self.getCast(by: media.id, type: media.type) { (wrapper) in
+        self.getCast(by: id, type: media.type) { (wrapper) in
+            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.cast.count ?? -1) Cast Members")
             if let cast = wrapper?.cast, !cast.isEmpty {
-                media.cast = cast
+                DispatchQueue.main.async {
+                    media.cast = cast
+                }
             }
             group?.leave()
         }
         group?.enter()
-        self.getKeywords(by: media.id, type: media.type) { (wrapper) in
+        self.getKeywords(by: id, type: media.type) { (wrapper) in
+            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.keywords.count ?? -1) Keywords")
             if let keywords = wrapper?.keywords, !keywords.isEmpty {
-                media.keywords = keywords.map({ $0.name })
+                DispatchQueue.main.async {
+                    // Save only the keyword names, ignore the id
+                    media.keywords = keywords.map({ $0.name })
+                }
             }
             group?.leave()
         }
         group?.enter()
-        self.getVideos(by: media.id, type: media.type) { (wrapper) in
+        self.getVideos(by: id, type: media.type) { (wrapper) in
+            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.videos.count ?? -1) Videos")
             if let videos = wrapper?.videos, !videos.isEmpty {
-                media.videos = videos
+                DispatchQueue.main.async {
+                    // Save only the trailers
+                    media.videos = videos.filter({ $0.type == .trailer })
+                }
             }
             group?.leave()
         }
         group?.enter()
-        self.getTranslations(by: media.id, type: media.type) { (wrapper) in
+        self.getTranslations(by: id, type: media.type) { (wrapper) in
+            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.translations.count ?? -1) Translations")
             if let translations = wrapper?.translations, !translations.isEmpty {
-                media.translations = translations.map({ $0.name })
+                DispatchQueue.main.async {
+                    // Save only the localized names, not the english names
+                    media.translations = translations.map({ $0.name })
+                }
             }
             group?.leave()
         }
-        // FIXME: Possible Deadlock
         group?.wait()
     }
     
@@ -191,48 +266,9 @@ class TMDBAPI {
         let superGroup = DispatchGroup()
         for type in MediaType.allCases {
             superGroup.enter()
-            self.request(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters) { (data) in
-                guard let data = data else {
-                    print("Error loading changes")
-                    completion([])
-                    return
-                }
-                guard let wrapper = try? JSONDecoder().decode(ResultsPageWrapper<MediaChangeWrapper>.self, from: data) else {
-                    print("Error decoding changes")
-                    completion([])
-                    return
-                }
-                results.append(contentsOf: wrapper.results)
-                // Use a DispatchGroup to wait for all page results to fetch
-                let group = DispatchGroup()
-                // Load other pages, skip the first
-                if wrapper.totalPages <= 1 {
-                    // No need to load more pages
-                    superGroup.leave()
-                    return
-                }
-                for page in 2...wrapper.totalPages {
-                    group.enter()
-                    self.request(path: "\(type.rawValue)/changes", additionalParameters: ["page": page].merging(dateRangeParameters, uniquingKeysWith: { (current, _) in current })) { (data) in
-                        guard let data = data else {
-                            print("Error loading results page \(page)")
-                            group.leave()
-                            return
-                        }
-                        guard let wrapper = try? JSONDecoder().decode(ResultsPageWrapper<MediaChangeWrapper>.self, from: data) else {
-                            print("Error decoding results page \(page)")
-                            group.leave()
-                            return
-                        }
-                        results.append(contentsOf: wrapper.results)
-                        group.leave()
-                    }
-                }
-                group.notify(queue: .main) {
-                    // Once all pages for this media type have been loaded and added to the results,
-                    // leave the superGroup
-                    superGroup.leave()
-                }
+            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self) { (wrappers: [MediaChangeWrapper]) in
+                results.append(contentsOf: wrappers)
+                superGroup.leave()
             }
         }
         // Once all pages have loaded (for movie and tv), execute the completion closure
@@ -246,16 +282,12 @@ class TMDBAPI {
     ///   - name: The name of the media to search for
     ///   - includeAdult: Whether the results should include adult media
     ///   - completion: The code to execute when the request is completed.
-    func searchMedia(_ name: String, includeAdult: Bool = true, completion: @escaping ([TMDBSearchResult]?) -> Void) {
-        self.request(path: "search/multi", additionalParameters: [
+    func searchMedia(_ name: String, includeAdult: Bool = true, completion: @escaping ([TMDBSearchResult]) -> Void) {
+        self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": name,
             "include_adult": includeAdult
-        ]) { (data) in
-            guard let data = data else {
-                return
-            }
-            let result = try? JSONDecoder().decode(SearchResult.self, from: data)
-            completion(result?.results)
+        ], maxPages: 10, pageWrapper: SearchResult.self) { (results: [TMDBSearchResult]) in
+            completion(results)
         }
     }
     

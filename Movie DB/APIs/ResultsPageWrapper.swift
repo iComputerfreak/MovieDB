@@ -8,21 +8,20 @@
 
 import Foundation
 
-struct ResultsPageWrapper<T>: Codable where T: Codable {
+/// Decodes a page result
+protocol PageWrapperProtocol: Decodable {
+    associatedtype ObjectWrapper
+    var results: [ObjectWrapper] { get set }
+    var totalPages: Int { get set }
+}
+
+/// Generic results page decoder
+struct ResultsPageWrapper<T: Decodable>: PageWrapperProtocol {
     
     var results: [T]
     var page: Int
     var totalPages: Int
     var totalResults: Int
-    
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//
-//    }
-//
-//    func encode(to encoder: Encoder) throws {
-//
-//    }
     
     enum CodingKeys: String, CodingKey {
         case results

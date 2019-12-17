@@ -6,4 +6,3 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-// TODO: Search Results only loads first page

@@ -116,10 +116,13 @@ struct TMDBShowSearchResult: TMDBSearchResult, Identifiable {
     }
 }
 
-struct SearchResult: Codable {
+/// Deocdes a search result as either a `TMDBMovieSearchResult` or a `TMDBShowSearchResult`.
+struct SearchResult: PageWrapperProtocol {
+    
     private struct Empty: Decodable {}
     
     var results: [TMDBSearchResult]
+    var totalPages: Int
     
     /// Initializes the interal results array from the given decoder
     /// - Parameter decoder: The decoder
@@ -147,15 +150,12 @@ struct SearchResult: Codable {
                 _ = try? arrayContainer2.decode(Empty.self)
             }
         }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        print("ENCODING")
-        fatalError()
+        self.totalPages = try container.decode(Int.self, forKey: .totalPages)
     }
     
     enum CodingKeys: String, CodingKey {
         case results
+        case totalPages = "total_pages"
     }
     
     private struct GenericMedia: Codable {
