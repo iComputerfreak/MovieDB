@@ -16,10 +16,12 @@ class MediaLibrary: ObservableObject, Codable {
     /// The shared `MediaLibrary` instance.
     static let shared = MediaLibrary.load()
     
+    var lastUpdate: Date?
     @Published var mediaList: [Media]
     
     private init() {
         self.mediaList = []
+        self.lastUpdate = nil
         // Set up the notifications to save when the app enters background
         NotificationCenter.default.addObserver(self, selector: #selector(save), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -40,6 +42,22 @@ class MediaLibrary: ObservableObject, Codable {
         let pList = try? PropertyListEncoder().encode(self)
         UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
         print("Library saved")
+    }
+    
+    /// Updates the media library by updaing every media object with API calls again.
+    // TODO: Call regularily
+    func update() {
+        let api = TMDBAPI.shared
+        api.getChanges(from: lastUpdate, to: Date()) { (changes) in
+            // Iterate over the library, not the changed IDs for performance reasons
+            for media in self.mediaList {
+                if changes.contains(media.id) {
+                    // This media has been changed
+                    api.updateMedia(media)
+                }
+            }
+            self.lastUpdate = Date()
+        }
     }
     
     // MARK: - Codable Conformance
@@ -69,6 +87,8 @@ class MediaLibrary: ObservableObject, Codable {
             }
         }
         print("Loaded \(self.mediaList.count) Media objects.")
+        // Load other properties
+        self.lastUpdate = try container.decode(Date?.self, forKey: .lastUpdate)
     }
     
     private struct Empty: Decodable {}
@@ -91,10 +111,14 @@ class MediaLibrary: ObservableObject, Codable {
                 try arrayContainer.encode(media as! Show)
             }
         }
+        // Encode other properties
+        try container.encode(self.lastUpdate, forKey: .lastUpdate)
     }
     
     enum CodingKeys: CodingKey {
         case mediaList
+        
+        case lastUpdate
     }
     
 }

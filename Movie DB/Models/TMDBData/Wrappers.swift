@@ -114,3 +114,9 @@ struct VideosWrapper: Codable, Equatable {
         case videos = "results"
     }
 }
+
+/// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.
+struct MediaChangeWrapper: Codable {
+    var id: Int
+    var adult: Bool?
+}

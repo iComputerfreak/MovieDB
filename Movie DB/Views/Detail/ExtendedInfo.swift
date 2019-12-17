@@ -39,8 +39,7 @@ struct ExtendedInfo: View {
                     }
                 }
                 
-                // FIXME: Not always correct
-                LinkView(text: String(data.id), link: "https://www.themoviedb.org/movie/\(data.id)")
+                LinkView(text: String(data.id), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(data.id)")
                     .headline("TMDB ID")
                 data.imdbID.map {
                     LinkView(text: $0, link: "https://www.imdb.com/title/\($0)")

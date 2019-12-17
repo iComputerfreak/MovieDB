@@ -87,82 +87,15 @@ class Media: Identifiable, ObservableObject, Codable {
         self.type = type
     }
     
-    /// Creates a new Media object from an API Search result and starts the appropriate API calls to fill the data properties
-    /// - Parameter searchResult: The result of the API search
-    /// - Returns: A concrete subclass of `Media` created from the given search result data
-    static func create(from searchResult: TMDBSearchResult) -> Media {
-        // Create either a movie or a show and return it. Don't instantiate Media directly
-        let media: Media!
-        if searchResult.mediaType == .movie {
-            media = Movie()
-        } else {
-            media = Show()
-        }
-        
-        // Get the TMDB Data from the API
-        let api = TMDBAPI(apiKey: JFLiterals.apiKey)
-        api.getMedia(by: searchResult.id, type: searchResult.mediaType) { (data) in
-            guard let data = data else {
-                print("Error getting TMDB Data for \(searchResult.mediaType.rawValue): \(searchResult.title) [\(searchResult.id)]")
-                return
-            }
-            // Completion closure may be in other thread
-            DispatchQueue.main.async {
-                media.tmdbData = data
-                media.loadThumbnail()
-            }
-        }
-                
-        api.getCast(by: searchResult.id, type: searchResult.mediaType) { wrapper in
-            print("[\(searchResult.title)] Loaded \(wrapper?.cast.count ?? -1) Cast Members")
-            if let cast = wrapper?.cast {
-                DispatchQueue.main.async {
-                    media.cast = cast
-                }
-            }
-        }
-        
-        api.getKeywords(by: searchResult.id, type: searchResult.mediaType) { wrapper in
-            print("[\(searchResult.title)] Loaded \(wrapper?.keywords.count ?? -1) Keywords")
-            if let keywords = wrapper?.keywords {
-                DispatchQueue.main.async {
-                    // Save only the keyword names, ignore the id
-                    media.keywords = keywords.map({ $0.name })
-                }
-            }
-        }
-        
-        api.getVideos(by: searchResult.id, type: searchResult.mediaType) { wrapper in
-            print("[\(searchResult.title)] Loaded \(wrapper?.videos.count ?? -1) Videos")
-            if let videos = wrapper?.videos {
-                DispatchQueue.main.async {
-                    // Save only the trailers
-                    media.videos = videos.filter({ $0.type == .trailer })
-                }
-            }
-        }
-        
-        api.getTranslations(by: searchResult.id, type: searchResult.mediaType) { wrapper in
-            print("[\(searchResult.title)] Loaded \(wrapper?.translations.count ?? -1) Translations")
-            if let translations = wrapper?.translations {
-                DispatchQueue.main.async {
-                    // Save only the localized names, not the english names
-                    media.translations = translations.map({ $0.name })
-                }
-            }
-        }
-        
-        return media
-    }
     
-    // Only gets triggered in the custom init, so only when creating the object with `Media.create(from:)`
+    /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
     func loadThumbnail() {
         guard let tmdbData = self.tmdbData else {
             // Function invoked, without tmdbData being initialized
             return
         }
         guard thumbnail == nil else {
-            // Thumbnail already present, don't download again
+            // Thumbnail already present, don't download again (sadly, this prevents thumbnail updates)
             return
         }
         guard let imagePath = tmdbData.imagePath, !imagePath.isEmpty else {
@@ -247,7 +180,7 @@ class Media: Identifiable, ObservableObject, Codable {
     }
 }
 
-enum MediaType: String, Codable {
+enum MediaType: String, Codable, CaseIterable {
     case movie = "movie"
     case show = "tv"
 }

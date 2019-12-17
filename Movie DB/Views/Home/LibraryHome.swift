@@ -23,7 +23,35 @@ struct LibraryHome : View {
         var list = library.mediaList
         // MARK: Search Term
         if !searchText.isEmpty {
-            list = list.filter({ $0.tmdbData?.title.contains(self.searchText) ?? false })
+            list = list.filter({ media in
+                if media.tmdbData?.title.contains(self.searchText) ?? false {
+                    return true
+                }
+                if media.tmdbData?.originalTitle.contains(self.searchText) ?? false {
+                    return true
+                }
+                // Partial matches
+                if media.keywords.contains(where: { $0.contains(self.searchText) }) {
+                    return true
+                }
+                // Partial matches
+                if media.cast.map({ $0.name }).contains(where: { $0.contains(self.searchText) }) {
+                    return true
+                }
+                if media.notes.contains(self.searchText) {
+                    return true
+                }
+                // Exact tag matches only
+                if media.tags.map({ TagLibrary.shared.name(for: $0) }).contains(self.searchText) {
+                    return true
+                }
+                if let idString = media.tmdbData?.id {
+                    if String(idString) == self.searchText {
+                        return true
+                    }
+                }
+                return false
+            })
         }
         // Additionally to the filter, hide adult media, if not explicitly set in config
         if !JFConfig.shared.showAdults {
@@ -43,6 +71,10 @@ struct LibraryHome : View {
         }
         // Apply the filter
         return self.filterSettings.apply(on: list)
+    }
+    
+    func didAppear() {
+        
     }
     
     var body: some View {
@@ -86,6 +118,7 @@ struct LibraryHome : View {
                 )
                 .navigationBarTitle(Text("Home"))
         }
+        .onAppear(perform: didAppear)
     }
 }
 

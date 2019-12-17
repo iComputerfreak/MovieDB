@@ -18,18 +18,18 @@ Currently still in development.
 * Filter and sorting options for the library
 * Region / Langauge Settings
 * Settings option to hide all adult media (in search and library)
+* Searching for keywords and other properties
+* Update function that updates the media, executed regularily
 
 ## Planned Features
-* Searching for keywords and other properties
+* Settings option to reload all media in the library (fully redownload every media from their ID)
 * Embed trailers
-* Show some of the translation languages
-* Update function that pulls all tmdbData again, executed every week or so
-* Show streaming service availability (still need an api for that)
-* Notification when a new season is available on your streaming services
+* Parental Ratings
+* Marking media as Favorite
 * PDF Export
 * CSV Export
-* Marking media as Favorite
-* Parental Ratings
+* Show streaming service availability (still need an api for that)
+* Notification when a new season is available on your streaming services
 
 ## Known Bugs
 * It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.

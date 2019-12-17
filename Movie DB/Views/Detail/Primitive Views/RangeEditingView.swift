@@ -55,7 +55,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
         List {
             GeometryReader { geometry in
                 HStack {
-                    // FIXME: Pickers should only range from lower ... bounds or bounds ... upper (currently modifying the content of a picker throws an IndexOutOfRange Error)
+                    // FUTURE: Pickers should only range from lower ... bounds or bounds ... upper (currently modifying the content of a picker throws an IndexOutOfRange Error)
                     Picker(selection: self.proxies.lower, label: Text("")) {
                         ForEach(self.bounds/*Array(self.bounds.lowerBound ... self.proxies.upper.wrappedValue)*/, id: \.self) { value in
                             self.valueLabel(value)
@@ -77,7 +77,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
                     .clipped()
                 }
             }
-                // FIXME: Height has to be set manually, because of GeometryReader
+                // FUTURE: Height has to be set manually, because of GeometryReader
                 .frame(height: 216)
         }
         .labelsHidden()

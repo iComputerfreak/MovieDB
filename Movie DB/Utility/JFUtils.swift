@@ -12,16 +12,16 @@ import SwiftUI
 
 struct JFUtils {
     
-    // TODO: On error X-Rate-Limiting, show correct user message
-    // Abort adding media on any loading error so no incomplete media is added (or schedule a reload later)
-    // May have to pass through error from JFUtils function for that
+    static var tmdbDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
     
     /// Converts a string from the TMDB response into a `Date`
     /// - Parameter string: The date-string from TMDB
     static func dateFromTMDBString(_ string: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.date(from: string)
+        return tmdbDateFormatter.date(from: string)
     }
     
     /// Returns the year component of the given date
@@ -31,18 +31,14 @@ struct JFUtils {
         return cal.component(.year, from: date)
     }
     
-    /// Executes a HTTP GET request
+    /// Convenience function to execute a HTTP GET request.
+    /// Ignores errors and just passes nil to the completion handler.
     /// - Parameters:
     ///   - urlString: The URL string of the request
     ///   - parameters: The parameters for the request
     ///   - completion: The closure to execute on completion of the request
     static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?) -> Void) {
-        let urlStringWithParameters = "\(urlString)?\(parameters.percentEscaped())"
-        var request = URLRequest(url: URL(string: urlStringWithParameters)!)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        getRequest(urlString, parameters: parameters) { (data, response, error) in
             guard let data = data, let response = response as? HTTPURLResponse, error == nil else {
                 print("error", error ?? "Unknown error")
                 completion(nil)
@@ -60,7 +56,20 @@ struct JFUtils {
             }
             
             completion(data)
-        }.resume()
+        }
+    }
+    
+    /// Executes a HTTP GET request
+    /// - Parameters:
+    ///   - urlString: The URL string of the request
+    ///   - parameters: The parameters for the request
+    ///   - completion: The closure to execute on completion of the request
+    static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let urlStringWithParameters = "\(urlString)?\(parameters.percentEscaped())"
+        var request = URLRequest(url: URL(string: urlStringWithParameters)!)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
     }
     
     /// Builds the URL for an TMDB image
@@ -71,6 +80,8 @@ struct JFUtils {
         return "https://image.tmdb.org/t/p/w\(size)/\(path)"
     }
     
+    // TODO: Maybe load the strings from TMDB instead of using the Locale values
+    // https://developers.themoviedb.org/3/configuration/get-languages
     /// Returns the human readable language name (in english) from the given ISO-639-1 string
     ///
     ///     languageString("en") // Returns "English"
@@ -151,6 +162,14 @@ struct JFUtils {
             return 0...0
         }
         return seasons.first! ... seasons.last!
+    }
+    
+    /// Returns a list of genres used in the media library.
+    /// Does not contain duplicates.
+    static func allGenres() -> [Genre] {
+        let genres = MediaLibrary.shared.mediaList.compactMap({ $0.tmdbData?.genres })
+        // Remove all duplicates
+        return Array(Set(genres.joined()))
     }
 }
 

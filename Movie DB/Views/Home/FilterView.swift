@@ -82,7 +82,7 @@ struct FilterView: View {
                             .tag(MediaType.show.rawValue)
                     }
                     // MARK: - Genres
-                    FilterMultiPicker(selection: $filterSettings.genres, label: { $0.name }, values: Genre.allGenres, title: Text("Genres"))
+                    FilterMultiPicker(selection: $filterSettings.genres, label: { $0.name }, values: JFUtils.allGenres(), title: Text("Genres"))
                     // MARK: - Rating
                     NavigationLink(destination: RangeEditingView(bounds: 0...JFLiterals.maximumRating, setting: $filterSettings.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
                         HStack {

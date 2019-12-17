@@ -16,6 +16,7 @@ struct AddMediaView : View {
     @State private var searchText: String = ""
     @State private var alertShown: Bool = false
     @State private var alertTitle: String? = nil
+    @State private var showLoadingErrorAlert = false
     
     @Environment(\.presentationMode) private var presentationMode
     
@@ -28,8 +29,8 @@ struct AddMediaView : View {
                         self.results = []
                         return
                     }
-                    let api = TMDBAPI(apiKey: JFLiterals.apiKey)
-                    api.searchMedia(self.searchText) { (results: [TMDBSearchResult]?) in
+                    let api = TMDBAPI.shared
+                    api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?) in
                         guard let results = results else {
                             print("Error getting results")
                             DispatchQueue.main.async {
@@ -64,7 +65,12 @@ struct AddMediaView : View {
                                 self.alertTitle = result.title
                                 self.alertShown = true
                             } else {
-                                self.library.mediaList.append(Media.create(from: result))
+                                if let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType) {
+                                    self.library.mediaList.append(media)
+                                } else {
+                                    // Error loading the media object
+                                    self.showLoadingErrorAlert = true
+                                }
                             }
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
@@ -77,6 +83,9 @@ struct AddMediaView : View {
             .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
                 .alert(isPresented: $alertShown) {
                     Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
+            }
+            .alert(isPresented: $showLoadingErrorAlert) {
+                Alert(title: Text("Error loading media"), message: Text("The media could not be loaded. Please try again later."), dismissButton: .default(Text("Ok")))
             }
         }
     }

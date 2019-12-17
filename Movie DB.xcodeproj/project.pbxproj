@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
+		AB149BF923A557220066FD7E /* ResultsPageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB149BF823A557220066FD7E /* ResultsPageWrapper.swift */; };
 		AB211CA123917133009590D5 /* cast.json in Resources */ = {isa = PBXBuildFile; fileRef = AB211CA023917133009590D5 /* cast.json */; };
 		AB25099B238B18AF00F7A411 /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = AB25099A238B18AF00F7A411 /* TextView */; };
 		AB25099E238B1EED00F7A411 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB25099D238B1EED00F7A411 /* KeyboardResponder.swift */; };
@@ -72,6 +73,7 @@
 		ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B0823932A8F00F4C327 /* FilterView.swift */; };
 		ABF13EEB22CE4A41006AF6EC /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF13EEA22CE4A41006AF6EC /* AppTests.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
+		ABFBF7A223A9052E008F4A80 /* TODOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFBF7A123A9052E008F4A80 /* TODOs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		AB11C30B22CA3E1A0057105A /* LibraryHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryHome.swift; sourceTree = "<group>"; };
+		AB149BF823A557220066FD7E /* ResultsPageWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsPageWrapper.swift; sourceTree = "<group>"; };
 		AB211CA023917133009590D5 /* cast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cast.json; sourceTree = "<group>"; };
 		AB211CA22391854B009590D5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AB25099D238B1EED00F7A411 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 		ABED3B0823932A8F00F4C327 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		ABF13EEA22CE4A41006AF6EC /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
+		ABFBF7A123A9052E008F4A80 /* TODOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODOs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				ABA13D592381F02A00E885DD /* README.md */,
+				ABFBF7A123A9052E008F4A80 /* TODOs.swift */,
 				AB211CA22391854B009590D5 /* LICENSE */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
@@ -315,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */,
+				AB149BF823A557220066FD7E /* ResultsPageWrapper.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB6718DC22C0312B00F429E4 /* Build configuration list for PBXNativeTarget "Movie DB" */;
 			buildPhases = (
+				ABFBF7A023A904AF008F4A80 /* ShellScript */,
 				AB6718B922C0312A00F429E4 /* Sources */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
@@ -482,6 +489,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		ABFBF7A023A904AF008F4A80 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB6718B922C0312A00F429E4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -505,6 +532,7 @@
 				AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */,
 				ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */,
 				AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */,
+				AB149BF923A557220066FD7E /* ResultsPageWrapper.swift in Sources */,
 				ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */,
 				ABD7CB632375DB8F0049E236 /* PlaceholderData.swift in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
@@ -534,6 +562,7 @@
 				AB5F7E41238AF0AC0007A3FE /* JFLiterals.swift in Sources */,
 				ABD7CB612375D96C0049E236 /* LinkView.swift in Sources */,
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
+				ABFBF7A223A9052E008F4A80 /* TODOs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

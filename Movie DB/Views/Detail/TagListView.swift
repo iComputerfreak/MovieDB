@@ -38,7 +38,6 @@ struct TagListView: View {
         if tags.isEmpty {
             return Text("None").italic()
         }
-        // TODO: Make fancy (capsules with shadow etc.)
         return Text(tags.map({ TagLibrary.shared.name(for: $0) ?? "<Unknown Tag>" }).joined(separator: ", "))
     }
     
