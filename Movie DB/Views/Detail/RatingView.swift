@@ -11,7 +11,7 @@ import SwiftUI
 /// Provides a view that displays an editable star rating
 struct RatingView: View {
     
-    @Binding var rating: Int
+    @Binding var rating: StarRating
     @Environment(\.editMode) private var editMode
     
     var body: some View {
@@ -21,25 +21,22 @@ struct RatingView: View {
                 .padding(.vertical, 5)
                 .foregroundColor(Color.yellow)
             if editMode?.wrappedValue.isEditing ?? false {
-                Stepper("", value: $rating, in: 0...10)
+                Stepper("", value: $rating, in: StarRating.noRating...StarRating.fiveStars)
             }
         }
     }
     
-    private func stars(_ rating: Int) -> some View {
-        guard 0...10 ~= rating else {
-            return stars(0)
-        }
+    private func stars(_ rating: StarRating) -> some View {
         return HStack {
-            ForEach(Array(0..<(rating / 2)), id: \.self) { _ in
+            ForEach(Array(0..<(rating.integerRepresentation / 2)), id: \.self) { _ in
                 Image(systemName: "star.fill")
             }
-            if rating % 2 == 1 {
+            if rating.integerRepresentation % 2 == 1 {
                 Image(systemName: "star.lefthalf.fill")
             }
             // Only if there is at least one empty star
-            if rating < 9 {
-                ForEach(Array(0..<(10 - rating) / 2), id: \.self) { _ in
+            if rating.integerRepresentation < 9 {
+                ForEach(Array(0..<(10 - rating.integerRepresentation) / 2), id: \.self) { _ in
                     Image(systemName: "star")
                 }
             }
@@ -49,6 +46,45 @@ struct RatingView: View {
 
 struct RatingView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingView(rating: .constant(5))
+        RatingView(rating: .constant(.twoAndAHalfStars))
     }
+}
+
+enum StarRating: Int, Strideable, Codable {
+    
+    typealias Stride = Int
+    
+    case noRating
+    case oneStar
+    case oneAndAHalfStars
+    case twoStars
+    case twoAndAHalfStars
+    case threeStars
+    case threeAndAHalfStars
+    case fourStars
+    case fourAndAHalfStars
+    case fiveStars
+    
+    /// The integer value of the rating (amount of half stars)
+    var integerRepresentation: Int {
+        // Shift all values except 0 (no rating) by 1 to compensate the lack of 0.5 stars
+        return self == .noRating ? 0 : rawValue + 1
+    }
+    
+    /// The amount of full stars as a string with an optional fraction digit
+    var starAmount: String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 1
+        return formatter.string(from: Double(integerRepresentation) / 2)!
+    }
+    
+    func advanced(by n: Int) -> StarRating {
+        return StarRating(rawValue: self.rawValue + n)!
+    }
+    
+    func distance(to other: StarRating) -> Int {
+        return other.rawValue - self.rawValue
+    }
+    
 }

@@ -21,7 +21,7 @@ class FilterSettings: ObservableObject, Codable {
     @Published var mediaType: MediaType? = nil
     @Published var genres: [Genre] = []
     // var parentalRating
-    @Published var rating: ClosedRange<Int>? = nil
+    @Published var rating: ClosedRange<StarRating>? = nil
     @Published var year: ClosedRange<Int>? = nil
     @Published var status: [MediaStatus] = []
     // Show Specific
@@ -217,7 +217,7 @@ class FilterSettings: ObservableObject, Codable {
         self.isAdult = try container.decode(Bool?.self, forKey: .isAdult)
         self.mediaType = try container.decode(MediaType?.self, forKey: .mediaType)
         self.genres = try container.decode([Genre].self, forKey: .genres)
-        self.rating = try container.decode(ClosedRange<Int>?.self, forKey: .rating)
+        self.rating = try container.decode(ClosedRange<StarRating>?.self, forKey: .rating)
         self.year = try container.decode(ClosedRange<Int>?.self, forKey: .year)
         self.status = try container.decode([MediaStatus].self, forKey: .status)
         self.showTypes = try container.decode([ShowType].self, forKey: .showTypes)

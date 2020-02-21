@@ -44,7 +44,7 @@ class Media: Identifiable, ObservableObject, Codable {
     /// The type of media
     @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    @Published var personalRating: Int = 0
+    @Published var personalRating: StarRating = .noRating
     /// A list of user-specified tags, listed by their id
     @Published var tags: [Int] = []
     /// Whether the user would watch the media again
@@ -89,13 +89,13 @@ class Media: Identifiable, ObservableObject, Codable {
     
     
     /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
-    func loadThumbnail() {
+    func loadThumbnail(force: Bool = false) {
         guard let tmdbData = self.tmdbData else {
             // Function invoked, without tmdbData being initialized
             return
         }
-        guard thumbnail == nil else {
-            // Thumbnail already present, don't download again (sadly, this prevents thumbnail updates)
+        guard thumbnail == nil || force else {
+            // Thumbnail already present, don't download again, override with force parameter
             return
         }
         guard let imagePath = tmdbData.imagePath, !imagePath.isEmpty else {
@@ -120,7 +120,7 @@ class Media: Identifiable, ObservableObject, Codable {
         
         self.id = try container.decode(Int.self, forKey: .id)
         self.type = try container.decode(MediaType.self, forKey: .type)
-        self.personalRating = try container.decode(Int.self, forKey: .personalRating)
+        self.personalRating = try container.decode(StarRating.self, forKey: .personalRating)
         self.tags = try container.decode([Int].self, forKey: .tags)
         self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try container.decode(String.self, forKey: .notes)

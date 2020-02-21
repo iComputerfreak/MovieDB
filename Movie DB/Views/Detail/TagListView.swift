@@ -47,7 +47,9 @@ struct TagListView: View {
         
         var body: some View {
             List {
-                ForEach(TagLibrary.shared.tags) { tag in
+                ForEach(TagLibrary.shared.tags.sorted(by: { (tag1: Tag, tag2: Tag) in
+                    return tag1.name.lexicographicallyPrecedes(tag2.name)
+                })) { tag in
                     Button(action: {
                         if self.tags.contains(tag.id) {
                             self.tags.removeAll(where: { $0 == tag.id })

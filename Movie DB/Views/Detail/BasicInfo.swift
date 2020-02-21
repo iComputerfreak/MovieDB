@@ -40,7 +40,7 @@ struct BasicInfo: View {
                             .headline("Release Date")
                     }
                     movieData!.runtime.map { (runtime: Int) in
-                        Text("\(runtime) Minutes (\(runtime / 60):\(runtime % 60) h)")
+                        Text("\(runtime) Minutes (\(runtime >= 60 ? "\(runtime / 60)h " : "")\(runtime % 60)m)")
                             .headline("Runtime")
                     }
                 }

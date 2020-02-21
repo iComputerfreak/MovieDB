@@ -26,14 +26,14 @@ struct PlaceholderData {
     static let movie: Movie = {
         let m = Movie()
         m.tmdbData = Self.tmdbMovieData
-        m.personalRating = 5
+        m.personalRating = .twoAndAHalfStars
         m.tags = [0, 1, 2]
         return m
     }()
     static let show: Show = {
         let s = Show()
         s.tmdbData = Self.tmdbShowData
-        s.personalRating = 8
+        s.personalRating = .fourStars
         s.tags = [2, 3]
         return s
     }()

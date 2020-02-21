@@ -12,7 +12,16 @@ class TagLibrary: ObservableObject {
     
     static let shared = TagLibrary()
     
-    @Published private(set) var tags: [Tag] = JFConfig.shared.tags
+    @Published private(set) var tags: [Tag] = {
+        // Load using plist
+        if let data = UserDefaults.standard.data(forKey: JFLiterals.Keys.allTags) {
+            let loadedValue = try? PropertyListDecoder().decode([Tag].self, from: data)
+            if loadedValue != nil {
+                return loadedValue!
+            }
+        }
+        return []
+    }()
     
     private init() {}
     
@@ -42,10 +51,12 @@ class TagLibrary: ObservableObject {
     
     func remove(id: Int) {
         self.tags.removeAll(where: { $0.id == id })
+        save()
     }
     
     func remove(atOffsets indexSet: IndexSet) {
         self.tags.remove(atOffsets: indexSet)
+        save()
     }
 }
 

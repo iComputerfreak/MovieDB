@@ -191,12 +191,17 @@ class TMDBAPI {
             group.leave()
         }
         group.wait()
+        // Redownload the thumbnail (it may have been updated)
+        media.loadThumbnail(force: true)
         // Update cast, keywords, videos and translations
         self.startSeparateAPICalls(media: media, sync: true)
     }
     
     /// Starts API calls to fill in the cast, keywords, videos and translations.
     /// Does not overwrite existing data with nil or empty data.
+    ///
+    /// This function uses 4 API calls
+    ///
     /// - Parameter media: The media object to fill with the API call results
     /// - Parameter sync: Whether the function should be executed synchronously
     private func startSeparateAPICalls(media: Media, sync: Bool = false) {

@@ -49,7 +49,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Toggle(isOn: $config.showAdults, label: { Text("Show Adult Content") })
+                Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
                 Picker("Database Language", selection: $config.language) {
                     ForEach(self.sortedLanguages, id: \.self) { code in
                         Text(JFUtils.languageString(for: code) ?? code)
@@ -62,6 +62,10 @@ struct SettingsView: View {
                             .tag(code)
                     }
                 }
+                Divider()
+                Button(action: {
+                    MediaLibrary.shared.update()
+                }, label: Text("Update Media").closure())
             }
             .navigationBarTitle("Settings")
         }

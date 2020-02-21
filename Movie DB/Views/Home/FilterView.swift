@@ -84,7 +84,7 @@ struct FilterView: View {
                     // MARK: - Genres
                     FilterMultiPicker(selection: $filterSettings.genres, label: { $0.name }, values: JFUtils.allGenres(), title: Text("Genres"))
                     // MARK: - Rating
-                    NavigationLink(destination: RangeEditingView(bounds: 0...JFLiterals.maximumRating, setting: $filterSettings.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
+                    NavigationLink(destination: RangeEditingView(bounds: StarRating.noRating...StarRating.fiveStars, setting: $filterSettings.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
                         HStack {
                             Text("Rating")
                             Spacer()
@@ -92,7 +92,7 @@ struct FilterView: View {
                                 Text("Any")
                                     .foregroundColor(.secondary)
                             } else {
-                                Text("\(self.filterSettings.rating!.lowerBound.divided(by: 2)) to \(self.filterSettings.rating!.upperBound.divided(by: 2)) stars")
+                                Text("\(self.filterSettings.rating!.lowerBound.starAmount) to \(self.filterSettings.rating!.upperBound.starAmount) stars")
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -141,17 +141,6 @@ struct FilterView: View {
             }, label: Text("Apply").closure()))
         }
     .onDisappear(perform: onDisappear)
-    }
-}
-
-fileprivate extension Int {
-    /// Returns the result of the division rounded to one fraction digit
-    /// - Parameter int: The number to divide by
-    func divided(by int: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 1
-        return formatter.string(from: Double(self) / Double(int))!
     }
 }
 

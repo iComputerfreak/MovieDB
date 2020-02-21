@@ -23,7 +23,7 @@ struct AddMediaView : View {
     var body: some View {
         NavigationView {
             VStack {
-                SearchBar(text: $searchText, onSearchEditingChanged: {
+                SearchBar(text: $searchText, onSearchButtonClicked: {
                     print("Search: \(self.searchText)")
                     guard !self.searchText.isEmpty else {
                         self.results = []
