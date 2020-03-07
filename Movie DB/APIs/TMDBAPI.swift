@@ -33,6 +33,7 @@ class TMDBAPI {
     /// - Parameters:
     ///   - path: The api path without the starting `/`
     ///   - completion: The closure to execute, once the GET Request has been completed
+    /// - Returns: Whether the operation was successful
     func request(path: String, additionalParameters: [String: Any?] = [:], completion: @escaping (Data?) -> Void) {
         let url = "\(baseURL)/\(path)"
         var parameters: [String: Any?] = [
@@ -71,6 +72,7 @@ class TMDBAPI {
             results.append(contentsOf: wrapper.results)
             let group = DispatchGroup()
             if wrapper.totalPages <= 1 {
+                completion(results)
                 return
             }
             for page in 2 ... min(wrapper.totalPages, maxPages) {
@@ -168,11 +170,13 @@ class TMDBAPI {
     /// This function uses 5 API calls.
     /// 
     /// - Parameter media: The media object to update
-    func updateMedia(_ media: Media) {
+    /// - Returns: Whether the update was successful
+    func updateMedia(_ media: Media) -> Bool {
+        var success = true
         guard let id = media.tmdbData?.id else {
             // No idea what TMDB ID should be
             print("Error updating media \(media.id). No TMDB Data set.")
-            return
+            return false
         }
         // Update TMDBData
         let group = DispatchGroup()
@@ -180,6 +184,7 @@ class TMDBAPI {
         self.getTMDBData(by: id, type: media.type) { (data) in
             guard let data = data else {
                 print("Error updating TMDB data of \(media.type.rawValue) \(id)")
+                success = false
                 group.leave()
                 return
             }
@@ -194,7 +199,7 @@ class TMDBAPI {
         // Redownload the thumbnail (it may have been updated)
         media.loadThumbnail(force: true)
         // Update cast, keywords, videos and translations
-        self.startSeparateAPICalls(media: media, sync: true)
+        return success && self.startSeparateAPICalls(media: media, sync: true)
     }
     
     /// Starts API calls to fill in the cast, keywords, videos and translations.
@@ -204,10 +209,12 @@ class TMDBAPI {
     ///
     /// - Parameter media: The media object to fill with the API call results
     /// - Parameter sync: Whether the function should be executed synchronously
-    private func startSeparateAPICalls(media: Media, sync: Bool = false) {
+    /// - Returns: Whether the API calls were successful
+    @discardableResult
+    private func startSeparateAPICalls(media: Media, sync: Bool = false) -> Bool {
         guard let id = media.tmdbData?.id else {
             // No idea what the TMDB ID should be
-            return
+            return false
         }
         let group: DispatchGroup? = sync ? DispatchGroup() : nil
         group?.enter()
@@ -254,6 +261,7 @@ class TMDBAPI {
             group?.leave()
         }
         group?.wait()
+        return true
     }
     
     /// Fetches the IDs of the media objects that changed in the given timeframe

@@ -65,6 +65,17 @@ enum StarRating: Int, Strideable, Codable {
     case fourAndAHalfStars
     case fiveStars
     
+    init?(integerRepresentation: Int) {
+        if integerRepresentation == 0 {
+            self = .noRating
+        }
+        if let r = StarRating(rawValue: integerRepresentation - 1) {
+            self = r
+        } else {
+            return nil
+        }
+    }
+    
     /// The integer value of the rating (amount of half stars)
     var integerRepresentation: Int {
         // Shift all values except 0 (no rating) by 1 to compensate the lack of 0.5 stars
