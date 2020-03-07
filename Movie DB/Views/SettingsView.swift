@@ -47,14 +47,9 @@ struct SettingsView: View {
         }
     }
     
-    @State private var updateResult: (successes: Int, failures: Int) = (0, 0)
     @State private var updateInProgress = false
     
     // Alerts
-    @State private var isShowingResetAlert = false
-    @State private var isShowingUpdateResult = false
-    @State private var isShowingImportAlert = false
-    
     @ObservedObject private var alertController = AlertController()
     
     @State private var shareSheet = ShareSheet()
@@ -94,23 +89,20 @@ struct SettingsView: View {
                                 self.updateInProgress = true
                             }
                             // Update and show the result
-                            self.updateResult = MediaLibrary.shared.update()
-                            self.isShowingUpdateResult = true
+                            let updateResult = MediaLibrary.shared.update()
                             DispatchQueue.main.sync {
                                 self.updateInProgress = false
+                                let s = updateResult.successes
+                                let f = updateResult.failures
+                                var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
+                                if f != 0 {
+                                    message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
+                                }
+                                self.alertController.present(title: "Update completed", message: message)
                             }
                         }
                     }, label: Text("Update Media").closure())
                         .disabled(self.updateInProgress)
-                        .alert(isPresented: $isShowingUpdateResult) {
-                            let s = self.updateResult.successes
-                            let f = self.updateResult.failures
-                            var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
-                            if f != 0 {
-                                message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
-                            }
-                            return Alert(title: Text("Update completed"), message: Text(message), dismissButton: .default(Text("Okay")))
-                    }
                     
                     // MARK: - Import Button
                     Button(action: {
@@ -125,7 +117,7 @@ struct SettingsView: View {
                                 DispatchQueue.main.async {
                                     self.alertController.present(
                                         title: "Import",
-                                        message: "Do you want to import \(mediaObjects.count) media objects?",
+                                        message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
                                         primaryButton: .default(Text("Yes"), action: {
                                             MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
                                         }),
@@ -179,15 +171,12 @@ struct SettingsView: View {
                     })
                     // MARK: - Reset Button
                     Button(action: {
-                        self.isShowingResetAlert = true
+                        self.alertController.present(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
+                            // Delete all objects
+                            MediaLibrary.shared.mediaList.removeAll()
+                            MediaLibrary.shared.save()
+                        }))
                     }, label: Text("Reset Library").closure())
-                        .alert(isPresented: $isShowingResetAlert) {
-                            Alert(title: Text("Reset Library"), message: Text("This will delete all media objects in your library. Do you want to continue?"), primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
-                                // Delete all objects
-                                MediaLibrary.shared.mediaList.removeAll()
-                                MediaLibrary.shared.save()
-                            }))
-                    }
                 }
                 
                 .alert(isPresented: $alertController.isShown, content: alertController.buildAlert)
