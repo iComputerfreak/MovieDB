@@ -13,7 +13,8 @@ import SwiftUI
 
 struct DocumentPicker: UIViewControllerRepresentable {
     
-    var callback: (URL) -> ()
+    var onSelect: (URL) -> ()
+    var onCancel: (() -> ())?
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
@@ -37,11 +38,12 @@ struct DocumentPicker: UIViewControllerRepresentable {
         
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             print("Selected a document: \(urls[0])")
-            parent.callback(urls[0])
+            parent.onSelect(urls[0])
         }
         
-        func documentPickerWasCancelled() {
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             print("Picker cancelled.")
+            parent.onCancel?()
         }
     }
     

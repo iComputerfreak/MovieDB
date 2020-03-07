@@ -8,7 +8,6 @@
 
 import SwiftUI
 import JFSwiftUI
-import CSV
 
 struct SettingsView: View {
     
@@ -48,129 +47,154 @@ struct SettingsView: View {
         }
     }
     
-    @State private var isShowingUpdateResult = false
     @State private var updateResult: (successes: Int, failures: Int) = (0, 0)
     @State private var updateInProgress = false
+    
+    // Alerts
     @State private var isShowingResetAlert = false
+    @State private var isShowingUpdateResult = false
+    @State private var isShowingImportAlert = false
+    
+    @ObservedObject private var alertController = AlertController()
     
     @State private var shareSheet = ShareSheet()
     @State private var documentPicker: DocumentPicker?
+    @State private var alert: Alert? = nil
     
     var body: some View {
         NavigationView {
-                Form {
-                    Section {
-                        Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
-                        Picker("Database Language", selection: $config.language) {
-                            ForEach(self.sortedLanguages, id: \.self) { code in
-                                Text(JFUtils.languageString(for: code) ?? code)
-                                    .tag(code)
-                            }
-                        }
-                        Picker("Region", selection: $config.region) {
-                            ForEach(self.sortedRegions, id: \.self) { code in
-                                Text(JFUtils.regionString(for: code) ?? code)
-                                    .tag(code)
-                            }
+            Form {
+                Section {
+                    Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
+                    Picker("Database Language", selection: $config.language) {
+                        ForEach(self.sortedLanguages, id: \.self) { code in
+                            Text(JFUtils.languageString(for: code) ?? code)
+                                .tag(code)
                         }
                     }
-                    Section(footer: {
-                        HStack {
-                            ActivityIndicator()
-                            Text("Updating media library...")
+                    Picker("Region", selection: $config.region) {
+                        ForEach(self.sortedRegions, id: \.self) { code in
+                            Text(JFUtils.regionString(for: code) ?? code)
+                                .tag(code)
                         }
-                        .hidden(condition: !self.updateInProgress)
-                    }()) {
-                        // MARK: - Update Button
-                        Button(action: {
-                            DispatchQueue.global().async {
-                                DispatchQueue.main.sync {
-                                    self.updateInProgress = true
-                                }
-                                // Update and show the result
-                                self.updateResult = MediaLibrary.shared.update()
-                                self.isShowingUpdateResult = true
-                                DispatchQueue.main.sync {
-                                    self.updateInProgress = false
-                                }
+                    }
+                }
+                Section(footer: {
+                    HStack {
+                        ActivityIndicator()
+                        Text("Updating media library...")
+                    }
+                    .hidden(condition: !self.updateInProgress)
+                }()) {
+                    
+                    // MARK: - Update Button
+                    Button(action: {
+                        DispatchQueue.global().async {
+                            DispatchQueue.main.sync {
+                                self.updateInProgress = true
                             }
-                        }, label: Text("Update Media").closure())
-                            .disabled(self.updateInProgress)
-                        // MARK: - Import Button
-                        Button(action: {
-                            self.documentPicker = DocumentPicker(callback: { url in
-                                do {
-                                    let csv = try String(contentsOf: url)
-                                    print("Imported csv file. Trying to import into library.")
-                                    let mediaObjects = CSVDecoder().decode(csv)
-                                    // TODO: Ask if the import number is correct
-                                    MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
-                                } catch let exception {
-                                    print("Error reading imported csv file:")
-                                    print(exception)
-                                }
-                            })
-                        }, label: {
-                            Text("Import Media")
-                        })
-                            .popover(isPresented: .init(get: {
-                                self.documentPicker != nil
-                            }, set: { newState in
-                                // If the new state is "hidden"
-                                if newState == false {
-                                    self.documentPicker = nil
-                                }
-                            })) {
-                                self.documentPicker!
+                            // Update and show the result
+                            self.updateResult = MediaLibrary.shared.update()
+                            self.isShowingUpdateResult = true
+                            DispatchQueue.main.sync {
+                                self.updateInProgress = false
                             }
-                        // MARK: - Export Button
-                        Button(action: {
-                            let encoder = CSVEncoder()
-                            let csv = encoder.encode(MediaLibrary.shared.mediaList)
-                            // Save the csv as a file to share it
-                            let formatter = DateFormatter()
-                            formatter.dateFormat = "yyyy-MM-dd"
-                            let url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export_\(formatter.string(from: Date())).csv")
+                        }
+                    }, label: Text("Update Media").closure())
+                        .disabled(self.updateInProgress)
+                        .alert(isPresented: $isShowingUpdateResult) {
+                            let s = self.updateResult.successes
+                            let f = self.updateResult.failures
+                            var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
+                            if f != 0 {
+                                message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
+                            }
+                            return Alert(title: Text("Update completed"), message: Text(message), dismissButton: .default(Text("Okay")))
+                    }
+                    
+                    // MARK: - Import Button
+                    Button(action: {
+                        self.documentPicker = DocumentPicker(onSelect: { url in
+                            // Document picker finished. Invalidate it.
+                            self.documentPicker = nil
                             do {
-                                try csv.write(to: url, atomically: true, encoding: .utf8)
+                                let csv = try String(contentsOf: url)
+                                print("Imported csv file. Trying to import into library.")
+                                let mediaObjects = CSVDecoder().decode(csv)
+                                // Presenting will change UI
+                                DispatchQueue.main.async {
+                                    self.alertController.present(
+                                        title: "Import",
+                                        message: "Do you want to import \(mediaObjects.count) media objects?",
+                                        primaryButton: .default(Text("Yes"), action: {
+                                            MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
+                                        }),
+                                        secondaryButton: .cancel(Text("No")))
+                                }
                             } catch let exception {
+                                print("Error reading imported csv file:")
                                 print(exception)
-                                return
                             }
-                            self.shareSheet.shareFile(url: url)
-                        }, label: {
-                            // Attach the share sheet above the export button (will be displayed correctly anyways)
-                            ZStack(alignment: .leading) {
-                                Text("Export Media")
-                                shareSheet
-                            }
+                        }, onCancel: {
+                            self.documentPicker = nil
                         })
-                        // MARK: - Reset Button
-                        Button(action: {
-                            self.isShowingResetAlert = true
-                        }, label: Text("Reset Library").closure())
-                            .alert(isPresented: $isShowingResetAlert) {
-                                Alert(title: Text("Reset Library"), message: Text("This will delete all media objects in your library. Do you want to continue?"), primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
-                                    // Delete all objects
-                                    MediaLibrary.shared.mediaList.removeAll()
-                                    MediaLibrary.shared.save()
-                                }))
-                        }
+                    }, label: {
+                        Text("Import Media")
+                    })
+                        // TODO: Replace Binding with .init(get:), if fatalError never occurred.
+                        .popover(isPresented: .init(get: {
+                            self.documentPicker != nil
+                        }, set: { newState in
+                            fatalError("Seems this is called after all... Better uncomment that code below.")
+                            /*print("Setting new state: \(newState)")
+                            // If the new state is "hidden"
+                            if newState == false {
+                                self.documentPicker = nil
+                            }*/
+                        })) {
+                            self.documentPicker!
                     }
+                    
+                    // MARK: - Export Button
+                    Button(action: {
+                        let encoder = CSVEncoder()
+                        let csv = encoder.encode(MediaLibrary.shared.mediaList)
+                        // Save the csv as a file to share it
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "yyyy-MM-dd"
+                        let url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export_\(formatter.string(from: Date())).csv")
+                        do {
+                            try csv.write(to: url, atomically: true, encoding: .utf8)
+                        } catch let exception {
+                            print(exception)
+                            return
+                        }
+                        self.shareSheet.shareFile(url: url)
+                    }, label: {
+                        // Attach the share sheet above the export button (will be displayed correctly anyways)
+                        ZStack(alignment: .leading) {
+                            Text("Export Media")
+                            shareSheet
+                        }
+                    })
+                    // MARK: - Reset Button
+                    Button(action: {
+                        self.isShowingResetAlert = true
+                    }, label: Text("Reset Library").closure())
+                        .alert(isPresented: $isShowingResetAlert) {
+                            Alert(title: Text("Reset Library"), message: Text("This will delete all media objects in your library. Do you want to continue?"), primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
+                                // Delete all objects
+                                MediaLibrary.shared.mediaList.removeAll()
+                                MediaLibrary.shared.save()
+                            }))
+                    }
+                }
+                
+                .alert(isPresented: $alertController.isShown, content: alertController.buildAlert)
             }
             .navigationBarTitle("Settings")
         }
         .onDisappear(perform: save)
-            
-        .alert(isPresented: $isShowingUpdateResult) {
-            let s = self.updateResult.successes
-            let f = self.updateResult.failures
-            var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
-            if f != 0 {
-                message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
-            }
-            return Alert(title: Text("Update completed"), message: Text(message), dismissButton: .default(Text("Okay")))
-        }
     }
     
     struct Keys {

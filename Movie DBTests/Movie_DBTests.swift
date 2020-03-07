@@ -140,7 +140,7 @@ class Movie_DBTests: XCTestCase {
         XCTAssertEqual(cal.component(.day, from: date), day)
     }
     
-    let api = TMDBAPI(apiKey: JFLiterals.apiKey)
+    let api = TMDBAPI.shared
     
 
 }

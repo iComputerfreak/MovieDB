@@ -71,3 +71,9 @@ extension View {
         return { self }
     }
 }
+
+extension Binding {
+    init(get: @escaping () -> Value) {
+        self.init(get: get, set: { _ in })
+    }
+}

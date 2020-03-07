@@ -20,7 +20,7 @@ class APITests: XCTestCase {
     }
     
     func testAPI() {
-        let api = TMDBAPI(apiKey: JFLiterals.apiKey)
+        let api = TMDBAPI.shared
         var expectations = [XCTestExpectation]()
         var genres = Set<Genre>()
         
@@ -28,7 +28,7 @@ class APITests: XCTestCase {
             for id in stride(from: 0, to: 10000, by: 200) {
                 let expectation = XCTestExpectation(description: "Get genres of ID \(id)")
                 expectations.append(expectation)
-                api.getMedia(by: id, type: type) { (data) in
+                /*api.fetchMedia(id: id, type: type) { (data) in
                     guard let myGenres = data?.genres else {
                         print("No data for ID \(id)")
                         return
@@ -41,7 +41,7 @@ class APITests: XCTestCase {
                     }
                     genres = genres.union(myGenres)
                     expectation.fulfill()
-                }
+                }*/
                 sleep(1)
             }
             print("Finished loading genres for \(type.rawValue)")
