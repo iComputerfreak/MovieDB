@@ -18,7 +18,9 @@ struct ContentView : View {
                     Image(systemName: "film")
                     Text("Home")
                 }
-            SettingsView()
+            NavigationView {
+                SettingsView()
+            }
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")

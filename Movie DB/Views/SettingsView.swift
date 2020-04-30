@@ -57,7 +57,7 @@ struct SettingsView: View {
     @State private var alert: Alert? = nil
     
     var body: some View {
-        NavigationView {
+        //NavigationView {
             Form {
                 Section {
                     Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
@@ -75,10 +75,12 @@ struct SettingsView: View {
                     }
                 }
                 Section(footer: {
-                    HStack {
-                        ActivityIndicator()
-                        Text("Updating media library...")
-                    }
+                    AnyView(
+                        HStack {
+                            ActivityIndicator()
+                            Text("Updating media library...")
+                        }
+                    )
                     .hidden(condition: !self.updateInProgress)
                 }()) {
                     
@@ -182,7 +184,7 @@ struct SettingsView: View {
                 .alert(isPresented: $alertController.isShown, content: alertController.buildAlert)
             }
             .navigationBarTitle("Settings")
-        }
+        //}
         .onDisappear(perform: save)
     }
     
