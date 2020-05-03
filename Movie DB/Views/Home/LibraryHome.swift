@@ -96,6 +96,7 @@ struct LibraryHome : View {
                             let id = self.filteredMedia[offset].id
                             DispatchQueue.main.async {
                                 self.library.mediaList.removeAll(where: { $0.id == id })
+                                self.library.save()
                             }
                         }
                     }

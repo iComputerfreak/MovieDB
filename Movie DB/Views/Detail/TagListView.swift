@@ -38,18 +38,28 @@ struct TagListView: View {
         if tags.isEmpty {
             return Text("None").italic()
         }
-        return Text(tags.map({ TagLibrary.shared.name(for: $0) ?? "<Unknown Tag>" }).joined(separator: ", "))
+        // Remove tags that no longer exist
+        // FIXME: For some reason this does not work... Still Unknown Tags
+        let ids = TagLibrary.shared.tags.map({ $0.id })
+        tags.removeAll(where: { !ids.contains($0) })
+        
+        return Text(tags.map({ TagLibrary.shared.name(for: $0) ?? "<Unknown Tag>" }).sorted().joined(separator: ", "))
     }
     
     private struct EditView: View {
         @ObservedObject var tagLibrary = TagLibrary.shared
         @Binding var tags: [Int]
         
+        // Keep a local copy of the tags, sorted by name, to modify
+        private var sortedTags: [Tag] {
+            TagLibrary.shared.tags.sorted { (tag1, tag2) -> Bool in
+                return tag1.name.lexicographicallyPrecedes(tag2.name)
+            }
+        }
+        
         var body: some View {
             List {
-                ForEach(TagLibrary.shared.tags.sorted(by: { (tag1: Tag, tag2: Tag) in
-                    return tag1.name.lexicographicallyPrecedes(tag2.name)
-                })) { tag in
+                ForEach(self.sortedTags, id: \.id) { tag in
                     Button(action: {
                         if self.tags.contains(tag.id) {
                             self.tags.removeAll(where: { $0 == tag.id })
@@ -86,7 +96,13 @@ struct TagListView: View {
                         }
                     }.foregroundColor(.primary)
                 }
-                .onDelete(perform: TagLibrary.shared.remove(atOffsets:))
+                .onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        let tag = self.sortedTags[index]
+                        print("Removing Tag '\(tag.name)' (\(tag.id)).")
+                        self.tagLibrary.remove(id: tag.id)
+                    }
+                })
             }
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {

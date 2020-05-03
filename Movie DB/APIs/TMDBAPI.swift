@@ -131,7 +131,7 @@ class TMDBAPI {
     /// - Parameters:
     ///   - id: The id of the media to fetch
     ///   - type: The type of media
-    func fetchMedia(id: Int, type: MediaType) -> Media? {
+    func fetchMedia(id: Int, type: MediaType, completion: @escaping () -> Void = {}) -> Media? {
         var media: Media? = nil
         // Get the TMDB Data
         let tmdbDataGroup = DispatchGroup()
@@ -156,8 +156,12 @@ class TMDBAPI {
         tmdbDataGroup.wait()
         
         if let media = media {
-            // Fetch other API stuff async
-            self.startSeparateAPICalls(media: media)
+            // Fetch other API stuff async and then execute the completion handler
+            DispatchQueue.main.async {
+                // I can only get a correct completion call, if I execute the startSeparateAPICalls function synchronized
+                self.startSeparateAPICalls(media: media, sync: true)
+                completion()
+            }
         }
         
         return media
@@ -211,11 +215,13 @@ class TMDBAPI {
     /// - Parameter sync: Whether the function should be executed synchronously
     /// - Returns: Whether the API calls were successful
     @discardableResult
-    private func startSeparateAPICalls(media: Media, sync: Bool = false) -> Bool {
+    private func startSeparateAPICalls(media: Media, sync: Bool = false, completion: @escaping () -> Void = {}) -> Bool {
         guard let id = media.tmdbData?.id else {
             // No idea what the TMDB ID should be
+            completion()
             return false
         }
+        // Only create the group, if sync is set
         let group: DispatchGroup? = sync ? DispatchGroup() : nil
         group?.enter()
         self.getCast(by: id, type: media.type) { (wrapper) in
@@ -244,7 +250,7 @@ class TMDBAPI {
             if let videos = wrapper?.videos, !videos.isEmpty {
                 DispatchQueue.main.async {
                     // Save only the trailers
-                    media.videos = videos.filter({ $0.type == .trailer })
+                    media.videos = videos.filter({ $0.type == JFLiterals.kTrailerVideoType })
                 }
             }
             group?.leave()
@@ -261,6 +267,7 @@ class TMDBAPI {
             group?.leave()
         }
         group?.wait()
+        
         return true
     }
     

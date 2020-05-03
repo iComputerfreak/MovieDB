@@ -23,6 +23,8 @@ struct JFLiterals {
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The maximum rating a media can get
     static let maximumRating = 10
+    /// The type property of trailer videos
+    static let kTrailerVideoType = "Trailer"
     
     struct Keys {
         static let allTags = "allTags"

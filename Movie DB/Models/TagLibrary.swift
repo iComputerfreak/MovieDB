@@ -10,6 +10,23 @@ import Foundation
 
 class TagLibrary: ObservableObject {
     
+    // Tag ID Creation
+    /// Contains the next free collection id
+    private static var _nextID = -1
+    /// Returns the next free tag id
+    static var nextID: Int {
+        // Initialize
+        if _nextID < 0 {
+            _nextID = UserDefaults.standard.integer(forKey: "nextID")
+        }
+        // Increase _nextID after returning
+        defer {
+            _nextID += 1
+            UserDefaults.standard.set(_nextID, forKey: "nextID")
+        }
+        return _nextID
+    }
+    
     static let shared = TagLibrary()
     
     @Published private(set) var tags: [Tag] = {
@@ -36,8 +53,16 @@ class TagLibrary: ObservableObject {
     
     // Creates a new tag and adds it to the library
     func create(name: String) {
-        self.tags.append(Tag(id: self.tags.count, name))
+        self.tags.append(Tag(id: TagLibrary.nextID, name))
         save()
+        #if DEBUG
+        // Check if there are any duplicate tag IDs
+        let ids = self.tags.map({ $0.id })
+        let uniqueIDs = Set(ids)
+        if ids.count != uniqueIDs.count {
+            assertionFailure("There are duplicate Tag IDs assigned!")
+        }
+        #endif
     }
     
     func rename(id: Int, newName: String) {
@@ -51,11 +76,6 @@ class TagLibrary: ObservableObject {
     
     func remove(id: Int) {
         self.tags.removeAll(where: { $0.id == id })
-        save()
-    }
-    
-    func remove(atOffsets indexSet: IndexSet) {
-        self.tags.remove(atOffsets: indexSet)
         save()
     }
 }

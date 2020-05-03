@@ -71,15 +71,6 @@ struct CastMember: Codable, Hashable, Equatable, Identifiable {
 /// Represents a video on some external site
 struct Video: Codable, Equatable {
     
-    enum VideoType: String, Codable {
-        case trailer = "Trailer"
-        case teaser = "Teaser"
-        case clip = "Clip"
-        case featurette = "Featurette"
-        case behindTheScenes = "Behind the Scenes"
-        case bloopers = "Bloopers"
-    }
-    
     /// The video key
     var key: String
     /// The name of the video
@@ -87,7 +78,7 @@ struct Video: Codable, Equatable {
     /// The site where the video was uploaded to
     var site: String
     /// The type of video (e.g. Trailer)
-    var type: VideoType
+    var type: String
     /// The resolution of the video
     var resolution: Int
     /// The ISO-639-1 language code  (e.g. 'en')

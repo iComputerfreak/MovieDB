@@ -65,7 +65,11 @@ struct AddMediaView : View {
                                 self.alertTitle = result.title
                                 self.alertShown = true
                             } else {
-                                if let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType) {
+                                if let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType, completion: {
+                                    DispatchQueue.main.async {
+                                        self.library.save()
+                                    }
+                                }) {
                                     self.library.mediaList.append(media)
                                 } else {
                                     // Error loading the media object
@@ -96,6 +100,7 @@ struct AddMediaView : View {
                     )
                 )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Int? {
