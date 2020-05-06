@@ -19,6 +19,7 @@ struct ShareSheet: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ActivityViewController, context: Context) {}
     
+    /// Shares the file at the given URL and then deletes it
     func shareFile(url: URL) {
         activityViewController.url = url
         activityViewController.shareFile()
@@ -29,9 +30,10 @@ class ActivityViewController: UIViewController {
     
     var url: URL!
     
+    /// Shares the file at the given URL and then deletes it
     func shareFile() {
         let vc = UIActivityViewController(activityItems: [url!], applicationActivities: [])
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true)
         vc.popoverPresentationController?.sourceView = self.view
     }
     

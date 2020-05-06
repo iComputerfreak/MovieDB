@@ -34,6 +34,7 @@ class AlertController: ObservableObject {
     func buildAlert() -> Alert { alertObject }
     
     func present(title: String, message: String? = nil, dismissButton: Alert.Button? = nil) {
+        print("Presenting Alert: '\(title)'")
         self.alertObject = Alert(title: Text(title),
                                  message: message != nil ? Text(message!) : nil,
                                  dismissButton: dismissButton)
@@ -41,6 +42,7 @@ class AlertController: ObservableObject {
     }
     
     func present(title: String, message: String? = nil, primaryButton: Alert.Button, secondaryButton: Alert.Button) {
+        print("Presenting Alert: '\(title)'")
         self.alertObject = Alert(title: Text(title),
                                  message: message != nil ? Text(message!) : nil,
                                  primaryButton: primaryButton,

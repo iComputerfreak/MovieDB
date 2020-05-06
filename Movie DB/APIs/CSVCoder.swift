@@ -67,7 +67,7 @@ struct CSVEncoder {
             } else { values.append("") }
             values.append(String(mediaObject.personalRating.integerRepresentation))
             values.append(convert(mediaObject.watchAgain))
-            values.append(mediaObject.tags.map({ TagLibrary.shared.name(for: $0) ?? "" }).joined(separator: String(arraySeparator)))
+            values.append(mediaObject.tags.compactMap({ TagLibrary.shared.name(for: $0) }).joined(separator: String(arraySeparator)))
             values.append(clean(mediaObject.notes))
             if let tmdbData = mediaObject.tmdbData {
                 values.append(tmdbData.originalTitle)
@@ -193,8 +193,16 @@ struct CSVDecoder {
                 if let tags = dict[.tags] {
                     // Map the tag names to their IDs
                     mediaObject.tags = tags.components(separatedBy: String(arraySeparator)).compactMap { name in
-                        let tag = TagLibrary.shared.tags.first(where: { $0.name == name })
-                        return tag?.id
+                        guard !name.isEmpty else {
+                            return nil
+                        }
+                        // If no tag with this name exists, create a new one
+                        if !TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                            TagLibrary.shared.create(name: name)
+                        }
+                        let tags = TagLibrary.shared.tags.first(where: { $0.name == name })?.id
+                        assert(tags != nil, "Tag is missing, although it has been created just now.")
+                        return tags
                     }
                 }
                 if let notes = dict[.notes] {

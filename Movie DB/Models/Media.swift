@@ -25,6 +25,7 @@ class Media: Identifiable, ObservableObject, Codable {
     private static var _nextID = -1
     /// Returns the next free library id
     static var nextID: Int {
+        print("Requesting new ID.")
         // Initialize
         if _nextID < 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
@@ -34,6 +35,7 @@ class Media: Identifiable, ObservableObject, Codable {
             _nextID += 1
             UserDefaults.standard.set(_nextID, forKey: "nextID")
         }
+        print("Returning new ID \(_nextID)")
         return _nextID
     }
     
@@ -125,13 +127,16 @@ class Media: Identifiable, ObservableObject, Codable {
         self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try container.decode(String.self, forKey: .notes)
         let imagePath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(self.id).png")
-        if let data = try? Data(contentsOf: imagePath) {
-            self.thumbnail = UIImage(data: data)
-        }
         if type == .movie {
             self.tmdbData = try container.decodeIfPresent(TMDBMovieData.self, forKey: .tmdbData)
         } else {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
+        }
+        if let data = try? Data(contentsOf: imagePath) {
+            self.thumbnail = UIImage(data: data)
+        } else {
+            // Image could not be loaded
+            self.loadThumbnail()
         }
     }
     

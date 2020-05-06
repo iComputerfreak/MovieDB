@@ -108,7 +108,9 @@ struct SettingsView: View {
                     
                     // MARK: - Import Button
                     Button(action: {
+                        // Use iOS file picker
                         self.documentPicker = DocumentPicker(onSelect: { url in
+                            print("Importing \(url.lastPathComponent).")
                             // Document picker finished. Invalidate it.
                             self.documentPicker = nil
                             do {
@@ -122,6 +124,7 @@ struct SettingsView: View {
                                         message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
                                         primaryButton: .default(Text("Yes"), action: {
                                             MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
+                                            MediaLibrary.shared.save()
                                         }),
                                         secondaryButton: .cancel(Text("No")))
                                 }
@@ -130,21 +133,27 @@ struct SettingsView: View {
                                 print(exception)
                             }
                         }, onCancel: {
+                            print("Canceling...")
                             self.documentPicker = nil
                         })
+                        #if targetEnvironment(macCatalyst)
+                        // On macOS present the file picker manually
+                        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                        #endif
                     }, label: {
                         Text("Import Media")
                     })
-                        // TODO: Replace Binding with .init(get:), if fatalError never occurred.
                         .popover(isPresented: .init(get: {
-                            self.documentPicker != nil
+                            #if targetEnvironment(macCatalyst)
+                            return false
+                            #else
+                            return self.documentPicker != nil
+                            #endif
                         }, set: { newState in
-                            fatalError("Seems this is called after all... Better uncomment that code below.")
-                            /*print("Setting new state: \(newState)")
                             // If the new state is "hidden"
                             if newState == false {
                                 self.documentPicker = nil
-                            }*/
+                            }
                         })) {
                             self.documentPicker!
                     }
@@ -156,14 +165,41 @@ struct SettingsView: View {
                         // Save the csv as a file to share it
                         let formatter = DateFormatter()
                         formatter.dateFormat = "yyyy-MM-dd"
-                        let url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export_\(formatter.string(from: Date())).csv")
+                        let url: URL!
+                        url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
+                        // Delete any old export, if it exists
+                        if FileManager.default.fileExists(atPath: url.path) {
+                            try? FileManager.default.removeItem(at: url)
+                        }
                         do {
                             try csv.write(to: url, atomically: true, encoding: .utf8)
                         } catch let exception {
+                            print("Error writing CSV file")
                             print(exception)
                             return
                         }
+                        #if targetEnvironment(macCatalyst)
+                        // Show save file dialog
+                        self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+                            print("Exporting \(url.lastPathComponent).")
+                            // Document picker finished. Invalidate it.
+                            self.documentPicker = nil
+                            do {
+                                // Export the csv to the file
+                                try csv.write(to: url, atomically: true, encoding: .utf8)
+                            } catch let exception {
+                                print("Error exporting csv file:")
+                                print(exception)
+                            }
+                        }, onCancel: {
+                            print("Canceling...")
+                            self.documentPicker = nil
+                        })
+                        // On macOS present the file picker manually
+                        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                        #else
                         self.shareSheet.shareFile(url: url)
+                        #endif
                     }, label: {
                         // Attach the share sheet above the export button (will be displayed correctly anyways)
                         ZStack(alignment: .leading) {

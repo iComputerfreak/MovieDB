@@ -34,16 +34,17 @@ struct TagListView: View {
         }
     }
     
+    // TODO: Remove tags that no longer exist (somewhere else, now here)
     private var label: some View {
-        if tags.isEmpty {
+        // Remove tags that no longer exist
+        let ids = TagLibrary.shared.tags.map(\.id)
+        let filteredTags = tags.filter({ ids.contains($0) })
+        
+        if filteredTags.isEmpty {
             return Text("None").italic()
         }
-        // Remove tags that no longer exist
-        // FIXME: For some reason this does not work... Still Unknown Tags
-        let ids = TagLibrary.shared.tags.map({ $0.id })
-        tags.removeAll(where: { !ids.contains($0) })
         
-        return Text(tags.map({ TagLibrary.shared.name(for: $0) ?? "<Unknown Tag>" }).sorted().joined(separator: ", "))
+        return Text(filteredTags.map({ TagLibrary.shared.name(for: $0)! }).sorted().joined(separator: ", "))
     }
     
     private struct EditView: View {
