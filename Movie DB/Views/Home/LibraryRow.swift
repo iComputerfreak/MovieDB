@@ -21,14 +21,19 @@ struct LibraryRow : View {
                     .lineLimit(2)
                 // Under the title
                 HStack {
+                    // MARK: Adult
                     if mediaObject.isAdult ?? false {
                         Image(systemName: "a.square")
                     }
+                    // MARK: Type
                     if mediaObject.type == .movie {
                         Image(systemName: "m.square")
                     } else {
                         Image(systemName: "s.square")
                     }
+                    // MARK: FSK Rating
+                    //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
+                    // MARK: Year
                     if mediaObject.year != nil {
                         Text(mediaObject.year!.description)
                     }

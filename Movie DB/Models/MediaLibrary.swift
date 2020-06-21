@@ -67,8 +67,25 @@ class MediaLibrary: ObservableObject, Codable {
         return (successes, failures)
     }
     
+    func remove(id: Int) {
+        let index = self.mediaList.firstIndex(where: { $0.id == id })
+        guard index != nil else {
+            return
+        }
+        let id = mediaList[index!].id
+        self.mediaList.remove(at: index!)
+        let thumbnailPath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(id).png")
+        // Try to delete the thumbnail from disk
+        DispatchQueue.global().async {
+            try? FileManager.default.removeItem(at: thumbnailPath)
+        }
+    }
+    
     func reset() {
         self.mediaList.removeAll()
+        // Delete all thumbnails
+        try? FileManager.default.removeItem(at: JFUtils.url(for: "thumbnails"))
+        try? FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
         // Reset the ID counter for the media objects
         Media.resetNextID()
         save()

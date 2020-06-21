@@ -66,7 +66,23 @@ struct LibraryHome : View {
                 } else if media2.tmdbData == nil {
                     return true
                 }
-                return media1.tmdbData!.title.lexicographicallyPrecedes(media2.tmdbData!.title)
+                /// Removes the first word, if it is contained in the list of words that are ignored for sorting. If the first two words match, it leaves the title unchanged.
+                func removeWordsIgnoredForSorting(_ title: String) -> String {
+                    let words = title.components(separatedBy: .whitespaces)
+                    // Only remove the first word. If the title starts with multiple words that would be ignored for sorting, remove none
+                    if let word1 = words.first, JFUtils.wordsIgnoredForSorting.contains(word1) {
+                        if words.count > 1 && !JFUtils.wordsIgnoredForSorting.contains(words[1]) {
+                            // Only the first word matched. Remove it (incl. the spaces)
+                            return title.removingPrefix(word1).trimmingCharacters(in: .whitespaces)
+                        }
+                    }
+                    return title
+                }
+                // Remove any leading "the"; capitalization does not matter for sorting
+                let name1 = removeWordsIgnoredForSorting(media1.tmdbData!.title.lowercased())
+                let name2 = removeWordsIgnoredForSorting(media2.tmdbData!.title.lowercased())
+                
+                return name1.lexicographicallyPrecedes(name2)
             })
         }
         // Apply the filter
@@ -82,21 +98,23 @@ struct LibraryHome : View {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText)
                 List {
-                    ForEach(filteredMedia) { mediaObject in
-                        NavigationLink(destination:
-                            MediaDetail()
-                                .environmentObject(mediaObject)
-                        ) {
-                            LibraryRow()
-                                .environmentObject(mediaObject)
+                    Section(footer: Text("\(MediaLibrary.shared.mediaList.count) objects in total")) {
+                        ForEach(filteredMedia) { mediaObject in
+                            NavigationLink(destination:
+                                MediaDetail()
+                                    .environmentObject(mediaObject)
+                            ) {
+                                LibraryRow()
+                                    .environmentObject(mediaObject)
+                            }
                         }
-                    }
-                    .onDelete { indexSet in
-                        for offset in indexSet {
-                            let id = self.filteredMedia[offset].id
-                            DispatchQueue.main.async {
-                                self.library.mediaList.removeAll(where: { $0.id == id })
-                                self.library.save()
+                        .onDelete { indexSet in
+                            for offset in indexSet {
+                                let id = self.filteredMedia[offset].id
+                                self.library.remove(id: id)
+                                DispatchQueue.global().async {
+                                    self.library.save()
+                                }
                             }
                         }
                     }
@@ -121,7 +139,10 @@ struct LibraryHome : View {
         }
         .onAppear(perform: didAppear)
         .onDisappear {
-            MediaLibrary.shared.save()
+            // Don't save on the main thread, to prevent locking UI
+            DispatchQueue.global().async {
+                MediaLibrary.shared.save()
+            }
         }
     }
 }

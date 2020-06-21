@@ -95,3 +95,11 @@ struct Tag: Codable, Identifiable, Hashable, Equatable {
         self.name = name
     }
 }
+
+extension Collection where Element == Tag {
+    func lexicographicallySorted() -> [Tag] {
+        return self.sorted { (tag1, tag2) -> Bool in
+            return tag1.name.lexicographicallyPrecedes(tag2.name)
+        }
+    }
+}

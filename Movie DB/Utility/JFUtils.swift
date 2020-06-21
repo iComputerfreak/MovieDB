@@ -12,6 +12,11 @@ import SwiftUI
 
 struct JFUtils {
     
+    static let wordsIgnoredForSorting = [
+        "the",
+        "a"
+    ]
+    
     static var tmdbDateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -171,6 +176,35 @@ struct JFUtils {
         // Remove all duplicates
         return Array(Set(genres.joined()))
     }
+    
+    // MARK: FSK Rating
+    enum FSKRating: String, CaseIterable {
+        case noRestriction = "0"
+        case ageSix = "6"
+        case ageTwelve = "12"
+        case ageSixteen = "16"
+        case ageEighteen = "18"
+    }
+    
+    static func fskColor(_ rating: FSKRating) -> Color {
+        switch rating {
+        case .noRestriction:
+            return Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0)
+        case .ageSix:
+            return Color(red: 255.0/255.0, green: 242.0/255.0, blue: 0.0/255.0)
+        case .ageTwelve:
+            return Color(red: 51.0/255.0, green: 255.0/255.0, blue: 0.0/255.0)
+        case .ageSixteen:
+            return Color(red: 51.0/255.0, green: 217.0/255.0, blue: 255.0/255.0)
+        case .ageEighteen:
+            return Color(red: 255.0/255.0, green: 0.0/255.0, blue: 0.0/255.0)
+        }
+    }
+    
+    static func fskLabel(_ rating: FSKRating) -> some View {
+        Image(systemName: "\(rating.rawValue).square")
+            .foregroundColor(fskColor(rating))
+    }
 }
 
 extension Dictionary where Key == String, Value == Any? {
@@ -198,6 +232,63 @@ extension CharacterSet {
         allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
         return allowed
     }()
+}
+
+extension String {
+    /// Returns a string without a given prefix
+    ///
+    ///     "abc def".removingPrefix("abc") // returns " def"
+    ///     "cba def".revmoingPrefix("abc") // returns "cba def"
+    ///
+    /// - Parameter prefix: The prefix to remove, if it exists
+    /// - Returns: The string without the given prefix
+    func removingPrefix(_ prefix: String) -> String {
+        if self.hasPrefix(prefix) {
+            return String(self.dropFirst(prefix.count))
+        }
+        // If the prefix does not exist, leave the string as it is
+        return String(self)
+    }
+    /// Returns a string without a given suffix
+    ///
+    ///     "abc def".removingSuffix("def") // returns "abc "
+    ///     "abc fed".revmoingSuffix("def") // returns "abc fed"
+    ///
+    /// - Parameter suffix: The suffix to remove, if it exists
+    /// - Returns: The string without the given suffix
+    func removingSuffix(_ suffix: String) -> String {
+        if self.hasSuffix(suffix) {
+            return String(self.dropFirst(suffix.count))
+        }
+        // If the prefix does not exist, leave the string as it is
+        return String(self)
+    }
+    /// Removes a prefix from a string
+    ///
+    ///     let a = "abc def".removingPrefix("abc") // a is " def"
+    ///     let b = "cba def".revmoingPrefix("abc") // b is "cba def"
+    ///
+    /// - Parameter prefix: The prefix to remove, if it exists
+    /// - Returns: The string without the given prefix
+    mutating func removePrefix(_ prefix: String) {
+        if self.hasPrefix(prefix) {
+            self.removeFirst(prefix.count)
+        }
+        // If the prefix does not exist, leave the string as it is
+    }
+    /// Removes a suffix from a string
+    ///
+    ///     let a = "abc def".removingSuffix("def") // a is "abc "
+    ///     let b = "abc fed".revmoingSuffix("def") // b is "abc fed"
+    ///
+    /// - Parameter suffix: The suffix to remove, if it exists
+    /// - Returns: The string without the given suffix
+    mutating func removeSuffix(_ suffix: String) {
+        if self.hasSuffix(suffix) {
+            self.removeFirst(suffix.count)
+        }
+        // If the prefix does not exist, leave the string as it is
+    }
 }
 
 extension NumberFormatter {

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentView : View {
     
-    // Show the currently selected view style (list/grid)
     var body: some View {
         TabView {
             LibraryHome()
@@ -18,9 +17,14 @@ struct ContentView : View {
                     Image(systemName: "film")
                     Text("Home")
                 }
-            NavigationView {
-                SettingsView()
-            }
+            
+            ProblemsView()
+                .tabItem {
+                    Image(systemName: "exclamationmark.triangle")
+                    Text("Problems")
+                }
+            
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
