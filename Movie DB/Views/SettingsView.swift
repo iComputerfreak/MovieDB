@@ -211,8 +211,7 @@ struct SettingsView: View {
                     Button(action: {
                         self.alertController.present(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
                             // Delete all objects
-                            MediaLibrary.shared.mediaList.removeAll()
-                            MediaLibrary.shared.save()
+                            MediaLibrary.shared.reset()
                         }))
                     }, label: Text("Reset Library").closure())
                 }

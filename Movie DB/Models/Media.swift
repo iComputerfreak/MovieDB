@@ -39,6 +39,11 @@ class Media: Identifiable, ObservableObject, Codable {
         return _nextID
     }
     
+    static func resetNextID() {
+        _nextID = 0
+        UserDefaults.standard.set(_nextID, forKey: "nextID")
+    }
+    
     /// The internal library id
     let id: Int
     /// The data from TMDB

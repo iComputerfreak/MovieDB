@@ -67,6 +67,13 @@ class MediaLibrary: ObservableObject, Codable {
         return (successes, failures)
     }
     
+    func reset() {
+        self.mediaList.removeAll()
+        // Reset the ID counter for the media objects
+        Media.resetNextID()
+        save()
+    }
+    
     // MARK: - Codable Conformance
     
     required convenience init(from decoder: Decoder) throws {

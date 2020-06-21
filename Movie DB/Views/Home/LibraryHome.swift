@@ -24,7 +24,7 @@ struct LibraryHome : View {
         // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ media in
-                if media.tmdbData?.title.contains(self.searchText) ?? false {
+                if media.tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
                     return true
                 }
                 if media.tmdbData?.originalTitle.contains(self.searchText) ?? false {
@@ -120,6 +120,9 @@ struct LibraryHome : View {
                 .navigationBarTitle(Text("Home"))
         }
         .onAppear(perform: didAppear)
+        .onDisappear {
+            MediaLibrary.shared.save()
+        }
     }
 }
 

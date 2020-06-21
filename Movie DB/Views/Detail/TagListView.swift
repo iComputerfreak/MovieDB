@@ -60,50 +60,52 @@ struct TagListView: View {
         
         var body: some View {
             List {
-                ForEach(self.sortedTags, id: \.id) { tag in
-                    Button(action: {
-                        if self.tags.contains(tag.id) {
-                            self.tags.removeAll(where: { $0 == tag.id })
-                        } else {
-                            self.tags.append(tag.id)
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: "checkmark")
-                                .hidden(condition: !self.tags.contains(tag.id))
-                            Text(tag.name)
-                            Spacer()
-                            Button(action: {
-                                // Rename
-                                let alert = UIAlertController(title: "Rename Tag", message: "Enter a new name for the tag.", preferredStyle: .alert)
-                                alert.addTextField() { textField in
-                                    textField.autocapitalizationType = .words
-                                }
-                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in }))
-                                alert.addAction(UIAlertAction(title: "Rename", style: .default, handler: { action in
-                                    guard let textField = alert.textFields?.first else {
-                                        return
-                                    }
-                                    guard let text = textField.text, !text.isEmpty else {
-                                        return
-                                    }
-                                    TagLibrary.shared.rename(id: tag.id, newName: text)
-                                }))
-                                AlertHandler.showAlert(alert: alert)
-                            }) {
-                                Image(systemName: "pencil")
+                Section(footer: Text("\(TagLibrary.shared.tags.count) tags in total")) {
+                    ForEach(self.sortedTags, id: \.id) { tag in
+                        Button(action: {
+                            if self.tags.contains(tag.id) {
+                                self.tags.removeAll(where: { $0 == tag.id })
+                            } else {
+                                self.tags.append(tag.id)
                             }
-                            .foregroundColor(.blue)
-                        }
-                    }.foregroundColor(.primary)
-                }
-                .onDelete(perform: { indexSet in
-                    for index in indexSet {
-                        let tag = self.sortedTags[index]
-                        print("Removing Tag '\(tag.name)' (\(tag.id)).")
-                        self.tagLibrary.remove(id: tag.id)
+                        }) {
+                            HStack {
+                                Image(systemName: "checkmark")
+                                    .hidden(condition: !self.tags.contains(tag.id))
+                                Text(tag.name)
+                                Spacer()
+                                Button(action: {
+                                    // Rename
+                                    let alert = UIAlertController(title: "Rename Tag", message: "Enter a new name for the tag.", preferredStyle: .alert)
+                                    alert.addTextField() { textField in
+                                        textField.autocapitalizationType = .words
+                                    }
+                                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in }))
+                                    alert.addAction(UIAlertAction(title: "Rename", style: .default, handler: { action in
+                                        guard let textField = alert.textFields?.first else {
+                                            return
+                                        }
+                                        guard let text = textField.text, !text.isEmpty else {
+                                            return
+                                        }
+                                        TagLibrary.shared.rename(id: tag.id, newName: text)
+                                    }))
+                                    AlertHandler.showAlert(alert: alert)
+                                }) {
+                                    Image(systemName: "pencil")
+                                }
+                                .foregroundColor(.blue)
+                            }
+                        }.foregroundColor(.primary)
                     }
-                })
+                    .onDelete(perform: { indexSet in
+                        for index in indexSet {
+                            let tag = self.sortedTags[index]
+                            print("Removing Tag '\(tag.name)' (\(tag.id)).")
+                            self.tagLibrary.remove(id: tag.id)
+                        }
+                    })
+                }
             }
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {

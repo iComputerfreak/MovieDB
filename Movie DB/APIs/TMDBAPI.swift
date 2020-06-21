@@ -83,13 +83,16 @@ class TMDBAPI {
                         group.leave()
                         return
                     }
-                    guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
+                    do {
+                        let wrapper = try JSONDecoder().decode(PageWrapper.self, from: data)
+                        results.append(contentsOf: wrapper.results)
+                        group.leave()
+                    } catch let e {
                         print("Error decoding results page \(page).")
+                        print(e)
                         group.leave()
                         return
                     }
-                    results.append(contentsOf: wrapper.results)
-                    group.leave()
                 }
             }
             group.notify(queue: .main) {

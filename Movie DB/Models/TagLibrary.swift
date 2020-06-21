@@ -53,6 +53,12 @@ class TagLibrary: ObservableObject {
     
     // Creates a new tag and adds it to the library
     func create(name: String) {
+        var nextID = TagLibrary.nextID
+        // Make sure the ID doesn't exist yet (could be possible after a crash)
+        while self.tags.map({ $0.id }).contains(nextID) {
+            print("Skipping Tag ID \(nextID), since it already exists.")
+            nextID = TagLibrary.nextID
+        }
         self.tags.append(Tag(id: TagLibrary.nextID, name))
         save()
         #if DEBUG
