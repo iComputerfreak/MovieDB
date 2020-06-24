@@ -90,7 +90,7 @@ struct TagListView: View {
                                         }
                                         TagLibrary.shared.rename(id: tag.id, newName: text)
                                     }))
-                                    AlertHandler.showAlert(alert: alert)
+                                    AlertHandler.presentAlert(alert: alert)
                                 }) {
                                     Image(systemName: "pencil")
                                 }
@@ -124,7 +124,7 @@ struct TagListView: View {
                     }
                     TagLibrary.shared.create(name: text)
                 })
-                AlertHandler.showAlert(alert: alert)
+                AlertHandler.presentAlert(alert: alert)
             }) {
                 Image(systemName: "plus")
             })
