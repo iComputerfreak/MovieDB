@@ -55,7 +55,7 @@ class FilterSettings: ObservableObject, Codable {
         }
     }
     
-    func apply(on mediaList: [Media]) -> [Media] {
+    func applied(on mediaList: [Media]) -> [Media] {
         return mediaList.filter(matches(_:))
     }
     

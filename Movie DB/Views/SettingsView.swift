@@ -49,12 +49,8 @@ struct SettingsView: View {
     
     @State private var updateInProgress = false
     
-    // Alerts
-    @ObservedObject private var alertController = AlertController()
-    
     @State private var shareSheet = ShareSheet()
     @State private var documentPicker: DocumentPicker?
-    @State private var alert: Alert? = nil
     
     var body: some View {
         NavigationView {
@@ -100,7 +96,7 @@ struct SettingsView: View {
                                 if f != 0 {
                                     message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
                                 }
-                                self.alertController.present(title: "Update completed", message: message)
+                                AlertHandler.showSimpleAlert(title: "Update completed", message: message)
                             }
                         }
                     }, label: Text("Update Media").closure())
@@ -118,15 +114,18 @@ struct SettingsView: View {
                                 print("Imported csv file. Trying to import into library.")
                                 let mediaObjects = CSVDecoder().decode(csv)
                                 // Presenting will change UI
-                                DispatchQueue.main.async {
-                                    self.alertController.present(
-                                        title: "Import",
-                                        message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
-                                        primaryButton: .default(Text("Yes"), action: {
-                                            MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
+                                DispatchQueue.main.sync {
+                                    let controller = UIAlertController(title: "Import",
+                                                                       message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
+                                                                       preferredStyle: .alert)
+                                    controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                                        MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
+                                        DispatchQueue.global().async {
                                             MediaLibrary.shared.save()
-                                        }),
-                                        secondaryButton: .cancel(Text("No")))
+                                        }
+                                    }))
+                                    controller.addAction(UIAlertAction(title: "No", style: .cancel))
+                                    AlertHandler.presentAlert(alert: controller)
                                 }
                             } catch let exception {
                                 print("Error reading imported csv file:")
@@ -209,14 +208,15 @@ struct SettingsView: View {
                     })
                     // MARK: - Reset Button
                     Button(action: {
-                        self.alertController.present(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", primaryButton: .default(Text("Cancel")), secondaryButton: .destructive(Text("Delete"), action: {
-                            // Delete all objects
+                        let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
+                        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                        controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                             MediaLibrary.shared.reset()
                         }))
+                        AlertHandler.presentAlert(alert: controller)
                     }, label: Text("Reset Library").closure())
                 }
                 
-                .alert(isPresented: $alertController.isShown, content: alertController.buildAlert)
             }
             .navigationBarTitle("Settings")
         }

@@ -8,7 +8,6 @@
 
 // Fixes / Todo soon
 /*
- TODO: Create a tab with "Problems/Incomplete" entries (e.g. entries that miss any user data)
  TODO: Since imports allow duplicate movie entries, a warning should be displayed to resolve this manually (or show them under "Problems/Incomplete")
  TODO: Activity Indicator or Progress bar between import and alert
  TODO: After adding a media object, directly go into the detail (maybe also enable edit mode)
@@ -17,6 +16,8 @@
  TODO: Add headers for each letter and add them to the scroll bar like in the Contacts app
  TODO: Save the library in a different thread (switching to settings has an increasing lag)
  TODO: Create new tags when importing and maybe create an option to export the tags
+ TODO: Add a Refresh option when swiping an entry to the left (next to delete)
+ TODO: Sometimes a thumbnail goes missing, if the init(from:) function detects a nil thumbnail from disk, it should re-download it
  */
 
 // Future:
@@ -31,4 +32,6 @@
  TODO: Maybe add a status "watched partially" for movies
  TODO: Use the AlertHandler in all views
  TODO: Show if new episodes are available for series you watched (only works if I can get the Netflix, Prime, Sky, ... data)
+ TODO: Add the option to favorite some movies/shows
+ TOOD: Add the option to reset collection IDs, so every show and movie gets a fresh ID starting at 0 in alphabetical order
  */

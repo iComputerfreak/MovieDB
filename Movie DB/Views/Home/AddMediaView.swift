@@ -17,7 +17,7 @@ struct AddMediaView : View {
     @State private var alertShown: Bool = false
     @State private var alertTitle: String? = nil
     @State private var showLoadingErrorAlert = false
-    
+        
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
@@ -62,11 +62,11 @@ struct AddMediaView : View {
                             print("Selected \(result.title)")
                             if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
                                 // Already added
-                                self.alertTitle = result.title
-                                self.alertShown = true
+                                AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
                             } else {
+                                // TODO: Show an activity indicator here, while adding
                                 if let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType, completion: {
-                                    DispatchQueue.main.async {
+                                    DispatchQueue.global().async {
                                         self.library.save()
                                     }
                                 }) {
@@ -74,6 +74,7 @@ struct AddMediaView : View {
                                 } else {
                                     // Error loading the media object
                                     self.showLoadingErrorAlert = true
+                                    AlertHandler.showSimpleAlert(title: "Error loading media", message: "The media could not be loaded. Please try again later.")
                                 }
                             }
                             self.presentationMode.wrappedValue.dismiss()
@@ -84,21 +85,8 @@ struct AddMediaView : View {
                     }
                 }
             }
-            .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
-                
-                // FUTURE: Workaround for using two alerts
-                .background(
-                    EmptyView()
-                        .alert(isPresented: $alertShown) {
-                            Alert(title: Text("Already added"), message: Text("You already have '\(self.alertTitle ?? "Unknown")' in your library."), dismissButton: .default(Text("Ok")))
-                        }
-                    .background(
-                        EmptyView()
-                            .alert(isPresented: $showLoadingErrorAlert) {
-                                Alert(title: Text("Error loading media"), message: Text("The media could not be loaded. Please try again later."), dismissButton: .default(Text("Ok")))
-                            }
-                    )
-                )
+            .navigationTitle(Text("Add Movie"))
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -121,8 +109,8 @@ struct AddMediaView : View {
 #if DEBUG
 struct AddMediaView_Previews : PreviewProvider {
     static var previews: some View {
+        //AddMediaView(proxy: )
         Text("Not implemented")
-        //AddMediaView()
     }
 }
 #endif

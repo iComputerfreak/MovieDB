@@ -11,10 +11,18 @@ import UIKit
 
 struct AlertHandler {
 
-    static func showAlert(alert: UIAlertController) {
+    /// Triggers an Alert on the top most view controller in the window
+    /// - Parameter alert: The Alert Controller
+    static func presentAlert(alert: UIAlertController) {
         if let controller = topMostViewController() {
             controller.present(alert, animated: true)
         }
+    }
+    /// Shows a simple alert with a title, a message and an "Ok" button
+    static func showSimpleAlert(title: String?, message: String?) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default))
+        presentAlert(alert: controller)
     }
 
     private static func keyWindow() -> UIWindow? {

@@ -86,7 +86,7 @@ struct LibraryHome : View {
             })
         }
         // Apply the filter
-        return self.filterSettings.apply(on: list)
+        return self.filterSettings.applied(on: list)
     }
     
     func didAppear() {
@@ -97,29 +97,21 @@ struct LibraryHome : View {
         NavigationView {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText)
-                List {
-                    Section(footer: Text("\(MediaLibrary.shared.mediaList.count) objects in total")) {
-                        ForEach(filteredMedia) { mediaObject in
-                            NavigationLink(destination:
-                                MediaDetail()
-                                    .environmentObject(mediaObject)
-                            ) {
+                    List {
+                        Section(footer: Text("\(MediaLibrary.shared.mediaList.count) objects in total")) {
+                            ForEach(filteredMedia) { mediaObject in
                                 LibraryRow()
                                     .environmentObject(mediaObject)
                             }
-                        }
-                        .onDelete { indexSet in
-                            for offset in indexSet {
-                                let id = self.filteredMedia[offset].id
-                                self.library.remove(id: id)
-                                DispatchQueue.global().async {
-                                    self.library.save()
+                            .onDelete { indexSet in
+                                for offset in indexSet {
+                                    let id = self.filteredMedia[offset].id
+                                    self.library.remove(id: id)
                                 }
                             }
                         }
                     }
                 }
-            }
                 
                 // FUTURE: Workaround for using two sheet modifiers
                 .background(

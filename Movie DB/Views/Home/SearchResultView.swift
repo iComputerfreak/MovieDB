@@ -57,7 +57,11 @@ struct SearchResultView : View {
                     Text(result.mediaType == .movie ? "Movie" : "Series")
                         .italic()
                     Text(year != nil ? "(\(String(describing: year!)))" : "")
+                    // Make sure the content is left-aligned
+                    Spacer()
                 }
+                // Make sure the SearchResultView stretches on the whole width, so you can tap it anywhere
+                .frame(maxWidth: .infinity)
             }
         }
         .onAppear(perform: self.didAppear)
@@ -67,8 +71,22 @@ struct SearchResultView : View {
 #if DEBUG
 struct SearchResultView_Previews : PreviewProvider {
     static var previews: some View {
-        Text("Not implemeted")
-        //SearchResultView()
+        Group {
+            NavigationView {
+                List {
+                    ForEach(0..<5, id: \.self) { i in
+                        SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, rawReleaseDate: "2020-04-20"))
+                            .background(Color.red)
+                    }
+                }
+                .navigationTitle("Search Results")
+            }
+            
+            
+            SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, rawReleaseDate: "2020-04-20"))
+                .background(Color.red)
+                .previewLayout(.fixed(width: 300, height: 100))
+        }
     }
 }
 #endif

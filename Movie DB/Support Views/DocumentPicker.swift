@@ -36,6 +36,8 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
             controller = UIDocumentPickerViewController(url: url, in: .moveToService)
         } else {
             // Open file
+            // TODO: Change these deprecated inits
+            //controller = UIDocumentPickerViewController(forOpeningContentTypes: [.text])
             controller = UIDocumentPickerViewController(documentTypes: [String(kUTTypeText)], in: .import)
         }
         controller.modalPresentationStyle = .formSheet

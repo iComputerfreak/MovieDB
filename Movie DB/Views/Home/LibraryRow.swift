@@ -13,29 +13,31 @@ struct LibraryRow : View {
     @EnvironmentObject var mediaObject: Media
     
     var body: some View {
-        HStack {
-            Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
-            VStack(alignment: .leading) {
-                Text(mediaObject.tmdbData?.title ?? "Loading...")
-                    .lineLimit(2)
-                // Under the title
-                HStack {
-                    // MARK: Adult
-                    if mediaObject.isAdult ?? false {
-                        Image(systemName: "a.square")
-                    }
-                    // MARK: Type
-                    if mediaObject.type == .movie {
-                        Image(systemName: "m.square")
-                    } else {
-                        Image(systemName: "s.square")
-                    }
-                    // MARK: FSK Rating
-                    //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
-                    // MARK: Year
-                    if mediaObject.year != nil {
-                        Text(mediaObject.year!.description)
+        NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
+            HStack {
+                Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
+                    .thumbnail()
+                VStack(alignment: .leading) {
+                    Text(mediaObject.tmdbData?.title ?? "Loading...")
+                        .lineLimit(2)
+                    // Under the title
+                    HStack {
+                        // MARK: Adult
+                        if mediaObject.isAdult ?? false {
+                            Image(systemName: "a.square")
+                        }
+                        // MARK: Type
+                        if mediaObject.type == .movie {
+                            Image(systemName: "m.square")
+                        } else {
+                            Image(systemName: "s.square")
+                        }
+                        // MARK: FSK Rating
+                        //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
+                        // MARK: Year
+                        if mediaObject.year != nil {
+                            Text(mediaObject.year!.description)
+                        }
                     }
                 }
             }
