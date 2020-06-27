@@ -14,11 +14,14 @@ struct AddMediaView : View {
     private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
-    @State private var alertShown: Bool = false
-    @State private var alertTitle: String? = nil
-    @State private var showLoadingErrorAlert = false
+    @Binding var newMediaBinding: Media?
+    @State private var isFetchingMediaToAdd: Bool = false
         
     @Environment(\.presentationMode) private var presentationMode
+    
+    init(newMedia: Binding<Media?>) {
+        self._newMediaBinding = newMedia
+    }
     
     var body: some View {
         NavigationView {
@@ -65,19 +68,29 @@ struct AddMediaView : View {
                                 AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
                             } else {
                                 // TODO: Show an activity indicator here, while adding
-                                if let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType, completion: {
+                                self.isFetchingMediaToAdd = true
+                                DispatchQueue.global(qos: .userInitiated).async {
+                                    let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)
+                                    guard media != nil else {
+                                        // Error loading the media object
+                                        AlertHandler.showSimpleAlert(title: "Error loading media", message: "The media could not be loaded. Please try again later.")
+                                        return
+                                    }
+                                    // Save before adding the media
                                     DispatchQueue.global().async {
                                         self.library.save()
                                     }
-                                }) {
-                                    self.library.mediaList.append(media)
-                                } else {
-                                    // Error loading the media object
-                                    self.showLoadingErrorAlert = true
-                                    AlertHandler.showSimpleAlert(title: "Error loading media", message: "The media could not be loaded. Please try again later.")
+                                    sleep(20)
+                                    DispatchQueue.main.async {
+                                        self.library.mediaList.append(media!)
+                                        // Go into the Detail View
+                                        self.newMediaBinding = media
+                                        self.isFetchingMediaToAdd = false
+                                        // Only dismiss, if the media was added successfully
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
                                 }
                             }
-                            self.presentationMode.wrappedValue.dismiss()
                         }) {
                             SearchResultView(result: result)
                         }
@@ -89,6 +102,20 @@ struct AddMediaView : View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .overlay(
+            ZStack {
+                Rectangle()
+                    // If the rectangle is completely clear, touches will go through
+                    .fill(Color(.sRGB, white: 1.0, opacity: Double.leastNonzeroMagnitude))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .edgesIgnoringSafeArea(.all)
+                    .disabled(true)
+                ProgressView("Loading...")
+                    .padding(40)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.systemBackground).shadow(color: Color.gray, radius: 3))
+            }
+            .hidden(condition: !self.isFetchingMediaToAdd)
+        )
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Int? {
@@ -109,8 +136,8 @@ struct AddMediaView : View {
 #if DEBUG
 struct AddMediaView_Previews : PreviewProvider {
     static var previews: some View {
-        //AddMediaView(proxy: )
-        Text("Not implemented")
+        AddMediaView(newMedia: .constant(nil))
+            .preferredColorScheme(.dark)
     }
 }
 #endif

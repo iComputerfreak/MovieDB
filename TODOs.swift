@@ -8,15 +8,13 @@
 
 // Fixes / Todo soon
 /*
- TODO: Since imports allow duplicate movie entries, a warning should be displayed to resolve this manually (or show them under "Problems/Incomplete")
+ TODO: Search result years are different from the actual year shown in the library
  TODO: Activity Indicator or Progress bar between import and alert
- TODO: After adding a media object, directly go into the detail (maybe also enable edit mode)
- TODO: Show an info while adding a movie (e.g. "Loading data...")
- TODO: Add a description for the tags (maybe just in a text file for myself)
+ TODO: Add a description for the tags (just in a text file for myself)
  TODO: Add headers for each letter and add them to the scroll bar like in the Contacts app
- TODO: Save the library in a different thread (switching to settings has an increasing lag)
  TODO: Create new tags when importing and maybe create an option to export the tags
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
+ TODO: Add a button in the Details to reload the thumbnail
  TODO: Sometimes a thumbnail goes missing, if the init(from:) function detects a nil thumbnail from disk, it should re-download it
  */
 

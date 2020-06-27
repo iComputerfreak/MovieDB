@@ -300,3 +300,7 @@ extension NumberFormatter {
         return self.string(from: NSNumber(value: value))
     }
 }
+
+extension Color {
+    static let systemBackground = Color(UIColor.systemBackground)
+}

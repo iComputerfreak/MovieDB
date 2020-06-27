@@ -18,6 +18,7 @@ struct LibraryHome : View {
     @State private var isShowingFilterOptions: Bool = false
     @State private var searchText: String = ""
     @State private var sortedAlphabetically = true
+    @State private var addedMedia: Media? = nil
     
     private var filteredMedia: [Media] {
         var list = library.mediaList
@@ -94,14 +95,26 @@ struct LibraryHome : View {
     }
     
     var body: some View {
+        ScrollViewReader { proxy in
         NavigationView {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText)
                     List {
                         Section(footer: Text("\(MediaLibrary.shared.mediaList.count) objects in total")) {
                             ForEach(filteredMedia) { mediaObject in
+                                let binding = Binding<Bool> {
+                                    if self.addedMedia?.id == mediaObject.id {
+                                        // Only trigger the detail view once
+                                        self.addedMedia = nil
+                                        return true
+                                    }
+                                    return false
+                                }
                                 LibraryRow()
                                     .environmentObject(mediaObject)
+                                    // FUTURE: Fix this workaround
+                                    // This is for triggering the detail view after adding a new media object (self.addedMedia will be set by the AddMediaView)
+                                    .background(NavigationLink(destination: MediaDetail().environmentObject(mediaObject), isActive: binding) { EmptyView() })
                             }
                             .onDelete { indexSet in
                                 for offset in indexSet {
@@ -116,10 +129,16 @@ struct LibraryHome : View {
                 // FUTURE: Workaround for using two sheet modifiers
                 .background(
                     EmptyView()
-                        .sheet(isPresented: $isAddingMedia) { AddMediaView() }
+                        .sheet(isPresented: $isAddingMedia) { AddMediaView(newMedia: $addedMedia) }
                         .background(
                             EmptyView()
                                 .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
+                                .background(
+                                    EmptyView()
+                                        // TODO: Change to full screen side view
+                                        
+                                        //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
+                                )
                         )
                 )
                 
@@ -135,6 +154,7 @@ struct LibraryHome : View {
             DispatchQueue.global().async {
                 MediaLibrary.shared.save()
             }
+        }
         }
     }
 }

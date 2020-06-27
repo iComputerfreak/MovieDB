@@ -11,6 +11,7 @@ import SwiftUI
 struct ProblemsView: View {
     
     // MARK: Missing Info
+    // Don't use checkProblems, as this check here is more efficient and has to be executed for every library item
     private let missingInfoFilter: (Media) -> Bool = { (media) -> Bool in
         // If the media is missing any of the user data elements
         if media.personalRating == .noRating ||
@@ -60,6 +61,27 @@ struct ProblemsView: View {
     
     @ObservedObject private var library = MediaLibrary.shared
     
+    // Only has to be executed for the prolematic media objects
+    private func checkProblems(_ mediaObject: Media) -> [String] {
+        var problems = [String]()
+        if mediaObject.personalRating == .noRating {
+            problems.append("rating")
+        }
+        if mediaObject.watchAgain == nil {
+            problems.append("watch again")
+        }
+        if mediaObject.tags.isEmpty {
+            problems.append("tags")
+        }
+        if let movie = mediaObject as? Movie, movie.watched == nil {
+            problems.append("watched")
+        }
+        if let show = mediaObject as? Show, show.lastEpisodeWatched == nil {
+            problems.append("watched")
+        }
+        return problems
+    }
+    
     var body: some View {
         NavigationView {
             if missingInfo.isEmpty && duplicateEntries.isEmpty {
@@ -70,7 +92,7 @@ struct ProblemsView: View {
                     if !missingInfo.isEmpty {
                         Section(header: Text("Missing Information")) {
                             ForEach(self.missingInfo) { mediaObject in
-                                LibraryRow()
+                                ProblemsLibraryRow(content: Text("Missing: \(checkProblems(mediaObject).joined(separator: ", "))").italic())
                                     .environmentObject(mediaObject)
                             }
                             .onDelete { indexSet in
@@ -84,7 +106,7 @@ struct ProblemsView: View {
                     if !duplicateEntries.isEmpty {
                         Section(header: Text("Duplicate Entries")) {
                             ForEach(self.duplicateEntries) { mediaObject in
-                                LibraryRow()
+                                ProblemsLibraryRow(content: Text("Duplicate"))
                                     .environmentObject(mediaObject)
                             }
                             .onDelete { indexSet in

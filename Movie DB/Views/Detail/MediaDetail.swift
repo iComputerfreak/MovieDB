@@ -30,6 +30,13 @@ struct MediaDetail : View {
         }
         .navigationBarTitle(Text(mediaObject.tmdbData?.title ?? "Loading error!"), displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
+        .onAppear {
+            // If there is no thumbnail, try to re-download it again
+            // If a media object really has no thumbnail, this may be a bit too much...
+            if mediaObject.thumbnail == nil {
+                mediaObject.loadThumbnail()
+            }
+        }
     }
 }
 

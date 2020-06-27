@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LibraryRow : View {
+struct LibraryRow: View {
     
     @EnvironmentObject var mediaObject: Media
     
@@ -38,6 +38,29 @@ struct LibraryRow : View {
                         if mediaObject.year != nil {
                             Text(mediaObject.year!.description)
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ProblemsLibraryRow<T>: View where T: View {
+    
+    @EnvironmentObject var mediaObject: Media
+    let content: T
+    
+    var body: some View {
+        NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
+            HStack {
+                Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
+                    .thumbnail()
+                VStack(alignment: .leading) {
+                    Text(mediaObject.tmdbData?.title ?? "Loading...")
+                        .lineLimit(2)
+                    // Under the title
+                    HStack {
+                        self.content
                     }
                 }
             }
