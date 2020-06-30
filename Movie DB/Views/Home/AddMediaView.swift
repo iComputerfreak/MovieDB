@@ -14,14 +14,9 @@ struct AddMediaView : View {
     private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
-    @Binding var newMediaBinding: Media?
     @State private var isFetchingMediaToAdd: Bool = false
         
     @Environment(\.presentationMode) private var presentationMode
-    
-    init(newMedia: Binding<Media?>) {
-        self._newMediaBinding = newMedia
-    }
     
     var body: some View {
         NavigationView {
@@ -80,11 +75,9 @@ struct AddMediaView : View {
                                     DispatchQueue.global().async {
                                         self.library.save()
                                     }
-                                    sleep(20)
                                     DispatchQueue.main.async {
                                         self.library.mediaList.append(media!)
                                         // Go into the Detail View
-                                        self.newMediaBinding = media
                                         self.isFetchingMediaToAdd = false
                                         // Only dismiss, if the media was added successfully
                                         self.presentationMode.wrappedValue.dismiss()
@@ -136,7 +129,7 @@ struct AddMediaView : View {
 #if DEBUG
 struct AddMediaView_Previews : PreviewProvider {
     static var previews: some View {
-        AddMediaView(newMedia: .constant(nil))
+        AddMediaView()
             .preferredColorScheme(.dark)
     }
 }
