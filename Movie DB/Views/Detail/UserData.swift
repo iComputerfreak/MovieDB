@@ -25,12 +25,10 @@ struct UserData: View {
                     .environment(\.editMode, editMode)
                     .headline("Watched?")
             } else {
-                (mediaObject as? Show).map { (show: Show) in
-                    // Has watched show field
-                    WatchedShowView()
-                        .environment(\.editMode, editMode)
-                        .headline("Watched?")
-                }
+                // Has watched show field
+                WatchedShowView()
+                    .environment(\.editMode, editMode)
+                    .headline("Watched?")
             }
             // Watch again field
             SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)

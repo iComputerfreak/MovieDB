@@ -12,51 +12,43 @@ struct ExtendedInfo: View {
     
     @EnvironmentObject private var mediaObject: Media
     
-    private var movieData: TMDBMovieData? {
-        mediaObject.tmdbData as? TMDBMovieData
-    }
-    
-    private var showData: TMDBShowData? {
-        mediaObject.tmdbData as? TMDBShowData
-    }
-    
     var body: some View {
-        mediaObject.tmdbData.map { (data: TMDBData) in
-            Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
+        Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
+            if let data = mediaObject.tmdbData {
                 // Movie exclusive data
-                if movieData != nil {
-                    if movieData!.tagline != nil && !movieData!.tagline!.isEmpty {
-                        Text(movieData!.tagline!)
+                if let movieData = data as? TMDBMovieData {
+                    if let tagline = movieData.tagline, !tagline.isEmpty {
+                        Text(tagline)
                             .headline("Tagline")
                     }
-                    if movieData!.budget > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movieData!.budget)!)
+                    if movieData.budget > 0 {
+                        Text(JFUtils.moneyFormatter.string(from: movieData.budget)!)
                             .headline("Budget")
                     }
-                    if movieData!.revenue > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movieData!.revenue)!)
+                    if movieData.revenue > 0 {
+                        Text(JFUtils.moneyFormatter.string(from: movieData.revenue)!)
                             .headline("Revenue")
                     }
                 }
                 
                 LinkView(text: String(data.id), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(data.id)")
                     .headline("TMDB ID")
-                data.imdbID.map {
-                    LinkView(text: $0, link: "https://www.imdb.com/title/\($0)")
+                if let imdbID = data.imdbID {
+                    LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
                         .headline("IMDB ID")
                 }
-                if (data.homepageURL != nil && !data.homepageURL!.isEmpty) {
-                    LinkView(text: data.homepageURL!, link: data.homepageURL!)
+                if let homepageURL = data.homepageURL, !homepageURL.isEmpty {
+                    LinkView(text: homepageURL, link: homepageURL)
                         .headline("Homepage")
                 }
                 if !data.productionCompanies.isEmpty {
-                    Text(String(data.productionCompanies.map({ $0.name }).joined(separator: ", ")))
+                    Text(String(data.productionCompanies.map(\.name).joined(separator: ", ")))
                         .headline("Production Companies")
                 }
                 // Show exclusive data
-                if showData != nil {
-                    if !showData!.networks.isEmpty {
-                        Text(showData!.networks.map({ $0.name }).joined(separator: ", "))
+                if let showData = data as? TMDBShowData {
+                    if !showData.networks.isEmpty {
+                        Text(showData.networks.map(\.name).joined(separator: ", "))
                             .headline("Networks")
                     }
                 }

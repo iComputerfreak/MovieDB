@@ -47,7 +47,7 @@ fileprivate let headers: [CodingKeys] = [
     .watched, .releaseDate, .runtime, .budget, .revenue, .isAdult, // Movie exclusive
     .lastEpisodeWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
 ]
-fileprivate var header: String { headers.map({ $0.rawValue }).joined(separator: String(separator)) }
+fileprivate var header: String { headers.map(\.rawValue).joined(separator: String(separator)) }
 
 struct CSVEncoder {
     
@@ -71,7 +71,7 @@ struct CSVEncoder {
             values.append(clean(mediaObject.notes))
             if let tmdbData = mediaObject.tmdbData {
                 values.append(tmdbData.originalTitle)
-                values.append(tmdbData.genres.map({ $0.name }).joined(separator: String(arraySeparator)))
+                values.append(tmdbData.genres.map(\.name).joined(separator: String(arraySeparator)))
                 values.append(clean(tmdbData.overview ?? ""))
                 values.append(tmdbData.status.rawValue)
             } else {

@@ -35,14 +35,14 @@ struct LibraryHome : View {
                     return true
                 }
                 // Partial matches
-                if media.cast.map({ $0.name }).contains(where: { $0.contains(self.searchText) }) {
+                if media.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) {
                     return true
                 }
                 if media.notes.contains(self.searchText) {
                     return true
                 }
                 // Exact tag matches only
-                if media.tags.map({ TagLibrary.shared.name(for: $0) }).contains(self.searchText) {
+                if media.tags.map(TagLibrary.shared.name).contains(self.searchText) {
                     return true
                 }
                 if let idString = media.tmdbData?.id {

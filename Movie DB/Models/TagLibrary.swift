@@ -55,7 +55,7 @@ class TagLibrary: ObservableObject {
     func create(name: String) {
         var nextID = TagLibrary.nextID
         // Make sure the ID doesn't exist yet (could be possible after a crash)
-        while self.tags.map({ $0.id }).contains(nextID) {
+        while self.tags.map(\.id).contains(nextID) {
             print("Skipping Tag ID \(nextID), since it already exists.")
             nextID = TagLibrary.nextID
         }
@@ -63,7 +63,7 @@ class TagLibrary: ObservableObject {
         save()
         #if DEBUG
         // Check if there are any duplicate tag IDs
-        let ids = self.tags.map({ $0.id })
+        let ids = self.tags.map(\.id)
         let uniqueIDs = Set(ids)
         if ids.count != uniqueIDs.count {
             assertionFailure("There are duplicate Tag IDs assigned!")

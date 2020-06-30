@@ -69,7 +69,7 @@ struct FilterView: View {
                             .tag(false.description)
                     }
                     // MARK: - Tags
-                    FilterMultiPicker(selection: $filterSettings.tags, label: { TagLibrary.shared.name(for: $0) ?? "<Unknown>" }, values: TagLibrary.shared.tags.lexicographicallySorted().map { $0.id }, title: Text("Tags"))
+                    FilterMultiPicker(selection: $filterSettings.tags, label: { TagLibrary.shared.name(for: $0) ?? "<Unknown>" }, values: TagLibrary.shared.tags.lexicographicallySorted().map(\.id), title: Text("Tags"))
                 }
                 Section(header: Text("Information")) {
                     // MARK: - Media Type

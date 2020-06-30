@@ -12,51 +12,41 @@ struct BasicInfo: View {
     
     @EnvironmentObject private var mediaObject: Media
     
-    private var movieData: TMDBMovieData? {
-        mediaObject.tmdbData as? TMDBMovieData
-    }
-    
-    private var showData: TMDBShowData? {
-        mediaObject.tmdbData as? TMDBShowData
-    }
-    
     var body: some View {
-        mediaObject.tmdbData.map { (data: TMDBData) in
-            Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
+        Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
+            if let data = mediaObject.tmdbData {
                 Text(String(format: "%04d", mediaObject.id))
                     .headline("ID")
                 if !data.genres.isEmpty {
-                    Text(data.genres.map({ $0.name }).joined(separator: ", "))
+                    Text(data.genres.map(\.name).joined(separator: ", "))
                         .headline("Genres")
                 }
-                if data.overview != nil && !data.overview!.isEmpty {
-                    LongTextView(data.overview!, headline: "Description")
+                if let overview = data.overview, !overview.isEmpty {
+                    LongTextView(overview, headline: "Description")
                         .headline("Description")
                 }
                 // Movie exclusive data
-                if (movieData != nil) {
-                    movieData!.releaseDate.map { (releaseDate: Date) in
+                if let movieData = data as? TMDBMovieData {
+                    if let releaseDate = movieData.releaseDate {
                         Text(JFUtils.dateFormatter.string(from: releaseDate))
                             .headline("Release Date")
                     }
-                    movieData!.runtime.map { (runtime: Int) in
+                    if let runtime = movieData.runtime {
                         Text("\(runtime) Minutes (\(runtime >= 60 ? "\(runtime / 60)h " : "")\(runtime % 60)m)")
                             .headline("Runtime")
                     }
                 }
                 // Show exclusive data
-                if (showData != nil) {
-                    showData!.firstAirDate.map { (firstAirDate: Date) in
-                        showData!.lastAirDate.map { (lastAirDate: Date) in
-                            Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))")
-                                .headline("Air Date")
-                        }
+                if let showData = data as? TMDBShowData {
+                    // Air date
+                    if let firstAirDate = showData.firstAirDate,
+                       let lastAirDate = showData.lastAirDate {
+                        Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))")
+                            .headline("Air Date")
                     }
-                    // Redundant with "Status"
-                    //Text(showData!.isInProduction ? "Yes" : "No")
-                    //    .headline("In Production?")
-                    if showData!.type != nil {
-                        Text(showData!.type!.rawValue)
+                    // Show type (e.g. Scripted)
+                    if let type = showData.type {
+                        Text(type.rawValue)
                             .headline("Show Type")
                     }
                 }
@@ -67,15 +57,15 @@ struct BasicInfo: View {
                 Text(JFUtils.languageString(for: data.originalLanguage) ?? data.originalLanguage)
                     .headline("Original Language")
                 // Seasons Info
-                if showData != nil && !showData!.seasons.isEmpty {
-                    NavigationLink(destination: SeasonsInfo()) {
-                        Text("\(showData!.seasons.count) Seasons")
+                if let showData = data as? TMDBShowData, !showData.seasons.isEmpty {
+                    NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
+                        Text("\(showData.seasons.count) Seasons")
                             .headline("Seasons")
                     }
                 }
                 // Cast
                 if !mediaObject.cast.isEmpty {
-                    NavigationLink(destination: CastInfo()) {
+                    NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
                         Text("Cast")
                     }
                 }

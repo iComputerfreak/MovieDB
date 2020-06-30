@@ -242,7 +242,7 @@ class TMDBAPI {
             if let keywords = wrapper?.keywords, !keywords.isEmpty {
                 DispatchQueue.main.async {
                     // Save only the keyword names, ignore the id
-                    media.keywords = keywords.map({ $0.name })
+                    media.keywords = keywords.map(\.name)
                 }
             }
             group?.leave()
@@ -264,7 +264,7 @@ class TMDBAPI {
             if let translations = wrapper?.translations, !translations.isEmpty {
                 DispatchQueue.main.async {
                     // Save only the localized names, not the english names
-                    media.translations = translations.map({ $0.name })
+                    media.translations = translations.map(\.name)
                 }
             }
             group?.leave()
@@ -296,7 +296,7 @@ class TMDBAPI {
         }
         // Once all pages have loaded (for movie and tv), execute the completion closure
         superGroup.notify(queue: .main) {
-            completion(results.map({ $0.id }))
+            completion(results.map(\.id))
         }
     }
     
