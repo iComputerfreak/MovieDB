@@ -18,11 +18,13 @@ struct ContentView : View {
                     Text("Home")
                 }
             
-            ProblemsView()
-                .tabItem {
-                    Image(systemName: "exclamationmark.triangle")
-                    Text("Problems")
-                }
+            if MediaLibrary.shared.hasProblems {
+                ProblemsView()
+                    .tabItem {
+                        Image(systemName: "exclamationmark.triangle")
+                        Text("Problems")
+                    }
+            }
             
             SettingsView()
                 .tabItem {

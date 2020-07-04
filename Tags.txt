@@ -2,6 +2,7 @@ Aliens
 Anthology
 Artificial Intelligence
 Assassin
+Bodyguard
 Children
 Christmas
 Comedy
@@ -20,6 +21,7 @@ Haunted
 Heist
 Home Invasion
 Horror
+Hospital
 Hostage Situation
 Immortality
 Island

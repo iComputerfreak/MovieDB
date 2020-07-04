@@ -23,7 +23,11 @@ class MediaLibrary: ObservableObject, Codable {
         self.mediaList = []
         self.lastUpdate = nil
         // Set up the notifications to save when the app enters background
-        NotificationCenter.default.addObserver(self, selector: #selector(save), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willResign(notification:)), name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @objc func willResign(notification: Notification) {
+        save()
     }
     
     /// Loads the media library from the user defaults, or returns a new one, if none was saved.
@@ -41,7 +45,7 @@ class MediaLibrary: ObservableObject, Codable {
     }
     
     /// Saves this media library to the user defaults
-    @objc func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+    func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         // Encode the array into a property list
         let pList = try? PropertyListEncoder().encode(self)
         UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)

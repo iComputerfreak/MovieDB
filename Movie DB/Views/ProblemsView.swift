@@ -8,40 +8,39 @@
 
 import SwiftUI
 
-struct ProblemsView: View {
-    
+extension MediaLibrary {
     // MARK: Missing Info
     // Don't use checkProblems, as this check here is more efficient and has to be executed for every library item
-    private let missingInfoFilter: (Media) -> Bool = { (media) -> Bool in
-        // If the media is missing any of the user data elements
-        if media.personalRating == .noRating ||
-            media.watchAgain == nil ||
-            media.tags.isEmpty {
-            return true
-        }
-        // Movie exclusive
-        if media.type == .movie, let movie = media as? Movie {
-            if movie.watched == nil {
+    var missingInfo: [Media] {
+        let filter = { (media: Media) -> Bool in
+            // If the media is missing any of the user data elements
+            if media.personalRating == .noRating ||
+                media.watchAgain == nil ||
+                media.tags.isEmpty {
                 return true
             }
-        }
-        // Show exclusive
-        if media.type == .show, let show = media as? Show {
-            if show.lastEpisodeWatched == nil {
-                return true
+            // Movie exclusive
+            if media.type == .movie, let movie = media as? Movie {
+                if movie.watched == nil {
+                    return true
+                }
             }
+            // Show exclusive
+            if media.type == .show, let show = media as? Show {
+                if show.lastEpisodeWatched == nil {
+                    return true
+                }
+            }
+            return false
         }
-        return false
-    }
-    private var missingInfo: [Media] {
-        return self.library.mediaList.filter(self.missingInfoFilter)
+        return self.mediaList.filter(filter)
     }
     
     // MARK: Duplicates
     // Returns all duplicates grouped by ID
-    private var duplicateEntries: [Media] {
+    var duplicateEntries: [Media] {
         // Group the media objects by their TMDB IDs
-        let duplicates = Dictionary(grouping: library.mediaList, by: \.tmdbData?.id)
+        let duplicates = Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)
             // Filter out all IDs with only one media object
             .filter { (key: Int?, value: [Media]) in
                 return value.count > 1
@@ -58,6 +57,13 @@ struct ProblemsView: View {
             return data1.id < data2.id
         }
     }
+    
+    var hasProblems: Bool {
+        return !duplicateEntries.isEmpty || !missingInfo.isEmpty
+    }
+}
+
+struct ProblemsView: View {
     
     @ObservedObject private var library = MediaLibrary.shared
     
@@ -84,34 +90,36 @@ struct ProblemsView: View {
     
     var body: some View {
         NavigationView {
-            if missingInfo.isEmpty && duplicateEntries.isEmpty {
+            if !library.hasProblems {
                 Text("There are no problems in your library.")
                     .navigationBarTitle("Problems")
             } else {
                 List {
-                    if !missingInfo.isEmpty {
+                    if !library.missingInfo.isEmpty {
                         Section(header: Text("Missing Information")) {
-                            ForEach(self.missingInfo) { mediaObject in
+                            ForEach(library.missingInfo) { mediaObject in
                                 ProblemsLibraryRow(content: Text("Missing: \(checkProblems(mediaObject).joined(separator: ", "))").italic())
-                                    .environmentObject(mediaObject)
+                                    // For the environment object, get the reference to the real object
+                                    .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
                             }
                             .onDelete { indexSet in
                                 for offset in indexSet {
-                                    let id = self.missingInfo[offset].id
+                                    let id = library.missingInfo[offset].id
                                     self.library.remove(id: id)
                                 }
                             }
                         }
                     }
-                    if !duplicateEntries.isEmpty {
+                    if !library.duplicateEntries.isEmpty {
                         Section(header: Text("Duplicate Entries")) {
-                            ForEach(self.duplicateEntries) { mediaObject in
+                            ForEach(library.duplicateEntries) { mediaObject in
                                 ProblemsLibraryRow(content: Text("Duplicate").italic())
-                                    .environmentObject(mediaObject)
+                                    // For the environment object, get the reference to the real object
+                                    .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
                             }
                             .onDelete { indexSet in
                                 for offset in indexSet {
-                                    let id = self.duplicateEntries[offset].id
+                                    let id = library.duplicateEntries[offset].id
                                     self.library.remove(id: id)
                                 }
                             }

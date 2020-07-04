@@ -260,6 +260,7 @@ struct SettingsView: View {
                             let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
                             controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                             controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                                // Don't reset the tags
                                 MediaLibrary.shared.reset()
                             }))
                             AlertHandler.presentAlert(alert: controller)
