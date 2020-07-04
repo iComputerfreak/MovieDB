@@ -258,7 +258,7 @@ extension String {
     /// - Returns: The string without the given suffix
     func removingSuffix(_ suffix: String) -> String {
         if self.hasSuffix(suffix) {
-            return String(self.dropFirst(suffix.count))
+            return String(self.dropLast(suffix.count))
         }
         // If the prefix does not exist, leave the string as it is
         return String(self)
@@ -285,7 +285,7 @@ extension String {
     /// - Returns: The string without the given suffix
     mutating func removeSuffix(_ suffix: String) {
         if self.hasSuffix(suffix) {
-            self.removeFirst(suffix.count)
+            self.removeLast(suffix.count)
         }
         // If the prefix does not exist, leave the string as it is
     }

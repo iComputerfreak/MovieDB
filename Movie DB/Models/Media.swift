@@ -120,6 +120,62 @@ class Media: Identifiable, ObservableObject, Codable {
         }
     }
     
+    enum RepairProblem {
+        case noProblems
+        case fixed
+        case notFixed
+    }
+    
+    func repair() -> [RepairProblem] {
+        let group = DispatchGroup()
+        var problems: [RepairProblem] = []
+        // If we have no TMDBData, we have no tmdbID and therefore no possibility to reload the data.
+        guard let tmdbData = self.tmdbData else {
+            print("[Verify] Media \(self.id) is missing the tmdbData. Not fixable.")
+            return [.notFixed]
+        }
+        // Thumbnail
+        if self.thumbnail == nil && tmdbData.imagePath != nil {
+            loadThumbnail()
+            problems.append(.fixed)
+            print("[Verify] '\(tmdbData.title)' (\(id)) is missing the thumbnail. Trying to fix it.")
+        }
+        // Tags
+        for tag in tags {
+            // If the tag does not exist, remove it
+            if !TagLibrary.shared.tags.map(\.id).contains(tag) {
+                DispatchQueue.main.async {
+                    self.tags.removeFirst(tag)
+                    problems.append(.fixed)
+                    print("[Verify] '\(tmdbData.title)' (\(self.id)) has invalid tags. Removed the invalid tags.")
+                }
+            }
+        }
+        // Cast
+        if cast.isEmpty {
+            group.enter()
+            TMDBAPI.shared.getCast(by: tmdbData.id, type: type) { (wrapper) in
+                if let wrapper = wrapper {
+                    DispatchQueue.main.async {
+                        // If the cast is empty, there was no problem in the first place
+                        guard !wrapper.cast.isEmpty else {
+                            return
+                        }
+                        self.cast = wrapper.cast
+                        problems.append(.fixed)
+                        print("[Verify] '\(tmdbData.title)' (\(self.id)) is missing the cast. Cast re-downloaded.")
+                    }
+                } else {
+                    problems.append(.notFixed)
+                    print("[Verify] '\(tmdbData.title)' (\(self.id)) is missing the cast. Cast could not be re-downloaded.")
+                }
+                group.leave()
+            }
+        }
+        group.wait()
+        return problems.isEmpty ? [.noProblems] : problems
+    }
+    
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
@@ -143,6 +199,10 @@ class Media: Identifiable, ObservableObject, Codable {
             // Image could not be loaded
             self.loadThumbnail()
         }
+        self.cast = try container.decode([CastMember].self, forKey: .cast)
+        self.keywords = try container.decode([String].self, forKey: .keywords)
+        self.translations = try container.decode([String].self, forKey: .translations)
+        self.videos = try container.decode([Video].self, forKey: .videos)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -172,6 +232,11 @@ class Media: Identifiable, ObservableObject, Codable {
                 print(e)
             }
         }
+        
+        try container.encode(self.cast, forKey: .cast)
+        try container.encode(self.keywords, forKey: .keywords)
+        try container.encode(self.translations, forKey: .translations)
+        try container.encode(self.videos, forKey: .videos)
     }
     
     private enum CodingKeys: String, CodingKey {

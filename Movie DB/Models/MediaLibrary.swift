@@ -28,20 +28,25 @@ class MediaLibrary: ObservableObject, Codable {
     
     /// Loads the media library from the user defaults, or returns a new one, if none was saved.
     static func load() -> MediaLibrary {
-        // Load the media library from user defaults
+        // Load the media library from UserDefaults
         if let data = UserDefaults.standard.data(forKey: JFLiterals.Keys.mediaLibrary) {
-            return (try? PropertyListDecoder().decode(MediaLibrary.self, from: data)) ?? MediaLibrary()
-        } else {
-            return MediaLibrary()
+            do {
+                return try PropertyListDecoder().decode(MediaLibrary.self, from: data)
+            } catch let e {
+                print("Error loading media library. Malformed data.")
+                print(e)
+            }
         }
+        return MediaLibrary()
     }
     
     /// Saves this media library to the user defaults
-    @objc func save() {
+    @objc func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         // Encode the array into a property list
         let pList = try? PropertyListEncoder().encode(self)
         UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
-        print("Library saved")
+        // Output "[Class.function:line] Library saved"
+        print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
     }
     
     /// Updates the media library by updaing every media object with API calls again.
@@ -91,6 +96,31 @@ class MediaLibrary: ObservableObject, Codable {
         // Reset the ID counter for the media objects
         Media.resetNextID()
         save()
+    }
+    
+    // Returns the amount of unfixed problems
+    func verifyAndRepair(progress: Binding<Double>) -> (fixed: Int, notFixed: Int) {
+        let progressStep: Double = 1.0 / Double(self.mediaList.count)
+        var fixed = 0
+        var notFixed = 0
+        // Reset the progress counter
+        progress.wrappedValue = 0.0
+        
+        // Don't check if there are duplicate IDs assigned, it's done in the problems tab already
+        
+        for mediaObject in mediaList {
+            let result = mediaObject.repair()
+            fixed += result.filter({ $0 == .fixed }).count
+            notFixed += result.filter({ $0 == .notFixed }).count
+            DispatchQueue.main.async {
+                progress.wrappedValue += progressStep
+            }
+        }
+        // Set the progress to 100% to fix any rounding errors
+        DispatchQueue.main.async {
+            progress.wrappedValue = 1.0
+        }
+        return (fixed, notFixed)
     }
     
     // MARK: - Codable Conformance

@@ -106,7 +106,7 @@ struct ProblemsView: View {
                     if !duplicateEntries.isEmpty {
                         Section(header: Text("Duplicate Entries")) {
                             ForEach(self.duplicateEntries) { mediaObject in
-                                ProblemsLibraryRow(content: Text("Duplicate"))
+                                ProblemsLibraryRow(content: Text("Duplicate").italic())
                                     .environmentObject(mediaObject)
                             }
                             .onDelete { indexSet in

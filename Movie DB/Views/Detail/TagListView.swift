@@ -38,7 +38,7 @@ struct TagListView: View {
     private var label: some View {
         // Remove tags that no longer exist
         let ids = TagLibrary.shared.tags.map(\.id)
-        let filteredTags = tags.filter({ ids.contains($0) })
+        let filteredTags = tags.filter(ids.contains)
         
         if filteredTags.isEmpty {
             return Text("None").italic()

@@ -197,7 +197,7 @@ struct CSVDecoder {
                             return nil
                         }
                         // If no tag with this name exists, create a new one
-                        if !TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                        if !TagLibrary.shared.tags.map(\.name).contains(name) {
                             TagLibrary.shared.create(name: name)
                         }
                         let tags = TagLibrary.shared.tags.first(where: { $0.name == name })?.id

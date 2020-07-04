@@ -48,100 +48,149 @@ struct SettingsView: View {
     }
     
     @State private var updateInProgress = false
+    @State private var verificationInProgress = false
+    @State private var verificationProgress: Double = 0.0
     
     @State private var shareSheet = ShareSheet()
     @State private var documentPicker: DocumentPicker?
     
+    @State private var isLoading: Bool = false
+    
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
-                    Picker("Database Language", selection: $config.language) {
-                        ForEach(self.sortedLanguages, id: \.self) { code in
-                            Text(JFUtils.languageString(for: code) ?? code)
-                                .tag(code)
-                        }
-                    }
-                    Picker("Region", selection: $config.region) {
-                        ForEach(self.sortedRegions, id: \.self) { code in
-                            Text(JFUtils.regionString(for: code) ?? code)
-                                .tag(code)
-                        }
-                    }
-                }
-                Section(footer: {
-                    AnyView(
-                        HStack {
-                            ActivityIndicator()
-                            Text("Updating media library...")
-                        }
-                    )
-                    .hidden(condition: !self.updateInProgress)
-                }()) {
-                    
-                    // MARK: - Update Button
-                    Button(action: {
-                        DispatchQueue.global().async {
-                            DispatchQueue.main.sync {
-                                self.updateInProgress = true
+        LoadingView(isShowing: $isLoading) {
+            NavigationView {
+                Form {
+                    Section {
+                        Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
+                        Picker("Database Language", selection: $config.language) {
+                            ForEach(self.sortedLanguages, id: \.self) { code in
+                                Text(JFUtils.languageString(for: code) ?? code)
+                                    .tag(code)
                             }
-                            // Update and show the result
-                            let updateResult = MediaLibrary.shared.update()
-                            DispatchQueue.main.sync {
-                                self.updateInProgress = false
-                                let s = updateResult.successes
-                                let f = updateResult.failures
-                                var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
-                                if f != 0 {
-                                    message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
+                        }
+                        Picker("Region", selection: $config.region) {
+                            ForEach(self.sortedRegions, id: \.self) { code in
+                                Text(JFUtils.regionString(for: code) ?? code)
+                                    .tag(code)
+                            }
+                        }
+                    }
+                    Section(footer: {
+                        ZStack {
+                            // Update Progress
+                            AnyView(
+                                HStack {
+                                    ActivityIndicator()
+                                    Text("Updating media library...")
                                 }
-                                AlertHandler.showSimpleAlert(title: "Update completed", message: message)
-                            }
+                            )
+                            .hidden(condition: !self.updateInProgress)
+                            // Verification Progress
+                            AnyView(
+                                HStack {
+                                    ProgressView(value: self.verificationProgress) {
+                                        Text("Verifying and repairing media library...")
+                                    }
+                                }
+                            )
+                            .hidden(condition: !self.verificationInProgress)
                         }
-                    }, label: Text("Update Media").closure())
+                    }()) {
+                        
+                        // MARK: - Update Button
+                        Button(action: {
+                            self.updateInProgress = true
+                            DispatchQueue.global().async {
+                                // Update and show the result
+                                let updateResult = MediaLibrary.shared.update()
+                                DispatchQueue.main.async {
+                                    self.updateInProgress = false
+                                    let s = updateResult.successes
+                                    let f = updateResult.failures
+                                    var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
+                                    if f != 0 {
+                                        message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
+                                    }
+                                    AlertHandler.showSimpleAlert(title: "Update completed", message: message)
+                                }
+                            }
+                        }, label: Text("Update Media").closure())
                         .disabled(self.updateInProgress)
-                    
-                    // MARK: - Import Button
-                    Button(action: {
-                        // Use iOS file picker
-                        self.documentPicker = DocumentPicker(onSelect: { url in
-                            print("Importing \(url.lastPathComponent).")
-                            // Document picker finished. Invalidate it.
-                            self.documentPicker = nil
-                            do {
-                                let csv = try String(contentsOf: url)
-                                print("Imported csv file. Trying to import into library.")
-                                let mediaObjects = CSVDecoder().decode(csv)
-                                // Presenting will change UI
-                                DispatchQueue.main.sync {
-                                    let controller = UIAlertController(title: "Import",
-                                                                       message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
-                                                                       preferredStyle: .alert)
-                                    controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                        MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
-                                        DispatchQueue.global().async {
-                                            MediaLibrary.shared.save()
-                                        }
-                                    }))
-                                    controller.addAction(UIAlertAction(title: "No", style: .cancel))
-                                    AlertHandler.presentAlert(alert: controller)
+                        
+                        // MARK: - Verify Button
+                        Button(action: {
+                            self.verificationInProgress = true
+                            // If we would call it sync, we would sleep in the main thread until this is complete!
+                            DispatchQueue.global().async {
+                                let problems = MediaLibrary.shared.verifyAndRepair(progress: $verificationProgress)
+                                MediaLibrary.shared.save()
+                                DispatchQueue.main.async {
+                                    self.verificationInProgress = false
+                                    // TODO: Display the error count as result
+                                    if problems.notFixed != 0 {
+                                        // There are problems that could not be fixed
+                                        AlertHandler.showSimpleAlert(title: "Problems found", message: "There have been found \(problems.notFixed) problems, that could not be fixed.")
+                                    } else if problems.fixed != 0 {
+                                        // There are fixed problems
+                                        AlertHandler.showSimpleAlert(title: "All Problems Fixed", message: "All \(problems.fixed) problems have been fixed.")
+                                    } else {
+                                        // There were no problems
+                                        AlertHandler.showSimpleAlert(title: "No Problems", message: "No problems were found.")
+                                    }
                                 }
-                            } catch let exception {
-                                print("Error reading imported csv file:")
-                                print(exception)
                             }
-                        }, onCancel: {
-                            print("Canceling...")
-                            self.documentPicker = nil
+                        }, label: Text("Verify Library").closure())
+                        
+                        
+                        // MARK: - Import Button
+                        Button(action: {
+                            // Use iOS file picker
+                            self.documentPicker = DocumentPicker(onSelect: { url in
+                                print("Importing \(url.lastPathComponent).")
+                                self.isLoading = true
+                                // Document picker finished. Invalidate it.
+                                self.documentPicker = nil
+                                DispatchQueue.global().async {
+                                    do {
+                                        let csv = try String(contentsOf: url)
+                                        print("Imported csv file. Trying to import into library.")
+                                        let mediaObjects = CSVDecoder().decode(csv)
+                                        // Presenting will change UI
+                                        DispatchQueue.main.async {
+                                            let controller = UIAlertController(title: "Import",
+                                                                               message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
+                                                                               preferredStyle: .alert)
+                                            controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                                                MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
+                                                DispatchQueue.global().async {
+                                                    MediaLibrary.shared.save()
+                                                }
+                                            }))
+                                            controller.addAction(UIAlertAction(title: "No", style: .cancel))
+                                            DispatchQueue.main.async {
+                                                self.isLoading = false
+                                                AlertHandler.presentAlert(alert: controller)
+                                            }
+                                        }
+                                    } catch let exception {
+                                        print("Error reading imported csv file:")
+                                        print(exception)
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                        }
+                                    }
+                                }
+                            }, onCancel: {
+                                print("Canceling...")
+                                self.documentPicker = nil
+                            })
+                            #if targetEnvironment(macCatalyst)
+                            // On macOS present the file picker manually
+                            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                            #endif
+                        }, label: {
+                            Text("Import Media")
                         })
-                        #if targetEnvironment(macCatalyst)
-                        // On macOS present the file picker manually
-                        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
-                        #endif
-                    }, label: {
-                        Text("Import Media")
-                    })
                         .popover(isPresented: .init(get: {
                             #if targetEnvironment(macCatalyst)
                             return false
@@ -155,72 +204,73 @@ struct SettingsView: View {
                             }
                         })) {
                             self.documentPicker!
-                    }
-                    
-                    // MARK: - Export Button
-                    Button(action: {
-                        let encoder = CSVEncoder()
-                        let csv = encoder.encode(MediaLibrary.shared.mediaList)
-                        // Save the csv as a file to share it
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "yyyy-MM-dd"
-                        let url: URL!
-                        url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
-                        // Delete any old export, if it exists
-                        if FileManager.default.fileExists(atPath: url.path) {
-                            try? FileManager.default.removeItem(at: url)
                         }
-                        do {
-                            try csv.write(to: url, atomically: true, encoding: .utf8)
-                        } catch let exception {
-                            print("Error writing CSV file")
-                            print(exception)
-                            return
-                        }
-                        #if targetEnvironment(macCatalyst)
-                        // Show save file dialog
-                        self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
-                            print("Exporting \(url.lastPathComponent).")
-                            // Document picker finished. Invalidate it.
-                            self.documentPicker = nil
+                        
+                        // MARK: - Export Button
+                        Button(action: {
+                            let encoder = CSVEncoder()
+                            let csv = encoder.encode(MediaLibrary.shared.mediaList)
+                            // Save the csv as a file to share it
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "yyyy-MM-dd"
+                            let url: URL!
+                            url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
+                            // Delete any old export, if it exists
+                            if FileManager.default.fileExists(atPath: url.path) {
+                                try? FileManager.default.removeItem(at: url)
+                            }
                             do {
-                                // Export the csv to the file
                                 try csv.write(to: url, atomically: true, encoding: .utf8)
                             } catch let exception {
-                                print("Error exporting csv file:")
+                                print("Error writing CSV file")
                                 print(exception)
+                                return
                             }
-                        }, onCancel: {
-                            print("Canceling...")
-                            self.documentPicker = nil
+                            #if targetEnvironment(macCatalyst)
+                            // Show save file dialog
+                            self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+                                print("Exporting \(url.lastPathComponent).")
+                                // Document picker finished. Invalidate it.
+                                self.documentPicker = nil
+                                do {
+                                    // Export the csv to the file
+                                    try csv.write(to: url, atomically: true, encoding: .utf8)
+                                } catch let exception {
+                                    print("Error exporting csv file:")
+                                    print(exception)
+                                }
+                            }, onCancel: {
+                                print("Canceling...")
+                                self.documentPicker = nil
+                            })
+                            // On macOS present the file picker manually
+                            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                            #else
+                            self.shareSheet.shareFile(url: url)
+                            #endif
+                        }, label: {
+                            // Attach the share sheet above the export button (will be displayed correctly anyways)
+                            ZStack(alignment: .leading) {
+                                Text("Export Media")
+                                shareSheet
+                            }
                         })
-                        // On macOS present the file picker manually
-                        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
-                        #else
-                        self.shareSheet.shareFile(url: url)
-                        #endif
-                    }, label: {
-                        // Attach the share sheet above the export button (will be displayed correctly anyways)
-                        ZStack(alignment: .leading) {
-                            Text("Export Media")
-                            shareSheet
-                        }
-                    })
-                    // MARK: - Reset Button
-                    Button(action: {
-                        let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
-                        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                        controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                            MediaLibrary.shared.reset()
-                        }))
-                        AlertHandler.presentAlert(alert: controller)
-                    }, label: Text("Reset Library").closure())
+                        // MARK: - Reset Button
+                        Button(action: {
+                            let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
+                            controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                            controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                                MediaLibrary.shared.reset()
+                            }))
+                            AlertHandler.presentAlert(alert: controller)
+                        }, label: Text("Reset Library").closure())
+                    }
+                    
                 }
-                
+                .navigationBarTitle("Settings")
             }
-            .navigationBarTitle("Settings")
+            .onDisappear(perform: save)
         }
-        .onDisappear(perform: save)
     }
     
     struct Keys {
