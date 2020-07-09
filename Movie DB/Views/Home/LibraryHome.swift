@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Combine
-import JFSwiftUI
 
 struct LibraryHome : View {
     
@@ -96,10 +95,10 @@ struct LibraryHome : View {
     var body: some View {
         ScrollViewReader { proxy in
         NavigationView {
-            VStack(spacing: 0) {
-                SearchBar(text: $searchText)
+            VStack {
+                SearchBar(searchText: $searchText)
                     List {
-                        Section(footer: Text("\(MediaLibrary.shared.mediaList.count) objects in total")) {
+                        Section(footer: Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == library.mediaList.count ? " total" : "")")) {
                             ForEach(filteredMedia) { mediaObject in
                                 LibraryRow()
                                     .environmentObject(mediaObject)

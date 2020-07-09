@@ -1,8 +1,8 @@
 #  Movie DB
 
-A library to keep track of all the movies or shows you watched.
+An app to keep track of all the movies and shows you watched.
 
-Currently still in development.
+Currently still in development, but works without major bugs. Just be sure to make backups (exports) regularily.
 
 ## Features
 * Add movies and shows that are listed on TheMovieDB.org to the library
@@ -17,19 +17,19 @@ Currently still in development.
 * Library Search
 * Filter and sorting options for the library
 * Region / Langauge Settings
-* Settings option to hide all adult media (in search and library)
 * Searching for keywords and other properties
 * Update function that updates the media, executed regularily
+* CSV Export
 
 ## Planned Features
-* Settings option to reload all media in the library (fully redownload every media from their ID)
 * Embed trailers
 * Parental Ratings
 * Marking media as Favorite
 * PDF Export
-* CSV Export
-* Show streaming service availability (still need an api for that)
+* Show streaming service availability (still looking for a free api for that)
 * Notification when a new season is available on your streaming services
+
+For more up-to-date planned features, take a look into the TODOs.swift file in the project's root directory.
 
 ## Known Bugs
 * It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.

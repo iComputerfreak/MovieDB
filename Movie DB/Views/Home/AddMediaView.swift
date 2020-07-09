@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import JFSwiftUI
+import struct JFSwiftUI.LoadingView
 
 struct AddMediaView : View {
     
@@ -22,7 +22,7 @@ struct AddMediaView : View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
-                    SearchBar(text: $searchText, onSearchButtonClicked: {
+                    SearchBar(searchText: $searchText) {
                         print("Search: \(self.searchText)")
                         guard !self.searchText.isEmpty else {
                             self.results = []
@@ -52,7 +52,7 @@ struct AddMediaView : View {
                                 self.results = filteredResults
                             }
                         }
-                    })
+                    }
                     
                     List {
                         ForEach(self.results, id: \TMDBSearchResult.id) { (result: TMDBSearchResult) in
