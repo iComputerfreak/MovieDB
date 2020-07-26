@@ -13,6 +13,7 @@ struct SettingsView: View {
     
     // Reference to the config instance
     @ObservedObject private var config: JFConfig = JFConfig.shared
+    @ObservedObject private var library = MediaLibrary.shared
     
     init() {
     }
@@ -102,7 +103,7 @@ struct SettingsView: View {
                             self.updateInProgress = true
                             DispatchQueue.global().async {
                                 // Update and show the result
-                                let updateResult = MediaLibrary.shared.update()
+                                let updateResult = self.library.update()
                                 DispatchQueue.main.async {
                                     self.updateInProgress = false
                                     let s = updateResult.successes
@@ -122,21 +123,23 @@ struct SettingsView: View {
                             self.verificationInProgress = true
                             // If we would call it sync, we would sleep in the main thread until this is complete!
                             DispatchQueue.global().async {
-                                let problems = MediaLibrary.shared.verifyAndRepair(progress: $verificationProgress)
-                                MediaLibrary.shared.save()
+                                let problems = self.library.verifyAndRepair(progress: $verificationProgress)
+                                self.library.save()
                                 DispatchQueue.main.async {
                                     self.verificationInProgress = false
-                                    // TODO: Display the error count as result
-                                    if problems.notFixed != 0 {
-                                        // There are problems that could not be fixed
-                                        AlertHandler.showSimpleAlert(title: "Problems found", message: "There have been found \(problems.notFixed) problems, that could not be fixed.")
-                                    } else if problems.fixed != 0 {
-                                        // There are fixed problems
-                                        AlertHandler.showSimpleAlert(title: "All Problems Fixed", message: "All \(problems.fixed) problems have been fixed.")
-                                    } else {
-                                        // There were no problems
-                                        AlertHandler.showSimpleAlert(title: "No Problems", message: "No problems were found.")
+                                    switch problems {
+                                        case let .some(_, notFixed) where notFixed != 0:
+                                            AlertHandler.showSimpleAlert(title: "Problems found", message: "There have been found \(notFixed) problems, that could not be fixed.")
+                                            break
+                                        case let .some(fixed, _) where fixed != 0:
+                                            AlertHandler.showSimpleAlert(title: "All Problems Fixed", message: "All \(fixed) problems have been fixed.")
+                                            break
+                                        // Catches .none and .some(0, 0)
+                                        default:
+                                            AlertHandler.showSimpleAlert(title: "No Problems", message: "No problems were found.")
+                                            break
                                     }
+                                    // TODO: Display the error count as result
                                 }
                             }
                         }, label: Text("Verify Library").closure())
@@ -161,10 +164,8 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                MediaLibrary.shared.mediaList.append(contentsOf: mediaObjects)
-                                                DispatchQueue.global().async {
-                                                    MediaLibrary.shared.save()
-                                                }
+                                                self.library.append(contentsOf: mediaObjects)
+                                                self.library.save()
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel))
                                             DispatchQueue.main.async {
@@ -209,7 +210,7 @@ struct SettingsView: View {
                         // MARK: - Export Button
                         Button(action: {
                             let encoder = CSVEncoder()
-                            let csv = encoder.encode(MediaLibrary.shared.mediaList)
+                            let csv = encoder.encode(self.library.mediaList)
                             // Save the csv as a file to share it
                             let formatter = DateFormatter()
                             formatter.dateFormat = "yyyy-MM-dd"
@@ -261,7 +262,7 @@ struct SettingsView: View {
                             controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                             controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                                 // Don't reset the tags
-                                MediaLibrary.shared.reset()
+                                self.library.reset()
                             }))
                             AlertHandler.presentAlert(alert: controller)
                         }, label: Text("Reset Library").closure())

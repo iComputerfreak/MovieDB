@@ -11,7 +11,15 @@ import Foundation
 class Movie: Media {
         
     /// Whether the user has watched the media (partly or fully)
-    @Published var watched: Bool? = nil
+    @Published var watched: Bool? = nil {
+        didSet {
+            if watched == nil {
+                self.missingInformation.insert(.watched)
+            } else {
+                self.missingInformation.remove(.watched)
+            }
+        }
+    }
     
     /// Creates a new `Movie` object.
     init() {
@@ -41,4 +49,31 @@ class Movie: Media {
         case watched
     }
     
+    override func isEqual(to other: Media) -> Bool {
+        guard let other = other as? Movie else {
+            return false
+        }
+        return
+            id == other.id &&
+            // TODO: lhs.tmdbData == rhs.tmdbData &&
+            type == other.type &&
+            personalRating == other.personalRating &&
+            tags == other.tags &&
+            watchAgain == other.watchAgain &&
+            notes == other.notes &&
+            thumbnail == other.thumbnail &&
+            cast == other.cast &&
+            keywords == other.keywords &&
+            translations == other.translations &&
+            videos == other.videos &&
+            year == other.year &&
+            missingInformation == other.missingInformation &&
+            
+            watched == other.watched
+    }
+    
+    override func hash(into hasher: inout Hasher) {
+        super.hash(into: &hasher)
+        hasher.combine(watched)
+    }
 }

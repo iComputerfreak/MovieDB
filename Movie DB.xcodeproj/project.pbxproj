@@ -76,6 +76,7 @@
 		ABED3B052393251100F4C327 /* Wrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B042393251100F4C327 /* Wrappers.swift */; };
 		ABED3B072393263E00F4C327 /* Show Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B062393263E00F4C327 /* Show Structs.swift */; };
 		ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B0823932A8F00F4C327 /* FilterView.swift */; };
+		ABF0714624CE08CD003D08A2 /* Media+Repairable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF0714524CE08CD003D08A2 /* Media+Repairable.swift */; };
 		ABF13EEB22CE4A41006AF6EC /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF13EEA22CE4A41006AF6EC /* AppTests.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
 		ABFBF7A223A9052E008F4A80 /* TODOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFBF7A123A9052E008F4A80 /* TODOs.swift */; };
@@ -166,6 +167,7 @@
 		ABED3B042393251100F4C327 /* Wrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wrappers.swift; sourceTree = "<group>"; };
 		ABED3B062393263E00F4C327 /* Show Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show Structs.swift"; sourceTree = "<group>"; };
 		ABED3B0823932A8F00F4C327 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		ABF0714524CE08CD003D08A2 /* Media+Repairable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Media+Repairable.swift"; sourceTree = "<group>"; };
 		ABF13EEA22CE4A41006AF6EC /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
 		ABFBF7A123A9052E008F4A80 /* TODOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODOs.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				AB6478D922C7B8E800F3E14E /* SearchResult.swift */,
 				ABED3B03239324E000F4C327 /* TMDBData */,
 				AB6718ED22C032AA00F429E4 /* Media.swift */,
+				ABF0714524CE08CD003D08A2 /* Media+Repairable.swift */,
 				AB6718E522C0317800F429E4 /* Movie.swift */,
 				AB6718EB22C0324D00F429E4 /* Show.swift */,
 				AB5F7E1E238AE13C0007A3FE /* TagLibrary.swift */,
@@ -539,6 +542,7 @@
 				AB6478DA22C7B8E800F3E14E /* SearchResult.swift in Sources */,
 				AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */,
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
+				ABF0714624CE08CD003D08A2 /* Media+Repairable.swift in Sources */,
 				AB6718EC22C0324D00F429E4 /* Show.swift in Sources */,
 				AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */,
 				AB2742632389E08E00744B83 /* HeadlineModifier.swift in Sources */,

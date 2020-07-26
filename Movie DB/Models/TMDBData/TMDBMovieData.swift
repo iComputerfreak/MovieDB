@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TMDBMovieData: TMDBData, Equatable {
+struct TMDBMovieData: TMDBData, Hashable {
     // Protocol properties
     var id: Int
     var title: String

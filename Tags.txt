@@ -19,6 +19,8 @@ Game
 Gangsters
 Haunted
 Heist
+High Intelligence
+Highly Talented
 Home Invasion
 Horror
 Hospital

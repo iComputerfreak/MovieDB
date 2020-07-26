@@ -12,7 +12,7 @@ import SwiftUI
 import Combine
 import JFSwiftUI
 
-class Media: Identifiable, ObservableObject, Codable {
+class Media: Identifiable, ObservableObject, Codable, Hashable {
     
     enum MediaError: Error {
         case noData
@@ -51,11 +51,37 @@ class Media: Identifiable, ObservableObject, Codable {
     /// The type of media
     @Published var type: MediaType
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    @Published var personalRating: StarRating = .noRating
+    @Published var personalRating: StarRating = .noRating {
+        didSet {
+            if personalRating == .noRating {
+                // Rating is missing now
+                self.missingInformation.insert(.rating)
+            } else {
+                // Rating is not missing anymore
+                self.missingInformation.remove(.rating)
+            }
+        }
+    }
     /// A list of user-specified tags, listed by their id
-    @Published var tags: [Int] = []
+    @Published var tags: [Int] = [] {
+        didSet {
+            if tags == [] {
+                self.missingInformation.insert(.tags)
+            } else {
+                self.missingInformation.remove(.tags)
+            }
+        }
+    }
     /// Whether the user would watch the media again
-    @Published var watchAgain: Bool? = nil
+    @Published var watchAgain: Bool? = nil {
+        didSet {
+            if watchAgain == nil {
+                self.missingInformation.insert(.watchAgain)
+            } else {
+                self.missingInformation.remove(.watchAgain)
+            }
+        }
+    }
     /// Personal notes on the media
     @Published var notes: String = ""
     
@@ -83,6 +109,21 @@ class Media: Identifiable, ObservableObject, Codable {
             return cal.component(.year, from: airDate)
         }
         return nil
+    }
+    
+    enum MediaInformation: String, CaseIterable {
+        case rating
+        case watched
+        case watchAgain
+        case tags
+        // Notes are not required for the media object to be complete
+        //case notes
+    }
+    
+    var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
+    
+    var isIncomplete: Bool {
+        return !missingInformation.isEmpty
     }
     
     // Only used by constructing subclasses
@@ -118,62 +159,6 @@ class Media: Identifiable, ObservableObject, Codable {
                 }
             }
         }
-    }
-    
-    enum RepairProblem {
-        case noProblems
-        case fixed
-        case notFixed
-    }
-    
-    func repair() -> [RepairProblem] {
-        let group = DispatchGroup()
-        var problems: [RepairProblem] = []
-        // If we have no TMDBData, we have no tmdbID and therefore no possibility to reload the data.
-        guard let tmdbData = self.tmdbData else {
-            print("[Verify] Media \(self.id) is missing the tmdbData. Not fixable.")
-            return [.notFixed]
-        }
-        // Thumbnail
-        if self.thumbnail == nil && tmdbData.imagePath != nil {
-            loadThumbnail()
-            problems.append(.fixed)
-            print("[Verify] '\(tmdbData.title)' (\(id)) is missing the thumbnail. Trying to fix it.")
-        }
-        // Tags
-        for tag in tags {
-            // If the tag does not exist, remove it
-            if !TagLibrary.shared.tags.map(\.id).contains(tag) {
-                DispatchQueue.main.async {
-                    self.tags.removeFirst(tag)
-                    problems.append(.fixed)
-                    print("[Verify] '\(tmdbData.title)' (\(self.id)) has invalid tags. Removed the invalid tags.")
-                }
-            }
-        }
-        // Cast
-        if cast.isEmpty {
-            group.enter()
-            TMDBAPI.shared.getCast(by: tmdbData.id, type: type) { (wrapper) in
-                if let wrapper = wrapper {
-                    DispatchQueue.main.async {
-                        // If the cast is empty, there was no problem in the first place
-                        guard !wrapper.cast.isEmpty else {
-                            return
-                        }
-                        self.cast = wrapper.cast
-                        problems.append(.fixed)
-                        print("[Verify] '\(tmdbData.title)' (\(self.id)) is missing the cast. Cast re-downloaded.")
-                    }
-                } else {
-                    problems.append(.notFixed)
-                    print("[Verify] '\(tmdbData.title)' (\(self.id)) is missing the cast. Cast could not be re-downloaded.")
-                }
-                group.leave()
-            }
-        }
-        group.wait()
-        return problems.isEmpty ? [.noProblems] : problems
     }
     
     // MARK: - Codable Conformance
@@ -252,6 +237,54 @@ class Media: Identifiable, ObservableObject, Codable {
         case keywords
         case translations
         case videos
+    }
+    
+    static func == (lhs: Media, rhs: Media) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    
+    func isEqual(to other: Media) -> Bool {
+        // Prevent (Superclass() == Subclass()) == true
+        // Using `Swift.type(to:)` to distinguish from property `self.type`
+        guard Swift.type(of: other) == Swift.type(of: self) else {
+            return false
+        }
+        return
+            id == other.id &&
+            // TODO: lhs.tmdbData == rhs.tmdbData &&
+            type == other.type &&
+            personalRating == other.personalRating &&
+            tags == other.tags &&
+            watchAgain == other.watchAgain &&
+            notes == other.notes &&
+            thumbnail == other.thumbnail &&
+            cast == other.cast &&
+            keywords == other.keywords &&
+            translations == other.translations &&
+            videos == other.videos &&
+            year == other.year &&
+            missingInformation == other.missingInformation
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        if let movieData = tmdbData as? TMDBMovieData {
+            hasher.combine(movieData)
+        } else if let showData = tmdbData as? TMDBShowData {
+            hasher.combine(showData)
+        }
+        hasher.combine(type)
+        hasher.combine(personalRating)
+        hasher.combine(tags)
+        hasher.combine(watchAgain)
+        hasher.combine(notes)
+        hasher.combine(thumbnail)
+        hasher.combine(cast)
+        hasher.combine(keywords)
+        hasher.combine(translations)
+        hasher.combine(videos)
+        hasher.combine(year)
+        hasher.combine(missingInformation)
     }
 }
 

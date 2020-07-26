@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct TMDBShowData: TMDBData, Equatable {
+struct TMDBShowData: TMDBData, Hashable {
     // Protocol properties
     var id: Int
     var title: String

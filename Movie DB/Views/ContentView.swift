@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView : View {
     
+    @ObservedObject private var library = MediaLibrary.shared
+    
     var body: some View {
         TabView {
             LibraryHome()
@@ -18,7 +20,7 @@ struct ContentView : View {
                     Text("Home")
                 }
             
-            if MediaLibrary.shared.hasProblems {
+            if !library.problems.isEmpty || !library.duplicates.isEmpty {
                 ProblemsView()
                     .tabItem {
                         Image(systemName: "exclamationmark.triangle")

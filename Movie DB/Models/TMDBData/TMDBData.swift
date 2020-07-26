@@ -51,7 +51,7 @@ protocol TMDBData: Codable {
 // MARK: - Property Structs
 
 /// Represents an actor starring in a specific movie
-struct CastMember: Codable, Hashable, Equatable, Identifiable {
+struct CastMember: Codable, Hashable, Identifiable {
     let id: Int
     /// The name of the actor
     var name: String
@@ -69,7 +69,7 @@ struct CastMember: Codable, Hashable, Equatable, Identifiable {
 }
 
 /// Represents a video on some external site
-struct Video: Codable, Equatable {
+struct Video: Codable, Hashable {
     
     /// The video key
     var key: String
@@ -107,7 +107,7 @@ struct Genre: Codable, Equatable, Hashable {
 }
 
 /// Represents a production company
-struct ProductionCompany: Codable, Equatable {
+struct ProductionCompany: Codable, Hashable {
     /// The ID of the production company on TMDB
     var id: Int
     /// The name of the production company
@@ -126,7 +126,7 @@ struct ProductionCompany: Codable, Equatable {
 }
 
 /// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
-enum MediaStatus: String, Codable, CaseIterable, Equatable {
+enum MediaStatus: String, Codable, CaseIterable, Hashable {
     // MARK: General
     case planned = "Planned"
     case inProduction = "In Production"

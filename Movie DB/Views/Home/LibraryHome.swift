@@ -111,6 +111,7 @@ struct LibraryHome : View {
                             }
                         }
                     }
+                    .listStyle(GroupedListStyle())
                 }
                 
                 // FUTURE: Workaround for using two sheet modifiers
@@ -137,10 +138,7 @@ struct LibraryHome : View {
         }
         .onAppear(perform: didAppear)
         .onDisappear {
-            // Don't save on the main thread, to prevent locking UI
-            DispatchQueue.global().async {
-                MediaLibrary.shared.save()
-            }
+            self.library.save()
         }
         }
     }

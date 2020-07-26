@@ -40,8 +40,8 @@ struct PlaceholderData {
     
     static var mediaLibrary: MediaLibrary {
         let library = MediaLibrary.shared
-        library.mediaList.append(movie)
-        library.mediaList.append(show)
+        library.append(movie)
+        library.append(show)
         return library
     }
     

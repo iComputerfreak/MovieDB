@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MediaDetail : View {
     
+    @ObservedObject private var library = MediaLibrary.shared
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     
@@ -36,6 +37,10 @@ struct MediaDetail : View {
             if mediaObject.thumbnail == nil {
                 mediaObject.loadThumbnail()
             }
+        }
+        // When the detail disappears (e.g. editing ended) we update the problems array of the library
+        .onDisappear {
+            self.library.updateProblems(for: mediaObject)
         }
     }
 }

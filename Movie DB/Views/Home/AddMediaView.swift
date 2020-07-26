@@ -11,7 +11,7 @@ import struct JFSwiftUI.LoadingView
 
 struct AddMediaView : View {
     
-    private var library = MediaLibrary.shared
+    @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var searchText: String = ""
     @State private var isLoading: Bool = false
@@ -73,11 +73,9 @@ struct AddMediaView : View {
                                             return
                                         }
                                         // Save before adding the media
-                                        DispatchQueue.global().async {
-                                            self.library.save()
-                                        }
+                                        self.library.save()
                                         DispatchQueue.main.async {
-                                            self.library.mediaList.append(media!)
+                                            self.library.append(media!)
                                             // Go into the Detail View
                                             self.isLoading = false
                                             // Only dismiss, if the media was added successfully
@@ -92,6 +90,7 @@ struct AddMediaView : View {
                         }
                     }
                 }
+                .padding(.vertical)
                 .navigationTitle(Text("Add Movie"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {

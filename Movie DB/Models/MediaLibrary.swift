@@ -10,18 +10,26 @@ import Foundation
 import SwiftUI
 import Combine
 
+// TODO: Make Repairable
+
 /// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
 class MediaLibrary: ObservableObject, Codable {
     
     /// The shared `MediaLibrary` instance.
-    static let shared = MediaLibrary.load()
+    static let shared: MediaLibrary = {
+        let library = MediaLibrary.load()
+        library.updateProblems()
+        return library
+    }()
     
     var lastUpdate: Date?
-    @Published var mediaList: [Media]
+    @Published private(set) var mediaList: [Media]
     
     private init() {
         self.mediaList = []
         self.lastUpdate = nil
+        // Initialize hasProblems
+        self.updateProblems()
         // Set up the notifications to save when the app enters background
         NotificationCenter.default.addObserver(self, selector: #selector(willResign(notification:)), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -46,11 +54,13 @@ class MediaLibrary: ObservableObject, Codable {
     
     /// Saves this media library to the user defaults
     func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        // Encode the array into a property list
-        let pList = try? PropertyListEncoder().encode(self)
-        UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
-        // Output "[Class.function:line] Library saved"
-        print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
+        DispatchQueue.global().async {
+            // Encode the array into a property list
+            let pList = try? PropertyListEncoder().encode(self)
+            UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
+            // Output "[Class.function:line] Library saved"
+            print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
+        }
     }
     
     /// Updates the media library by updaing every media object with API calls again.
@@ -73,7 +83,20 @@ class MediaLibrary: ObservableObject, Codable {
             }
             self.lastUpdate = Date()
         }
+        self.updateProblems()
         return (successes, failures)
+    }
+    
+    func append(_ object: Media) {
+        self.mediaList.append(object)
+        self.updateProblems(for: object)
+        save()
+    }
+    
+    func append(contentsOf objects: [Media]) {
+        self.mediaList.append(contentsOf: objects)
+        self.updateProblems(for: objects)
+        save()
     }
     
     // Removes and saves the library
@@ -83,11 +106,22 @@ class MediaLibrary: ObservableObject, Codable {
             return
         }
         let id = mediaList[index!].id
-        self.mediaList.remove(at: index!)
+        let removed = self.mediaList.remove(at: index!)
+        // MARK: Remove the missing info from the array
+        problems.removeValue(forKey: removed)
+        // MARK: Remove the duplicates entry
+        let count = duplicates[removed.tmdbData?.id]?.count ?? 0
+        if count <= 2 {
+            // If there are two or less duplicates, we can remove them all
+            duplicates[removed.tmdbData?.id]?.removeAll()
+        } else {
+            // otherwise we just remove this object
+            duplicates[removed.tmdbData?.id]?.removeAll(where: { $0.id == removed.id })
+        }
         let thumbnailPath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(id).png")
         // Try to delete the thumbnail from disk
+        self.save()
         DispatchQueue.global().async {
-            self.save()
             try? FileManager.default.removeItem(at: thumbnailPath)
         }
     }
@@ -99,14 +133,16 @@ class MediaLibrary: ObservableObject, Codable {
         try? FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
         // Reset the ID counter for the media objects
         Media.resetNextID()
+        // Reset the problems
+        self.problems = [:]
+        self.duplicates = [:]
         save()
     }
     
     // Returns the amount of unfixed problems
-    func verifyAndRepair(progress: Binding<Double>) -> (fixed: Int, notFixed: Int) {
+    func verifyAndRepair(progress: Binding<Double>) -> RepairProblems {
         let progressStep: Double = 1.0 / Double(self.mediaList.count)
-        var fixed = 0
-        var notFixed = 0
+        var problems = RepairProblems.none
         // Reset the progress counter
         progress.wrappedValue = 0.0
         
@@ -114,8 +150,7 @@ class MediaLibrary: ObservableObject, Codable {
         
         for mediaObject in mediaList {
             let result = mediaObject.repair()
-            fixed += result.filter({ $0 == .fixed }).count
-            notFixed += result.filter({ $0 == .notFixed }).count
+            problems = problems + result
             DispatchQueue.main.async {
                 progress.wrappedValue += progressStep
             }
@@ -124,8 +159,46 @@ class MediaLibrary: ObservableObject, Codable {
         DispatchQueue.main.async {
             progress.wrappedValue = 1.0
         }
-        return (fixed, notFixed)
+        self.updateProblems()
+        return problems
     }
+    
+    // MARK: - Problems
+    @Published var problems: [Media: Set<Media.MediaInformation>] = [:]
+    @Published var duplicates: [Int?: [Media]] = [:]
+    
+    /// Returns whether any of the media objects in the library have problems
+    func updateProblems() {
+        updateProblems(for: mediaList)
+    }
+    
+    func updateProblems(for media: Media) {
+        updateProblems(for: [media])
+    }
+    
+    func updateProblems(for mediaObjects: [Media]) {
+        problems = [:]
+        for media in mediaObjects {
+            if media.missingInformation.isEmpty {
+                problems.removeValue(forKey: media)
+            } else {
+                problems[media] = media.missingInformation
+            }
+        }
+        
+        updateDuplicates()
+    }
+    
+    private func updateDuplicates() {
+        duplicates = [:]
+        // Group the media objects by their TMDB IDs
+        duplicates = Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)
+            // Filter out all IDs with only one media object
+            .filter { (key: Int?, value: [Media]) in
+                return value.count > 1
+            }
+    }
+    
     
     // MARK: - Codable Conformance
     
@@ -156,6 +229,7 @@ class MediaLibrary: ObservableObject, Codable {
         print("Loaded \(self.mediaList.count) Media objects.")
         // Load other properties
         self.lastUpdate = try container.decode(Date?.self, forKey: .lastUpdate)
+        self.updateProblems()
     }
     
     private struct Empty: Decodable {}

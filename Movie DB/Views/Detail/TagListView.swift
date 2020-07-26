@@ -107,6 +107,7 @@ struct TagListView: View {
                     })
                 }
             }
+            .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {
                 let alert = UIAlertController(title: "New Tag", message: "Enter a name for the new tag.", preferredStyle: .alert)
