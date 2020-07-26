@@ -34,7 +34,6 @@ struct TagListView: View {
         }
     }
     
-    // TODO: Remove tags that no longer exist (somewhere else, now here)
     private var label: some View {
         // Remove tags that no longer exist
         let ids = TagLibrary.shared.tags.map(\.id)

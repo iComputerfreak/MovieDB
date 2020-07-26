@@ -63,7 +63,6 @@ struct AddMediaView : View {
                                     // Already added
                                     AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
                                 } else {
-                                    // TODO: Show an activity indicator here, while adding
                                     self.isLoading = true
                                     DispatchQueue.global(qos: .userInitiated).async {
                                         let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)

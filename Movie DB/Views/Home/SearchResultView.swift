@@ -16,15 +16,6 @@ struct SearchResultView : View {
     /// The image used as a thumbnail for the search results
     @State private var image: UIImage?
     
-    /// Returns either the release year of the movie or the year of the first air date of the show
-    var year: Int? {
-        let year = (result as? TMDBMovieSearchResult)?.releaseDate ?? (result as? TMDBShowSearchResult)?.firstAirDate
-        guard let _ = year else {
-            return nil
-        }
-        return JFUtils.yearOfDate(year!)
-    }
-    
     // View did appear
     func didAppear() {
         guard let imagePath = result.imagePath else {
@@ -56,7 +47,6 @@ struct SearchResultView : View {
                     }
                     Text(result.mediaType == .movie ? "Movie" : "Series")
                         .italic()
-                    Text(year != nil ? "(\(String(describing: year!)))" : "")
                     // Make sure the content is left-aligned
                     Spacer()
                 }

@@ -21,7 +21,7 @@ struct SettingsView: View {
     func save() {
     }
     
-    // TODO: Reload all media objects when changing region / Language?
+    // TODO: Reload all media objects when changing region / Language to use the correct localized title and information
     var sortedLanguages: [String] {
         Locale.isoLanguageCodes.sorted { (code1, code2) -> Bool in
             // Sort nil values to the end

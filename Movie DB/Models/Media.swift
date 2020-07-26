@@ -245,9 +245,34 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         guard Swift.type(of: other) == Swift.type(of: self) else {
             return false
         }
+        // Case 1: tmdbData is of type TMDBMovieData
+        if let tmdbData = tmdbData as? TMDBMovieData {
+            // If other.tmdbData is of a different type, return
+            guard let movieData = other.tmdbData as? TMDBMovieData else {
+                return false
+            }
+            // If they are not equal, return
+            guard tmdbData == movieData else {
+                return false
+            }
+        }
+        // Case 2: tmdbData is of type TMDBShowData
+        if let tmdbData = tmdbData as? TMDBShowData {
+            // If other.tmdbData is of a different type, return
+            guard let showData = other.tmdbData as? TMDBShowData else {
+                return false
+            }
+            guard tmdbData == showData else {
+                return false
+            }
+        }
+        // Case 3: It is neither (impossible, because there are only those two structs, implementing the TMDBData protocol)
+        assert(Swift.type(of: tmdbData) == TMDBMovieData.self || Swift.type(of: tmdbData) == TMDBShowData.self, "There should only be two structs implementing the TMDBData protocol.")
+        
+        // At this point, we have made sure, that tmdbData == other.tmdbData
+        // Compare the other values:
         return
             id == other.id &&
-            // TODO: lhs.tmdbData == rhs.tmdbData &&
             type == other.type &&
             personalRating == other.personalRating &&
             tags == other.tags &&
@@ -268,6 +293,8 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
             hasher.combine(movieData)
         } else if let showData = tmdbData as? TMDBShowData {
             hasher.combine(showData)
+        } else {
+            assertionFailure("There should only be two structs implementing the TMDBData protocol.")
         }
         hasher.combine(type)
         hasher.combine(personalRating)

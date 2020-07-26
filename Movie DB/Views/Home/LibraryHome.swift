@@ -123,7 +123,7 @@ struct LibraryHome : View {
                                 .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
                                 .background(
                                     EmptyView()
-                                        // TODO: Change to full screen side view
+                                        // TODO: Open new item in editing mode
                                         
                                         //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                                 )
