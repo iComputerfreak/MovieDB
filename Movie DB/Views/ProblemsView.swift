@@ -12,39 +12,56 @@ struct ProblemsView: View {
     
     @ObservedObject private var library = MediaLibrary.shared
     
+    @State private var problems: [Media: Set<Media.MediaInformation>] = [:]
+    @State private var duplicates: [Int?: [Media]] = [:]
+        
     var body: some View {
+        let refreshButton = Button(action: updateProblems, label: { Text("Refresh") })
         NavigationView {
-            if library.problems.isEmpty && library.duplicates.isEmpty {
+            if problems.isEmpty && duplicates.isEmpty {
                 Text("There are no problems in your library.")
+                    .onAppear(perform: updateProblems)
                     .navigationBarTitle("Problems")
+                    .navigationBarItems(trailing: refreshButton)
             } else {
                 List {
-                    if !library.problems.isEmpty {
+                    if !problems.isEmpty {
                         self.incompleteSection()
                     }
-                    if !library.duplicates.isEmpty {
+                    if !duplicates.isEmpty {
                         self.duplicateSection()
                     }
                 }
+                .onAppear(perform: updateProblems)
                 .navigationBarTitle("Problems")
+                .navigationBarItems(trailing: refreshButton)
             }
         }
-        .navigationBarItems(trailing: Button(action: {
-            self.library.objectWillChange.send()
-        }, label: { Text("Refresh") }))
+    }
+    
+    func updateProblems() {
+        // Every time the view is rendered, we update the problems
+        DispatchQueue.global(qos: .userInteractive).async {
+            let problems = library.problems()
+            let duplicates = library.duplicates()
+            DispatchQueue.main.async {
+                print("Updating problems: \(problems)")
+                self.problems = problems
+                self.duplicates = duplicates
+            }
+        }
     }
     
     func incompleteSection() -> some View {
-        print("Problems: \(library.problems)")
         return Section(header: Text("Missing Information")) {
-            ForEach(library.problems.map(\.key)) { mediaObject in
+            ForEach(problems.map(\.key)) { mediaObject in
                 ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation.map(\.rawValue).joined(separator: ", "))").italic())
                     // For the environment object, get the reference to the real object
                     .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
             }
             .onDelete { indexSet in
                 for offset in indexSet {
-                    let id = library.problems.map(\.key)[offset].id
+                    let id = problems.map(\.key)[offset].id
                     self.library.remove(id: id)
                 }
             }
@@ -53,7 +70,7 @@ struct ProblemsView: View {
     
     func duplicateSection() -> some View {
         return Section(header: Text("Duplicate Entries")) {
-            ForEach(self.library.duplicates.flatMap(\.value)) { mediaObject in
+            ForEach(duplicates.flatMap(\.value)) { mediaObject in
                 ProblemsLibraryRow(content: Text("Duplicate").italic())
                     // For the environment object, get the reference to the real object
                     .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
@@ -61,7 +78,7 @@ struct ProblemsView: View {
             .onDelete { indexSet in
                 for offset in indexSet {
                     // Using the ID here is okay, because we checked for duplicate tmdbIDs, not library IDs
-                    let id = library.duplicates.flatMap(\.value)[offset].id
+                    let id = duplicates.flatMap(\.value)[offset].id
                     self.library.remove(id: id)
                 }
             }

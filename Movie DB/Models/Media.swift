@@ -120,11 +120,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         //case notes
     }
     
-    var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
-    
-    var isIncomplete: Bool {
-        return !missingInformation.isEmpty
-    }
+    @Published var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
     
     // Only used by constructing subclasses
     

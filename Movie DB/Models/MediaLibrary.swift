@@ -16,11 +16,7 @@ import Combine
 class MediaLibrary: ObservableObject, Codable {
     
     /// The shared `MediaLibrary` instance.
-    static let shared: MediaLibrary = {
-        let library = MediaLibrary.load()
-        library.updateProblems()
-        return library
-    }()
+    static let shared: MediaLibrary = MediaLibrary.load()
     
     var lastUpdate: Date?
     @Published private(set) var mediaList: [Media]
@@ -28,8 +24,6 @@ class MediaLibrary: ObservableObject, Codable {
     private init() {
         self.mediaList = []
         self.lastUpdate = nil
-        // Initialize hasProblems
-        self.updateProblems()
         // Set up the notifications to save when the app enters background
         NotificationCenter.default.addObserver(self, selector: #selector(willResign(notification:)), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -83,19 +77,16 @@ class MediaLibrary: ObservableObject, Codable {
             }
             self.lastUpdate = Date()
         }
-        self.updateProblems()
         return (successes, failures)
     }
     
     func append(_ object: Media) {
         self.mediaList.append(object)
-        self.updateProblems(for: object)
         save()
     }
     
     func append(contentsOf objects: [Media]) {
         self.mediaList.append(contentsOf: objects)
-        self.updateProblems(for: objects)
         save()
     }
     
@@ -106,18 +97,7 @@ class MediaLibrary: ObservableObject, Codable {
             return
         }
         let id = mediaList[index!].id
-        let removed = self.mediaList.remove(at: index!)
-        // MARK: Remove the missing info from the array
-        problems.removeValue(forKey: removed)
-        // MARK: Remove the duplicates entry
-        let count = duplicates[removed.tmdbData?.id]?.count ?? 0
-        if count <= 2 {
-            // If there are two or less duplicates, we can remove them all
-            duplicates[removed.tmdbData?.id]?.removeAll()
-        } else {
-            // otherwise we just remove this object
-            duplicates[removed.tmdbData?.id]?.removeAll(where: { $0.id == removed.id })
-        }
+        self.mediaList.remove(at: index!)
         let thumbnailPath = JFUtils.url(for: "thumbnails").appendingPathComponent("\(id).png")
         // Try to delete the thumbnail from disk
         self.save()
@@ -133,9 +113,6 @@ class MediaLibrary: ObservableObject, Codable {
         try? FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
         // Reset the ID counter for the media objects
         Media.resetNextID()
-        // Reset the problems
-        self.problems = [:]
-        self.duplicates = [:]
         save()
     }
     
@@ -159,40 +136,23 @@ class MediaLibrary: ObservableObject, Codable {
         DispatchQueue.main.async {
             progress.wrappedValue = 1.0
         }
-        self.updateProblems()
         return problems
     }
     
     // MARK: - Problems
-    @Published var problems: [Media: Set<Media.MediaInformation>] = [:]
-    @Published var duplicates: [Int?: [Media]] = [:]
-    
-    /// Returns whether any of the media objects in the library have problems
-    func updateProblems() {
-        updateProblems(for: mediaList)
-    }
-    
-    func updateProblems(for media: Media) {
-        updateProblems(for: [media])
-    }
-    
-    func updateProblems(for mediaObjects: [Media]) {
-        problems = [:]
-        for media in mediaObjects {
-            if media.missingInformation.isEmpty {
-                problems.removeValue(forKey: media)
-            } else {
+    func problems() -> [Media: Set<Media.MediaInformation>] {
+        var problems: [Media: Set<Media.MediaInformation>] = [:]
+        for media in mediaList {
+            if !media.missingInformation.isEmpty {
                 problems[media] = media.missingInformation
             }
         }
-        
-        updateDuplicates()
+        return problems
     }
     
-    private func updateDuplicates() {
-        duplicates = [:]
+    func duplicates() -> [Int?: [Media]] {
         // Group the media objects by their TMDB IDs
-        duplicates = Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)
+        return Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)
             // Filter out all IDs with only one media object
             .filter { (key: Int?, value: [Media]) in
                 return value.count > 1
@@ -229,7 +189,6 @@ class MediaLibrary: ObservableObject, Codable {
         print("Loaded \(self.mediaList.count) Media objects.")
         // Load other properties
         self.lastUpdate = try container.decode(Date?.self, forKey: .lastUpdate)
-        self.updateProblems()
     }
     
     private struct Empty: Decodable {}

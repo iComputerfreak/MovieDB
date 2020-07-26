@@ -38,10 +38,6 @@ struct MediaDetail : View {
                 mediaObject.loadThumbnail()
             }
         }
-        // When the detail disappears (e.g. editing ended) we update the problems array of the library
-        .onDisappear {
-            self.library.updateProblems(for: mediaObject)
-        }
     }
 }
 

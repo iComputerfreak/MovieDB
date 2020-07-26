@@ -20,13 +20,11 @@ struct ContentView : View {
                     Text("Home")
                 }
             
-            if !library.problems.isEmpty || !library.duplicates.isEmpty {
-                ProblemsView()
-                    .tabItem {
-                        Image(systemName: "exclamationmark.triangle")
-                        Text("Problems")
-                    }
-            }
+            ProblemsView()
+                .tabItem {
+                    Image(systemName: "exclamationmark.triangle")
+                    Text("Problems")
+                }
             
             SettingsView()
                 .tabItem {
