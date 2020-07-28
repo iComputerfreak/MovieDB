@@ -45,7 +45,6 @@ struct ProblemsView: View {
             let problems = library.problems()
             let duplicates = library.duplicates()
             DispatchQueue.main.async {
-                print("Updating problems: \(problems)")
                 self.problems = problems
                 self.duplicates = duplicates
             }

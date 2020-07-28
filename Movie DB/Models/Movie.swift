@@ -63,9 +63,8 @@ class Movie: Media {
             guard tmdbData == movieData else {
                 return false
             }
-        }
-        // Case 2: tmdbData is of type TMDBShowData
-        if let tmdbData = tmdbData as? TMDBShowData {
+            // Case 2: tmdbData is of type TMDBShowData
+        } else if let tmdbData = tmdbData as? TMDBShowData {
             // If other.tmdbData is of a different type, return
             guard let showData = other.tmdbData as? TMDBShowData else {
                 return false
@@ -73,9 +72,15 @@ class Movie: Media {
             guard tmdbData == showData else {
                 return false
             }
+        } else if tmdbData == nil {
+            // Case 3: Its nil
+            guard other.tmdbData == nil else {
+                return false
+            }
+        } else {
+            // Case 4: It is neither (impossible, because there are only those two structs, implementing the TMDBData protocol)
+            assertionFailure("There should only be two structs implementing the TMDBData protocol.")
         }
-        // Case 3: It is neither (impossible, because there are only those two structs, implementing the TMDBData protocol)
-        assert(Swift.type(of: tmdbData) == TMDBMovieData.self || Swift.type(of: tmdbData) == TMDBShowData.self, "There should only be two structs implementing the TMDBData protocol.")
         
         // At this point, we have made sure, that tmdbData == other.tmdbData
         // Compare the other values:
