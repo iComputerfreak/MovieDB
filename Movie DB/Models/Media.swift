@@ -158,7 +158,12 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     }
     
     // MARK: - Codable Conformance
+    // Only used for reading/writing from/to disk.
+    // Creating the media objects from API Responses creates and fills the media object manually!
     
+    /// Tries to create a media object by decoding the data from the given Decoder.
+    /// - Parameter decoder: The decoder holding the data for the media object
+    /// - Throws: If any of the required data is missing or invalid
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -186,6 +191,9 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         self.videos = try container.decode([Video].self, forKey: .videos)
     }
     
+    /// Tries to encode the media object into the given encoder.
+    /// - Parameter encoder: The encoder to encode the data into
+    /// - Throws: If any of the encoding fails
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.id, forKey: .id)

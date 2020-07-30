@@ -34,7 +34,7 @@ class TMDBAPI {
     ///   - path: The api path without the starting `/`
     ///   - completion: The closure to execute, once the GET Request has been completed
     /// - Returns: Whether the operation was successful
-    func request(path: String, additionalParameters: [String: Any?] = [:], completion: @escaping (Data?) -> Void) {
+    private func request(path: String, additionalParameters: [String: Any?] = [:], completion: @escaping (Data?) -> Void) {
         let url = "\(baseURL)/\(path)"
         var parameters: [String: Any?] = [
             "api_key": apiKey,
@@ -53,7 +53,7 @@ class TMDBAPI {
     ///   - maxPages: The number of pages to load at most
     ///   - pageWrapper: A specific wrapper class to decode the result pages
     ///   - completion: The closure to execute upon completion
-    func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, completion: @escaping ([PageWrapper.ObjectWrapper]) -> Void) {
+    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, completion: @escaping ([PageWrapper.ObjectWrapper]) -> Void) {
             
         typealias ObjectWrapper = PageWrapper.ObjectWrapper
         

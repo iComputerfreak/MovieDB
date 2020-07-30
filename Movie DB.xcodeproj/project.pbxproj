@@ -361,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				ABED3B03239324E000F4C327 /* TMDBData */,
+				AB5A9DC124D313D00059C5C9 /* Repairable */,
 				AB6478D922C7B8E800F3E14E /* SearchResult.swift */,
 				AB6718ED22C032AA00F429E4 /* Media.swift */,
 				AB6718E522C0317800F429E4 /* Movie.swift */,
@@ -368,7 +369,6 @@
 				AB5F7E1E238AE13C0007A3FE /* TagLibrary.swift */,
 				AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */,
 				ABEBA2C8239583FA003BF187 /* FilterSettings.swift */,
-				AB5A9DC124D313D00059C5C9 /* Repairable */,
 			);
 			path = Models;
 			sourceTree = "<group>";
