@@ -10,8 +10,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-// TODO: Make Repairable
-
 /// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
 class MediaLibrary: ObservableObject, Codable {
     
@@ -114,29 +112,6 @@ class MediaLibrary: ObservableObject, Codable {
         // Reset the ID counter for the media objects
         Media.resetNextID()
         save()
-    }
-    
-    // Returns the amount of unfixed problems
-    func verifyAndRepair(progress: Binding<Double>) -> RepairProblems {
-        let progressStep: Double = 1.0 / Double(self.mediaList.count)
-        var problems = RepairProblems.none
-        // Reset the progress counter
-        progress.wrappedValue = 0.0
-        
-        // Don't check if there are duplicate IDs assigned, it's done in the problems tab already
-        
-        for mediaObject in mediaList {
-            let result = mediaObject.repair()
-            problems = problems + result
-            DispatchQueue.main.async {
-                progress.wrappedValue += progressStep
-            }
-        }
-        // Set the progress to 100% to fix any rounding errors
-        DispatchQueue.main.async {
-            progress.wrappedValue = 1.0
-        }
-        return problems
     }
     
     // MARK: - Problems

@@ -56,6 +56,9 @@ extension Image {
 }
 
 extension View {
+    /// Conditionally hides the view
+    /// - Parameter condition: The condition, whether to hide the view
+    /// - Returns: A type-erased view, that may be hidden
     func hidden(condition: Bool) -> some View {
         if condition {
             return AnyView(self.hidden())
@@ -73,6 +76,8 @@ extension View {
 }
 
 extension Binding {
+    /// Creates a get-only Binding
+    /// - Parameter get: The getter of the binding
     init(get: @escaping () -> Value) {
         self.init(get: get, set: { _ in })
     }

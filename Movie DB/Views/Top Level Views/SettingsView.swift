@@ -123,7 +123,7 @@ struct SettingsView: View {
                             self.verificationInProgress = true
                             // If we would call it sync, we would sleep in the main thread until this is complete!
                             DispatchQueue.global().async {
-                                let problems = self.library.verifyAndRepair(progress: $verificationProgress)
+                                let problems = self.library.repair(progress: $verificationProgress)
                                 self.library.save()
                                 DispatchQueue.main.async {
                                     self.verificationInProgress = false

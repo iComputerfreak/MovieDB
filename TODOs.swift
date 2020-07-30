@@ -11,13 +11,13 @@
  TODO: lastEpisodeWatched does not update while in the editing screen
  TODO: Create an option to export the tags
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
- TODO: Check for duplicate IDs (App ID) in the problems tab
  TODO: Reduce thumbnail file size and only load the full image when accessing it in Detail (currently using 1.4 MB of RAM per image)
  */
 
 // Future:
 /*
  TODO: Look into append_to_response: https://developers.themoviedb.org/3/getting-started/append-to-response
+ TODO: Use the rate limiting response to prevent wasting API requests (do active rate limiting)
  TODO: Hide Search Bar when scrolling down
  TODO: Lookup Tab
  TODO: Fetch parental rating from TMDB using /movie/{movie_id}/release_dates or /tv/{tv_id}/content_ratings and show them as small icons below the name in the list
@@ -30,9 +30,11 @@
  TODO: Show if new episodes are available for series you watched (only works if I can get the Netflix, Prime, Sky, ... data)
  TODO: Add the option to favorite some movies/shows
  TOOD: Add the option to reset collection IDs, so every show and movie gets a fresh ID starting at 0 in alphabetical order
+ TODO: Should probably write some unit tests
  */
 
-// Not possible right now:
+// Not possible right now (SwiftUI limitations):
 /*
  TODO: Add section indices for the media library like in the Contacts app
+ TODO: Open a newly created media in Detail and maybe editing mode
  */
