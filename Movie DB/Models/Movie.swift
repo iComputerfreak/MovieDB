@@ -35,13 +35,13 @@ class Movie: Media {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        try super.init(from: container.superDecoder())
         self.watched = try container.decode(Bool?.self, forKey: .watched)
+        try super.init(from: decoder)
     }
     
     override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try super.encode(to: container.superEncoder())
         try container.encode(self.watched, forKey: .watched)
     }
     

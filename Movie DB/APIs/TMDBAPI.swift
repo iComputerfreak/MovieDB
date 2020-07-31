@@ -135,6 +135,13 @@ class TMDBAPI {
     ///   - id: The id of the media to fetch
     ///   - type: The type of media
     func fetchMedia(id: Int, type: MediaType, completion: @escaping () -> Void = {}) -> Media? {
+        
+        
+        // TODO: Fetch tmdbdata using append_to_response
+        
+        
+        
+        
         var media: Media? = nil
         // Get the TMDB Data
         let tmdbDataGroup = DispatchGroup()

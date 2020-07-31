@@ -149,10 +149,8 @@ class MediaLibrary: ObservableObject, Codable {
         while (!mediaObjects.isAtEnd) {
             // Get the Movie or Show as a GenericMedia object
             let movieOrShowContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
-            // Get the Media container (super container) from the Movie/Show
-            let mediaTypeContainer = try movieOrShowContainer.superDecoder().container(keyedBy: GenericMedia.CodingKeys.self)
             // Read the type of the Media container
-            let mediaType = try mediaTypeContainer.decode(MediaType.self, forKey: .type)
+            let mediaType = try movieOrShowContainer.decode(MediaType.self, forKey: .type)
             // Decide based on the media type which type to use for decoding
             switch mediaType {
                 case .movie:
