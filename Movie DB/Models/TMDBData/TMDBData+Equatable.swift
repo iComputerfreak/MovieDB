@@ -28,7 +28,6 @@ extension TMDBData: Equatable {
             overview == other.overview &&
             status == other.status &&
             originalLanguage == other.originalLanguage &&
-            imdbID == other.imdbID &&
             productionCompanies == other.productionCompanies &&
             homepageURL == other.homepageURL &&
             popularity == other.popularity &&
@@ -47,6 +46,7 @@ extension TMDBMovieData {
             revenue == other.revenue &&
             tagline == other.tagline &&
             isAdult == other.isAdult &&
+            imdbID == other.imdbID &&
             super.isEqual(to: other)
     }
 }

@@ -6,6 +6,12 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+// Fix in experimental, before merging:
+/*
+ TODO: Change initializer and coding of Season from rawAirDate to airDate
+ */
+
+
 // Fixes / Todo soon
 /*
  TODO: lastEpisodeWatched does not update while in the editing screen
@@ -31,6 +37,7 @@
  TODO: Add the option to favorite some movies/shows
  TOOD: Add the option to reset collection IDs, so every show and movie gets a fresh ID starting at 0 in alphabetical order
  TODO: Should probably write some unit tests
+ TODO: Maybe decode created_by of shows to show the show creators in the details
  */
 
 // Not possible right now (SwiftUI limitations):

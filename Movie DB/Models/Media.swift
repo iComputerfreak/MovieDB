@@ -185,6 +185,9 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
             // Image could not be loaded
             self.loadThumbnail()
         }
+        
+        // TODO2: Move this into TMDBData!
+        
         // Load credits.cast as self.cast
         let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
         self.cast = try creditsContainer.decode([CastMember].self, forKey: .cast)

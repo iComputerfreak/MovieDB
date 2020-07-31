@@ -22,6 +22,8 @@ class TMDBMovieData: TMDBData {
     var tagline: String?
     /// Whether the movie is an adult movie
     var isAdult: Bool
+    /// The id of the media on IMDB.com
+    var imdbID: String?
     
     init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, releaseDate: Date?, runtime: Int?, budget: Int, revenue: Int, tagline: String?, isAdult: Bool) {
         self.releaseDate = releaseDate
@@ -46,6 +48,7 @@ class TMDBMovieData: TMDBData {
         self.revenue = try container.decode(Int.self, forKey: .revenue)
         self.tagline = try container.decode(String?.self, forKey: .tagline)
         self.isAdult = try container.decode(Bool.self, forKey: .isAdult)
+        self.imdbID = try container.decode(String?.self, forKey: .imdbID)
         try super.init(from: decoder)
     }
     
@@ -64,6 +67,7 @@ class TMDBMovieData: TMDBData {
         try container.encode(revenue, forKey: .revenue)
         try container.encode(tagline, forKey: .tagline)
         try container.encode(isAdult, forKey: .isAdult)
+        try container.encode(imdbID, forKey: .imdbID)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -73,6 +77,7 @@ class TMDBMovieData: TMDBData {
         case revenue
         case tagline
         case isAdult = "adult"
+        case imdbID = "imdb_id"
     }
     
     // MARK: - Hashable Conformance
@@ -85,5 +90,6 @@ class TMDBMovieData: TMDBData {
         hasher.combine(revenue)
         hasher.combine(tagline)
         hasher.combine(isAdult)
+        hasher.combine(imdbID)
     }
 }

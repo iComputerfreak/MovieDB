@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import SwiftUI
 
+extension TimeZone {
+    static let utc = TimeZone(secondsFromGMT: 0)!
+}
+
 struct JFUtils {
     
     static let wordsIgnoredForSorting = [
@@ -19,6 +23,7 @@ struct JFUtils {
     
     static var tmdbDateFormatter: DateFormatter {
         let formatter = DateFormatter()
+        formatter.timeZone = .utc
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
@@ -74,6 +79,7 @@ struct JFUtils {
         var request = URLRequest(url: URL(string: urlStringWithParameters)!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("Making GET Request to \(urlStringWithParameters)")
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
     }
     
@@ -109,6 +115,7 @@ struct JFUtils {
     /// Returns a date formatter to display `Date` values.
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
+        formatter.timeZone = .utc
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter
     }

@@ -12,6 +12,8 @@ import UIKit
 // MARK: TMDB Data
 
 // TODO: Add videos, translations, keywords and cast to TMDBData directly (and decode it). Requires, that the data is requested using append_to_response=videos,keywords,translations,credits
+// Move them from Media here
+// TODO: Test, if the structure of Cast, Translations, etc. still is correct
 
 // TODO: Make Hashable
 /// Represents a set of data about the media from themoviedb.org
@@ -35,8 +37,6 @@ class TMDBData: Codable, Hashable {
     var originalLanguage: String
     
     // Extended Data
-    /// The id of the media on IMDB.com
-    var imdbID: String?
     /// A list of companies that produced the media
     var productionCompanies: [ProductionCompany]
     /// The url to the homepage of the media
@@ -61,12 +61,67 @@ class TMDBData: Codable, Hashable {
         self.overview = overview
         self.status = status
         self.originalLanguage = originalLanguage
-        self.imdbID = imdbID
         self.productionCompanies = productionCompanies
         self.homepageURL = homepageURL
         self.popularity = popularity
         self.voteAverage = voteAverage
         self.voteCount = voteCount
+    }
+    
+    // MARK: - Codable Conformance
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
+        self.originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
+        self.imagePath = try container.decode(String?.self, forKey: .imagePath)
+        self.genres = try container.decode([Genre].self, forKey: .genres)
+        self.overview = try container.decode(String?.self, forKey: .overview)
+        self.status = try container.decode(MediaStatus.self, forKey: .status)
+        self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
+        self.productionCompanies = try container.decode([ProductionCompany].self, forKey: .productionCompanies)
+        self.homepageURL = try container.decode(String?.self, forKey: .homepageURL)
+        self.popularity = try container.decode(Float.self, forKey: .popularity)
+        self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
+        self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        // When encoding to disk, we can always use title, never name, because we encode the data only for saving to disk or csv
+        // and never return the data to the API
+        try container.encode(title, forKey: .title)
+        try container.encode(originalTitle, forKey: .originalTitle)
+        try container.encode(imagePath, forKey: .imagePath)
+        try container.encode(genres, forKey: .genres)
+        try container.encode(overview, forKey: .overview)
+        try container.encode(status, forKey: .status)
+        try container.encode(originalLanguage, forKey: .originalLanguage)
+        try container.encode(productionCompanies, forKey: .productionCompanies)
+        try container.encode(homepageURL, forKey: .homepageURL)
+        try container.encode(popularity, forKey: .popularity)
+        try container.encode(voteAverage, forKey: .voteAverage)
+        try container.encode(voteCount, forKey: .voteCount)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case showTitle = "name"
+        case originalTitle = "original_title"
+        case originalShowTitle = "original_name"
+        case imagePath = "poster_path"
+        case genres = "genres"
+        case overview
+        case status
+        case originalLanguage = "original_language"
+        case productionCompanies = "production_companies"
+        case homepageURL = "homepage"
+        case popularity
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
     }
     
     // MARK: - Hashable Conformance
@@ -80,7 +135,6 @@ class TMDBData: Codable, Hashable {
         hasher.combine(overview)
         hasher.combine(status)
         hasher.combine(originalLanguage)
-        hasher.combine(imdbID)
         hasher.combine(productionCompanies)
         hasher.combine(homepageURL)
         hasher.combine(popularity)
