@@ -51,3 +51,11 @@ func assertEqual(_ date: Date?, _ year: Int, _ month: Int, _ day: Int) {
     XCTAssertEqual(cal.component(.month, from: date!), month)
     XCTAssertEqual(cal.component(.day, from: date!), day)
 }
+
+/// Tests, if the first array is completely part of the other array
+func assertContains<T>(_ value: [T], in other: [T]) where T: Equatable {
+    XCTAssertLessThanOrEqual(value.count, other.count)
+    for element in value {
+        XCTAssertTrue(other.contains(element))
+    }
+}

@@ -13,14 +13,6 @@ class CodableTests: XCTestCase {
     
     let api = TMDBAPI.shared
     
-    override func setUp() {
-        
-    }
-    
-    override func tearDown() {
-        
-    }
-    
     /// Tests the decode and encode functions of TMDBMovieData
     func testDecodeMovieMatrix() {
         let companies = [
@@ -58,7 +50,25 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movie.isAdult, false)
         
         // Translations, Keywords, Videos and Cast
-        // TODO: Add tests for these, after moving them from Media to TMDBData
+        let keywords = ["saving the world", "artificial intelligence", "man vs machine", "philosophy", "prophecy", "martial arts", "self sacrifice", "fight", "insurgence", "virtual reality", "dystopia", "truth", "cyberpunk", "dream world", "woman director", "messiah", "gnosticism"]
+        let translations = ["Arabic", "Bulgarian", "Bosnian", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Persian", "Finnish", "French", "French", "Galician", "Hebrew", "Croatian", "Hungarian", "Indonesian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
+        let videos = [
+            Video(key: "m8e-FF8MsqU", name: "Matrix Trailer HD (1999)", site: "YouTube", type: "Trailer", resolution: 720, language: "en", region: "US"),
+            Video(key: "qEXv-rVWAu8", name: "The Matrix", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            Video(key: "L0fw0WzFaBM", name: "The Matrix - 20th Anniversary - Warner Bros. UK", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US")
+        ]
+        // Just a few. Too many to write all down
+        let cast = [
+            CastMember(id: 6384, name: "Keanu Reeves", roleName: "Thomas A. Anderson / Neo", imagePath: "/d9HyjGMCt4wgJIOxAGlaYWhKsiN.jpg"),
+            CastMember(id: 9376, name: "Belinda McClory", roleName: "Switch", imagePath: "/wfTCwkIDJjH5k5DtuvcjP52PrLc.jpg"),
+            CastMember(id: 1209249, name: "David O'Connor", roleName: "FedEx Man", imagePath: nil),
+            CastMember(id: 1209257, name: "Rana Morrison", roleName: "Shaylea", imagePath: "/8ALyJkb2lith9kEVHY5IpECYSQR.jpg")
+        ]
+        
+        assertEqual(movie.keywords, keywords)
+        assertEqual(movie.translations, translations)
+        assertEqual(movie.videos, videos)
+        assertContains(cast, in: movie.cast)
     }
     
     func testDecodeMovieFightClub() {
@@ -100,7 +110,24 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movie.isAdult, false)
         
         // Translations, Keywords, Videos and Cast
-        // TODO: Add tests for these, after moving them from Media to TMDBData
+        let keywords = ["based on novel or book", "support group", "dual identity", "nihilism", "fight", "rage and hate", "insomnia", "dystopia", "alter ego", "cult film", "split personality", "quitting a job", "dissociative identity disorder", "graphic violence", "self destructiveness"]
+        // Only some translations
+        let translations = ["Arabic", "Azerbaijani", "Dutch", "Turkish", "Mandarin"]
+        let videos = [
+            Video(key: "BdJKm16Co6M", name: "Fight Club | #TBT Trailer | 20th Century FOX", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            Video(key: "6JnN1DmbqoU", name: "Fight Club - Theatrical Trailer Remastered in HD", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US")
+        ]
+        // Just a few. Too many to write all down
+        let cast = [
+            CastMember(id: 819, name: "Edward Norton", roleName: "The Narrator", imagePath: "/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg"),
+            CastMember(id: 7498, name: "Eion Bailey", roleName: "Ricky", imagePath: "/hKqfGq1sPhZdQOlto0bS3igFZdP.jpg"),
+            CastMember(id: 1657018, name: "Summer Moore", roleName: "Marla's Neighbor (uncredited)", imagePath: "/9stkBho2p586irYICd6apsb1xr9.jpg")
+        ]
+        
+        assertEqual(movie.keywords, keywords)
+        assertContains(translations, in: movie.translations)
+        assertEqual(movie.videos, videos)
+        assertContains(cast, in: movie.cast)
     }
     
     func testDecodeShowBlacklist() {
@@ -167,7 +194,26 @@ class CodableTests: XCTestCase {
         assertEqual(show.networks, networks)
         
         // Translations, Keywords, Videos and Cast
-        // TODO: Add tests for these, after moving them from Media to TMDBData
+        let keywords = ["terrorist", "fbi", "investigation", "criminal mastermind", "crime lord", "hidden identity", "criminal consultant"]
+        // Only some translations
+        let translations = ["Arabic", "Dutch", "Turkish", "Mandarin"]
+        let videos = [
+            Video(key: "1_soL84ZDvE", name: "The Blacklist: Opening Scene - The Blacklist", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            Video(key: "-WYdUaK54fU", name: "Blacklist Season 1 - Trailer", site: "YouTube", type: "Trailer", resolution: 360, language: "en", region: "US"),
+            Video(key: "XihA6GWIBdM", name: "The Blacklist - Season 1 Trailer [HD]", site: "YouTube", type: "Trailer", resolution: 720, language: "en", region: "US"),
+            Video(key: "SoT5JImB1H8", name: "The Blacklist - first scene - Reddington surrenders himself to the FBI [HD]", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US")
+        ]
+        // Just a few. Too many to write all down
+        let cast = [
+            CastMember(id: 222141, name: "Megan Boone", roleName: "Elizabeth \"Liz\" Keen", imagePath: "/8SjSPu2IJQVvuM2rP0KPNmze6Dz.jpg"),
+            CastMember(id: 13548, name: "James Spader", roleName: "Raymond \"Red\" Reddington", imagePath: "/vNreWTzTOOnLiIL4FjVrXqhlsOT.jpg"),
+            CastMember(id: 144583, name: "Hisham Tawfiq", roleName: "Dembe Zuma", imagePath: "/go8XkwY6pbqfUDExs7o1U6O1r5u.jpg")
+        ]
+        
+        assertEqual(show.keywords, keywords)
+        assertContains(translations, in: show.translations)
+        assertEqual(show.videos, videos)
+        assertContains(cast, in: show.cast)
     }
     
     func testDecodeShowGameOfThrones() {
@@ -240,7 +286,26 @@ class CodableTests: XCTestCase {
         assertEqual(show.networks, networks)
         
         // Translations, Keywords, Videos and Cast
-        // TODO: Add tests for these, after moving them from Media to TMDBData
+        let keywords = ["war", "based on novel or book", "kingdom", "dragon", "king", "intrigue", "fantasy world"]
+        // Only some translations
+        let translations = ["Arabic", "Dutch", "Turkish", "Mandarin"]
+        let videos = [
+            Video(key: "BpJYNVhGf1s", name: "Game of Thrones | Season 1 | Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            Video(key: "bjqEWgDVPe0", name: "GAME OF THRONES - SEASON 1- TRAILER", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            Video(key: "f3MUpuRF6Ck", name: "Inside Game of Thrones: A Story in Prosthetics – BTS (HBO)", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
+            Video(key: "y2ZJ3lTaREY", name: "Inside Game of Thrones: A Story in Camera Work – BTS (HBO)", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US")
+        ]
+        // Just a few. Too many to write all down
+        let cast = [
+            CastMember(id: 1223786, name: "Emilia Clarke", roleName: "Daenerys Targaryen", imagePath: "/r6i4C3kYrBRzUzZ8JKAHYQ0T0dD.jpg"),
+            CastMember(id: 964792, name: "Jacob Anderson", roleName: "Grey Worm", imagePath: "/atkSptvQU7XdRVGrL5hiymbXwhd.jpg"),
+            CastMember(id: 570296, name: "Joe Dempsie", roleName: "Gendry", imagePath: "/lnR0AMIwxQR6zUCOhp99GnMaRet.jpg")
+        ]
+        
+        assertEqual(show.keywords, keywords)
+        assertContains(translations, in: show.translations)
+        assertEqual(show.videos, videos)
+        assertContains(cast, in: show.cast)
     }
     
     /// De- and then encodes all four examples to check, if any errors occur while encoding

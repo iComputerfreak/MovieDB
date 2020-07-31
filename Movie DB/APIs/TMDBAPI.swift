@@ -251,3 +251,9 @@ class TMDBAPI {
     }
     
 }
+
+/// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.
+fileprivate struct MediaChangeWrapper: Codable {
+    var id: Int
+    var adult: Bool?
+}

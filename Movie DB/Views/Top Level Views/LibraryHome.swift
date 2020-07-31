@@ -31,10 +31,6 @@ struct LibraryHome : View {
                     return true
                 }
                 // Partial matches
-                if tmdbData?.keywords.contains(where: { $0.contains(self.searchText) }) ?? false {
-                    return true
-                }
-                // Partial matches
                 if tmdbData?.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) ?? false {
                     return true
                 }
