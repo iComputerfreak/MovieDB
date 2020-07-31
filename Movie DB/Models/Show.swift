@@ -32,11 +32,6 @@ class Show: Media {
         super.init(type: .show)
     }
     
-    /// Creates a new `Show` object with type `.show`, ignoring the argument.
-    override init(type: MediaType) {
-        super.init(type: .show)
-    }
-    
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {

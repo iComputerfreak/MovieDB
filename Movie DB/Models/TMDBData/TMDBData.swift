@@ -50,6 +50,8 @@ class TMDBData: Codable, Hashable {
     /// The number of votes that were cast on TMDB
     var voteCount: Int
     
+    /// Creates a new TMDBData object
+    /// - Important: Never call this initializer directly, always instantiate a concrete subclass!
     init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int) {
         self.id = id
         self.title = title

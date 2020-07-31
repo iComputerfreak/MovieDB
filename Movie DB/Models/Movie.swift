@@ -21,13 +21,8 @@ class Movie: Media {
         }
     }
     
-    /// Creates a new `Movie` object.
+    /// Creates a new `Movie` object
     init() {
-        super.init(type: .movie)
-    }
-    
-    /// Creates a new `Movie` object with type `.movie`, ignoring the argument.
-    override init(type: MediaType) {
         super.init(type: .movie)
     }
     
