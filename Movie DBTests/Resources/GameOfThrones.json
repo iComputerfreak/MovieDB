@@ -1,0 +1,1187 @@
+{
+    "backdrop_path": "/suopoADq0k8YZr4dQXcU6pToj6s.jpg",
+    "created_by": [
+        {
+            "id": 9813,
+            "credit_id": "5256c8c219c2956ff604858a",
+            "name": "David Benioff",
+            "gender": 2,
+            "profile_path": "/xvNN5huL0X8yJ7h3IZfGG4O2zBD.jpg"
+        },
+        {
+            "id": 228068,
+            "credit_id": "552e611e9251413fea000901",
+            "name": "D. B. Weiss",
+            "gender": 2,
+            "profile_path": null
+        }
+    ],
+    "episode_run_time": [
+        60
+    ],
+    "first_air_date": "2011-04-17",
+    "genres": [
+        {
+            "id": 10765,
+            "name": "Sci-Fi & Fantasy"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        }
+    ],
+    "homepage": "http://www.hbo.com/game-of-thrones",
+    "id": 1399,
+    "in_production": false,
+    "languages": [
+        "en"
+    ],
+    "last_air_date": "2019-05-19",
+    "last_episode_to_air": {
+        "air_date": "2019-05-19",
+        "episode_number": 6,
+        "id": 1551830,
+        "name": "The Iron Throne",
+        "overview": "In the aftermath of the devastating attack on King's Landing, Daenerys must face the survivors.",
+        "production_code": "806",
+        "season_number": 8,
+        "show_id": 1399,
+        "still_path": "/3x8tJon5jXFa1ziAM93hPKNyW7i.jpg",
+        "vote_average": 4.802,
+        "vote_count": 91
+    },
+    "name": "Game of Thrones",
+    "next_episode_to_air": null,
+    "networks": [
+        {
+            "name": "HBO",
+            "id": 49,
+            "logo_path": "/tuomPhY2UtuPTqqFnKMVHvSb724.png",
+            "origin_country": "US"
+        }
+    ],
+    "number_of_episodes": 73,
+    "number_of_seasons": 8,
+    "origin_country": [
+        "US"
+    ],
+    "original_language": "en",
+    "original_name": "Game of Thrones",
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "popularity": 141.052,
+    "poster_path": "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+    "production_companies": [
+        {
+            "id": 76043,
+            "logo_path": "/9RO2vbQ67otPrBLXCaC8UMp3Qat.png",
+            "name": "Revolution Sun Studios",
+            "origin_country": "US"
+        },
+        {
+            "id": 12525,
+            "logo_path": null,
+            "name": "Television 360",
+            "origin_country": ""
+        },
+        {
+            "id": 5820,
+            "logo_path": null,
+            "name": "Generator Entertainment",
+            "origin_country": ""
+        },
+        {
+            "id": 12526,
+            "logo_path": null,
+            "name": "Bighead Littlehead",
+            "origin_country": ""
+        }
+    ],
+    "seasons": [
+        {
+            "air_date": "2010-12-05",
+            "episode_count": 53,
+            "id": 3627,
+            "name": "Specials",
+            "overview": "",
+            "poster_path": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+            "season_number": 0
+        },
+        {
+            "air_date": "2011-04-17",
+            "episode_count": 10,
+            "id": 3624,
+            "name": "Season 1",
+            "overview": "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
+            "poster_path": "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
+            "season_number": 1
+        },
+        {
+            "air_date": "2012-04-01",
+            "episode_count": 10,
+            "id": 3625,
+            "name": "Season 2",
+            "overview": "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
+            "poster_path": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
+            "season_number": 2
+        },
+        {
+            "air_date": "2013-03-31",
+            "episode_count": 10,
+            "id": 3626,
+            "name": "Season 3",
+            "overview": "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
+            "poster_path": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
+            "season_number": 3
+        },
+        {
+            "air_date": "2014-04-06",
+            "episode_count": 10,
+            "id": 3628,
+            "name": "Season 4",
+            "overview": "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
+            "poster_path": "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg",
+            "season_number": 4
+        },
+        {
+            "air_date": "2015-04-12",
+            "episode_count": 10,
+            "id": 62090,
+            "name": "Season 5",
+            "overview": "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
+            "poster_path": "/527sR9hNDcgVDKNUE3QYra95vP5.jpg",
+            "season_number": 5
+        },
+        {
+            "air_date": "2016-04-24",
+            "episode_count": 10,
+            "id": 71881,
+            "name": "Season 6",
+            "overview": "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
+            "poster_path": "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg",
+            "season_number": 6
+        },
+        {
+            "air_date": "2017-07-16",
+            "episode_count": 7,
+            "id": 81266,
+            "name": "Season 7",
+            "overview": "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
+            "poster_path": "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg",
+            "season_number": 7
+        },
+        {
+            "air_date": "2019-04-14",
+            "episode_count": 6,
+            "id": 107971,
+            "name": "Season 8",
+            "overview": "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
+            "poster_path": "/39FHkTLnNMjMVXdIDwZN8SxYqD6.jpg",
+            "season_number": 8
+        }
+    ],
+    "status": "Ended",
+    "type": "Scripted",
+    "vote_average": 8.3,
+    "vote_count": 9413,
+    "keywords": {
+        "results": [
+            {
+                "name": "war",
+                "id": 6091
+            },
+            {
+                "name": "based on novel or book",
+                "id": 818
+            },
+            {
+                "name": "kingdom",
+                "id": 4152
+            },
+            {
+                "name": "dragon",
+                "id": 12554
+            },
+            {
+                "name": "king",
+                "id": 13084
+            },
+            {
+                "name": "intrigue",
+                "id": 34038
+            },
+            {
+                "name": "fantasy world",
+                "id": 170362
+            }
+        ]
+    },
+    "translations": {
+        "translations": [
+            {
+                "iso_3166_1": "SA",
+                "iso_639_1": "ar",
+                "name": "العربية",
+                "english_name": "Arabic",
+                "data": {
+                    "name": "صراع العروش",
+                    "overview": "تتقاتل سبع عائلات نبيلة من أجل السيطرة على أرض - ويستيروس - الأسطورية. الاحتكاك بين العوائل يؤدي إلى حرب واسعة النطاق.  في حين يستيقظ الشر القديم في أقصى الشمال. وفي خضم الحرب، نظام عسكري مهمَل - حرس الليل - هم كل ما يقف بين عالم الإنسان والأهوال الجليدية.",
+                    "homepage": "",
+                    "tagline": "الشتاء قادم"
+                }
+            },
+            {
+                "iso_3166_1": "BY",
+                "iso_639_1": "be",
+                "name": "беларуская мова",
+                "english_name": "Belarusian",
+                "data": {
+                    "name": "Гульня тронаў",
+                    "overview": "Сюжэт серыяла заснаваны на фэнтэзійнай сазе Джорджа Марціна «Песьня лёду і полымя»; кожнаму сезону адпавядае адна кніга гепталогіі, з якіх пакуль напісана пяць кніг.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "BG",
+                "iso_639_1": "bg",
+                "name": "български език",
+                "english_name": "Bulgarian",
+                "data": {
+                    "name": "Игра на тронове",
+                    "overview": "Сериалът следва историята на фентъзи епос поредицата „Песен за огън и лед“, вземайки името на първата книга. Действието се развива в Седемте кралства на Вестерос, където лятото продължава десетилетия, а зимата – цяла вечност.",
+                    "homepage": "",
+                    "tagline": "Зимата идва."
+                }
+            },
+            {
+                "iso_3166_1": "BS",
+                "iso_639_1": "bs",
+                "name": "Bosanski",
+                "english_name": "Bosnian",
+                "data": {
+                    "name": "",
+                    "overview": "Game of Thrones (Igra Prijestolja) srednjovjekovna je fantazija bazirana na seriji romana Georgea R. R. Martina smještena u izmišljenom svijetu Sedam kraljevina i prati dinastička previranja i borbu nekoliko Kuća za kontrolu nad Željeznim prijestoljem. Osim međusobnih borbi plemićkih obitelji, stanovništvu prijeti natprirodna invazija s ledenog sjevera, prognana zmajeva princeza koja želi povratiti obiteljsko naslijeđe te zima koja će trajati godinama.\n\nNakon sumnjive smrti namjesnika kralja Roberta Baratheona, on sa svojom kraljicom Cersei iz bogate i iskvarene obitelji Lannister kreće na putovanje na sjever svome prijatelju knezu Eddardu Starku od Oštrozimlja, od kojega zatraži za postane novi Kraljev Namjesnik. Eddard nevoljko pristaje i tu započinje epska priča o časti i izdaji, ljubavi i mržnji, tajnama i osveti...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CN",
+                "iso_639_1": "cn",
+                "name": "广州话 / 廣州話",
+                "english_name": "Cantonese",
+                "data": {
+                    "name": "冰与火之歌",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CZ",
+                "iso_639_1": "cs",
+                "name": "Český",
+                "english_name": "Czech",
+                "data": {
+                    "name": "Hra o trůny",
+                    "overview": "Kontinent, kde léta trvají desítky roků a zimy se mohou protáhnout na celý lidský život, začínají sužovat nepokoje. Všech Sedm království Západozemí – pletichářský jih, divoké východní krajiny i ledový sever ohraničený starobylou Zdí, která chrání království před pronikáním temnoty – je zmítáno bojem dvou mocných rodů na život a na smrt o nadvládu nad celou říší. Zemí otřásá zrada, chtíč, intriky a nadpřirozené síly. Krvavý boj o Železný trůn, post nejvyššího vládce Sedmi království, bude mít nepředvídatelné a dalekosáhlé důsledky…",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "DK",
+                "iso_639_1": "da",
+                "name": "Dansk",
+                "english_name": "Danish",
+                "data": {
+                    "name": "",
+                    "overview": "George R. R. Martins Game of Thrones er en lang fortælling gennem syv bøger. Handlingen foregår i et fiktivt kongerige kaldet Westeros. Denne middelalderlige verden er fuld af kæmper, profetier og fortryllede skove, og bag en mur af is, der adskiller Riget, truer spøgelser og andre farer. Men de overnaturlige elementer er ikke rigtig så fremtrædende i serien. Den narrative ramme er den hensynsløse kamp om magten, hvilket involverer en række konger, riddere og herremænd med navne som Baratheon, Stark og Lannister. Det er ingen opløftende historie, hvor det gode nødvendigvis sejrer frem for det onde, eller hvor det egentlig er så let at afgøre, hvad der er godt og ondt. Men Martin formår at tryllebinde publikum - også dem, der normalt ikke synes om magi og fantasiverdener.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "DE",
+                "iso_639_1": "de",
+                "name": "Deutsch",
+                "english_name": "German",
+                "data": {
+                    "name": "",
+                    "overview": "Die Handlung ist in einer fiktiven Welt angesiedelt und spielt auf den Kontinenten Westeros, den Sieben Königreichen sowie im Gebiet der \"Mauer\" und jenseits davon im Norden und Essos. In dieser Welt ist die Länge der Sommer und Winter unvorhersehbar und variabel; eine Jahreszeit kann Jahre oder sogar Jahrzehnte dauern. Der Handlungsort auf dem Kontinent Westeros in den Sieben Königreichen ähnelt dabei stark dem mittelalterlichen Europa. Die Geschichte spielt am Ende eines langen Sommers und wird in drei Handlungssträngen weitgehend parallel erzählt. In den Sieben Königreichen bauen sich zwischen den mächtigsten Adelshäusern des Reiches Spannungen auf, die schließlich zum offenen Thronkampf führen. Gleichzeitig droht der Wintereinbruch und es zeichnet sich eine Gefahr durch eine fremde Rasse im hohen Norden von Westeros ab. Der dritte Handlungsstrang spielt auf dem Kontinent Essos, wo Daenerys Targaryen, Mitglied der vor Jahren abgesetzten Königsfamilie, bestrebt ist, wieder an die Macht zu gelangen. Die komplexe Handlung umfasst zahlreiche Figuren und thematisiert unter anderem Politik und Machtkämpfe, Gesellschaftsverhältnisse und Religion.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "GR",
+                "iso_639_1": "el",
+                "name": "ελληνικά",
+                "english_name": "Greek",
+                "data": {
+                    "name": "",
+                    "overview": "Εφτά ευγενείς οικογένειές μάχονται για την κυριαρχία της μυθικής γης του Westeros. Τριβές μεταξύ των οίκων οδηγούν σε ολοκληρωτικό πόλεμο. Παράλληλα όμως μία αρχαία σκοτεινή δύναμη έχει ξυπνήσει στον βορρά και το μόνο που της στέκεται εμπόδιο είναι η Νυχτερινή Φρουρά, μία ομάδα από απροσάρμοστους πολεμιστές.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "US",
+                "iso_639_1": "en",
+                "name": "English",
+                "english_name": "English",
+                "data": {
+                    "name": "",
+                    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                    "homepage": "",
+                    "tagline": "Winter Is Coming"
+                }
+            },
+            {
+                "iso_3166_1": "EO",
+                "iso_639_1": "eo",
+                "name": "Esperanto",
+                "english_name": "Esperanto",
+                "data": {
+                    "name": "Ludo de Tronoj",
+                    "overview": "Ludo de Tronoj (Angle: Game of Thrones) estas usona fantasta televida serio kreita de David Benioff kaj D. B. Weiss por HBO. Ĝi estas adapto de A Song of Ice and Fire (Eo: Kanto de glacio kaj fajro), romanserio verkata de George R. R. Martin ekde 1996.\n\nLudo de Tronoj, okazanta en la fikciaj kontinentoj Westeros kaj Essos je la fino de dekjara somero, intermiksas plurajn intrigojn. La unua estas la anoj de pluraj nobelaj familioj en civila milito por la Fera Trono de la Sep Reĝlandoj; la dua temas pri la kreskanta minaco de proksimiĝanta vintro kaj de la mitaj estuloj de la Nordo; la tria rakontas la provon de la ekzilita lasta reprezentantino de forpelita dinastio repreni la tronon. Per siaj morale dubindaj ĉefrolantoj, la serio esploras problemojn de socia hierarkio, religio, lojaleco, koruptado, civila milito, krimo kaj puno.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "ES",
+                "iso_639_1": "es",
+                "name": "Español",
+                "english_name": "Spanish",
+                "data": {
+                    "name": "Juego de Tronos",
+                    "overview": "En una tierra donde los veranos duran décadas y los inviernos pueden durar toda una vida, los problemas acechan. Desde las maquinaciones del sur a las salvajes tierras del este, pasando por el helado norte y el milenario Muro que protege el reino de las fuerzas tenebrosas, dos poderosas familias mantienen un enfrentamiento letal por gobernar los Siete Reinos de Poniente. Mientras la traición, la lujuria y las fuerzas sobrenaturales sacuden los pilares de los Reinos, la sangrienta batalla por el Trono de Hierro tendrá consecuencias imprevistas y trascendentales. El invierno se acerca. Que empiece Juego de Tronos",
+                    "homepage": "",
+                    "tagline": "Se acerca el invierno"
+                }
+            },
+            {
+                "iso_3166_1": "MX",
+                "iso_639_1": "es",
+                "name": "Español",
+                "english_name": "Spanish",
+                "data": {
+                    "name": "Juego de Tronos",
+                    "overview": "En un mundo fantástico y en un contexto medieval varias familias, relativas a la nobleza, se disputan el poder para dominar el territorio ficticio de Poniente (Westeros) y tomar el control de los Siete Reinos desde el Trono de Hierro, lugar donde el rey ejerce el poder.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IR",
+                "iso_639_1": "fa",
+                "name": "فارسی",
+                "english_name": "Persian",
+                "data": {
+                    "name": "بازی تاج و تخت",
+                    "overview": "هفت خاندان اشرافی برای حاکمیت بر سرزمین افسانه ای «وستروس» در حال ستیز با یکدیگرند. خاندان «استارک»، «لنیستر» و «باراثیون» برجسته ترین آنها هستند. داستان از جایی شروع می شود که «رابرت باراثیون» پادشاه وستروس، از دوست قدیمی اش، «ادارد» ارباب خاندان استارک، تقاضا می کند که بعنوان مشاور پادشاه، برترین سمت دربار، به او خدمت کند. این در حالی است که مشاور قبلی به طرز مرموزی به قتل رسیده است، با این حال ادارد تقاضای پادشاه را می پذیرد و به سرزمین شاهی راهی می شود. خانواده ملکه، یعنی لنیستر ها در حال توطئه برای بدست آوردن قدرت هستند. از سوی دیگر، بازمانده های خاندان پادشاه قبلی وستروس، «تارگرین ها» نیز نقشه ی پس گرفتن تاج و تخت را در سر می پرورانند، و تمام این ماجراها موجب در گرفتن نبردی عظیم میان آن‌ها خواهد شد...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "FI",
+                "iso_639_1": "fi",
+                "name": "suomi",
+                "english_name": "Finnish",
+                "data": {
+                    "name": "",
+                    "overview": "George R.R. Martinin kirjoihin perustuva, eeppinen sarja valtataistelusta, kunniasta ja petoksesta myyttisessä Westerosissa",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CA",
+                "iso_639_1": "fr",
+                "name": "Français",
+                "english_name": "French",
+                "data": {
+                    "name": "Le trône de fer",
+                    "overview": "Il y a très longtemps, à une époque oubliée, une force a détruit l'équilibre des saisons. Dans un pays où l'été peut durer plusieurs années et l'hiver toute une vie, des forces sinistres et surnaturelles se pressent aux portes du Royaume des Sept Couronnes. La confrérie de la Garde de Nuit, protégeant le Royaume de toute créature pouvant provenir d'au-delà du Mur protecteur, n'a plus les ressources nécessaires pour assurer la sécurité de tous. Après un été de dix années, un hiver rigoureux s'abat sur le Royaume avec la promesse d'un avenir des plus sombres. Pendant ce temps, complots et rivalités se jouent sur le continent pour s'emparer du Trône de fer, le symbole du pouvoir absolu.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "FR",
+                "iso_639_1": "fr",
+                "name": "Français",
+                "english_name": "French",
+                "data": {
+                    "name": "",
+                    "overview": "Il y a très longtemps, à une époque oubliée, une force a détruit l'équilibre des saisons. Dans un pays où l'été peut durer plusieurs années et l'hiver toute une vie, des forces sinistres et surnaturelles se pressent aux portes du Royaume des Sept Couronnes. La confrérie de la Garde de Nuit, protégeant le Royaume de toute créature pouvant provenir d'au-delà du Mur protecteur, n'a plus les ressources nécessaires pour assurer la sécurité de tous. Après un été de dix années, un hiver rigoureux s'abat sur le Royaume avec la promesse d'un avenir des plus sombres. Pendant ce temps, complots et rivalités se jouent sur le continent pour s'emparer du Trône de fer, le symbole du pouvoir absolu.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IL",
+                "iso_639_1": "he",
+                "name": "עִבְרִית",
+                "english_name": "Hebrew",
+                "data": {
+                    "name": "משחקי הכס",
+                    "overview": "משחקי הכס של אייץ'-בי-או היא עיבוד לטלוויזיה של סדרת הספרים רבי-המכר של ג'ורג' ר.ר. מרטין (\"שיר של אש ושל קרח\") בהם הקיץ נמשך על פני עשורים, החורף יכול להימשך דור והמאבק על כס הברזל החל. הוא ישתרע מן הדרום, בו החום מוליד מזימות, תאוות וקנוניות; אל אדמות המזרח הנרחבות והפראיות; כל הדרך אל הצפון הקפוא, שם חומת קרח אדירה מגנה על הממלכה מפני כוחות האופל השוכנים מצדה השני. מלכים ומלכות, אבירים ופורעי חוק, שקרנים, אדונים ואנשים ישרים. עולם בו מתבשלות קנוניות בצורת ניסיונות רצח ומגעים אסורים.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "HR",
+                "iso_639_1": "hr",
+                "name": "Hrvatski",
+                "english_name": "Croatian",
+                "data": {
+                    "name": "Igra Prijestolja",
+                    "overview": "Game of Thrones (Igra Prijestolja) srednjovjekovna je fantazija bazirana na seriji romana Georgea R. R. Martina smještena u izmišljenom svijetu Sedam kraljevina i prati dinastička previranja i borbu nekoliko Kuća za kontrolu nad Željeznim prijestoljem. Osim međusobnih borbi plemićkih obitelji, stanovništvu prijeti natprirodna invazija s ledenog sjevera, prognana zmajeva princeza koja želi povratiti obiteljsko naslijeđe te zima koja će trajati godinama.\n\nNakon sumnjive smrti namjesnika kralja Roberta Baratheona, on sa svojom kraljicom Cersei iz bogate i iskvarene obitelji Lannister kreće na putovanje na sjever svome prijatelju knezu Eddardu Starku od Oštrozimlja, od kojega zatraži za postane novi Kraljev Namjesnik. Eddard nevoljko pristaje i tu započinje epska priča o časti i izdaji, ljubavi i mržnji, tajnama i osveti...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "HU",
+                "iso_639_1": "hu",
+                "name": "Magyar",
+                "english_name": "Hungarian",
+                "data": {
+                    "name": "Trónok harca",
+                    "overview": "Westeros fölött valaha a sárkánykirályok uralkodtak, ám a Targaryen-dinasztiát 15 évvel ezelőtt elűzték, és most Robert Baratheon uralkodik hű barátai, Jon Arryn, majd Eddard Stark segítségével. A konfliktus középpontjában Deres urai, a Starkok állnak. Olyanok, mint a föld, ahol születtek: makacs, kemény jellemű család. Szemünk előtt hősök, gazemberek és egy gonosz hatalom története elevenedik meg. Ám hamar rá kell ébrednünk, hogy ebben a világban mégsem egyszerűen jók és gonoszok kerülnek szembe egymással, hanem mesterien ábrázolt jellemek bontakoznak ki előttünk különböző vágyakkal, célokkal, félelmekkel és sebekkel.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "ID",
+                "iso_639_1": "id",
+                "name": "Bahasa indonesia",
+                "english_name": "Indonesian",
+                "data": {
+                    "name": "",
+                    "overview": "Tujuh keluarga bangsawan berjuang untuk menguasai tanah mitos Westeros. Gesekan antara rumah-rumah mengarah ke perang skala penuh. Semua sementara kejahatan yang sangat kuno terbangun di utara terjauh. Di tengah-tengah perang, perintah militer yang diabaikan, Night's Watch, adalah yang berdiri di antara alam manusia dan kengerian es di luarnya.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IS",
+                "iso_639_1": "is",
+                "name": "Íslenska",
+                "english_name": "Icelandic",
+                "data": {
+                    "name": "Krúnuleikar",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IT",
+                "iso_639_1": "it",
+                "name": "Italiano",
+                "english_name": "Italian",
+                "data": {
+                    "name": "Il Trono di Spade",
+                    "overview": "La serie racconta le avventure di molti personaggi ed è ambientata in un grande mondo immaginario costituito principalmente dal continente Occidentale (Westeros) e da quello Orientale (Essos). Il centro più grande e civilizzato di Westeros è la città capitale Approdo del Re, dove si trova il Trono di Spade dei Sette Regni. La lotta per la conquista del trono porta le più potenti e nobili famiglie del continente a scontrarsi o allearsi tra loro in un contorto gioco di potere, che coinvolge anche l'ultima discendente della dinastia regnante deposta. Gli intrighi politici, economici e religiosi dei nobili lasciano la popolazione nella povertà e nel degrado, mentre il mondo viene minacciato dall'arrivo di un inverno diverso dai precedenti, che risveglia creature leggendarie dimenticate e fa emergere forze oscure e magiche.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "JP",
+                "iso_639_1": "ja",
+                "name": "日本語",
+                "english_name": "Japanese",
+                "data": {
+                    "name": "ゲーム・オブ・スローンズ",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "GE",
+                "iso_639_1": "ka",
+                "name": "ქართული",
+                "english_name": "Georgian",
+                "data": {
+                    "name": "სამეფო კარის თამაშები",
+                    "overview": "ჯ. რ. რ. მარტინის ფენტეზი საგის „ყინულისა და ცეცხლის სიმღერის“ ადაპტაცია - სატახტო გვარების სისხლიანი ბრძოლა ვესტეროსისა და მისი რკინის ტახტის მოსაპოვებლად. სანამ დიდებული გვარები სატახტო თამაშებში არიან ჩართულნი, ჩრდილოეთით, ყინულის კედლის მიღმა მაგიური არმია იღვიძებს და ყველაფერს განადგურებით ემუქრება.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "KR",
+                "iso_639_1": "ko",
+                "name": "한국어/조선말",
+                "english_name": "Korean",
+                "data": {
+                    "name": "왕좌의 게임",
+                    "overview": "2011년 4월 HBO에서 방영을 시작한 판타지물. 조지 R.R. 마틴의 얼음과 불의 노래를 원작으로 한다. 웨스테로스 대륙의 7개의 국가와 하위 몇 개의 국가들로 구성된 연맹 국가인 칠 왕국의 통치권, 철 왕좌를 차지하기 위한 싸움을 그려낸 드라마이다. 왕좌를 차지하기 위한 귀족 가문의 다툼 외에도 북부에 존재하는 미지의 위협인 백귀, 그리고 15년 전에 내전으로 인해 살해된 왕의 딸인 대너리스 타르가르옌이 자신이 추방당한 웨스테로스를 향해 왕권 회복을 도전하는 이야기가 함께 들어있다.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LB",
+                "iso_639_1": "lb",
+                "name": "",
+                "english_name": "Letzeburgesch",
+                "data": {
+                    "name": "",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LT",
+                "iso_639_1": "lt",
+                "name": "Lietuvių",
+                "english_name": "Lithuanian",
+                "data": {
+                    "name": "Sostų karai",
+                    "overview": "Sostų žaidimas - naujas televizijos giganto HBO serialas. sukurtas pagal rašytojo George‘o Raymondo Richardo Martino „Ledo ir ugnies daina\" epą. Veiksmas vyksta Vesteroso žemyne angl. Westeros – aliuzija į Vakarų pasaulį. dar vadinamame Septyniomis karalystėmis. kur galingos didikų giminės kovoja dėl įtakos ir geležinio sosto visomis įmanomomis ir neįmanomomis priemonėmis",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LV",
+                "iso_639_1": "lv",
+                "name": "Latviešu",
+                "english_name": "Latvian",
+                "data": {
+                    "name": "Troņu spēles",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IN",
+                "iso_639_1": "ml",
+                "name": "",
+                "english_name": "Malayalam",
+                "data": {
+                    "name": "ഗെയിം ഓഫ് ത്രോൺസ്",
+                    "overview": "സാങ്കൽപിക ഭൂഖണ്ഡങ്ങളായ വെസ്റ്ററോസും എസ്സോസും പശ്ചാത്തലത്തിൽ ചിത്രീകരിച്ച പരമ്പര പ്രധാനമായും മൂന്നു പ്രമേയങ്ങളുമായാണ് പുരോഗമിക്കുന്നത്. വെസ്റ്ററോസിന്റെ ഭരണം കൈയാളുന്ന ഇരുമ്പ് സിംഹാസനം കൈക്കലാക്കാൻ ശക്തരായ രാജകുടുംബങ്ങൾ തമ്മിലുള്ള മത്സരമാണ് ഒന്ന്. സിംഹാസനത്തിൽ നിന്ന് നിഷ്കാസാതനായ മുൻ രാജാവിന്റെ പിൻഗാമികൾ സിംഹാസനം വീണ്ടെടുക്കാൻ നടത്തുന്ന ശ്രമങ്ങൾ ആണ് രണ്ടാമത്തെ പ്രമേയം. വെസ്റ്ററോസിന്റെ നിലനിൽപ്പിന് തന്നെ ഭീഷണിയായി ഭൂഖണ്ഡത്തിന്റെ വടക്ക് നിന്ന്‌ ഉയരുന്ന വെല്ലുവിളികളും അതിനെതിരെയുള്ള ചെറുത്തുനിൽപ്പുമാണ് മൂന്നാമത്തെ പ്രമേയം.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "NL",
+                "iso_639_1": "nl",
+                "name": "Nederlands",
+                "english_name": "Dutch",
+                "data": {
+                    "name": "",
+                    "overview": "Een eeuwenoude machtsstrijd barst los in het land waar de zomers decennia duren en de winters een leven lang kunnen aanslepen. Twee machtige geslachten - de regerende Baratheons en de verbannen Targaryens - maken zich op om de IJzeren Troon te claimen en de Zeven Koninkrijken van Westeros onder hun controle te krijgen. Maar in een tijdperk waarin verraad, lust, intriges en bovennatuurlijke krachten hoogtij vieren, zal hun dodelijke kat-en-muisspelletje onvoorziene en verreikende gevolgen hebben. Achter een eeuwenoude, gigantische muur van ijs in het uiterste noorden van Westeros maakt een kille vijand zich immers op om het land onder de voet te lopen. Gebaseerd op de bestseller fantasyreeks \"A Song of Ice and Fire\" van George R.R. Martin.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "NO",
+                "iso_639_1": "no",
+                "name": "Norsk",
+                "english_name": "Norwegian",
+                "data": {
+                    "name": "",
+                    "overview": "Denne nye HBO-serien er basert på bøkene til George R.R. Martin, og finner sted i en realistisk fantasy-verden full av ærgjerrige menn og kvinner. Serien handler om flere familier som ønsker å erobre Jerntronen i kongeriket Westeros: Den edle Stark-slekten og Eddard Stark, som utnevnes til Kongens hånd etter at forgjengeren dør under mystiske omstendigheter; Den intrigefylte Lannister-slekten, som med sine planer vil gjøre slutt på freden i riket; Og drageprinsessen Daenerys, arvingen etter det forrige dynastiet, som venter på den andre siden av sjøen sammen med sin ondskapsfulle bror Viserys. Dette er en historie om svik og forræderi, edelhet og ære, erobring og triumf. I spillet om tronene vinner man eller dør man.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "PL",
+                "iso_639_1": "pl",
+                "name": "Polski",
+                "english_name": "Polish",
+                "data": {
+                    "name": "Gra o Tron",
+                    "overview": "W krainie Westeros królowie i królowe, rycerze i renegaci, kłamcy, a także ci o szlachetnym sercu toczą nieustającą walkę o władzę nad siedmioma królestwami. Tam, gdzie lato trwa dziesięciolecia, a zima przez całe ludzkie życie, trudności piętrzą się każdego dnia. Od pełnego intryg Południa przez barbarzyński Wschód i zlodowaciałą Północ, aż po pradawny mur, który strzeże królestwa przed tajemniczymi mocami ciemności, potężne rody zaangażowane są w bezkompromisową walkę o władzę. Bohaterowie, którzy chcą rządzić krainą Westeros, są gotowi na bezwzględną rozgrywkę. Jednak dla wielu z nich walka o władzę to również walka o życie. Nikt nie jest bezpieczny, szczególnie gdy na horyzoncie pojawia się nowe, nieznane i przerażające zagrożenie.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "BR",
+                "iso_639_1": "pt",
+                "name": "Português",
+                "english_name": "Portuguese",
+                "data": {
+                    "name": "",
+                    "overview": "Em uma terra onde os verões podem durar vários anos e o inverno toda uma vida, sete nobres famílias lutam pelo controle da mítica terra de Westeros, dividida depois de uma guerra. Num cenário que lembra a Europa medieval, reis, rainhas, cavaleiros e renegados usam todos os meios possíveis em um jogo político pela disputa do Trono de Ferro, o símbolo do poder absoluto.",
+                    "homepage": "",
+                    "tagline": "O Inverno está Chegando"
+                }
+            },
+            {
+                "iso_3166_1": "PT",
+                "iso_639_1": "pt",
+                "name": "Português",
+                "english_name": "Portuguese",
+                "data": {
+                    "name": "A Guerra dos Tronos",
+                    "overview": "Numa terra onde o verão abrange décadas e o inverno dura uma vida, todos os desafios são esperados. Várias famílias estão empenhadas numa aventura mortal para controlar os Sete Reinos de Westeros… Que comece A Guerra dos Tronos!",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "RO",
+                "iso_639_1": "ro",
+                "name": "Română",
+                "english_name": "Romanian",
+                "data": {
+                    "name": "Urzeala tronurilor",
+                    "overview": "O poveste epică despre trădare și noblețe ce are loc în Westeros, unde verile și iernile pot dura ani întregi, doar dorința pentru putere fiind eternă.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "RU",
+                "iso_639_1": "ru",
+                "name": "Pусский",
+                "english_name": "Russian",
+                "data": {
+                    "name": "Игра престолов",
+                    "overview": "К концу подходит время благоденствия, и лето, длившееся почти десятилетие, угасает. Вокруг средоточия власти Семи Королевств, Железного трона, зреет заговор, и в это непростое время король решает искать поддержки у друга юности Эддарда Старка. В мире, где все — от короля до наёмника — рвутся к власти, плетут интриги и готовы вонзить нож в спину, есть место и благородству, состраданию и любви. Между тем, никто не замечает пробуждение тьмы из легенд далеко на Севере — и лишь Стена защищает живых к югу от неё.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "SK",
+                "iso_639_1": "sk",
+                "name": "Slovenčina",
+                "english_name": "Slovak",
+                "data": {
+                    "name": "Hra o Tróny",
+                    "overview": "Kontinent, kde letá trvajú desiatky rokov a zimy sa môžu pretiahnuť na celý ľudský život, začínajú sužovať nepokoje. Všetkých Sedem kráľovstiev Západozemia – intrigánsky juh, divoké východné krajiny aj ľadový sever ohraničený starobylým Múrom, ktorý chráni kráľovstvá pred prenikaním temnoty – je zmietaných bojom dvoch mocných rodov na život a na smrť o nadvládu nad celou ríšou. Krajinou otriasa zrada, náruživosť, intrigy a nadprirodzené sily. Krvavý boj o Železný trón, post najvyššieho vládcu Siedmich kráľovstiev, bude mať nepredvídateľné a ďalekosiahle dôsledky...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "RS",
+                "iso_639_1": "sr",
+                "name": "Srpski",
+                "english_name": "Serbian",
+                "data": {
+                    "name": "Игра престола",
+                    "overview": "Док грађански рат букти између неколико племићких породица на Вестеросу, деца бивших владара земље покушавају да дођу на власт.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "SE",
+                "iso_639_1": "sv",
+                "name": "svenska",
+                "english_name": "Swedish",
+                "data": {
+                    "name": "",
+                    "overview": "I ett land där somrarna är decennier långa och vintrarna kan vara en livstid, är det oroligheter. Från den intrigerande södern och de vilda länderna i öster till den frusna norden och den uråldriga muren som skyddar riket från mörkret bortom den, håller två mäktiga familjer på med en katt-och-råtta-lek om vem som ska styra de Sju Kungarikena i Westeros. Medan svek, lust, intriger och övernaturliga krafter skakar dessa kungariken i grunden, kommer kampen om Järntronen att få oförutsedda och långtgående följder. Vintern kommer. Kampen om Järntronen kan börja.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IN",
+                "iso_639_1": "ta",
+                "name": "தமிழ்",
+                "english_name": "Tamil",
+                "data": {
+                    "name": "அரியணை விளையாட்டு",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TH",
+                "iso_639_1": "th",
+                "name": "ภาษาไทย",
+                "english_name": "Thai",
+                "data": {
+                    "name": "เกมส์ ออฟ โธรนส์ มหาศึกชิงบัลลังก์",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TR",
+                "iso_639_1": "tr",
+                "name": "Türkçe",
+                "english_name": "Turkish",
+                "data": {
+                    "name": "",
+                    "overview": "Krallık dediğin savaşsız olur mu? En güçlü krallığı kurup, huzuru sağlamış olsan bile bu gücü elinde nasıl koruyacaksın? Burada yanlış yapana yer yok, affetmek yok. Kuzey Krallığının hükümdarı Lord Ned Stark, uzun ve zorlu savaşlardan sonra anayurduna dönüp krallığını bütünlük içerisinde tutmayı başarmıştır. Kral Robert Baratheon ile yıllarca omuz omuza çarpışan ve Baratheon'un kral olmasını sağlayan Ned Stark'ın tek istediği kuzey sınırlarını koruyan krallığında ailesiyle ve halkıyla yaşamaktır. \n\nFakat suyun öte yanında kendi topraklarından ve krallığından kovulduğunu iddia eden Viserys Targaryen , kız kardeşi Daenerys'i barbar kavimlerin başı Han Drogo'ya vererek, güç birliği planları yapmaktadır. Tahtını büyük bir iştahla geri isteyen ama kraliyet oyunlarından habersiz olan Viserys'in planları Kral Baratheon'a ulaşır. Savaş alanında büyük cengaver olan ama ülke ve aile yönetiminde aynı başarıyı tutturamayan Baratheon'un tamamen güvenebileceği ve her yanlış hamlesini arkasından toplayacak yeni bir sağ kola ihtiyacı vardır. Kuzeyin Lordu Ned Stark bu görev için seçilen tek aday isimdir. Kış yaklaşıyor...\n\nHanedan entrikaları, kapılı kapılar ardında dönen oyunlar, birilerinin kuyusunu kazmak için düşmanın koynuna girmekten çekinmeyen kadınlar, kardeşler arası çekişmeler, dışlanmalar... Hepsi tek bir hedef için: Taht kavgası..",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TW",
+                "iso_639_1": "tw",
+                "name": "",
+                "english_name": "Twi",
+                "data": {
+                    "name": "冰與火之歌：權力遊戲",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "UA",
+                "iso_639_1": "uk",
+                "name": "Український",
+                "english_name": "Ukrainian",
+                "data": {
+                    "name": "Гра Престолів",
+                    "overview": "Ось і підходить до завершення літо, що тривало майже десятиліття. Навколо осередку влади Семи королівств, Залізного трону, зріє змова, і в цей непростий час король вирішує шукати підтримки у друга юності Еддарда Старка. У світі, де всі — від короля до найманця — рвуться до влади, плетуть інтриги й готові встромити ніж у спину, є місце і шляхетності, співчуття і любові. Тим часом, ніхто не помічає пробудження темряви з легенд далеко на Півночі — і лише Стіна захищає живих на південь від неї.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "UZ",
+                "iso_639_1": "uz",
+                "name": "ozbek",
+                "english_name": "Uzbek",
+                "data": {
+                    "name": "Taxtlar oʻyini",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "VN",
+                "iso_639_1": "vi",
+                "name": "Tiếng Việt",
+                "english_name": "Vietnamese",
+                "data": {
+                    "name": "Trò Chơi Vương Quyền",
+                    "overview": "Game of Throne - Trò Chơi Vương Quyền kể về 7 gia tộc chiến đấu để làm chủ vùng đất thần thoại Westeros. Những gia tộc thống trị là Stark, Lannister, và Baratheon. Vị vua của Westeros, Robert Baratheon, yêu cầu người bạn cũ của ông là Eddard – lãnh chúa Stark giữ chức vụ cao, Eddard miễn cưỡng chấp nhận mệnh lệnh để tìm ra sự thật đằng sau. Trong lúc ấy, gia tộc của nữ hoàng, Lannisters, có lẽ đang dự tính mưu đồ để tước đoạt quyền lực. Ở phía bên kia biển khơi, những thành viên cuối cùng của dòng tộc trước đây đã bị truất phế quyền thống trị, Targaryens, cũng đang sắp đặt kế hoạch giành lại ngai vàng. Còn ở phía cực Bắc, Bóng Trắng – loài quỷ vốn chìm trong giấc ngủ rất dài, nay đã thức giấc…",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CN",
+                "iso_639_1": "zh",
+                "name": "普通话",
+                "english_name": "Mandarin",
+                "data": {
+                    "name": "权力的游戏",
+                    "overview": "故事背景是一个虚构的世界，主要分为两片大陆。位于西面的是“日落国度”维斯特洛（Westeros），面积约等于南美洲。位于东面的是一块面积、形状近似于亚欧大陆的陆地。故事的主线便发生在维斯特洛大陆上。从国王劳勃·拜拉席恩前往北境，拜访他的好友临冬城主艾德·史塔克开始，渐渐展示了这片国度的全貌。单纯的国王，耿直的首相，各怀心思的大臣，拥兵自重的四方诸侯，全国仅靠着一根细弦维系着表面的和平，而当弦断之时，国家再度陷入无尽的战乱之中。而更让人惊悚的是那些远古的传说和早已灭绝的生物，正重新回到这片土地。",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "HK",
+                "iso_639_1": "zh",
+                "name": "普通话",
+                "english_name": "Mandarin",
+                "data": {
+                    "name": "權力遊戲",
+                    "overview": "《權力遊戲》大致是根據小說《冰與火之歌》的故事線情節，故事背景設置於虛構的維斯特洛七王國及厄斯索斯大陸。該系列記錄了該領域貴族爭奪鐵王座的激烈王朝鬥爭，而其他家庭則為爭取獨立而鬥爭。它也在冰冷的北部和東面的厄斯索斯面臨更多的威脅。\n\n節目主理人大衛·貝尼奧夫（David Benioff）開玩笑地稱「中土大陸的人在江湖」是《權力遊戲》的歇後語，所指的是在魔法與龍的幻想環境中的暗色調和其充滿陰謀的情節。在2012年的一項研究中，在最近的40部電視劇裡，《權力遊戲》在每集死亡人數中排名第二，平均死亡人數為14人。原著小說的作者喬治·R·R·馬丁表示該劇非常忠於自己的作品。",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TW",
+                "iso_639_1": "zh",
+                "name": "普通话",
+                "english_name": "Mandarin",
+                "data": {
+                    "name": "冰與火之歌：權力遊戲",
+                    "overview": "背景設置在名為『維斯特洛』的七大王國，那裡的季節規律為「夏天持續數十年，冬天能持續一輩子」，故事主要講述七大王國的七個貴族家族之間，互相爭奪「鐵王座」的權力鬥爭；在影集之初，來自維斯特洛北部區域的凜冬冰雪開始靠近，以及狹海以東大陸的威脅逐步加重，加上一些小小意外導致整個七大王國開始了一番王權爭鬥；戰爭掀起了一場腥風血雨，每個王者都不擇手段地打算贏得勝利。然而，所有人在互相對抗彼此時，卻對即將到來的凜冬渾然不知，而原本絕種了幾千年的一個古老的「死亡」生物，也開始一步一步地將魔爪伸向世人。",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            }
+        ]
+    },
+    "videos": {
+        "results": [
+            {
+                "id": "5c9295200e0a267cd8168bd8",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "BpJYNVhGf1s",
+                "name": "Game of Thrones | Season 1 | Official Trailer",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Trailer"
+            },
+            {
+                "id": "5b5b91c2925141523700502c",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "bjqEWgDVPe0",
+                "name": "GAME OF THRONES - SEASON 1- TRAILER",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Trailer"
+            },
+            {
+                "id": "5c92c2519251412b51773135",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "f3MUpuRF6Ck",
+                "name": "Inside Game of Thrones: A Story in Prosthetics – BTS (HBO)",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Behind the Scenes"
+            },
+            {
+                "id": "5c999b48c3a36863b73b9d42",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "y2ZJ3lTaREY",
+                "name": "Inside Game of Thrones: A Story in Camera Work – BTS (HBO)",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Behind the Scenes"
+            }
+        ]
+    },
+    "credits": {
+        "cast": [
+            {
+                "character": "Daenerys Targaryen",
+                "credit_id": "5256c8af19c2956ff60479f6",
+                "id": 1223786,
+                "name": "Emilia Clarke",
+                "gender": 1,
+                "profile_path": "/r6i4C3kYrBRzUzZ8JKAHYQ0T0dD.jpg",
+                "order": 0
+            },
+            {
+                "character": "Cersei Lannister",
+                "credit_id": "5256c8ad19c2956ff60479ce",
+                "id": 17286,
+                "name": "Lena Headey",
+                "gender": 1,
+                "profile_path": "/xR2IBnBlUdyBe5hecaVdtRuQqUE.jpg",
+                "order": 1
+            },
+            {
+                "character": "Sansa Stark",
+                "credit_id": "5256c8b419c2956ff6047f34",
+                "id": 1001657,
+                "name": "Sophie Turner",
+                "gender": 1,
+                "profile_path": "/1hUAKYvSi4vZSYvTnD2TlqF6VVx.jpg",
+                "order": 2
+            },
+            {
+                "character": "Jon Snow",
+                "credit_id": "5256c8af19c2956ff6047af6",
+                "id": 239019,
+                "name": "Kit Harington",
+                "gender": 2,
+                "profile_path": "/4MqUjb1SYrzHmFSyGiXnlZWLvBs.jpg",
+                "order": 3
+            },
+            {
+                "character": "Tyrion Lannister",
+                "credit_id": "5256c8b219c2956ff6047cd8",
+                "id": 22970,
+                "name": "Peter Dinklage",
+                "gender": 2,
+                "profile_path": "/lRsRgnksAhBRXwAB68MFjmTtLrk.jpg",
+                "order": 4
+            },
+            {
+                "character": "Jaime Lannister",
+                "credit_id": "5256c8ad19c2956ff604793e",
+                "id": 12795,
+                "name": "Nikolaj Coster-Waldau",
+                "gender": 2,
+                "profile_path": "/zCWcyAfbbEgB3Lmiew1yrkPU4Lr.jpg",
+                "order": 5
+            },
+            {
+                "character": "Arya Stark",
+                "credit_id": "5256c8b419c2956ff6047f0c",
+                "id": 1181313,
+                "name": "Maisie Williams",
+                "gender": 1,
+                "profile_path": "/zLTq39cdRjS43dEzb78c1p1QcbT.jpg",
+                "order": 6
+            },
+            {
+                "character": "Davos Seaworth",
+                "credit_id": "5256c8b519c2956ff604803e",
+                "id": 15498,
+                "name": "Liam Cunningham",
+                "gender": 2,
+                "profile_path": "/ljmFT9zYqh4k2bmEcNU6rxoE7fW.jpg",
+                "order": 7
+            },
+            {
+                "character": "Samwell Tarly",
+                "credit_id": "56009f37c3a36856180002b5",
+                "id": 1010135,
+                "name": "John Bradley",
+                "gender": 2,
+                "profile_path": "/eLcisM9qqCLWnf0iImHuSn08FOi.jpg",
+                "order": 8
+            },
+            {
+                "character": "Varys",
+                "credit_id": "5256c8b219c2956ff6047d6e",
+                "id": 84423,
+                "name": "Conleth Hill",
+                "gender": 2,
+                "profile_path": "/eeTnNiustUbShHU09EQ6LoOpzcg.jpg",
+                "order": 9
+            },
+            {
+                "character": "Brienne of Tarth",
+                "credit_id": "5256c8bd19c2956ff604841c",
+                "id": 1011904,
+                "name": "Gwendoline Christie",
+                "gender": 1,
+                "profile_path": "/kmlv5i02n3zKryBr2W3kSeWVKTD.jpg",
+                "order": 10
+            },
+            {
+                "character": "Bran Stark",
+                "credit_id": "5256c8b119c2956ff6047c22",
+                "id": 239020,
+                "name": "Isaac Hempstead-Wright",
+                "gender": 2,
+                "profile_path": "/b6hQvID3oXPXnyrrXs22MBv2lyN.jpg",
+                "order": 11
+            },
+            {
+                "character": "Grey Worm",
+                "credit_id": "570161b39251416070000434",
+                "id": 964792,
+                "name": "Jacob Anderson",
+                "gender": 2,
+                "profile_path": "/atkSptvQU7XdRVGrL5hiymbXwhd.jpg",
+                "order": 12
+            },
+            {
+                "character": "Bronn",
+                "credit_id": "5256c8b219c2956ff6047d8e",
+                "id": 195930,
+                "name": "Jerome Flynn",
+                "gender": 2,
+                "profile_path": "/yI5xxWITp2YjMgiwac72Nen60jq.jpg",
+                "order": 13
+            },
+            {
+                "character": "Sandor Clegane",
+                "credit_id": "5256c8b119c2956ff6047c84",
+                "id": 3075,
+                "name": "Rory McCann",
+                "gender": 2,
+                "profile_path": "/meEHyiCRXTTCiYQMzP4VEdvEuD0.jpg",
+                "order": 14
+            },
+            {
+                "character": "Gendry",
+                "credit_id": "5256c8b619c2956ff604829c",
+                "id": 570296,
+                "name": "Joe Dempsie",
+                "gender": 2,
+                "profile_path": "/lnR0AMIwxQR6zUCOhp99GnMaRet.jpg",
+                "order": 15
+            }
+        ],
+        "crew": [
+            {
+                "credit_id": "5ceab029c3a3682e93217a85",
+                "department": "Production",
+                "id": 1406855,
+                "name": "Duncan Muggoch",
+                "gender": 2,
+                "job": "Producer",
+                "profile_path": "/ukGjJ62Ejd4cFziald03G34Fsrp.jpg"
+            },
+            {
+                "credit_id": "5ceab0820e0a261a50cb87a9",
+                "department": "Production",
+                "id": 114404,
+                "name": "Miguel Sapochnik",
+                "gender": 2,
+                "job": "Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "5ceab0ab92514175e8bb5caf",
+                "department": "Production",
+                "id": 33316,
+                "name": "David Nutter",
+                "gender": 2,
+                "job": "Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "5e5a651d55c92600134ef139",
+                "department": "Visual Effects",
+                "id": 2553002,
+                "name": "Ronan Binding",
+                "gender": 2,
+                "job": "Animation",
+                "profile_path": null
+            },
+            {
+                "credit_id": "5c8be4c29251410cf7c54b74",
+                "department": "Production",
+                "id": 1223784,
+                "name": "Bryan Cogman",
+                "gender": 0,
+                "job": "Co-Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "59a43870c3a36821f1017856",
+                "department": "Production",
+                "id": 53758,
+                "name": "Guymon Casady",
+                "gender": 2,
+                "job": "Co-Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "59a43a0a925141775b05ba2e",
+                "department": "Production",
+                "id": 1878409,
+                "name": "Lisa McAtackney",
+                "gender": 1,
+                "job": "Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "54eee9e5c3a3686d5800584e",
+                "department": "Art",
+                "id": 6411,
+                "name": "Deborah Riley",
+                "gender": 1,
+                "job": "Production Design",
+                "profile_path": "/cjhADpqdrnwB1PdDUKaBnWrIj2Q.jpg"
+            },
+            {
+                "credit_id": "5256c8c819c2956ff6048836",
+                "department": "Production",
+                "id": 56746,
+                "name": "Greg Spence",
+                "gender": 2,
+                "job": "Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "59a43acf925141775b05baa5",
+                "department": "Production",
+                "id": 1467116,
+                "name": "Christopher Newman",
+                "gender": 2,
+                "job": "Producer",
+                "profile_path": "/2yj9kfLcBb2IDHzMKQrua8Nw883.jpg"
+            },
+            {
+                "credit_id": "5256c8c619c2956ff6048782",
+                "department": "Production",
+                "id": 1223796,
+                "name": "Frank Doelger",
+                "gender": 0,
+                "job": "Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "54ef3928925141796e00614d",
+                "department": "Production",
+                "id": 16363,
+                "name": "Nina Gold",
+                "gender": 1,
+                "job": "Casting",
+                "profile_path": null
+            },
+            {
+                "credit_id": "54ef391cc3a3686b9a003bd0",
+                "department": "Production",
+                "id": 1019426,
+                "name": "Robert Sterne",
+                "gender": 2,
+                "job": "Casting",
+                "profile_path": null
+            },
+            {
+                "credit_id": "59a4396bc3a368478f059163",
+                "department": "Production",
+                "id": 54268,
+                "name": "Vince Gerardis",
+                "gender": 2,
+                "job": "Co-Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "5256c8c619c2956ff6048758",
+                "department": "Production",
+                "id": 1223797,
+                "name": "Carolyn Strauss",
+                "gender": 1,
+                "job": "Executive Producer",
+                "profile_path": null
+            },
+            {
+                "credit_id": "54eef3e19251417965005c64",
+                "department": "Production",
+                "id": 237053,
+                "name": "George R. R. Martin",
+                "gender": 2,
+                "job": "Co-Executive Producer",
+                "profile_path": "/1A7W0L9dZz0rCN1oj6h8YUvusdN.jpg"
+            },
+            {
+                "credit_id": "54eeea3bc3a3680b80006048",
+                "department": "Sound",
+                "id": 10851,
+                "name": "Ramin Djawadi",
+                "gender": 2,
+                "job": "Original Music Composer",
+                "profile_path": "/wgUxW19nyPnrzj4ViVOpAfmhCdr.jpg"
+            },
+            {
+                "credit_id": "54eeec309251417968005b14",
+                "department": "Costume & Make-Up",
+                "id": 50953,
+                "name": "Michele Clapton",
+                "gender": 1,
+                "job": "Costume Design",
+                "profile_path": "/dyGhslpGOvhvG1QAGu0xgti4e0k.jpg"
+            },
+            {
+                "credit_id": "54eef1fc925141796e005aee",
+                "department": "Writing",
+                "id": 237053,
+                "name": "George R. R. Martin",
+                "gender": 2,
+                "job": "Novel",
+                "profile_path": "/1A7W0L9dZz0rCN1oj6h8YUvusdN.jpg"
+            }
+        ]
+    }
+}
