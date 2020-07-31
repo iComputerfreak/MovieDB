@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: After implementing TMDBAPI.fetchMedia using append_to_response, we can remove these wrappers as they are not needed anymore (except MediaChangeWrapper)
+
 /// Represents a set of credits info containing the cast members
 /// Only the cast members will be decoded/encoded. Other values will be ignored
 struct CastWrapper: Codable, Equatable {

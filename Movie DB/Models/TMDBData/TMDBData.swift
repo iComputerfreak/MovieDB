@@ -11,41 +11,80 @@ import UIKit
 
 // MARK: TMDB Data
 
+// TODO: Add videos, translations, keywords and cast to TMDBData directly (and decode it). Requires, that the data is requested using append_to_response=videos,keywords,translations,credits
+
+// TODO: Make Hashable
 /// Represents a set of data about the media from themoviedb.org
-protocol TMDBData: Codable {
+class TMDBData: Codable, Hashable {
     // Basic Data
     /// The TMDB ID of the media
-    var id: Int { get set }
+    var id: Int
     /// The name of the media
-    var title: String { get set }
+    var title: String
     /// The original tile of the media
-    var originalTitle: String { get set }
+    var originalTitle: String
     /// The path of the media poster image on TMDB
-    var imagePath: String? { get set }
+    var imagePath: String?
     /// A list of genres that match the media
-    var genres: [Genre] { get set }
+    var genres: [Genre]
     /// A short media description
-    var overview: String? { get set }
+    var overview: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
-    var status: MediaStatus { get set }
+    var status: MediaStatus
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
-    var originalLanguage: String { get set }
+    var originalLanguage: String
     
     // Extended Data
     /// The id of the media on IMDB.com
-    var imdbID: String? { get set }
+    var imdbID: String?
     /// A list of companies that produced the media
-    var productionCompanies: [ProductionCompany] { get set }
+    var productionCompanies: [ProductionCompany]
     /// The url to the homepage of the media
-    var homepageURL: String? { get set }
+    var homepageURL: String?
     
     // TMDB Scoring
     /// The popularity of the media on TMDB
-    var popularity: Float { get set }
+    var popularity: Float
     /// The average rating on TMDB
-    var voteAverage: Float { get set }
+    var voteAverage: Float
     /// The number of votes that were cast on TMDB
-    var voteCount: Int { get set }
+    var voteCount: Int
+    
+    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int) {
+        self.id = id
+        self.title = title
+        self.originalTitle = originalTitle
+        self.imagePath = imagePath
+        self.genres = genres
+        self.overview = overview
+        self.status = status
+        self.originalLanguage = originalLanguage
+        self.imdbID = imdbID
+        self.productionCompanies = productionCompanies
+        self.homepageURL = homepageURL
+        self.popularity = popularity
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+    }
+    
+    // MARK: - Hashable Conformance
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(title)
+        hasher.combine(originalTitle)
+        hasher.combine(imagePath)
+        hasher.combine(genres)
+        hasher.combine(overview)
+        hasher.combine(status)
+        hasher.combine(originalLanguage)
+        hasher.combine(imdbID)
+        hasher.combine(productionCompanies)
+        hasher.combine(homepageURL)
+        hasher.combine(popularity)
+        hasher.combine(voteAverage)
+        hasher.combine(voteCount)
+    }
 }
 
 // MARK: - Property Structs

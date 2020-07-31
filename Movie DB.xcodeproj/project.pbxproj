@@ -20,6 +20,8 @@
 		AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
+		AB4CD55524D36853005FAF20 /* TMDBData+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */; };
+		AB4CD55724D449D5005FAF20 /* Media+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */; };
 		AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB50944C238D63FD003A81DB /* SettingsView.swift */; };
 		AB5A9DC324D313DE0059C5C9 /* Repairable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9DC224D313DE0059C5C9 /* Repairable.swift */; };
 		AB5A9DC524D313E90059C5C9 /* MediaLibrary+Repairable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9DC424D313E90059C5C9 /* MediaLibrary+Repairable.swift */; };
@@ -107,6 +109,8 @@
 		AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
+		AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TMDBData+Equatable.swift"; sourceTree = "<group>"; };
+		AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Media+Equatable.swift"; sourceTree = "<group>"; };
 		AB50944C238D63FD003A81DB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AB5A9DC224D313DE0059C5C9 /* Repairable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repairable.swift; sourceTree = "<group>"; };
 		AB5A9DC424D313E90059C5C9 /* MediaLibrary+Repairable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaLibrary+Repairable.swift"; sourceTree = "<group>"; };
@@ -364,6 +368,7 @@
 				AB5A9DC124D313D00059C5C9 /* Repairable */,
 				AB6478D922C7B8E800F3E14E /* SearchResult.swift */,
 				AB6718ED22C032AA00F429E4 /* Media.swift */,
+				AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */,
 				AB6718E522C0317800F429E4 /* Movie.swift */,
 				AB6718EB22C0324D00F429E4 /* Show.swift */,
 				AB5F7E1E238AE13C0007A3FE /* TagLibrary.swift */,
@@ -408,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				AB6718EF22C037E300F429E4 /* TMDBData.swift */,
+				AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */,
 				ABED3B042393251100F4C327 /* Wrappers.swift */,
 				AB6718F922C2910800F429E4 /* TMDBMovieData.swift */,
 				AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */,
@@ -538,6 +544,7 @@
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
 				ABB82DCE2414201F00E46023 /* ShareSheet.swift in Sources */,
+				AB4CD55524D36853005FAF20 /* TMDBData+Equatable.swift in Sources */,
 				AB25099E238B1EED00F7A411 /* KeyboardResponder.swift in Sources */,
 				AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */,
 				AB5A9DC324D313DE0059C5C9 /* Repairable.swift in Sources */,
@@ -550,6 +557,7 @@
 				ABED3B072393263E00F4C327 /* Show Structs.swift in Sources */,
 				AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultView.swift in Sources */,
+				AB4CD55724D449D5005FAF20 /* Media+Equatable.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
 				AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */,
 				ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */,

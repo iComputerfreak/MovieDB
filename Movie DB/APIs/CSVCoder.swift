@@ -51,6 +51,7 @@ fileprivate var header: String { headers.map(\.rawValue).joined(separator: Strin
 
 struct CSVEncoder {
     
+    // TODO: We should probably use a dictionary instead of a array here. (Use CodingKeys enum as keys and maybe use Codable)
     func encode(_ mediaObjects: [Media]) -> String {
         var lines: [String] = [header]
         for mediaObject in mediaObjects {
@@ -83,7 +84,11 @@ struct CSVEncoder {
                 values.append(convert(movie.watched))
             } else { values.append("") }
             if let tmdbData = mediaObject.tmdbData as? TMDBMovieData {
-                values.append(tmdbData.rawReleaseDate)
+                if let date = tmdbData.releaseDate {
+                    values.append("\(date)")
+                } else {
+                    values.append("")
+                }
                 values.append(convert(tmdbData.runtime))
                 values.append(convert(tmdbData.budget))
                 values.append(convert(tmdbData.revenue))
@@ -103,8 +108,16 @@ struct CSVEncoder {
                 values.append("")
             }
             if let tmdbData = mediaObject.tmdbData as? TMDBShowData {
-                values.append(tmdbData.rawFirstAirDate ?? "")
-                values.append(tmdbData.rawLastAirDate ?? "")
+                if let firstAirDate = tmdbData.firstAirDate {
+                    values.append("\(firstAirDate)")
+                } else {
+                    values.append("")
+                }
+                if let lastAirDate = tmdbData.lastAirDate {
+                    values.append("\(lastAirDate)")
+                } else {
+                    values.append("")
+                }
                 values.append(convert(tmdbData.numberOfSeasons))
                 values.append(convert(tmdbData.isInProduction))
                 values.append(tmdbData.type?.rawValue ?? "")

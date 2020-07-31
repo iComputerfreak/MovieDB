@@ -185,10 +185,18 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
             // Image could not be loaded
             self.loadThumbnail()
         }
-        self.cast = try container.decode([CastMember].self, forKey: .cast)
-        self.keywords = try container.decode([String].self, forKey: .keywords)
-        self.translations = try container.decode([String].self, forKey: .translations)
-        self.videos = try container.decode([Video].self, forKey: .videos)
+        // Load credits.cast as self.cast
+        let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
+        self.cast = try creditsContainer.decode([CastMember].self, forKey: .cast)
+        // Load keywords.keywords as self.keywords
+        let keywordsContainer = try container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
+        self.keywords = try keywordsContainer.decode([String].self, forKey: .keywords)
+        // Load translations.translations as self.translations
+        let translationsContainer = try container.nestedContainer(keyedBy: TranslationsCodingKeys.self, forKey: .translations)
+        self.translations = try translationsContainer.decode([String].self, forKey: .translations)
+        // Load videos.results as self.videos
+        let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
+        self.videos = try videosContainer.decode([Video].self, forKey: .results)
     }
     
     /// Tries to encode the media object into the given encoder.
@@ -221,11 +229,18 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
                 print(e)
             }
         }
-        
-        try container.encode(self.cast, forKey: .cast)
-        try container.encode(self.keywords, forKey: .keywords)
-        try container.encode(self.translations, forKey: .translations)
-        try container.encode(self.videos, forKey: .videos)
+        // Encode self.cast as credits.cast
+        var creditsContainer = container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
+        try creditsContainer.encode(self.cast, forKey: .cast)
+        // Encode self.keywords as keywords.keywords
+        var keywordsContainer = container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
+        try keywordsContainer.encode(self.keywords, forKey: .keywords)
+        // Encode self.translations as translations.translations
+        var translationsContainer = container.nestedContainer(keyedBy: TranslationsCodingKeys.self, forKey: .translations)
+        try translationsContainer.encode(self.translations, forKey: .translations)
+        // Encode self.videos as videos.results
+        var videosContainer = container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
+        try videosContainer.encode(self.videos, forKey: .results)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -237,73 +252,32 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         case watchAgain
         case notes
         case thumbnail
-        case cast
+        case cast = "credits"
         case keywords
         case translations
         case videos
     }
     
-    static func == (lhs: Media, rhs: Media) -> Bool {
-        return lhs.isEqual(to: rhs)
+    private enum VideosCodingKeys: String, CodingKey {
+        case results
     }
     
-    func isEqual(to other: Media) -> Bool {
-        // Prevent (Superclass() == Subclass()) == true
-        // Using `Swift.type(to:)` to distinguish from property `self.type`
-        guard Swift.type(of: other) == Swift.type(of: self) else {
-            return false
-        }
-        // Case 1: tmdbData is of type TMDBMovieData
-        if let tmdbData = tmdbData as? TMDBMovieData {
-            // If other.tmdbData is of a different type, return
-            guard let movieData = other.tmdbData as? TMDBMovieData else {
-                return false
-            }
-            // If they are not equal, return
-            guard tmdbData == movieData else {
-                return false
-            }
-        }
-        // Case 2: tmdbData is of type TMDBShowData
-        if let tmdbData = tmdbData as? TMDBShowData {
-            // If other.tmdbData is of a different type, return
-            guard let showData = other.tmdbData as? TMDBShowData else {
-                return false
-            }
-            guard tmdbData == showData else {
-                return false
-            }
-        }
-        // Case 3: It is neither (impossible, because there are only those two structs, implementing the TMDBData protocol)
-        assert(Swift.type(of: tmdbData) == TMDBMovieData.self || Swift.type(of: tmdbData) == TMDBShowData.self, "There should only be two structs implementing the TMDBData protocol.")
-        
-        // At this point, we have made sure, that tmdbData == other.tmdbData
-        // Compare the other values:
-        return
-            id == other.id &&
-            type == other.type &&
-            personalRating == other.personalRating &&
-            tags == other.tags &&
-            watchAgain == other.watchAgain &&
-            notes == other.notes &&
-            thumbnail == other.thumbnail &&
-            cast == other.cast &&
-            keywords == other.keywords &&
-            translations == other.translations &&
-            videos == other.videos &&
-            year == other.year &&
-            missingInformation == other.missingInformation
+    private enum CreditsCodingKeys: String, CodingKey {
+        case cast
     }
     
+    private enum KeywordsCodingKeys: String, CodingKey {
+        case keywords
+    }
+    
+    private enum TranslationsCodingKeys: String, CodingKey {
+        case translations
+    }
+    
+    // MARK: - Hashable Conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        if let movieData = tmdbData as? TMDBMovieData {
-            hasher.combine(movieData)
-        } else if let showData = tmdbData as? TMDBShowData {
-            hasher.combine(showData)
-        } else {
-            assertionFailure("There should only be two structs implementing the TMDBData protocol.")
-        }
+        hasher.combine(tmdbData)
         hasher.combine(type)
         hasher.combine(personalRating)
         hasher.combine(tags)
