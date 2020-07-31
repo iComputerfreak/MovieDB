@@ -87,22 +87,13 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     
     @Published var thumbnail: UIImage? = nil
     
-    // MARK: Loaded from Wrappers
-    /// The list of cast members, that starred in the media
-    @Published var cast: [CastMember] = []
-    /// The list of keywords on TheMovieDB.org
-    @Published var keywords: [String] = []
-    /// The list of translations available for the media
-    @Published var translations: [String] = []
-    /// The list of videos available
-    @Published var videos: [Video] = []
-    
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
     
     /// The year of the release or first airing of the media
     var year: Int? {
-        let cal = Calendar.current
+        var cal = Calendar.current
+        cal.timeZone = .utc
         if let movieData = tmdbData as? TMDBMovieData, let releaseDate = movieData.releaseDate {
             return cal.component(.year, from: releaseDate)
         } else if let showData = tmdbData as? TMDBShowData, let airDate = showData.firstAirDate {
@@ -185,21 +176,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
             // Image could not be loaded
             self.loadThumbnail()
         }
-        
-        // TODO2: Move this into TMDBData!
-        
-        // Load credits.cast as self.cast
-        let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
-        self.cast = try creditsContainer.decode([CastMember].self, forKey: .cast)
-        // Load keywords.keywords as self.keywords
-        let keywordsContainer = try container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
-        self.keywords = try keywordsContainer.decode([String].self, forKey: .keywords)
-        // Load translations.translations as self.translations
-        let translationsContainer = try container.nestedContainer(keyedBy: TranslationsCodingKeys.self, forKey: .translations)
-        self.translations = try translationsContainer.decode([String].self, forKey: .translations)
-        // Load videos.results as self.videos
-        let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
-        self.videos = try videosContainer.decode([Video].self, forKey: .results)
     }
     
     /// Tries to encode the media object into the given encoder.
@@ -232,18 +208,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
                 print(e)
             }
         }
-        // Encode self.cast as credits.cast
-        var creditsContainer = container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
-        try creditsContainer.encode(self.cast, forKey: .cast)
-        // Encode self.keywords as keywords.keywords
-        var keywordsContainer = container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
-        try keywordsContainer.encode(self.keywords, forKey: .keywords)
-        // Encode self.translations as translations.translations
-        var translationsContainer = container.nestedContainer(keyedBy: TranslationsCodingKeys.self, forKey: .translations)
-        try translationsContainer.encode(self.translations, forKey: .translations)
-        // Encode self.videos as videos.results
-        var videosContainer = container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
-        try videosContainer.encode(self.videos, forKey: .results)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -255,26 +219,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         case watchAgain
         case notes
         case thumbnail
-        case cast = "credits"
-        case keywords
-        case translations
-        case videos
-    }
-    
-    private enum VideosCodingKeys: String, CodingKey {
-        case results
-    }
-    
-    private enum CreditsCodingKeys: String, CodingKey {
-        case cast
-    }
-    
-    private enum KeywordsCodingKeys: String, CodingKey {
-        case keywords
-    }
-    
-    private enum TranslationsCodingKeys: String, CodingKey {
-        case translations
     }
     
     // MARK: - Hashable Conformance
@@ -287,10 +231,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         hasher.combine(watchAgain)
         hasher.combine(notes)
         hasher.combine(thumbnail)
-        hasher.combine(cast)
-        hasher.combine(keywords)
-        hasher.combine(translations)
-        hasher.combine(videos)
         hasher.combine(year)
         hasher.combine(missingInformation)
     }

@@ -11,25 +11,25 @@ import UIKit
 
 class TMDBShowData: TMDBData {
     /// The date, the show was first aired
-    var firstAirDate: Date?
+    @Published var firstAirDate: Date?
     /// The date, the show was last aired
-    var lastAirDate: Date?
+    @Published var lastAirDate: Date?
     /// The number of seasons the show  has
-    var numberOfSeasons: Int?
+    @Published var numberOfSeasons: Int?
     /// The number of episodes, the show has
-    var numberOfEpisodes: Int
+    @Published var numberOfEpisodes: Int
     /// The runtime the episodes typically have
-    var episodeRuntime: [Int]
+    @Published var episodeRuntime: [Int]
     /// Whether the show is still in production
-    var isInProduction: Bool
+    @Published var isInProduction: Bool
     /// The list of seasons the show has
-    var seasons: [Season]
+    @Published var seasons: [Season]
     /// The type of the show (e.g. Scripted)
-    var type: ShowType?
+    @Published var type: ShowType?
     /// The list of networks that publish the show
-    var networks: [ProductionCompany]
+    @Published var networks: [ProductionCompany]
     
-    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, firstAirDate: Date?, lastAirDate: Date?, numberOfSeasons: Int?, numberOfEpisodes: Int, episodeRuntime: [Int], isInProduction: Bool, seasons: [Season], type: ShowType?, networks: [ProductionCompany]) {
+    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, firstAirDate: Date?, lastAirDate: Date?, numberOfSeasons: Int?, numberOfEpisodes: Int, episodeRuntime: [Int], isInProduction: Bool, seasons: [Season], type: ShowType?, networks: [ProductionCompany], cast: [CastMember], keywords: [String], translations: [String], videos: [Video]) {
         self.firstAirDate = firstAirDate
         self.lastAirDate = lastAirDate
         self.numberOfSeasons = numberOfSeasons
@@ -39,7 +39,7 @@ class TMDBShowData: TMDBData {
         self.seasons = seasons
         self.type = type
         self.networks = networks
-        super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount)
+        super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount, cast: cast, keywords: keywords, translations: translations, videos: videos)
     }
     
     required init(from decoder: Decoder) throws {

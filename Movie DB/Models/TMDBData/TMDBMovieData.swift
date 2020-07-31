@@ -11,28 +11,28 @@ import Foundation
 class TMDBMovieData: TMDBData {
 
     /// The date, the movie was released
-    var releaseDate: Date?
+    @Published var releaseDate: Date?
     /// Runtime in minutes
-    var runtime: Int?
+    @Published var runtime: Int?
     /// The production budget in dollars
-    var budget: Int
+    @Published var budget: Int
     /// The revenue in dollars
-    var revenue: Int
+    @Published var revenue: Int
     /// The tagline of the movie
-    var tagline: String?
+    @Published var tagline: String?
     /// Whether the movie is an adult movie
-    var isAdult: Bool
+    @Published var isAdult: Bool
     /// The id of the media on IMDB.com
-    var imdbID: String?
+    @Published var imdbID: String?
     
-    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, releaseDate: Date?, runtime: Int?, budget: Int, revenue: Int, tagline: String?, isAdult: Bool) {
+    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, releaseDate: Date?, runtime: Int?, budget: Int, revenue: Int, tagline: String?, isAdult: Bool, cast: [CastMember], keywords: [String], translations: [String], videos: [Video]) {
         self.releaseDate = releaseDate
         self.runtime = runtime
         self.budget = budget
         self.revenue = revenue
         self.tagline = tagline
         self.isAdult = isAdult
-        super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount)
+        super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount, cast: cast, keywords: keywords, translations: translations, videos: videos)
     }
     
     // MARK: - Codable Conformance

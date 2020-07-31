@@ -27,10 +27,6 @@ extension Media: Equatable {
             watchAgain == other.watchAgain &&
             notes == other.notes &&
             thumbnail == other.thumbnail &&
-            cast == other.cast &&
-            keywords == other.keywords &&
-            translations == other.translations &&
-            videos == other.videos &&
             year == other.year &&
             missingInformation == other.missingInformation &&
             tmdbData == other.tmdbData

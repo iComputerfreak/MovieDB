@@ -23,18 +23,19 @@ struct LibraryHome : View {
         // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ media in
-                if media.tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
+                let tmdbData = media.tmdbData
+                if tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
                     return true
                 }
-                if media.tmdbData?.originalTitle.contains(self.searchText) ?? false {
-                    return true
-                }
-                // Partial matches
-                if media.keywords.contains(where: { $0.contains(self.searchText) }) {
+                if tmdbData?.originalTitle.contains(self.searchText) ?? false {
                     return true
                 }
                 // Partial matches
-                if media.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) {
+                if tmdbData?.keywords.contains(where: { $0.contains(self.searchText) }) ?? false {
+                    return true
+                }
+                // Partial matches
+                if tmdbData?.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) ?? false {
                     return true
                 }
                 if media.notes.contains(self.searchText) {

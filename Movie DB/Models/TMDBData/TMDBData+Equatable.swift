@@ -32,7 +32,11 @@ extension TMDBData: Equatable {
             homepageURL == other.homepageURL &&
             popularity == other.popularity &&
             voteAverage == other.voteAverage &&
-            voteCount == other.voteCount
+            voteCount == other.voteCount &&
+            cast == other.cast &&
+            keywords == other.keywords &&
+            translations == other.translations &&
+            videos == other.videos
     }
 }
 

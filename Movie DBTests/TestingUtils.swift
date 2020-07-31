@@ -12,7 +12,7 @@ struct TestingUtils {
     static func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
         let data: Data
         
-        guard let file = Bundle(for: Movie_DBTests.self).url(forResource: filename, withExtension: nil)
+        guard let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
             else {
                 fatalError("Couldn't find \(filename) in main bundle.")
         }

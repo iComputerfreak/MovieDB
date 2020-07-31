@@ -105,3 +105,22 @@ extension KeyedDecodingContainer {
         throw DecodingError.keyNotFound(keys.first!, context)
     }
 }
+
+extension UnkeyedDecodingContainer {
+    /// Tries to decode an array
+    ///
+    /// - Parameters:
+    ///   - type: The type of the value to decode
+    /// - Returns: The array of values associated with this unkeyed container
+    /// - Throws: `DecodingError.typeMismatch` if the encountered encoded value
+    ///   is not convertible to the requested type.
+    public mutating func decodeArray<T>(_ type: T.Type) throws -> [T] where T: Decodable {
+        var returnValues = [T]()
+        
+        while !self.isAtEnd {
+            returnValues.append(try self.decode(T.self))
+        }
+        
+        return returnValues
+    }
+}

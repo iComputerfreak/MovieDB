@@ -64,7 +64,7 @@ struct BasicInfo: View {
                     }
                 }
                 // Cast
-                if !mediaObject.cast.isEmpty {
+                if !(mediaObject.tmdbData?.cast.isEmpty ?? true) {
                     NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
                         Text("Cast")
                     }
