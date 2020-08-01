@@ -9,6 +9,8 @@
 // Fix in experimental, before merging:
 /*
  TODO: Change initializer and coding of Season from rawAirDate to airDate
+ TODO: Re-write CSV Im-/Export
+ TODO: Create Tag Export
  */
 
 

@@ -12,11 +12,11 @@ import Foundation
 struct CastMember: Codable, Hashable, Identifiable {
     let id: Int
     /// The name of the actor
-    var name: String
+    let name: String
     /// The name of the actor in the media
-    var roleName: String
+    let roleName: String
     /// The path to an image of the actor on TMDB
-    var imagePath: String?
+    let imagePath: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -29,19 +29,19 @@ struct CastMember: Codable, Hashable, Identifiable {
 /// Represents a video on some external site
 struct Video: Codable, Hashable {
     /// The video key
-    var key: String
+    let key: String
     /// The name of the video
-    var name: String
+    let name: String
     /// The site where the video was uploaded to
-    var site: String
+    let site: String
     /// The type of video (e.g. Trailer)
-    var type: String
+    let type: String
     /// The resolution of the video
-    var resolution: Int
+    let resolution: Int
     /// The ISO-639-1 language code  (e.g. 'en')
-    var language: String
+    let language: String
     /// The ISO-3166-1 region code (e.g. 'US')
-    var region: String
+    let region: String
     
     enum CodingKeys: String, CodingKey {
         case key
@@ -57,21 +57,21 @@ struct Video: Codable, Hashable {
 /// Represents a Media genre
 struct Genre: Codable, Equatable, Hashable {
     /// The ID of the genre on TMDB
-    var id: Int
+    let id: Int
     /// The name of the genre
-    var name: String
+    let name: String
 }
 
 /// Represents a production company
 struct ProductionCompany: Codable, Hashable {
     /// The ID of the production company on TMDB
-    var id: Int
+    let id: Int
     /// The name of the production company
-    var name: String
+    let name: String
     /// The path to the logo on TMDB
-    var logoPath: String?
+    let logoPath: String?
     /// The country of origin of the production company
-    var originCountry: String
+    let originCountry: String
     
     enum CodingKeys: String, CodingKey {
         case id

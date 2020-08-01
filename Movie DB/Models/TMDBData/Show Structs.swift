@@ -11,19 +11,19 @@ import Foundation
 /// Represents a season of a show
 struct Season: Codable, Hashable, Identifiable {
     /// The id of the season on TMDB
-    var id: Int
+    let id: Int
     /// The number of the season
-    var seasonNumber: Int
+    let seasonNumber: Int
     /// The number of episodes, this season has
-    var episodeCount: Int
+    let episodeCount: Int
     /// The name of the season
-    var name: String
+    let name: String
     /// A short description of the season
-    var overview: String?
+    let overview: String?
     /// A path to the poster image of the season on TMDB
-    var imagePath: String?
+    let imagePath: String?
     /// The date when the season aired
-    var rawAirDate: String?
+    private let rawAirDate: String?
     /// The date, the season aired
     var airDate: Date? { rawAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawAirDate!) }
     
