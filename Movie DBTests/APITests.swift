@@ -11,6 +11,21 @@ import XCTest
 
 class APITests: XCTestCase {
     
+    let api = TMDBAPI.shared
+    
+    let matrix: TMDBMovieData = TestingUtils.load("Matrix.json")
+    let fightClub: TMDBMovieData = TestingUtils.load("FightClub.json")
+    let blacklist: TMDBShowData = TestingUtils.load("Blacklist.json")
+    let gameOfThrones: TMDBShowData = TestingUtils.load("GameOfThrones.json")
+    
+    let emptyMedia = Movie()
+    let brokenMedia: Movie = {
+        let movie = Movie()
+        movie.tmdbData = TestingUtils.load("Matrix.json")
+        movie.tmdbData?.id = -1
+        return movie
+    }()
+    
     override func setUp() {
         
     }
@@ -19,35 +34,62 @@ class APITests: XCTestCase {
         
     }
     
-    func testAPI() {
-        let api = TMDBAPI.shared
-        var expectations = [XCTestExpectation]()
-        var genres = Set<Genre>()
+    func testAPISuccess() {
+        let mediaObjects = [
+            DummyMedia(tmdbID: 550, type: .movie, title: "Fight Club"),
+            DummyMedia(tmdbID: 603, type: .movie, title: "The Matrix"),
+            DummyMedia(tmdbID: 1399, type: .show, title: "Game of Thrones"),
+            DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist")
+        ]
         
-        for type in [MediaType.show, MediaType.movie] {
-            for id in stride(from: 0, to: 10000, by: 200) {
-                let expectation = XCTestExpectation(description: "Get genres of ID \(id)")
-                expectations.append(expectation)
-                /*api.fetchMedia(id: id, type: type) { (data) in
-                    guard let myGenres = data?.genres else {
-                        print("No data for ID \(id)")
-                        return
-                    }
-                    let newGenres = Set(myGenres).subtracting(genres)
-                    if !newGenres.isEmpty {
-                        for genre in newGenres {
-                            print("New Genre: \(genre.name) (\(genre.id))")
-                        }
-                    }
-                    genres = genres.union(myGenres)
-                    expectation.fulfill()
-                }*/
-                sleep(1)
-            }
-            print("Finished loading genres for \(type.rawValue)")
+        for dummy in mediaObjects {
+            let result = api.fetchMedia(id: dummy.tmdbID, type: dummy.type)
+            assertMediaMatches(result, dummy)
+            
+            // Modify the title to check, if the update function correctly restores it
+            result?.tmdbData?.title = "None"
+            let promise = XCTestExpectation()
+            XCTAssertTrue(api.updateMedia(result!, completion: { promise.fulfill() }))
+            wait(for: [promise], timeout: 5)
+            assertMediaMatches(result, dummy)
         }
-        
-        wait(for: expectations, timeout: 60000)
-        print("Finished loading all Genres")
     }
+    
+    func testAPIFailure() {
+        XCTAssertNil(api.fetchMedia(id: -1, type: .movie))
+        XCTAssertFalse(api.updateMedia(emptyMedia))
+        XCTAssertFalse(api.updateMedia(brokenMedia))
+    }
+    
+    func testSearch() {
+        var promise = XCTestExpectation()
+        api.searchMedia("matrix", includeAdult: true) { results in
+            XCTAssertGreaterThan(results.count, 0)
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+        
+        
+        promise = XCTestExpectation()
+        api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults") { (results) in
+            XCTAssertEqual(results.count, 0)
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+    }
+}
+
+struct DummyMedia {
+    var tmdbID: Int
+    var type: MediaType
+    var title: String
+    
+    static let broken = DummyMedia(tmdbID: -1, type: .movie, title: "")
+}
+
+func assertMediaMatches(_ media: Media?, _ dummy: DummyMedia) {
+    XCTAssertNotNil(media)
+    XCTAssertNotNil(media?.tmdbData)
+    XCTAssertEqual(media?.tmdbData?.id, dummy.tmdbID)
+    XCTAssertEqual(media?.tmdbData?.title, dummy.title)
 }

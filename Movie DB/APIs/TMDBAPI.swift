@@ -140,7 +140,7 @@ class TMDBAPI {
     /// - Parameters:
     ///   - id: The id of the media to fetch
     ///   - type: The type of media
-    func fetchMedia(id: Int, type: MediaType, completion: @escaping () -> Void = {}) -> Media? {
+    func fetchMedia(id: Int, type: MediaType) -> Media? {
         // Get the TMDB Data
         guard let tmdbData = self.fetchTMDBData(for: id, type: type) else {
             print("Error getting TMDB Data for \(type.rawValue) \(id)")
@@ -167,7 +167,7 @@ class TMDBAPI {
     /// 
     /// - Parameter media: The media object to update
     /// - Returns: Whether the update was successful
-    func updateMedia(_ media: Media) -> Bool {
+    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) -> Bool {
         guard let id = media.tmdbData?.id else {
             // No idea what TMDB ID should be
             print("Error updating media \(media.id). No TMDB Data set.")
@@ -183,6 +183,7 @@ class TMDBAPI {
             media.tmdbData = tmdbData
             // Redownload the thumbnail (it may have been updated)
             media.loadThumbnail(force: true)
+            completion()
         }
         return true
     }
