@@ -55,11 +55,37 @@ struct Video: Codable, Hashable {
 }
 
 /// Represents a Media genre
-struct Genre: Codable, Equatable, Hashable {
+struct Genre: Codable, Equatable, Hashable, LosslessStringConvertible {
     /// The ID of the genre on TMDB
     let id: Int
     /// The name of the genre
     let name: String
+    
+    init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+    }
+    
+    // MARK: - LosslessStringConvertible Conformance
+    
+    var description: String {
+        return "\(name)(\(id))"
+    }
+    
+    init?(_ description: String) {
+        guard description.hasSuffix(")") else {
+            return nil
+        }
+        let components = description.components(separatedBy: "(")
+        guard components.count == 2 else {
+            return nil
+        }
+        self.name = components.first!
+        guard let id = Int(components.last!) else {
+            return nil
+        }
+        self.id = id
+    }
 }
 
 /// Represents a production company

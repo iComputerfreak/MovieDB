@@ -8,48 +8,7 @@
 
 import Foundation
 
-fileprivate enum CodingKeys: String {
-    case id
-    case type
-    case personalRating
-    case tags
-    case watchAgain
-    case notes
-    
-    case tmdbID
-    case title
-    case originalTitle
-    case genres
-    case overview
-    case status
-    // Movie only
-    case watched
-    case releaseDate
-    case runtime
-    case budget
-    case revenue
-    case isAdult
-    // Show only
-    case lastEpisodeWatched
-    case firstAirDate
-    case lastAirDate
-    case numberOfSeasons
-    case isInProduction
-    case showType
-}
-
-fileprivate let arraySeparator: Character = ","
-fileprivate let separator: Character = ";"
-fileprivate let delimiter: Character = "\n"
-
-fileprivate let headers: [CodingKeys] = [
-    .id, .tmdbID, .type, .title, .personalRating, .watchAgain, .tags, .notes, .originalTitle, .genres, .overview, .status, // Common
-    .watched, .releaseDate, .runtime, .budget, .revenue, .isAdult, // Movie exclusive
-    .lastEpisodeWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
-]
-fileprivate var header: String { headers.map(\.rawValue).joined(separator: String(separator)) }
-
-struct CSVEncoder {
+/*struct LegacyCSVEncoder {
     
     // TODO: We should probably use a dictionary instead of a array here. (Use CodingKeys enum as keys and maybe use Codable)
     func encode(_ mediaObjects: [Media]) -> String {
@@ -160,7 +119,7 @@ struct CSVEncoder {
     
 }
 
-struct CSVDecoder {
+struct LegacyCSVDecoder {
     
     func decode(_ csv: String) -> [Media] {
         var mediaObjects: [Media] = []
@@ -280,3 +239,4 @@ struct CSVDecoder {
     }
     
 }
+*/

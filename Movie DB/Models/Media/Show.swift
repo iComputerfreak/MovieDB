@@ -11,9 +11,46 @@ import UIKit
 
 class Show: Media {
     
-    struct EpisodeNumber: Codable, Hashable {
+    struct EpisodeNumber: Codable, Hashable, LosslessStringConvertible {
+        
         var season: Int
         var episode: Int?
+        
+        init(season: Int, episode: Int? = nil) {
+            self.season = season
+            self.episode = episode
+        }
+        
+        // MARK: - LosslessStringConvertible Conformance
+        
+        var description: String { episode == nil ? "\(season)" : "\(season)/\(episode!)" }
+        
+        /// Instantiates an instance of the conforming type from a string
+        /// representation.
+        init?(_ description: String) {
+            let parts = description.components(separatedBy: "/")
+            guard parts.count == 1 || parts.count == 2 else {
+                // Too few/many parts
+                return nil
+            }
+            guard let season = Int(parts.first!) else {
+                // Season is not a number
+                return nil
+            }
+            self.season = season
+            
+            if parts.count == 2 {
+                guard let episode = Int(parts.last!) else {
+                    // Episode is not a number
+                    return nil
+                }
+                self.episode = episode
+            } else {
+                self.episode = nil
+            }
+        }
+        
+        
     }
     
     /// The season and episode number of the episode, the user has watched most recently
