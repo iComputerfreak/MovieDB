@@ -45,7 +45,9 @@ struct TestingUtils {
         m.notes = ""
         m.watched = true
         m.watchAgain = false
-        m.tmdbData = load("Matrix.json")
+        // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
+        let movieData: TMDBMovieData = load("Matrix.json")
+        m.tmdbData = movieData
         return m
     }()
     
@@ -62,7 +64,9 @@ struct TestingUtils {
         m.notes = "Never watched it..."
         m.watched = false
         m.watchAgain = nil
-        m.tmdbData = load("FightClub.json")
+        // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
+        let movieData: TMDBMovieData = load("FightClub.json")
+        m.tmdbData = movieData
         return m
     }()
     
@@ -79,7 +83,9 @@ struct TestingUtils {
         s.notes = "A masterpiece!"
         s.lastEpisodeWatched = .init(season: 7, episode: nil)
         s.watchAgain = true
-        s.tmdbData = load("Blacklist.json")
+        // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
+        let showData: TMDBShowData = load("Blacklist.json")
+        s.tmdbData = showData
         return s
     }()
     
@@ -96,7 +102,9 @@ struct TestingUtils {
         s.notes = "Bad ending"
         s.lastEpisodeWatched = .init(season: 8, episode: 3)
         s.watchAgain = false
-        s.tmdbData = load("GameOfThrones.json")
+        // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
+        let showData: TMDBShowData = load("GameOfThrones.json")
+        s.tmdbData = showData
         return s
     }()
     

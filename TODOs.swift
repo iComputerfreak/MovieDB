@@ -8,9 +8,8 @@
 
 // Fix in experimental, before merging:
 /*
- TODO: Change initializer and coding of Season from rawAirDate to airDate
- TODO: Re-write CSV Im-/Export
  TODO: Create Tag Export
+ TODO: Re-write API to use proper errors instead of nil-data
  */
 
 
@@ -20,6 +19,7 @@
  TODO: Create an option to export the tags
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
  TODO: Reduce thumbnail file size and only load the full image when accessing it in Detail (currently using 1.4 MB of RAM per image)
+ TODO: Go through the code and look at every try? and think about, if we really want to ignore that error
  */
 
 // Future:
@@ -38,7 +38,6 @@
  TODO: Show if new episodes are available for series you watched (only works if I can get the Netflix, Prime, Sky, ... data)
  TODO: Add the option to favorite some movies/shows
  TOOD: Add the option to reset collection IDs, so every show and movie gets a fresh ID starting at 0 in alphabetical order
- TODO: Should probably write some unit tests
  TODO: Maybe decode created_by of shows to show the show creators in the details
  */
 

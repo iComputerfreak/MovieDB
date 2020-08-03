@@ -30,19 +30,6 @@ class TMDBShowSearchResult: TMDBSearchResult {
         try super.init(from: decoder)
     }
     
-    override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        var rawFirstAirDate: String? = nil
-        if let firstAirDate = firstAirDate {
-            rawFirstAirDate = JFUtils.tmdbDateFormatter.string(from: firstAirDate)
-        }
-        
-        try container.encode(rawFirstAirDate, forKey: .rawFirstAirDate)
-        
-    }
-    
     enum CodingKeys: String, CodingKey {
         case rawFirstAirDate = "first_air_date"
     }

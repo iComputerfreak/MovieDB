@@ -35,20 +35,6 @@ class TMDBMovieSearchResult: TMDBSearchResult {
         try super.init(from: decoder)
     }
     
-    override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        var rawReleaseDate: String? = nil
-        if let releaseDate = releaseDate {
-            rawReleaseDate = JFUtils.tmdbDateFormatter.string(from: releaseDate)
-        }
-        
-        try container.encode(isAdult, forKey: .isAdult)
-        try container.encode(rawReleaseDate, forKey: .rawReleaseDate)
-        
-    }
-    
     enum CodingKeys: String, CodingKey {
         case isAdult = "adult"
         case rawReleaseDate = "release_date"

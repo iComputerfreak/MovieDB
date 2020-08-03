@@ -151,7 +151,7 @@ struct CSVData {
         self.arraySeparator = arraySeparator
     }
     
-    func createCSV() -> [String: String] {
+    func createCSVValues() -> [String: String] {
         var encoder = CSVEncoder(arraySeparator: arraySeparator)
         
         encoder.encode(id, forKey: .id)

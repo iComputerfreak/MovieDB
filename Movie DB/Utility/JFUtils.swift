@@ -32,20 +32,7 @@ struct JFUtils {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
-    
-    /// Converts a string from the TMDB response into a `Date`
-    /// - Parameter string: The date-string from TMDB
-    static func dateFromTMDBString(_ string: String) -> Date? {
-        return tmdbDateFormatter.date(from: string)
-    }
-    
-    /// Returns the year component of the given date
-    /// - Parameter date: The date
-    static func yearOfDate(_ date: Date) -> Int {
-        let cal = Calendar.current
-        return cal.component(.year, from: date)
-    }
-    
+        
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler.
     /// - Parameters:

@@ -73,8 +73,10 @@ struct CSVCoder {
         for media in mediaObjects {
             let data = try CSVData(from: media, dateFormatter: dateFormatter, arraySeparator: arraySeparator)
             // Export CSVData as String
-            let line = data.createCSV().values.joined(separator: separator)
-            lines.append(line)
+            let values = data.createCSVValues()
+            // Map the headers to their value
+            let csv = headers.map({ values[$0] ?? "" }).joined(separator: separator)
+            lines.append(csv)
         }
         
         return lines.joined(separator: delimiter)

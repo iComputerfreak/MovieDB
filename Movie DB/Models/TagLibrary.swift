@@ -52,6 +52,7 @@ class TagLibrary: ObservableObject {
     }
     
     // Creates a new tag and adds it to the library, returns its ID
+    @discardableResult
     func create(name: String) -> Int {
         var nextID = TagLibrary.nextID
         // Make sure the ID doesn't exist yet (could be possible after a crash)

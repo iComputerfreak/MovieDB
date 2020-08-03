@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class TMDBSearchResult: Codable, Identifiable {
+class TMDBSearchResult: Decodable, Identifiable {
     // Basic Data
     /// The TMDB ID of the media
     var id: Int
@@ -49,13 +49,31 @@ class TMDBSearchResult: Codable, Identifiable {
         self.voteCount = voteCount
     }
     
+    // MARK: - Codable Conformance
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
+        self.mediaType = try container.decode(MediaType.self, forKey: .mediaType)
+        self.imagePath = try container.decode(String?.self, forKey: .imagePath)
+        self.overview = try container.decode(String?.self, forKey: .overview)
+        self.originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
+        self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
+        self.popularity = try container.decode(Float.self, forKey: .popularity)
+        self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
+        self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case title
+        case showTitle = "name"
         case mediaType = "media_type"
         case imagePath = "poster_path"
         case overview
         case originalTitle = "original_title"
+        case originalShowTitle = "original_name"
         case originalLanguage = "original_language"
         case popularity
         case voteAverage = "vote_average"

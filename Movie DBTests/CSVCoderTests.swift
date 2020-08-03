@@ -129,8 +129,106 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.watched, true)
     }
     
-    func testEncode() {
+    func testEncode() throws {
         // TODO: Use TestingUtils.mediaSamples and check the result CSV for all values!!!
+        let csv = try csvCoder.encode(TestingUtils.mediaSamples)
+        let lines = csv.components(separatedBy: csvCoder.delimiter)
+        // We should get an extra line for the header
+        XCTAssertEqual(lines.count, TestingUtils.mediaSamples.count + 1)
+        
+        // MARK: Header
+        let csvHeaders = lines.first!.components(separatedBy: csvCoder.separator)
+        XCTAssertEqual(csvHeaders.count, csvCoder.headers.count)
+        for i in 0..<csvCoder.headers.count {
+            let header = csvCoder.headers[i]
+            let csvHeader = csvHeaders[i]
+            XCTAssertEqual(header.rawValue, csvHeader)
+        }
+        
+        // Map the values to their headers to make a dictionary
+        let components: [[String]] = lines.dropFirst().map({ $0.components(separatedBy: csvCoder.separator) })
+        var dictionaries: [[CSVCodingKey: String]] = []
+        for line in components {
+            XCTAssertEqual(line.count, csvCoder.headers.count)
+            let pairs = (0..<csvCoder.headers.count).map { i -> (CSVCodingKey, String) in
+                let header = csvCoder.headers[i]
+                let value = line[i]
+                return (header, value)
+            }
+            dictionaries.append(Dictionary(uniqueKeysWithValues: pairs))
+        }
+        
+        // Test all sample media objects
+        // We start at index 1, to exclude the header
+        for i in 0..<TestingUtils.mediaSamples.count {
+            try testEncodedMedia(dictionaries[i], encodedMedia: TestingUtils.mediaSamples[i])
+        }
+    }
+    
+    // TODO: when de-/encoding, check, if the notes contain separator or arraySeparator
+    // TODO: Make delimiter read-only and name it lineSeparator or something like that
+    
+    private func testEncodedMedia(_ data: [CSVCodingKey: String], encodedMedia media: Media) throws {
+        // data[key] never returns nil, since every value is read from CSV and nil-values in CSV are empty strings
+        // If data[key] returns nil, that means, that the CSV value was never read/written and therefore is a bug in the CSVCoder!
+        XCTAssertEqual(data[.id], media.id.description)
+        XCTAssertEqual(data[.type], media.type.rawValue)
+        XCTAssertEqual(data[.personalRating], media.personalRating.rawValue.description)
+        let tagNames = try media.tags.map({ try XCTUnwrap(TagLibrary.shared.name(for: $0)) })
+        XCTAssertEqual(data[.tags], tagNames.joined(separator: csvCoder.arraySeparator))
+        // data[key] always returns a string, so we have to map the boolean to its csv-representation (nil == "")
+        XCTAssertEqual(data[.watchAgain], media.watchAgain?.description ?? "")
+        XCTAssertEqual(data[.notes], media.notes)
+        
+        XCTAssertEqual(data[.tmdbID], media.tmdbData?.id.description ?? "")
+        XCTAssertEqual(data[.title], media.tmdbData?.title ?? "")
+        XCTAssertEqual(data[.originalTitle], media.tmdbData?.originalTitle ?? "")
+        let genreNames = media.tmdbData?.genres.map(\.name)
+        XCTAssertEqual(data[.genres], genreNames?.joined(separator: csvCoder.arraySeparator) ?? "")
+        XCTAssertEqual(data[.overview], media.tmdbData?.overview ?? "")
+        XCTAssertEqual(data[.status], media.tmdbData?.status.rawValue ?? "")
+        
+        // Movie exclusive
+        let movie = media as? Movie
+        let tmdbMovieData = media.tmdbData as? TMDBMovieData
+        if movie == nil {
+            XCTAssertNil(tmdbMovieData)
+        } else {
+            XCTAssertNotNil(tmdbMovieData)
+        }
+        XCTAssertEqual(data[.watched], movie?.watched?.description ?? "")
+        if let releaseDate = tmdbMovieData?.releaseDate {
+            XCTAssertEqual(data[.releaseDate], csvCoder.dateFormatter.string(from: releaseDate))
+        } else {
+            XCTAssertEqual(data[.releaseDate], "")
+        }
+        XCTAssertEqual(data[.runtime], tmdbMovieData?.runtime?.description ?? "")
+        XCTAssertEqual(data[.budget], tmdbMovieData?.budget.description ?? "")
+        XCTAssertEqual(data[.revenue], tmdbMovieData?.revenue.description ?? "")
+        XCTAssertEqual(data[.isAdult], tmdbMovieData?.isAdult.description ?? "")
+        
+        // Show exclusive
+        let show = media as? Show
+        let tmdbShowData = media.tmdbData as? TMDBShowData
+        if show == nil {
+            XCTAssertNil(tmdbShowData)
+        } else {
+            XCTAssertNotNil(tmdbShowData)
+        }
+        XCTAssertEqual(data[.lastEpisodeWatched], show?.lastEpisodeWatched?.description ?? "")
+        if let firstAirDate = tmdbShowData?.firstAirDate {
+            XCTAssertEqual(data[.firstAirDate], csvCoder.dateFormatter.string(from: firstAirDate))
+        } else {
+            XCTAssertEqual(data[.firstAirDate], "")
+        }
+        if let lastAirDate = tmdbShowData?.lastAirDate {
+            XCTAssertEqual(data[.lastAirDate], csvCoder.dateFormatter.string(from: lastAirDate))
+        } else {
+            XCTAssertEqual(data[.lastAirDate], "")
+        }
+        XCTAssertEqual(data[.numberOfSeasons], tmdbShowData?.numberOfSeasons?.description ?? "")
+        XCTAssertEqual(data[.isInProduction], tmdbShowData?.isInProduction.description ?? "")
+        XCTAssertEqual(data[.showType], tmdbShowData?.type?.rawValue ?? "")
     }
 
 }

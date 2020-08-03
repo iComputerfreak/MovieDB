@@ -64,6 +64,7 @@ class TMDBAPI {
                 completion([])
                 return
             }
+            // TODO: We should throw that error here
             guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
                 print("Error decoding first page of multi page request.")
                 completion([])
