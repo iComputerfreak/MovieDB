@@ -12,7 +12,7 @@ struct CSVDecoder {
     
     enum CSVDecodingError: Error {
         case typeMismatch(CSVCodingKey)
-        case valueNotFound(CSVCodingKey)
+        case keyNotFound(CSVCodingKey)
         case dataCorrupted
     }
     
@@ -70,7 +70,7 @@ struct CSVDecoder {
     
     private func decode<T>(_ type: T.Type, forKey key: CSVCodingKey, with initializer: (String) -> T?) throws -> T {
         guard let stringValue = data[key] else {
-            throw CSVDecodingError.valueNotFound(key)
+            throw CSVDecodingError.keyNotFound(key)
         }
         guard let value = initializer(stringValue) else {
             throw CSVDecodingError.typeMismatch(key)
@@ -79,8 +79,9 @@ struct CSVDecoder {
     }
     
     private func decodeOptional<T>(_ type: T?.Type, forKey key: CSVCodingKey, with initializer: (String) -> T?) throws -> T? {
-        guard let stringValue = data[key] else {
-            // If the value does not exist, we return nil
+        // Empty string is the same as nil value in CSV
+        guard let stringValue = data[key], !stringValue.isEmpty else {
+            // If the value does not exist or is nil/empty, we return nil
             return nil
         }
         guard let value = initializer(stringValue) else {
@@ -92,7 +93,11 @@ struct CSVDecoder {
     
     private func decodeArray<T>(_ type: [T].Type, forKey key: CSVCodingKey, with initializer: (String) -> T?) throws -> [T] {
         guard let stringValue = data[key] else {
-            throw CSVDecodingError.valueNotFound(key)
+            throw CSVDecodingError.keyNotFound(key)
+        }
+        // An empty string value is an empty array
+        guard !stringValue.isEmpty else {
+            return []
         }
         let array = stringValue.components(separatedBy: arraySeparator)
         var returnArray: [T] = []

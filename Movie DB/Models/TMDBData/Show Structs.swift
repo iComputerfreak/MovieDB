@@ -27,6 +27,16 @@ struct Season: Codable, Hashable, Identifiable {
     /// The date, the season aired
     var airDate: Date? { rawAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawAirDate!) }
     
+    init(id: Int, seasonNumber: Int, episodeCount: Int, name: String, overview: String?, imagePath: String?, rawAirDate: String?) {
+        self.id = id
+        self.seasonNumber = seasonNumber
+        self.episodeCount = episodeCount
+        self.name = name
+        self.overview = overview
+        self.imagePath = imagePath
+        self.rawAirDate = rawAirDate
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case seasonNumber = "season_number"

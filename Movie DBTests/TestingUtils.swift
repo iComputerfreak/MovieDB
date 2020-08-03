@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import Movie_DB
 
 struct TestingUtils {
     static func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
@@ -30,6 +31,76 @@ struct TestingUtils {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
+    
+    static let matrixMovie: Movie = {
+        let m = Movie()
+        m.personalRating = .twoAndAHalfStars
+        m.tags = ["Future", "Conspiracy", "Dark"].compactMap({ name in
+            if TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                return TagLibrary.shared.tags.first(where: { $0.name == name })?.id
+            } else {
+                return TagLibrary.shared.create(name: name)
+            }
+        })
+        m.notes = ""
+        m.watched = true
+        m.watchAgain = false
+        m.tmdbData = load("Matrix.json")
+        return m
+    }()
+    
+    static let fightClubMovie: Movie = {
+        let m = Movie()
+        m.personalRating = .noRating
+        m.tags = ["Dark", "Violent"].compactMap({ name in
+            if TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                return TagLibrary.shared.tags.first(where: { $0.name == name })?.id
+            } else {
+                return TagLibrary.shared.create(name: name)
+            }
+        })
+        m.notes = "Never watched it..."
+        m.watched = false
+        m.watchAgain = nil
+        m.tmdbData = load("FightClub.json")
+        return m
+    }()
+    
+    static let blacklistShow: Show = {
+        let s = Show()
+        s.personalRating = .fiveStars
+        s.tags = ["Gangsters", "Conspiracy", "Terrorist"].compactMap({ name in
+            if TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                return TagLibrary.shared.tags.first(where: { $0.name == name })?.id
+            } else {
+                return TagLibrary.shared.create(name: name)
+            }
+        })
+        s.notes = "A masterpiece!"
+        s.lastEpisodeWatched = .init(season: 7, episode: nil)
+        s.watchAgain = true
+        s.tmdbData = load("Blacklist.json")
+        return s
+    }()
+    
+    static let gameOfThronesShow: Show = {
+        let s = Show()
+        s.personalRating = .twoAndAHalfStars
+        s.tags = ["Past", "Fantasy"].compactMap({ name in
+            if TagLibrary.shared.tags.contains(where: { $0.name == name }) {
+                return TagLibrary.shared.tags.first(where: { $0.name == name })?.id
+            } else {
+                return TagLibrary.shared.create(name: name)
+            }
+        })
+        s.notes = "Bad ending"
+        s.lastEpisodeWatched = .init(season: 8, episode: 3)
+        s.watchAgain = false
+        s.tmdbData = load("GameOfThrones.json")
+        return s
+    }()
+    
+    static let mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
 }
 
 // MARK: - Global Testing Utilities

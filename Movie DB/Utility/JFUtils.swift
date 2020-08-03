@@ -14,6 +14,11 @@ extension TimeZone {
     static let utc = TimeZone(secondsFromGMT: 0)!
 }
 
+/// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
+func undefined<T>(_ message: String = "") -> T {
+    fatalError(message)
+}
+
 struct JFUtils {
     
     static let wordsIgnoredForSorting = [

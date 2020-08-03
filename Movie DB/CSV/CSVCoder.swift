@@ -48,10 +48,10 @@ struct CSVCoder {
         })
         
         for line in lines {
-            let lineParts = line.components(separatedBy: arraySeparator)
+            let lineParts = line.components(separatedBy: separator)
             guard headers.count == lineParts.count else {
                 // Not enough or too many values in this line
-                throw CSVCoderError.dataCorrupted(line)
+                throw CSVCoderError.dataCorrupted("Header count: \(headers.count), Value count: \(lineParts.count), Line: \(line)")
             }
             let valuePairs = (0..<headers.count).map({ (headers[$0].rawValue, lineParts[$0]) })
             let values = Dictionary(uniqueKeysWithValues: valuePairs)

@@ -85,19 +85,37 @@ struct CSVData {
     
     /// Creates a new CSVData object from the given set of string values
     init(from data: [String: String], dateFormatter: DateFormatter, arraySeparator: String) throws {
+        // TODO: We decode the whole CSV here, although we only use a part of it (personal data and tmdbID)
         let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
         
         self.id = try decoder.decode(Int.self, forKey: .id)
         self.type = try decoder.decode(MediaType.self, forKey: .type)
         self.personalRating = try decoder.decode(StarRating.self, forKey: .personalRating)
-        self.tags = try decoder.decode([Int].self, forKey: .tags)
+        
+        let tagNames = try decoder.decode([String].self, forKey: .tags)
+        var tagIDs = [Int]()
+        for name in tagNames {
+            if let id = TagLibrary.shared.tags.first(where: { $0.name == name })?.id {
+                tagIDs.append(id)
+            } else {
+                // Tag does not exist, create a new one
+                let id = TagLibrary.shared.create(name: name)
+                tagIDs.append(id)
+            }
+        }
+        self.tags = tagIDs
+        
         self.watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
         self.notes = try decoder.decode(String.self, forKey: .notes)
         
         self.tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
         self.title = try decoder.decode(String.self, forKey: .title)
         self.originalTitle = try decoder.decode(String.self, forKey: .originalTitle)
-        self.genres = try decoder.decode([Genre].self, forKey: .genres)
+        
+        let genreNames = try decoder.decode([String].self, forKey: .genres)
+        // Create genres with invalid IDs, since the ID cannot be recovered from the CSV
+        self.genres = genreNames.map({ Genre(id: -1, name: $0) })
+        
         self.overview = try decoder.decode(String?.self, forKey: .overview)
         self.status = try decoder.decode(MediaStatus.self, forKey: .status)
         
@@ -114,7 +132,7 @@ struct CSVData {
         self.isAdult = try decoder.decode(Bool?.self, forKey: .isAdult)
         
         // Show exclusive (all optional, because the current media could be a movie)
-        self.lastEpisodeWatched = try decoder.decode(Show.EpisodeNumber.self, forKey: .lastEpisodeWatched)
+        self.lastEpisodeWatched = try decoder.decode(Show.EpisodeNumber?.self, forKey: .lastEpisodeWatched)
         if let rawFirstAirDate = try decoder.decode(String?.self, forKey: .firstAirDate) {
             self.firstAirDate = dateFormatter.date(from: rawFirstAirDate)
         } else {
@@ -139,12 +157,14 @@ struct CSVData {
         encoder.encode(id, forKey: .id)
         encoder.encode(type, forKey: .type)
         encoder.encode(personalRating, forKey: .personalRating)
-        encoder.encode(tags, forKey: .tags)
+        // We don't export tags, that don't have a name
+        encoder.encode(tags.compactMap(TagLibrary.shared.name(for:)), forKey: .tags)
         encoder.encode(watchAgain, forKey: .watchAgain)
         encoder.encode(notes, forKey: .notes)
         encoder.encode(tmdbID, forKey: .tmdbID)
         encoder.encode(title, forKey: .title)
         encoder.encode(originalTitle, forKey: .originalTitle)
+        encoder.encode(genres.map(\.name), forKey: .genres)
         encoder.encode(overview, forKey: .overview)
         encoder.encode(status, forKey: .status)
         
@@ -176,12 +196,14 @@ struct CSVData {
         media?.watchAgain = self.watchAgain
         media?.notes = self.notes
         
-        if type == .movie {
-            assert(Swift.type(of: media) == Movie.self)
-            (media as? Movie)?.watched = self.watched
-        } else {
-            assert(Swift.type(of: media) == Show.self)
-            (media as? Show)?.lastEpisodeWatched = self.lastEpisodeWatched
+        if let media = media {
+            if type == .movie {
+                assert(Swift.type(of: media) == Movie.self)
+                (media as? Movie)?.watched = self.watched
+            } else {
+                assert(Swift.type(of: media) == Show.self)
+                (media as? Show)?.lastEpisodeWatched = self.lastEpisodeWatched
+            }
         }
         
         return media

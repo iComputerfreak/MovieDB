@@ -35,7 +35,7 @@ struct RatingView: View {
                 Image(systemName: "star.lefthalf.fill")
             }
             // Only if there is at least one empty star
-            if rating.integerRepresentation < 9 {
+            if rating.integerRepresentation < StarRating.fourAndAHalfStars.integerRepresentation {
                 ForEach(Array(0..<(10 - rating.integerRepresentation) / 2), id: \.self) { _ in
                     Image(systemName: "star")
                 }
@@ -46,7 +46,47 @@ struct RatingView: View {
 
 struct RatingView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingView(rating: .constant(.twoAndAHalfStars))
+        Group {
+            RatingView(rating: .constant(.noRating))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("No Rating")
+        
+        Group {
+            RatingView(rating: .constant(.halfStar))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("Half Star")
+        
+        Group {
+            RatingView(rating: .constant(.oneStar))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("One Star")
+        
+        Group {
+            RatingView(rating: .constant(.twoAndAHalfStars))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("Two and a Half Stars")
+        
+        Group {
+            RatingView(rating: .constant(.fourAndAHalfStars))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("Four and a Half Stars")
+        
+        Group {
+            RatingView(rating: .constant(.fiveStars))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
+        .previewDisplayName("Five Stars")
     }
 }
 
@@ -54,7 +94,8 @@ enum StarRating: Int, Strideable, Codable {
     
     typealias Stride = Int
     
-    case noRating
+    case noRating = 0
+    case halfStar
     case oneStar
     case oneAndAHalfStars
     case twoStars
@@ -66,20 +107,15 @@ enum StarRating: Int, Strideable, Codable {
     case fiveStars
     
     init?(integerRepresentation: Int) {
-        if integerRepresentation == 0 {
-            self = .noRating
-        }
-        if let r = StarRating(rawValue: integerRepresentation - 1) {
-            self = r
-        } else {
+        guard let rating = StarRating(rawValue: integerRepresentation) else {
             return nil
         }
+        self = rating
     }
     
     /// The integer value of the rating (amount of half stars)
     var integerRepresentation: Int {
-        // Shift all values except 0 (no rating) by 1 to compensate the lack of 0.5 stars
-        return self == .noRating ? 0 : rawValue + 1
+        return rawValue
     }
     
     /// The amount of full stars as a string with an optional fraction digit

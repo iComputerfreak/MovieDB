@@ -158,7 +158,7 @@ struct SettingsView: View {
                                         let csv = try String(contentsOf: url)
                                         print("Imported csv file. Trying to import into library.")
                                         // TODO: Use the new CSVCoder
-                                        let mediaObjects = LegacyCSVDecoder().decode(csv)
+                                        let mediaObjects: [Media] = undefined()//LegacyCSVDecoder().decode(csv)
                                         // Presenting will change UI
                                         DispatchQueue.main.async {
                                             let controller = UIAlertController(title: "Import",
@@ -211,8 +211,8 @@ struct SettingsView: View {
                         // MARK: - Export Button
                         Button(action: {
                             // TODO: Use the new CSVCoder
-                            let encoder = LegacyCSVEncoder()
-                            let csv = encoder.encode(self.library.mediaList)
+                            //let encoder = LegacyCSVEncoder()
+                            let csv: String = undefined()//encoder.encode(self.library.mediaList)
                             // Save the csv as a file to share it
                             let formatter = DateFormatter()
                             formatter.dateFormat = "yyyy-MM-dd"
