@@ -15,6 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Xcodebuild Action
       uses: sersoft-gmbh/xcodebuild-action@v1.1
-      # with:
-        # The SDK to use for building.
-        # sdk: iOS
+      with:
+        project: "Movie DB/MovieDB.xcodeproj"
+        destination: platform=iOS
