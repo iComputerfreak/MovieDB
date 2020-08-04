@@ -13,7 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+    - name: Xcodebuild Action
+      uses: sersoft-gmbh/xcodebuild-action@v1.1
+      # with:
+        # The SDK to use for building.
+        # sdk: iOS
