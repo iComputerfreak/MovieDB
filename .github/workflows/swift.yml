@@ -18,3 +18,4 @@ jobs:
       with:
         project: "Movie DB.xcodeproj"
         destination: platform=iOS
+        scheme: "Movie DB"
