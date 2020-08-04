@@ -23,18 +23,15 @@ struct LibraryHome : View {
         // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ media in
-                if media.tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
+                let tmdbData = media.tmdbData
+                if tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
                     return true
                 }
-                if media.tmdbData?.originalTitle.contains(self.searchText) ?? false {
-                    return true
-                }
-                // Partial matches
-                if media.keywords.contains(where: { $0.contains(self.searchText) }) {
+                if tmdbData?.originalTitle.contains(self.searchText) ?? false {
                     return true
                 }
                 // Partial matches
-                if media.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) {
+                if tmdbData?.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) ?? false {
                     return true
                 }
                 if media.notes.contains(self.searchText) {
@@ -98,7 +95,7 @@ struct LibraryHome : View {
             VStack {
                 SearchBar(searchText: $searchText)
                     List {
-                        Section(footer: Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == library.mediaList.count ? " total" : "")")) {
+                        Section(footer: footerText) {
                             ForEach(filteredMedia) { mediaObject in
                                 LibraryRow()
                                     .environmentObject(mediaObject)
@@ -123,7 +120,7 @@ struct LibraryHome : View {
                                 .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
                                 .background(
                                     EmptyView()
-                                        // TODO: Open new item in editing mode
+                                        // FUTURE: Open new item in editing mode
                                         
                                         //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                                 )
@@ -141,6 +138,13 @@ struct LibraryHome : View {
             self.library.save()
         }
         }
+    }
+    
+    var footerText: some View {
+        guard filteredMedia.count > 0 else {
+            return Text("")
+        }
+        return Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == library.mediaList.count ? " total" : "")")
     }
 }
 

@@ -1,0 +1,775 @@
+{
+    "backdrop_path": "/8b4X7cFOagllHuERcefvDpECwDz.jpg",
+    "created_by": [
+        {
+            "id": 52001,
+            "credit_id": "5259743a760ee34661a5a053",
+            "name": "Jon Bokenkamp",
+            "gender": 2,
+            "profile_path": null
+        }
+    ],
+    "episode_run_time": [
+        43
+    ],
+    "first_air_date": "2013-09-23",
+    "genres": [
+        {
+            "id": 18,
+            "name": "Drama"
+        },
+        {
+            "id": 80,
+            "name": "Crime"
+        },
+        {
+            "id": 9648,
+            "name": "Mystery"
+        }
+    ],
+    "homepage": "http://www.nbc.com/the-blacklist",
+    "id": 46952,
+    "in_production": true,
+    "languages": [
+        "en"
+    ],
+    "last_air_date": "2020-05-15",
+    "last_episode_to_air": {
+        "air_date": "2020-05-15",
+        "episode_number": 19,
+        "id": 2259249,
+        "name": "The Kazanjian Brothers",
+        "overview": "The Task Force investigates an accountant who works for lucrative criminals in order to find the violent and thuggish brothers hired for his protection. Meanwhile, Liz must make a momentous decision.",
+        "production_code": "",
+        "season_number": 7,
+        "show_id": 46952,
+        "still_path": "/bRWIqQIMVVKEcc1IS8LB83yAlTf.jpg",
+        "vote_average": 1.0,
+        "vote_count": 1
+    },
+    "name": "The Blacklist",
+    "next_episode_to_air": null,
+    "networks": [
+        {
+            "name": "NBC",
+            "id": 6,
+            "logo_path": "/o3OedEP0f9mfZr33jz2BfXOUK5.png",
+            "origin_country": "US"
+        }
+    ],
+    "number_of_episodes": 152,
+    "number_of_seasons": 7,
+    "origin_country": [
+        "US"
+    ],
+    "original_language": "en",
+    "original_name": "The Blacklist",
+    "overview": "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.",
+    "popularity": 121.501,
+    "poster_path": "/bgbQCW4fE9b6wSOSC6Fb4FfVzsW.jpg",
+    "production_companies": [
+        {
+            "id": 11073,
+            "logo_path": "/wHs44fktdoj6c378ZbSWfzKsM2Z.png",
+            "name": "Sony Pictures Television",
+            "origin_country": "US"
+        }
+    ],
+    "seasons": [
+        {
+            "air_date": "2013-09-10",
+            "episode_count": 7,
+            "id": 55083,
+            "name": "Specials",
+            "overview": "",
+            "poster_path": "/jPT3J4xlQ3yF5fczAopLofHBGq3.jpg",
+            "season_number": 0
+        },
+        {
+            "air_date": "2013-09-23",
+            "episode_count": 22,
+            "id": 55082,
+            "name": "Season 1",
+            "overview": "",
+            "poster_path": "/ccrCgW1ukxgwBue9ptkpCEjXE6q.jpg",
+            "season_number": 1
+        },
+        {
+            "air_date": "2014-09-22",
+            "episode_count": 22,
+            "id": 61357,
+            "name": "Season 2",
+            "overview": "",
+            "poster_path": "/b7o8AOpZPWJO8nP4SK8RRZ2d0B0.jpg",
+            "season_number": 2
+        },
+        {
+            "air_date": "2015-10-01",
+            "episode_count": 23,
+            "id": 70935,
+            "name": "Season 3",
+            "overview": "Now a fugitive on the run, Liz must figure out how to protect herself from the fallout of her actions in the explosive season two finale.",
+            "poster_path": "/hWN5imHrpg8wjEBsa7v80sGsS8r.jpg",
+            "season_number": 3
+        },
+        {
+            "air_date": "2016-09-22",
+            "episode_count": 22,
+            "id": 80082,
+            "name": "Season 4",
+            "overview": "A mysterious man claiming to be Liz’s real father targets her, but first she must resolve the mystery of her lost childhood and reconcile her true identity with the elusive memories corrupted by Reddington. Without the truth, every day holds more danger for herself, her baby and her husband Tom. Meanwhile, the Task Force reels from Liz’s resurrection and friendships are fractured. Betrayed by those closest to him, Reddington’s specific moral code demands justice, all the while battling an army of new and unexpected blacklisters.",
+            "poster_path": "/d5AJOxPzGkAHiaCHcESVCim1vHu.jpg",
+            "season_number": 4
+        },
+        {
+            "air_date": "2017-09-27",
+            "episode_count": 22,
+            "id": 91328,
+            "name": "Season 5",
+            "overview": "Feeling surprisingly unencumbered, Raymond Reddington is back, and in the process of rebuilding his criminal empire. His lust for life is ever-present as he lays the foundation for this new enterprise - one that he'll design with Elizabeth Keen by his side. Living with the reality that Red is her father, Liz finds herself torn between her role as an FBI agent and the temptation to act on her more criminal instincts. In a world where the search for Blacklisters has become a family trade, Red will undoubtedly reclaim his moniker as the “Concierge of Crime.”",
+            "poster_path": "/6MupSEjQbWd5t37iHoYNGV1Rp2Y.jpg",
+            "season_number": 5
+        },
+        {
+            "air_date": "2019-01-03",
+            "episode_count": 22,
+            "id": 112279,
+            "name": "Season 6",
+            "overview": "Following the startling revelation that Raymond \"Red\" Reddington isn't who he says he is, Elizabeth Keen is torn between the relationship she's developed with the man assumed to be her father and her desire to get to the bottom of years of secrets and lies. Meanwhile, Red leads Liz and the FBI to some of the most strange and dangerous criminals yet, growing his empire and eliminating rivals in the process. All throughout, Liz and Red engage in an uneasy cat-and-mouse game in which lines will be crossed and the truth will be revealed.",
+            "poster_path": "/cJZbQFPm2GuD2K4FvksOncRGNzm.jpg",
+            "season_number": 6
+        },
+        {
+            "air_date": "2019-10-04",
+            "episode_count": 19,
+            "id": 132066,
+            "name": "Season 7",
+            "overview": "",
+            "poster_path": "/zBnDzqCYOcvl8OmC53Hzd7W5hiZ.jpg",
+            "season_number": 7
+        }
+    ],
+    "status": "Returning Series",
+    "type": "Scripted",
+    "vote_average": 7.2,
+    "vote_count": 1539,
+    "keywords": {
+        "results": [
+            {
+                "name": "terrorist",
+                "id": 949
+            },
+            {
+                "name": "fbi",
+                "id": 1812
+            },
+            {
+                "name": "investigation",
+                "id": 5340
+            },
+            {
+                "name": "criminal mastermind",
+                "id": 18023
+            },
+            {
+                "name": "crime lord",
+                "id": 167352
+            },
+            {
+                "name": "hidden identity",
+                "id": 186189
+            },
+            {
+                "name": "criminal consultant",
+                "id": 212513
+            }
+        ]
+    },
+    "translations": {
+        "translations": [
+            {
+                "iso_3166_1": "SA",
+                "iso_639_1": "ar",
+                "name": "العربية",
+                "english_name": "Arabic",
+                "data": {
+                    "name": "القائمة السوداء",
+                    "overview": "ريموند ريدينغتون، عميل الحكومة السابق وأحد الهاربين المطلوبين من الإف بي آي، يسلم نفسه في مقر مكتب التحقيقات الفدرالي في العاصمة واشنطن. ويدعي أن الإف بي آي وهو لديهم نفس المصلحة في التخلص من مجرمين خطيرين وإرهابيين. ويقدم عرض لا يمكن للإف بي آي رفضه لكن تحت شرط واحد: ريدينغتون يتحدث فقط مع اليزابيث كين، تحليل الجاني إف بي آي مبتدئة. كين استجوبت ريدينغتون حول إهتمامه المفاجأ بها، لكن ريجنغتون يجيب بأنها مميزة جداً فقط. بعد أن استفادت الإف بي آي من معلومات ريدينغتون للقبض على إرهابي، ريدينغتون يكشف أن هذا الإرهابي هو واحد من عدة مجرمين سيساعد في القبض عليهم. من خلال ما عرفه خلال مسيرته الإجرامية، وضع قائمة بأسماء مجريمين يعتقد بأنهم خطرين، وأغلبهم لا يعرفهم الإف بي آي. ويسمي القائمة بـالقائمة السوداء.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "BG",
+                "iso_639_1": "bg",
+                "name": "български език",
+                "english_name": "Bulgarian",
+                "data": {
+                    "name": "Черният списък",
+                    "overview": "В продължение на десетилетия бившия правителствен агент Реймънд “Ред” Редингтън успешно е стоял извън обсега на преследващите го полицейски служби. Но сега той изненадващо се предава на Федералното бюро за разследване и дори изявява желание да участва в издирването на опасен и ловък международен терорист. Но има една уловка. Редингтън ще помогне на разследващите служби ако му бъде позволено да комуникира единствено с Елизабет “Лиз” Кийн – амбициозна млада агентка от ФБР, която наскоро е приключила с обучението си и тепърва й предстои да докаже своите знания пред началниците на бюрото. ",
+                    "homepage": "",
+                    "tagline": "Никога не се доверявай на престъпник, докато не ти се наложи."
+                }
+            },
+            {
+                "iso_3166_1": "BS",
+                "iso_639_1": "bs",
+                "name": "Bosanski",
+                "english_name": "Bosnian",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Decenijama je bivši vladin agent Rejmond \"Red\" Redington (James Spader) bio najtraženiji bjegunac FIB-a. Zbog posredovanja u mnogim dogovorima sa kriminalcima iz cjelog svjeta, dobio je nadimak \"Konsijerž zločina\". Odjednom, on se predaje FIB-u i nudim im bombastičnu ponudu. Pomoći će im u uhvatanju teroristu za kojeg se mislilo da je mrtav - Ranko Zamani. Jedini uslov je da samo priča sa Elizabet Kin (Megan Boone). Ona je novi profajler FIB-a. Tako da će joj prvi dan na poslu biti pravi pakao. Zamani je jedan od mnogih na listi koju je Rejmond godinama popunjavao a ona je puna političara , mafijaša i internacionalnih terorista. Zašto je Rejmond izabrao baš Liz i šta su Rejmondove prave namjere saznaćemo u seriji producenta Džona Ajzendrata, Dejvisa i Foksa.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CZ",
+                "iso_639_1": "cs",
+                "name": "Český",
+                "english_name": "Czech",
+                "data": {
+                    "name": "Černá listina",
+                    "overview": "Raymond \"Red\" Reddington, jeden z nejhledanějších zločinců, se nechá dobrovolně zatknout v sídle FBI. Tvrdí, že FBI a on mají stejné zájmy, polapit nebezpečné zločince a teroristy. Reddington souhlasí se spoluprací, ale trvá na tom, že bude mluvit jen s agentkou Elizabeth Keen, nováčkem FBI. Reddington o agentku projevuje nebývalý zájem a tvrdí, že je velmi výjimečná. Reddington pomůže agentům polapit obávaného teroristu a díky tomu agentura souhlasí se vzájemnou spoluprací. Raymond vysvětluje, že za posledních 20 let si dělal svůj seznam nejnebezpečnějších zločinců a teroristů, o kterých neví ani samotná FBI. Řiká mu Blacklist.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "DK",
+                "iso_639_1": "da",
+                "name": "Dansk",
+                "english_name": "Danish",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Dette er serien om den tidligere flådeofficier, Raymond Reddington (James Spader), der vender familie og karriere ryggen for at blive rådgiver for internationale terrorister og forbrydere under navnet ’The Concierge of Crime’, hvilket gør ham til en af verdens mest eftersøgte forbrydere.\n\nEn dag dukker ‘Red’ pludselig op til overfladen igen og melder sig selv til CIA. Han tilbyder at sladre om alle dem, han har arbejdet sammen med – alle dem der står på hans ‘blacklist’. Hans eneste betingelse er, at han kun vil tale med den nyslået CIA-agent, profileringseksperten Elizabeth “Liz” Keen ( Megan Boone), der har første dag på jobbet. Spørgsmålet er om Reddington kender  Liz i forvejen?",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "DE",
+                "iso_639_1": "de",
+                "name": "Deutsch",
+                "english_name": "German",
+                "data": {
+                    "name": "",
+                    "overview": "Raymond „Red“ Reddington ist ein ehemaliger Offizier des amerikanischen Marinegeheimdienstes und einer der meistgesuchten Verbrecher der USA. Eines Tages stellt er sich in der FBI-Hauptzentrale in Washington, D.C. und bietet dem FBI an, bei der Suche nach Verbrechern und Terroristen zu helfen. Allerdings verlangt er, einzig mit der FBI-Agentin Elizabeth Keen zu verhandeln, die vor Kurzem erst aus Quantico zugezogen ist. Die Informationen, die er weitergibt, stammen von einer von ihm über Jahre angelegten Liste, der sogenannten Blacklist",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "GR",
+                "iso_639_1": "el",
+                "name": "ελληνικά",
+                "english_name": "Greek",
+                "data": {
+                    "name": "",
+                    "overview": "Για δεκαετίες, ο πρώην κυβερνητικός πράκτορας Raymond \"Red\" Reddington υπήρξε ένας από τους πιο περιζήτητους εγκληματίες στο πλανήτη. Κάνοντας εγκλήματα σε όλο το πλανήτη και κλείνοντας συμφωνίες, ο Red απόκτησε πολλές διασυνδέσεις, και έγινε γνωστός με το όνομα \"The Concierge of Crime\". Τώρα, ο Raymond μυστηριωδώς παραδόθηκε στο FBI με μία ενδιαφέρουσα προσφορά, θα τους βοηθήσει να συλλάβουν τον οίκο-τρομοκράτη Ranko Zamani, που πολλοί θεωρούσαν νεκρό, με την προϋπόθεση ότι θα μιλήσει στην Elizabeth “Liz” Keen, μια καινούρια πράκτορα του FBI, με την οποία φαινομενικά δεν έχει καμιά σύνδεση. Για την Liz, πρόκειται να είναι μια κόλαση η πρώτη μέρα στη δουλειά. Ο Zamani αποδεικνύεται πως είναι μόνο ο πρώτος της μαύρης λίστας που δημιούργησε όλα αυτά τα χρόνια ο Red. Θα τους βοηθήσει να τους πιάσουν, με τον όρο να συνεχίσει να συνεργάζεται με την Liz, ο Red θα διδάξει την Liz πως να σκέφτεται σαν εγκληματίας και να δει την μεγαλύτερη εικόνα, είτε το θέλει είτε όχι.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "US",
+                "iso_639_1": "en",
+                "name": "English",
+                "english_name": "English",
+                "data": {
+                    "name": "",
+                    "overview": "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.",
+                    "homepage": "",
+                    "tagline": "Family. Business."
+                }
+            },
+            {
+                "iso_3166_1": "ES",
+                "iso_639_1": "es",
+                "name": "Español",
+                "english_name": "Spanish",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Serie de TV (2013). El criminal más buscado del mundo, Thomas Raymond Reddington (James Spader), se entrega misteriosamente y se ofrece a delatar a todos los que alguna vez han colaborado con él. Su única condición: sólo colaborará con Elisabeth King (Megan Boone), una nueva agente del FBI, con quien parece tener alguna conexión que ella desconoce.",
+                    "homepage": "",
+                    "tagline": "Familia. Negocio."
+                }
+            },
+            {
+                "iso_3166_1": "MX",
+                "iso_639_1": "es",
+                "name": "Español",
+                "english_name": "Spanish",
+                "data": {
+                    "name": "",
+                    "overview": "El criminal más buscado del mundo, Thomas Raymond Reddington (James Spader), se entrega misteriosamente y se ofrece a delatar a todos los que alguna vez han colaborado con él. Su única condición: sólo colaborará con Elisabeth Keen (Megan Boone), una nueva agente del FBI, con quien parece tener alguna conexión que ella desconoce.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IR",
+                "iso_639_1": "fa",
+                "name": "فارسی",
+                "english_name": "Persian",
+                "data": {
+                    "name": "لیست سیاه",
+                    "overview": "داستان این سریال درباره شخصی به نام ” Red ” که یک خلاف کار بزرگ و حرفه ای است که زمان زیادی مامورین و پلیس و اف بی آی دنبای او بودند. اما روزی او تصمیم میگیرد خود را تحویل قانون بدهد. اما برای این کار شرایطی در نظر دارد. او میخواهد تنها با یک پلیس کار کند و با همکاری آن پلیس بقیه افراد خلاف کار و تبهکار معروف را دستگیری کند...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "FI",
+                "iso_639_1": "fi",
+                "name": "suomi",
+                "english_name": "Finnish",
+                "data": {
+                    "name": "Blacklist",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CA",
+                "iso_639_1": "fr",
+                "name": "Français",
+                "english_name": "French",
+                "data": {
+                    "name": "La liste noire",
+                    "overview": "Raymond « Red » Reddington, l’un des fugitifs les plus recherchés par le FBI, se rend en personne au quartier général du FBI à Washington. Il affirme avoir les mêmes intérêts que le FBI : faire tomber des criminels dangereux et des terroristes. Reddington coopérera, mais insiste pour ne parler qu’à Elizabeth Keen, une profileuse inexpérimentée du FBI. Keen s’interroge sur l’intérêt soudain que Reddington lui porte, bien qu’il soutienne que Keen est très spéciale. Après que le FBI a fait tomber un terroriste sur lequel il a fourni des informations, Reddington révèle que ce terroriste n’est que le premier de beaucoup d’autres à venir : durant les deux dernières décennies, il a fait une liste des criminels et terroristes dont il croit que le FBI ne peut pas les trouver parce que ce dernier ignorait leur existence et que ce sont les plus importants.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "FR",
+                "iso_639_1": "fr",
+                "name": "Français",
+                "english_name": "French",
+                "data": {
+                    "name": "Blacklist",
+                    "overview": "Raymond « Red » Reddington, l’un des fugitifs les plus recherchés par le FBI, se rend en personne au quartier général du FBI à Washington. Il affirme avoir les mêmes intérêts que le FBI : faire tomber des criminels dangereux et des terroristes. Reddington coopérera, mais insiste pour ne parler qu’à Elizabeth Keen, une profileuse inexpérimentée du FBI. Keen s’interroge sur l’intérêt soudain que Reddington lui porte, bien qu’il soutienne que Keen est très spéciale. Après que le FBI a fait tomber un terroriste sur lequel il a fourni des informations, Reddington révèle que ce terroriste n’est que le premier de beaucoup d’autres à venir : durant les deux dernières décennies, il a fait une liste des criminels et terroristes qu'il croit introuvable par le FBI parce que ce dernier ignorait leur existence et que ce sont les plus importants. Reddington l’appelle « La Liste noire » (« The Blacklist »).",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IL",
+                "iso_639_1": "he",
+                "name": "עִבְרִית",
+                "english_name": "Hebrew",
+                "data": {
+                    "name": "הרשימה השחורה",
+                    "overview": "סוכן ממשלתי לשעבר, ריימונד \"רד\" רדינגטון, התחמק מלכידה מזה עשורים. יום אחד הוא מופיע, ומסגיר את עצמו לידי ה\"אף-בי-אי\". רדינגטון מציע את עזרתו בלכידה של טרוריסט בשם זאמני כאשר הוא מתנה את עזרתו בכך שהוא מוכן לדבר רק עם מאבחנת פרופילים צעירה, שזהו יומה הראשון בתפקיד, אליזבת קיין. הפרק הראשון נפתח עם קריצה גדולה לסרט שתיקת הכבשים הבלתי נשכח.",
+                    "homepage": "",
+                    "tagline": "עסקים. משפחה."
+                }
+            },
+            {
+                "iso_3166_1": "HR",
+                "iso_639_1": "hr",
+                "name": "Hrvatski",
+                "english_name": "Croatian",
+                "data": {
+                    "name": "Crna lista",
+                    "overview": "Mlada agentica FBI-a, Elizabeth Keen (Megan Boone) uvučena je u tajanstvene planove genijalnog kriminalaca Raymonda 'Reda' Reddingtona (James Spader).",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "HU",
+                "iso_639_1": "hu",
+                "name": "Magyar",
+                "english_name": "Hungarian",
+                "data": {
+                    "name": "Feketelista",
+                    "overview": "A világ legkeresettebb bűnözője, az egykor a kormánynak dolgozó Raymond Reddington besétál az FBI székházába és feladja magát, egyúttal alkut ajánl a megdöbbent nyomozóknak: van egy listája - amin olyan rossz fiúk szerepelnek, akiket a bűnüldöző szervek nem is ismernek - és ezt megosztaná a hatóságokkal. De vannak bizonyos feltételei, amelyek közül a legfontosabb: csak egy kezdő FBI-ügynöknővel, Elizabeth Keennel hajlandó kommunikálni, egyébként nincs üzlet. Az FBI terrorellenes részlegének vezetője kénytelen elfogadni Reddington ajánlatát és teljesíteni a férfi extravagáns kéréseit is. Keen társa Donald Ressler lesz, a csapathoz a CIA-tól is érkezik erősítés, Meera Malik személyében. A teljes titoktartás mellett dolgozó egység a Reddingtontól kapott, többnyire homályos és kétértelmű utalások alapján próbál dolgozni, miközben Keen férje, Tom egyre nehezebben viseli párja újdonsült munkáját. Nagyon hamar kiderül az is: ebben a világban semmi nem az, aminek látszik.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "IT",
+                "iso_639_1": "it",
+                "name": "Italiano",
+                "english_name": "Italian",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Raymond “Red” Reddington (interpretato da James Spader) è un genio del crimine internazionale ricercato dalle polizie di tutto il mondo e si presenta improvvisamente nel quartier generale dell’FBI per costituirsi: per salvarsi da pene carcerarie che lo chiuderebbero a vita in prigione, offre il suo aiuto per catturare i nomi contenuti in una sua speciale black list dove sarebbero contenuti i contatti dei più pericolosi terroristi in circolazione, criminali dalle mille false identità sconosciuti e imprendibili per la stessa FBI. Reddington pone una condizione alla sua offerta d’aiuto: darà informazioni solo a Elizabeth Keen (Megan Boone), una giovane profiler dell’FBI assunta da un giorno all’intelligence, che sarà catapultata al centro di un torbido intrigo.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "JP",
+                "iso_639_1": "ja",
+                "name": "日本語",
+                "english_name": "Japanese",
+                "data": {
+                    "name": "ブラックリスト",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "GE",
+                "iso_639_1": "ka",
+                "name": "ქართული",
+                "english_name": "Georgian",
+                "data": {
+                    "name": "შავი სია",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "KR",
+                "iso_639_1": "ko",
+                "name": "한국어/조선말",
+                "english_name": "Korean",
+                "data": {
+                    "name": "블랙리스트",
+                    "overview": "FBI 10대 수배범에 올라가있는 거물 범죄 브로커 레이먼드 레딩턴이 어느날 갑자기 FBI 본부에 나타나 자수를 한다. 그러면서 레딩턴은 자신이 1급 범죄자들의 블랙리스트를 가지고 있다면서 사법거래를 요구하고 그 조건으로 FBI의 신참 프로파일러인 엘리자베스 킨하고만 이야기 하겠다고 요구한다. 한편 암에 걸린 양아버지를 두면서 남편과 함께 아기의 입양을 꿈꾸며 행복하게 살고 있던 엘리자베스의 삶은 레딩턴과의 만남과 우연히 발견하게 된 남편의 가짜 여권들을 통해 급변하게 되는데...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LB",
+                "iso_639_1": "lb",
+                "name": "",
+                "english_name": "Letzeburgesch",
+                "data": {
+                    "name": "",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LT",
+                "iso_639_1": "lt",
+                "name": "Lietuvių",
+                "english_name": "Lithuanian",
+                "data": {
+                    "name": "Juodasis sąrašas",
+                    "overview": "Tai įtempto veiksmo serialas, kurio siužetas įtrauks nuo pat pirmosios serijos. Ilgus metus buvęs valstybinis agentas Raymondas Reddingtonas (akt. James Spaderis – „Auksinio gaublio“, Kanų festivalio ir daugkartinis „Emmy“ laureatas) buvo geidžiamiausias FTB nusikaltėlis. Jo kontaktai su kitais kriminalinio pasaulio autoritetais raizgėsi aplink visą pasaulį. Tačiau jis mįslingai pasiduoda FTB ir nusprendžia jiems pasiūlyti bendradarbiauti. Tiesa, su viena sąlyga – į padėjėjas turi gauti ką tik FTB pradėjusią dirbti žavią Lizą, kurią jis išmokys galvoti kaip nusikaltėliai ir padarys tikra blogiukų gaudymo žvaigžde.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "LV",
+                "iso_639_1": "lv",
+                "name": "Latviešu",
+                "english_name": "Latvian",
+                "data": {
+                    "name": "Melnais saraksts",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "NL",
+                "iso_639_1": "nl",
+                "name": "Nederlands",
+                "english_name": "Dutch",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Raymond \"Red\" Reddington is één van de meest gezochte criminelen ter wereld. Op een dag geeft hij zich vrijwillig aan op het hoofdkantoor van de FBI. Hij beweert dat hij de politie wil helpen om alle gevaarlijke terroristen en misdadigers op zijn persoonlijke zwarte lijst onschadelijk te maken. Maar hij heeft een belangrijke voorwaarde: Red wil enkel spreken met Elizabeth Keen, een FBI-profiler zonder de minste ervaring...",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "NO",
+                "iso_639_1": "no",
+                "name": "Norsk",
+                "english_name": "Norwegian",
+                "data": {
+                    "name": "The Blacklist",
+                    "overview": "Etter å ha meldt seg hos politiet tilbyr en rømling å hjelpe til med å fakke andre forbrytere, men kun hvis han får jobbe sammen med Liz Keen, en fersk profilekspert.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "PL",
+                "iso_639_1": "pl",
+                "name": "Polski",
+                "english_name": "Polish",
+                "data": {
+                    "name": "Czarna lista",
+                    "overview": "Były rządowy agent, Raymond \"Red\" Reddington (James Spader), od lat znajduje się na liście najbardziej poszukiwanych przestępców FBI. Pewnego dnia oddaje się w ręce służb, składając jednocześnie interesującą propozycję. Pomoże FBI schwytać terrorystę o nazwisku Zamani, który do tej pory był uznawany za zmarłego, pod jednym warunkiem: chce rozmawiać tylko z Elizabeth Keen (Megan Boone), nową agentką Biura. A Zamani to dopiero pierwsze nazwisko z długiej listy wpływowych przestępców stworzonej przez Reddingtona.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "BR",
+                "iso_639_1": "pt",
+                "name": "Português",
+                "english_name": "Portuguese",
+                "data": {
+                    "name": "Lista Negra",
+                    "overview": "Após se entregar à polícia, um brilhante fugitivo oferece ajuda ao FBI, mas apenas se a novata Elizabeth Keen for sua parceira.",
+                    "homepage": "",
+                    "tagline": "Família. Negócios."
+                }
+            },
+            {
+                "iso_3166_1": "PT",
+                "iso_639_1": "pt",
+                "name": "Português",
+                "english_name": "Portuguese",
+                "data": {
+                    "name": "A Lista Negra",
+                    "overview": "Depois de se render, um brilhante fugitivo oferece-se para ajudar o FBI a prender outros bandidos, porém, só se a inexperiente profiler Elizabeth Keen for a sua parceira.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "RO",
+                "iso_639_1": "ro",
+                "name": "Română",
+                "english_name": "Romanian",
+                "data": {
+                    "name": "Lista neagră",
+                    "overview": "Fostul agent guvernamental Raymond \"Red\" Reddington a scăpat de arestare timp de decenii. Dar el se predă brusc FBI-lui cu o ofertă pentru a ajuta la capturarea unui terorist cu condiția ca el să vorbeasca doar cu Elizabeth \"Liz\" Keen, o tânăra și frumoasă specialistă a FBI-ului.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "RU",
+                "iso_639_1": "ru",
+                "name": "Pусский",
+                "english_name": "Russian",
+                "data": {
+                    "name": "Чёрный список",
+                    "overview": "Рэймонд Реддингтон по кличке «Рэд», бывший правительственный агент, долгие годы был одним  из самых разыскиваемых ФБР преступников. Как вдруг однажды он сам пришел  в штаб-квартиру ФБР в Вашингтоне и сдался.  При этом он утверждает, что у них с ФБР общие интересы – ловить  преступников. В частности, он может помочь агентам поймать одного  опасного террориста, но у него есть условие: сотрудничать Рэд станет  только с недавно принятой на работу в ФБР Элизабет Кин.  Ему идут навстречу, и вот уже герои сериала \r\nвовлекаются в целый ряд событий по поимке террориста. Но каковы истинные  намерения Рэймонда? Почему в свои напарники он выбрал именно Лиз,  женщину, с которой, по-видимому, у него нет ничего общего? А, может  быть, у Лиз имеются свои собственные тайны?  Разыскиваемый ими террорист является лишь первым в том «чёрном  списке», что за долгие годы составил Реддингтон. В нем есть и другие  персоны: политики, бандиты, международные террористы и шпионы. Герой  сериала «Черный список» утверждает, что может изловить их всех. Но всё с  той же оговоркой: Лиз должна работать с ним вместе. Рэд научит ее  думать, как преступник, видеть гораздо больше и дальше, вне зависимости  от того, хочет она того или нет.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "SG",
+                "iso_639_1": "sg",
+                "name": "",
+                "english_name": "Sango",
+                "data": {
+                    "name": "",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "SK",
+                "iso_639_1": "sk",
+                "name": "Slovenčina",
+                "english_name": "Slovak",
+                "data": {
+                    "name": "Čierny zoznam",
+                    "overview": "Najhľadanejší kriminálnik sveta Raymond Reddington sa z neznámych dôvodov vzdá do rúk federálov a ponúkne im pomoc. Nie však obyčajnú: je ochotný loviť a chytiť najväčších kriminálnikov. Teda tých, s ktorými doteraz spolupracoval a ochraňoval ich. Jeho jedinou podmienkou je, že bude spolupracovať iba s jedinou, mladou agentkou FBI, i keď s ňou zdanlivo nemá žiadnu spojitosť.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "SE",
+                "iso_639_1": "sv",
+                "name": "svenska",
+                "english_name": "Swedish",
+                "data": {
+                    "name": "",
+                    "overview": "Raymond \"Red\" Reddington, en efterlyst brottsling, överlämnar sig frivilligt till FBI i deras högkvarter. Han hävdar att han och underrättelsetjänsten har ett gemensamt intresse: att få fast livsfarliga förbrytare. Reddington har nu ett explosivt förslag - han vill samarbeta med FBI, men insisterar på att endast tala med Elizabeth Keen en ny och oerfaren profilerare.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TH",
+                "iso_639_1": "th",
+                "name": "ภาษาไทย",
+                "english_name": "Thai",
+                "data": {
+                    "name": "บัญชีดำอาชญากรรมซ่อนเงื่อน",
+                    "overview": "หลังจากมอบตัว อาชญากรอัจฉริยะเสนอตัวเองเพื่อช่วยเอฟบีไอจัดการกับคนชั่ว โดยมีข้อแม้ว่าต้องได้นักวิเคราะห์พฤติกรรมมือใหม่เอลิซาเบธ คีนมาเป็นคู่หูเท่านั้น",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TR",
+                "iso_639_1": "tr",
+                "name": "Türkçe",
+                "english_name": "Turkish",
+                "data": {
+                    "name": "Kara Liste",
+                    "overview": "Daha önceleri devlet adına çalışan bir ajan olan Raymond “Red” Reddington, azılı bir suç dehasına dönüştükten sonra FBI’ın en çok arananlar suçlularından biri haline gelir. Bir gün sebebi bilinmeyen bir şekilde FBI’a teslim olan bu suç dehasının bir teklifi vardır; Ranko Zamani isimli bir teröristin yakalanmasında FBI’a yardım etmek.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "UA",
+                "iso_639_1": "uk",
+                "name": "Український",
+                "english_name": "Ukrainian",
+                "data": {
+                    "name": "Чорний список",
+                    "overview": "Реймонд \"РЕД\" Реддінгтон, колишній офіцер ВМС США, який зник двадцять років тому, і став одним з десять найбільш розшукуваних утікачів, здається в руки помічника директора ФБР Гарольда Купер в штаб-квартирі у Вашингтоні, округ Колумбія. Передавши до ФБР \"Чорний список\", Реддінгтон стверджує, що злочинці і терористи в списку настільки небезпечні і хитрі, що Купер не знає навіть про їх існування. Він пропонує Куперу свої знання та допомогу при виконанні двох умов: імунітет від судового переслідування і співпрацю виключно з Елізабет Кін, новачком у ФБР. Кін і Купер підозріло ставляться до інтересів Реддінгтона в цій ситуації. У першому епізоді Реддінгтон пропонує знайти вбивцю і терориста та показує, що ця людина була тільки перша в його «чорному списку» світових злочинців, які він зібрав за час своєї злочинної кар'єри, і заявляє, що в нього і ФБР є взаємний інтерес в їх усуненні.  По ходу серіалу таємниці Реддінгтона і його інтереси до життя Ліз виявляються повільно. Більшість поворотів в сюжеті серіалу здійснюються за участю інших персонажів.",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "VN",
+                "iso_639_1": "vi",
+                "name": "Tiếng Việt",
+                "english_name": "Vietnamese",
+                "data": {
+                    "name": "Danh Sách Đen",
+                    "overview": "",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "CN",
+                "iso_639_1": "zh",
+                "name": "普通话",
+                "english_name": "Mandarin",
+                "data": {
+                    "name": "罪恶黑名单",
+                    "overview": "　　号称“红魔”的雷蒙德（詹姆斯·斯派德 James Spader 饰）一直以来都是联邦调查局通缉名单上的“常驻人员”，某一日，这位控制了犯罪市场中大部分信息与资源的传奇人物突然现身自首，并且声称能够提供关于恐怖分子兰科（Jamie Jackson 饰）的最新线索，条件只有一个，那就是让初出茅庐的菜鸟探员莉兹（梅根·布恩 Megan Boone 饰）做他的搭档和联络员。",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            },
+            {
+                "iso_3166_1": "TW",
+                "iso_639_1": "zh",
+                "name": "普通话",
+                "english_name": "Mandarin",
+                "data": {
+                    "name": "諜海黑名單",
+                    "overview": "幾十年來，代號「Red」（紅魔）的前美國海軍情報官雷蒙·雷丁頓（詹姆斯·史派德飾）一直被聯邦調查局（FBI）追捕，是頭號要犯之一。他與全球的重要罪犯都有聯繫，因此有「犯罪界大掌櫃」（The Concierge of Crime）之稱。\n\n有一天，雷蒙突然走進位於華盛頓的FBI總部向FBI自首，並指自己與FBI有相同的興趣（捉拿危險的罪犯和恐怖分子）。其後雷蒙向FBI提出了一個交易，是FBI無法拒絕的：他會與FBI合作捉拿罪犯和恐怖分子，但只會與FBI新手側寫員伊莉莎白·「麗茲」·基恩（梅根·布恩 飾）對話。在FBI利用雷蒙所提供的資料捉拿恐怖分子後，雷蒙卻表示這只是第一個，他將幫助FBI捉拿更多。\n\n雷蒙在自己的犯罪生涯的過程中製作了一份「諜海黑名單」，包含了不同的政客、犯罪集團、間諜和恐怖份子，名單上的大多數人FBI甚至都不知道其存在。",
+                    "homepage": "",
+                    "tagline": ""
+                }
+            }
+        ]
+    },
+    "videos": {
+        "results": [
+            {
+                "id": "5c92a68ec3a368500a0c795e",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "1_soL84ZDvE",
+                "name": "The Blacklist: Opening Scene - The Blacklist",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Clip"
+            },
+            {
+                "id": "555de5aec3a368693400165c",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "-WYdUaK54fU",
+                "name": "Blacklist Season 1 - Trailer",
+                "site": "YouTube",
+                "size": 360,
+                "type": "Trailer"
+            },
+            {
+                "id": "5c728d139251415ee2b30f45",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "XihA6GWIBdM",
+                "name": "The Blacklist - Season 1 Trailer [HD]",
+                "site": "YouTube",
+                "size": 720,
+                "type": "Trailer"
+            },
+            {
+                "id": "5ec42b5a3d3557001eeae23a",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "SoT5JImB1H8",
+                "name": "The Blacklist - first scene - Reddington surrenders himself to the FBI [HD]",
+                "site": "YouTube",
+                "size": 1080,
+                "type": "Clip"
+            }
+        ]
+    },
+    "credits": {
+        "cast": [
+            {
+                "character": "Elizabeth \"Liz\" Keen",
+                "credit_id": "52e5d68e760ee328d40d2458",
+                "id": 222141,
+                "name": "Megan Boone",
+                "gender": 1,
+                "profile_path": "/8SjSPu2IJQVvuM2rP0KPNmze6Dz.jpg",
+                "order": 1
+            },
+            {
+                "character": "Donald Ressler",
+                "credit_id": "5352fdb4c3a3681d8700315d",
+                "id": 142193,
+                "name": "Diego Klattenhoff",
+                "gender": 2,
+                "profile_path": "/6OV26Iq6qTXg4S3M7UnJglHBwHZ.jpg",
+                "order": 3
+            },
+            {
+                "character": "Raymond \"Red\" Reddington",
+                "credit_id": "52597435760ee34661a59fbf",
+                "id": 13548,
+                "name": "James Spader",
+                "gender": 2,
+                "profile_path": "/vNreWTzTOOnLiIL4FjVrXqhlsOT.jpg",
+                "order": 0
+            },
+            {
+                "character": "Harold Cooper",
+                "credit_id": "5352fe87c3a3681d87003168",
+                "id": 9464,
+                "name": "Harry Lennix",
+                "gender": 2,
+                "profile_path": "/kNGiizWpetf4pyAkINkjkWacmCL.jpg",
+                "order": 2
+            },
+            {
+                "character": "Aram Mojtabai",
+                "credit_id": "52edad60760ee310ec0fdf97",
+                "id": 164431,
+                "name": "Amir Arison",
+                "gender": 2,
+                "profile_path": "/5oecIPqgmQIcB0VEzBJVL9v5YBx.jpg",
+                "order": 595
+            },
+            {
+                "character": "Dembe Zuma",
+                "credit_id": "53084ac692514111170018bf",
+                "id": 144583,
+                "name": "Hisham Tawfiq",
+                "gender": 2,
+                "profile_path": "/go8XkwY6pbqfUDExs7o1U6O1r5u.jpg",
+                "order": 6
+            }
+        ],
+        "crew": []
+    }
+}

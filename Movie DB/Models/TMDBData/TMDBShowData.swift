@@ -9,67 +9,85 @@
 import Foundation
 import UIKit
 
-struct TMDBShowData: TMDBData, Hashable {
-    // Protocol properties
-    var id: Int
-    var title: String
-    var originalTitle: String
-    var imagePath: String?
-    var genres: [Genre]
-    var overview: String?
-    var status: MediaStatus
-    var originalLanguage: String
-    var imdbID: String?
-    var productionCompanies: [ProductionCompany]
-    var homepageURL: String?
-    var popularity: Float
-    var voteAverage: Float
-    var voteCount: Int
-    
-    // Exclusive properties
-    /// The raw first air date formatted as "yyyy-MM-dd"
-    var rawFirstAirDate: String?
+class TMDBShowData: TMDBData {
     /// The date, the show was first aired
-    var firstAirDate: Date? { rawFirstAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawFirstAirDate!) }
-    /// The raw last air date formatted as "yyyy-MM-dd"
-    var rawLastAirDate: String?
+    @Published var firstAirDate: Date?
     /// The date, the show was last aired
-    var lastAirDate: Date? { rawLastAirDate == nil ? nil : JFUtils.dateFromTMDBString(self.rawLastAirDate!) }
+    @Published var lastAirDate: Date?
     /// The number of seasons the show  has
-    var numberOfSeasons: Int?
+    @Published var numberOfSeasons: Int?
     /// The number of episodes, the show has
-    var numberOfEpisodes: Int
+    @Published var numberOfEpisodes: Int
     /// The runtime the episodes typically have
-    var episodeRuntime: [Int]
+    @Published var episodeRuntime: [Int]
     /// Whether the show is still in production
-    var isInProduction: Bool
+    @Published var isInProduction: Bool
     /// The list of seasons the show has
-    var seasons: [Season]
+    @Published var seasons: [Season]
     /// The type of the show (e.g. Scripted)
-    var type: ShowType?
+    @Published var type: ShowType?
     /// The list of networks that publish the show
-    var networks: [ProductionCompany]
+    @Published var networks: [ProductionCompany]
+    
+    init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, firstAirDate: Date?, lastAirDate: Date?, numberOfSeasons: Int?, numberOfEpisodes: Int, episodeRuntime: [Int], isInProduction: Bool, seasons: [Season], type: ShowType?, networks: [ProductionCompany], cast: [CastMember], keywords: [String], translations: [String], videos: [Video]) {
+        self.firstAirDate = firstAirDate
+        self.lastAirDate = lastAirDate
+        self.numberOfSeasons = numberOfSeasons
+        self.numberOfEpisodes = numberOfEpisodes
+        self.episodeRuntime = episodeRuntime
+        self.isInProduction = isInProduction
+        self.seasons = seasons
+        self.type = type
+        self.networks = networks
+        super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount, cast: cast, keywords: keywords, translations: translations, videos: videos)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        // If the decoded raw date is nil, we use "" to produce a nil date in the line below
+        let rawFirstAirDate = try container.decode(String?.self, forKey: .firstAirDate) ?? ""
+        self.firstAirDate = JFUtils.tmdbDateFormatter.date(from: rawFirstAirDate)
+        
+        let rawLastAirDate = try container.decode(String?.self, forKey: .lastAirDate) ?? ""
+        self.lastAirDate = JFUtils.tmdbDateFormatter.date(from: rawLastAirDate)
+        
+        self.numberOfSeasons = try container.decode(Int?.self, forKey: .numberOfSeasons)
+        self.numberOfEpisodes = try container.decode(Int.self, forKey: .numberOfEpisodes)
+        self.episodeRuntime = try container.decode([Int].self, forKey: .episodeRuntime)
+        self.isInProduction = try container.decode(Bool.self, forKey: .isInProduction)
+        self.seasons = try container.decode([Season].self, forKey: .seasons)
+        self.type = try container.decode(ShowType?.self, forKey: .type)
+        self.networks = try container.decode([ProductionCompany].self, forKey: .networks)
+        try super.init(from: decoder)
+    }
+    
+    override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        // Encode the dates using the tmdbDateFormatter, so init reads them correctly again
+        var rawFirstAirDate: String? = nil
+        var rawLastAirDate: String? = nil
+        if let firstAirDate = firstAirDate {
+            rawFirstAirDate = JFUtils.tmdbDateFormatter.string(from: firstAirDate)
+        }
+        if let lastAirDate = lastAirDate {
+            rawLastAirDate = JFUtils.tmdbDateFormatter.string(from: lastAirDate)
+        }
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(rawFirstAirDate, forKey: .firstAirDate)
+        try container.encode(rawLastAirDate, forKey: .lastAirDate)
+        try container.encode(numberOfSeasons, forKey: .numberOfSeasons)
+        try container.encode(numberOfEpisodes, forKey: .numberOfEpisodes)
+        try container.encode(episodeRuntime, forKey: .episodeRuntime)
+        try container.encode(isInProduction, forKey: .isInProduction)
+        try container.encode(seasons, forKey: .seasons)
+        try container.encode(type, forKey: .type)
+        try container.encode(networks, forKey: .networks)
+    }
     
     enum CodingKeys: String, CodingKey {
-        // Protocol Properties
-        case id
-        case title = "name"
-        case originalTitle = "original_name"
-        case imagePath = "poster_path"
-        case genres = "genres"
-        case overview
-        case status
-        case originalLanguage = "original_language"
-        case imdbID = "imdb_id"
-        case productionCompanies = "production_companies"
-        case homepageURL = "homepage"
-        case popularity
-        case voteAverage = "vote_average"
-        case voteCount = "vote_count"
-        
-        // Exclusive Properties
-        case rawFirstAirDate = "first_air_date"
-        case rawLastAirDate = "last_air_date"
+        case firstAirDate = "first_air_date"
+        case lastAirDate = "last_air_date"
         case numberOfSeasons = "number_of_seasons"
         case numberOfEpisodes = "number_of_episodes"
         case episodeRuntime = "episode_run_time"
@@ -77,5 +95,20 @@ struct TMDBShowData: TMDBData, Hashable {
         case seasons
         case type
         case networks
+    }
+    
+    // MARK: - Hashable Conformance
+    
+    override func hash(into hasher: inout Hasher) {
+        super.hash(into: &hasher)
+        hasher.combine(firstAirDate)
+        hasher.combine(lastAirDate)
+        hasher.combine(numberOfSeasons)
+        hasher.combine(numberOfEpisodes)
+        hasher.combine(episodeRuntime)
+        hasher.combine(isInProduction)
+        hasher.combine(seasons)
+        hasher.combine(type)
+        hasher.combine(networks)
     }
 }

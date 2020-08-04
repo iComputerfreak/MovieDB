@@ -154,10 +154,11 @@ struct SettingsView: View {
                                 // Document picker finished. Invalidate it.
                                 self.documentPicker = nil
                                 DispatchQueue.global().async {
+                                    // Load the CSV data and decode it
                                     do {
                                         let csv = try String(contentsOf: url)
                                         print("Imported csv file. Trying to import into library.")
-                                        let mediaObjects = CSVDecoder().decode(csv)
+                                        let mediaObjects: [Media] = try CSVCoder().decode(csv)
                                         // Presenting will change UI
                                         DispatchQueue.main.async {
                                             let controller = UIAlertController(title: "Import",
@@ -168,10 +169,8 @@ struct SettingsView: View {
                                                 self.library.save()
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel))
-                                            DispatchQueue.main.async {
-                                                self.isLoading = false
-                                                AlertHandler.presentAlert(alert: controller)
-                                            }
+                                            self.isLoading = false
+                                            AlertHandler.presentAlert(alert: controller)
                                         }
                                     } catch let exception {
                                         print("Error reading imported csv file:")
@@ -209,18 +208,15 @@ struct SettingsView: View {
                         
                         // MARK: - Export Button
                         Button(action: {
-                            let encoder = CSVEncoder()
-                            let csv = encoder.encode(self.library.mediaList)
-                            // Save the csv as a file to share it
-                            let formatter = DateFormatter()
-                            formatter.dateFormat = "yyyy-MM-dd"
                             let url: URL!
-                            url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
-                            // Delete any old export, if it exists
-                            if FileManager.default.fileExists(atPath: url.path) {
-                                try? FileManager.default.removeItem(at: url)
-                            }
                             do {
+                                let csv: String = try CSVCoder().encode(self.library.mediaList)
+                                // Save the csv as a file to share it
+                                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
+                                // Delete any old export, if it exists (this is only the local copy, that will be shared)
+                                if FileManager.default.fileExists(atPath: url.path) {
+                                    try? FileManager.default.removeItem(at: url)
+                                }
                                 try csv.write(to: url, atomically: true, encoding: .utf8)
                             } catch let exception {
                                 print("Error writing CSV file")

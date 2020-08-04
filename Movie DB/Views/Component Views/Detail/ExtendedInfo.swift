@@ -29,14 +29,14 @@ struct ExtendedInfo: View {
                         Text(JFUtils.moneyFormatter.string(from: movieData.revenue)!)
                             .headline("Revenue")
                     }
+                    if let imdbID = movieData.imdbID {
+                        LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
+                            .headline("IMDB ID")
+                    }
                 }
                 
                 LinkView(text: String(data.id), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(data.id)")
                     .headline("TMDB ID")
-                if let imdbID = data.imdbID {
-                    LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
-                        .headline("IMDB ID")
-                }
                 if let homepageURL = data.homepageURL, !homepageURL.isEmpty {
                     LinkView(text: homepageURL, link: homepageURL)
                         .headline("Homepage")

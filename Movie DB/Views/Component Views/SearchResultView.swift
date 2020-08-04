@@ -65,7 +65,7 @@ struct SearchResultView_Previews : PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0..<5, id: \.self) { i in
-                        SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, rawReleaseDate: "2020-04-20"))
+                        SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: JFUtils.tmdbDateFormatter.date(from: "2020-04-20")))
                             .background(Color.red)
                     }
                 }
@@ -73,7 +73,7 @@ struct SearchResultView_Previews : PreviewProvider {
             }
             
             
-            SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, rawReleaseDate: "2020-04-20"))
+            SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: JFUtils.tmdbDateFormatter.date(from: "2020-04-20")))
                 .background(Color.red)
                 .previewLayout(.fixed(width: 300, height: 100))
         }

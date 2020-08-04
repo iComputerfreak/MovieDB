@@ -22,13 +22,17 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     // MARK: - Properties
     // Media ID Creation
     /// Contains the next free collection id
-    private static var _nextID = -1
+    private static var _nextID = 0
     /// Returns the next free library id
     static var nextID: Int {
         print("Requesting new ID.")
         // Initialize
-        if _nextID < 0 {
+        if _nextID <= 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
+            if _nextID == 0 {
+                // No id saved in user defaults, lets start at 1
+                _nextID = 1
+            }
         }
         // Increase _nextID after returning
         defer {
@@ -87,22 +91,13 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     
     @Published var thumbnail: UIImage? = nil
     
-    // MARK: Loaded from Wrappers
-    /// The list of cast members, that starred in the media
-    @Published var cast: [CastMember] = []
-    /// The list of keywords on TheMovieDB.org
-    @Published var keywords: [String] = []
-    /// The list of translations available for the media
-    @Published var translations: [String] = []
-    /// The list of videos available
-    @Published var videos: [Video] = []
-    
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
     
     /// The year of the release or first airing of the media
     var year: Int? {
-        let cal = Calendar.current
+        var cal = Calendar.current
+        cal.timeZone = .utc
         if let movieData = tmdbData as? TMDBMovieData, let releaseDate = movieData.releaseDate {
             return cal.component(.year, from: releaseDate)
         } else if let showData = tmdbData as? TMDBShowData, let airDate = showData.firstAirDate {
@@ -185,10 +180,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
             // Image could not be loaded
             self.loadThumbnail()
         }
-        self.cast = try container.decode([CastMember].self, forKey: .cast)
-        self.keywords = try container.decode([String].self, forKey: .keywords)
-        self.translations = try container.decode([String].self, forKey: .translations)
-        self.videos = try container.decode([Video].self, forKey: .videos)
     }
     
     /// Tries to encode the media object into the given encoder.
@@ -221,11 +212,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
                 print(e)
             }
         }
-        
-        try container.encode(self.cast, forKey: .cast)
-        try container.encode(self.keywords, forKey: .keywords)
-        try container.encode(self.translations, forKey: .translations)
-        try container.encode(self.videos, forKey: .videos)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -237,83 +223,18 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         case watchAgain
         case notes
         case thumbnail
-        case cast
-        case keywords
-        case translations
-        case videos
     }
     
-    static func == (lhs: Media, rhs: Media) -> Bool {
-        return lhs.isEqual(to: rhs)
-    }
-    
-    func isEqual(to other: Media) -> Bool {
-        // Prevent (Superclass() == Subclass()) == true
-        // Using `Swift.type(to:)` to distinguish from property `self.type`
-        guard Swift.type(of: other) == Swift.type(of: self) else {
-            return false
-        }
-        // Case 1: tmdbData is of type TMDBMovieData
-        if let tmdbData = tmdbData as? TMDBMovieData {
-            // If other.tmdbData is of a different type, return
-            guard let movieData = other.tmdbData as? TMDBMovieData else {
-                return false
-            }
-            // If they are not equal, return
-            guard tmdbData == movieData else {
-                return false
-            }
-        }
-        // Case 2: tmdbData is of type TMDBShowData
-        if let tmdbData = tmdbData as? TMDBShowData {
-            // If other.tmdbData is of a different type, return
-            guard let showData = other.tmdbData as? TMDBShowData else {
-                return false
-            }
-            guard tmdbData == showData else {
-                return false
-            }
-        }
-        // Case 3: It is neither (impossible, because there are only those two structs, implementing the TMDBData protocol)
-        assert(Swift.type(of: tmdbData) == TMDBMovieData.self || Swift.type(of: tmdbData) == TMDBShowData.self, "There should only be two structs implementing the TMDBData protocol.")
-        
-        // At this point, we have made sure, that tmdbData == other.tmdbData
-        // Compare the other values:
-        return
-            id == other.id &&
-            type == other.type &&
-            personalRating == other.personalRating &&
-            tags == other.tags &&
-            watchAgain == other.watchAgain &&
-            notes == other.notes &&
-            thumbnail == other.thumbnail &&
-            cast == other.cast &&
-            keywords == other.keywords &&
-            translations == other.translations &&
-            videos == other.videos &&
-            year == other.year &&
-            missingInformation == other.missingInformation
-    }
-    
+    // MARK: - Hashable Conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        if let movieData = tmdbData as? TMDBMovieData {
-            hasher.combine(movieData)
-        } else if let showData = tmdbData as? TMDBShowData {
-            hasher.combine(showData)
-        } else {
-            assertionFailure("There should only be two structs implementing the TMDBData protocol.")
-        }
+        hasher.combine(tmdbData)
         hasher.combine(type)
         hasher.combine(personalRating)
         hasher.combine(tags)
         hasher.combine(watchAgain)
         hasher.combine(notes)
         hasher.combine(thumbnail)
-        hasher.combine(cast)
-        hasher.combine(keywords)
-        hasher.combine(translations)
-        hasher.combine(videos)
         hasher.combine(year)
         hasher.combine(missingInformation)
     }

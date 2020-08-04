@@ -10,6 +10,15 @@ import Foundation
 import UIKit
 import SwiftUI
 
+extension TimeZone {
+    static let utc = TimeZone(secondsFromGMT: 0)!
+}
+
+/// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
+func undefined<T>(_ message: String = "") -> T {
+    fatalError(message)
+}
+
 struct JFUtils {
     
     static let wordsIgnoredForSorting = [
@@ -19,23 +28,11 @@ struct JFUtils {
     
     static var tmdbDateFormatter: DateFormatter {
         let formatter = DateFormatter()
+        formatter.timeZone = .utc
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
-    
-    /// Converts a string from the TMDB response into a `Date`
-    /// - Parameter string: The date-string from TMDB
-    static func dateFromTMDBString(_ string: String) -> Date? {
-        return tmdbDateFormatter.date(from: string)
-    }
-    
-    /// Returns the year component of the given date
-    /// - Parameter date: The date
-    static func yearOfDate(_ date: Date) -> Int {
-        let cal = Calendar.current
-        return cal.component(.year, from: date)
-    }
-    
+        
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler.
     /// - Parameters:
@@ -74,6 +71,7 @@ struct JFUtils {
         var request = URLRequest(url: URL(string: urlStringWithParameters)!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("Making GET Request to \(urlStringWithParameters)")
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
     }
     
@@ -109,6 +107,7 @@ struct JFUtils {
     /// Returns a date formatter to display `Date` values.
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
+        formatter.timeZone = .utc
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter
     }

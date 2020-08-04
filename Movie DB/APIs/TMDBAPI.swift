@@ -64,6 +64,7 @@ class TMDBAPI {
                 completion([])
                 return
             }
+            // TODO: We should throw that error here
             guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
                 print("Error decoding first page of multi page request.")
                 completion([])
@@ -108,65 +109,54 @@ class TMDBAPI {
     ///   - id: The id of the media on TheMovieDB.org
     ///   - type: The type of media
     ///   - completion: The code to execute when the request is completed
-    private func getTMDBData(by id: Int, type: MediaType, completion: @escaping (TMDBData?) -> Void) {
-        self.request(path: "\(type.rawValue)/\(id)") { (data) in
+    private func fetchTMDBData(for id: Int, type: MediaType) -> TMDBData? {
+        var tmdbData: TMDBData? = nil
+        let group = DispatchGroup()
+        group.enter()
+        self.request(path: "\(type.rawValue)/\(id)", additionalParameters: ["append_to_response": "keywords,translations,videos,credits"]) { (data) in
             guard let data = data else {
-                // On fail, call the completion with nil, so the caller knows, it failed
+                // On fail, return nil, so the caller knows, it failed
                 print("JFUtils.getRequest returned nil")
-                completion(nil)
+                group.leave()
                 return
             }
             do {
-                if type == .movie {
-                    completion(try JSONDecoder().decode(TMDBMovieData.self, from: data))
-                } else {
-                    completion(try JSONDecoder().decode(TMDBShowData.self, from: data))
-                }
+                let dataType = type == .movie ? TMDBMovieData.self : TMDBShowData.self
+                tmdbData = try JSONDecoder().decode(dataType, from: data)
+                group.leave()
             } catch let e as DecodingError {
                 print("Error decoding: \(e)")
-            } catch {
-                print("Other error")
+                group.leave()
+            } catch let e {
+                print("Other error: \(e)")
+                group.leave()
             }
         }
+        
+        group.wait()
+        return tmdbData
     }
     
     /// Fetches a media object for the given ID and type of media
     /// - Parameters:
     ///   - id: The id of the media to fetch
     ///   - type: The type of media
-    func fetchMedia(id: Int, type: MediaType, completion: @escaping () -> Void = {}) -> Media? {
-        var media: Media? = nil
+    func fetchMedia(id: Int, type: MediaType) -> Media? {
         // Get the TMDB Data
-        let tmdbDataGroup = DispatchGroup()
-        tmdbDataGroup.enter()
-        self.getTMDBData(by: id, type: type) { (tmdbData) in
-            guard let tmdbData = tmdbData else {
-                print("Error getting TMDB Data for \(type.rawValue) \(id)")
-                tmdbDataGroup.leave()
-                return
-            }
-            // Create the media
-            if type == .movie {
-                media = Movie()
-            } else {
-                media = Show()
-            }
-            media?.tmdbData = tmdbData
-            media?.loadThumbnail()
-            tmdbDataGroup.leave()
+        guard let tmdbData = self.fetchTMDBData(for: id, type: type) else {
+            print("Error getting TMDB Data for \(type.rawValue) \(id)")
+            return nil
         }
-        // Wait for TMDBData to be fetched
-        tmdbDataGroup.wait()
-        
-        if let media = media {
-            // Fetch other API stuff async and then execute the completion handler
-            DispatchQueue.main.async {
-                // I can only get a correct completion call, if I execute the startSeparateAPICalls function synchronized
-                self.startSeparateAPICalls(media: media, sync: true)
-                completion()
-            }
+        // Create the media
+        var media: Media? = nil
+        if type == .movie {
+            media = Movie()
+        } else {
+            media = Show()
         }
-        
+        media?.tmdbData = tmdbData
+        media?.loadThumbnail()
+                
         return media
     }
     
@@ -178,99 +168,24 @@ class TMDBAPI {
     /// 
     /// - Parameter media: The media object to update
     /// - Returns: Whether the update was successful
-    func updateMedia(_ media: Media) -> Bool {
-        var success = true
+    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) -> Bool {
         guard let id = media.tmdbData?.id else {
             // No idea what TMDB ID should be
             print("Error updating media \(media.id). No TMDB Data set.")
             return false
         }
         // Update TMDBData
-        let group = DispatchGroup()
-        group.enter()
-        self.getTMDBData(by: id, type: media.type) { (data) in
-            guard let data = data else {
-                print("Error updating TMDB data of \(media.type.rawValue) \(id)")
-                success = false
-                group.leave()
-                return
-            }
-            // If fetching was successful, update the media object and thumbnail
-            DispatchQueue.main.async {
-                media.tmdbData = data
-                media.loadThumbnail()
-            }
-            group.leave()
-        }
-        group.wait()
-        // Redownload the thumbnail (it may have been updated)
-        media.loadThumbnail(force: true)
-        // Update cast, keywords, videos and translations
-        return success && self.startSeparateAPICalls(media: media, sync: true)
-    }
-    
-    /// Starts API calls to fill in the cast, keywords, videos and translations.
-    /// Does not overwrite existing data with nil or empty data.
-    ///
-    /// This function uses 4 API calls
-    ///
-    /// - Parameter media: The media object to fill with the API call results
-    /// - Parameter sync: Whether the function should be executed synchronously
-    /// - Returns: Whether the API calls were successful
-    @discardableResult
-    private func startSeparateAPICalls(media: Media, sync: Bool = false, completion: @escaping () -> Void = {}) -> Bool {
-        guard let id = media.tmdbData?.id else {
-            // No idea what the TMDB ID should be
-            completion()
+        guard let tmdbData = self.fetchTMDBData(for: id, type: media.type) else {
+            print("Error updating TMDB data of \(media.type.rawValue) \(id)")
             return false
         }
-        // Only create the group, if sync is set
-        let group: DispatchGroup? = sync ? DispatchGroup() : nil
-        group?.enter()
-        self.getCast(by: id, type: media.type) { (wrapper) in
-            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.cast.count ?? -1) Cast Members")
-            if let cast = wrapper?.cast, !cast.isEmpty {
-                DispatchQueue.main.async {
-                    media.cast = cast
-                }
-            }
-            group?.leave()
+        // If fetching was successful, update the media object and thumbnail
+        DispatchQueue.main.async {
+            media.tmdbData = tmdbData
+            // Redownload the thumbnail (it may have been updated)
+            media.loadThumbnail(force: true)
+            completion()
         }
-        group?.enter()
-        self.getKeywords(by: id, type: media.type) { (wrapper) in
-            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.keywords.count ?? -1) Keywords")
-            if let keywords = wrapper?.keywords, !keywords.isEmpty {
-                DispatchQueue.main.async {
-                    // Save only the keyword names, ignore the id
-                    media.keywords = keywords.map(\.name)
-                }
-            }
-            group?.leave()
-        }
-        group?.enter()
-        self.getVideos(by: id, type: media.type) { (wrapper) in
-            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.videos.count ?? -1) Videos")
-            if let videos = wrapper?.videos, !videos.isEmpty {
-                DispatchQueue.main.async {
-                    // Save only the trailers
-                    media.videos = videos.filter({ $0.type == JFLiterals.kTrailerVideoType })
-                }
-            }
-            group?.leave()
-        }
-        group?.enter()
-        self.getTranslations(by: id, type: media.type) { (wrapper) in
-            print("[\(media.tmdbData?.title ?? "Unknown")] Loaded \(wrapper?.translations.count ?? -1) Translations")
-            if let translations = wrapper?.translations, !translations.isEmpty {
-                DispatchQueue.main.async {
-                    // Save only the localized names, not the english names
-                    media.translations = translations.map(\.name)
-                }
-            }
-            group?.leave()
-        }
-        group?.wait()
-        
         return true
     }
     
@@ -309,53 +224,9 @@ class TMDBAPI {
         self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": name,
             "include_adult": includeAdult
-        ], maxPages: 10, pageWrapper: SearchResult.self) { (results: [TMDBSearchResult]) in
+        ], maxPages: 10, pageWrapper: SearchResultsPageWrapper.self) { (results: [TMDBSearchResult]) in
             completion(results)
         }
-    }
-    
-    /// Fetches the cast members for a given media ID and a given `MediaType`.
-    /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute, when the request is completed
-    func getCast(by id: Int, type: MediaType, completion: @escaping (CastWrapper?) -> Void) {
-        decodeAPIURL(path: "\(type.rawValue)/\(id)/credits", completion: completion)
-    }
-    
-    /// Fetches the keywords for a given media ID and a given `MediaType`.
-    /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute, when the request is completed
-    func getKeywords(by id: Int, type: MediaType, completion: @escaping (KeywordsWrapper?) -> Void) {
-        if type == .movie {
-            decodeAPIURL(path: "\(type.rawValue)/\(id)/keywords", completion: { (wrapper: MovieKeywordsWrapper?) in
-                completion(wrapper)
-            })
-        } else {
-            decodeAPIURL(path: "\(type.rawValue)/\(id)/keywords", completion: { (wrapper: ShowKeywordsWrapper?) in
-                completion(wrapper)
-            })
-        }
-    }
-    
-    /// Fetches the videos for a given media ID and a given `MediaType`.
-    /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute, when the request is completed
-    func getVideos(by id: Int, type: MediaType, completion: @escaping (VideosWrapper?) -> Void) {
-        decodeAPIURL(path: "\(type.rawValue)/\(id)/videos", completion: completion)
-    }
-    
-    /// Fetches the translations for a given media ID and a given `MediaType`.
-    /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute, when the request is completed
-    func getTranslations(by id: Int, type: MediaType, completion: @escaping (TranslationsWrapper?) -> Void) {
-        decodeAPIURL(path: "\(type.rawValue)/\(id)/translations", completion: completion)
     }
     
     /// Decodes an API result into a given type.
@@ -381,4 +252,10 @@ class TMDBAPI {
         }
     }
     
+}
+
+/// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.
+fileprivate struct MediaChangeWrapper: Codable {
+    var id: Int
+    var adult: Bool?
 }

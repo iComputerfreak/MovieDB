@@ -51,15 +51,16 @@ class TagLibrary: ObservableObject {
         return tags.first(where: { $0.id == id })?.name
     }
     
-    // Creates a new tag and adds it to the library
-    func create(name: String) {
+    // Creates a new tag and adds it to the library, returns its ID
+    @discardableResult
+    func create(name: String) -> Int {
         var nextID = TagLibrary.nextID
         // Make sure the ID doesn't exist yet (could be possible after a crash)
         while self.tags.map(\.id).contains(nextID) {
             print("Skipping Tag ID \(nextID), since it already exists.")
             nextID = TagLibrary.nextID
         }
-        self.tags.append(Tag(id: TagLibrary.nextID, name))
+        self.tags.append(Tag(id: nextID, name))
         save()
         #if DEBUG
         // Check if there are any duplicate tag IDs
@@ -69,6 +70,7 @@ class TagLibrary: ObservableObject {
             assertionFailure("There are duplicate Tag IDs assigned!")
         }
         #endif
+        return nextID
     }
     
     func rename(id: Int, newName: String) {
