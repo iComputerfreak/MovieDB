@@ -16,5 +16,5 @@ jobs:
     - name: Xcodebuild Action
       uses: sersoft-gmbh/xcodebuild-action@v1.1
       with:
-        project: "Movie DB/MovieDB.xcodeproj"
+        project: "Movie DB.xcodeproj"
         destination: platform=iOS
