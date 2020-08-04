@@ -65,7 +65,7 @@ class MediaLibrary: ObservableObject, Codable {
             for media in self.mediaList {
                 if changes.contains(media.tmdbData?.id ?? -1) {
                     // This media has been changed
-                    // TODO: Throttle API Calls
+                    // TODO: Throttle API Calls (use a rateLimitError)
                     if api.updateMedia(media) {
                         successes += 1
                     } else {

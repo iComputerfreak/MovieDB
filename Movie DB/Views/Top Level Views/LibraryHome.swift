@@ -95,7 +95,7 @@ struct LibraryHome : View {
             VStack {
                 SearchBar(searchText: $searchText)
                     List {
-                        Section(footer: Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == library.mediaList.count ? " total" : "")")) {
+                        Section(footer: footerText) {
                             ForEach(filteredMedia) { mediaObject in
                                 LibraryRow()
                                     .environmentObject(mediaObject)
@@ -120,7 +120,7 @@ struct LibraryHome : View {
                                 .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
                                 .background(
                                     EmptyView()
-                                        // TODO: Open new item in editing mode
+                                        // FUTURE: Open new item in editing mode
                                         
                                         //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                                 )
@@ -138,6 +138,13 @@ struct LibraryHome : View {
             self.library.save()
         }
         }
+    }
+    
+    var footerText: some View {
+        guard filteredMedia.count > 0 else {
+            return Text("")
+        }
+        return Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == library.mediaList.count ? " total" : "")")
     }
 }
 

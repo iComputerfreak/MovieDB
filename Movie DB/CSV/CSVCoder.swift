@@ -24,9 +24,9 @@ struct CSVCoder {
         .lastEpisodeWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
     ]
     
-    var arraySeparator = ","
     var separator = ";"
-    var delimiter = "\n"
+    var arraySeparator = ","
+    let lineSeparator = "\n"
     
     var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -36,7 +36,7 @@ struct CSVCoder {
     }()
     
     func decode(_ csv: String) throws -> [Media] {
-        var lines = csv.components(separatedBy: delimiter)
+        var lines = csv.components(separatedBy: lineSeparator)
         var mediaObjects: [Media] = []
         
         // Load the headers from the CSV
@@ -55,9 +55,8 @@ struct CSVCoder {
             }
             let valuePairs = (0..<headers.count).map({ (headers[$0].rawValue, lineParts[$0]) })
             let values = Dictionary(uniqueKeysWithValues: valuePairs)
-            let data = try CSVData(from: values, dateFormatter: dateFormatter, arraySeparator: arraySeparator)
             
-            guard let media = data.createMedia() else {
+            guard let media = try CSVData.createMedia(from: values, arraySeparator: arraySeparator) else {
                 throw CSVCoderError.dataLoadError
             }
             mediaObjects.append(media)
@@ -71,7 +70,7 @@ struct CSVCoder {
         var lines: [String] = [headers.map(\.rawValue).joined(separator: separator)]
         
         for media in mediaObjects {
-            let data = try CSVData(from: media, dateFormatter: dateFormatter, arraySeparator: arraySeparator)
+            let data = try CSVData(from: media, dateFormatter: dateFormatter, separator: separator, arraySeparator: arraySeparator, lineSeparator: lineSeparator)
             // Export CSVData as String
             let values = data.createCSVValues()
             // Map the headers to their value
@@ -79,7 +78,7 @@ struct CSVCoder {
             lines.append(csv)
         }
         
-        return lines.joined(separator: delimiter)
+        return lines.joined(separator: lineSeparator)
     }
     
 }

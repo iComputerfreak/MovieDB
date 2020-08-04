@@ -22,8 +22,7 @@ class CSVCoderTests: XCTestCase {
     }
     
     // TODO: Notes field in editing view is too small
-    // TODO: Make sure that notes don't contain ; or line breaks (because of csv)
-    // TODO: Change CSVCoder to im-/export tags and genres as names only
+    // TODO: Make sure that notes don't contain ; or line breaks when exporting to CSV
     
     func testDecode() throws {
         let sample1 = """
@@ -132,7 +131,7 @@ class CSVCoderTests: XCTestCase {
     func testEncode() throws {
         // TODO: Use TestingUtils.mediaSamples and check the result CSV for all values!!!
         let csv = try csvCoder.encode(TestingUtils.mediaSamples)
-        let lines = csv.components(separatedBy: csvCoder.delimiter)
+        let lines = csv.components(separatedBy: csvCoder.lineSeparator)
         // We should get an extra line for the header
         XCTAssertEqual(lines.count, TestingUtils.mediaSamples.count + 1)
         
@@ -166,7 +165,6 @@ class CSVCoderTests: XCTestCase {
     }
     
     // TODO: when de-/encoding, check, if the notes contain separator or arraySeparator
-    // TODO: Make delimiter read-only and name it lineSeparator or something like that
     
     private func testEncodedMedia(_ data: [CSVCodingKey: String], encodedMedia media: Media) throws {
         // data[key] never returns nil, since every value is read from CSV and nil-values in CSV are empty strings

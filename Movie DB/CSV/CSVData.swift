@@ -43,10 +43,11 @@ struct CSVData {
     let showType: ShowType?
     
     let dateFormatter: DateFormatter
+    let separator: String
     let arraySeparator: String
+    let lineSeparator: String
     
-    
-    init(from media: Media, dateFormatter: DateFormatter, arraySeparator: String) throws {
+    init(from media: Media, dateFormatter: DateFormatter, separator: String, arraySeparator: String, lineSeparator: String) throws {
         self.id = media.id
         self.type = media.type
         self.personalRating = media.personalRating
@@ -80,75 +81,9 @@ struct CSVData {
         self.showType = showData?.type
         
         self.dateFormatter = dateFormatter
+        self.separator = separator
         self.arraySeparator = arraySeparator
-    }
-    
-    /// Creates a new CSVData object from the given set of string values
-    init(from data: [String: String], dateFormatter: DateFormatter, arraySeparator: String) throws {
-        // TODO: We decode the whole CSV here, although we only use a part of it (personal data and tmdbID)
-        let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
-        
-        self.id = try decoder.decode(Int.self, forKey: .id)
-        self.type = try decoder.decode(MediaType.self, forKey: .type)
-        self.personalRating = try decoder.decode(StarRating.self, forKey: .personalRating)
-        
-        let tagNames = try decoder.decode([String].self, forKey: .tags)
-        var tagIDs = [Int]()
-        for name in tagNames {
-            if let id = TagLibrary.shared.tags.first(where: { $0.name == name })?.id {
-                tagIDs.append(id)
-            } else {
-                // Tag does not exist, create a new one
-                let id = TagLibrary.shared.create(name: name)
-                tagIDs.append(id)
-            }
-        }
-        self.tags = tagIDs
-        
-        self.watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
-        self.notes = try decoder.decode(String.self, forKey: .notes)
-        
-        self.tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
-        self.title = try decoder.decode(String.self, forKey: .title)
-        self.originalTitle = try decoder.decode(String.self, forKey: .originalTitle)
-        
-        let genreNames = try decoder.decode([String].self, forKey: .genres)
-        // Create genres with invalid IDs, since the ID cannot be recovered from the CSV
-        self.genres = genreNames.map({ Genre(id: -1, name: $0) })
-        
-        self.overview = try decoder.decode(String?.self, forKey: .overview)
-        self.status = try decoder.decode(MediaStatus.self, forKey: .status)
-        
-        // Movie exclusive (all optional, because the current media could be a show)
-        self.watched = try decoder.decode(Bool?.self, forKey: .watched)
-        if let rawReleaseDate = try decoder.decode(String?.self, forKey: .releaseDate) {
-            self.releaseDate = dateFormatter.date(from: rawReleaseDate)
-        } else {
-            self.releaseDate = nil
-        }
-        self.runtime = try decoder.decode(Int?.self, forKey: .runtime)
-        self.budget = try decoder.decode(Int?.self, forKey: .budget)
-        self.revenue = try decoder.decode(Int?.self, forKey: .revenue)
-        self.isAdult = try decoder.decode(Bool?.self, forKey: .isAdult)
-        
-        // Show exclusive (all optional, because the current media could be a movie)
-        self.lastEpisodeWatched = try decoder.decode(Show.EpisodeNumber?.self, forKey: .lastEpisodeWatched)
-        if let rawFirstAirDate = try decoder.decode(String?.self, forKey: .firstAirDate) {
-            self.firstAirDate = dateFormatter.date(from: rawFirstAirDate)
-        } else {
-            self.firstAirDate = nil
-        }
-        if let rawLastAirDate = try decoder.decode(String?.self, forKey: .lastAirDate) {
-            self.lastAirDate = dateFormatter.date(from: rawLastAirDate)
-        } else {
-            self.lastAirDate = nil
-        }
-        self.numberOfSeasons = try decoder.decode(Int?.self, forKey: .numberOfSeasons)
-        self.isInProduction = try decoder.decode(Bool?.self, forKey: .isInProduction)
-        self.showType = try decoder.decode(ShowType?.self, forKey: .showType)
-        
-        self.dateFormatter = dateFormatter
-        self.arraySeparator = arraySeparator
+        self.lineSeparator = lineSeparator
     }
     
     func createCSVValues() -> [String: String] {
@@ -160,7 +95,12 @@ struct CSVData {
         // We don't export tags, that don't have a name
         encoder.encode(tags.compactMap(TagLibrary.shared.name(for:)), forKey: .tags)
         encoder.encode(watchAgain, forKey: .watchAgain)
-        encoder.encode(notes, forKey: .notes)
+        // Clean the notes (should not contains illegal characters)
+        let cleanNotes = notes
+            .replacingOccurrences(of: arraySeparator, with: "")
+            .replacingOccurrences(of: separator, with: "")
+            .replacingOccurrences(of: lineSeparator, with: "")
+        encoder.encode(cleanNotes, forKey: .notes)
         encoder.encode(tmdbID, forKey: .tmdbID)
         encoder.encode(title, forKey: .title)
         encoder.encode(originalTitle, forKey: .originalTitle)
@@ -188,21 +128,45 @@ struct CSVData {
         return encoder.data
     }
     
-    func createMedia() -> Media? {
+    static func createMedia(from data: [String: String], arraySeparator: String) throws -> Media? {
+        let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
+        
+        let type = try decoder.decode(MediaType.self, forKey: .type)
+        let personalRating = try decoder.decode(StarRating.self, forKey: .personalRating)
+        
+        let tagNames = try decoder.decode([String].self, forKey: .tags)
+        var tagIDs = [Int]()
+        for name in tagNames {
+            if let id = TagLibrary.shared.tags.first(where: { $0.name == name })?.id {
+                tagIDs.append(id)
+            } else {
+                // Tag does not exist, create a new one
+                let id = TagLibrary.shared.create(name: name)
+                tagIDs.append(id)
+            }
+        }
+        let tags = tagIDs
+        
+        let watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
+        let notes = try decoder.decode(String.self, forKey: .notes)
+        let watched = try decoder.decode(Bool?.self, forKey: .watched)
+        let lastEpisodeWatched = try decoder.decode(Show.EpisodeNumber?.self, forKey: .lastEpisodeWatched)
+        
         // To create the media, we fetch it from the API and then assign the user values
-        let media = TMDBAPI.shared.fetchMedia(id: self.tmdbID, type: self.type)
-        media?.personalRating = self.personalRating
-        media?.tags = self.tags
-        media?.watchAgain = self.watchAgain
-        media?.notes = self.notes
+        let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
+        let media = TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
+        media?.personalRating = personalRating
+        media?.tags = tags
+        media?.watchAgain = watchAgain
+        media?.notes = notes
         
         if let media = media {
             if type == .movie {
                 assert(Swift.type(of: media) == Movie.self)
-                (media as? Movie)?.watched = self.watched
+                (media as? Movie)?.watched = watched
             } else {
                 assert(Swift.type(of: media) == Show.self)
-                (media as? Show)?.lastEpisodeWatched = self.lastEpisodeWatched
+                (media as? Show)?.lastEpisodeWatched = lastEpisodeWatched
             }
         }
         

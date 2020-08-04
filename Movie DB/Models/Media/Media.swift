@@ -22,13 +22,17 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     // MARK: - Properties
     // Media ID Creation
     /// Contains the next free collection id
-    private static var _nextID = -1
+    private static var _nextID = 0
     /// Returns the next free library id
     static var nextID: Int {
         print("Requesting new ID.")
         // Initialize
-        if _nextID < 0 {
+        if _nextID <= 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
+            if _nextID == 0 {
+                // No id saved in user defaults, lets start at 1
+                _nextID = 1
+            }
         }
         // Increase _nextID after returning
         defer {

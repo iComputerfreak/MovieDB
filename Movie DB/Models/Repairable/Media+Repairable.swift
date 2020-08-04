@@ -18,7 +18,7 @@ extension Media: Repairable {
         let progressStep = 1.0/3.0
         let group = DispatchGroup()
         var fixed = 0
-        var notFixed = 0
+        let notFixed = 0
         // If we have no TMDBData, we have no tmdbID and therefore no possibility to reload the data.
         guard let tmdbData = self.tmdbData else {
             print("[Verify] Media \(self.id) is missing the tmdbData. Not fixable.")
