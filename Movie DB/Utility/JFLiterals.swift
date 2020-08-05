@@ -23,6 +23,8 @@ struct JFLiterals {
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos
     static let kTrailerVideoType = "Trailer"
+    /// The maximum amount of pages to load when searching for media
+    static let maxSearchPages = 10
     
     struct Keys {
         static let allTags = "allTags"

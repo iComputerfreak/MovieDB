@@ -10,6 +10,12 @@ import Foundation
 
 class TMDBAPI {
     
+    enum APIError: Error {
+        case unauthorized
+        case invalidResponse
+        case unknown(Int)
+    }
+    
     static let shared = TMDBAPI()
     
     /// The base part of the TheMovieDB.org API URL
@@ -29,156 +35,43 @@ class TMDBAPI {
     
     private init() {}
     
-    /// Performs an API call using the given path and completion closure
-    /// - Parameters:
-    ///   - path: The api path without the starting `/`
-    ///   - completion: The closure to execute, once the GET Request has been completed
-    /// - Returns: Whether the operation was successful
-    private func request(path: String, additionalParameters: [String: Any?] = [:], completion: @escaping (Data?) -> Void) {
-        let url = "\(baseURL)/\(path)"
-        var parameters: [String: Any?] = [
-            "api_key": apiKey,
-            "language": locale,
-            "region": region
-        ]
-        // Overwrite existing keys
-        parameters.merge(additionalParameters, uniquingKeysWith: { (_, new) in new })
-        JFUtils.getRequest(url, parameters: parameters, completion: completion)
-    }
-    
-    /// Loads multiple pages of results and appends the items
-    /// - Parameters:
-    ///   - path: The API path to use for the request
-    ///   - additionalParameters: Additional parameters to append
-    ///   - maxPages: The number of pages to load at most
-    ///   - pageWrapper: A specific wrapper class to decode the result pages
-    ///   - completion: The closure to execute upon completion
-    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, completion: @escaping ([PageWrapper.ObjectWrapper]) -> Void) {
-            
-        typealias ObjectWrapper = PageWrapper.ObjectWrapper
-        
-        var results: [ObjectWrapper] = []
-        self.request(path: path, additionalParameters: additionalParameters) { (data) in
-            guard let data = data else {
-                print("Error loading first page of multi page request.")
-                completion([])
-                return
-            }
-            // TODO: We should throw that error here
-            guard let wrapper = try? JSONDecoder().decode(PageWrapper.self, from: data) else {
-                print("Error decoding first page of multi page request.")
-                completion([])
-                return
-            }
-            results.append(contentsOf: wrapper.results)
-            let group = DispatchGroup()
-            if wrapper.totalPages <= 1 {
-                completion(results)
-                return
-            }
-            for page in 2 ... min(wrapper.totalPages, maxPages) {
-                group.enter()
-                self.request(path: path, additionalParameters: additionalParameters.merging(["page": page], uniquingKeysWith: { (_, new) in new })) { (data) in
-                    guard let data = data else {
-                        print("Error loading results page \(page).")
-                        group.leave()
-                        return
-                    }
-                    do {
-                        let wrapper = try JSONDecoder().decode(PageWrapper.self, from: data)
-                        results.append(contentsOf: wrapper.results)
-                        group.leave()
-                    } catch let e {
-                        print("Error decoding results page \(page).")
-                        print(e)
-                        group.leave()
-                        return
-                    }
-                }
-            }
-            group.notify(queue: .main) {
-                // Once all pages have been loaded and added to the results
-                completion(results)
-            }
-        }
-    }
-    
-    // Returns a concrete subclass
-    /// Fetches a subclass of `Media` from TheMovieDB.org for a given media ID and a given `MediaType`.
-    /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute when the request is completed
-    private func fetchTMDBData(for id: Int, type: MediaType) -> TMDBData? {
-        var tmdbData: TMDBData? = nil
-        let group = DispatchGroup()
-        group.enter()
-        self.request(path: "\(type.rawValue)/\(id)", additionalParameters: ["append_to_response": "keywords,translations,videos,credits"]) { (data) in
-            guard let data = data else {
-                // On fail, return nil, so the caller knows, it failed
-                print("JFUtils.getRequest returned nil")
-                group.leave()
-                return
-            }
-            do {
-                let dataType = type == .movie ? TMDBMovieData.self : TMDBShowData.self
-                tmdbData = try JSONDecoder().decode(dataType, from: data)
-                group.leave()
-            } catch let e as DecodingError {
-                print("Error decoding: \(e)")
-                group.leave()
-            } catch let e {
-                print("Other error: \(e)")
-                group.leave()
-            }
-        }
-        
-        group.wait()
-        return tmdbData
-    }
+    // MARK: - Public functions
     
     /// Fetches a media object for the given ID and type of media
     /// - Parameters:
     ///   - id: The id of the media to fetch
     ///   - type: The type of media
-    func fetchMedia(id: Int, type: MediaType) -> Media? {
+    func fetchMedia(id: Int, type: MediaType) throws -> Media {
         // Get the TMDB Data
-        guard let tmdbData = self.fetchTMDBData(for: id, type: type) else {
-            print("Error getting TMDB Data for \(type.rawValue) \(id)")
-            return nil
-        }
+        let tmdbData = try self.fetchTMDBData(for: id, type: type)
         // Create the media
-        var media: Media? = nil
-        if type == .movie {
-            media = Movie()
-        } else {
-            media = Show()
+        var media: Media!
+        switch type {
+            case .movie:
+                media = Movie()
+            case .show:
+                media = Show()
         }
-        media?.tmdbData = tmdbData
-        media?.loadThumbnail()
-                
+        media.tmdbData = tmdbData
+        media.loadThumbnail()
         return media
     }
     
+    // TODO: completion is called, after the UI has been updated
     /// Updates a given media object by fetching the TMDB data again and overwriting existing data with the result.
     /// Does not overwrite existing data with nil or empty values.
     /// This function is executed **synchronously**.
     ///
-    /// This function uses 5 API calls.
-    /// 
     /// - Parameter media: The media object to update
     /// - Returns: Whether the update was successful
-    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) -> Bool {
+    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws -> Bool {
         guard let id = media.tmdbData?.id else {
             // No idea what TMDB ID should be
             print("Error updating media \(media.id). No TMDB Data set.")
             return false
         }
         // Update TMDBData
-        guard let tmdbData = self.fetchTMDBData(for: id, type: media.type) else {
-            print("Error updating TMDB data of \(media.type.rawValue) \(id)")
-            return false
-        }
+        let tmdbData = try self.fetchTMDBData(for: id, type: media.type)
         // If fetching was successful, update the media object and thumbnail
         DispatchQueue.main.async {
             media.tmdbData = tmdbData
@@ -191,28 +84,18 @@ class TMDBAPI {
     
     /// Fetches the IDs of the media objects that changed in the given timeframe
     /// - Parameter completion: The closure to execute upon completion of the request
-    func getChanges(from startDate: Date?, to endDate: Date, completion: @escaping ([Int]) -> Void) {
-        var dateRangeParameters: [String: Any?] = [
+    func getChanges(from startDate: Date, to endDate: Date) throws -> [Int] {
+        let dateRangeParameters: [String: Any?] = [
+            "start_date": JFUtils.tmdbDateFormatter.string(from: startDate),
             "end_date": JFUtils.tmdbDateFormatter.string(from: endDate)
         ]
-        // If start date provided, set it
-        if let startDate = startDate {
-            dateRangeParameters["start_date"] = JFUtils.tmdbDateFormatter.string(from: startDate)
-        }
-        
         var results: [MediaChangeWrapper] = []
-        let superGroup = DispatchGroup()
         for type in MediaType.allCases {
-            superGroup.enter()
-            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self) { (wrappers: [MediaChangeWrapper]) in
-                results.append(contentsOf: wrappers)
-                superGroup.leave()
-            }
+            // Load the changes for every type of media (movie and tv)
+            results += try self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self)
         }
-        // Once all pages have loaded (for movie and tv), execute the completion closure
-        superGroup.notify(queue: .main) {
-            completion(results.map(\.id))
-        }
+        // Only return the TMDB IDs that changed
+        return results.map(\.id)
     }
     
     /// Searches for a media with a given name on TheMovieDB.org.
@@ -220,36 +103,119 @@ class TMDBAPI {
     ///   - name: The name of the media to search for
     ///   - includeAdult: Whether the results should include adult media
     ///   - completion: The code to execute when the request is completed.
-    func searchMedia(_ name: String, includeAdult: Bool = true, completion: @escaping ([TMDBSearchResult]) -> Void) {
-        self.multiPageRequest(path: "search/multi", additionalParameters: [
+    func searchMedia(_ name: String, includeAdult: Bool = false) throws -> [TMDBSearchResult] {
+        try self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": name,
             "include_adult": includeAdult
-        ], maxPages: 10, pageWrapper: SearchResultsPageWrapper.self) { (results: [TMDBSearchResult]) in
-            completion(results)
+        ], maxPages: JFLiterals.maxSearchPages, pageWrapper: SearchResultsPageWrapper.self)
+    }
+    
+    // MARK: - Private functions
+    
+    /// Loads multiple pages of results and appends the items
+    /// - Parameters:
+    ///   - path: The API path to use for the request
+    ///   - additionalParameters: Additional parameters to append
+    ///   - maxPages: The number of pages to load at most
+    ///   - pageWrapper: A specific wrapper class to decode the result pages
+    ///   - completion: The closure to execute upon completion
+    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type) throws -> [PageWrapper.ObjectWrapper] {
+        let data = try self.request(path: path, additionalParameters: additionalParameters)
+        let wrapper = try JSONDecoder().decode(PageWrapper.self, from: data)
+        var results = wrapper.results
+        
+        // If we only had to load 1 page in total, we can return now
+        if wrapper.totalPages <= 1 {
+            return results
         }
+        
+        // Load the rest of the pages
+        for page in 2 ... min(wrapper.totalPages, maxPages) {
+            let newParameters = additionalParameters.merging(["page": page], uniquingKeysWith: { (_, new) in new })
+            let data = try self.request(path: path, additionalParameters: newParameters)
+            let wrapper = try JSONDecoder().decode(PageWrapper.self, from: data)
+            results.append(contentsOf: wrapper.results)
+        }
+        
+        return results
+    }
+    
+    // Returns a concrete subclass
+    /// Fetches a subclass of `Media` from TheMovieDB.org for a given media ID and a given `MediaType`.
+    /// - Parameters:
+    ///   - id: The id of the media on TheMovieDB.org
+    ///   - type: The type of media
+    ///   - completion: The code to execute when the request is completed
+    private func fetchTMDBData(for id: Int, type: MediaType) throws -> TMDBData {
+        let dataType = type == .movie ? TMDBMovieData.self : TMDBShowData.self
+        let tmdbData = try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: ["append_to_response": "keywords,translations,videos,credits"], as: dataType)
+        return tmdbData
     }
     
     /// Decodes an API result into a given type.
     /// - Parameters:
     ///   - urlString: The URL of the API request
     ///   - completion: The code to execute when the request is complete
-    func decodeAPIURL<T>(path: String, completion: @escaping (T?) -> Void) where T: Decodable {
-        self.request(path: path) { (data) in
-            guard let data = data else {
-                // On fail, call the completion with nil, so the caller knows, it failed
-                print("JFUtils.getRequest returned nil")
-                completion(nil)
-                return
-            }
-            do {
-                let result = try JSONDecoder().decode(T.self, from: data)
-                completion(result)
-            } catch let e as DecodingError {
-                print("Error decoding: \(e)")
-            } catch {
-                print("Other error")
-            }
+    /// - Throws: an `APIError` or an `DecodingError`
+    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type = T.self) throws -> T where T: Decodable {
+        let data = try request(path: path)
+        let result = try JSONDecoder().decode(T.self, from: data)
+        return result
+    }
+    
+    /// Performs an API call using the given path and completion closure
+    /// - Parameters:
+    ///   - path: The api path without the starting `/`
+    ///   - completion: The closure to execute, once the GET Request has been completed
+    /// - Returns: Whether the operation was successful
+    private func request(path: String, additionalParameters: [String: Any?] = [:]) throws -> Data {
+        let url = "\(baseURL)/\(path)"
+        var parameters: [String: Any?] = [
+            "api_key": apiKey,
+            "language": locale,
+            "region": region
+        ]
+        // Overwrite existing keys
+        parameters.merge(additionalParameters, uniquingKeysWith: { (_, new) in new })
+        
+        let group = DispatchGroup()
+        group.enter()
+        var data: Data? = nil
+        var response: URLResponse? = nil
+        var error: Error? = nil
+        JFUtils.getRequest(url, parameters: parameters) { (d, r, e) in
+            data = d
+            response = r
+            error = e
+            group.leave()
         }
+        
+        group.wait()
+        
+        // If we have an error, making the api call, we throw it
+        if let error = error {
+            throw error
+        }
+        
+        guard let responseData = data, let httpResponse = response as? HTTPURLResponse else {
+            // The data or response is invalid, but no error was returned (otherwise we would have returned before)
+            throw APIError.invalidResponse
+        }
+        
+        // Unauthorized
+        if httpResponse.statusCode == 401 {
+            throw APIError.unauthorized
+        }
+        
+        if httpResponse.statusCode != 200 {
+            print("API Request returned status code \(httpResponse.statusCode).")
+            print("Headers: \(httpResponse.allHeaderFields)")
+            print("Body: \(String(data: responseData, encoding: .utf8) ?? "nil")")
+            throw APIError.unknown(httpResponse.statusCode)
+        }
+        
+        // By now we have cleared all errors or non-200-responses
+        return responseData
     }
     
 }

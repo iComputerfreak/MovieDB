@@ -6,16 +6,12 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-// Fix in experimental, before merging:
+
+// Fixes / Todo soon
 /*
  TODO: Re-write API to use proper errors instead of nil-data
  TODO: Export CSV alphabetically
  TODO: Bug: All series show up in "Missing" with missing "watched"
- */
-
-
-// Fixes / Todo soon
-/*
  TODO: When importing, Media.nextID gets increated due to decoding (although the user might discard the data or there is an error)
  TODO: lastEpisodeWatched does not update while in the editing screen
  TODO: Create an option to export the tags
@@ -26,6 +22,8 @@
 
 // Future:
 /*
+ TODO: Re-write documentation for TMDBAPI
+ TODO: Check, if all properties and functions are properly documented
  TODO: Set language and region automatically to device defaults (only once on first start)
  TODO: Use the rate limiting response to prevent wasting API requests (do active rate limiting)
  TODO: Hide Search Bar when scrolling down
