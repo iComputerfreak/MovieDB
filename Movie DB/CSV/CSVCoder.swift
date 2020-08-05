@@ -36,7 +36,8 @@ struct CSVCoder {
     }()
     
     func decode(_ csv: String) throws -> [Media] {
-        var lines = csv.components(separatedBy: lineSeparator)
+        // Remove Carriage Returns (the file may be CRLF encoded)
+        var lines = csv.components(separatedBy: lineSeparator).map({ $0.trimmingCharacters(in: CharacterSet(charactersIn: "\r")) })
         var mediaObjects: [Media] = []
         
         // Load the headers from the CSV

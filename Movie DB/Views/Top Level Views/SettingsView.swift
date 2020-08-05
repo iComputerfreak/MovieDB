@@ -173,6 +173,7 @@ struct SettingsView: View {
                                             AlertHandler.presentAlert(alert: controller)
                                         }
                                     } catch let exception {
+                                        // TODO: Show error to user
                                         print("Error reading imported csv file:")
                                         print(exception)
                                         DispatchQueue.main.async {

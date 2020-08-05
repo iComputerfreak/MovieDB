@@ -9,11 +9,14 @@
 // Fix in experimental, before merging:
 /*
  TODO: Re-write API to use proper errors instead of nil-data
+ TODO: Export CSV alphabetically
+ TODO: Bug: All series show up in "Missing" with missing "watched"
  */
 
 
 // Fixes / Todo soon
 /*
+ TODO: When importing, Media.nextID gets increated due to decoding (although the user might discard the data or there is an error)
  TODO: lastEpisodeWatched does not update while in the editing screen
  TODO: Create an option to export the tags
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
