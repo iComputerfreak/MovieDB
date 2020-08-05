@@ -34,7 +34,7 @@ class APITests: XCTestCase {
         
     }
     
-    func testAPISuccess() {
+    func testAPISuccess() throws {
         let mediaObjects = [
             DummyMedia(tmdbID: 550, type: .movie, title: "Fight Club"),
             DummyMedia(tmdbID: 603, type: .movie, title: "The Matrix"),
@@ -43,39 +43,30 @@ class APITests: XCTestCase {
         ]
         
         for dummy in mediaObjects {
-            let result = api.fetchMedia(id: dummy.tmdbID, type: dummy.type)
+            let result = try api.fetchMedia(id: dummy.tmdbID, type: dummy.type)
             assertMediaMatches(result, dummy)
             
             // Modify the title to check, if the update function correctly restores it
-            result?.tmdbData?.title = "None"
+            result.tmdbData?.title = "None"
             let promise = XCTestExpectation()
-            XCTAssertTrue(api.updateMedia(result!, completion: { promise.fulfill() }))
+            XCTAssertNoThrow(try api.updateMedia(result, completion: { promise.fulfill() }))
             wait(for: [promise], timeout: 5)
             assertMediaMatches(result, dummy)
         }
     }
     
     func testAPIFailure() {
-        XCTAssertNil(api.fetchMedia(id: -1, type: .movie))
-        XCTAssertFalse(api.updateMedia(emptyMedia))
-        XCTAssertFalse(api.updateMedia(brokenMedia))
+        XCTAssertThrowsError(try api.fetchMedia(id: -1, type: .movie))
+        XCTAssertThrowsError(try api.updateMedia(emptyMedia))
+        XCTAssertThrowsError(try api.updateMedia(brokenMedia))
     }
     
-    func testSearch() {
-        var promise = XCTestExpectation()
-        api.searchMedia("matrix", includeAdult: true) { results in
-            XCTAssertGreaterThan(results.count, 0)
-            promise.fulfill()
-        }
-        wait(for: [promise], timeout: 5)
+    func testSearch() throws {
+        let results = try api.searchMedia("matrix", includeAdult: true)
+        XCTAssertGreaterThan(results.count, 0)
         
-        
-        promise = XCTestExpectation()
-        api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults") { (results) in
-            XCTAssertEqual(results.count, 0)
-            promise.fulfill()
-        }
-        wait(for: [promise], timeout: 5)
+        let results2 = try api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults")
+        XCTAssertEqual(results2.count, 0)
     }
 }
 
