@@ -43,8 +43,12 @@ class TagLibrary: ObservableObject {
     private init() {}
     
     private func save() {
-        let plist = try? PropertyListEncoder().encode(self.tags)
-        UserDefaults.standard.set(plist, forKey: JFLiterals.Keys.allTags)
+        do {
+            let plist = try PropertyListEncoder().encode(self.tags)
+            UserDefaults.standard.set(plist, forKey: JFLiterals.Keys.allTags)
+        } catch let error {
+            print("Error saving tags: \(error)")
+        }
     }
     
     func name(for id: Int) -> String? {

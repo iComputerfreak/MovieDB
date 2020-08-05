@@ -126,7 +126,11 @@ struct JFUtils {
     static func url(for directory: String) -> URL {
         let url = documentsPath.appendingPathComponent(directory)
         // Create the directory, if it not already exists
-        try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        } catch let error {
+            print("Error creating folder in documents directory: \(error)")
+        }
         return url
     }
     

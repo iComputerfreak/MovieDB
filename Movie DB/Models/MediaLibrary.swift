@@ -48,10 +48,14 @@ class MediaLibrary: ObservableObject, Codable {
     func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         DispatchQueue.global().async {
             // Encode the array into a property list
-            let pList = try? PropertyListEncoder().encode(self)
-            UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
-            // Output "[Class.function:line] Library saved"
-            print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
+            do {
+                let pList = try PropertyListEncoder().encode(self)
+                UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
+                // Output "[Class.function:line] Library saved"
+                print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
+            } catch let error {
+                print("Error saving library: \(error)")
+            }
         }
     }
     
@@ -92,6 +96,8 @@ class MediaLibrary: ObservableObject, Codable {
         // Try to delete the thumbnail from disk
         self.save()
         DispatchQueue.global().async {
+            // It's not super bad, if we can't remove the thumbnail from disk...
+            // We can ignore any errors thrown
             try? FileManager.default.removeItem(at: thumbnailPath)
         }
     }
@@ -99,8 +105,12 @@ class MediaLibrary: ObservableObject, Codable {
     func reset() {
         self.mediaList.removeAll()
         // Delete all thumbnails
-        try? FileManager.default.removeItem(at: JFUtils.url(for: "thumbnails"))
-        try? FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
+        do {
+            try FileManager.default.removeItem(at: JFUtils.url(for: "thumbnails"))
+            try FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
+        } catch let error {
+            print("Error deleting thumbnails: \(error)")
+        }
         // Reset the ID counter for the media objects
         Media.resetNextID()
         save()

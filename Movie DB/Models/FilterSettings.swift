@@ -38,20 +38,22 @@ class FilterSettings: ObservableObject, Codable {
     static func load() -> FilterSettings {
         // Load the settings from UserDefaults
         if let data = UserDefaults.standard.data(forKey: key) {
-            if let settings = try? PropertyListDecoder().decode(FilterSettings.self, from: data) {
+            do {
+                let settings = try PropertyListDecoder().decode(FilterSettings.self, from: data)
                 return settings
-            } else {
-                print("Error decoding filter settings.")
+            } catch let error {
+                print("Error decoding filter settings: \(error)")
             }
         }
         return FilterSettings()
     }
     
     static func save() {
-        if let data = try? PropertyListEncoder().encode(shared) {
+        do {
+            let data = try PropertyListEncoder().encode(shared)
             UserDefaults.standard.set(data, forKey: key)
-        } else {
-            print("Error encoding filter settings.")
+        } catch let error {
+            print("Error encoding filter settings: \(error)")
         }
     }
     
