@@ -29,15 +29,8 @@ struct AddMediaView : View {
                             return
                         }
                         let api = TMDBAPI.shared
-                        api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?) in
-                            guard let results = results else {
-                                print("Error getting results")
-                                DispatchQueue.main.async {
-                                    self.results = []
-                                }
-                                return
-                            }
-                            var filteredResults = results
+                        do {
+                            var filteredResults = try api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults)
                             // Filter out adult media from the search results
                             if !JFConfig.shared.showAdults {
                                 filteredResults = filteredResults.filter { (searchResult: TMDBSearchResult) in
@@ -51,6 +44,13 @@ struct AddMediaView : View {
                             DispatchQueue.main.async {
                                 self.results = filteredResults
                             }
+                        } catch let error as LocalizedError {
+                            print("Error performing search: \(error)")
+                            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error.localizedDescription)")
+                        } catch let otherError {
+                            print("Unknown Error: \(otherError)")
+                            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                            AlertHandler.showSimpleAlert(title: "Error", message: "There was an error performing the search.")
                         }
                     }
                     
@@ -65,20 +65,20 @@ struct AddMediaView : View {
                                 } else {
                                     self.isLoading = true
                                     DispatchQueue.global(qos: .userInitiated).async {
-                                        let media = TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)
-                                        guard media != nil else {
-                                            // Error loading the media object
-                                            AlertHandler.showSimpleAlert(title: "Error loading media", message: "The media could not be loaded. Please try again later.")
-                                            return
-                                        }
-                                        // Save before adding the media
-                                        self.library.save()
-                                        DispatchQueue.main.async {
-                                            self.library.append(media!)
-                                            // Go into the Detail View
-                                            self.isLoading = false
-                                            // Only dismiss, if the media was added successfully
-                                            self.presentationMode.wrappedValue.dismiss()
+                                        do {
+                                            let media = try TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)
+                                            DispatchQueue.main.async {
+                                                self.library.append(media)
+                                                self.isLoading = false
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                        } catch let error as LocalizedError {
+                                            print("Error loading media: \(error)")
+                                            AlertHandler.showSimpleAlert(title: "Error", message: "Error loading media: \(error.localizedDescription)")
+                                        } catch let otherError {
+                                            print("Unknown Error: \(otherError)")
+                                            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                                            AlertHandler.showSimpleAlert(title: "Error", message: "There was an error loading the media.")
                                         }
                                     }
                                 }

@@ -56,26 +56,18 @@ class MediaLibrary: ObservableObject, Codable {
     }
     
     /// Updates the media library by updaing every media object with API calls again.
-    func update() -> (successes: Int, failures: Int) {
-        var successes: Int = 0
-        var failures: Int = 0
+    func update() throws -> Int {
+        var updateCount = 0
         let api = TMDBAPI.shared
-        api.getChanges(from: lastUpdate, to: Date()) { (changes) in
-            // Iterate over the library, not the changed IDs for performance reasons
-            for media in self.mediaList {
-                if changes.contains(media.tmdbData?.id ?? -1) {
-                    // This media has been changed
-                    // TODO: Throttle API Calls (use a rateLimitError)
-                    if api.updateMedia(media) {
-                        successes += 1
-                    } else {
-                        failures += 1
-                    }
-                }
-            }
-            self.lastUpdate = Date()
+        let changes = try api.getChanges(from: lastUpdate, to: Date())
+        for media in self.mediaList.filter({ changes.contains($0.tmdbData?.id ?? -1) }) {
+            // This media has been changed
+            try api.updateMedia(media)
+            updateCount += 1
         }
-        return (successes, failures)
+        // After they all have been updated without errors, we can update the lastUpdate property
+        self.lastUpdate = Date()
+        return updateCount
     }
     
     func append(_ object: Media) {

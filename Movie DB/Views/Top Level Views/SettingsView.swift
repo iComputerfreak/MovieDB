@@ -103,16 +103,20 @@ struct SettingsView: View {
                             self.updateInProgress = true
                             DispatchQueue.global().async {
                                 // Update and show the result
-                                let updateResult = self.library.update()
-                                DispatchQueue.main.async {
-                                    self.updateInProgress = false
-                                    let s = updateResult.successes
-                                    let f = updateResult.failures
-                                    var message = "\(s == 0 ? "No" : "\(s)") media \(s == 1 ? "object has" : "objects have") been updated."
-                                    if f != 0 {
-                                        message += " \(f) media \(f == 1 ? "object" : "objects") could not be updated."
+                                do {
+                                    let updateCount = try self.library.update()
+                                    DispatchQueue.main.async {
+                                        self.updateInProgress = false
+                                        let message = "\(updateCount == 0 ? "No" : "\(updateCount)") media \(updateCount == 1 ? "object has" : "objects have") been updated."
+                                        AlertHandler.showSimpleAlert(title: "Update completed", message: message)
                                     }
-                                    AlertHandler.showSimpleAlert(title: "Update completed", message: message)
+                                } catch let error as LocalizedError {
+                                    print("Error updating media objects: \(error)")
+                                    AlertHandler.showSimpleAlert(title: "Update error", message: "Error updating media objects: \(error.localizedDescription)")
+                                } catch let otherError {
+                                    print("Unknown Error: \(otherError)")
+                                    assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                                    AlertHandler.showSimpleAlert(title: "Update error", message: "There was an error updating the media objects.")
                                 }
                             }
                         }, label: Text("Update Media").closure())
@@ -172,10 +176,16 @@ struct SettingsView: View {
                                             self.isLoading = false
                                             AlertHandler.presentAlert(alert: controller)
                                         }
-                                    } catch let exception {
-                                        // TODO: Show error to user
-                                        print("Error reading imported csv file:")
-                                        print(exception)
+                                    } catch let error as LocalizedError {
+                                        print("Error importing: \(error)")
+                                        AlertHandler.showSimpleAlert(title: "Import Error", message: "Error importing the media objects: \(error.localizedDescription)")
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                        }
+                                    } catch let otherError {
+                                        print("Unknown Error: \(otherError)")
+                                        assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                                        AlertHandler.showSimpleAlert(title: "Import Error", message: "There was an error importing the media objects.")
                                         DispatchQueue.main.async {
                                             self.isLoading = false
                                         }

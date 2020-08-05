@@ -18,6 +18,8 @@ extension TMDBAPI.APIError: LocalizedError {
                 return "API call unauthorized. Invalid API key."
             case .unknown(let code):
                 return "HTTP Error \(code): \(HTTPURLResponse.localizedString(forStatusCode: code))"
+            case .noTMDBID(let mediaID):
+                return "Media \(mediaID) does not have a TMDB ID."
         }
     }
     

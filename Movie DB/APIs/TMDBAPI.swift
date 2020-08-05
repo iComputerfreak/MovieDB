@@ -14,6 +14,7 @@ class TMDBAPI {
         case unauthorized
         case invalidResponse
         case unknown(Int)
+        case noTMDBID(Int)
     }
     
     static let shared = TMDBAPI()
@@ -64,11 +65,10 @@ class TMDBAPI {
     ///
     /// - Parameter media: The media object to update
     /// - Returns: Whether the update was successful
-    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws -> Bool {
+    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws {
         guard let id = media.tmdbData?.id else {
-            // No idea what TMDB ID should be
-            print("Error updating media \(media.id). No TMDB Data set.")
-            return false
+            // No idea what TMDB ID should be, we can't update
+            throw APIError.noTMDBID(media.id)
         }
         // Update TMDBData
         let tmdbData = try self.fetchTMDBData(for: id, type: media.type)
@@ -79,16 +79,18 @@ class TMDBAPI {
             media.loadThumbnail(force: true)
             completion()
         }
-        return true
+        return
     }
     
     /// Fetches the IDs of the media objects that changed in the given timeframe
     /// - Parameter completion: The closure to execute upon completion of the request
-    func getChanges(from startDate: Date, to endDate: Date) throws -> [Int] {
-        let dateRangeParameters: [String: Any?] = [
-            "start_date": JFUtils.tmdbDateFormatter.string(from: startDate),
+    func getChanges(from startDate: Date?, to endDate: Date) throws -> [Int] {
+        var dateRangeParameters: [String: Any?] = [
             "end_date": JFUtils.tmdbDateFormatter.string(from: endDate)
         ]
+        if let startDate = startDate {
+            dateRangeParameters["start_date"] = JFUtils.tmdbDateFormatter.string(from: startDate)
+        }
         var results: [MediaChangeWrapper] = []
         for type in MediaType.allCases {
             // Load the changes for every type of media (movie and tv)

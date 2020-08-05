@@ -154,20 +154,18 @@ struct CSVData {
         
         // To create the media, we fetch it from the API and then assign the user values
         let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
-        let media = TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
-        media?.personalRating = personalRating
-        media?.tags = tags
-        media?.watchAgain = watchAgain
-        media?.notes = notes
+        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
+        media.personalRating = personalRating
+        media.tags = tags
+        media.watchAgain = watchAgain
+        media.notes = notes
         
-        if let media = media {
-            if type == .movie {
-                assert(Swift.type(of: media) == Movie.self)
-                (media as? Movie)?.watched = watched
-            } else {
-                assert(Swift.type(of: media) == Show.self)
-                (media as? Show)?.lastEpisodeWatched = lastEpisodeWatched
-            }
+        if type == .movie {
+            assert(Swift.type(of: media) == Movie.self)
+            (media as? Movie)?.watched = watched
+        } else {
+            assert(Swift.type(of: media) == Show.self)
+            (media as? Show)?.lastEpisodeWatched = lastEpisodeWatched
         }
         
         return media
