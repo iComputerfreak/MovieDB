@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Movie: Media {
         
@@ -49,5 +50,17 @@ class Movie: Media {
     override func hash(into hasher: inout Hasher) {
         super.hash(into: &hasher)
         hasher.combine(watched)
+    }
+    
+    // MARK: - Repairable Conformance
+    override func repair(progress: Binding<Double>? = nil) -> RepairProblems {
+        let problems = super.repair(progress: progress)
+        // Sadly, we cannot update the progress correctly this way, but since the action here only takes a quick moment, we will just ignore the overhead
+        if self.watched == nil {
+            DispatchQueue.main.async {
+                self.missingInformation.insert(.watched)
+            }
+        }
+        return problems
     }
 }

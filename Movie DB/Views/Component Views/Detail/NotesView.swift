@@ -46,7 +46,7 @@ struct NotesView: View {
         .lineLimit(nil)
     }
     
-    private struct EditView: View {
+    fileprivate struct EditView: View {
         @Binding var notes: String
         @State private var isEditing: Bool = true
         @State private var responder = KeyboardResponder()
@@ -58,7 +58,9 @@ struct NotesView: View {
         
         var body: some View {
             TextView(text: $notes, isEditing: $isEditing, textColor: JFUtils.primaryUIColor(colorScheme), backgroundColor: .clear, autocorrection: .default, autocapitalization: .sentences)
+                .padding(5)
                 .padding(.bottom, responder.height)
+                .background(Color(.sRGB, white: 0.95, opacity: 1))
             .navigationBarTitle(Text("Notes"))
         }
     }
@@ -66,13 +68,21 @@ struct NotesView: View {
 
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            NotesView(.constant("This is a simple test note.\nIt has four\nlines\nin total"))
-                .headline("Notes")
-            NotesView(.constant("This one has only one."))
-                .headline("Notes")
-            NotesView(.constant(""))
-                .headline("Notes")
+        Group {
+            List {
+                NotesView(.constant("This is a simple test note.\nIt has four\nlines\nin total"))
+                    .headline("Notes")
+                NotesView(.constant("This one has only one."))
+                    .headline("Notes")
+                NotesView(.constant(""))
+                    .headline("Notes")
+                    .navigationTitle("Test")
+            }
+        }
+        Group {
+            NavigationView {
+                NotesView.EditView(notes: .constant("This one is being edited."))
+            }
         }
     }
 }

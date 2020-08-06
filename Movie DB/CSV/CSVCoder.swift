@@ -70,7 +70,17 @@ struct CSVCoder {
         // Start with the header line
         var lines: [String] = [headers.map(\.rawValue).joined(separator: separator)]
         
-        for media in mediaObjects {
+        let sortedMedia = mediaObjects.sorted { (media1, media2) in
+            // Sort nil before real values
+            guard let tmdbData1 = media1.tmdbData else {
+                return true
+            }
+            guard let tmdbData2 = media2.tmdbData else {
+                return false
+            }
+            return tmdbData1.title.lexicographicallyPrecedes(tmdbData2.title)
+        }
+        for media in sortedMedia {
             let data = try CSVData(from: media, dateFormatter: dateFormatter, separator: separator, arraySeparator: arraySeparator, lineSeparator: lineSeparator)
             // Export CSVData as String
             let values = data.createCSVValues()

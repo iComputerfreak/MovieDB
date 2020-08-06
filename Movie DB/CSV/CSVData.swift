@@ -93,19 +93,15 @@ struct CSVData {
         encoder.encode(type, forKey: .type)
         encoder.encode(personalRating, forKey: .personalRating)
         // We don't export tags, that don't have a name
-        encoder.encode(tags.compactMap(TagLibrary.shared.name(for:)), forKey: .tags)
+        encoder.encode(tags.compactMap({ TagLibrary.shared.name(for: $0)?.cleaned(of: separator, arraySeparator, lineSeparator) }), forKey: .tags)
         encoder.encode(watchAgain, forKey: .watchAgain)
         // Clean the notes (should not contains illegal characters)
-        let cleanNotes = notes
-            .replacingOccurrences(of: arraySeparator, with: "")
-            .replacingOccurrences(of: separator, with: "")
-            .replacingOccurrences(of: lineSeparator, with: "")
-        encoder.encode(cleanNotes, forKey: .notes)
+        encoder.encode(notes.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .notes)
         encoder.encode(tmdbID, forKey: .tmdbID)
-        encoder.encode(title, forKey: .title)
-        encoder.encode(originalTitle, forKey: .originalTitle)
+        encoder.encode(title.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .title)
+        encoder.encode(originalTitle.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .originalTitle)
         encoder.encode(genres.map(\.name), forKey: .genres)
-        encoder.encode(overview, forKey: .overview)
+        encoder.encode(overview?.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .overview)
         encoder.encode(status, forKey: .status)
         
         encoder.encode(watched, forKey: .watched)
@@ -169,5 +165,18 @@ struct CSVData {
         }
         
         return media
+    }
+}
+
+fileprivate extension String {
+    /// Removes the occurrences of all given strings from this string
+    /// - Parameter strings: The array of strings to remove
+    /// - Returns: The string, cleaned from all occurrences of the strings given
+    func cleaned(of strings: String...) -> String {
+        var returnValue = self
+        for string in strings {
+            returnValue = returnValue.replacingOccurrences(of: string, with: "")
+        }
+        return returnValue
     }
 }

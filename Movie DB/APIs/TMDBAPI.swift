@@ -149,9 +149,14 @@ class TMDBAPI {
     ///   - type: The type of media
     ///   - completion: The code to execute when the request is completed
     private func fetchTMDBData(for id: Int, type: MediaType) throws -> TMDBData {
-        let dataType = type == .movie ? TMDBMovieData.self : TMDBShowData.self
-        let tmdbData = try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: ["append_to_response": "keywords,translations,videos,credits"], as: dataType)
-        return tmdbData
+        let parameters = ["append_to_response": "keywords,translations,videos,credits"]
+        // We can't save the type as a variable (`let type = (type == .movie) ? TMDBMovieData.self : TMDBShowData.self`), because it would result in the variable type `TMDBData.Type`
+        switch type {
+            case .movie:
+                return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBMovieData.self)
+            case .show:
+                return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBShowData.self)
+        }
     }
     
     /// Decodes an API result into a given type.
@@ -159,8 +164,10 @@ class TMDBAPI {
     ///   - urlString: The URL of the API request
     ///   - completion: The code to execute when the request is complete
     /// - Throws: an `APIError` or an `DecodingError`
-    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type = T.self) throws -> T where T: Decodable {
-        let data = try request(path: path)
+    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type) throws -> T where T: Decodable {
+        let data = try request(path: path, additionalParameters: additionalParameters)
+        assert(T.self != TMDBData.self, "We should not return instances of the TMDBData superclass.")
+        print("Decoding as \(T.self)")
         let result = try JSONDecoder().decode(T.self, from: data)
         return result
     }

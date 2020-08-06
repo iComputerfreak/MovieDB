@@ -21,16 +21,13 @@ class CSVCoderTests: XCTestCase {
         csvCoder = nil
     }
     
-    // TODO: Notes field in editing view is too small
-    // TODO: Make sure that notes don't contain ; or line breaks when exporting to CSV
-    
     func testDecode() throws {
         let sample1 = """
         id;tmdb_id;type;title;personal_rating;watch_again;tags;notes;original_title;genres;overview;status;watched;release_date;runtime;budget;revenue;is_adult;last_episode_watched;first_air_date;last_air_date;number_of_seasons;is_in_production;show_type
         113;346808;movie;Momentum;8;true;Female Lead,Gangsters,Kidnapping,Revenge;;Momentum;Action,Thriller;When Alex, an infiltration expert with a secret past, accidentally reveals her identity during what should have been a routine heist, she quickly finds herself mixed up in a government conspiracy and entangled in a deadly game of cat-and-mouse with a master assassin and his team of killers.  Armed with her own set of lethal skills, Alex looks to exact revenge for her murdered friends while uncovering the truth.;Released;true;2015-08-01;96;20000000;133332;false;;;;;;
         157;75219;tv;9-1-1;2;true;Crime;A very great series;9-1-1;Drama,Action & Adventure,Crime;Explore the high-pressure experiences of police officers, paramedics and firefighters who are thrust into the most frightening, shocking and heart-stopping situations. These emergency responders must try to balance saving those who are at their most vulnerable with solving the problems in their own lives.;Returning Series;;;;;;;3;2018-01-03;2020-05-11;3;true;Scripted
         125;79130;tv;Another Life;1;false;Artificial Intelligence,Aliens,Female Lead,Haunted,Future,Horror,Space,Extinction Level Event;;Another Life;Drama,Sci-Fi & Fantasy;After a massive alien artifact lands on Earth, Niko Breckinridge leads an interstellar mission to track down its source and make first contact.;Returning Series;;;;;;;3/5;2019-07-25;2019-07-25;1;true;Scripted
-        116;399402;movie;Hunter Killer;0;false;Ships,War,Tom Cruise Style;A note with some special characters.\\/:?!;Hunter Killer;Action,Thriller;Captain Glass of the USS Arkansas discovers that a coup d'état is taking place in Russia, so he and his crew join an elite group working on the ground to prevent a war.;Released;true;2018-10-19;122;0;0;false;;;;;;
+        116;399402;movie;Hunter Killer;0;false;;A note with some special characters.\\/:?!;Hunter Killer;Action,Thriller;;Released;true;2018-10-19;122;0;0;false;;;;;;
         """
         let mediaObjects = try csvCoder.decode(sample1)
         XCTAssertEqual(mediaObjects.count, 4)
@@ -72,6 +69,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual((momentumTMDBData as? TMDBMovieData)?.isAdult, false)
         
         XCTAssertEqual(media.watched, true)
+        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>())
     }
     
     private func testDecodeNineOneOne(_ media: Show) throws {
@@ -90,6 +88,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual((momentumTMDBData as? TMDBShowData)?.type, .scripted)
         
         XCTAssertEqual(media.lastEpisodeWatched, .init(season: 3))
+        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>())
     }
     
     private func testDecodeAnotherLife(_ media: Show) throws {
@@ -108,6 +107,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual((momentumTMDBData as? TMDBShowData)?.type, .scripted)
         
         XCTAssertEqual(media.lastEpisodeWatched, .init(season: 3, episode: 5))
+        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>())
     }
     
     private func testDecodeHunterKiller(_ media: Movie) throws {
@@ -117,19 +117,20 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.tmdbData?.title, "Hunter Killer")
         XCTAssertEqual(media.personalRating, .noRating)
         XCTAssertEqual(media.watchAgain, false)
-        XCTAssertEqual(media.tags.map(TagLibrary.shared.name(for:)), ["Ships", "War", "Tom Cruise Style"])
+        XCTAssertEqual(media.tags, [])
         XCTAssertEqual(media.notes, "A note with some special characters.\\/:?!")
         // TMDBData will be re-fetched from the API, so the data could be different, than the data in the CSV
+        XCTAssertNotEqual(media.tmdbData?.overview, "")
         let momentumTMDBData = try XCTUnwrap(media.tmdbData)
         XCTAssertTrue(type(of: momentumTMDBData) == TMDBMovieData.self)
         XCTAssertEqual(media.tmdbData?.originalTitle, "Hunter Killer")
         XCTAssertEqual((momentumTMDBData as? TMDBMovieData)?.isAdult, false)
         
         XCTAssertEqual(media.watched, true)
+        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>([.rating]))
     }
     
     func testEncode() throws {
-        // TODO: Use TestingUtils.mediaSamples and check the result CSV for all values!!!
         let csv = try csvCoder.encode(TestingUtils.mediaSamples)
         let lines = csv.components(separatedBy: csvCoder.lineSeparator)
         // We should get an extra line for the header
@@ -163,8 +164,6 @@ class CSVCoderTests: XCTestCase {
             try testEncodedMedia(dictionaries[i], encodedMedia: TestingUtils.mediaSamples[i])
         }
     }
-    
-    // TODO: when de-/encoding, check, if the notes contain separator or arraySeparator
     
     private func testEncodedMedia(_ data: [CSVCodingKey: String], encodedMedia media: Media) throws {
         // data[key] never returns nil, since every value is read from CSV and nil-values in CSV are empty strings
@@ -227,6 +226,20 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(data[.numberOfSeasons], tmdbShowData?.numberOfSeasons?.description ?? "")
         XCTAssertEqual(data[.isInProduction], tmdbShowData?.isInProduction.description ?? "")
         XCTAssertEqual(data[.showType], tmdbShowData?.type?.rawValue ?? "")
+    }
+    
+    func testEncodeMediaWithIllegalCharacters() throws {
+        let media = TestingUtils.matrixMovie
+        let tagWithSeparator = TagLibrary.shared.create(name: "Illegal\(csvCoder.separator) Tag")
+        media.tags.append(tagWithSeparator)
+        media.notes = "This note contains:\(csvCoder.lineSeparator)\(csvCoder.separator)\(csvCoder.arraySeparator)"
+        csvCoder.headers = [.tmdbID, .title, .tags, .notes, .type]
+        let csv = try csvCoder.encode([media])
+        let lines = csv.components(separatedBy: csvCoder.lineSeparator)
+        XCTAssertEqual(lines.count, 2)
+        XCTAssertEqual(lines[0], "tmdb_id;title;tags;notes;type")
+        // The illegal characters should have been removed in the CSV output
+        XCTAssertEqual(lines[1], "603;The Matrix;Future,Conspiracy,Dark,Illegal Tag;This note contains:;movie")
     }
 
 }
