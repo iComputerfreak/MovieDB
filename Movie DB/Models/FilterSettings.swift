@@ -35,6 +35,8 @@ class FilterSettings: ObservableObject, Codable {
     
     private init() {}
     
+    /// Loads the filter settings from disk
+    /// - Returns: The loaded filter settings
     static func load() -> FilterSettings {
         // Load the settings from UserDefaults
         if let data = UserDefaults.standard.data(forKey: key) {
@@ -48,6 +50,7 @@ class FilterSettings: ObservableObject, Codable {
         return FilterSettings()
     }
     
+    /// Saves the filter settings to disk
     static func save() {
         do {
             let data = try PropertyListEncoder().encode(shared)
@@ -57,10 +60,16 @@ class FilterSettings: ObservableObject, Codable {
         }
     }
     
+    /// Returns the media objects matching the current filter
+    /// - Parameter mediaList: The media objects to filter
+    /// - Returns: The filtered media objects
     func applied(on mediaList: [Media]) -> [Media] {
         return mediaList.filter(matches(_:))
     }
     
+    /// Returns, whether the given media object matches the filter
+    /// - Parameter media: The media object to match
+    /// - Returns: Whether the given media object matches the current filter
     func matches(_ media: Media) -> Bool {
         // MARK: Is Adult
         if let isAdult = isAdult {
@@ -214,6 +223,7 @@ class FilterSettings: ObservableObject, Codable {
     }
     
     // MARK: - Codable Conformance
+    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.isAdult = try container.decode(Bool?.self, forKey: .isAdult)

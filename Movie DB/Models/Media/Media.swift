@@ -12,6 +12,7 @@ import SwiftUI
 import Combine
 import JFSwiftUI
 
+/// Represents a media object in the library
 class Media: Identifiable, ObservableObject, Codable, Hashable {
     
     enum MediaError: Error {
@@ -43,6 +44,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         return _nextID
     }
     
+    /// Resets the nextID property
     static func resetNextID() {
         _nextID = 0
         UserDefaults.standard.set(_nextID, forKey: "nextID")
@@ -88,7 +90,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     }
     /// Personal notes on the media
     @Published var notes: String = ""
-    
+    /// The thumbnail image
     @Published var thumbnail: UIImage? = nil
     
     /// Whether the result is a movie and is for adults only
@@ -106,6 +108,8 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         return nil
     }
     
+    /// Represents a user-provided information about a media object.
+    /// This enum only contains the information, that will cause the object to show up in the Problems tab, when missing
     enum MediaInformation: String, CaseIterable {
         case rating
         case watched
@@ -115,6 +119,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         //case notes
     }
     
+    /// The set of missing information of this media
     @Published var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
     
     // Only used by constructing subclasses
@@ -125,7 +130,6 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         self.id = Self.nextID
         self.type = type
     }
-    
     
     /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
     func loadThumbnail(force: Bool = false) {
@@ -226,6 +230,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     }
     
     // MARK: - Hashable Conformance
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
         hasher.combine(tmdbData)

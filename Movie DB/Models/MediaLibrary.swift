@@ -16,7 +16,9 @@ class MediaLibrary: ObservableObject, Codable {
     /// The shared `MediaLibrary` instance.
     static let shared: MediaLibrary = MediaLibrary.load()
     
+    /// The date and time of the last library update
     var lastUpdate: Date?
+    /// The list of media objects in this library
     @Published private(set) var mediaList: [Media]
     
     private init() {
@@ -74,17 +76,22 @@ class MediaLibrary: ObservableObject, Codable {
         return updateCount
     }
     
+    /// Appends the given media object to the library
+    /// - Parameter object: The object to append
     func append(_ object: Media) {
         self.mediaList.append(object)
         save()
     }
     
+    /// Appends the contents of the given array to the library
+    /// - Parameter objects: The objects to append
     func append(contentsOf objects: [Media]) {
         self.mediaList.append(contentsOf: objects)
         save()
     }
     
-    // Removes and saves the library
+    /// Removes the media object with the given ID
+    /// - Parameter id: The ID of the media object to remove
     func remove(id: Int) {
         let index = self.mediaList.firstIndex(where: { $0.id == id })
         guard index != nil else {
@@ -102,6 +109,7 @@ class MediaLibrary: ObservableObject, Codable {
         }
     }
     
+    /// Resets the library, deleting all media objects and resetting the nextID property
     func reset() {
         self.mediaList.removeAll()
         // Delete all thumbnails
@@ -117,6 +125,8 @@ class MediaLibrary: ObservableObject, Codable {
     }
     
     // MARK: - Problems
+    /// Returns all problems in this library
+    /// - Returns: All problematic media objects and their missing information
     func problems() -> [Media: Set<Media.MediaInformation>] {
         var problems: [Media: Set<Media.MediaInformation>] = [:]
         for media in mediaList {
@@ -127,6 +137,8 @@ class MediaLibrary: ObservableObject, Codable {
         return problems
     }
     
+    /// Returns the list of duplicate TMDB IDs
+    /// - Returns: The list of duplicate TMDB IDs
     func duplicates() -> [Int?: [Media]] {
         // Group the media objects by their TMDB IDs
         return Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)

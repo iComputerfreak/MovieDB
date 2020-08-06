@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+/// Represents a utility struct that displays Alerts
 struct AlertHandler {
 
     /// Triggers an Alert on the top most view controller in the window

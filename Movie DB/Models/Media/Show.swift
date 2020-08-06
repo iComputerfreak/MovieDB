@@ -11,11 +11,17 @@ import UIKit
 
 class Show: Media {
     
+    /// Represents an episode of a show
     struct EpisodeNumber: Codable, Hashable, LosslessStringConvertible {
-        
+        /// The season number of the episode
         var season: Int
+        /// The episode number
         var episode: Int?
         
+        /// Creates a new `EpisodeNumber` object
+        /// - Parameters:
+        ///   - season: The season number
+        ///   - episode: The episode number
         init(season: Int, episode: Int? = nil) {
             self.season = season
             self.episode = episode

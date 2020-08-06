@@ -9,7 +9,6 @@
 import Foundation
 
 class TMDBMovieData: TMDBData {
-
     /// The date, the movie was released
     @Published var releaseDate: Date?
     /// Runtime in minutes
@@ -25,6 +24,7 @@ class TMDBMovieData: TMDBData {
     /// The id of the media on IMDB.com
     @Published var imdbID: String?
     
+    /// Creates a new `TMDBMovieData` object with the given values
     init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, releaseDate: Date?, runtime: Int?, budget: Int, revenue: Int, tagline: String?, isAdult: Bool, cast: [CastMember], keywords: [String], translations: [String], videos: [Video]) {
         self.releaseDate = releaseDate
         self.runtime = runtime

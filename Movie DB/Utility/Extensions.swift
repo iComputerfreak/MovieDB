@@ -124,3 +124,101 @@ extension UnkeyedDecodingContainer {
         return returnValues
     }
 }
+
+extension Dictionary where Key == String, Value == Any? {
+    /// Returns the dictionary as a string of HTTP arguments, percent escaped
+    ///
+    ///     [key1: "test", key2: "Hello World"].percentEscaped()
+    ///     // Returns "key1=test&key2=Hello%20World"
+    func percentEscaped() -> String {
+        return map { (key, value) in
+            let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            let escapedValue = "\(value ?? "null")".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+    }
+}
+
+extension CharacterSet {
+    /// Returns the set of characters that are allowed in a URL query
+    static let urlQueryValueAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+        
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        return allowed
+    }()
+}
+
+extension String {
+    /// Returns a string without a given prefix
+    ///
+    ///     "abc def".removingPrefix("abc") // returns " def"
+    ///     "cba def".revmoingPrefix("abc") // returns "cba def"
+    ///
+    /// - Parameter prefix: The prefix to remove, if it exists
+    /// - Returns: The string without the given prefix
+    func removingPrefix(_ prefix: String) -> String {
+        if self.hasPrefix(prefix) {
+            return String(self.dropFirst(prefix.count))
+        }
+        // If the prefix does not exist, leave the string as it is
+        return String(self)
+    }
+    /// Returns a string without a given suffix
+    ///
+    ///     "abc def".removingSuffix("def") // returns "abc "
+    ///     "abc fed".revmoingSuffix("def") // returns "abc fed"
+    ///
+    /// - Parameter suffix: The suffix to remove, if it exists
+    /// - Returns: The string without the given suffix
+    func removingSuffix(_ suffix: String) -> String {
+        if self.hasSuffix(suffix) {
+            return String(self.dropLast(suffix.count))
+        }
+        // If the prefix does not exist, leave the string as it is
+        return String(self)
+    }
+    /// Removes a prefix from a string
+    ///
+    ///     let a = "abc def".removingPrefix("abc") // a is " def"
+    ///     let b = "cba def".revmoingPrefix("abc") // b is "cba def"
+    ///
+    /// - Parameter prefix: The prefix to remove, if it exists
+    /// - Returns: The string without the given prefix
+    mutating func removePrefix(_ prefix: String) {
+        if self.hasPrefix(prefix) {
+            self.removeFirst(prefix.count)
+        }
+        // If the prefix does not exist, leave the string as it is
+    }
+    /// Removes a suffix from a string
+    ///
+    ///     let a = "abc def".removingSuffix("def") // a is "abc "
+    ///     let b = "abc fed".revmoingSuffix("def") // b is "abc fed"
+    ///
+    /// - Parameter suffix: The suffix to remove, if it exists
+    /// - Returns: The string without the given suffix
+    mutating func removeSuffix(_ suffix: String) {
+        if self.hasSuffix(suffix) {
+            self.removeLast(suffix.count)
+        }
+        // If the prefix does not exist, leave the string as it is
+    }
+}
+
+extension NumberFormatter {
+    func string(from value: Double) -> String? {
+        return self.string(from: NSNumber(value: value))
+    }
+    
+    func string(from value: Int) -> String? {
+        return self.string(from: NSNumber(value: value))
+    }
+}
+
+extension Color {
+    static let systemBackground = Color(UIColor.systemBackground)
+}

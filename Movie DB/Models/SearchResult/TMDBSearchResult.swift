@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+/// Represents a search result from the TMDBAPI search call
 class TMDBSearchResult: Decodable, Identifiable {
     // Basic Data
     /// The TMDB ID of the media
@@ -36,6 +37,7 @@ class TMDBSearchResult: Decodable, Identifiable {
     /// Whether the result is a movie and is for adults only
     var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
     
+    /// Creates a new `TMDBSearchResult` object with the given values
     init(id: Int, title: String, mediaType: MediaType, imagePath: String? = nil, overview: String? = nil, originalTitle: String, originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int) {
         self.id = id
         self.title = title

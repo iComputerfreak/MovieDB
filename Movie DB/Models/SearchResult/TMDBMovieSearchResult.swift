@@ -15,6 +15,7 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     /// The date, the movie was released
     var releaseDate: Date?
     
+    /// Creates a new `TMDBMovieSearchResult` object with the given values
     init(id: Int, title: String, mediaType: MediaType, imagePath: String? = nil, overview: String? = nil, originalTitle: String, originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int, isAdult: Bool, releaseDate: Date? = nil) {
         self.isAdult = isAdult
         self.releaseDate = releaseDate

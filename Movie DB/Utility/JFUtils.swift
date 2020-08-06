@@ -15,26 +15,25 @@ extension TimeZone {
 }
 
 /// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
+///
+/// Example:
+///
+///     let value: String = undefined() // Will compile as a String
+///     print(value.components(separatedBy: " ") // Will not throw any compiler errors
 func undefined<T>(_ message: String = "") -> T {
     fatalError(message)
 }
 
 struct JFUtils {
     
+    /// The words that will be ignored for sorting media objects in the library
     static let wordsIgnoredForSorting = [
         "the",
         "a"
     ]
-    
-    static var tmdbDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeZone = .utc
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }
         
     /// Convenience function to execute a HTTP GET request.
-    /// Ignores errors and just passes nil to the completion handler.
+    /// Ignores errors and just passes nil to the completion handler, if the request failed.
     /// - Parameters:
     ///   - urlString: The URL string of the request
     ///   - parameters: The parameters for the request
@@ -73,30 +72,6 @@ struct JFUtils {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("Making GET Request to \(urlStringWithParameters)")
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
-    }
-    
-    /// Builds the URL for an TMDB image
-    /// - Parameters:
-    ///   - path: The path of the image
-    ///   - size: The size of the image
-    static func getTMDBImageURL(path: String, size: Int = 500) -> String {
-        return "https://image.tmdb.org/t/p/w\(size)/\(path)"
-    }
-    
-    // TODO: Maybe load the strings from TMDB instead of using the Locale values
-    // https://developers.themoviedb.org/3/configuration/get-languages
-    /// Returns the human readable language name (in english) from the given ISO-639-1 string
-    ///
-    ///     languageString("en") // Returns "English"
-    static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
-        return locale.localizedString(forLanguageCode: code)
-    }
-    
-    /// Returns the human readable region name (in english) from the given ISO-3166-1 string
-    ///
-    ///     languageString("US") // Returns "United States"
-    static func regionString(for code: String, locale: Locale = Locale.current) -> String? {
-        return locale.localizedString(forRegionCode: code)
     }
     
     /// The URL describing the documents directory of the app
@@ -179,8 +154,45 @@ struct JFUtils {
         // Remove all duplicates
         return Array(Set(genres.joined()))
     }
+}
+
+// MARK: - TMDB API
+extension JFUtils {
+    /// Builds the URL for an TMDB image
+    /// - Parameters:
+    ///   - path: The path of the image
+    ///   - size: The size of the image
+    static func getTMDBImageURL(path: String, size: Int = 500) -> String {
+        return "https://image.tmdb.org/t/p/w\(size)/\(path)"
+    }
     
-    // MARK: FSK Rating
+    // TODO: Maybe load the strings from TMDB instead of using the Locale values
+    // https://developers.themoviedb.org/3/configuration/get-languages
+    /// Returns the human readable language name (in english) from the given ISO-639-1 string
+    ///
+    ///     languageString("en") // Returns "English"
+    static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
+        return locale.localizedString(forLanguageCode: code)
+    }
+    
+    /// Returns the human readable region name (in english) from the given ISO-3166-1 string
+    ///
+    ///     languageString("US") // Returns "United States"
+    static func regionString(for code: String, locale: Locale = Locale.current) -> String? {
+        return locale.localizedString(forRegionCode: code)
+    }
+    
+    /// The `DateFormatter` for translating to and from TMDB date representation
+    static var tmdbDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeZone = .utc
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+}
+
+// MARK: - FSK Rating
+extension JFUtils {
     enum FSKRating: String, CaseIterable {
         case noRestriction = "0"
         case ageSix = "6"
@@ -191,16 +203,16 @@ struct JFUtils {
     
     static func fskColor(_ rating: FSKRating) -> Color {
         switch rating {
-        case .noRestriction:
-            return Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0)
-        case .ageSix:
-            return Color(red: 255.0/255.0, green: 242.0/255.0, blue: 0.0/255.0)
-        case .ageTwelve:
-            return Color(red: 51.0/255.0, green: 255.0/255.0, blue: 0.0/255.0)
-        case .ageSixteen:
-            return Color(red: 51.0/255.0, green: 217.0/255.0, blue: 255.0/255.0)
-        case .ageEighteen:
-            return Color(red: 255.0/255.0, green: 0.0/255.0, blue: 0.0/255.0)
+            case .noRestriction:
+                return Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0)
+            case .ageSix:
+                return Color(red: 255.0/255.0, green: 242.0/255.0, blue: 0.0/255.0)
+            case .ageTwelve:
+                return Color(red: 51.0/255.0, green: 255.0/255.0, blue: 0.0/255.0)
+            case .ageSixteen:
+                return Color(red: 51.0/255.0, green: 217.0/255.0, blue: 255.0/255.0)
+            case .ageEighteen:
+                return Color(red: 255.0/255.0, green: 0.0/255.0, blue: 0.0/255.0)
         }
     }
     
@@ -208,102 +220,4 @@ struct JFUtils {
         Image(systemName: "\(rating.rawValue).square")
             .foregroundColor(fskColor(rating))
     }
-}
-
-extension Dictionary where Key == String, Value == Any? {
-    /// Returns the dictionary as a string of HTTP arguments, percent escaped
-    ///
-    ///     [key1: "test", key2: "Hello World"].percentEscaped()
-    ///     // Returns "key1=test&key2=Hello%20World"
-    func percentEscaped() -> String {
-        return map { (key, value) in
-            let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-            let escapedValue = "\(value ?? "null")".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-            return escapedKey + "=" + escapedValue
-        }
-        .joined(separator: "&")
-    }
-}
-
-extension CharacterSet {
-    /// Returns the set of characters that are allowed in a URL query
-    static let urlQueryValueAllowed: CharacterSet = {
-        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
-        let subDelimitersToEncode = "!$&'()*+,;="
-        
-        var allowed = CharacterSet.urlQueryAllowed
-        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
-        return allowed
-    }()
-}
-
-extension String {
-    /// Returns a string without a given prefix
-    ///
-    ///     "abc def".removingPrefix("abc") // returns " def"
-    ///     "cba def".revmoingPrefix("abc") // returns "cba def"
-    ///
-    /// - Parameter prefix: The prefix to remove, if it exists
-    /// - Returns: The string without the given prefix
-    func removingPrefix(_ prefix: String) -> String {
-        if self.hasPrefix(prefix) {
-            return String(self.dropFirst(prefix.count))
-        }
-        // If the prefix does not exist, leave the string as it is
-        return String(self)
-    }
-    /// Returns a string without a given suffix
-    ///
-    ///     "abc def".removingSuffix("def") // returns "abc "
-    ///     "abc fed".revmoingSuffix("def") // returns "abc fed"
-    ///
-    /// - Parameter suffix: The suffix to remove, if it exists
-    /// - Returns: The string without the given suffix
-    func removingSuffix(_ suffix: String) -> String {
-        if self.hasSuffix(suffix) {
-            return String(self.dropLast(suffix.count))
-        }
-        // If the prefix does not exist, leave the string as it is
-        return String(self)
-    }
-    /// Removes a prefix from a string
-    ///
-    ///     let a = "abc def".removingPrefix("abc") // a is " def"
-    ///     let b = "cba def".revmoingPrefix("abc") // b is "cba def"
-    ///
-    /// - Parameter prefix: The prefix to remove, if it exists
-    /// - Returns: The string without the given prefix
-    mutating func removePrefix(_ prefix: String) {
-        if self.hasPrefix(prefix) {
-            self.removeFirst(prefix.count)
-        }
-        // If the prefix does not exist, leave the string as it is
-    }
-    /// Removes a suffix from a string
-    ///
-    ///     let a = "abc def".removingSuffix("def") // a is "abc "
-    ///     let b = "abc fed".revmoingSuffix("def") // b is "abc fed"
-    ///
-    /// - Parameter suffix: The suffix to remove, if it exists
-    /// - Returns: The string without the given suffix
-    mutating func removeSuffix(_ suffix: String) {
-        if self.hasSuffix(suffix) {
-            self.removeLast(suffix.count)
-        }
-        // If the prefix does not exist, leave the string as it is
-    }
-}
-
-extension NumberFormatter {
-    func string(from value: Double) -> String? {
-        return self.string(from: NSNumber(value: value))
-    }
-    
-    func string(from value: Int) -> String? {
-        return self.string(from: NSNumber(value: value))
-    }
-}
-
-extension Color {
-    static let systemBackground = Color(UIColor.systemBackground)
 }

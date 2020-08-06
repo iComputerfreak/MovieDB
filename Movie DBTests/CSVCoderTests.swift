@@ -127,7 +127,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual((momentumTMDBData as? TMDBMovieData)?.isAdult, false)
         
         XCTAssertEqual(media.watched, true)
-        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>([.rating]))
+        XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>([.rating, .tags]))
     }
     
     func testEncode() throws {
@@ -158,10 +158,20 @@ class CSVCoderTests: XCTestCase {
             dictionaries.append(Dictionary(uniqueKeysWithValues: pairs))
         }
         
+        // We have to match the media object with their CSV line, as they all get sorted when exported
+        let sortedSamples = TestingUtils.mediaSamples.sorted(by: { (media1, media2) in
+            // Sort nil before real values
+            guard let tmdbData1 = media1.tmdbData else {
+                return true
+            }
+            guard let tmdbData2 = media2.tmdbData else {
+                return false
+            }
+            return tmdbData1.title.lexicographicallyPrecedes(tmdbData2.title)
+        })
         // Test all sample media objects
-        // We start at index 1, to exclude the header
         for i in 0..<TestingUtils.mediaSamples.count {
-            try testEncodedMedia(dictionaries[i], encodedMedia: TestingUtils.mediaSamples[i])
+            try testEncodedMedia(dictionaries[i], encodedMedia: sortedSamples[i])
         }
     }
     
@@ -230,16 +240,20 @@ class CSVCoderTests: XCTestCase {
     
     func testEncodeMediaWithIllegalCharacters() throws {
         let media = TestingUtils.matrixMovie
-        let tagWithSeparator = TagLibrary.shared.create(name: "Illegal\(csvCoder.separator) Tag")
-        media.tags.append(tagWithSeparator)
+        let newName = "Illegal\(csvCoder.separator) Tag"
+        var tagWithSeparator = TagLibrary.shared.tags.first(where: { $0.name == newName })?.id
+        if tagWithSeparator == nil {
+            tagWithSeparator = TagLibrary.shared.create(name: newName)
+        }
+        media.tags.append(tagWithSeparator!)
         media.notes = "This note contains:\(csvCoder.lineSeparator)\(csvCoder.separator)\(csvCoder.arraySeparator)"
         csvCoder.headers = [.tmdbID, .title, .tags, .notes, .type]
         let csv = try csvCoder.encode([media])
         let lines = csv.components(separatedBy: csvCoder.lineSeparator)
         XCTAssertEqual(lines.count, 2)
-        XCTAssertEqual(lines[0], "tmdb_id;title;tags;notes;type")
-        // The illegal characters should have been removed in the CSV output
-        XCTAssertEqual(lines[1], "603;The Matrix;Future,Conspiracy,Dark,Illegal Tag;This note contains:;movie")
+        XCTAssertEqual(lines[0], "tmdb_id\(csvCoder.separator)title\(csvCoder.separator)tags\(csvCoder.separator)notes\(csvCoder.separator)type")
+        // The illegal characters should have been removed in the CSV output (arraySeparator should remain, since the note is not an array)
+        XCTAssertEqual(lines[1], "603\(csvCoder.separator)The Matrix\(csvCoder.separator)Future\(csvCoder.arraySeparator)Conspiracy\(csvCoder.arraySeparator)Dark\(csvCoder.arraySeparator)Illegal Tag\(csvCoder.separator)This note contains:\(csvCoder.arraySeparator)\(csvCoder.separator)movie")
     }
 
 }

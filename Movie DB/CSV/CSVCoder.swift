@@ -8,26 +8,29 @@
 
 import Foundation
 
+/// Handles de- and encoding of media objects into CSV strings
 struct CSVCoder {
     
-    // TODO: Replace with real API error, returned from the fetchMedia function
-    // (after using errors with API)
     enum CSVCoderError: Error {
-        case dataLoadError
         case invalidHeader(String)
         case dataCorrupted(String)
     }
     
+    /// The headers that are used for de- and encoding
     var headers: [CSVCodingKey] = [
         .id, .tmdbID, .type, .title, .personalRating, .watchAgain, .tags, .notes, .originalTitle, .genres, .overview, .status, // Common
         .watched, .releaseDate, .runtime, .budget, .revenue, .isAdult, // Movie exclusive
         .lastEpisodeWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
     ]
     
+    /// The CSV separator
     var separator = ";"
+    /// The separator used for de- and encoding arrays
     var arraySeparator = ","
+    /// The line separator
     let lineSeparator = "\n"
     
+    /// The `DateFormatter` used for de- and encoding dates
     var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = .utc
@@ -35,6 +38,10 @@ struct CSVCoder {
         return formatter
     }()
     
+    /// Decodes a given CSV string into media objects
+    /// - Parameter csv: The CSV string
+    /// - Throws: `TMDBAPI.APIError` or `CSVDecodingError`
+    /// - Returns: The decoded media objects
     func decode(_ csv: String) throws -> [Media] {
         // Remove Carriage Returns (the file may be CRLF encoded)
         var lines = csv.components(separatedBy: lineSeparator).map({ $0.trimmingCharacters(in: CharacterSet(charactersIn: "\r")) })
@@ -57,15 +64,17 @@ struct CSVCoder {
             let valuePairs = (0..<headers.count).map({ (headers[$0].rawValue, lineParts[$0]) })
             let values = Dictionary(uniqueKeysWithValues: valuePairs)
             
-            guard let media = try CSVData.createMedia(from: values, arraySeparator: arraySeparator) else {
-                throw CSVCoderError.dataLoadError
-            }
+            let media = try CSVData.createMedia(from: values, arraySeparator: arraySeparator)
             mediaObjects.append(media)
         }
         
         return mediaObjects
     }
     
+    /// Encodes the given media objects into a CSV string
+    /// - Parameter mediaObjects: The media objects to encode
+    /// - Throws: `TMDBAPI.APIError` or `CSVDecodingError`
+    /// - Returns: The CSV string
     func encode(_ mediaObjects: [Media]) throws -> String {
         // Start with the header line
         var lines: [String] = [headers.map(\.rawValue).joined(separator: separator)]

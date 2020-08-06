@@ -27,7 +27,9 @@ struct JFLiterals {
     static let maxSearchPages = 10
     
     struct Keys {
+        /// The key used for storing the TagLibrary
         static let allTags = "allTags"
+        /// The key used for storing the MediaLibrary
         static let mediaLibrary = "mediaLibrary"
     }
 }

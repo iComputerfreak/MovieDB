@@ -9,8 +9,11 @@
 import Foundation
 import SwiftUI
 
+/// A set of problems that occurred while repairing
 enum RepairProblems {
+    /// No problems occurred
     case none
+    /// Some problems occurred. Some were fixed, others maybe not
     case some(fixed: Int, notFixed: Int)
     
     static func + (lhs: RepairProblems, rhs: RepairProblems) -> RepairProblems {

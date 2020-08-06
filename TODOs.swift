@@ -11,14 +11,12 @@
 /*
  TODO: When importing, Media.nextID gets increated due to decoding (although the user might discard the data or there is an error)
  TODO: lastEpisodeWatched does not update while in the editing screen
- TODO: Create an option to export the tags
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
  TODO: Reduce thumbnail file size and only load the full image when accessing it in Detail (currently using 1.4 MB of RAM per image)
  */
 
 // Future:
 /*
- TODO: Re-write documentation for TMDBAPI
  TODO: Check, if all properties and functions are properly documented
  TODO: Set language and region automatically to device defaults (only once on first start)
  TODO: Hide Search Bar when scrolling down

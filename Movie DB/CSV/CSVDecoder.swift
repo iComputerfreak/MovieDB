@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Decodes data from Strings, like CSV files
 struct CSVDecoder {
     
     enum CSVDecodingError: Error {
@@ -16,20 +17,38 @@ struct CSVDecoder {
         case dataCorrupted
     }
     
+    /// The data set
     let data: [String: String]
     
+    /// The separator used for decoding arrays
     var arraySeparator: String
     
+    /// Creates a new decoder with the given data set and array separator
+    /// - Parameters:
+    ///   - data: The data set to decode from
+    ///   - arraySeparator: The separator used for decoding arrays
     init(data: [String: String], arraySeparator: String) {
         self.data = data
         self.arraySeparator = arraySeparator
     }
     
     
+    /// Decodes a value of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the value to decode
+    ///   - key: The key to decode the value from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded value
     func decode<T>(_ type: T.Type, forKey key: CSVCodingKey) throws -> T where T: LosslessStringConvertible {
         return try decode(T.self, forKey: key, with: T.init)
     }
     
+    /// Decodes a value of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the value to decode
+    ///   - key: The key to decode the value from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded value
     func decode<T>(_ type: T.Type, forKey key: CSVCodingKey) throws -> T where T: RawRepresentable, T.RawValue: LosslessStringConvertible {
         return try decode(T.self, forKey: key, with: { stringValue in
             guard let rawValue = T.RawValue(stringValue) else {
@@ -40,10 +59,22 @@ struct CSVDecoder {
     }
     
     
+    /// Decodes a value of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the value to decode
+    ///   - key: The key to decode the value from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded value
     func decode<T>(_ type: T?.Type, forKey key: CSVCodingKey) throws -> T? where T: LosslessStringConvertible {
         return try decodeOptional(T?.self, forKey: key, with: T.init)
     }
     
+    /// Decodes a value of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the value to decode
+    ///   - key: The key to decode the value from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded value
     func decode<T>(_ type: T?.Type, forKey key: CSVCodingKey) throws -> T? where T: RawRepresentable, T.RawValue: LosslessStringConvertible {
         return try decodeOptional(T?.self, forKey: key, with: { stringValue in
             guard let rawValue = T.RawValue(stringValue) else {
@@ -54,10 +85,22 @@ struct CSVDecoder {
     }
     
     
+    /// Decodes an array of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the array to decode
+    ///   - key: The key to decode the array from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded array
     func decode<T>(_ type: [T].Type, forKey key: CSVCodingKey) throws -> [T] where T: LosslessStringConvertible {
         return try decodeArray([T].self, forKey: key, with: T.init)
     }
     
+    /// Decodes an array of the given type for the given key
+    /// - Parameters:
+    ///   - type: The type of the array to decode
+    ///   - key: The key to decode the array from
+    /// - Throws: `CSVDecodingError`
+    /// - Returns: The decoded array
     func decode<T>(_ type: [T].Type, forKey key: CSVCodingKey) throws -> [T] where T: RawRepresentable, T.RawValue: LosslessStringConvertible {
         return try decodeArray([T].self, forKey: key, with: { stringValue in
             guard let rawValue = T.RawValue(stringValue) else {

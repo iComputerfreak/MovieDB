@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents a CSV line
 struct CSVData {
     
     enum CSVDataError: Error {
@@ -47,6 +48,14 @@ struct CSVData {
     let arraySeparator: String
     let lineSeparator: String
     
+    /// Creates a new data set from the given media object
+    /// - Parameters:
+    ///   - media: The media object to create the data from
+    ///   - dateFormatter: The `DateFormatter` to use, encoding dates
+    ///   - separator: The CSV separator
+    ///   - arraySeparator: The separator used for arrays
+    ///   - lineSeparator: The line separator
+    /// - Throws: `CSVDataError`
     init(from media: Media, dateFormatter: DateFormatter, separator: String, arraySeparator: String, lineSeparator: String) throws {
         self.id = media.id
         self.type = media.type
@@ -86,6 +95,8 @@ struct CSVData {
         self.lineSeparator = lineSeparator
     }
     
+    /// Encodes this data set into strings
+    /// - Returns: The dictionary of strings to be used for creating the CSV line
     func createCSVValues() -> [String: String] {
         var encoder = CSVEncoder(arraySeparator: arraySeparator)
         
@@ -96,12 +107,12 @@ struct CSVData {
         encoder.encode(tags.compactMap({ TagLibrary.shared.name(for: $0)?.cleaned(of: separator, arraySeparator, lineSeparator) }), forKey: .tags)
         encoder.encode(watchAgain, forKey: .watchAgain)
         // Clean the notes (should not contains illegal characters)
-        encoder.encode(notes.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .notes)
+        encoder.encode(notes.cleaned(of: separator, lineSeparator), forKey: .notes)
         encoder.encode(tmdbID, forKey: .tmdbID)
-        encoder.encode(title.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .title)
-        encoder.encode(originalTitle.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .originalTitle)
+        encoder.encode(title.cleaned(of: separator, lineSeparator), forKey: .title)
+        encoder.encode(originalTitle.cleaned(of: separator, lineSeparator), forKey: .originalTitle)
         encoder.encode(genres.map(\.name), forKey: .genres)
-        encoder.encode(overview?.cleaned(of: separator, arraySeparator, lineSeparator), forKey: .overview)
+        encoder.encode(overview?.cleaned(of: separator, lineSeparator), forKey: .overview)
         encoder.encode(status, forKey: .status)
         
         encoder.encode(watched, forKey: .watched)
@@ -124,7 +135,13 @@ struct CSVData {
         return encoder.data
     }
     
-    static func createMedia(from data: [String: String], arraySeparator: String) throws -> Media? {
+    /// Decodes a new media object from the given data
+    /// - Parameters:
+    ///   - data: The data set to decode from
+    ///   - arraySeparator: The separator used for decoding arrays
+    /// - Throws: `CSVDataError` or `CSVDecodingError`
+    /// - Returns: The media object
+    static func createMedia(from data: [String: String], arraySeparator: String) throws -> Media {
         let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
         
         let type = try decoder.decode(MediaType.self, forKey: .type)

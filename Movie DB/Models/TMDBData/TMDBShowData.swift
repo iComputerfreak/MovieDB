@@ -29,6 +29,7 @@ class TMDBShowData: TMDBData {
     /// The list of networks that publish the show
     @Published var networks: [ProductionCompany]
     
+    /// Creates a new `TMDBShowData object with the given values
     init(id: Int, title: String, originalTitle: String, imagePath: String?, genres: [Genre], overview: String?, status: MediaStatus, originalLanguage: String, imdbID: String?, productionCompanies: [ProductionCompany], homepageURL: String?, popularity: Float, voteAverage: Float, voteCount: Int, firstAirDate: Date?, lastAirDate: Date?, numberOfSeasons: Int?, numberOfEpisodes: Int, episodeRuntime: [Int], isInProduction: Bool, seasons: [Season], type: ShowType?, networks: [ProductionCompany], cast: [CastMember], keywords: [String], translations: [String], videos: [Video]) {
         self.firstAirDate = firstAirDate
         self.lastAirDate = lastAirDate
@@ -41,6 +42,8 @@ class TMDBShowData: TMDBData {
         self.networks = networks
         super.init(id: id, title: title, originalTitle: originalTitle, imagePath: imagePath, genres: genres, overview: overview, status: status, originalLanguage: originalLanguage, imdbID: imdbID, productionCompanies: productionCompanies, homepageURL: homepageURL, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount, cast: cast, keywords: keywords, translations: translations, videos: videos)
     }
+    
+    // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

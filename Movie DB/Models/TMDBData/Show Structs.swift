@@ -27,6 +27,7 @@ struct Season: Codable, Hashable, Identifiable {
     /// The date, the season aired
     var airDate: Date? { rawAirDate == nil ? nil : JFUtils.tmdbDateFormatter.date(from: self.rawAirDate!) }
     
+    /// Creates a new `Season` object with the given values
     init(id: Int, seasonNumber: Int, episodeCount: Int, name: String, overview: String?, imagePath: String?, rawAirDate: String?) {
         self.id = id
         self.seasonNumber = seasonNumber

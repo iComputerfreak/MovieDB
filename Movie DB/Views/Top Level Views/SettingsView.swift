@@ -263,6 +263,116 @@ struct SettingsView: View {
                                 shareSheet
                             }
                         })
+                        
+                        // MARK: - Import Tags
+                        Button(action: {
+                            // Use iOS file picker
+                            self.documentPicker = DocumentPicker(onSelect: { url in
+                                print("Importing \(url.lastPathComponent).")
+                                self.isLoading = true
+                                // Document picker finished. Invalidate it.
+                                self.documentPicker = nil
+                                DispatchQueue.global().async {
+                                    // Load the CSV data and decode it
+                                    do {
+                                        let importData = try String(contentsOf: url)
+                                        print("Imported Tag Export file. Trying to import into library.")
+                                        // Count the non-empty tags
+                                        let count = importData.components(separatedBy: "\n").filter({ !$0.isEmpty }).count
+                                        // Presenting will change UI
+                                        DispatchQueue.main.async {
+                                            let controller = UIAlertController(title: "Import",
+                                                                               message: "Do you want to import \(count) tag\(count == 1 ? "" : "s")?",
+                                                                               preferredStyle: .alert)
+                                            controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                                                TagImporter.import(importData)
+                                            }))
+                                            controller.addAction(UIAlertAction(title: "No", style: .cancel))
+                                            self.isLoading = false
+                                            AlertHandler.presentAlert(alert: controller)
+                                        }
+                                    } catch let error as LocalizedError {
+                                        print("Error importing: \(error)")
+                                        AlertHandler.showSimpleAlert(title: "Import Error", message: "Error importing the tags: \(error.localizedDescription)")
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                        }
+                                    } catch let otherError {
+                                        print("Unknown Error: \(otherError)")
+                                        assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                                        AlertHandler.showSimpleAlert(title: "Import Error", message: "There was an error importing the tags.")
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                        }
+                                    }
+                                }
+                            }, onCancel: {
+                                print("Canceling...")
+                                self.documentPicker = nil
+                            })
+                            #if targetEnvironment(macCatalyst)
+                            // On macOS present the file picker manually
+                            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                            #endif
+                        }, label: {
+                            Text("Import Tags")
+                        })
+                        .popover(isPresented: .init(get: {
+                            #if targetEnvironment(macCatalyst)
+                            return false
+                            #else
+                            return self.documentPicker != nil
+                            #endif
+                        }, set: { newState in
+                            // If the new state is "hidden"
+                            if newState == false {
+                                self.documentPicker = nil
+                            }
+                        })) {
+                            self.documentPicker!
+                        }
+                        
+                        // MARK: - Export Tags
+                        Button(action: {
+                            let url: URL!
+                            do {
+                                let exportData: String = TagImporter.export()
+                                // Save as a file to share it
+                                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export.txt")
+                                // Delete any old export, if it exists (this is only the local copy, that will be shared)
+                                if FileManager.default.fileExists(atPath: url.path) {
+                                    try? FileManager.default.removeItem(at: url)
+                                }
+                                try exportData.write(to: url, atomically: true, encoding: .utf8)
+                            } catch let exception {
+                                print("Error writing Tags Export file")
+                                print(exception)
+                                return
+                            }
+                            #if targetEnvironment(macCatalyst)
+                            // Show save file dialog
+                            self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+                                print("Exporting \(url.lastPathComponent).")
+                                // Document picker finished. Invalidate it.
+                                self.documentPicker = nil
+                                do {
+                                    // Export the csv to the file
+                                    try exportData.write(to: url, atomically: true, encoding: .utf8)
+                                } catch let exception {
+                                    print("Error exporting Tag Export file:")
+                                    print(exception)
+                                }
+                            }, onCancel: {
+                                print("Canceling...")
+                                self.documentPicker = nil
+                            })
+                            // On macOS present the file picker manually
+                            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+                            #else
+                            self.shareSheet.shareFile(url: url)
+                            #endif
+                        }, label: Text("Export Tags").closure())
+                        
                         // MARK: - Reset Button
                         Button(action: {
                             let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)

@@ -24,6 +24,7 @@
 		AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27425B2389DFEE00744B83 /* WatchedShowView.swift */; };
 		AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27425F2389E06500744B83 /* SimpleValueView.swift */; };
 		AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2ACF5024DB1FFF002C5F41 /* APIError.swift */; };
+		AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2ACF5224DC4961002C5F41 /* TagImporter.swift */; };
 		AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */; };
 		AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
@@ -118,6 +119,7 @@
 		AB27425B2389DFEE00744B83 /* WatchedShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedShowView.swift; sourceTree = "<group>"; };
 		AB27425F2389E06500744B83 /* SimpleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleValueView.swift; sourceTree = "<group>"; };
 		AB2ACF5024DB1FFF002C5F41 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		AB2ACF5224DC4961002C5F41 /* TagImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagImporter.swift; sourceTree = "<group>"; };
 		AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetail.swift; sourceTree = "<group>"; };
 		AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
@@ -250,6 +252,8 @@
 				AB25099D238B1EED00F7A411 /* KeyboardResponder.swift */,
 				AB97D2AF238C194900418E36 /* AlertHandler.swift */,
 				ABEBA2C623957F59003BF187 /* JFConfig.swift */,
+				AB2ACF5224DC4961002C5F41 /* TagImporter.swift */,
+				ABA13D5A2382D29E00E885DD /* Extensions.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -282,7 +286,6 @@
 		AB3648C022C3FAEE0096FE39 /* Support Views */ = {
 			isa = PBXGroup;
 			children = (
-				ABA13D5A2382D29E00E885DD /* Extensions.swift */,
 				ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */,
 				ABB82DCD2414201F00E46023 /* ShareSheet.swift */,
 				AB61CA28241425E3008BD8C8 /* DocumentPicker.swift */,
@@ -626,6 +629,7 @@
 				ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */,
 				ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */,
 				AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */,
+				AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */,
 				AB01097024D73C25001BEF39 /* CSVDecoder.swift in Sources */,
 				ABA0399324D4990200DBF71F /* TMDBData Helpers.swift in Sources */,
 				AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */,

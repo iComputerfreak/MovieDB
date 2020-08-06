@@ -22,26 +22,32 @@ class TMDBAPI {
     /// The base part of the TheMovieDB.org API URL
     private let baseURL = "https://api.themoviedb.org/3"
     
-    let apiKey: String = "e4304a9deeb9ed2d62eb61d7b9a2da71"
-    /// The ISO-639-1 language code
+    private let apiKey: String = "e4304a9deeb9ed2d62eb61d7b9a2da71"
+    /// The ISO 639-1 language code
     var language: String {
         JFConfig.shared.language
     }
+    /// The ISO 3166-1 region code
     var region: String {
         JFConfig.shared.region
     }
+    /// The combined string of language and region.
+    /// Format: `languageCode-regionCode`
     var locale: String {
         return "\(language)-\(region)"
     }
     
+    // This is a singleton
     private init() {}
     
     // MARK: - Public functions
     
-    /// Fetches a media object for the given ID and type of media
+    /// Loads and decodes a media objects from the TMDB API
     /// - Parameters:
-    ///   - id: The id of the media to fetch
+    ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The decoded media object
     func fetchMedia(id: Int, type: MediaType) throws -> Media {
         // Get the TMDB Data
         let tmdbData = try self.fetchTMDBData(for: id, type: type)
@@ -65,6 +71,12 @@ class TMDBAPI {
     ///
     /// - Parameter media: The media object to update
     /// - Returns: Whether the update was successful
+    
+    /// Updates the given media object by re-loading the TMDB data
+    /// - Parameters:
+    ///   - media: The media object to update
+    ///   - completion: A closure, executed after the media object has been updated
+    /// - Throws: `APIError` or `DecodingError`
     func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws {
         guard let id = media.tmdbData?.id else {
             // No idea what TMDB ID should be, we can't update
@@ -82,8 +94,12 @@ class TMDBAPI {
         return
     }
     
-    /// Fetches the IDs of the media objects that changed in the given timeframe
-    /// - Parameter completion: The closure to execute upon completion of the request
+    /// Loads the TMDB IDs of all media objects changed in the given timeframe
+    /// - Parameters:
+    ///   - startDate: The start of the timespan
+    ///   - endDate: The end of the timespan
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The changed TMDB IDs
     func getChanges(from startDate: Date?, to endDate: Date) throws -> [Int] {
         var dateRangeParameters: [String: Any?] = [
             "end_date": JFUtils.tmdbDateFormatter.string(from: endDate)
@@ -100,27 +116,29 @@ class TMDBAPI {
         return results.map(\.id)
     }
     
-    /// Searches for a media with a given name on TheMovieDB.org.
+    /// Searches for media with a given query on TheMovieDB.org
     /// - Parameters:
-    ///   - name: The name of the media to search for
-    ///   - includeAdult: Whether the results should include adult media
-    ///   - completion: The code to execute when the request is completed.
-    func searchMedia(_ name: String, includeAdult: Bool = false) throws -> [TMDBSearchResult] {
+    ///   - name: The query to search for
+    ///   - includeAdult: Whether to include adult media
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The search results
+    func searchMedia(_ query: String, includeAdult: Bool = false) throws -> [TMDBSearchResult] {
         try self.multiPageRequest(path: "search/multi", additionalParameters: [
-            "query": name,
+            "query": query,
             "include_adult": includeAdult
         ], maxPages: JFLiterals.maxSearchPages, pageWrapper: SearchResultsPageWrapper.self)
     }
     
     // MARK: - Private functions
     
-    /// Loads multiple pages of results and appends the items
+    /// Loads multiple pages of results and returns the accumulated data
     /// - Parameters:
-    ///   - path: The API path to use for the request
-    ///   - additionalParameters: Additional parameters to append
-    ///   - maxPages: The number of pages to load at most
-    ///   - pageWrapper: A specific wrapper class to decode the result pages
-    ///   - completion: The closure to execute upon completion
+    ///   - path: The API URL path to request the data from
+    ///   - additionalParameters: Additional parameters for the API call
+    ///   - maxPages: The maximum amount of pages to parse
+    ///   - pageWrapper: The struct, the result pages get decoded into
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The accumulated results of the API calls
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type) throws -> [PageWrapper.ObjectWrapper] {
         let data = try self.request(path: path, additionalParameters: additionalParameters)
         let wrapper = try JSONDecoder().decode(PageWrapper.self, from: data)
@@ -142,12 +160,12 @@ class TMDBAPI {
         return results
     }
     
-    // Returns a concrete subclass
-    /// Fetches a subclass of `Media` from TheMovieDB.org for a given media ID and a given `MediaType`.
+    /// Loads and decodes a subclass of `TMDBData` for the given TMDB ID and type
     /// - Parameters:
-    ///   - id: The id of the media on TheMovieDB.org
-    ///   - type: The type of media
-    ///   - completion: The code to execute when the request is completed
+    ///   - id: The TMDB ID to load the data for
+    ///   - type: The type of media to load
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType) throws -> TMDBData {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
         // We can't save the type as a variable (`let type = (type == .movie) ? TMDBMovieData.self : TMDBShowData.self`), because it would result in the variable type `TMDBData.Type`
@@ -159,11 +177,13 @@ class TMDBAPI {
         }
     }
     
-    /// Decodes an API result into a given type.
+    /// Loads and decodes an API URL
     /// - Parameters:
-    ///   - urlString: The URL of the API request
-    ///   - completion: The code to execute when the request is complete
-    /// - Throws: an `APIError` or an `DecodingError`
+    ///   - path: The API URL path to decode
+    ///   - additionalParameters: Additional parameters to use for the API call
+    ///   - type: The type of media
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The decoded result
     private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type) throws -> T where T: Decodable {
         let data = try request(path: path, additionalParameters: additionalParameters)
         assert(T.self != TMDBData.self, "We should not return instances of the TMDBData superclass.")
@@ -172,11 +192,12 @@ class TMDBAPI {
         return result
     }
     
-    /// Performs an API call using the given path and completion closure
+    /// Performs an API GET request and returns the data
     /// - Parameters:
-    ///   - path: The api path without the starting `/`
-    ///   - completion: The closure to execute, once the GET Request has been completed
-    /// - Returns: Whether the operation was successful
+    ///   - path: The API URL path
+    ///   - additionalParameters: Additional parameters to use for the API call
+    /// - Throws: `APIError` or `DecodingError`
+    /// - Returns: The data from the API call
     private func request(path: String, additionalParameters: [String: Any?] = [:]) throws -> Data {
         let url = "\(baseURL)/\(path)"
         var parameters: [String: Any?] = [
