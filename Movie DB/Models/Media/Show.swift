@@ -78,9 +78,12 @@ class Show: Media {
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
+        // We have to call super.init BEFORE initializing our own properties, because otherwise the didSet observer will not be called
+        // (see the note at https://docs.swift.org/swift-book/LanguageGuide/Properties.html#ID262)
+        // The only reason this works, is because all properties of this class are optionals
+        try super.init(from: decoder)
         let container = try decoder.container(keyedBy: Show.CodingKeys.self)
         self.lastEpisodeWatched = try container.decode(EpisodeNumber?.self, forKey: .lastEpisodeWatched)
-        try super.init(from: decoder)
     }
     
     override func encode(to encoder: Encoder) throws {
