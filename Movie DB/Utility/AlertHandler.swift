@@ -16,7 +16,10 @@ struct AlertHandler {
     /// - Parameter alert: The Alert Controller
     static func presentAlert(alert: UIAlertController) {
         if let controller = topMostViewController() {
-            controller.present(alert, animated: true)
+            // UI Changes always have to be on the main thread
+            DispatchQueue.main.async {
+                controller.present(alert, animated: true)
+            }
         }
     }
     /// Shows a simple alert with a title, a message and an "Ok" button

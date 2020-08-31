@@ -12,6 +12,8 @@
  TODO: lastEpisodeWatched does not update while in the editing screen
  TODO: Add a Refresh option when swiping an entry to the left (next to delete)
  TODO: Reduce thumbnail file size and only load the full image when accessing it in Detail (currently using 1.4 MB of RAM per image)
+ TODO: Add option to load more search results (like a "Load more..." button)
+ TODO: Make multiPageRequest parallel
  */
 
 // Future:

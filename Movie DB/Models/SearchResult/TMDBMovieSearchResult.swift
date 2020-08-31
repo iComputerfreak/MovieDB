@@ -11,9 +11,9 @@ import SwiftUI
 
 class TMDBMovieSearchResult: TMDBSearchResult {
     /// Whether the movie is an adult movie
-    var isAdult: Bool
+    let isAdult: Bool
     /// The date, the movie was released
-    var releaseDate: Date?
+    let releaseDate: Date?
     
     /// Creates a new `TMDBMovieSearchResult` object with the given values
     init(id: Int, title: String, mediaType: MediaType, imagePath: String? = nil, overview: String? = nil, originalTitle: String, originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int, isAdult: Bool, releaseDate: Date? = nil) {
@@ -30,7 +30,9 @@ class TMDBMovieSearchResult: TMDBSearchResult {
         self.isAdult = try container.decode(Bool.self, forKey: .isAdult)
         
         // If the decoded raw date is nil, we use "" to produce a nil date in the line below
-        let rawReleaseDate = try container.decode(String?.self, forKey: .rawReleaseDate) ?? ""
+        // We use decodeIfPresent here, because it could be possible, that the API response does not contains the key
+        // (had this once)
+        let rawReleaseDate = try container.decodeIfPresent(String.self, forKey: .rawReleaseDate) ?? ""
         self.releaseDate = JFUtils.tmdbDateFormatter.date(from: rawReleaseDate)
         
         try super.init(from: decoder)

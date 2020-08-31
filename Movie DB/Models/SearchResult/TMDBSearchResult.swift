@@ -10,30 +10,30 @@ import Foundation
 import SwiftUI
 
 /// Represents a search result from the TMDBAPI search call
-class TMDBSearchResult: Decodable, Identifiable {
+class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
     // Basic Data
     /// The TMDB ID of the media
-    var id: Int
+    let id: Int
     /// The name of the media
-    var title: String
+    let title: String
     /// The type of media
-    var mediaType: MediaType
+    let mediaType: MediaType
     /// The path of the media poster image on TMDB
-    var imagePath: String?
+    let imagePath: String?
     /// A short media description
-    var overview: String?
+    let overview: String?
     /// The original tile of the media
-    var originalTitle: String
+    let originalTitle: String
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
-    var originalLanguage: String
+    let originalLanguage: String
     
     // TMDB Scoring
     /// The popularity of the media on TMDB
-    var popularity: Float
+    let popularity: Float
     /// The average rating on TMDB
-    var voteAverage: Float
+    let voteAverage: Float
     /// The number of votes that were cast on TMDB
-    var voteCount: Int
+    let voteCount: Int
     /// Whether the result is a movie and is for adults only
     var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
     
