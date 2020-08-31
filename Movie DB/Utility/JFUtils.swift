@@ -66,7 +66,11 @@ struct JFUtils {
     ///   - parameters: The parameters for the request
     ///   - completion: The closure to execute on completion of the request
     static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let urlStringWithParameters = "\(urlString)?\(parameters.percentEscaped())"
+        var urlStringWithParameters = "\(urlString)"
+        // We should only append the '?', if we really have parameters
+        if !parameters.isEmpty {
+            urlStringWithParameters += "?\(parameters.percentEscaped())"
+        }
         var request = URLRequest(url: URL(string: urlStringWithParameters)!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

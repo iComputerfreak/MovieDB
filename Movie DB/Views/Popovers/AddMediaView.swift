@@ -22,47 +22,15 @@ struct AddMediaView : View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
+                    // FIX: For SOME reason, calling searchMedia() inside onCommit crashes the app. We have to call it from a button
                     SearchBar(searchText: $searchText, onCommit: {
-                        print("Search: \(self.searchText)")
-                        guard !self.searchText.isEmpty else {
-                            self.results = []
-                            return
-                        }
-                        let api = TMDBAPI.shared
-                        do {
-                            var filteredResults = try api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults)
-                            // Filter out adult media from the search results
-                            if !JFConfig.shared.showAdults {
-                                filteredResults = filteredResults.filter { (searchResult: TMDBSearchResult) in
-                                    // Only movie search results contain the adult flag
-                                    if let movieResult = searchResult as? TMDBMovieSearchResult {
-                                        return !movieResult.isAdult
-                                    }
-                                    return true
-                                }
-                            }
-                            // Remove search results with the same TMDB ID
-                            let duplicates = Dictionary(grouping: filteredResults, by: \.id).filter({ $0.value.count > 1 }).flatMap({ $0.value.dropFirst() })
-                            for duplicate in duplicates {
-                                // Delete duplicates from last to first
-                                let index = filteredResults.lastIndex(where: { $0.id == duplicate.id })
-                                filteredResults.remove(at: index!)
-                            }
-                            DispatchQueue.main.async {
-                                self.results = filteredResults
-                            }
-                        } catch let error as LocalizedError {
-                            print("Error performing search: \(error)")
-                            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error.localizedDescription)")
-                        } catch let otherError {
-                            print("Unknown Error: \(otherError)")
-                            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-                            AlertHandler.showSimpleAlert(title: "Error", message: "There was an error performing the search.")
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            searchMedia()
                         }
                     })
-                    
+                                        
                     List {
-                        ForEach(self.results) { (result: TMDBSearchResult) in
+                        ForEach(self.results, id: \.id) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
                                 SearchResultView(result: result)
                             }
@@ -78,6 +46,45 @@ struct AddMediaView : View {
                 }, label: { Image(systemName: "xmark") }))
             }
             .navigationViewStyle(StackNavigationViewStyle())
+        }
+    }
+    
+    func searchMedia() {
+        print("Search: \(self.searchText)")
+        guard !self.searchText.isEmpty else {
+            self.results = []
+            return
+        }
+        let api = TMDBAPI.shared
+        do {
+            var filteredResults = try api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults)
+            // Filter out adult media from the search results
+            if !JFConfig.shared.showAdults {
+                filteredResults = filteredResults.filter { (searchResult: TMDBSearchResult) in
+                    // Only movie search results contain the adult flag
+                    if let movieResult = searchResult as? TMDBMovieSearchResult {
+                        return !movieResult.isAdult
+                    }
+                    return true
+                }
+            }
+            // Remove search results with the same TMDB ID
+            let duplicates = Dictionary(grouping: filteredResults, by: \.id).filter({ $0.value.count > 1 }).flatMap({ $0.value.dropFirst() })
+            for duplicate in duplicates {
+                // Delete duplicates from last to first
+                let index = filteredResults.lastIndex(where: { $0.id == duplicate.id })
+                filteredResults.remove(at: index!)
+            }
+            DispatchQueue.main.async {
+                self.results = filteredResults
+            }
+        } catch let error as LocalizedError {
+            print("Error performing search: \(error)")
+            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error.localizedDescription)")
+        } catch let otherError {
+            print("Unknown Error: \(otherError)")
+            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+            AlertHandler.showSimpleAlert(title: "Error", message: "There was an error performing the search.")
         }
     }
     
