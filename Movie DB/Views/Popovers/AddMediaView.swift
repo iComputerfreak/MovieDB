@@ -80,7 +80,7 @@ struct AddMediaView : View {
             }
         } catch let error as LocalizedError {
             print("Error performing search: \(error)")
-            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error.localizedDescription)")
+            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error)")
         } catch let otherError {
             print("Unknown Error: \(otherError)")
             assertionFailure("This error should be captured specifically to give the user a more precise error message.")

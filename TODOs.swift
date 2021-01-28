@@ -16,6 +16,7 @@
  TODO: Make multiPageRequest parallel
  TODO: Update does not show progress bar
  TODO: Group Im-/Exports together
+ TODO: Add Sort button and change Filter to filter symbol
  */
 
 // Future:
@@ -33,6 +34,7 @@
  TODO: Add the option to favorite some movies/shows
  TOOD: Add the option to reset collection IDs, so every show and movie gets a fresh ID starting at 1 in alphabetical order
  TODO: Maybe decode created_by of shows to show the show creators in the details
+ TODO: Add more ratings (Rotten Tomatoes, IMDB, Google?, Metacritic)
  */
 
 // Not possible right now (SwiftUI limitations):

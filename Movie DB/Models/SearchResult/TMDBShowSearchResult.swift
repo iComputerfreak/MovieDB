@@ -25,7 +25,7 @@ class TMDBShowSearchResult: TMDBSearchResult {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         // If the decoded raw date is nil, we use "" to produce a nil date in the line below
-        let rawFirstAirDate = try container.decode(String?.self, forKey: .rawFirstAirDate) ?? ""
+        let rawFirstAirDate = try container.decodeIfPresent(String.self, forKey: .rawFirstAirDate) ?? ""
         self.firstAirDate = JFUtils.tmdbDateFormatter.date(from: rawFirstAirDate)
         
         try super.init(from: decoder)
