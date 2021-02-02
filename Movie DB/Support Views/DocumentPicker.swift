@@ -33,12 +33,10 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
         let controller: UIDocumentPickerViewController!
         if let url = self.urlToExport {
             // Save file
-            controller = UIDocumentPickerViewController(url: url, in: .moveToService)
+            controller = UIDocumentPickerViewController(forExporting: [url])
         } else {
             // Open file
-            // TODO: Change these deprecated inits
-            //controller = UIDocumentPickerViewController(forOpeningContentTypes: [.text])
-            controller = UIDocumentPickerViewController(documentTypes: [String(kUTTypeText)], in: .import)
+            controller = UIDocumentPickerViewController(forOpeningContentTypes: [.text], asCopy: true)
         }
         controller.modalPresentationStyle = .formSheet
         controller.delegate = self
