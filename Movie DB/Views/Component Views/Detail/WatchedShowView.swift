@@ -14,7 +14,7 @@ struct WatchedShowView: View {
     @Environment(\.editMode) private var editMode
     @State private var isEditing: Bool = false
     
-    private var watched: Show.EpisodeNumber? {
+    private var watched: EpisodeNumber? {
         guard let show = mediaObject as? Show else {
             assert(false, "WatchedShowView must be supplied an EnvironmentObject of type Show.")
             return nil
@@ -63,7 +63,7 @@ struct WatchedShowView: View {
                     // Update
                     if self.show.lastEpisodeWatched == nil {
                         // Create new
-                        self.show.lastEpisodeWatched = Show.EpisodeNumber(season: season)
+                        self.show.lastEpisodeWatched = EpisodeNumber(season: season)
                     } else {
                         // Update
                         self.show.lastEpisodeWatched!.season = season

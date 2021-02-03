@@ -74,7 +74,7 @@ class FilterSettings: ObservableObject, Codable {
         // MARK: Is Adult
         if let isAdult = isAdult {
             // If isAdult is not set on the media, ignore this filter!
-            if media.isAdult != nil && media.isAdult != isAdult {
+            if media.isAdultMovie != nil && media.isAdultMovie != isAdult {
                 return false
             }
         }
@@ -86,7 +86,7 @@ class FilterSettings: ObservableObject, Codable {
         }
         // MARK: Genres
         if !genres.isEmpty {
-            if !matchesArray(filterArray: self.genres, actualArray: media.tmdbData?.genres) {
+            if !matchesArray(filterArray: self.genres, actualArray: media.genres) {
                 return false
             }
         }
@@ -103,19 +103,19 @@ class FilterSettings: ObservableObject, Codable {
             }
         }
         // MARK: Status
-        if !status.isEmpty, let mediaStatus = media.tmdbData?.status {
-            if !status.contains(mediaStatus) {
+        if !status.isEmpty {
+            if !status.contains(media.status) {
                 return false
             }
         }
         // MARK: Show Type
-        if !showTypes.isEmpty, let showData = media.tmdbData as? TMDBShowData, let mediaShowType = showData.type {
+        if !showTypes.isEmpty, let mediaShowType = (media as? Show)?.showType {
             if !showTypes.contains(mediaShowType) {
                 return false
             }
         }
         // MARK: Number of Seasons
-        if let numberOfSeasons = numberOfSeasons, let showData = media.tmdbData as? TMDBShowData, let mediaSeasons = showData.numberOfSeasons {
+        if let numberOfSeasons = numberOfSeasons, let mediaSeasons = (media as? Show)?.numberOfSeasons {
             if !(numberOfSeasons ~= mediaSeasons) {
                 return false
             }

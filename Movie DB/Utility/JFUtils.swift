@@ -143,7 +143,7 @@ struct JFUtils {
     /// Returns a closed range containing the season counts from all media objects in the library
     static func numberOfSeasonsBounds() -> ClosedRange<Int> {
         let seasons = MediaLibrary.shared.mediaList.compactMap({ (media: Media) in
-            return (media.tmdbData as? TMDBShowData)?.numberOfSeasons
+            return (media as? Show)?.numberOfSeasons
         }).sorted()
         guard !seasons.isEmpty else {
             return 0...0
@@ -154,7 +154,7 @@ struct JFUtils {
     /// Returns a list of genres used in the media library.
     /// Does not contain duplicates.
     static func allGenres() -> [Genre] {
-        let genres = MediaLibrary.shared.mediaList.compactMap({ $0.tmdbData?.genres })
+        let genres = MediaLibrary.shared.mediaList.compactMap({ $0.genres })
         // Remove all duplicates
         return Array(Set(genres.joined()))
     }

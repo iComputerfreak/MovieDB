@@ -14,26 +14,25 @@ struct PlaceholderData {
         try! Data(contentsOf: Bundle.main.url(forResource: "TMDBMovie", withExtension: "json")!)
     }
     
-    static var tmdbMovieData: TMDBMovieData {
+    static var tmdbMovieData: TMDBData {
         let data = try! Data(contentsOf: Bundle.main.url(forResource: "TMDBMovie", withExtension: "json")!)
-        return try! JSONDecoder().decode(TMDBMovieData.self, from: data)
+        return try! JSONDecoder().decode(TMDBData.self, from: data)
     }
-    static var tmdbShowData: TMDBShowData {
+    
+    static var tmdbShowData: TMDBData {
         let data = try! Data(contentsOf: Bundle.main.url(forResource: "TMDBShow", withExtension: "json")!)
-        return try! JSONDecoder().decode(TMDBShowData.self, from: data)
+        return try! JSONDecoder().decode(TMDBData.self, from: data)
     }
     
     static let movie: Movie = {
-        let m = Movie()
-        m.tmdbData = Self.tmdbMovieData
+        let m = Movie(tmdbData: tmdbMovieData)
         m.personalRating = .twoAndAHalfStars
         m.tags = [0, 1, 2]
         return m
     }()
     
     static let show: Show = {
-        let s = Show()
-        s.tmdbData = Self.tmdbShowData
+        let s = Show(tmdbData: tmdbShowData)
         s.personalRating = .fourStars
         s.tags = [2, 3]
         return s

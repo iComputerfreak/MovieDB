@@ -15,7 +15,7 @@ struct CastInfo: View {
     
     var body: some View {
         List {
-            ForEach(mediaObject.tmdbData?.cast ?? []) { (member: CastMember) in
+            ForEach(mediaObject.cast) { (member: CastMember) in
                 HStack {
                     Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()
@@ -30,8 +30,8 @@ struct CastInfo: View {
     }
     
     func loadPersonThumbnails() {
-        print("Loading person thumbnails for \(mediaObject.tmdbData!.title)")
-        for member in mediaObject.tmdbData?.cast ?? [] {
+        print("Loading person thumbnails for \(mediaObject.title)")
+        for member in mediaObject.cast {
             if let imagePath = member.imagePath {
                 JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
                     DispatchQueue.main.async {

@@ -90,7 +90,7 @@ struct AddMediaView : View {
     
     func addMedia(_ result: TMDBSearchResult) {
         print("Selected \(result.title)")
-        if self.library.mediaList.contains(where: { $0.tmdbData!.id == result.id }) {
+        if self.library.mediaList.contains(where: { $0.tmdbID == result.id }) {
             // Already added
             AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
         } else {

@@ -18,12 +18,12 @@ struct LibraryRow: View {
                 Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                     .thumbnail()
                 VStack(alignment: .leading) {
-                    Text(mediaObject.tmdbData?.title ?? "Loading...")
+                    Text(mediaObject.title)
                         .lineLimit(2)
                     // Under the title
                     HStack {
                         // MARK: Adult
-                        if mediaObject.isAdult ?? false {
+                        if mediaObject.isAdultMovie ?? false {
                             Image(systemName: "a.square")
                         }
                         // MARK: Type
@@ -56,7 +56,7 @@ struct ProblemsLibraryRow<T>: View where T: View {
                 Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                     .thumbnail()
                 VStack(alignment: .leading) {
-                    Text(mediaObject.tmdbData?.title ?? "Loading...")
+                    Text(mediaObject.title)
                         .lineLimit(2)
                     // Under the title
                     HStack {
@@ -72,7 +72,8 @@ struct ProblemsLibraryRow<T>: View where T: View {
 struct LibraryRow_Previews : PreviewProvider {
     static var previews: some View {
         LibraryRow()
-            .environmentObject(Media(type: .movie))
+            // TODO: Replace with PlaceholderData
+            //.environmentObject(Movie())
     }
 }
 #endif

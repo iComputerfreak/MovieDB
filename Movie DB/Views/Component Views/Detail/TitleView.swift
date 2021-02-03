@@ -56,7 +56,7 @@ struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Section {
-                TitleView(title: PlaceholderData.movie.tmdbData!.title, year: PlaceholderData.movie.year!, thumbnail: nil)
+                TitleView(title: PlaceholderData.movie.title, year: PlaceholderData.movie.year!, thumbnail: nil)
             }
             Section {
                 Text("Other stuff")

@@ -36,7 +36,7 @@ struct CSVData {
     let revenue: Int? // Optional, because it's movie specific
     let isAdult: Bool? // Optional, because it's movie specific
     
-    let lastEpisodeWatched: Show.EpisodeNumber?
+    let lastEpisodeWatched: EpisodeNumber?
     let firstAirDate: Date?
     let lastAirDate: Date?
     let numberOfSeasons: Int?
@@ -63,31 +63,28 @@ struct CSVData {
         self.tags = media.tags
         self.watchAgain = media.watchAgain
         self.notes = media.notes
-        guard let tmdbData = media.tmdbData else {
-            throw CSVDataError.missingValue("Media \(media.id) has no tmdbData.")
-        }
-        self.tmdbID = tmdbData.id
-        self.title = tmdbData.title
-        self.originalTitle = tmdbData.originalTitle
-        self.genres = tmdbData.genres
-        self.overview = tmdbData.overview
-        self.status = tmdbData.status
+        self.tmdbID = media.tmdbID
+        self.title = media.title
+        self.originalTitle = media.originalTitle
+        self.genres = media.genres
+        self.overview = media.overview
+        self.status = media.status
         
-        let movieData = tmdbData as? TMDBMovieData
-        self.watched = (media as? Movie)?.watched
-        self.releaseDate = movieData?.releaseDate
-        self.runtime = movieData?.runtime
-        self.budget = movieData?.budget
-        self.revenue = movieData?.revenue
-        self.isAdult = movieData?.isAdult
+        let movie = media as? Movie
+        self.watched = movie?.watched
+        self.releaseDate = movie?.releaseDate
+        self.runtime = movie?.runtime
+        self.budget = movie?.budget
+        self.revenue = movie?.revenue
+        self.isAdult = movie?.isAdult
         
-        let showData = tmdbData as? TMDBShowData
-        self.lastEpisodeWatched = (media as? Show)?.lastEpisodeWatched
-        self.firstAirDate = showData?.firstAirDate
-        self.lastAirDate = showData?.lastAirDate
-        self.numberOfSeasons = showData?.numberOfSeasons
-        self.isInProduction = showData?.isInProduction
-        self.showType = showData?.type
+        let show = media as? Show
+        self.lastEpisodeWatched = show?.lastEpisodeWatched
+        self.firstAirDate = show?.firstAirDate
+        self.lastAirDate = show?.lastAirDate
+        self.numberOfSeasons = show?.numberOfSeasons
+        self.isInProduction = show?.isInProduction
+        self.showType = show?.showType
         
         self.dateFormatter = dateFormatter
         self.separator = separator
@@ -163,7 +160,7 @@ struct CSVData {
         let watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
         let notes = try decoder.decode(String.self, forKey: .notes)
         let watched = try decoder.decode(Bool?.self, forKey: .watched)
-        let lastEpisodeWatched = try decoder.decode(Show.EpisodeNumber?.self, forKey: .lastEpisodeWatched)
+        let lastEpisodeWatched = try decoder.decode(EpisodeNumber?.self, forKey: .lastEpisodeWatched)
         
         // To create the media, we fetch it from the API and then assign the user values
         let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)

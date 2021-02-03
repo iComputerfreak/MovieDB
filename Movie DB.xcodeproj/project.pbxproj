@@ -29,7 +29,6 @@
 		AB2E53DE22D0FAA100F722A3 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
-		AB4CD55524D36853005FAF20 /* TMDBData+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */; };
 		AB4CD55724D449D5005FAF20 /* Media+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */; };
 		AB4CD56024D45FBE005FAF20 /* SearchResults-2.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */; };
 		AB4CD56224D45FBE005FAF20 /* Matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55C24D45FBE005FAF20 /* Matrix.json */; };
@@ -61,11 +60,10 @@
 		AB6718EE22C032AA00F429E4 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718ED22C032AA00F429E4 /* Media.swift */; };
 		AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EF22C037E300F429E4 /* TMDBData.swift */; };
 		AB6718F622C113F800F429E4 /* JFUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* JFUtils.swift */; };
-		AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F922C2910800F429E4 /* TMDBMovieData.swift */; };
-		AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */; };
 		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
 		AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB79E99D25C9F1850050BD8D /* CloudKit.framework */; };
+		AB83999E25CB2DF1004B5612 /* EpisodeNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB83999D25CB2DF1004B5612 /* EpisodeNumber.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		ABA0399324D4990200DBF71F /* TMDBData Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
@@ -125,7 +123,6 @@
 		AB2E53DD22D0FAA100F722A3 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
-		AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TMDBData+Equatable.swift"; sourceTree = "<group>"; };
 		AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Media+Equatable.swift"; sourceTree = "<group>"; };
 		AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SearchResults-2.json"; sourceTree = "<group>"; };
 		AB4CD55C24D45FBE005FAF20 /* Matrix.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Matrix.json; sourceTree = "<group>"; };
@@ -161,11 +158,10 @@
 		AB6718ED22C032AA00F429E4 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* JFUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtils.swift; sourceTree = "<group>"; };
-		AB6718F922C2910800F429E4 /* TMDBMovieData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMovieData.swift; sourceTree = "<group>"; };
-		AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowData.swift; sourceTree = "<group>"; };
 		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		AB83999D25CB2DF1004B5612 /* EpisodeNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeNumber.swift; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TMDBData Helpers.swift"; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -231,6 +227,7 @@
 				AB4CD55624D449D5005FAF20 /* Media+Equatable.swift */,
 				AB6718E522C0317800F429E4 /* Movie.swift */,
 				AB6718EB22C0324D00F429E4 /* Show.swift */,
+				AB83999D25CB2DF1004B5612 /* EpisodeNumber.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -460,9 +457,6 @@
 			children = (
 				AB6718EF22C037E300F429E4 /* TMDBData.swift */,
 				ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */,
-				AB4CD55424D36853005FAF20 /* TMDBData+Equatable.swift */,
-				AB6718F922C2910800F429E4 /* TMDBMovieData.swift */,
-				AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */,
 				ABED3B062393263E00F4C327 /* Show Structs.swift */,
 			);
 			path = TMDBData;
@@ -590,7 +584,6 @@
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
 				ABB82DCE2414201F00E46023 /* ShareSheet.swift in Sources */,
-				AB4CD55524D36853005FAF20 /* TMDBData+Equatable.swift in Sources */,
 				AB25099E238B1EED00F7A411 /* KeyboardResponder.swift in Sources */,
 				AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */,
 				AB5A9DC324D313DE0059C5C9 /* Repairable.swift in Sources */,
@@ -601,8 +594,8 @@
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,
 				ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */,
 				AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */,
+				AB83999E25CB2DF1004B5612 /* EpisodeNumber.swift in Sources */,
 				ABED3B072393263E00F4C327 /* Show Structs.swift in Sources */,
-				AB6718FA22C2910800F429E4 /* TMDBMovieData.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultView.swift in Sources */,
 				AB4CD55724D449D5005FAF20 /* Media+Equatable.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
@@ -620,7 +613,6 @@
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
 				ABF0714624CE08CD003D08A2 /* Media+Repairable.swift in Sources */,
 				AB6718EC22C0324D00F429E4 /* Show.swift in Sources */,
-				AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */,
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,

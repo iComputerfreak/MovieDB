@@ -14,50 +14,48 @@ struct ExtendedInfo: View {
     
     var body: some View {
         Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
-            if let data = mediaObject.tmdbData {
-                // Movie exclusive data
-                if let movieData = data as? TMDBMovieData {
-                    if let tagline = movieData.tagline, !tagline.isEmpty {
-                        Text(tagline)
-                            .headline("Tagline")
-                    }
-                    if movieData.budget > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movieData.budget)!)
-                            .headline("Budget")
-                    }
-                    if movieData.revenue > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movieData.revenue)!)
-                            .headline("Revenue")
-                    }
-                    if let imdbID = movieData.imdbID {
-                        LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
-                            .headline("IMDB ID")
-                    }
+            // Movie exclusive data
+            if let movie = mediaObject as? Movie {
+                if let tagline = movie.tagline, !tagline.isEmpty {
+                    Text(tagline)
+                        .headline("Tagline")
                 }
-                
-                LinkView(text: String(data.id), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(data.id)")
-                    .headline("TMDB ID")
-                if let homepageURL = data.homepageURL, !homepageURL.isEmpty {
-                    LinkView(text: homepageURL, link: homepageURL)
-                        .headline("Homepage")
+                if movie.budget > 0 {
+                    Text(JFUtils.moneyFormatter.string(from: movie.budget)!)
+                        .headline("Budget")
                 }
-                if !data.productionCompanies.isEmpty {
-                    Text(String(data.productionCompanies.map(\.name).joined(separator: ", ")))
-                        .headline("Production Companies")
+                if movie.revenue > 0 {
+                    Text(JFUtils.moneyFormatter.string(from: movie.revenue)!)
+                        .headline("Revenue")
                 }
-                // Show exclusive data
-                if let showData = data as? TMDBShowData {
-                    if !showData.networks.isEmpty {
-                        Text(showData.networks.map(\.name).joined(separator: ", "))
-                            .headline("Networks")
-                    }
+                if let imdbID = movie.imdbID {
+                    LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
+                        .headline("IMDB ID")
                 }
-                // TMDB Data
-                Text(String(data.popularity))
-                    .headline("Popularity")
-                Text("\(String(format: "%.1f", data.voteAverage))/10.0 points from \(data.voteCount) votes")
-                    .headline("Scoring")
             }
+            
+            LinkView(text: String(mediaObject.tmdbID), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)")
+                .headline("TMDB ID")
+            if let homepageURL = mediaObject.homepageURL, !homepageURL.isEmpty {
+                LinkView(text: homepageURL, link: homepageURL)
+                    .headline("Homepage")
+            }
+            if !mediaObject.productionCompanies.isEmpty {
+                Text(String(mediaObject.productionCompanies.map(\.name).joined(separator: ", ")))
+                    .headline("Production Companies")
+            }
+            // Show exclusive data
+            if let show = mediaObject as? Show {
+                if !show.networks.isEmpty {
+                    Text(show.networks.map(\.name).joined(separator: ", "))
+                        .headline("Networks")
+                }
+            }
+            // TMDB Data
+            Text(String(mediaObject.popularity))
+                .headline("Popularity")
+            Text("\(String(format: "%.1f", mediaObject.voteAverage))/10.0 points from \(mediaObject.voteCount) votes")
+                .headline("Scoring")
         }
     }
 }

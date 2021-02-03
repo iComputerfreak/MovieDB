@@ -21,6 +21,7 @@
 
 // Future:
 /*
+ TODO: Show where to watch: https://developers.themoviedb.org/3/movies/get-movie-watch-providers
  TODO: Set language and region automatically to device defaults (only once on first start)
  TODO: Hide Search Bar when scrolling down
  TODO: Lookup Tab

@@ -14,14 +14,12 @@ struct SeasonsInfo: View {
     /// The season thumbnails
     @State private var seasonThumbnails: [Int: UIImage?] = [:]
     
-    private var showData: TMDBShowData? {
-        mediaObject.tmdbData as? TMDBShowData
-    }
+    private var show: Show { mediaObject as! Show }
     
-    // Assumes that showData != nil && !showData!.seasons.isEmpty
+    // Assumes that mediaObject is a Show and !show.seasons.isEmpty
     var body: some View {
         List {
-            ForEach(showData!.seasons) { (season: Season) in
+            ForEach(show.seasons) { (season: Season) in
                 HStack {
                     Image(uiImage: self.seasonThumbnails[season.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()
@@ -63,14 +61,12 @@ struct SeasonsInfo: View {
     }
     
     func loadSeasonThumbnails() {
-        guard let showData = self.showData else {
+        guard let show = mediaObject as? Show else { return }
+        guard !show.seasons.isEmpty else {
             return
         }
-        guard !showData.seasons.isEmpty else {
-            return
-        }
-        print("Loading season thumbnails for \(showData.title)")
-        for season in showData.seasons {
+        print("Loading season thumbnails for \(show.title)")
+        for season in show.seasons {
             if let imagePath = season.imagePath {
                 JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
                     DispatchQueue.main.async {

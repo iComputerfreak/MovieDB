@@ -14,7 +14,6 @@ class TMDBAPI {
         case unauthorized
         case invalidResponse
         case unknown(Int)
-        case noTMDBID(Int)
     }
     
     static let shared = TMDBAPI()
@@ -55,11 +54,10 @@ class TMDBAPI {
         var media: Media!
         switch type {
             case .movie:
-                media = Movie()
+                media = Movie(tmdbData: tmdbData)
             case .show:
-                media = Show()
+                media = Show(tmdbData: tmdbData)
         }
-        media.tmdbData = tmdbData
         media.loadThumbnail()
         return media
     }
@@ -78,15 +76,11 @@ class TMDBAPI {
     ///   - completion: A closure, executed after the media object has been updated
     /// - Throws: `APIError` or `DecodingError`
     func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws {
-        guard let id = media.tmdbData?.id else {
-            // No idea what TMDB ID should be, we can't update
-            throw APIError.noTMDBID(media.id)
-        }
         // Update TMDBData
-        let tmdbData = try self.fetchTMDBData(for: id, type: media.type)
+        let tmdbData = try self.fetchTMDBData(for: media.tmdbID, type: media.type)
         // If fetching was successful, update the media object and thumbnail
         DispatchQueue.main.async {
-            media.tmdbData = tmdbData
+            media.update(tmdbData: tmdbData)
             // Redownload the thumbnail (it may have been updated)
             media.loadThumbnail(force: true)
             completion()
@@ -168,13 +162,7 @@ class TMDBAPI {
     /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType) throws -> TMDBData {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        // We can't save the type as a variable (`let type = (type == .movie) ? TMDBMovieData.self : TMDBShowData.self`), because it would result in the variable type `TMDBData.Type`
-        switch type {
-            case .movie:
-                return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBMovieData.self)
-            case .show:
-                return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBShowData.self)
-        }
+        return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self)
     }
     
     /// Loads and decodes an API URL

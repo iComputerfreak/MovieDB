@@ -23,15 +23,14 @@ struct LibraryHome : View {
         // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ media in
-                let tmdbData = media.tmdbData
-                if tmdbData?.title.lowercased().contains(self.searchText.lowercased()) ?? false {
+                if media.title.lowercased().contains(self.searchText.lowercased()) {
                     return true
                 }
-                if tmdbData?.originalTitle.contains(self.searchText) ?? false {
+                if media.originalTitle.contains(self.searchText) {
                     return true
                 }
                 // Partial matches
-                if tmdbData?.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) ?? false {
+                if media.cast.map(\.name).contains(where: { $0.contains(self.searchText) }) {
                     return true
                 }
                 if media.notes.contains(self.searchText) {
@@ -41,10 +40,8 @@ struct LibraryHome : View {
                 if media.tags.map(TagLibrary.shared.name).contains(self.searchText) {
                     return true
                 }
-                if let idString = media.tmdbData?.id {
-                    if String(idString) == self.searchText {
-                        return true
-                    }
+                if String(media.tmdbID) == self.searchText {
+                    return true
                 }
                 return false
             })
@@ -52,16 +49,11 @@ struct LibraryHome : View {
         // Additionally to the filter, hide adult media, if not explicitly set in config
         if !JFConfig.shared.showAdults {
             // Include media where isAdult is not set
-            list = list.filter({ !($0.isAdult ?? false) })
+            list = list.filter({ !($0.isAdultMovie ?? false) })
         }
         // MARK: Sorting
         if sortedAlphabetically {
             list = list.sorted(by: { (media1, media2) in
-                if media1.tmdbData == nil {
-                    return false
-                } else if media2.tmdbData == nil {
-                    return true
-                }
                 /// Removes the first word, if it is contained in the list of words that are ignored for sorting. If the first two words match, it leaves the title unchanged.
                 func removeWordsIgnoredForSorting(_ title: String) -> String {
                     let words = title.components(separatedBy: .whitespaces)
@@ -75,8 +67,8 @@ struct LibraryHome : View {
                     return title
                 }
                 // Remove any leading "the"; capitalization does not matter for sorting
-                let name1 = removeWordsIgnoredForSorting(media1.tmdbData!.title.lowercased())
-                let name2 = removeWordsIgnoredForSorting(media2.tmdbData!.title.lowercased())
+                let name1 = removeWordsIgnoredForSorting(media1.title.lowercased())
+                let name2 = removeWordsIgnoredForSorting(media2.title.lowercased())
                 
                 return name1.lexicographicallyPrecedes(name2)
             })

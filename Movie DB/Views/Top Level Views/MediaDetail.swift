@@ -14,22 +14,18 @@ struct MediaDetail : View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     
-    private var showData: TMDBShowData? {
-        mediaObject.tmdbData as? TMDBShowData
-    }
-    
     var body: some View {
         // Group is needed so swift can infer the return type
         Group {
             List {
-                TitleView(title: mediaObject.tmdbData?.title ?? "<ERROR>", year: mediaObject.year, thumbnail: mediaObject.thumbnail)
+                TitleView(title: mediaObject.title, year: mediaObject.year, thumbnail: mediaObject.thumbnail)
                 UserData()
                 BasicInfo()
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())
         }
-        .navigationBarTitle(Text(mediaObject.tmdbData?.title ?? "Loading error!"), displayMode: .inline)
+        .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
         .onAppear {
             // If there is no thumbnail, try to re-download it again

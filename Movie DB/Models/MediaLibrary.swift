@@ -66,7 +66,7 @@ class MediaLibrary: ObservableObject, Codable {
         var updateCount = 0
         let api = TMDBAPI.shared
         let changes = try api.getChanges(from: lastUpdate, to: Date())
-        for media in self.mediaList.filter({ changes.contains($0.tmdbData?.id ?? -1) }) {
+        for media in self.mediaList.filter({ changes.contains($0.tmdbID) }) {
             // This media has been changed
             try api.updateMedia(media)
             updateCount += 1
@@ -141,7 +141,7 @@ class MediaLibrary: ObservableObject, Codable {
     /// - Returns: The list of duplicate TMDB IDs
     func duplicates() -> [Int?: [Media]] {
         // Group the media objects by their TMDB IDs
-        return Dictionary(grouping: self.mediaList, by: \.tmdbData?.id)
+        return Dictionary(grouping: self.mediaList, by: \.tmdbID)
             // Filter out all IDs with only one media object
             .filter { (key: Int?, value: [Media]) in
                 return value.count > 1
