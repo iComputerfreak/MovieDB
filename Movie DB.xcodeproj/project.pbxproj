@@ -161,7 +161,6 @@
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		AB83999D25CB2DF1004B5612 /* EpisodeNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeNumber.swift; sourceTree = "<group>"; };
-		AB8399A525CB5183004B5612 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TMDBData Helpers.swift"; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -345,7 +344,6 @@
 			isa = PBXGroup;
 			children = (
 				ABA13D592381F02A00E885DD /* README.md */,
-				AB8399A525CB5183004B5612 /* TODO.md */,
 				AB211CA22391854B009590D5 /* LICENSE */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
