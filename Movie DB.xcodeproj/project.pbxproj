@@ -65,6 +65,7 @@
 		AB6718FC22C2910E00F429E4 /* TMDBShowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */; };
 		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
+		AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB79E99D25C9F1850050BD8D /* CloudKit.framework */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		ABA0399324D4990200DBF71F /* TMDBData Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
@@ -164,6 +165,7 @@
 		AB6718FB22C2910E00F429E4 /* TMDBShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowData.swift; sourceTree = "<group>"; };
 		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
+		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* TMDBData Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TMDBData Helpers.swift"; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */,
 				AB25099B238B18AF00F7A411 /* TextView in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
 			);
@@ -351,6 +354,7 @@
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
 				AB6718BE22C0312B00F429E4 /* Products */,
+				AB79E99C25C9F1850050BD8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -441,6 +445,14 @@
 				AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AB79E99C25C9F1850050BD8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB79E99D25C9F1850050BD8D /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		ABED3B03239324E000F4C327 /* TMDBData */ = {
@@ -798,6 +810,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -821,6 +834,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

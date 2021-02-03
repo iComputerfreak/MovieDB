@@ -42,3 +42,33 @@
  TODO: Add section indices for the media library like in the Contacts app
  TODO: Open a newly created media in Detail and maybe editing mode
  */
+
+
+
+// CloudKit Integration
+/*
+ 
+ Media records in CloudKit
+ - thumbnail as Asset (reduced size)
+ - Full cover only loaded when clicking it
+ - Cast photos only loaded when clicking cast
+ 
+ 
+ - Store UserData + Information in records
+ - Maybe don't store cast/seasons at all? Always load when requested?
+ 
+ Save in Private DB, not Public
+ 
+ https://www.toptal.com/ios/sync-data-across-devices-with-cloudkit
+ https://medium.com/apple-developer-academy-federico-ii/syncing-data-on-ios-devices-with-coredata-and-cloudkit-bed296fc26e0
+ https://www.raywenderlich.com/4878052-cloudkit-tutorial-getting-started
+ https://developer.apple.com/library/archive/documentation/DataManagement/Conceptual/CloudKitQuickStart/MaintainingaLocalCacheofCloudKitRecords/MaintainingaLocalCacheofCloudKitRecords.html#//apple_ref/doc/uid/TP40014987-CH12-SW1
+ 
+ - Handling, wenn Benutzer Daten in iCloud über Einstellungen löscht
+ - networkUnavailable errors handeln
+ - network operations neu versuchen, sobald Netzwerk wieder erreichbar
+ 
+ 
+ https://developer.apple.com/videos/play/wwdc2016/231/
+ 
+ */

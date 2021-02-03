@@ -21,7 +21,9 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     }
     
     // MARK: - Properties
+    
     // Media ID Creation
+    // TODO: Move ID creation into MediaLibrary? Only save nextID when closing the app, not every time?
     /// Contains the next free collection id
     private static var _nextID = 0
     /// Returns the next free library id
@@ -31,7 +33,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         if _nextID <= 0 {
             _nextID = UserDefaults.standard.integer(forKey: "nextID")
             if _nextID == 0 {
-                // No id saved in user defaults, lets start at 1
+                // No id saved in user defaults. Lets start at 1
                 _nextID = 1
             }
         }
@@ -93,6 +95,8 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     /// The thumbnail image
     @Published var thumbnail: UIImage? = nil
     
+    // MARK: - Computed Properties
+    
     /// Whether the result is a movie and is for adults only
     var isAdult: Bool? { (tmdbData as? TMDBMovieData)?.isAdult }
     
@@ -108,9 +112,11 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         return nil
     }
     
+    // MARK: - Missing Information
+    
     /// Represents a user-provided information about a media object.
     /// This enum only contains the information, that will cause the object to show up in the Problems tab, when missing
-    enum MediaInformation: String, CaseIterable {
+    enum MediaInformation: String, CaseIterable, Codable {
         case rating
         case watched
         case watchAgain
@@ -122,14 +128,17 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
     /// The set of missing information of this media
     @Published var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
     
-    // Only used by constructing subclasses
+    // MARK: - Initializers
     
     /// Creates a new `Media` object.
     /// - Important: Only use this initializer on concrete subclasses of `Media`. Never instantiate `Media` itself.
     init(type: MediaType) {
+        // TODO: Add assertion (e.g. type(of: self) == Movie.self or Show.self)
         self.id = Self.nextID
         self.type = type
     }
+    
+    // MARK: - Functions
     
     /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
     func loadThumbnail(force: Bool = false) {
@@ -178,6 +187,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         } else {
             self.tmdbData = try container.decodeIfPresent(TMDBShowData.self, forKey: .tmdbData)
         }
+        self.missingInformation = try container.decode(Set<MediaInformation>.self, forKey: .missingInformation)
         if let data = try? Data(contentsOf: imagePath) {
             self.thumbnail = UIImage(data: data)
         } else {
@@ -206,6 +216,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         try container.encode(self.tags, forKey: .tags)
         try container.encode(self.watchAgain, forKey: .watchAgain)
         try container.encode(self.notes, forKey: .notes)
+        try container.encode(self.missingInformation, forKey: .missingInformation)
         
         // Save the image
         if let data = self.thumbnail?.pngData() {
@@ -227,6 +238,7 @@ class Media: Identifiable, ObservableObject, Codable, Hashable {
         case watchAgain
         case notes
         case thumbnail
+        case missingInformation
     }
     
     // MARK: - Hashable Conformance
