@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 /// Represents an actor starring in a specific movie
 struct CastMember: Codable, Hashable, Identifiable {
@@ -26,33 +27,6 @@ struct CastMember: Codable, Hashable, Identifiable {
     }
 }
 
-/// Represents a video on some external site
-struct Video: Codable, Hashable {
-    /// The video key
-    let key: String
-    /// The name of the video
-    let name: String
-    /// The site where the video was uploaded to
-    let site: String
-    /// The type of video (e.g. Trailer)
-    let type: String
-    /// The resolution of the video
-    let resolution: Int
-    /// The ISO-639-1 language code  (e.g. 'en')
-    let language: String
-    /// The ISO-3166-1 region code (e.g. 'US')
-    let region: String
-    
-    enum CodingKeys: String, CodingKey {
-        case key
-        case name
-        case site
-        case type
-        case resolution = "size"
-        case language = "iso_639_1"
-        case region = "iso_3166_1"
-    }
-}
 
 /// Represents a Media genre
 struct Genre: Codable, Equatable, Hashable, LosslessStringConvertible {
@@ -76,6 +50,7 @@ struct Genre: Codable, Equatable, Hashable, LosslessStringConvertible {
         guard description.hasSuffix(")") else {
             return nil
         }
+        let description = description.removingSuffix(")")
         let components = description.components(separatedBy: "(")
         guard components.count == 2 else {
             return nil

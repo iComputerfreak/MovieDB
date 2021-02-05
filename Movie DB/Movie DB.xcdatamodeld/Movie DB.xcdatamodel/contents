@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Genre" representedClassName="Genre" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+    </entity>
+    <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
+        <attribute name="cast" attributeType="Transformable" customClassName="[CastMember]"/>
+        <attribute name="homepageURL" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="keywords" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="missingInformation" attributeType="Transformable" customClassName="Set&lt;MediaInformation&gt;"/>
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="originalLanguage" attributeType="String"/>
+        <attribute name="originalTitle" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="personalRating" attributeType="Integer 64" minValueString="0" maxValueString="10" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="popularity" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="productionCompanies" attributeType="Transformable" customClassName="[ProductionCompany]"/>
+        <attribute name="status" attributeType="String"/>
+        <attribute name="tags" attributeType="Transformable" customClassName="[Int]"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Transformable" customClassName="UIImage"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="tmdbID" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="translations" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="type" attributeType="String"/>
+        <attribute name="videos" optional="YES" attributeType="Transformable" customClassName="[Video]"/>
+        <attribute name="voteAverage" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="voteCount" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="genres" toMany="YES" deletionRule="Nullify" destinationEntity="Genre"/>
+    </entity>
+    <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
+        <attribute name="budget" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imdbID" optional="YES" attributeType="String"/>
+        <attribute name="isAdult" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="revenue" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="tagline" optional="YES" attributeType="String"/>
+        <attribute name="watched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Show" representedClassName="Show" parentEntity="Media" syncable="YES">
+        <attribute name="episodeRuntime" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
+        <attribute name="firstAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isInProduction" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastEpisodeWatched" optional="YES" attributeType="Transformable" customClassName="EpisodeNumber"/>
+        <attribute name="networks" optional="YES" attributeType="Transformable" customClassName="[ProductionCompany]"/>
+        <attribute name="numberOfEpisodes" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="seasons" optional="YES" attributeType="Transformable" customClassName="[Season]"/>
+        <attribute name="showType" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES">
+        <attribute name="key" attributeType="String"/>
+        <attribute name="language" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="region" attributeType="String"/>
+        <attribute name="resolution" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="site" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="14"/>
+        <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
+        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="179"/>
+        <element name="Genre" positionX="-63" positionY="144" width="128" height="14"/>
+        <element name="Video" positionX="-54" positionY="162" width="128" height="134"/>
+    </elements>
+</model>
