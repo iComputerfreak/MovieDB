@@ -20,10 +20,10 @@ extension Show {
     /// The type of the show (e.g. Scripted)
     @NSManaged public var rawShowType: String?
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
-    public var lastSeasonWatched: Int64? {
-        get { getOptional(forKey: "lastSeasonWatched") }
+    public var lastSeasonWatched: Int? {
+        get { getOptionalInt(forKey: "lastSeasonWatched") }
         set {
-            setOptional(newValue, forKey: "lastSeasonWatched")
+            setOptionalInt(newValue, forKey: "lastSeasonWatched")
             // didSet
             if lastSeasonWatched == nil {
                 self.missingInformation.insert(.watched)
@@ -33,29 +33,32 @@ extension Show {
         }
     }
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
-    public var lastEpisodeWatched: Int64? {
-        get { getOptional(forKey: "lastEpisodeWatched") }
-        set { setOptional(newValue, forKey: "lastEpisodeWatched") }
+    public var lastEpisodeWatched: Int? {
+        get { getOptionalInt(forKey: "lastEpisodeWatched") }
+        set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
     }
     /// The date, the show was first aired
     @NSManaged public var firstAirDate: Date?
     /// The date, the show was last aired
     @NSManaged public var lastAirDate: Date?
     /// The number of seasons the show  has
-    public var numberOfSeasons: Int64? {
-        get { getOptional(forKey: "numberOfSeasons") }
-        set { setOptional(newValue, forKey: "numberOfSeasons") }
+    public var numberOfSeasons: Int? {
+        get { getOptionalInt(forKey: "numberOfSeasons") }
+        set { setOptionalInt(newValue, forKey: "numberOfSeasons") }
     }
     /// The number of episodes, the show has
-    @NSManaged public var numberOfEpisodes: Int64
+    public var numberOfEpisodes: Int {
+        get { getInt(forKey: "numberOfEpisodes") }
+        set { setInt(newValue, forKey: "numberOfEpisodes") }
+    }
     /// The runtime the episodes typically have
-    @NSManaged public var episodeRuntime: [Int64]
+    @NSManaged public var episodeRuntime: [Int]
     /// Whether the show is still in production
     @NSManaged public var isInProduction: Bool
     /// The list of seasons the show has
-    @NSManaged public var seasons: NSSet
+    @NSManaged public var seasons: Set<Season>
     /// The list of networks that publish the show
-    @NSManaged public var networks: NSSet
+    @NSManaged public var networks: Set<ProductionCompany>
     
     public var showType: ShowType? {
         get {
@@ -71,6 +74,24 @@ extension Show {
                 return
             }
             self.rawShowType = newValue.rawValue
+        }
+    }
+    
+    public var lastWatched: EpisodeNumber? {
+        get {
+            guard let lastSeason = self.lastSeasonWatched else {
+                return nil
+            }
+            return EpisodeNumber(season: lastSeason, episode: lastEpisodeWatched)
+        }
+        set {
+            guard let episodeNumber = newValue else {
+                self.lastSeasonWatched = nil
+                self.lastEpisodeWatched = nil
+                return
+            }
+            self.lastSeasonWatched = episodeNumber.season
+            self.lastEpisodeWatched = episodeNumber.episode
         }
     }
 

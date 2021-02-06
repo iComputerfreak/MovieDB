@@ -31,16 +31,22 @@ extension Movie {
         }
     }
     /// Runtime in minutes
-    public var runtime: Int64? {
-        get { getOptional(forKey: "runtime") }
-        set { setOptional(newValue, forKey: "runtime") }
+    public var runtime: Int? {
+        get { getOptionalInt(forKey: "runtime") }
+        set { setOptionalInt(newValue, forKey: "runtime") }
     }
     /// The date, the movie was released
     @NSManaged public var releaseDate: Date?
     /// The production budget in dollars
-    @NSManaged public var budget: Int64
+    public var budget: Int {
+        get { getInt(forKey: "budget") }
+        set { setInt(newValue, forKey: "budget") }
+    }
     /// The revenue in dollars
-    @NSManaged public var revenue: Int64
+    public var revenue: Int {
+        get { getInt(forKey: "revenue") }
+        set { setInt(newValue, forKey: "revenue") }
+    }
     /// The tagline of the movie
     @NSManaged public var tagline: String?
     /// Whether the movie is an adult movie

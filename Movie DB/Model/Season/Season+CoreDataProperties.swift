@@ -18,11 +18,20 @@ extension Season {
     }
 
     /// The id of the season on TMDB
-    @NSManaged public var id: Int64
+    public var id: Int {
+        get { getInt(forKey: "id") }
+        set { setInt(newValue, forKey: "id") }
+    }
     /// The number of the season
-    @NSManaged public var seasonNumber: Int64
+    public var seasonNumber: Int {
+        get { getInt(forKey: "seasonNumber") }
+        set { setInt(newValue, forKey: "seasonNumber") }
+    }
     /// The number of episodes, this season has
-    @NSManaged public var episodeCount: Int64
+    public var episodeCount: Int {
+        get { getInt(forKey: "episodeCount") }
+        set { setInt(newValue, forKey: "episodeCount") }
+    }
     /// The name of the season
     @NSManaged public var name: String
     /// A short description of the season

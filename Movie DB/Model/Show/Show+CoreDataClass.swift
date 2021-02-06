@@ -26,8 +26,8 @@ public class Show: Media {
         let showData = tmdbData.showData!
         self.firstAirDate = showData.firstAirDate
         self.lastAirDate = showData.lastAirDate
-        self.numberOfSeasons = showData.numberOfSeasons == nil ? nil : Int64(showData.numberOfSeasons!)
-        self.numberOfEpisodes = Int64(showData.numberOfEpisodes)
+        self.numberOfSeasons = showData.numberOfSeasons
+        self.numberOfEpisodes = showData.numberOfEpisodes
         self.episodeRuntime = showData.episodeRuntime
         self.isInProduction = showData.isInProduction
         // TODO: self.seasons = showData.seasons

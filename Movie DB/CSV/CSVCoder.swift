@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 /// Handles de- and encoding of media objects into CSV strings
 struct CSVCoder {
@@ -20,7 +21,7 @@ struct CSVCoder {
     var headers: [CSVCodingKey] = [
         .id, .tmdbID, .type, .title, .personalRating, .watchAgain, .tags, .notes, .originalTitle, .genres, .overview, .status, // Common
         .watched, .releaseDate, .runtime, .budget, .revenue, .isAdult, // Movie exclusive
-        .lastEpisodeWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
+        .lastWatched, .firstAirDate, .lastAirDate, .numberOfSeasons, .isInProduction, .showType // Show exclusive
     ]
     
     /// The CSV separator
@@ -42,7 +43,7 @@ struct CSVCoder {
     /// - Parameter csv: The CSV string
     /// - Throws: `TMDBAPI.APIError` or `CSVDecodingError`
     /// - Returns: The decoded media objects
-    func decode(_ csv: String) throws -> [Media] {
+    func decode(_ csv: String, context: NSManagedObjectContext) throws -> [Media] {
         // Remove Carriage Returns (the file may be CRLF encoded)
         var lines = csv.components(separatedBy: lineSeparator).map({ $0.trimmingCharacters(in: CharacterSet(charactersIn: "\r")) })
         var mediaObjects: [Media] = []
@@ -64,7 +65,7 @@ struct CSVCoder {
             let valuePairs = (0..<headers.count).map({ (headers[$0].rawValue, lineParts[$0]) })
             let values = Dictionary(uniqueKeysWithValues: valuePairs)
             
-            let media = try CSVData.createMedia(from: values, arraySeparator: arraySeparator)
+            let media = try CSVData.createMedia(from: values, context: context, arraySeparator: arraySeparator)
             mediaObjects.append(media)
         }
         
@@ -132,7 +133,7 @@ enum CSVCodingKey: String {
     case isAdult = "is_adult"
     
     // Show only
-    case lastEpisodeWatched = "last_episode_watched"
+    case lastWatched = "last_episode_watched"
     case firstAirDate = "first_air_date"
     case lastAirDate = "last_air_date"
     case numberOfSeasons = "number_of_seasons"

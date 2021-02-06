@@ -25,14 +25,14 @@ struct PlaceholderData {
     }
     
     static let movie: Movie = {
-        let m = Movie(tmdbData: tmdbMovieData)
+        let m = Movie(context: AppDelegate.viewContext, tmdbData: tmdbMovieData)
         m.personalRating = .twoAndAHalfStars
         m.tags = [0, 1, 2]
         return m
     }()
     
     static let show: Show = {
-        let s = Show(tmdbData: tmdbShowData)
+        let s = Show(context: AppDelegate.viewContext, tmdbData: tmdbShowData)
         s.personalRating = .fourStars
         s.tags = [2, 3]
         return s

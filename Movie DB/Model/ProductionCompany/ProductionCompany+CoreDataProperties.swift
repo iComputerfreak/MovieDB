@@ -16,7 +16,10 @@ extension ProductionCompany {
     }
     
     /// The ID of the production company on TMDB
-    @NSManaged public var id: Int64
+    public var id: Int {
+        get { getInt(forKey: "id") }
+        set { setInt(newValue, forKey: "id") }
+    }
     /// The name of the production company
     @NSManaged public var name: String
     /// The path to the logo on TMDB

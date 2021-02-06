@@ -19,7 +19,9 @@ struct SeasonsInfo: View {
     // Assumes that mediaObject is a Show and !show.seasons.isEmpty
     var body: some View {
         List {
-            ForEach(show.seasons) { (season: Season) in
+            ForEach(show.seasons.sorted(by: { (season1, season2) -> Bool in
+                return season1.seasonNumber < season2.seasonNumber
+            })) { (season: Season) in
                 HStack {
                     Image(uiImage: self.seasonThumbnails[season.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()

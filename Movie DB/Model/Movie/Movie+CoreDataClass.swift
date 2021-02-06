@@ -25,8 +25,8 @@ public class Movie: Media {
         let movieData = tmdbData.movieData!
         self.releaseDate = movieData.releaseDate
         // TODO: self.runtime = Int64(movieData.runtime)
-        self.budget = Int64(movieData.budget)
-        self.revenue = Int64(movieData.revenue)
+        self.budget = movieData.budget
+        self.revenue = movieData.revenue
         self.tagline = movieData.tagline
         self.isAdult = movieData.isAdult
         self.imdbID = movieData.imdbID

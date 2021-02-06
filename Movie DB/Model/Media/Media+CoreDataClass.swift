@@ -53,10 +53,10 @@ public class Media: NSManagedObject {
         self.personalRating = .noRating
         
         // TODO: Add assertion (e.g. type(of: self) == Movie.self or Show.self)
-        self.id = Int64(MediaID.nextID)
+        self.id = MediaID.nextID
         self.type = type
         // Set all properties from the tmdbData object
-        self.tmdbID = Int64(tmdbData.id)
+        self.tmdbID = tmdbData.id
         self.title = tmdbData.title
         self.originalTitle = tmdbData.originalTitle
         self.imagePath = tmdbData.imagePath
@@ -68,7 +68,7 @@ public class Media: NSManagedObject {
         self.homepageURL = tmdbData.homepageURL
         self.popularity = tmdbData.popularity
         self.voteAverage = tmdbData.voteAverage
-        self.voteCount = Int64(tmdbData.voteCount)
+        self.voteCount = tmdbData.voteCount
         // TODO: self.cast = tmdbData.cast
         self.keywords = tmdbData.keywords
         self.translations = tmdbData.translations

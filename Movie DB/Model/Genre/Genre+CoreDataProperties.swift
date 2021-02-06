@@ -18,7 +18,10 @@ extension Genre {
     }
 
     /// The ID of the genre on TMDB
-    @NSManaged public var id: Int64
+    public var id: Int {
+        get { getInt(forKey: "id") }
+        set { setInt(newValue, forKey: "id") }
+    }
     /// The name of the genre
     @NSManaged public var name: String
 

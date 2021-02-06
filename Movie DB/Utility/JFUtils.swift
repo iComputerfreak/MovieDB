@@ -154,7 +154,7 @@ struct JFUtils {
     /// Returns a list of genres used in the media library.
     /// Does not contain duplicates.
     static func allGenres() -> [Genre] {
-        let genres = MediaLibrary.shared.mediaList.compactMap({ $0.genres })
+        let genres = MediaLibrary.shared.mediaList.compactMap({ Array($0.genres) })
         // Remove all duplicates
         return Array(Set(genres.joined()))
     }

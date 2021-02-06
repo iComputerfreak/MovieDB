@@ -26,7 +26,10 @@ extension Video {
     /// The type of video (e.g. Trailer)
     @NSManaged public var type: String
     /// The resolution of the video
-    @NSManaged public var resolution: Int64
+    public var resolution: Int {
+        get { getInt(forKey: "resolution") }
+        set { setInt(newValue, forKey: "resolution") }
+    }
     /// The ISO-639-1 language code  (e.g. 'en')
     @NSManaged public var language: String
     /// The ISO-3166-1 region code (e.g. 'US')

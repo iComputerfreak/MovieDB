@@ -16,10 +16,10 @@ struct WatchedShowView: View {
     
     private var watched: EpisodeNumber? {
         guard let show = mediaObject as? Show else {
-            assert(false, "WatchedShowView must be supplied an EnvironmentObject of type Show.")
+            assertionFailure("WatchedShowView must be supplied an EnvironmentObject of type Show.")
             return nil
         }
-        return show.lastEpisodeWatched
+        return show.lastWatched
     }
     
     private var episodeString: String {
@@ -58,15 +58,15 @@ struct WatchedShowView: View {
                 self.season = season
                 if season == 0 {
                     // Delete
-                    self.show.lastEpisodeWatched = nil
+                    self.show.lastWatched = nil
                 } else {
                     // Update
-                    if self.show.lastEpisodeWatched == nil {
+                    if self.show.lastWatched == nil {
                         // Create new
-                        self.show.lastEpisodeWatched = EpisodeNumber(season: season)
+                        self.show.lastWatched = EpisodeNumber(season: season)
                     } else {
                         // Update
-                        self.show.lastEpisodeWatched!.season = season
+                        self.show.lastWatched!.season = season
                     }
                 }
             })
@@ -76,14 +76,14 @@ struct WatchedShowView: View {
         private var episodeWrapper: Binding<Int> {
             Binding<Int>(get: { self.episode }, set: { episode in
                 self.episode = episode
-                self.show.lastEpisodeWatched?.episode = (episode == 0 ? nil : episode)
+                self.show.lastEpisodeWatched = (episode == 0 ? nil : episode)
             })
         }
         
         init(show: Show) {
             self.show = show
-            self._season = State(wrappedValue: show.lastEpisodeWatched?.season ?? 0)
-            self._episode = State(wrappedValue: show.lastEpisodeWatched?.episode ?? 0)
+            self._season = State(wrappedValue: show.lastSeasonWatched ?? 0)
+            self._episode = State(wrappedValue: show.lastEpisodeWatched ?? 0)
         }
         
         var body: some View {

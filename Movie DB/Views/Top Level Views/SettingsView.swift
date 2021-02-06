@@ -162,7 +162,7 @@ struct SettingsView: View {
                                     do {
                                         let csv = try String(contentsOf: url)
                                         print("Imported csv file. Trying to import into library.")
-                                        let mediaObjects: [Media] = try CSVCoder().decode(csv)
+                                        let mediaObjects: [Media] = try CSVCoder().decode(csv, context: AppDelegate.viewContext)
                                         // Presenting will change UI
                                         DispatchQueue.main.async {
                                             let controller = UIAlertController(title: "Import",

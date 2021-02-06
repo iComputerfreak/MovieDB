@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ShowType: String, Decodable, CaseIterable {
+public enum ShowType: String, Codable, CaseIterable {
     case documentary = "Documentary"
     case news = "News"
     case miniseries = "Miniseries"

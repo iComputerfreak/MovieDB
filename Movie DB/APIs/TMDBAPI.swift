@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class TMDBAPI {
     
@@ -47,16 +48,16 @@ class TMDBAPI {
     ///   - type: The type of media
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded media object
-    func fetchMedia(id: Int, type: MediaType) throws -> Media {
+    func fetchMedia(context: NSManagedObjectContext, id: Int, type: MediaType) throws -> Media {
         // Get the TMDB Data
         let tmdbData = try self.fetchTMDBData(for: id, type: type)
         // Create the media
         var media: Media!
         switch type {
             case .movie:
-                media = Movie(tmdbData: tmdbData)
+                media = Movie(context: context, tmdbData: tmdbData)
             case .show:
-                media = Show(tmdbData: tmdbData)
+                media = Show(context: context, tmdbData: tmdbData)
         }
         media.loadThumbnail()
         return media

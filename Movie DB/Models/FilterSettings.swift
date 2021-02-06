@@ -86,7 +86,7 @@ class FilterSettings: ObservableObject, Codable {
         }
         // MARK: Genres
         if !genres.isEmpty {
-            if !matchesArray(filterArray: self.genres, actualArray: media.genres) {
+            if !matchesArray(filterArray: self.genres, actualArray: Array(media.genres)) {
                 return false
             }
         }

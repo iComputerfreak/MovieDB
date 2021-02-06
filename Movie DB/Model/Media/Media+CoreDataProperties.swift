@@ -19,11 +19,17 @@ extension Media {
     }
 
     /// The internal library id
-    @NSManaged public var id: Int64
+    public var id: Int {
+        get { getInt(forKey: "id") }
+        set { setInt(newValue, forKey: "id") }
+    }
     /// The raw type of media, meaning the MediaType rawValue (e.g. "movie" or "show")
     @NSManaged public var rawType: String
     /// The raw personal rating. Don't set this property manually. Use `personalRating`.
-    @NSManaged public var rawPersonalRating: Int64
+    public var rawPersonalRating: Int {
+        get { getInt(forKey: "rawPersonalRating") }
+        set { setInt(newValue, forKey: "rawPersonalRating") }
+    }
     /// A list of user-specified tags, listed by their id
     public var tags: [Int] {
         get {
@@ -61,7 +67,10 @@ extension Media {
     
     // Basic Data
     /// The TMDB ID of the media
-    @NSManaged public var tmdbID: Int64
+    public var tmdbID: Int {
+        get { getInt(forKey: "tmdbID") }
+        set { setInt(newValue, forKey: "tmdbID") }
+    }
     /// The name of the media
     @NSManaged public var title: String
     /// The original tile of the media
@@ -69,7 +78,7 @@ extension Media {
     /// The path of the media poster image on TMDB
     @NSManaged public var imagePath: String?
     /// A list of genres that match the media
-    @NSManaged public var genres: NSSet
+    @NSManaged public var genres: Set<Genre>
     /// A short media description
     @NSManaged public var overview: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
@@ -79,7 +88,7 @@ extension Media {
     
     // Extended Data
     /// A list of companies that produced the media
-    @NSManaged public var productionCompanies: NSSet
+    @NSManaged public var productionCompanies: Set<ProductionCompany>
     /// The url to the homepage of the media
     @NSManaged public var homepageURL: String?
     
@@ -89,16 +98,19 @@ extension Media {
     /// The average rating on TMDB
     @NSManaged public var voteAverage: Float
     /// The number of votes that were cast on TMDB
-    @NSManaged public var voteCount: Int64
+    public var voteCount: Int {
+        get { getInt(forKey: "voteCount") }
+        set { setInt(newValue, forKey: "voteCount") }
+    }
     
     /// The list of cast members, that starred in the media
-    @NSManaged public var cast: NSSet
+    @NSManaged public var cast: Set<CastMember>
     /// The list of keywords on TheMovieDB.org
     @NSManaged public var keywords: [String]
     /// The list of translations available for the media
     @NSManaged public var translations: [String]
     /// The list of videos available
-    @NSManaged public var videos: NSSet
+    @NSManaged public var videos: Set<Video>
     
     /// The set of missing information of this media
     @NSManaged public var rawMissingInformation: Set<String>
@@ -138,7 +150,7 @@ extension Media {
             return StarRating(rawValue: Int(rawPersonalRating))!
         }
         set {
-            self.rawPersonalRating = Int64(newValue.rawValue)
+            self.rawPersonalRating = newValue.rawValue
             // didSet
             if newValue == .noRating {
                 self.missingInformation.insert(.rating)

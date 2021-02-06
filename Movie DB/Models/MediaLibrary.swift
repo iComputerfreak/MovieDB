@@ -9,72 +9,17 @@
 import Foundation
 import SwiftUI
 import Combine
+import CoreData
 
-/// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
-class MediaLibrary: ObservableObject, Codable {
+
+class MediaLibrary2 {
     
     /// The shared `MediaLibrary` instance.
-    static let shared: MediaLibrary = MediaLibrary.load()
+    static let shared: MediaLibrary = MediaLibrary.load() // TODO: Fetch library
     
-    /// The date and time of the last library update
-    var lastUpdate: Date?
-    /// The list of media objects in this library
-    @Published private(set) var mediaList: [Media]
     
-    private init() {
-        self.mediaList = []
-        self.lastUpdate = nil
-        // Set up the notifications to save when the app enters background
-        NotificationCenter.default.addObserver(self, selector: #selector(willResign(notification:)), name: UIApplication.willResignActiveNotification, object: nil)
-    }
     
-    @objc func willResign(notification: Notification) {
-        save()
-    }
     
-    /// Loads the media library from the user defaults, or returns a new one, if none was saved.
-    static func load() -> MediaLibrary {
-        // Load the media library from UserDefaults
-        if let data = UserDefaults.standard.data(forKey: JFLiterals.Keys.mediaLibrary) {
-            do {
-                return try PropertyListDecoder().decode(MediaLibrary.self, from: data)
-            } catch let e {
-                print("Error loading media library. Malformed data.")
-                print(e)
-            }
-        }
-        return MediaLibrary()
-    }
-    
-    /// Saves this media library to the user defaults
-    func save(_ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        DispatchQueue.global().async {
-            // Encode the array into a property list
-            do {
-                let pList = try PropertyListEncoder().encode(self)
-                UserDefaults.standard.set(pList, forKey: JFLiterals.Keys.mediaLibrary)
-                // Output "[Class.function:line] Library saved"
-                print("[\(file.components(separatedBy: "/").last!.removingSuffix(".swift")).\(function):\(line)] Library saved")
-            } catch let error {
-                print("Error saving library: \(error)")
-            }
-        }
-    }
-    
-    /// Updates the media library by updaing every media object with API calls again.
-    func update() throws -> Int {
-        var updateCount = 0
-        let api = TMDBAPI.shared
-        let changes = try api.getChanges(from: lastUpdate, to: Date())
-        for media in self.mediaList.filter({ changes.contains($0.tmdbID) }) {
-            // This media has been changed
-            try api.updateMedia(media)
-            updateCount += 1
-        }
-        // After they all have been updated without errors, we can update the lastUpdate property
-        self.lastUpdate = Date()
-        return updateCount
-    }
     
     /// Appends the given media object to the library
     /// - Parameter object: The object to append
@@ -109,20 +54,7 @@ class MediaLibrary: ObservableObject, Codable {
         }
     }
     
-    /// Resets the library, deleting all media objects and resetting the nextID property
-    func reset() {
-        self.mediaList.removeAll()
-        // Delete all thumbnails
-        do {
-            try FileManager.default.removeItem(at: JFUtils.url(for: "thumbnails"))
-            try FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
-        } catch let error {
-            print("Error deleting thumbnails: \(error)")
-        }
-        // Reset the ID counter for the media objects
-        Media.resetNextID()
-        save()
-    }
+    
     
     // MARK: - Problems
     /// Returns all problems in this library
@@ -146,66 +78,6 @@ class MediaLibrary: ObservableObject, Codable {
             .filter { (key: Int?, value: [Media]) in
                 return value.count > 1
             }
-    }
-    
-    
-    // MARK: - Codable Conformance
-    
-    required convenience init(from decoder: Decoder) throws {
-        self.init()
-        // Contains the page and results
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        // Contains the TMDBSearchResults array
-        // Create two identical containers, so we can extract the same value twice
-        var mediaObjects = try container.nestedUnkeyedContainer(forKey: .mediaList)
-        var mediaObjects2 = try container.nestedUnkeyedContainer(forKey: .mediaList)
-        assert(mediaObjects.count == mediaObjects2.count)
-        while (!mediaObjects.isAtEnd) {
-            // Get the Movie or Show as a GenericMedia object
-            let movieOrShowContainer = try mediaObjects.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)
-            // Read the type of the Media container
-            let mediaType = try movieOrShowContainer.decode(MediaType.self, forKey: .type)
-            // Decide based on the media type which type to use for decoding
-            switch mediaType {
-                case .movie:
-                    self.mediaList.append(try mediaObjects2.decode(Movie.self))
-                case .show:
-                    self.mediaList.append(try mediaObjects2.decode(Show.self))
-            }
-        }
-        print("Loaded \(self.mediaList.count) Media objects.")
-        // Load other properties
-        self.lastUpdate = try container.decode(Date?.self, forKey: .lastUpdate)
-    }
-    
-    private struct Empty: Decodable {}
-    
-    private struct GenericMedia: Codable {
-        var type: MediaType
-        enum CodingKeys: String, CodingKey {
-            case type
-        }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        // Encode all Media Objects
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        var arrayContainer = container.nestedUnkeyedContainer(forKey: .mediaList)
-        for media in mediaList {
-            if media.type == .movie {
-                try arrayContainer.encode(media as! Movie)
-            } else {
-                try arrayContainer.encode(media as! Show)
-            }
-        }
-        // Encode other properties
-        try container.encode(self.lastUpdate, forKey: .lastUpdate)
-    }
-    
-    enum CodingKeys: CodingKey {
-        case mediaList
-        
-        case lastUpdate
     }
     
 }

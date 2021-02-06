@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 /// Represents a CSV line
 struct CSVData {
@@ -36,7 +37,7 @@ struct CSVData {
     let revenue: Int? // Optional, because it's movie specific
     let isAdult: Bool? // Optional, because it's movie specific
     
-    let lastEpisodeWatched: EpisodeNumber?
+    let lastWatched: EpisodeNumber?
     let firstAirDate: Date?
     let lastAirDate: Date?
     let numberOfSeasons: Int?
@@ -66,7 +67,7 @@ struct CSVData {
         self.tmdbID = media.tmdbID
         self.title = media.title
         self.originalTitle = media.originalTitle
-        self.genres = media.genres
+        self.genres = Array(media.genres)
         self.overview = media.overview
         self.status = media.status
         
@@ -79,7 +80,7 @@ struct CSVData {
         self.isAdult = movie?.isAdult
         
         let show = media as? Show
-        self.lastEpisodeWatched = show?.lastEpisodeWatched
+        self.lastWatched = show?.lastWatched
         self.firstAirDate = show?.firstAirDate
         self.lastAirDate = show?.lastAirDate
         self.numberOfSeasons = show?.numberOfSeasons
@@ -120,7 +121,7 @@ struct CSVData {
         encoder.encode(revenue, forKey: .revenue)
         encoder.encode(isAdult, forKey: .isAdult)
         
-        encoder.encode(lastEpisodeWatched, forKey: .lastEpisodeWatched)
+        encoder.encode(lastWatched, forKey: .lastWatched)
         let rawFirstAirDate = firstAirDate == nil ? nil : dateFormatter.string(from: firstAirDate!)
         encoder.encode(rawFirstAirDate, forKey: .firstAirDate)
         let rawLastAirDate = lastAirDate == nil ? nil : dateFormatter.string(from: lastAirDate!)
@@ -138,7 +139,7 @@ struct CSVData {
     ///   - arraySeparator: The separator used for decoding arrays
     /// - Throws: `CSVDataError` or `CSVDecodingError`
     /// - Returns: The media object
-    static func createMedia(from data: [String: String], arraySeparator: String) throws -> Media {
+    static func createMedia(from data: [String: String], context: NSManagedObjectContext, arraySeparator: String) throws -> Media {
         let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
         
         let type = try decoder.decode(MediaType.self, forKey: .type)
@@ -160,11 +161,11 @@ struct CSVData {
         let watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
         let notes = try decoder.decode(String.self, forKey: .notes)
         let watched = try decoder.decode(Bool?.self, forKey: .watched)
-        let lastEpisodeWatched = try decoder.decode(EpisodeNumber?.self, forKey: .lastEpisodeWatched)
+        let lastWatched = try decoder.decode(EpisodeNumber?.self, forKey: .lastWatched)
         
         // To create the media, we fetch it from the API and then assign the user values
         let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
-        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
+        let media = try TMDBAPI.shared.fetchMedia(context: context, id: tmdbID, type: type)
         media.personalRating = personalRating
         media.tags = tags
         media.watchAgain = watchAgain
@@ -175,7 +176,7 @@ struct CSVData {
             (media as? Movie)?.watched = watched
         } else {
             assert(Swift.type(of: media) == Show.self)
-            (media as? Show)?.lastEpisodeWatched = lastEpisodeWatched
+            (media as? Show)?.lastWatched = lastWatched
         }
         
         return media

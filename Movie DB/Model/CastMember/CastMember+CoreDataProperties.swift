@@ -17,7 +17,10 @@ extension CastMember {
         return NSFetchRequest<CastMember>(entityName: "CastMember")
     }
 
-    @NSManaged public var id: Int64
+    public var id: Int {
+        get { getInt(forKey: "id") }
+        set { setInt(newValue, forKey: "id") }
+    }
     /// The name of the actor
     @NSManaged public var name: String
     /// The name of the actor in the media

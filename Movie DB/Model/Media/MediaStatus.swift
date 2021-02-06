@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 /// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
-public enum MediaStatus: String, Decodable, CaseIterable, Hashable {
+public enum MediaStatus: String, Codable, CaseIterable, Hashable {
     // MARK: General
     case planned = "Planned"
     case inProduction = "In Production"

@@ -23,9 +23,9 @@ public class Season: NSManagedObject, Decodable {
         self.init(context: context)
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int64.self, forKey: .id)
-        self.seasonNumber = try container.decode(Int64.self, forKey: .seasonNumber)
-        self.episodeCount = try container.decode(Int64.self, forKey: .episodeCount)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.seasonNumber = try container.decode(Int.self, forKey: .seasonNumber)
+        self.episodeCount = try container.decode(Int.self, forKey: .episodeCount)
         self.name = try container.decode(String.self, forKey: .name)
         self.overview = try container.decode(String?.self, forKey: .overview)
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)

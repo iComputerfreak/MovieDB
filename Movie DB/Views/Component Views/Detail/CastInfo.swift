@@ -15,7 +15,7 @@ struct CastInfo: View {
     
     var body: some View {
         List {
-            ForEach(mediaObject.cast) { (member: CastMember) in
+            ForEach(Array(mediaObject.cast)) { (member: CastMember) in
                 HStack {
                     Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()
