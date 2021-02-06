@@ -8,21 +8,14 @@
 
 import UIKit
 
-// Register transformers for the enums that are stored in CoreData
-extension NSValueTransformerName {
-    static let mediaTypeTransformerName = NSValueTransformerName(rawValue: "MediaTypeTransformer")
-    static let starRatingTransformerName = NSValueTransformerName(rawValue: "StarRatingTransformer")
-}
+// Use Int64 everywhere in the project to avoid conversion between Int64 and Int
+public typealias Int = Int64
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        ValueTransformer.setValueTransformer(EnumStringTransformer<MediaType>(), forName: .mediaTypeTransformerName)
-        ValueTransformer.setValueTransformer(EnumIntTransformer<StarRating>(), forName: .starRatingTransformerName)
-        
+        // Override point for customization after application launch.        
         return true
     }
 

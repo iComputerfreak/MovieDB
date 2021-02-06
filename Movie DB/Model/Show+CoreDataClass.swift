@@ -12,5 +12,27 @@ import CoreData
 
 @objc(Show)
 public class Show: Media {
+    
+    // MARK: - Initializers
+    
+    /// Creates a new `Show` object.
+    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
+        self.init(context: context)
+        // Set up common properties
+        super.initMedia(type: .show, tmdbData: tmdbData)
+        
+        // Show specific
+        // This is a show, therefore the TMDBData needs to have show specific data
+        let showData = tmdbData.showData!
+        self.firstAirDate = showData.firstAirDate
+        self.lastAirDate = showData.lastAirDate
+        self.numberOfSeasons = showData.numberOfSeasons == nil ? nil : Int64(showData.numberOfSeasons!)
+        self.numberOfEpisodes = Int64(showData.numberOfEpisodes)
+        self.episodeRuntime = showData.episodeRuntime
+        self.isInProduction = showData.isInProduction
+        // TODO: self.seasons = showData.seasons
+        self.showType = showData.showType
+        // TODO: self.networks = showData.networks
+    }
 
 }

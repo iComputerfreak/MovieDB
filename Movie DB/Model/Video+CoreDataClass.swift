@@ -12,7 +12,7 @@ import CoreData
 
 /// Represents a video on some external site
 @objc(Video)
-public class Video: NSManagedObject, Codable {
+public class Video: NSManagedObject, Decodable {
     
     required convenience public init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
@@ -28,17 +28,6 @@ public class Video: NSManagedObject, Codable {
         self.resolution = try container.decode(Int64.self, forKey: .resolution)
         self.language = try container.decode(String.self, forKey: .language)
         self.region = try container.decode(String.self, forKey: .region)
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.key, forKey: .key)
-        try container.encode(self.name, forKey: .key)
-        try container.encode(self.site, forKey: .key)
-        try container.encode(self.type, forKey: .key)
-        try container.encode(self.resolution, forKey: .key)
-        try container.encode(self.language, forKey: .key)
-        try container.encode(self.region, forKey: .key)
     }
     
     enum CodingKeys: String, CodingKey {

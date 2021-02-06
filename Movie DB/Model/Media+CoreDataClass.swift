@@ -44,55 +44,42 @@ public class Media: NSManagedObject {
     }
  */
     
-    /*@Published var watchAgain: Bool? = nil {
-        didSet {
-            if watchAgain == nil {
-                self.missingInformation.insert(.watchAgain)
-            } else {
-                self.missingInformation.remove(.watchAgain)
-            }
-        }
-    }*/
-    
     
     // MARK: - Missing Information
+    
+    /// Initialize all Media properties from the given TMDBData
+    /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
+    func initMedia(type: MediaType, tmdbData: TMDBData) {
+        self.personalRating = .noRating
+        
+        // TODO: Add assertion (e.g. type(of: self) == Movie.self or Show.self)
+        self.id = Int64(MediaID.nextID)
+        self.type = type
+        // Set all properties from the tmdbData object
+        self.tmdbID = Int64(tmdbData.id)
+        self.title = tmdbData.title
+        self.originalTitle = tmdbData.originalTitle
+        self.imagePath = tmdbData.imagePath
+        // TODO: self.genres = tmdbData.genres
+        self.overview = tmdbData.overview
+        self.status = tmdbData.status
+        self.originalLanguage = tmdbData.originalLanguage
+        // TODO: self.productionCompanies = tmdbData.productionCompanies
+        self.homepageURL = tmdbData.homepageURL
+        self.popularity = tmdbData.popularity
+        self.voteAverage = tmdbData.voteAverage
+        self.voteCount = Int64(tmdbData.voteCount)
+        // TODO: self.cast = tmdbData.cast
+        self.keywords = tmdbData.keywords
+        self.translations = tmdbData.translations
+        // TODO: self.videos = tmdbData.videos
+    }
     
     
     
     
     //@Published var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
     // TODO: Init value
-    
-    // MARK: - Initializers
-    
-    // TODO: add init(record:) for CloudKit
-    
-    /// Creates a new `Media` object.
-    /// - Important: Only use this initializer on concrete subclasses of `Media`. Never instantiate `Media` itself.
-    convenience init(context: NSManagedObjectContext, type: MediaType, tmdbData: TMDBData) {
-        self.init(context: context)
-        // TODO: Add assertion (e.g. type(of: self) == Movie.self or Show.self)
-        self.id = Self.nextID
-        self.type = type
-        // Set all properties from the tmdbData object
-        self.tmdbID = tmdbData.id
-        self.title = tmdbData.title
-        self.originalTitle = tmdbData.originalTitle
-        self.imagePath = tmdbData.imagePath
-        self.genres = tmdbData.genres
-        self.overview = tmdbData.overview
-        self.status = tmdbData.status
-        self.originalLanguage = tmdbData.originalLanguage
-        self.productionCompanies = tmdbData.productionCompanies
-        self.homepageURL = tmdbData.homepageURL
-        self.popularity = tmdbData.popularity
-        self.voteAverage = tmdbData.voteAverage
-        self.voteCount = tmdbData.voteCount
-        self.cast = tmdbData.cast
-        self.keywords = tmdbData.keywords
-        self.translations = tmdbData.translations
-        self.videos = tmdbData.videos
-    }
     
     // MARK: - Functions
     
@@ -191,7 +178,7 @@ public class Media: NSManagedObject {
 extension Media {
     /// Represents a user-provided information about a media object.
     /// This enum only contains the information, that will cause the object to show up in the Problems tab, when missing
-    enum MediaInformation: String, CaseIterable, Codable {
+    public enum MediaInformation: String, CaseIterable, Codable {
         case rating
         case watched
         case watchAgain

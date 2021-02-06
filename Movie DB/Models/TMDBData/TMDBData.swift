@@ -74,9 +74,11 @@ struct TMDBData: Decodable, Hashable {
         let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
         self.videos = try videosContainer.decode([Video].self, forKey: .results)
         
-        // Decode exclusive data
-        self.movieData = try MovieData(from: decoder)
-        self.showData = try ShowData(from: decoder)
+        // Decode exclusive data (we don't know if what we are decoding is a movie or a show)
+        self.movieData = try? MovieData(from: decoder)
+        self.showData = try? ShowData(from: decoder)
+        
+        assert(!(self.movieData == nil && self.showData == nil), "Error decoding movie/show data for '\(self.title)'")
     }
     
     enum CodingKeys: String, CodingKey {
@@ -177,6 +179,8 @@ struct TMDBData: Decodable, Hashable {
         var seasons: [Season]
         var showType: ShowType?
         var networks: [ProductionCompany]
+        
+        // TODO: Decode only if present
         
         enum CodingKeys: String, CodingKey {
             case rawFirstAirDate = "first_air_date"
