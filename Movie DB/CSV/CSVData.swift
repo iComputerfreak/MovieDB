@@ -152,7 +152,7 @@ struct CSVData {
                 tagIDs.append(id)
             } else {
                 // Tag does not exist, create a new one
-                let id = TagLibrary.shared.create(name: name)
+                let id = try TagLibrary.shared.create(name: name)
                 tagIDs.append(id)
             }
         }

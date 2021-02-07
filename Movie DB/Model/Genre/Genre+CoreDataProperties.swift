@@ -24,7 +24,25 @@ extension Genre {
     }
     /// The name of the genre
     @NSManaged public var name: String
+    @NSManaged public var medias: Set<Media>
 
+}
+
+// MARK: Generated accessors for medias
+extension Genre {
+    
+    @objc(addMediasObject:)
+    @NSManaged public func addToMedias(_ value: Media)
+    
+    @objc(removeMediasObject:)
+    @NSManaged public func removeFromMedias(_ value: Media)
+    
+    @objc(addMedias:)
+    @NSManaged public func addToMedias(_ values: NSSet)
+    
+    @objc(removeMedias:)
+    @NSManaged public func removeFromMedias(_ values: NSSet)
+    
 }
 
 extension Genre : Identifiable {

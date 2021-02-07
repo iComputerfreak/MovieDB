@@ -99,7 +99,13 @@ struct AddMediaView : View {
                 do {
                     let media = try TMDBAPI.shared.fetchMedia(context: AppDelegate.viewContext, id: result.id, type: result.mediaType)
                     DispatchQueue.main.async {
-                        self.library.append(media)
+                        do {
+                            try self.library.append(media)
+                        } catch let e {
+                            print("Error adding media '\(media.title)'")
+                            print(e)
+                            AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                        }
                         self.isLoading = false
                         self.presentationMode.wrappedValue.dismiss()
                     }

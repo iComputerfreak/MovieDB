@@ -8,12 +8,15 @@
 
 import SwiftUI
 import JFSwiftUI
+import CoreData
 
 struct SettingsView: View {
     
     // Reference to the config instance
     @ObservedObject private var config: JFConfig = JFConfig.shared
     @ObservedObject private var library = MediaLibrary.shared
+    
+    @Environment(\.managedObjectContext) private var context: NSManagedObjectContext
     
     init() {
     }
@@ -128,8 +131,14 @@ struct SettingsView: View {
                             // If we would call it sync, we would sleep in the main thread until this is complete!
                             DispatchQueue.global().async {
                                 let problems = self.library.repair(progress: $verificationProgress)
-                                self.library.save()
                                 DispatchQueue.main.async {
+                                    do {
+                                        try context.save()
+                                    } catch let e {
+                                        print("Error saving library")
+                                        print(e)
+                                        AlertHandler.showSimpleAlert(title: "Error saving library", message: e.localizedDescription)
+                                    }
                                     self.verificationInProgress = false
                                     switch problems {
                                         case let .some(_, notFixed) where notFixed != 0:
@@ -169,10 +178,21 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                self.library.append(contentsOf: mediaObjects)
-                                                self.library.save()
+                                                do {
+                                                    try self.library.append(contentsOf: mediaObjects)
+                                                    try context.save()
+                                                } catch let e {
+                                                    print("Error adding \(mediaObjects.count) Media objects")
+                                                    print(e)
+                                                    AlertHandler.showSimpleAlert(title: "Error importing media objects", message: e.localizedDescription)
+                                                }
                                             }))
-                                            controller.addAction(UIAlertAction(title: "No", style: .cancel))
+                                            controller.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
+                                                // Delete the media objects again (so they don't stay in the persistentContainer
+                                                for media in mediaObjects {
+                                                    context.delete(media)
+                                                }
+                                            }))
                                             self.isLoading = false
                                             AlertHandler.presentAlert(alert: controller)
                                         }
@@ -221,7 +241,7 @@ struct SettingsView: View {
                         Button(action: {
                             let url: URL!
                             do {
-                                let csv: String = try CSVCoder().encode(self.library.mediaList)
+                                let csv: String = try CSVCoder().encode(Array(self.library.mediaList))
                                 // Save the csv as a file to share it
                                 url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export.csv")
                                 // Delete any old export, if it exists (this is only the local copy, that will be shared)
@@ -285,7 +305,13 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(count) tag\(count == 1 ? "" : "s")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                TagImporter.import(importData)
+                                                do {
+                                                    try TagImporter.import(importData)
+                                                } catch let e {
+                                                    print("Error importing data")
+                                                    print(e)
+                                                    AlertHandler.showSimpleAlert(title: "Error importing", message: e.localizedDescription)
+                                                }
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel))
                                             self.isLoading = false
@@ -379,7 +405,13 @@ struct SettingsView: View {
                             controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                             controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                                 // Don't reset the tags
-                                self.library.reset()
+                                do {
+                                    try self.library.reset()
+                                } catch let e {
+                                    print("Error resetting media library")
+                                    print(e)
+                                    AlertHandler.showSimpleAlert(title: "Error resetting library", message: e.localizedDescription)
+                                }
                             }))
                             AlertHandler.presentAlert(alert: controller)
                         }, label: Text("Reset Library").closure())

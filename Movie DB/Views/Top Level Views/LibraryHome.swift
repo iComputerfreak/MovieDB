@@ -19,7 +19,7 @@ struct LibraryHome : View {
     @State private var sortedAlphabetically = true
     
     private var filteredMedia: [Media] {
-        var list = library.mediaList
+        var list: [Media] = Array(library.mediaList)
         // MARK: Search Term
         if !searchText.isEmpty {
             list = list.filter({ media in
@@ -83,9 +83,9 @@ struct LibraryHome : View {
     
     var body: some View {
         ScrollViewReader { proxy in
-        NavigationView {
-            VStack {
-                SearchBar(searchText: $searchText)
+            NavigationView {
+                VStack {
+                    SearchBar(searchText: $searchText)
                     List {
                         Section(footer: footerText) {
                             ForEach(filteredMedia) { mediaObject in
@@ -95,7 +95,13 @@ struct LibraryHome : View {
                             .onDelete { indexSet in
                                 for offset in indexSet {
                                     let id = self.filteredMedia[offset].id
-                                    self.library.remove(id: id)
+                                    do {
+                                        try self.library.remove(id: id)
+                                    } catch let e {
+                                        print("Error removing Media with ID \(id)")
+                                        print(e)
+                                        AlertHandler.showSimpleAlert(title: "Error removing Media", message: e.localizedDescription)
+                                    }
                                 }
                             }
                         }
@@ -112,23 +118,20 @@ struct LibraryHome : View {
                                 .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
                                 .background(
                                     EmptyView()
-                                        // FUTURE: Open new item in editing mode
-                                        
-                                        //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
+                                    // FUTURE: Open new item in editing mode
+                                    
+                                    //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                                 )
                         )
                 )
                 
                 .navigationBarItems(leading:
-                    Button(action: { self.isShowingFilterOptions = true }, label: Text("Filter").closure()), trailing:
-                    Button(action: { self.isAddingMedia = true }, label: Image(systemName: "plus").closure())
+                                        Button(action: { self.isShowingFilterOptions = true }, label: Text("Filter").closure()), trailing:
+                                            Button(action: { self.isAddingMedia = true }, label: Image(systemName: "plus").closure())
                 )
                 .navigationBarTitle(Text("Home"))
-        }
-        .onAppear(perform: didAppear)
-        .onDisappear {
-            self.library.save()
-        }
+            }
+            .onAppear(perform: didAppear)
         }
     }
     

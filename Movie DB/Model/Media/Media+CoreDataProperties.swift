@@ -115,6 +115,9 @@ extension Media {
     /// The set of missing information of this media
     @NSManaged public var rawMissingInformation: Set<String>
     
+    /// The library this media is in
+    @NSManaged public var library: MediaLibrary?
+    
     // MARK: - Computed Properties
     
     /// Whether the result is a movie and is for adults only
@@ -179,7 +182,6 @@ extension Media {
         }
     }
 
-    
 }
 
 // MARK: Generated accessors for genres

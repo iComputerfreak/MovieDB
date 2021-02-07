@@ -19,14 +19,14 @@ struct TagImporter {
     
     /// Imports the newline separated tag names and creates new tags, if they don't exist yet
     /// - Parameter tags: The newline separated list of tags
-    static func `import`(_ tags: String) {
+    static func `import`(_ tags: String) throws {
         for name in tags.components(separatedBy: .newlines) {
             if name.isEmpty {
                 continue
             }
             // Create all tags, that don't already exist (this includes duplicate lines in the import string)
             if !TagLibrary.shared.tags.contains(where: { $0.name == name }) {
-                TagLibrary.shared.create(name: name)
+                try TagLibrary.shared.create(name: name)
             }
         }
         

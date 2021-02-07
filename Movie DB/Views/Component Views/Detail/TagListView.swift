@@ -87,7 +87,13 @@ struct TagListView: View {
                                         guard let text = textField.text, !text.isEmpty else {
                                             return
                                         }
-                                        TagLibrary.shared.rename(id: tag.id, newName: text)
+                                        do {
+                                            try TagLibrary.shared.rename(id: tag.id, newName: text)
+                                        } catch let e {
+                                            print("Error renaming tag \(tag.name) to \(text)")
+                                            print(e)
+                                            AlertHandler.showSimpleAlert(title: "Error renaming Tag", message: e.localizedDescription)
+                                        }
                                     }))
                                     AlertHandler.presentAlert(alert: alert)
                                 }) {
@@ -101,7 +107,13 @@ struct TagListView: View {
                         for index in indexSet {
                             let tag = self.sortedTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
-                            self.tagLibrary.remove(id: tag.id)
+                            do {
+                                try self.tagLibrary.remove(id: tag.id)
+                            } catch let e {
+                                print("Error removing tag \(tag.name)")
+                                print(e)
+                                AlertHandler.showSimpleAlert(title: "Error deleting Tag", message: e.localizedDescription)
+                            }
                         }
                     })
                 }
@@ -122,7 +134,13 @@ struct TagListView: View {
                     guard let text = textField.text, !text.isEmpty else {
                         return
                     }
-                    TagLibrary.shared.create(name: text)
+                    do {
+                        try TagLibrary.shared.create(name: text)
+                    } catch let e {
+                        print("Error creating Tag \(text)")
+                        print(e)
+                        AlertHandler.showSimpleAlert(title: "Error creating Tag", message: e.localizedDescription)
+                    }
                 })
                 AlertHandler.presentAlert(alert: alert)
             }) {

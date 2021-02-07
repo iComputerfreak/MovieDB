@@ -61,7 +61,13 @@ struct ProblemsView: View {
             .onDelete { indexSet in
                 for offset in indexSet {
                     let id = problems.map(\.key)[offset].id
-                    self.library.remove(id: id)
+                    do {
+                        try self.library.remove(id: id)
+                    } catch let e {
+                        print("Error trying to delete Media with ID \(id)")
+                        print(e)
+                        AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                    }
                 }
             }
         }
@@ -78,7 +84,13 @@ struct ProblemsView: View {
                 for offset in indexSet {
                     // Using the ID here is okay, because we checked for duplicate tmdbIDs, not library IDs
                     let id = duplicates.flatMap(\.value)[offset].id
-                    self.library.remove(id: id)
+                    do {
+                        try self.library.remove(id: id)
+                    } catch let e {
+                        print("Error trying to delete Media with ID \(id)")
+                        print(e)
+                        AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                    }
                 }
             }
         }

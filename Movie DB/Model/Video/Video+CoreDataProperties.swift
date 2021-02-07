@@ -34,6 +34,8 @@ extension Video {
     @NSManaged public var language: String
     /// The ISO-3166-1 region code (e.g. 'US')
     @NSManaged public var region: String
+    /// The media this video belongs to
+    @NSManaged public var media: Media?
 
 }
 

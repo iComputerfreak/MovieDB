@@ -18,33 +18,6 @@ import CoreData
 @objc(Media)
 public class Media: NSManagedObject {
     
-    // TODO: Copy didSet over
-    /*@Published var personalRating: StarRating = .noRating {
-        didSet {
-            if personalRating == .noRating {
-                // Rating is missing now
-                self.missingInformation.insert(.rating)
-            } else {
-                // Rating is not missing anymore
-                self.missingInformation.remove(.rating)
-            }
-        }
-    }*/
-    
-    // TODO: Copy didSet over
-    /*
-    @Published var tags: [Int] = [] {
-        didSet {
-            if tags == [] {
-                self.missingInformation.insert(.tags)
-            } else {
-                self.missingInformation.remove(.tags)
-            }
-        }
-    }
- */
-    
-    
     // MARK: - Missing Information
     
     /// Initialize all Media properties from the given TMDBData
@@ -75,11 +48,10 @@ public class Media: NSManagedObject {
         // TODO: self.videos = tmdbData.videos
     }
     
-    
-    
-    
-    //@Published var missingInformation: Set<MediaInformation> = Set(MediaInformation.allCases)
-    // TODO: Init value
+    public override func awakeFromInsert() {
+        // Initialize missingInformation
+        self.missingInformation = Set(MediaInformation.allCases)
+    }
     
     // MARK: - Functions
     

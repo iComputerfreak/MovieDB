@@ -40,16 +40,16 @@ struct PlaceholderData {
     
     static var mediaLibrary: MediaLibrary {
         let library = MediaLibrary.shared
-        library.append(movie)
-        library.append(show)
+        try! library.append(movie)
+        try! library.append(show)
         return library
     }
     
     static func populateSampleTags() {
         let lib = TagLibrary.shared
-        lib.create(name: "Happy Ending")
-        lib.create(name: "Trashy")
-        lib.create(name: "Time Travel")
-        lib.create(name: "Immortality")
+        try! lib.create(name: "Happy Ending")
+        try! lib.create(name: "Trashy")
+        try! lib.create(name: "Time Travel")
+        try! lib.create(name: "Immortality")
     }
 }

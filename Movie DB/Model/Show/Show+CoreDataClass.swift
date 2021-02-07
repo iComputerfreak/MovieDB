@@ -30,9 +30,9 @@ public class Show: Media {
         self.numberOfEpisodes = showData.numberOfEpisodes
         self.episodeRuntime = showData.episodeRuntime
         self.isInProduction = showData.isInProduction
-        // TODO: self.seasons = showData.seasons
+        self.addToSeasons(NSSet(objects: showData.seasons))
         self.showType = showData.showType
-        // TODO: self.networks = showData.networks
+        self.addToNetworks(NSSet(objects: showData.networks))
     }
 
 }

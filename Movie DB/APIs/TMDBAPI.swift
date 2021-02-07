@@ -50,7 +50,7 @@ class TMDBAPI {
     /// - Returns: The decoded media object
     func fetchMedia(context: NSManagedObjectContext, id: Int, type: MediaType) throws -> Media {
         // Get the TMDB Data
-        let tmdbData = try self.fetchTMDBData(for: id, type: type)
+        let tmdbData = try self.fetchTMDBData(for: id, type: type, context: context)
         // Create the media
         var media: Media!
         switch type {
@@ -75,10 +75,11 @@ class TMDBAPI {
     /// - Parameters:
     ///   - media: The media object to update
     ///   - completion: A closure, executed after the media object has been updated
+    ///   - context: The context to update the media objects in
     /// - Throws: `APIError` or `DecodingError`
-    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}) throws {
+    func updateMedia(_ media: Media, completion: @escaping () -> Void = {}, context: NSManagedObjectContext) throws {
         // Update TMDBData
-        let tmdbData = try self.fetchTMDBData(for: media.tmdbID, type: media.type)
+        let tmdbData = try self.fetchTMDBData(for: media.tmdbID, type: media.type, context: context)
         // If fetching was successful, update the media object and thumbnail
         DispatchQueue.main.async {
             media.update(tmdbData: tmdbData)
@@ -159,11 +160,12 @@ class TMDBAPI {
     /// - Parameters:
     ///   - id: The TMDB ID to load the data for
     ///   - type: The type of media to load
+    ///   - context: The context to insert the new objects into
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The data returned by the API call
-    private func fetchTMDBData(for id: Int, type: MediaType) throws -> TMDBData {
+    private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext) throws -> TMDBData {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self)
+        return try decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context)
     }
     
     /// Loads and decodes an API URL
@@ -171,13 +173,16 @@ class TMDBAPI {
     ///   - path: The API URL path to decode
     ///   - additionalParameters: Additional parameters to use for the API call
     ///   - type: The type of media
+    ///   - context: The context to insert the decoded objects in
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
-    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type) throws -> T where T: Decodable {
+    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type, context: NSManagedObjectContext) throws -> T where T: Decodable {
         let data = try request(path: path, additionalParameters: additionalParameters)
         assert(T.self != TMDBData.self, "We should not return instances of the TMDBData superclass.")
         print("Decoding as \(T.self)")
-        let result = try JSONDecoder().decode(T.self, from: data)
+        let decoder = JSONDecoder()
+        decoder.userInfo[.managedObjectContext] = context
+        let result = try decoder.decode(T.self, from: data)
         return result
     }
     
