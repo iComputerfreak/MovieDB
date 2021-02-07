@@ -18,10 +18,11 @@ public class Show: Media {
     /// Creates a new `Show` object.
     convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
         self.init(context: context)
-        // Set up common properties
-        super.initMedia(type: .show, tmdbData: tmdbData)
-        
-        // Show specific
+        self.initMedia(type: .show, tmdbData: tmdbData)
+    }
+    
+    override func initMedia(type: MediaType, tmdbData: TMDBData) {
+        super.initMedia(type: type, tmdbData: tmdbData)
         // This is a show, therefore the TMDBData needs to have show specific data
         let showData = tmdbData.showData!
         self.firstAirDate = showData.firstAirDate
@@ -30,9 +31,9 @@ public class Show: Media {
         self.numberOfEpisodes = showData.numberOfEpisodes
         self.episodeRuntime = showData.episodeRuntime
         self.isInProduction = showData.isInProduction
-        self.addToSeasons(NSSet(objects: showData.seasons))
+        self.seasons = Set(showData.seasons)
         self.showType = showData.showType
-        self.addToNetworks(NSSet(objects: showData.networks))
+        self.networks = Set(showData.networks)
     }
 
 }

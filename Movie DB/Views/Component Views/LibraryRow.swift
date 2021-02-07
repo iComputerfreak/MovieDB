@@ -72,8 +72,7 @@ struct ProblemsLibraryRow<T>: View where T: View {
 struct LibraryRow_Previews : PreviewProvider {
     static var previews: some View {
         LibraryRow()
-            // TODO: Replace with PlaceholderData
-            //.environmentObject(Movie())
+            .environmentObject(PlaceholderData.movie)
     }
 }
 #endif

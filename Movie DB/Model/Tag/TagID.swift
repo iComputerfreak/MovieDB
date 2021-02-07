@@ -11,7 +11,6 @@ import Foundation
 struct TagID {
     
     // Tag ID Creation
-    // TODO: Move ID creation into MediaLibrary? Only save nextID when closing the app, not every time?
     /// Contains the next free collection id
     private static var _nextID = 0
     /// Returns the next free tag id

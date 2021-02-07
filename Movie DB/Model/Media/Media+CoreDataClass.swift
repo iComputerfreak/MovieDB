@@ -25,27 +25,27 @@ public class Media: NSManagedObject {
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         self.personalRating = .noRating
         
-        // TODO: Add assertion (e.g. type(of: self) == Movie.self or Show.self)
         self.id = MediaID.nextID
         self.type = type
+        
         // Set all properties from the tmdbData object
         self.tmdbID = tmdbData.id
         self.title = tmdbData.title
         self.originalTitle = tmdbData.originalTitle
         self.imagePath = tmdbData.imagePath
-        // TODO: self.genres = tmdbData.genres
+        self.genres = Set(tmdbData.genres)
         self.overview = tmdbData.overview
         self.status = tmdbData.status
         self.originalLanguage = tmdbData.originalLanguage
-        // TODO: self.productionCompanies = tmdbData.productionCompanies
+        self.productionCompanies = Set(tmdbData.productionCompanies)
         self.homepageURL = tmdbData.homepageURL
         self.popularity = tmdbData.popularity
         self.voteAverage = tmdbData.voteAverage
         self.voteCount = tmdbData.voteCount
-        // TODO: self.cast = tmdbData.cast
+        self.cast = Set(tmdbData.cast)
         self.keywords = tmdbData.keywords
         self.translations = tmdbData.translations
-        // TODO: self.videos = tmdbData.videos
+        self.videos = Set(tmdbData.videos)
     }
     
     public override func awakeFromInsert() {
@@ -78,12 +78,11 @@ public class Media: NSManagedObject {
     
     /// Updates the media object with the given data
     /// - Parameter tmdbData: The new data
-    func update(tmdbData: TMDBData) {
-        // TODO: Implement
-        
+    func update(tmdbData: TMDBData) throws {
+        // Set all TMDBData properties again
+        self.initMedia(type: type, tmdbData: tmdbData)
+        try self.managedObjectContext?.save()
     }
-    
-    
     
     // MARK: - Repairable Conformance
     

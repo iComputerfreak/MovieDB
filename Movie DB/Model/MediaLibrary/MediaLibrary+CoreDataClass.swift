@@ -38,7 +38,7 @@ public class MediaLibrary: NSManagedObject {
         let changes = try api.getChanges(from: lastUpdated, to: Date())
         for media in self.mediaList.filter({ changes.contains($0.tmdbID) }) {
             // This media has been changed
-            try api.updateMedia(media, context: context)
+            try api.updateMedia(media)
             updateCount += 1
         }
         // After they all have been updated without errors, we can update the lastUpdate property

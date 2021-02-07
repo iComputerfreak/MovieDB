@@ -180,8 +180,6 @@ struct TMDBData: Decodable, Hashable {
         var showType: ShowType?
         var networks: [ProductionCompany]
         
-        // TODO: Decode only if present
-        
         enum CodingKeys: String, CodingKey {
             case rawFirstAirDate = "first_air_date"
             case rawLastAirDate = "last_air_date"
