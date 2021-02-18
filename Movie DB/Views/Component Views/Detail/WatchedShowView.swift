@@ -57,17 +57,10 @@ struct WatchedShowView: View {
             Binding<Int>(get: { self.season }, set: { season in
                 self.season = season
                 if season == 0 {
-                    // Delete
+                    // Delete both (episode and season)
                     self.show.lastWatched = nil
                 } else {
-                    // Update
-                    if self.show.lastWatched == nil {
-                        // Create new
-                        self.show.lastWatched = EpisodeNumber(season: season)
-                    } else {
-                        // Update
-                        self.show.lastWatched!.season = season
-                    }
+                    self.show.lastSeasonWatched = season
                 }
             })
         }
@@ -89,7 +82,8 @@ struct WatchedShowView: View {
         var body: some View {
             Form {
                 Section(header: Text("Up to which Episode did you watch?")) {
-                    Stepper(value: seasonWrapper) {
+                    // TODO: Clamp to the actual amount of seasons/episodes
+                    Stepper(value: seasonWrapper, in: 0...100) {
                         if self.season > 0 {
                             Text("Season \(self.season)")
                         } else {
@@ -97,7 +91,7 @@ struct WatchedShowView: View {
                         }
                     }
                     if season > 0 {
-                        Stepper(value: episodeWrapper) {
+                        Stepper(value: episodeWrapper, in: 0...1000) {
                             if self.episode > 0 {
                                 Text("Episode \(self.episode)")
                             } else {

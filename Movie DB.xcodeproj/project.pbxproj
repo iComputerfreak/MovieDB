@@ -26,7 +26,6 @@
 		AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14340925CDD9DF00AA304F /* Video+CoreDataClass.swift */; };
 		AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14340A25CDD9DF00AA304F /* Video+CoreDataProperties.swift */; };
 		AB14341225CDDB6600AA304F /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14341125CDDB6600AA304F /* MediaType.swift */; };
-		AB14341625CDDBBB00AA304F /* MediaID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14341525CDDBBB00AA304F /* MediaID.swift */; };
 		AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14341925CDE2BD00AA304F /* EnumTransformer.swift */; };
 		AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14342B25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift */; };
 		AB14343025CDEEB200AA304F /* ProductionCompany+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14342F25CDEEB200AA304F /* ProductionCompany+CoreDataProperties.swift */; };
@@ -88,7 +87,6 @@
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABB65EC925D01C50009378EC /* TagLibrary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC525D01C50009378EC /* TagLibrary+CoreDataClass.swift */; };
 		ABB65ECA25D01C50009378EC /* TagLibrary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC625D01C50009378EC /* TagLibrary+CoreDataProperties.swift */; };
-		ABB65ED425D01FF5009378EC /* TagID.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65ED325D01FF5009378EC /* TagID.swift */; };
 		ABB82DCE2414201F00E46023 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB82DCD2414201F00E46023 /* ShareSheet.swift */; };
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
@@ -141,7 +139,6 @@
 		AB14340925CDD9DF00AA304F /* Video+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Video+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB14340A25CDD9DF00AA304F /* Video+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Video+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB14341125CDDB6600AA304F /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
-		AB14341525CDDBBB00AA304F /* MediaID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaID.swift; sourceTree = "<group>"; };
 		AB14341925CDE2BD00AA304F /* EnumTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTransformer.swift; sourceTree = "<group>"; };
 		AB14342B25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductionCompany+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB14342F25CDEEB200AA304F /* ProductionCompany+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductionCompany+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -208,7 +205,6 @@
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABB65EC525D01C50009378EC /* TagLibrary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagLibrary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC625D01C50009378EC /* TagLibrary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagLibrary+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		ABB65ED325D01FF5009378EC /* TagID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagID.swift; sourceTree = "<group>"; };
 		ABB82DCD2414201F00E46023 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -371,7 +367,6 @@
 				AB6718ED22C032AA00F429E4 /* Media+CoreDataClass.swift */,
 				AB1433F725CDB6F600AA304F /* Media+CoreDataProperties.swift */,
 				ABA0399224D4990200DBF71F /* MediaStatus.swift */,
-				AB14341525CDDBBB00AA304F /* MediaID.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -608,7 +603,6 @@
 			children = (
 				ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */,
 				ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */,
-				ABB65ED325D01FF5009378EC /* TagID.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -743,7 +737,6 @@
 				AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */,
 				AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */,
 				ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */,
-				ABB65ED425D01FF5009378EC /* TagID.swift in Sources */,
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB1434AB25CEE53A00AA304F /* Season+CoreDataProperties.swift in Sources */,
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
@@ -763,7 +756,6 @@
 				ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */,
 				AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */,
 				ABED3B072393263E00F4C327 /* ShowType.swift in Sources */,
-				AB14341625CDDBBB00AA304F /* MediaID.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultView.swift in Sources */,
 				AB1433FD25CDB6F600AA304F /* Media+CoreDataProperties.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,

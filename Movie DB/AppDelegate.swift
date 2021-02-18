@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentCloudKitContainer(name: "CoreDataTest")
+        let container = NSPersistentCloudKitContainer(name: "Movie DB")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -62,13 +62,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
+                // TODO: Implement error handling
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        // Automatically merge changes done in other context of this container.
+        // E.g. merge changes from a background context, as soon as that context saves
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return container
     }()
     
     // MARK: - Core Data Saving support
+    
+    static func saveContext() {
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
     
     func saveContext () {
         let context = persistentContainer.viewContext

@@ -165,7 +165,7 @@ struct CSVData {
         
         // To create the media, we fetch it from the API and then assign the user values
         let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
-        let media = try TMDBAPI.shared.fetchMedia(context: context, id: tmdbID, type: type)
+        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
         media.personalRating = personalRating
         media.tags = tags
         media.watchAgain = watchAgain

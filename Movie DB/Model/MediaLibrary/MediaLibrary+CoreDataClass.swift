@@ -14,7 +14,15 @@ import CoreData
 @objc(MediaLibrary)
 public class MediaLibrary: NSManagedObject {
     
-    let context = AppDelegate.viewContext
+    /// Resets the nextID property
+    func resetNextID() {
+        self.nextID = 1
+    }
+    
+    // Don't use a stored property to prevent accessing the viewContext from a background thread (during NSManagedObject creation)
+    var context: NSManagedObjectContext {
+        AppDelegate.viewContext
+    }
     
     // We only store a single MediaLibrary in the container, therefore we just use the first result
     static let shared: MediaLibrary = MediaLibrary.getInstance()
@@ -57,7 +65,7 @@ public class MediaLibrary: NSManagedObject {
             print("Error deleting thumbnails: \(error)")
         }
         // Reset the ID counter for the media objects
-        MediaID.resetNextID()
+        MediaLibrary.shared.resetNextID()
         try context.save()
     }
     

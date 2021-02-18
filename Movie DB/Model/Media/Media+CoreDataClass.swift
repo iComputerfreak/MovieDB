@@ -25,7 +25,7 @@ public class Media: NSManagedObject {
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         self.personalRating = .noRating
         
-        self.id = MediaID.nextID
+        self.id = MediaLibrary.shared.nextID
         self.type = type
         
         // Set all properties from the tmdbData object

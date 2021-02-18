@@ -128,7 +128,7 @@ class FilterSettings: ObservableObject, Codable {
                     return false
                 }
             } else if let show = media as? Show {
-                let showWatched = show.lastEpisodeWatched != nil
+                let showWatched = show.lastWatched != nil
                 if showWatched != watched {
                     return false
                 }

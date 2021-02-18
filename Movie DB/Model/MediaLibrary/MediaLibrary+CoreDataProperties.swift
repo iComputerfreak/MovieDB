@@ -17,6 +17,18 @@ extension MediaLibrary {
         return NSFetchRequest<MediaLibrary>(entityName: "MediaLibrary")
     }
 
+    /// The next free ID
+    public var nextID: Int {
+        get {
+            // Return the next id and increase it by one
+            let next = getInt(forKey: "nextID")
+            setInt(next + 1, forKey: "nextID")
+            return next
+        }
+        set {
+            setInt(newValue, forKey: "nextID")
+        }
+    }
     /// The date and time of the last library update
     @NSManaged public var lastUpdated: Date?
     /// The list of media objects in this library

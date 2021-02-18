@@ -16,6 +16,16 @@ extension TagLibrary {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TagLibrary> {
         return NSFetchRequest<TagLibrary>(entityName: "TagLibrary")
     }
+    
+    public var nextID: Int {
+        get {
+            // Return the current ID and increase it by one
+            let next = getInt(forKey: "nextID")
+            setInt(next + 1, forKey: "nextID")
+            return next
+        }
+        set { setInt(newValue, forKey: "nextID") }
+    }
 
     @NSManaged public var tags: Set<Tag>
 

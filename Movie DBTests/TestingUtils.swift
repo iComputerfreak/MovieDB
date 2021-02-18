@@ -81,7 +81,7 @@ struct TestingUtils {
             }
         })
         s.notes = "A masterpiece!"
-        s.lastEpisodeWatched = .init(season: 7, episode: nil)
+        s.lastWatched = .init(season: 7, episode: nil)
         s.watchAgain = true
         // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
         let showData: TMDBShowData = load("Blacklist.json")
@@ -100,7 +100,7 @@ struct TestingUtils {
             }
         })
         s.notes = "Bad ending"
-        s.lastEpisodeWatched = .init(season: 8, episode: 3)
+        s.lastWatched = .init(season: 8, episode: 3)
         s.watchAgain = false
         // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
         let showData: TMDBShowData = load("GameOfThrones.json")

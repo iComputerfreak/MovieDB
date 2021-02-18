@@ -87,7 +87,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.tmdbData?.originalTitle, "9-1-1")
         XCTAssertEqual((momentumTMDBData as? TMDBShowData)?.type, .scripted)
         
-        XCTAssertEqual(media.lastEpisodeWatched, .init(season: 3))
+        XCTAssertEqual(media.lastWatched, .init(season: 3))
         XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>())
     }
     
@@ -106,7 +106,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.tmdbData?.originalTitle, "Another Life")
         XCTAssertEqual((momentumTMDBData as? TMDBShowData)?.type, .scripted)
         
-        XCTAssertEqual(media.lastEpisodeWatched, .init(season: 3, episode: 5))
+        XCTAssertEqual(media.lastWatched, .init(season: 3, episode: 5))
         XCTAssertEqual(media.missingInformation, Set<Media.MediaInformation>())
     }
     
@@ -222,7 +222,7 @@ class CSVCoderTests: XCTestCase {
         } else {
             XCTAssertNotNil(tmdbShowData)
         }
-        XCTAssertEqual(data[.lastEpisodeWatched], show?.lastEpisodeWatched?.description ?? "")
+        XCTAssertEqual(data[.lastWatched], show?.lastWatched?.description ?? "")
         if let firstAirDate = tmdbShowData?.firstAirDate {
             XCTAssertEqual(data[.firstAirDate], csvCoder.dateFormatter.string(from: firstAirDate))
         } else {

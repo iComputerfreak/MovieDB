@@ -13,6 +13,8 @@ import CoreData
 @objc(TagLibrary)
 public class TagLibrary: NSManagedObject {
     
+    let context: NSManagedObjectContext = AppDelegate.viewContext
+    
     // We only store a single MediaLibrary in the container, therefore we just use the first result
     static let shared: TagLibrary = TagLibrary.getInstance()
     
@@ -28,7 +30,10 @@ public class TagLibrary: NSManagedObject {
         return newLibrary
     }
     
-    let context: NSManagedObjectContext = AppDelegate.viewContext
+    /// Resets the nextID property
+    func resetNextID() {
+        self.nextID = 1
+    }
     
     /// Returns the name of the tag with the given ID
     /// - Parameter id: The ID of the tag
@@ -41,16 +46,15 @@ public class TagLibrary: NSManagedObject {
         return tags?.first?.name
     }
     
-    
     /// Creates a new tag with the given name
     /// - Parameter name: The name of the new tag
     /// - Returns: The ID of the created tag
     @discardableResult func create(name: String) throws -> Int {
-        var nextID = TagID.nextID
+        var nextID = self.nextID
         // Make sure the ID doesn't exist yet (could be possible after a crash)
         while self.tags.map(\.id).contains(nextID) {
             print("Skipping Tag ID \(nextID), since it already exists.")
-            nextID = TagID.nextID
+            nextID = self.nextID
         }
         let newTag = Tag(id: nextID, name: name, context: context)
         self.addToTags(newTag)

@@ -97,7 +97,7 @@ struct AddMediaView : View {
             self.isLoading = true
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
-                    let media = try TMDBAPI.shared.fetchMedia(context: AppDelegate.viewContext, id: result.id, type: result.mediaType)
+                    let media = try TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)
                     DispatchQueue.main.async {
                         do {
                             try self.library.append(media)
