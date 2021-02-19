@@ -33,7 +33,7 @@ struct TestingUtils {
     }
     
     static let matrixMovie: Movie = {
-        let m = Movie()
+        let m = Movie(context: <#T##NSManagedObjectContext#>, tmdbData: <#T##TMDBData#>)
         m.personalRating = .twoAndAHalfStars
         m.tags = ["Future", "Conspiracy", "Dark"].compactMap({ name in
             if TagLibrary.shared.tags.contains(where: { $0.name == name }) {
@@ -46,7 +46,7 @@ struct TestingUtils {
         m.watched = true
         m.watchAgain = false
         // We can't assign this directly, because he will load it as TMDBData, instead of TMDBShowData
-        let movieData: TMDBMovieData = load("Matrix.json")
+        let movieData: TMDBData = load("Matrix.json")
         m.tmdbData = movieData
         return m
     }()

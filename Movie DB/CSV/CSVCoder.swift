@@ -56,6 +56,8 @@ struct CSVCoder {
             return value
         })
         
+        let group = DispatchGroup()
+        
         for line in lines {
             let lineParts = line.components(separatedBy: separator)
             guard headers.count == lineParts.count else {
@@ -65,8 +67,22 @@ struct CSVCoder {
             let valuePairs = (0..<headers.count).map({ (headers[$0].rawValue, lineParts[$0]) })
             let values = Dictionary(uniqueKeysWithValues: valuePairs)
             
-            let media = try CSVData.createMedia(from: values, context: context, arraySeparator: arraySeparator)
-            mediaObjects.append(media)
+            group.enter()
+            try CSVData.createMedia(from: values, context: context, arraySeparator: arraySeparator) { (media: Media?, error: Error?) in
+                defer { group.leave() }
+                
+                if let error = error {
+                    print("Error creating Media from CSV data: \(error)")
+                    return
+                }
+                
+                guard let media = media else {
+                    print("Error creating Media from CSV data.")
+                    return
+                }
+                
+                mediaObjects.append(media)
+            }
         }
         
         return mediaObjects

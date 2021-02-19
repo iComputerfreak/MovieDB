@@ -23,7 +23,10 @@ public class Media: NSManagedObject {
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
+        // We have to initialize missingInformation first, because the other setters may modify it
+        self.missingInformation = Set(MediaInformation.allCases)
         self.personalRating = .noRating
+        self.tags = []
         
         self.id = MediaLibrary.shared.nextID
         self.type = type
@@ -49,8 +52,9 @@ public class Media: NSManagedObject {
     }
     
     public override func awakeFromInsert() {
-        // Initialize missingInformation
+        // We have to initialize missingInformation first, because the other setters may modify it
         self.missingInformation = Set(MediaInformation.allCases)
+        self.tags = []
     }
     
     // MARK: - Functions
@@ -69,8 +73,9 @@ public class Media: NSManagedObject {
         JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { image in
             // Only update, if the image is not nil, dont delete existing images
             if let image = image {
+                let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
                 DispatchQueue.main.async {
-                    self.thumbnail = image
+                    self.thumbnail = thumbnail
                 }
             }
         }

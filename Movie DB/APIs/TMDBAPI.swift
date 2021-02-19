@@ -40,22 +40,18 @@ class TMDBAPI {
     
     lazy var context: NSManagedObjectContext = {
         // Create a context for background execution
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let container = delegate.persistentContainer
+        let container = CoreDataStack.shared.persistentContainer
         return container.newBackgroundContext()
     }()
     
     lazy var disposableContext: NSManagedObjectContext = {
         // Create a context to decode search results and other objects that will be disposed again
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let container = delegate.persistentContainer
+        let container = CoreDataStack.shared.persistentContainer
         return container.newBackgroundContext()
     }()
     
     // This is a singleton
-    private init() {
-        // NotificationCenter.default.addObserver(self, selector: #selector(Self.backgroundContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: nil)
-    }
+    private init() {}
     
     // MARK: - Public functions
     
@@ -79,16 +75,18 @@ class TMDBAPI {
                     return
                 }
                 // Create the media
-                var media: Media!
-                switch type {
-                    case .movie:
-                        media = Movie(context: self.context, tmdbData: tmdbData)
-                    case .show:
-                        media = Show(context: self.context, tmdbData: tmdbData)
+                self.context.perform {
+                    var media: Media!
+                    switch type {
+                        case .movie:
+                            media = Movie(context: self.context, tmdbData: tmdbData)
+                        case .show:
+                            media = Show(context: self.context, tmdbData: tmdbData)
+                    }
+                    media.loadThumbnail()
+                    self.saveContext()
+                    completion(media, nil)
                 }
-                media.loadThumbnail()
-                self.saveContext()
-                completion(media, nil)
             }
         }
     }
@@ -105,7 +103,7 @@ class TMDBAPI {
     ///   - completion: A closure, executed after the media object has been updated
     ///   - context: The context to update the media objects in
     /// - Throws: `APIError` or `DecodingError`
-    func updateMedia(_ media: Media, completion: @escaping (Error?) -> Void) throws {
+    func updateMedia(_ media: Media, completion: @escaping (Error?) -> Void) {
         // Update TMDBData
         self.context.perform {
             self.fetchTMDBData(for: media.tmdbID, type: media.type) { (tmdbData, error) in
@@ -220,6 +218,7 @@ class TMDBAPI {
                 // If we only had to load 1 page in total, we can complete now
                 if wrapper.totalPages <= 1 {
                     completion(results, nil)
+                    return
                 }
                 
                 // Back to the background thread for loading the other pages
@@ -337,17 +336,6 @@ class TMDBAPI {
         let decoder = JSONDecoder()
         decoder.userInfo[.managedObjectContext] = context
         return decoder
-    }
-    
-    @objc func backgroundContextDidSave(_ notification: Notification) {
-        // TODO: Remove function
-        fatalError()
-        let sender = notification.object as! NSManagedObjectContext
-        // Only process saves from our background context
-        if sender == self.context {
-            // Merge changes on our background context into the main view context
-            AppDelegate.viewContext.mergeChanges(fromContextDidSave: notification)
-        }
     }
     
     func saveContext() {

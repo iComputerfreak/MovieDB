@@ -13,19 +13,19 @@ import CoreData
 @objc(TagLibrary)
 public class TagLibrary: NSManagedObject {
     
-    let context: NSManagedObjectContext = AppDelegate.viewContext
+    let context: NSManagedObjectContext = CoreDataStack.viewContext
     
     // We only store a single MediaLibrary in the container, therefore we just use the first result
     static let shared: TagLibrary = TagLibrary.getInstance()
     
     private static func getInstance() -> TagLibrary {
-        let results = try? AppDelegate.viewContext.fetch(TagLibrary.fetchRequest())
+        let results = try? CoreDataStack.viewContext.fetch(TagLibrary.fetchRequest())
         if let storedLibrary = results?.first as? TagLibrary {
             return storedLibrary
         }
         // If there is no library stored, we create a new one
-        let newLibrary = TagLibrary(context: AppDelegate.viewContext)
-        try? AppDelegate.viewContext.save()
+        let newLibrary = TagLibrary(context: CoreDataStack.viewContext)
+        CoreDataStack.saveContext()
         
         return newLibrary
     }
@@ -49,7 +49,7 @@ public class TagLibrary: NSManagedObject {
     /// Creates a new tag with the given name
     /// - Parameter name: The name of the new tag
     /// - Returns: The ID of the created tag
-    @discardableResult func create(name: String) throws -> Int {
+    @discardableResult func create(name: String) -> Int {
         var nextID = self.nextID
         // Make sure the ID doesn't exist yet (could be possible after a crash)
         while self.tags.map(\.id).contains(nextID) {
@@ -58,7 +58,7 @@ public class TagLibrary: NSManagedObject {
         }
         let newTag = Tag(id: nextID, name: name, context: context)
         self.addToTags(newTag)
-        try context.save()
+        CoreDataStack.saveContext()
         #if DEBUG
         // Check if there are any duplicate tag IDs
         let ids = self.tags.map(\.id)

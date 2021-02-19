@@ -17,16 +17,15 @@
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
         <attribute name="keywords" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
-        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="missingInformation" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Set&lt;String&gt;"/>
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="originalLanguage" optional="YES" attributeType="String"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="personalRating" optional="YES" attributeType="Integer 64" minValueString="0" maxValueString="10" usesScalarValueType="YES"/>
         <attribute name="popularity" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
-        <attribute name="rawMissingInformation" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Set&lt;String&gt;"/>
-        <attribute name="rawPersonalRating" optional="YES" attributeType="Integer 64" minValueString="0" maxValueString="10" usesScalarValueType="YES"/>
-        <attribute name="rawStatus" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
         <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
-        <attribute name="thumbnail" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="UIImage"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tmdbID" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="translations" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
@@ -38,6 +37,7 @@
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="library" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MediaLibrary" inverseName="mediaList" inverseEntity="MediaLibrary"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Thumbnail" inverseName="media" inverseEntity="Thumbnail"/>
         <relationship name="videos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Video" inverseName="media" inverseEntity="Video"/>
     </entity>
     <entity name="MediaLibrary" representedClassName="MediaLibrary" syncable="YES">
@@ -95,6 +95,10 @@
         <attribute name="nextID" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="library" inverseEntity="Tag"/>
     </entity>
+    <entity name="Thumbnail" representedClassName="Thumbnail" syncable="YES">
+        <attribute name="pngData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="thumbnail" inverseEntity="Media"/>
+    </entity>
     <entity name="Video" representedClassName="Video" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String"/>
         <attribute name="language" optional="YES" attributeType="String"/>
@@ -117,5 +121,6 @@
         <element name="Tag" positionX="-72" positionY="153" width="128" height="74"/>
         <element name="TagLibrary" positionX="-81" positionY="144" width="128" height="59"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
+        <element name="Thumbnail" positionX="-72" positionY="153" width="128" height="59"/>
     </elements>
 </model>

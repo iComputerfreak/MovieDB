@@ -99,6 +99,9 @@
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD7CB612375D96C0049E236 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB602375D96C0049E236 /* LinkView.swift */; };
 		ABD7CB632375DB8F0049E236 /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB622375DB8F0049E236 /* PlaceholderData.swift */; };
+		ABE671FA25DEF6E800CAF7C3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE671F925DEF6E800CAF7C3 /* CoreDataStack.swift */; };
+		ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */; };
+		ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */; };
 		ABE70015239D7EA100DD672B /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE70014239D7EA100DD672B /* APITests.swift */; };
 		ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEBA2C623957F59003BF187 /* JFConfig.swift */; };
 		ABEBA2C9239583FA003BF187 /* FilterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEBA2C8239583FA003BF187 /* FilterSettings.swift */; };
@@ -217,6 +220,9 @@
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD7CB602375D96C0049E236 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		ABD7CB622375DB8F0049E236 /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
+		ABE671F925DEF6E800CAF7C3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataClass.swift"; sourceTree = "<group>"; };
+		ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABE70014239D7EA100DD672B /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		ABEBA2C623957F59003BF187 /* JFConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFConfig.swift; sourceTree = "<group>"; };
 		ABEBA2C8239583FA003BF187 /* FilterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSettings.swift; sourceTree = "<group>"; };
@@ -272,6 +278,7 @@
 		AB1433CC25CDA3A100AA304F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
 				ABB65ECF25D01C5E009378EC /* TagLibrary */,
 				AB1434DA25CF283600AA304F /* MediaLibrary */,
@@ -292,6 +299,7 @@
 			children = (
 				AB14340325CDD84B00AA304F /* CoreData Extensions.swift */,
 				AB14341925CDE2BD00AA304F /* EnumTransformer.swift */,
+				ABE671F925DEF6E800CAF7C3 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -607,6 +615,15 @@
 			path = Tag;
 			sourceTree = "<group>";
 		};
+		ABE6721A25E0183B00CAF7C3 /* Thumbnail */ = {
+			isa = PBXGroup;
+			children = (
+				ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */,
+				ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */,
+			);
+			path = Thumbnail;
+			sourceTree = "<group>";
+		};
 		ABED3B03239324E000F4C327 /* TMDBData */ = {
 			isa = PBXGroup;
 			children = (
@@ -751,6 +768,7 @@
 				AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */,
 				AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */,
 				AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */,
+				ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */,
 				AB01097224D73C79001BEF39 /* CSVCoder.swift in Sources */,
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,
 				ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */,
@@ -783,6 +801,7 @@
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
+				ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */,
 				ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */,
 				AB6718EE22C032AA00F429E4 /* Media+CoreDataClass.swift in Sources */,
 				AB6718C322C0312B00F429E4 /* SceneDelegate.swift in Sources */,
@@ -793,6 +812,7 @@
 				AB1B0C9624B4C3310063C101 /* SearchBar.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
 				ABB65ECA25D01C50009378EC /* TagLibrary+CoreDataProperties.swift in Sources */,
+				ABE671FA25DEF6E800CAF7C3 /* CoreDataStack.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
@@ -977,6 +997,7 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1001,6 +1022,7 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

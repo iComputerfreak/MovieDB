@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreData
 import struct JFSwiftUI.LoadingView
 
 struct AddMediaView : View {
@@ -17,7 +18,7 @@ struct AddMediaView : View {
     @State private var isLoading: Bool = false
     
     @Environment(\.presentationMode) private var presentationMode
-        
+    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
@@ -28,7 +29,7 @@ struct AddMediaView : View {
                             searchMedia()
                         }
                     })
-                                        
+                    
                     List {
                         ForEach(self.results, id: \.id) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
@@ -56,11 +57,24 @@ struct AddMediaView : View {
             return
         }
         let api = TMDBAPI.shared
-        do {
-            var filteredResults = try api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults)
+        api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?, error: Error?) in
+            
+            if let error = error {
+                print("Error searching for media with searchText '\(self.searchText)': \(error)")
+                AlertHandler.showSimpleAlert(title: "Error searching", message: "Error performing search: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let results = results else {
+                print("Error searching for media with searchText '\(self.searchText)'")
+                return
+            }
+                
+            var filteredResults = results
+            
             // Filter out adult media from the search results
             if !JFConfig.shared.showAdults {
-                filteredResults = filteredResults.filter { (searchResult: TMDBSearchResult) in
+                filteredResults = results.filter { (searchResult: TMDBSearchResult) in
                     // Only movie search results contain the adult flag
                     if let movieResult = searchResult as? TMDBMovieSearchResult {
                         return !movieResult.isAdult
@@ -78,13 +92,6 @@ struct AddMediaView : View {
             DispatchQueue.main.async {
                 self.results = filteredResults
             }
-        } catch let error as LocalizedError {
-            print("Error performing search: \(error)")
-            AlertHandler.showSimpleAlert(title: "Error", message: "Error performing search: \(error)")
-        } catch let otherError {
-            print("Unknown Error: \(otherError)")
-            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-            AlertHandler.showSimpleAlert(title: "Error", message: "There was an error performing the search.")
         }
     }
     
@@ -97,17 +104,30 @@ struct AddMediaView : View {
             self.isLoading = true
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
-                    let media = try TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType)
-                    DispatchQueue.main.async {
-                        do {
-                            try self.library.append(media)
-                        } catch let e {
-                            print("Error adding media '\(media.title)'")
-                            print(e)
-                            AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                    try TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType) { (media: Media?, error: Error?) in
+                        
+                        if let error = error {
+                            print("Error fetching media: \(error)")
+                            return
                         }
-                        self.isLoading = false
-                        self.presentationMode.wrappedValue.dismiss()
+                        
+                        guard let bgMedia = media else {
+                            print("Error fetching media. Media object is nil")
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            do {
+                                // Append the viewContext media object
+                                try self.library.append(bgMedia)
+                            } catch let e {
+                                print("Error adding media '\(bgMedia.title)'")
+                                print(e)
+                                AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                            }
+                            self.isLoading = false
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 } catch let error as LocalizedError {
                     print("Error loading media: \(error)")

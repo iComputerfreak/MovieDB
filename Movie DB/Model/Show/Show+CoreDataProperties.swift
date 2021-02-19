@@ -18,7 +18,10 @@ extension Show {
     }
 
     /// The type of the show (e.g. Scripted)
-    @NSManaged public var rawShowType: String?
+    public var showType: ShowType? {
+        get { getOptionalEnum(forKey: "showType") }
+        set { setOptionalEnum(newValue, forKey: "showType") }
+    }
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
     public var lastSeasonWatched: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }
@@ -59,23 +62,6 @@ extension Show {
     @NSManaged public var seasons: Set<Season>
     /// The list of networks that publish the show
     @NSManaged public var networks: Set<ProductionCompany>
-    
-    public var showType: ShowType? {
-        get {
-            // If the underlying property is nil, pass it on
-            guard let rawShowType = rawShowType else {
-                return nil
-            }
-            return ShowType(rawValue: rawShowType)!
-        }
-        set {
-            guard let newValue = newValue else {
-                self.rawShowType = nil
-                return
-            }
-            self.rawShowType = newValue.rawValue
-        }
-    }
     
     public var lastWatched: EpisodeNumber? {
         get {

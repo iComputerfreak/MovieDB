@@ -25,14 +25,14 @@ struct PlaceholderData {
     }
     
     static let movie: Movie = {
-        let m = Movie(context: AppDelegate.viewContext, tmdbData: tmdbMovieData)
+        let m = Movie(context: CoreDataStack.viewContext, tmdbData: tmdbMovieData)
         m.personalRating = .twoAndAHalfStars
         m.tags = [0, 1, 2]
         return m
     }()
     
     static let show: Show = {
-        let s = Show(context: AppDelegate.viewContext, tmdbData: tmdbShowData)
+        let s = Show(context: CoreDataStack.viewContext, tmdbData: tmdbShowData)
         s.personalRating = .fourStars
         s.tags = [2, 3]
         return s
@@ -47,9 +47,9 @@ struct PlaceholderData {
     
     static func populateSampleTags() {
         let lib = TagLibrary.shared
-        try! lib.create(name: "Happy Ending")
-        try! lib.create(name: "Trashy")
-        try! lib.create(name: "Time Travel")
-        try! lib.create(name: "Immortality")
+        lib.create(name: "Happy Ending")
+        lib.create(name: "Trashy")
+        lib.create(name: "Time Travel")
+        lib.create(name: "Immortality")
     }
 }

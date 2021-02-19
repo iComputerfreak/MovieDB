@@ -106,20 +106,24 @@ struct SettingsView: View {
                             self.updateInProgress = true
                             DispatchQueue.global().async {
                                 // Update and show the result
-                                do {
-                                    let updateCount = try self.library.update()
+                                self.library.update() { (updateCount: Int?, error: Error?) in
+                                    
+                                    if let error = error {
+                                        print("Error updating media objects: \(error)")
+                                        AlertHandler.showSimpleAlert(title: "Update error", message: "Error updating media objects: \(error.localizedDescription)")
+                                        return
+                                    }
+                                    
+                                    guard let updateCount = updateCount else {
+                                        print("Error updating media objects.")
+                                        return
+                                    }
+                                    
                                     DispatchQueue.main.async {
                                         self.updateInProgress = false
                                         let message = "\(updateCount == 0 ? "No" : "\(updateCount)") media \(updateCount == 1 ? "object has" : "objects have") been updated."
                                         AlertHandler.showSimpleAlert(title: "Update completed", message: message)
                                     }
-                                } catch let error as LocalizedError {
-                                    print("Error updating media objects: \(error)")
-                                    AlertHandler.showSimpleAlert(title: "Update error", message: "Error updating media objects: \(error.localizedDescription)")
-                                } catch let otherError {
-                                    print("Unknown Error: \(otherError)")
-                                    assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-                                    AlertHandler.showSimpleAlert(title: "Update error", message: "There was an error updating the media objects.")
                                 }
                             }
                         }, label: Text("Update Media").closure())
@@ -171,7 +175,7 @@ struct SettingsView: View {
                                     do {
                                         let csv = try String(contentsOf: url)
                                         print("Imported csv file. Trying to import into library.")
-                                        let mediaObjects: [Media] = try CSVCoder().decode(csv, context: AppDelegate.viewContext)
+                                        let mediaObjects: [Media] = try CSVCoder().decode(csv, context: CoreDataStack.viewContext)
                                         // Presenting will change UI
                                         DispatchQueue.main.async {
                                             let controller = UIAlertController(title: "Import",
@@ -305,13 +309,7 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(count) tag\(count == 1 ? "" : "s")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                do {
-                                                    try TagImporter.import(importData)
-                                                } catch let e {
-                                                    print("Error importing data")
-                                                    print(e)
-                                                    AlertHandler.showSimpleAlert(title: "Error importing", message: e.localizedDescription)
-                                                }
+                                                TagImporter.import(importData)
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel))
                                             self.isLoading = false

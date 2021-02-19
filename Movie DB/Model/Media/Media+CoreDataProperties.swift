@@ -23,12 +23,23 @@ extension Media {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
     }
-    /// The raw type of media, meaning the MediaType rawValue (e.g. "movie" or "show")
-    @NSManaged public var rawType: String
-    /// The raw personal rating. Don't set this property manually. Use `personalRating`.
-    public var rawPersonalRating: Int {
-        get { getInt(forKey: "rawPersonalRating") }
-        set { setInt(newValue, forKey: "rawPersonalRating") }
+    /// The type of media
+    public var type: MediaType {
+        get { getEnum(forKey: "type") }
+        set { setEnum(newValue, forKey: "type") }
+    }
+    /// A rating between 0 and 10 (no Rating and 5 stars)
+    public var personalRating: StarRating {
+        get { getEnum(forKey: "personalRating") }
+        set {
+            setEnum(newValue, forKey: "personalRating")
+            // didSet
+            if newValue == .noRating {
+                self.missingInformation.insert(.rating)
+            } else {
+                self.missingInformation.remove(.rating)
+            }
+        }
     }
     /// A list of user-specified tags, listed by their id
     public var tags: [Int] {
@@ -61,7 +72,7 @@ extension Media {
     /// Personal notes on the media
     @NSManaged public var notes: String
     /// The thumbnail image
-    @NSManaged public var thumbnail: UIImage?
+    @NSManaged public var thumbnail: Thumbnail?
     
     // MARK: - TMDB Data
     
@@ -82,7 +93,10 @@ extension Media {
     /// A short media description
     @NSManaged public var overview: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
-    @NSManaged public var rawStatus: String
+    public var status: MediaStatus {
+        get { getEnum(forKey: "status") }
+        set { setEnum(newValue, forKey: "status") }
+    }
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     @NSManaged public var originalLanguage: String
     
@@ -113,7 +127,20 @@ extension Media {
     @NSManaged public var videos: Set<Video>
     
     /// The set of missing information of this media
-    @NSManaged public var rawMissingInformation: Set<String>
+    public var missingInformation: Set<MediaInformation> {
+        get {
+            willAccessValue(forKey: "missingInformation")
+            defer { didAccessValue(forKey: "missingInformation") }
+            let rawMissingInformation = primitiveValue(forKey: "missingInformation") as! Set<String>
+            return Set(rawMissingInformation.map({ MediaInformation(rawValue: $0)! }))
+        }
+        set {
+            willAccessValue(forKey: "missingInformation")
+            let rawMissingInformation = Set(newValue.map(\.rawValue))
+            setPrimitiveValue(rawMissingInformation, forKey: "missingInformation")
+            didAccessValue(forKey: "missingInformation")
+        }
+    }
     
     /// The library this media is in
     @NSManaged public var library: MediaLibrary?
@@ -135,51 +162,6 @@ extension Media {
             return cal.component(.year, from: airDate)
         }
         return nil
-    }
-    
-    /// The type of media
-    var type: MediaType {
-        get {
-            return MediaType(rawValue: rawType)!
-        }
-        set {
-            self.rawType = newValue.rawValue
-        }
-    }
-    
-    /// A rating between 0 and 10 (no Rating and 5 stars)
-    var personalRating: StarRating {
-        get {
-            return StarRating(rawValue: Int(rawPersonalRating))!
-        }
-        set {
-            self.rawPersonalRating = newValue.rawValue
-            // didSet
-            if newValue == .noRating {
-                self.missingInformation.insert(.rating)
-            } else {
-                self.missingInformation.remove(.rating)
-            }
-        }
-    }
-    
-    public var status: MediaStatus {
-        get {
-            return MediaStatus(rawValue: rawStatus)!
-        }
-        set {
-            self.rawStatus = newValue.rawValue
-        }
-    }
-    
-    /// The set of missing information of this media
-    public var missingInformation: Set<MediaInformation> {
-        get {
-            return Set(rawMissingInformation.map({ MediaInformation(rawValue: $0)! }))
-        }
-        set {
-            self.rawMissingInformation = Set(newValue.map(\.rawValue))
-        }
     }
 
 }

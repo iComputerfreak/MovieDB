@@ -14,6 +14,7 @@ struct CSVData {
     
     enum CSVDataError: Error {
         case missingValue(String)
+        case unableToFetchTMDBData
     }
     
     let id: Int
@@ -139,7 +140,7 @@ struct CSVData {
     ///   - arraySeparator: The separator used for decoding arrays
     /// - Throws: `CSVDataError` or `CSVDecodingError`
     /// - Returns: The media object
-    static func createMedia(from data: [String: String], context: NSManagedObjectContext, arraySeparator: String) throws -> Media {
+    static func createMedia(from data: [String: String], context: NSManagedObjectContext, arraySeparator: String, completion: @escaping (Media?, Error?) -> Void) throws {
         let decoder = CSVDecoder(data: data, arraySeparator: arraySeparator)
         
         let type = try decoder.decode(MediaType.self, forKey: .type)
@@ -152,7 +153,7 @@ struct CSVData {
                 tagIDs.append(id)
             } else {
                 // Tag does not exist, create a new one
-                let id = try TagLibrary.shared.create(name: name)
+                let id = TagLibrary.shared.create(name: name)
                 tagIDs.append(id)
             }
         }
@@ -165,21 +166,35 @@ struct CSVData {
         
         // To create the media, we fetch it from the API and then assign the user values
         let tmdbID = try decoder.decode(Int.self, forKey: .tmdbID)
-        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: type)
-        media.personalRating = personalRating
-        media.tags = tags
-        media.watchAgain = watchAgain
-        media.notes = notes
-        
-        if type == .movie {
-            assert(Swift.type(of: media) == Movie.self)
-            (media as? Movie)?.watched = watched
-        } else {
-            assert(Swift.type(of: media) == Show.self)
-            (media as? Show)?.lastWatched = lastWatched
+        try TMDBAPI.shared.fetchMediaAsync(id: tmdbID, type: type) { (media: Media?, error: Error?) in
+            
+            if let error = error {
+                print("Error creating Media from CSV data: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            guard let media = media else {
+                print("TMDBAPI could not fetch media for id \(tmdbID)")
+                completion(nil, CSVDataError.unableToFetchTMDBData)
+                return
+            }
+            
+            media.personalRating = personalRating
+            media.tags = tags
+            media.watchAgain = watchAgain
+            media.notes = notes
+            
+            if type == .movie {
+                assert(Swift.type(of: media) == Movie.self)
+                (media as? Movie)?.watched = watched
+            } else {
+                assert(Swift.type(of: media) == Show.self)
+                (media as? Show)?.lastWatched = lastWatched
+            }
+            
+            completion(media, nil)
         }
-        
-        return media
     }
 }
 

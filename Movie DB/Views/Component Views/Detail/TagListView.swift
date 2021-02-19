@@ -26,6 +26,7 @@ struct TagListView: View {
                 }
                 .onTapGesture {
                     // Activate the navigation link manually
+                    // TODO: Still neccessary?
                     self.editingTags = true
                 }
             } else {
@@ -63,8 +64,10 @@ struct TagListView: View {
                     ForEach(self.sortedTags, id: \.id) { tag in
                         Button(action: {
                             if self.tags.contains(tag.id) {
+                                print("Removing Tag \(tag.name)")
                                 self.tags.removeAll(where: { $0 == tag.id })
                             } else {
+                                print("Adding Tag \(tag.name)")
                                 self.tags.append(tag.id)
                             }
                         }) {
@@ -123,7 +126,7 @@ struct TagListView: View {
             .navigationBarItems(trailing: Button(action: {
                 let alert = UIAlertController(title: "New Tag", message: "Enter a name for the new tag.", preferredStyle: .alert)
                 alert.addTextField() { textField in
-                    // Change textField appearance
+                    // Change textField properties
                     textField.autocapitalizationType = .words
                 }
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in })
@@ -134,13 +137,7 @@ struct TagListView: View {
                     guard let text = textField.text, !text.isEmpty else {
                         return
                     }
-                    do {
-                        try TagLibrary.shared.create(name: text)
-                    } catch let e {
-                        print("Error creating Tag \(text)")
-                        print(e)
-                        AlertHandler.showSimpleAlert(title: "Error creating Tag", message: e.localizedDescription)
-                    }
+                    TagLibrary.shared.create(name: text)
                 })
                 AlertHandler.presentAlert(alert: alert)
             }) {

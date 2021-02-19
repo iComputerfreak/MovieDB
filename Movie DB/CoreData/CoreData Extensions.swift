@@ -83,6 +83,40 @@ extension NSManagedObject {
         defer { didAccessValue(forKey: key) }
         return Int(primitiveValue(forKey: key) as! Int64)
     }
+    
+    /// Saves the enum value's raw type under the given key
+    func setEnum<T: RawRepresentable>(_ value: T, forKey key: String) {
+        willAccessValue(forKey: key)
+        let rawValue = value.rawValue
+        setPrimitiveValue(rawValue, forKey: key)
+        didAccessValue(forKey: key)
+    }
+    
+    /// Returns the enum value for the given key
+    func getEnum<T: RawRepresentable>(forKey key: String) -> T {
+        willAccessValue(forKey: key)
+        defer { didAccessValue(forKey: key) }
+        let rawValue = primitiveValue(forKey: key) as! T.RawValue
+        return T(rawValue: rawValue)!
+    }
+    
+    /// Saves the enum value's raw type under the given key
+    func setOptionalEnum<T: RawRepresentable>(_ value: T?, forKey key: String) {
+        willAccessValue(forKey: key)
+        let rawValue = value?.rawValue
+        setPrimitiveValue(rawValue, forKey: key)
+        didAccessValue(forKey: key)
+    }
+    
+    /// Returns the enum value for the given key
+    func getOptionalEnum<T: RawRepresentable>(forKey key: String) -> T? {
+        willAccessValue(forKey: key)
+        defer { didAccessValue(forKey: key) }
+        if let rawValue = primitiveValue(forKey: key) as? T.RawValue {
+            return T(rawValue: rawValue)
+        }
+        return nil
+    }
 }
 
 extension NSSet {
