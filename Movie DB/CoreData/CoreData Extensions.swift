@@ -20,102 +20,83 @@ enum DecoderConfigurationError: Error {
 extension NSManagedObject {
     /// Sets an optional value inside a NSManagedObject for the given key
     func setOptional<T>(_ value: T?, forKey key: String) {
-        willAccessValue(forKey: key)
-        setPrimitiveValue(value, forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(value, forKey: key)
     }
     
     /// Returns the value for the given key, or nil, if the given value does not exist
     func getOptional<T>(forKey key: String) -> T? {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        // If the stored value is nil, return nil
-        guard let value = primitiveValue(forKey: key) else {
-            return nil
-        }
-        // Else, return the stored value, assuming it's the correct type
-        return (value as! T)
+        return _getValue(forKey: key) as! T?
     }
     
     /// Sets an optional `Int` inside a NSManagedObject as an `Int64` for the given key
     func setOptionalInt(_ value: Int?, forKey key: String) {
-        willAccessValue(forKey: key)
-        setPrimitiveValue(value == nil ? nil : Int64(value!), forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(value == nil ? nil : Int64(value!), forKey: key)
     }
     
     /// Returns the value for the given key, or nil, if the given value does not exist
     func getOptionalInt(forKey key: String) -> Int? {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        // If the stored value is nil, return nil
-        guard let value = primitiveValue(forKey: key) else {
-            return nil
-        }
-        // Else, return the stored value, assuming it's the correct type
-        return Int(value as! Int64)
+        let value = _getValue(forKey: key) as! Int64?
+        return value == nil ? nil : Int(value!)
     }
     
     /// Sets the given value inside a `NSManagedObject` for the given key
     func setTransformerValue<T>(_ value: T, forKey key: String) {
-        willAccessValue(forKey: key)
-        setPrimitiveValue(value, forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(value, forKey: key)
     }
     
     /// Returns the value for the given key
     func getTransformerValue<T>(forKey key: String) -> T {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        return primitiveValue(forKey: key) as! T
+        _getValue(forKey: key) as! T
     }
     
     /// Sets the given `Int` as an `Int64` for the given key
     func setInt(_ value: Int, forKey key: String) {
-        willAccessValue(forKey: key)
-        setPrimitiveValue(Int64(value), forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(Int64(value), forKey: key)
     }
     
     /// Returns the `Int` value for the given key
     func getInt(forKey key: String) -> Int {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        return Int(primitiveValue(forKey: key) as! Int64)
+        Int(_getValue(forKey: key) as! Int64)
     }
     
     /// Saves the enum value's raw type under the given key
     func setEnum<T: RawRepresentable>(_ value: T, forKey key: String) {
-        willAccessValue(forKey: key)
-        let rawValue = value.rawValue
-        setPrimitiveValue(rawValue, forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(value.rawValue, forKey: key)
     }
     
     /// Returns the enum value for the given key
     func getEnum<T: RawRepresentable>(forKey key: String) -> T {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        let rawValue = primitiveValue(forKey: key) as! T.RawValue
+        let rawValue = _getValue(forKey: key) as! T.RawValue
         return T(rawValue: rawValue)!
     }
     
     /// Saves the enum value's raw type under the given key
     func setOptionalEnum<T: RawRepresentable>(_ value: T?, forKey key: String) {
-        willAccessValue(forKey: key)
-        let rawValue = value?.rawValue
-        setPrimitiveValue(rawValue, forKey: key)
-        didAccessValue(forKey: key)
+        _setValue(value?.rawValue, forKey: key)
     }
     
     /// Returns the enum value for the given key
     func getOptionalEnum<T: RawRepresentable>(forKey key: String) -> T? {
-        willAccessValue(forKey: key)
-        defer { didAccessValue(forKey: key) }
-        if let rawValue = primitiveValue(forKey: key) as? T.RawValue {
-            return T(rawValue: rawValue)
+        if let rawValue = _getValue(forKey: key) as? T.RawValue {
+            // We force the result, to throw an exception, if the primitive value exists, but cannot be converted to the requested enum type
+            return T(rawValue: rawValue)!
         }
         return nil
+    }
+    
+    /// Convenience function that sets the given primitive value for the given key and calls all neccessary functions before and after
+    private func _setValue(_ value: Any?, forKey key: String) {
+        DispatchQueue.main.async { self.objectWillChange.send() }
+        willChangeValue(forKey: key)
+        setPrimitiveValue(value, forKey: key)
+        didChangeValue(forKey: key)
+    }
+    
+    /// Convenience function that returns the primitive value for the given key and calls all neccessary functions before and after
+    private func _getValue(forKey key: String) -> Any? {
+        willAccessValue(forKey: key)
+        defer { didAccessValue(forKey: key) }
+        return primitiveValue(forKey: key)
     }
 }
 

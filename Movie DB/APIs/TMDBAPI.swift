@@ -169,6 +169,7 @@ class TMDBAPI {
                     allResults += results
                 }
             }
+            group.wait()
             self.saveContext()
             if requestError != nil {
                 completion(nil, requestError)
@@ -231,6 +232,7 @@ class TMDBAPI {
                     let wrapper = try decoder.decode(PageWrapper.self, from: data)
                     results.append(contentsOf: wrapper.results)
                 }
+                completion(results, nil)
             } catch let error {
                 completion(nil, error)
             }

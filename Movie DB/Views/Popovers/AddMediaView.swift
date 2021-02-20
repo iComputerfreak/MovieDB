@@ -31,7 +31,7 @@ struct AddMediaView : View {
                     })
                     
                     List {
-                        ForEach(self.results, id: \.id) { (result: TMDBSearchResult) in
+                        ForEach(self.results) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
                                 SearchResultView(result: result)
                             }

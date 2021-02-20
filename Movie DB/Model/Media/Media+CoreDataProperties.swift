@@ -129,16 +129,12 @@ extension Media {
     /// The set of missing information of this media
     public var missingInformation: Set<MediaInformation> {
         get {
-            willAccessValue(forKey: "missingInformation")
-            defer { didAccessValue(forKey: "missingInformation") }
-            let rawMissingInformation = primitiveValue(forKey: "missingInformation") as! Set<String>
-            return Set(rawMissingInformation.map({ MediaInformation(rawValue: $0)! }))
+            let rawValue: Set<String> = getTransformerValue(forKey: "missingInformation")
+            return Set(rawValue.map({ MediaInformation(rawValue: $0)! }))
         }
         set {
-            willAccessValue(forKey: "missingInformation")
-            let rawMissingInformation = Set(newValue.map(\.rawValue))
-            setPrimitiveValue(rawMissingInformation, forKey: "missingInformation")
-            didAccessValue(forKey: "missingInformation")
+            let rawValue = Set(newValue.map(\.rawValue))
+            setTransformerValue(rawValue, forKey: "missingInformation")
         }
     }
     

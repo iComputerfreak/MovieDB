@@ -11,7 +11,7 @@ import SwiftUI
 struct SearchResultView : View {
     
     /// The search result to display
-    @State var result: TMDBSearchResult
+    @ObservedObject var result: TMDBSearchResult
     
     /// The image used as a thumbnail for the search results
     @State private var image: UIImage?

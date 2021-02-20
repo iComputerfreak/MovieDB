@@ -45,7 +45,7 @@ class CoreDataStack {
         // Automatically merge changes done in other context of this container.
         // E.g. merge changes from a background context, as soon as that context saves
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        // container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         return container
@@ -58,6 +58,9 @@ class CoreDataStack {
     }
     
     func saveContext () {
+        print("========================")
+        print("SAVING CORE DATA CONTEXT")
+        print("========================")
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {

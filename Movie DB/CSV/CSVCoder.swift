@@ -84,6 +84,7 @@ struct CSVCoder {
                 mediaObjects.append(media)
             }
         }
+        group.wait()
         
         return mediaObjects
     }
