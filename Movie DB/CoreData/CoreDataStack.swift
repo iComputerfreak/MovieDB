@@ -74,4 +74,15 @@ class CoreDataStack {
         }
     }
     
+    static func saveContext(context: NSManagedObjectContext) {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                print("Error saving background context: \(error)")
+                AlertHandler.showSimpleAlert(title: "Error saving", message: error.localizedDescription)
+            }
+        }
+    }
+    
 }

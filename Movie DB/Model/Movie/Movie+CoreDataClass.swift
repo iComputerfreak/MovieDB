@@ -31,5 +31,13 @@ public class Movie: Media {
         self.isAdult = movieData.isAdult
         self.imdbID = movieData.imdbID
     }
+    
+    override func missingInformation() -> Set<MediaInformation> {
+        var missing = super.missingInformation()
+        if watched == nil {
+            missing.insert(.watched)
+        }
+        return missing
+    }
 
 }

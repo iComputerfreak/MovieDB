@@ -23,10 +23,10 @@ public class Media: NSManagedObject {
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
-        // We have to initialize missingInformation first, because the other setters may modify it
-        self.missingInformation = Set(MediaInformation.allCases)
         self.personalRating = .noRating
-        self.tags = []
+        
+        // The castMembersSortOrder array contains the sorted CastMember IDs
+        self.castMembersSortOrder = tmdbData.cast.map(\.id)
         
         self.id = MediaLibrary.shared.nextID
         self.type = type
@@ -52,9 +52,7 @@ public class Media: NSManagedObject {
     }
     
     public override func awakeFromInsert() {
-        // We have to initialize missingInformation first, because the other setters may modify it
-        self.missingInformation = Set(MediaInformation.allCases)
-        self.tags = []
+        self.castMembersSortOrder = []
     }
     
     // MARK: - Functions
@@ -97,7 +95,7 @@ public class Media: NSManagedObject {
     func repair(progress: Binding<Double>? = nil) -> RepairProblems {
         // We have to check the following things:
         // tmdbData, thumbnail, tags, missingInformation
-        let progressStep = 1.0/3.0
+        let progressStep = 1.0/2.0
         let group = DispatchGroup()
         var fixed = 0
         let notFixed = 0
@@ -110,33 +108,6 @@ public class Media: NSManagedObject {
             print("[Verify] '\(title)' (\(id)) is missing the thumbnail. Trying to fix it.")
         }
         progress?.wrappedValue += progressStep
-        // Tags
-        for tag in tags {
-            // If the tag does not exist, remove it
-            if !TagLibrary.shared.tags.map(\.id).contains(tag) {
-                DispatchQueue.main.async {
-                    self.tags.removeFirst(tag)
-                    fixed += 1
-                    print("[Verify] '\(self.title)' (\(self.id)) has invalid tags. Removed the invalid tags.")
-                }
-            }
-        }
-        progress?.wrappedValue += progressStep
-        // Missing Information
-        DispatchQueue.main.async {
-            self.missingInformation = .init()
-            if self.personalRating == .noRating {
-                self.missingInformation.insert(.rating)
-            }
-            if self.watchAgain == nil {
-                self.missingInformation.insert(.watchAgain)
-            }
-            if self.tags.isEmpty {
-                self.missingInformation.insert(.tags)
-            }
-        }
-        progress?.wrappedValue += progressStep
-        
         
         // TODO: Check, if tmdbData is complete, nothing is missing (e.g. cast, seasons, translations, keywords, ...)
         
@@ -148,6 +119,20 @@ public class Media: NSManagedObject {
         } else {
             return .some(fixed: fixed, notFixed: notFixed)
         }
+    }
+    
+    func missingInformation() -> Set<MediaInformation> {
+        var missing: Set<MediaInformation> = []
+        if personalRating == .noRating {
+            missing.insert(.rating)
+        }
+        if watchAgain == nil {
+            missing.insert(.watchAgain)
+        }
+        if tags.isEmpty {
+            missing.insert(.tags)
+        }
+        return missing
     }
 }
 

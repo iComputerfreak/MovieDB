@@ -58,7 +58,8 @@ struct BasicInfo: View {
             // Seasons Info
             if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                 NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
-                    Text("\(show.seasons.count) Seasons")
+                    // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
+                    Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
                         .headline("Seasons")
                 }
             }

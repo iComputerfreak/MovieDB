@@ -54,20 +54,14 @@ struct ProblemsView: View {
     func incompleteSection() -> some View {
         return Section(header: Text("Missing Information")) {
             ForEach(problems.map(\.key)) { mediaObject in
-                ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation.map(\.rawValue).joined(separator: ", "))").italic())
+                ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation().map(\.rawValue).joined(separator: ", "))").italic())
                     // For the environment object, get the reference to the real object
                     .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
             }
             .onDelete { indexSet in
                 for offset in indexSet {
                     let id = problems.map(\.key)[offset].id
-                    do {
-                        try self.library.remove(id: id)
-                    } catch let e {
-                        print("Error trying to delete Media with ID \(id)")
-                        print(e)
-                        AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
-                    }
+                    self.library.remove(id: id)
                 }
             }
         }
@@ -84,13 +78,7 @@ struct ProblemsView: View {
                 for offset in indexSet {
                     // Using the ID here is okay, because we checked for duplicate tmdbIDs, not library IDs
                     let id = duplicates.flatMap(\.value)[offset].id
-                    do {
-                        try self.library.remove(id: id)
-                    } catch let e {
-                        print("Error trying to delete Media with ID \(id)")
-                        print(e)
-                        AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
-                    }
+                    self.library.remove(id: id)
                 }
             }
         }

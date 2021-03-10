@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
+struct FilterMultiPicker<SelectionValue, CollectionType>: View where SelectionValue: Hashable, CollectionType: RandomAccessCollection, CollectionType.Element == SelectionValue {
     
     @Binding var selection: [SelectionValue]
     let label: (SelectionValue) -> String
     let title: Text
-    @State var values: [SelectionValue]
+    @State var values: CollectionType
     
-    init(selection: Binding<[SelectionValue]>, label: @escaping (SelectionValue) -> String, values: [SelectionValue], title: Text) {
+    init(selection: Binding<[SelectionValue]>, label: @escaping (SelectionValue) -> String, values: CollectionType, title: Text) {
         self._selection = selection
         self.label = label
         self._values = State(wrappedValue: values)

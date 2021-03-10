@@ -10,6 +10,8 @@ import Foundation
 
 struct PlaceholderData {
     
+    // TODO: Use preview context
+    
     static var rawMovieJSON: Data {
         try! Data(contentsOf: Bundle.main.url(forResource: "TMDBMovie", withExtension: "json")!)
     }
@@ -27,14 +29,14 @@ struct PlaceholderData {
     static let movie: Movie = {
         let m = Movie(context: CoreDataStack.viewContext, tmdbData: tmdbMovieData)
         m.personalRating = .twoAndAHalfStars
-        m.tags = [0, 1, 2]
+        //m.tags = [Tag(id: <#T##Int#>, name: <#T##String#>, context: <#T##NSManagedObjectContext#>)]
         return m
     }()
     
     static let show: Show = {
         let s = Show(context: CoreDataStack.viewContext, tmdbData: tmdbShowData)
         s.personalRating = .fourStars
-        s.tags = [2, 3]
+        //s.tags = [2, 3]
         return s
     }()
     
@@ -46,10 +48,9 @@ struct PlaceholderData {
     }
     
     static func populateSampleTags() {
-        let lib = TagLibrary.shared
-        lib.create(name: "Happy Ending")
-        lib.create(name: "Trashy")
-        lib.create(name: "Time Travel")
-        lib.create(name: "Immortality")
+//        lib.create(name: "Happy Ending")
+//        lib.create(name: "Trashy")
+//        lib.create(name: "Time Travel")
+//        lib.create(name: "Immortality")
     }
 }

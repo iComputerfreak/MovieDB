@@ -29,6 +29,17 @@ extension MediaLibrary {
             setInt(newValue, forKey: "nextID")
         }
     }
+    /// The next free Tag id
+    public var nextTagID: Int {
+        get {
+            // Return the current ID and increase it by one
+            let next = getInt(forKey: "nextTagID")
+            self.nextTagID = next + 1
+            return next
+        }
+        set { setInt(newValue, forKey: "nextTagID") }
+    }
+    
     /// The date and time of the last library update
     @NSManaged public var lastUpdated: Date?
     /// The list of media objects in this library

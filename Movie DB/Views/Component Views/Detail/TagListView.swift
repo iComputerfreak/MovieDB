@@ -7,14 +7,15 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct TagListView: View {
     
-    @Binding var tags: [Int]
+    @Binding var tags: Set<Tag>
     @Environment(\.editMode) private var editMode
     @State private var editingTags: Bool = false
     
-    init(_ tags: Binding<[Int]>) {
+    init(_ tags: Binding<Set<Tag>>) {
         self._tags = tags
     }
     
@@ -36,44 +37,45 @@ struct TagListView: View {
     }
     
     private var label: some View {
-        // Remove tags that no longer exist
-        let ids = TagLibrary.shared.tags.map(\.id)
-        let filteredTags = tags.filter(ids.contains)
-        
-        if filteredTags.isEmpty {
+        if tags.isEmpty {
             return Text("None").italic()
         }
-        
-        return Text(filteredTags.map({ TagLibrary.shared.name(for: $0)! }).sorted().joined(separator: ", "))
+        return Text(tags.map(\.name).sorted().joined(separator: ", "))
     }
     
     private struct EditView: View {
-        @ObservedObject var tagLibrary = TagLibrary.shared
-        @Binding var tags: [Int]
+        
+        @Environment(\.managedObjectContext) private var context
+        
+        @FetchRequest(
+            entity: Tag.entity(),
+            sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)]
+        ) var allTags: FetchedResults<Tag>
+        @Binding var tags: Set<Tag>
         
         // Keep a local copy of the tags, sorted by name, to modify
         private var sortedTags: [Tag] {
-            TagLibrary.shared.tags.sorted { (tag1, tag2) -> Bool in
+            allTags.sorted { (tag1, tag2) -> Bool in
                 return tag1.name.lexicographicallyPrecedes(tag2.name)
             }
         }
         
         var body: some View {
             List {
-                Section(header: Text("Select all tags that apply"), footer: Text("\(TagLibrary.shared.tags.count) tags in total")) {
+                Section(header: Text("Select all tags that apply"), footer: Text("\(allTags.count) tags in total")) {
                     ForEach(self.sortedTags, id: \.id) { tag in
                         Button(action: {
-                            if self.tags.contains(tag.id) {
+                            if self.tags.contains(tag) {
                                 print("Removing Tag \(tag.name)")
-                                self.tags.removeAll(where: { $0 == tag.id })
+                                self.tags.remove(tag)
                             } else {
                                 print("Adding Tag \(tag.name)")
-                                self.tags.append(tag.id)
+                                self.tags.insert(tag)
                             }
                         }) {
                             HStack {
                                 Image(systemName: "checkmark")
-                                    .hidden(condition: !self.tags.contains(tag.id))
+                                    .hidden(condition: !self.tags.contains(tag))
                                 Text(tag.name)
                                 Spacer()
                                 Button(action: {
@@ -90,13 +92,7 @@ struct TagListView: View {
                                         guard let text = textField.text, !text.isEmpty else {
                                             return
                                         }
-                                        do {
-                                            try TagLibrary.shared.rename(id: tag.id, newName: text)
-                                        } catch let e {
-                                            print("Error renaming tag \(tag.name) to \(text)")
-                                            print(e)
-                                            AlertHandler.showSimpleAlert(title: "Error renaming Tag", message: e.localizedDescription)
-                                        }
+                                        tag.name = text
                                     }))
                                     AlertHandler.presentAlert(alert: alert)
                                 }) {
@@ -110,13 +106,8 @@ struct TagListView: View {
                         for index in indexSet {
                             let tag = self.sortedTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
-                            do {
-                                try self.tagLibrary.remove(id: tag.id)
-                            } catch let e {
-                                print("Error removing tag \(tag.name)")
-                                print(e)
-                                AlertHandler.showSimpleAlert(title: "Error deleting Tag", message: e.localizedDescription)
-                            }
+                            // TODO: Correct?
+                            self.context.delete(tag)
                         }
                     })
                 }
@@ -137,7 +128,7 @@ struct TagListView: View {
                     guard let text = textField.text, !text.isEmpty else {
                         return
                     }
-                    TagLibrary.shared.create(name: text)
+                    _ = Tag(name: text, context: self.context)
                 })
                 AlertHandler.presentAlert(alert: alert)
             }) {

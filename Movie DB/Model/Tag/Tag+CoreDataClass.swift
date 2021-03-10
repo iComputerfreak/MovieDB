@@ -12,7 +12,7 @@ import CoreData
 
 /// Represents a user specified tag
 @objc(Tag)
-public class Tag: NSManagedObject, Decodable {
+public class Tag: NSManagedObject, Codable {
     
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
@@ -25,10 +25,16 @@ public class Tag: NSManagedObject, Decodable {
         self.name = try container.decode(String.self, forKey: .name)
     }
     
-    public convenience init(id: Int, name: String, context: NSManagedObjectContext) {
+    public convenience init(name: String, context: NSManagedObjectContext) {
         self.init(context: context)
-        self.id = id
+        self.id = MediaLibrary.shared.nextTagID
         self.name = name
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
+        try container.encode(self.name, forKey: .name)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -36,4 +42,12 @@ public class Tag: NSManagedObject, Decodable {
         case name
     }
 
+}
+
+extension Collection where Element == Tag {
+    func lexicographicallySorted() -> [Tag] {
+        return self.sorted { (tag1, tag2) -> Bool in
+            return tag1.name.lexicographicallyPrecedes(tag2.name)
+        }
+    }
 }

@@ -341,14 +341,7 @@ class TMDBAPI {
     }
     
     func saveContext() {
-        if self.context.hasChanges {
-            do {
-                try self.context.save()
-            } catch {
-                print("Error saving background context: \(error)")
-                AlertHandler.showSimpleAlert(title: "Error saving", message: error.localizedDescription)
-            }
-        }
+        CoreDataStack.saveContext(context: self.context)
     }
     
 }

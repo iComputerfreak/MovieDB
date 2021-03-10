@@ -25,15 +25,7 @@ extension Show {
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
     public var lastSeasonWatched: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }
-        set {
-            setOptionalInt(newValue, forKey: "lastSeasonWatched")
-            // didSet
-            if lastSeasonWatched == nil {
-                self.missingInformation.insert(.watched)
-            } else {
-                self.missingInformation.remove(.watched)
-            }
-        }
+        set { setOptionalInt(newValue, forKey: "lastSeasonWatched") }
     }
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
     public var lastEpisodeWatched: Int? {

@@ -37,7 +37,7 @@ struct LibraryHome : View {
                     return true
                 }
                 // Exact tag matches only
-                if media.tags.map(TagLibrary.shared.name).contains(self.searchText) {
+                if media.tags.map(\.name).contains(self.searchText) {
                     return true
                 }
                 if String(media.tmdbID) == self.searchText {
@@ -95,13 +95,7 @@ struct LibraryHome : View {
                             .onDelete { indexSet in
                                 for offset in indexSet {
                                     let id = self.filteredMedia[offset].id
-                                    do {
-                                        try self.library.remove(id: id)
-                                    } catch let e {
-                                        print("Error removing Media with ID \(id)")
-                                        print(e)
-                                        AlertHandler.showSimpleAlert(title: "Error removing Media", message: e.localizedDescription)
-                                    }
+                                    self.library.remove(id: id)
                                 }
                             }
                         }

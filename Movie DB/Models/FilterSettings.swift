@@ -31,7 +31,7 @@ class FilterSettings: ObservableObject, Codable {
     // MARK: User Data
     @Published var watched: Bool? = nil
     @Published var watchAgain: Bool? = nil
-    @Published var tags: [Int] = []
+    @Published var tags: Set<Tag> = []
     
     private init() {}
     
@@ -166,6 +166,10 @@ class FilterSettings: ObservableObject, Codable {
         return false
     }
     
+    private func matchesArray<T: Equatable>(filterArray: Set<T>, actualArray: Set<T>?) -> Bool {
+        return matchesArray(filterArray: Array(filterArray), actualArray: actualArray == nil ? nil : Array(actualArray!))
+    }
+    
     func reset() {
         self.isAdult = nil
         self.mediaType = nil
@@ -236,7 +240,7 @@ class FilterSettings: ObservableObject, Codable {
         self.numberOfSeasons = try container.decode(ClosedRange<Int>?.self, forKey: .numberOfSeasons)
         self.watched = try container.decode(Bool?.self, forKey: .watched)
         self.watchAgain = try container.decode(Bool?.self, forKey: .watchAgain)
-        self.tags = try container.decode([Int].self, forKey: .tags)
+        self.tags = try container.decode(Set<Tag>.self, forKey: .tags)
     }
     
     func encode(to encoder: Encoder) throws {

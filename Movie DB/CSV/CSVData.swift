@@ -20,7 +20,7 @@ struct CSVData {
     let id: Int
     let type: MediaType
     let personalRating: StarRating
-    let tags: [Int]
+    let tags: Set<Tag>
     let watchAgain: Bool?
     let notes: String
     
@@ -103,7 +103,7 @@ struct CSVData {
         encoder.encode(type, forKey: .type)
         encoder.encode(personalRating, forKey: .personalRating)
         // We don't export tags, that don't have a name
-        encoder.encode(tags.compactMap({ TagLibrary.shared.name(for: $0)?.cleaned(of: separator, arraySeparator, lineSeparator) }), forKey: .tags)
+        encoder.encode(tags.map({ $0.name.cleaned(of: separator, arraySeparator, lineSeparator) }), forKey: .tags)
         encoder.encode(watchAgain, forKey: .watchAgain)
         // Clean the notes (should not contains illegal characters)
         encoder.encode(notes.cleaned(of: separator, lineSeparator), forKey: .notes)
@@ -147,17 +147,27 @@ struct CSVData {
         let personalRating = try decoder.decode(StarRating.self, forKey: .personalRating)
         
         let tagNames = try decoder.decode([String].self, forKey: .tags)
-        var tagIDs = [Int]()
+        var tags = [Tag]()
+        // TODO: Make this more effective. Maybe fetch all tags and then look if the specific tag is in the list
         for name in tagNames {
-            if let id = TagLibrary.shared.tags.first(where: { $0.name == name })?.id {
-                tagIDs.append(id)
+            // Fetch the tag, if it exists
+            let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+            let results = try context.fetch(fetchRequest)
+            if results.isEmpty {
+                // Create the tag
+                context.performAndWait {
+                    let tag = Tag(name: name, context: context)
+                    tags.append(tag)
+                }
             } else {
-                // Tag does not exist, create a new one
-                let id = TagLibrary.shared.create(name: name)
-                tagIDs.append(id)
+                assert(results.count == 1)
+                // If we get multiple tags back, we just use the first one
+                let tag = results.first!
+                // TODO: Do we need to perform this in the context thread?
+                tags.append(tag)
             }
         }
-        let tags = tagIDs
         
         let watchAgain = try decoder.decode(Bool?.self, forKey: .watchAgain)
         let notes = try decoder.decode(String.self, forKey: .notes)
@@ -181,7 +191,7 @@ struct CSVData {
             }
             
             media.personalRating = personalRating
-            media.tags = tags
+            media.tags = Set(tags)
             media.watchAgain = watchAgain
             media.notes = notes
             

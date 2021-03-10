@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 /// The string representing a `nil` value in a `Picker`
 fileprivate let nilString = "any"
@@ -45,6 +46,11 @@ struct FilterView: View {
         // Save the filter settings
         FilterSettings.save()
     }
+    
+    @FetchRequest(
+        entity: Tag.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)]
+    ) var allTags: FetchedResults<Tag>
         
     var body: some View {
         NavigationView {
@@ -69,7 +75,14 @@ struct FilterView: View {
                             .tag(false.description)
                     }
                     // MARK: - Tags
-                    FilterMultiPicker(selection: $filterSettings.tags, label: { TagLibrary.shared.name(for: $0) ?? "<Unknown>" }, values: TagLibrary.shared.tags.lexicographicallySorted().map(\.id), title: Text("Tags"))
+                    FilterMultiPicker(
+                        selection: Binding(
+                            get: { Array(filterSettings.tags) },
+                            set: { filterSettings.tags = Set($0) }),
+                        label: { $0.name },
+                        values: allTags,
+                        title: Text("Tags")
+                    )
                 }
                 Section(header: Text("Information")) {
                     // MARK: - Media Type

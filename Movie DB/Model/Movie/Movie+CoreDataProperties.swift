@@ -20,15 +20,7 @@ extension Movie {
     /// Whether the user has watched the media (partly or fully)
     public var watched: Bool? {
         get { getOptional(forKey: "watched") }
-        set {
-            setOptional(newValue, forKey: "watched")
-            // didSet
-            if watched == nil {
-                self.missingInformation.insert(.watched)
-            } else {
-                self.missingInformation.remove(.watched)
-            }
-        }
+        set { setOptional(newValue, forKey: "watched") }
     }
     /// Runtime in minutes
     public var runtime: Int? {

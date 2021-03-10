@@ -35,5 +35,13 @@ public class Show: Media {
         self.showType = showData.showType
         self.networks = Set(showData.networks)
     }
+    
+    override func missingInformation() -> Set<MediaInformation> {
+        var missing = super.missingInformation()
+        if lastWatched == nil {
+            missing.insert(.watched)
+        }
+        return missing
+    }
 
 }

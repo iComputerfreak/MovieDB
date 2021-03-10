@@ -90,40 +90,34 @@ public class MediaLibrary: NSManagedObject {
         // This media object may come from another context
         let libraryMOC = self.managedObjectContext
         let media = libraryMOC?.object(with: object.objectID) as! Media
-        print("Adding media object: \(media)")
-        print(media.title)
-        print(media.tags)
         self.addToMediaList(media)
         try context.save()
     }
     
-    func append(contentsOf objects: [Media]) throws {
+    func append(contentsOf objects: [Media]) {
         // This media object may come from another context
         let libraryMOC = self.managedObjectContext
         let medias = objects.map { media in
             return libraryMOC?.object(with: media.objectID) as! Media
         }
         self.addToMediaList(NSSet(objects: medias))
-        try context.save()
+        CoreDataStack.saveContext()
     }
     
-    func remove(id: Int) throws {
-        // Fetch the Media with the given ID, remove it from the container and invalidate it in the library
-        let request: NSFetchRequest<Media> = Media.fetchRequest()
-        request.predicate = NSPredicate(format: "id = \(id)")
-        // Fetch the Media with the given ID
-        let medias = try context.fetch(request)
-        assert(medias.count <= 1, "There are multiple media objects with the same ID in the database.")
-        if medias.isEmpty {
+    func remove(id: Int) {
+        guard let mediaToDelete = self.mediaList.first(where: { $0.id == id }) else {
             print("Unable to remove Media with ID \(id) since it does not exist.")
             return
         }
-        let media = medias.first!
+        print("Removing \(mediaToDelete.title)")
         // Remove the media from the library
-        self.removeFromMediaList(media)
         // Remove it from the container
-        context.delete(media)
-        try context.save()
+        context.delete(context.object(with: mediaToDelete.objectID))
+        //self.removeFromMediaList(mediaToDelete)
+        CoreDataStack.saveContext()
+        self.mediaList.remove(mediaToDelete)
+        print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
+        print("mediaList: \(mediaList)")
     }
     
     // MARK: - Problems
@@ -133,8 +127,8 @@ public class MediaLibrary: NSManagedObject {
     func problems() -> [Media: Set<Media.MediaInformation>] {
         var problems: [Media: Set<Media.MediaInformation>] = [:]
         for media in self.mediaList {
-            if !media.missingInformation.isEmpty {
-                problems[media] = media.missingInformation
+            if !media.missingInformation().isEmpty {
+                problems[media] = media.missingInformation()
             }
         }
         return problems
@@ -149,6 +143,11 @@ public class MediaLibrary: NSManagedObject {
             .filter { (key: Int?, value: [Media]) in
                 return value.count > 1
             }
+    }
+    
+    /// Resets the nextID property
+    func resetNextTagID() {
+        self.nextTagID = 1
     }
 
 }

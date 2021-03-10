@@ -85,8 +85,6 @@
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
-		ABB65EC925D01C50009378EC /* TagLibrary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC525D01C50009378EC /* TagLibrary+CoreDataClass.swift */; };
-		ABB65ECA25D01C50009378EC /* TagLibrary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC625D01C50009378EC /* TagLibrary+CoreDataProperties.swift */; };
 		ABB82DCE2414201F00E46023 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB82DCD2414201F00E46023 /* ShareSheet.swift */; };
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
@@ -206,8 +204,6 @@
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		ABB65EC525D01C50009378EC /* TagLibrary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagLibrary+CoreDataClass.swift"; sourceTree = "<group>"; };
-		ABB65EC625D01C50009378EC /* TagLibrary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagLibrary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABB82DCD2414201F00E46023 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -280,7 +276,6 @@
 			children = (
 				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
-				ABB65ECF25D01C5E009378EC /* TagLibrary */,
 				AB1434DA25CF283600AA304F /* MediaLibrary */,
 				AB1434BE25CEE9BB00AA304F /* Season */,
 				AB1434C125CEE9CA00AA304F /* Genre */,
@@ -597,15 +592,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		ABB65ECF25D01C5E009378EC /* TagLibrary */ = {
-			isa = PBXGroup;
-			children = (
-				ABB65EC525D01C50009378EC /* TagLibrary+CoreDataClass.swift */,
-				ABB65EC625D01C50009378EC /* TagLibrary+CoreDataProperties.swift */,
-			);
-			path = TagLibrary;
-			sourceTree = "<group>";
-		};
 		ABB65ED025D01C65009378EC /* Tag */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,7 +734,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
-				ABB65EC925D01C50009378EC /* TagLibrary+CoreDataClass.swift in Sources */,
 				ABEBA2C9239583FA003BF187 /* FilterSettings.swift in Sources */,
 				AB1434D725CF282B00AA304F /* MediaLibrary+CoreDataProperties.swift in Sources */,
 				AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */,
@@ -811,7 +796,6 @@
 				AB1433FB25CDB6F600AA304F /* Movie+CoreDataProperties.swift in Sources */,
 				AB1B0C9624B4C3310063C101 /* SearchBar.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
-				ABB65ECA25D01C50009378EC /* TagLibrary+CoreDataProperties.swift in Sources */,
 				ABE671FA25DEF6E800CAF7C3 /* CoreDataStack.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
@@ -1002,7 +986,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -1027,7 +1011,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;

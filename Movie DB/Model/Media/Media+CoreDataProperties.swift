@@ -31,43 +31,12 @@ extension Media {
     /// A rating between 0 and 10 (no Rating and 5 stars)
     public var personalRating: StarRating {
         get { getEnum(forKey: "personalRating") }
-        set {
-            setEnum(newValue, forKey: "personalRating")
-            // didSet
-            if newValue == .noRating {
-                self.missingInformation.insert(.rating)
-            } else {
-                self.missingInformation.remove(.rating)
-            }
-        }
-    }
-    /// A list of user-specified tags, listed by their id
-    public var tags: [Int] {
-        get {
-            getTransformerValue(forKey: "tags")
-        }
-        set {
-            setTransformerValue(newValue, forKey: "tags")
-            // didSet
-            if tags.isEmpty {
-                self.missingInformation.insert(.tags)
-            } else {
-                self.missingInformation.remove(.tags)
-            }
-        }
+        set { setEnum(newValue, forKey: "personalRating") }
     }
     /// Whether the user would watch the media again
     public var watchAgain: Bool? {
         get { getOptional(forKey: "watchAgain") }
-        set {
-            setOptional(newValue, forKey: "watchAgain")
-            // didSet
-            if watchAgain == nil {
-                self.missingInformation.insert(.watchAgain)
-            } else {
-                self.missingInformation.remove(.watchAgain)
-            }
-        }
+        set { setOptional(newValue, forKey: "watchAgain") }
     }
     /// Personal notes on the media
     @NSManaged public var notes: String
@@ -119,24 +88,16 @@ extension Media {
     
     /// The list of cast members, that starred in the media
     @NSManaged public var cast: Set<CastMember>
+    /// The sorted list of CastMember IDs for this media
+    @NSManaged public var castMembersSortOrder: [Int]
     /// The list of keywords on TheMovieDB.org
     @NSManaged public var keywords: [String]
     /// The list of translations available for the media
     @NSManaged public var translations: [String]
     /// The list of videos available
     @NSManaged public var videos: Set<Video>
-    
-    /// The set of missing information of this media
-    public var missingInformation: Set<MediaInformation> {
-        get {
-            let rawValue: Set<String> = getTransformerValue(forKey: "missingInformation")
-            return Set(rawValue.map({ MediaInformation(rawValue: $0)! }))
-        }
-        set {
-            let rawValue = Set(newValue.map(\.rawValue))
-            setTransformerValue(rawValue, forKey: "missingInformation")
-        }
-    }
+    /// A list of user-specified tags
+    @NSManaged public var tags: Set<Tag>
     
     /// The library this media is in
     @NSManaged public var library: MediaLibrary?

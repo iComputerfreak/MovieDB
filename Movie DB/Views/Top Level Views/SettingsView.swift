@@ -80,24 +80,28 @@ struct SettingsView: View {
                         }
                     }
                     Section(footer: {
-                        ZStack {
-                            // Update Progress
-                            AnyView(
-                                HStack {
-                                    ActivityIndicator()
-                                    Text("Updating media library...")
-                                }
-                            )
-                            .hidden(condition: !self.updateInProgress)
-                            // Verification Progress
-                            AnyView(
-                                HStack {
-                                    ProgressView(value: self.verificationProgress) {
-                                        Text("Verifying and repairing media library...")
+                        VStack {
+                            ZStack {
+                                // Update Progress
+                                AnyView(
+                                    HStack {
+                                        ActivityIndicator()
+                                        Text("Updating media library...")
                                     }
-                                }
-                            )
-                            .hidden(condition: !self.verificationInProgress)
+                                )
+                                .hidden(condition: !self.updateInProgress)
+                                // Verification Progress
+                                AnyView(
+                                    HStack {
+                                        ProgressView(value: self.verificationProgress) {
+                                            Text("Verifying and repairing media library...")
+                                        }
+                                    }
+                                )
+                                .hidden(condition: !self.verificationInProgress)
+                            }.frame(height: (self.verificationInProgress || self.updateInProgress) ? nil : 0)
+                            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                            Text("Version \(appVersion ?? "unknown")")
                         }
                     }()) {
                         
@@ -182,14 +186,8 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                do {
-                                                    try self.library.append(contentsOf: mediaObjects)
-                                                    try context.save()
-                                                } catch let e {
-                                                    print("Error adding \(mediaObjects.count) Media objects")
-                                                    print(e)
-                                                    AlertHandler.showSimpleAlert(title: "Error importing media objects", message: e.localizedDescription)
-                                                }
+                                                self.library.append(contentsOf: mediaObjects)
+                                                CoreDataStack.saveContext()
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
                                                 // Delete the media objects again (so they don't stay in the persistentContainer
@@ -309,7 +307,17 @@ struct SettingsView: View {
                                                                                message: "Do you want to import \(count) tag\(count == 1 ? "" : "s")?",
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                                                TagImporter.import(importData)
+                                                // Use a background context for importing the tags
+                                                let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
+                                                context.perform {
+                                                    do {
+                                                        try TagImporter.import(importData, context: context)
+                                                        try context.save()
+                                                    } catch {
+                                                        print(error)
+                                                        AlertHandler.showSimpleAlert(title: "Error Importing Tags", message: error.localizedDescription)
+                                                    }
+                                                }
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel))
                                             self.isLoading = false
@@ -358,20 +366,22 @@ struct SettingsView: View {
                         
                         // MARK: - Export Tags
                         Button(action: {
-                            let url: URL!
-                            do {
-                                let exportData: String = TagImporter.export()
-                                // Save as a file to share it
-                                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export.txt")
-                                // Delete any old export, if it exists (this is only the local copy, that will be shared)
-                                if FileManager.default.fileExists(atPath: url.path) {
-                                    try? FileManager.default.removeItem(at: url)
+                            var url: URL!
+                            CoreDataStack.shared.persistentContainer.performBackgroundTask { (context) in
+                                do {
+                                    let exportData: String = try TagImporter.export(context: context)
+                                    // Save as a file to share it
+                                    url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export.txt")
+                                    // Delete any old export, if it exists (this is only the local copy, that will be shared)
+                                    if FileManager.default.fileExists(atPath: url.path) {
+                                        try? FileManager.default.removeItem(at: url)
+                                    }
+                                    try exportData.write(to: url, atomically: true, encoding: .utf8)
+                                } catch let exception {
+                                    print("Error writing Tags Export file")
+                                    print(exception)
+                                    return
                                 }
-                                try exportData.write(to: url, atomically: true, encoding: .utf8)
-                            } catch let exception {
-                                print("Error writing Tags Export file")
-                                print(exception)
-                                return
                             }
                             #if targetEnvironment(macCatalyst)
                             // Show save file dialog
