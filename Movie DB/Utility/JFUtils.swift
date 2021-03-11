@@ -95,7 +95,7 @@ struct JFUtils {
     static var moneyFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale.current
+        formatter.locale = Locale(identifier: "en_US")
         formatter.usesGroupingSeparator = true
         return formatter
     }

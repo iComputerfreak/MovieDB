@@ -24,6 +24,7 @@ public class Media: NSManagedObject {
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         self.personalRating = .noRating
+        self.tags = []
         
         // The castMembersSortOrder array contains the sorted CastMember IDs
         self.castMembersSortOrder = tmdbData.cast.map(\.id)
@@ -53,6 +54,7 @@ public class Media: NSManagedObject {
     
     public override func awakeFromInsert() {
         self.castMembersSortOrder = []
+        self.tags = []
     }
     
     // MARK: - Functions

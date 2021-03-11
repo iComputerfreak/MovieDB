@@ -28,7 +28,7 @@ extension CastMember {
     /// The path to an image of the actor on TMDB
     @NSManaged public var imagePath: String?
     /// The media this `CastMember` belongs to
-    @NSManaged public var media: Media?
+    @NSManaged public var medias: Set<Media>
 
 }
 

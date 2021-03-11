@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H524" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="roleName" optional="YES" attributeType="String"/>
-        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="cast" inverseEntity="Media"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="cast" inverseEntity="Media"/>
     </entity>
     <entity name="Genre" representedClassName="Genre" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
@@ -32,11 +32,11 @@
         <attribute name="voteAverage" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="media" inverseEntity="CastMember"/>
+        <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="medias" inverseEntity="CastMember"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="library" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MediaLibrary" inverseName="mediaList" inverseEntity="MediaLibrary"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
-        <relationship name="tags" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
         <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Thumbnail" inverseName="media" inverseEntity="Thumbnail"/>
         <relationship name="videos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Video" inverseName="media" inverseEntity="Video"/>
     </entity>
@@ -107,9 +107,9 @@
         <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="videos" inverseEntity="Media"/>
     </entity>
     <elements>
-        <element name="CastMember" positionX="-27" positionY="198" width="128" height="104"/>
+        <element name="CastMember" positionX="-27" positionY="198" width="128" height="118"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="74"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="419"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="433"/>
         <element name="MediaLibrary" positionX="-63" positionY="162" width="128" height="89"/>
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
