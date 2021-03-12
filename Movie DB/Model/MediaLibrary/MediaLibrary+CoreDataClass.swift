@@ -21,20 +21,20 @@ public class MediaLibrary: NSManagedObject {
     
     // Don't use a stored property to prevent accessing the viewContext from a background thread (during NSManagedObject creation)
     var context: NSManagedObjectContext {
-        CoreDataStack.viewContext
+        PersistenceController.viewContext
     }
     
     // We only store a single MediaLibrary in the container, therefore we just use the first result
     static let shared: MediaLibrary = MediaLibrary.getInstance()
     
     private static func getInstance() -> MediaLibrary {
-        let results = try? CoreDataStack.viewContext.fetch(MediaLibrary.fetchRequest())
+        let results = try? PersistenceController.viewContext.fetch(MediaLibrary.fetchRequest())
         if let storedLibrary = results?.first as? MediaLibrary {
             return storedLibrary
         }
         // If there is no library stored, we create a new one
-        let newLibrary = MediaLibrary(context: CoreDataStack.viewContext)
-        CoreDataStack.saveContext()
+        let newLibrary = MediaLibrary(context: PersistenceController.viewContext)
+        PersistenceController.saveContext()
         
         return newLibrary
     }
@@ -103,7 +103,7 @@ public class MediaLibrary: NSManagedObject {
             return libraryMOC?.object(with: media.objectID) as! Media
         }
         self.addToMediaList(NSSet(objects: medias))
-        CoreDataStack.saveContext()
+        PersistenceController.saveContext()
     }
     
     func remove(id: Int) {
@@ -117,7 +117,7 @@ public class MediaLibrary: NSManagedObject {
             self.mediaList.remove(mediaToDelete)
             // Remove it from the container
             self.context.delete(mediaToDelete)
-            CoreDataStack.saveContext()
+            PersistenceController.saveContext()
             print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
             print("mediaList: \(self.mediaList.map(\.title))")
         }

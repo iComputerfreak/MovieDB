@@ -22,12 +22,6 @@ struct LibraryList: View {
     
     init(searchText: String) {
         var predicates: [NSPredicate] = []
-        // TODO: Remove? We probably only want to filter the search results, not our own library
-        /*
-        if !JFConfig.shared.showAdults {
-            predicates.append(NSPredicate(format: "%K != %@", "isAdultMovie", "TRUE"))
-        }
-         */
         if !searchText.isEmpty {
             predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)", "title", searchText, "originalTitle", searchText))
         }
@@ -76,7 +70,8 @@ struct LibraryList: View {
             return Text("")
         }
         // TODO: Replace this with a derived value maybe?
-        return Text("\(filteredMedia.count) object\(filteredMedia.count == 1 ? "" : "s")\(filteredMedia.count == self.library.mediaList.count ? " total" : "")")
+        let objCount = filteredMedia.count
+        return Text("\(objCount) object\(objCount == 1 ? "" : "s")\(objCount == self.totalMediaItems ? " total" : "")")
     }
     
 }

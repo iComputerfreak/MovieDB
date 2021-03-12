@@ -38,16 +38,9 @@ class TMDBAPI {
         return "\(language)-\(region)"
     }
     
+    // TODO: Maybe just create a separate background context for each execution?
     lazy var context: NSManagedObjectContext = {
-        // Create a context for background execution
-        let container = CoreDataStack.shared.persistentContainer
-        return container.newBackgroundContext()
-    }()
-    
-    lazy var disposableContext: NSManagedObjectContext = {
-        // Create a context to decode search results and other objects that will be disposed again
-        let container = CoreDataStack.shared.persistentContainer
-        return container.newBackgroundContext()
+        return PersistenceController.shared.container.newBackgroundContext()
     }()
     
     // This is a singleton
@@ -225,7 +218,7 @@ class TMDBAPI {
                 // Back to the background thread for loading the other pages
                 // Load the rest of the pages
                 for page in 2 ... min(wrapper.totalPages, maxPages) {
-                    let newParameters = additionalParameters.merging(["page": page], uniquingKeysWith: { (_, new) in new })
+                    let newParameters = additionalParameters.merging(["page": page])
                     // Get the JSON
                     let data = try self.request(path: path, additionalParameters: newParameters)
                     // TODO: Decode on context thread asynchronously (so we can continue loading more pages)
@@ -268,7 +261,7 @@ class TMDBAPI {
                 // Decode on the thread of the context (hopefully a background thread)
                 let decoder = self.decoder(context: context)
                 // Merge the userInfo dicts, preferring the new, user-supplied values
-                decoder.userInfo.merge(userInfo, uniquingKeysWith: { k1, k2 in return k2 })
+                decoder.userInfo.merge(userInfo)
                 let result = try decoder.decode(T.self, from: data)
                 completion(result, nil)
             } catch let error {
@@ -291,7 +284,7 @@ class TMDBAPI {
             "region": region
         ]
         // Overwrite existing keys
-        parameters.merge(additionalParameters, uniquingKeysWith: { (_, new) in new })
+        parameters.merge(additionalParameters)
         
         let group = DispatchGroup()
         group.enter()
@@ -344,7 +337,7 @@ class TMDBAPI {
     }
     
     func saveContext() {
-        CoreDataStack.saveContext(context: self.context)
+        PersistenceController.saveContext(context: self.context)
     }
     
 }

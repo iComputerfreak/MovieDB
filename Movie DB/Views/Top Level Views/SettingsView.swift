@@ -179,7 +179,8 @@ struct SettingsView: View {
                                     do {
                                         let csv = try String(contentsOf: url)
                                         print("Imported csv file. Trying to import into library.")
-                                        let mediaObjects: [Media] = try CSVCoder().decode(csv, context: CoreDataStack.viewContext)
+                                        // TODO: We are decoding in the view thread!
+                                        let mediaObjects: [Media] = try CSVCoder().decode(csv, context: PersistenceController.viewContext)
                                         // Presenting will change UI
                                         DispatchQueue.main.async {
                                             let controller = UIAlertController(title: "Import",
@@ -187,7 +188,7 @@ struct SettingsView: View {
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                                                 self.library.append(contentsOf: mediaObjects)
-                                                CoreDataStack.saveContext()
+                                                PersistenceController.saveContext()
                                             }))
                                             controller.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
                                                 // Delete the media objects again (so they don't stay in the persistentContainer
@@ -308,8 +309,7 @@ struct SettingsView: View {
                                                                                preferredStyle: .alert)
                                             controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                                                 // Use a background context for importing the tags
-                                                let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-                                                context.perform {
+                                                PersistenceController.shared.container.performBackgroundTask { (context) in
                                                     do {
                                                         try TagImporter.import(importData, context: context)
                                                         try context.save()
@@ -367,7 +367,7 @@ struct SettingsView: View {
                         // MARK: - Export Tags
                         Button(action: {
                             var url: URL!
-                            CoreDataStack.shared.persistentContainer.performBackgroundTask { (context) in
+                            PersistenceController.shared.container.performBackgroundTask { (context) in
                                 do {
                                     let exportData: String = try TagImporter.export(context: context)
                                     // Save as a file to share it

@@ -225,3 +225,16 @@ extension JFUtils {
             .foregroundColor(fskColor(rating))
     }
 }
+
+extension Dictionary {
+    
+    /// Merges the given dictionary with this dictionary by overriding the existing values with the given new values
+    func merging(_ other: [Key : Value]) -> [Key : Value] {
+        return self.merging(other, uniquingKeysWith: { _, new in new })
+    }
+    
+    /// Merges the given dictionary with this dictionary by overriding the existing values with the given new values
+    mutating func merge(_ other: [Key : Value]) {
+        self.merge(other, uniquingKeysWith: { _, new in new })
+    }
+}

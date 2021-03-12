@@ -148,24 +148,18 @@ struct CSVData {
         
         let tagNames = try decoder.decode([String].self, forKey: .tags)
         var tags = [Tag]()
-        // TODO: Make this more effective. Maybe fetch all tags and then look if the specific tag is in the list
+        let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+        let allTags = try context.fetch(fetchRequest)
         for name in tagNames {
-            // Fetch the tag, if it exists
-            let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "name = %@", name)
-            let results = try context.fetch(fetchRequest)
-            if results.isEmpty {
+            // If the tag exists
+            if let tag = allTags.first(where: { $0.name == name }) {
+                tags.append(tag)
+            } else {
                 // Create the tag
                 context.performAndWait {
                     let tag = Tag(name: name, context: context)
                     tags.append(tag)
                 }
-            } else {
-                assert(results.count == 1)
-                // If we get multiple tags back, we just use the first one
-                let tag = results.first!
-                // TODO: Do we need to perform this in the context thread?
-                tags.append(tag)
             }
         }
         

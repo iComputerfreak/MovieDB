@@ -82,8 +82,9 @@ struct WatchedShowView: View {
         var body: some View {
             Form {
                 Section(header: Text("Up to which Episode did you watch?")) {
-                    // TODO: Clamp to the actual amount of seasons/episodes
-                    Stepper(value: seasonWrapper, in: 0...100) {
+                    // FUTURE: Clamp to the actual amount of seasons/episodes?
+                    // May not be a good idea if the TMDB data is outdated
+                    Stepper(value: seasonWrapper, in: 0...1000) {
                         if self.season > 0 {
                             Text("Season \(self.season)")
                         } else {

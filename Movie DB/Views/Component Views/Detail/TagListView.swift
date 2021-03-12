@@ -27,7 +27,7 @@ struct TagListView: View {
                 }
                 .onTapGesture {
                     // Activate the navigation link manually
-                    // TODO: Still neccessary?
+                    // FUTURE: Still neccessary?
                     self.editingTags = true
                 }
             } else {
@@ -106,8 +106,8 @@ struct TagListView: View {
                         for index in indexSet {
                             let tag = self.sortedTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
-                            // TODO: Correct?
                             self.context.delete(tag)
+                            PersistenceController.saveContext()
                         }
                     })
                 }

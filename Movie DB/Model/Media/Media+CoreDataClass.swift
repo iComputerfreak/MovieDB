@@ -77,7 +77,7 @@ public class Media: NSManagedObject {
                 let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
                 DispatchQueue.main.async {
                     self.thumbnail = thumbnail
-                    CoreDataStack.saveContext()
+                    PersistenceController.saveContext()
                 }
             }
         }

@@ -18,6 +18,7 @@ struct AddMediaView : View {
     @State private var isLoading: Bool = false
     
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
         LoadingView(isShowing: $isLoading) {
@@ -118,7 +119,7 @@ struct AddMediaView : View {
                         
                         DispatchQueue.main.async {
                             do {
-                                let media = CoreDataStack.viewContext.object(with: bgMedia.objectID) as! Media
+                                let media = managedObjectContext.object(with: bgMedia.objectID) as! Media
                                 // Load the thumbnail for the correct media object
                                 media.loadThumbnailAsync()
                                 // Append the viewContext media object, not the one belonging to the background context
