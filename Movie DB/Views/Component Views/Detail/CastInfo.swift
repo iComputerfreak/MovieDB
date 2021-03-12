@@ -15,7 +15,8 @@ struct CastInfo: View {
     
     var body: some View {
         List {
-            ForEach(Array(mediaObject.cast)) { (member: CastMember) in
+            ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
+                let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
                 HStack {
                     Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()

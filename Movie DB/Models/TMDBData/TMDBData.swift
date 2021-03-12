@@ -74,9 +74,20 @@ struct TMDBData: Decodable, Hashable {
         let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
         self.videos = try videosContainer.decode([Video].self, forKey: .results)
         
-        // Decode exclusive data (we don't know if what we are decoding is a movie or a show)
-        self.movieData = try? MovieData(from: decoder)
-        self.showData = try? ShowData(from: decoder)
+        // If we know which type of media we are, we can decode that type of exclusive data only.
+        // This way, we still get proper error handling.
+        if let mediaType = decoder.userInfo[.mediaType] as? MediaType {
+            if mediaType == .movie {
+                self.movieData = try MovieData(from: decoder)
+            } else {
+                self.showData = try ShowData(from: decoder)
+            }
+        } else {
+            print("Decoding TMDBData without mediaType in the userInfo dict. Please specify the type of media we are decoding! Guessing the type...")
+            // If we don't know the type of media, we have to try both and hope one works
+            self.movieData = try? MovieData(from: decoder)
+            self.showData = try? ShowData(from: decoder)
+        }
         
         assert(!(self.movieData == nil && self.showData == nil), "Error decoding movie/show data for '\(self.title)'")
     }

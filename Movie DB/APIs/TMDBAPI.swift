@@ -83,7 +83,7 @@ class TMDBAPI {
                         case .show:
                             media = Show(context: self.context, tmdbData: tmdbData)
                     }
-                    media.loadThumbnail()
+                    media.loadThumbnailAsync()
                     self.saveContext()
                     completion(media, nil)
                 }
@@ -124,7 +124,7 @@ class TMDBAPI {
                         AlertHandler.showSimpleAlert(title: "Error updating", message: e.localizedDescription)
                     }
                     // Redownload the thumbnail (it may have been updated)
-                    media.loadThumbnail(force: true)
+                    media.loadThumbnailAsync(force: true)
                     self.saveContext()
                     completion(nil)
                 }
@@ -247,7 +247,7 @@ class TMDBAPI {
     /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType, completion: @escaping (TMDBData?, Error?) -> Void) {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: self.context) { tmdbData, error in
+        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: self.context, userInfo: [.mediaType: type]) { tmdbData, error in
             completion(tmdbData, error)
         }
     }
@@ -260,13 +260,16 @@ class TMDBAPI {
     ///   - type: The type of media
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
-    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type, context: NSManagedObjectContext, completion: @escaping (T?, Error?) -> Void) where T: Decodable {
+    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type, context: NSManagedObjectContext, userInfo: [CodingUserInfoKey: Any] = [:], completion: @escaping (T?, Error?) -> Void) where T: Decodable {
         // Load the JSON on a background thread
         context.perform {
             do {
                 let data = try self.request(path: path, additionalParameters: additionalParameters)
                 // Decode on the thread of the context (hopefully a background thread)
-                let result = try self.decoder(context: context).decode(T.self, from: data)
+                let decoder = self.decoder(context: context)
+                // Merge the userInfo dicts, preferring the new, user-supplied values
+                decoder.userInfo.merge(userInfo, uniquingKeysWith: { k1, k2 in return k2 })
+                let result = try decoder.decode(T.self, from: data)
                 completion(result, nil)
             } catch let error {
                 completion(nil, error)

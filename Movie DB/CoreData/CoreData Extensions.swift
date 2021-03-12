@@ -11,6 +11,7 @@ import CoreData
 
 extension CodingUserInfoKey {
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")!
+    static let mediaType = CodingUserInfoKey(rawValue: "mediaType")!
 }
 
 enum DecoderConfigurationError: Error {

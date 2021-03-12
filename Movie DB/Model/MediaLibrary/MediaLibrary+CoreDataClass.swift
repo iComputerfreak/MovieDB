@@ -86,10 +86,12 @@ public class MediaLibrary: NSManagedObject {
         try context.save()
     }
     
-    func append(_ object: Media) throws {
-        // This media object may come from another context
-        let libraryMOC = self.managedObjectContext
-        let media = libraryMOC?.object(with: object.objectID) as! Media
+    func append(_ media: Media) throws {
+        // Check that the media objects does not belong to another context
+        guard media.managedObjectContext == self.managedObjectContext else {
+            print("Error adding \(media.title) to library. Object does not belong to the viewContext!")
+            return
+        }
         self.addToMediaList(media)
         try context.save()
     }
@@ -110,14 +112,15 @@ public class MediaLibrary: NSManagedObject {
             return
         }
         print("Removing \(mediaToDelete.title)")
-        // Remove the media from the library
-        // Remove it from the container
-        context.delete(context.object(with: mediaToDelete.objectID))
-        //self.removeFromMediaList(mediaToDelete)
-        CoreDataStack.saveContext()
-        self.mediaList.remove(mediaToDelete)
-        print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
-        print("mediaList: \(mediaList)")
+        DispatchQueue.main.async {
+            // Remove the media from the library
+            self.mediaList.remove(mediaToDelete)
+            // Remove it from the container
+            self.context.delete(mediaToDelete)
+            CoreDataStack.saveContext()
+            print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
+            print("mediaList: \(self.mediaList.map(\.title))")
+        }
     }
     
     // MARK: - Problems

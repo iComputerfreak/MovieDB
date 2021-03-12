@@ -53,6 +53,7 @@ public class Media: NSManagedObject {
     }
     
     public override func awakeFromInsert() {
+        super.awakeFromInsert()
         self.castMembersSortOrder = []
         self.tags = []
     }
@@ -60,9 +61,9 @@ public class Media: NSManagedObject {
     // MARK: - Functions
     
     /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
-    func loadThumbnail(force: Bool = false) {
+    func loadThumbnailAsync(force: Bool = false) {
         guard thumbnail == nil || force else {
-            // Thumbnail already present, don't download again, override with force parameter
+            // Thumbnail already present, don't download again, overridden with force parameter
             return
         }
         guard let imagePath = imagePath, !imagePath.isEmpty else {
@@ -76,6 +77,7 @@ public class Media: NSManagedObject {
                 let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
                 DispatchQueue.main.async {
                     self.thumbnail = thumbnail
+                    CoreDataStack.saveContext()
                 }
             }
         }
@@ -105,7 +107,7 @@ public class Media: NSManagedObject {
         progress?.wrappedValue += progressStep
         // Thumbnail
         if self.thumbnail == nil && imagePath != nil {
-            loadThumbnail()
+            loadThumbnailAsync()
             fixed += 1
             print("[Verify] '\(title)' (\(id)) is missing the thumbnail. Trying to fix it.")
         }
