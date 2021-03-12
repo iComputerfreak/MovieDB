@@ -58,12 +58,6 @@ struct ProblemsView: View {
                     // For the environment object, get the reference to the real object
                     .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
             }
-            .onDelete { indexSet in
-                for offset in indexSet {
-                    let id = problems.map(\.key)[offset].id
-                    self.library.remove(id: id)
-                }
-            }
         }
     }
     
@@ -73,13 +67,6 @@ struct ProblemsView: View {
                 ProblemsLibraryRow(content: Text("Duplicate").italic())
                     // For the environment object, get the reference to the real object
                     .environmentObject(library.mediaList.first(where: { $0.id == mediaObject.id }) ?? mediaObject)
-            }
-            .onDelete { indexSet in
-                for offset in indexSet {
-                    // Using the ID here is okay, because we checked for duplicate tmdbIDs, not library IDs
-                    let id = duplicates.flatMap(\.value)[offset].id
-                    self.library.remove(id: id)
-                }
             }
         }
     }

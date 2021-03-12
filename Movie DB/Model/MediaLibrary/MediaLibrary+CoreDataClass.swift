@@ -115,11 +115,19 @@ public class MediaLibrary: NSManagedObject {
         DispatchQueue.main.async {
             // Remove the media from the library
             self.mediaList.remove(mediaToDelete)
-            // Remove it from the container
-            self.context.delete(mediaToDelete)
-            PersistenceController.saveContext()
-            print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
-            print("mediaList: \(self.mediaList.map(\.title))")
+            // We have to wait, until the media object fully disappeared and it not needed again.
+            // This cane take some time, since the animation that deletes the item is not instantaneous
+            // Execute the delete after 1 second
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+                // Delete the object from the context
+                self.context.perform {
+                    // Remove it from the container
+                    self.context.delete(mediaToDelete)
+                    PersistenceController.saveContext()
+                    print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
+                    print("mediaList: \(self.mediaList.map(\.title))")
+                }
+            }
         }
     }
     

@@ -56,8 +56,12 @@ struct LibraryList: View {
                 }
                 .onDelete { indexSet in
                     for offset in indexSet {
-                        let id = self.filteredMedia[offset].id
-                        self.library.remove(id: id)
+                        let media = self.filteredMedia[offset]
+                        self.library.mediaList.remove(media)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.managedObjectContext.delete(media)
+                            PersistenceController.saveContext()
+                        }
                     }
                 }
             }

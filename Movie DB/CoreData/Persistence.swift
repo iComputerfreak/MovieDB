@@ -12,7 +12,14 @@ struct PersistenceController {
     
     let container: NSPersistentCloudKitContainer
     
-    init(inMemory: Bool = false) {
+    /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
+    var disposableContext: NSManagedObjectContext {
+        // The disposable context is an empty context without any data in it
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        return context
+    }
+    
+    private init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Movie DB")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
@@ -114,13 +121,15 @@ struct PersistenceController {
     // MARK: Saving
     
     /// Saves the shared viewContext
-    static func saveContext() {
+    static func saveContext(file: String = #file, line: Int = #line) {
+        print("Saving shared viewContext from \(file):\(line)")
         shared.saveContext()
     }
     
     /// Saves the given context if it has been modified since the last save
     /// - Parameter context: The `NSManagedObjectContext` to save
-    static func saveContext(context: NSManagedObjectContext) {
+    static func saveContext(context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
+        print("Trying to save context from \(file):\(line).")
         if context.hasChanges {
             // Make sure we save on the correct thread to prevent race conditions
             // See: https://developer.apple.com/forums/thread/668299

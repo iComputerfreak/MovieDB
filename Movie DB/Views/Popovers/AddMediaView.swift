@@ -120,10 +120,10 @@ struct AddMediaView : View {
                         DispatchQueue.main.async {
                             do {
                                 let media = managedObjectContext.object(with: bgMedia.objectID) as! Media
-                                // Load the thumbnail for the correct media object
-                                media.loadThumbnailAsync()
                                 // Append the viewContext media object, not the one belonging to the background context
                                 try self.library.append(media)
+                                // Load the thumbnail for the correct media object
+                                media.loadThumbnailAsync()
                             } catch let e {
                                 print("Error adding media '\(bgMedia.title)'")
                                 print(e)

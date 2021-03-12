@@ -43,6 +43,10 @@ class TMDBAPI {
         return PersistenceController.shared.container.newBackgroundContext()
     }()
     
+    var disposableContext: NSManagedObjectContext {
+        PersistenceController.shared.disposableContext
+    }
+    
     // This is a singleton
     private init() {}
     
@@ -76,19 +80,12 @@ class TMDBAPI {
                         case .show:
                             media = Show(context: self.context, tmdbData: tmdbData)
                     }
-                    media.loadThumbnailAsync()
                     self.saveContext()
                     completion(media, nil)
                 }
             }
         }
     }
-    
-    /// Updates a given media object by fetching the TMDB data again and overwriting existing data with the result.
-    /// Does not overwrite existing data with nil or empty values.
-    ///
-    /// - Parameter media: The media object to update
-    /// - Returns: Whether the update was successful
     
     /// Updates the given media object by re-loading the TMDB data
     /// - Parameters:
@@ -177,14 +174,14 @@ class TMDBAPI {
     /// - Parameters:
     ///   - name: The query to search for
     ///   - includeAdult: Whether to include adult media
+    ///   - completion: The completion handler executed with the search results. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The search results
     func searchMedia(_ query: String, includeAdult: Bool = false, completion: @escaping ([TMDBSearchResult]?, Error?) -> Void) {
         self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": query,
             "include_adult": includeAdult
-        ], maxPages: JFLiterals.maxSearchPages, pageWrapper: SearchResultsPageWrapper.self, context: self.context) { (results: [TMDBSearchResult]?, error: Error?) in
-            self.saveContext()
+        ], maxPages: JFLiterals.maxSearchPages, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext) { (results: [TMDBSearchResult]?, error: Error?) in
             completion(results, error)
         }
     }
@@ -337,6 +334,7 @@ class TMDBAPI {
     }
     
     func saveContext() {
+        print("Saving TMDBAPI context.")
         PersistenceController.saveContext(context: self.context)
     }
     

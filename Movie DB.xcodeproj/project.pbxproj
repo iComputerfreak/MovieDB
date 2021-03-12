@@ -60,6 +60,7 @@
 		AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB50944C238D63FD003A81DB /* SettingsView.swift */; };
 		AB5493D625FAB0850072745B /* LibraryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493D525FAB0850072745B /* LibraryList.swift */; };
 		AB5493DC25FBDD990072745B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493DB25FBDD990072745B /* Persistence.swift */; };
+		AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493E325FBE4CB0072745B /* PlaceholderData.swift */; };
 		AB5A9DC324D313DE0059C5C9 /* Repairable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9DC224D313DE0059C5C9 /* Repairable.swift */; };
 		AB5A9DC524D313E90059C5C9 /* MediaLibrary+Repairable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A9DC424D313E90059C5C9 /* MediaLibrary+Repairable.swift */; };
 		AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5F7E1A238ADF360007A3FE /* NotesView.swift */; };
@@ -174,6 +175,7 @@
 		AB50944C238D63FD003A81DB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AB5493D525FAB0850072745B /* LibraryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryList.swift; sourceTree = "<group>"; };
 		AB5493DB25FBDD990072745B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		AB5493E325FBE4CB0072745B /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		AB5A9DC224D313DE0059C5C9 /* Repairable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repairable.swift; sourceTree = "<group>"; };
 		AB5A9DC424D313E90059C5C9 /* MediaLibrary+Repairable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaLibrary+Repairable.swift"; sourceTree = "<group>"; };
 		AB5F7E1A238ADF360007A3FE /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				ABEBA2C623957F59003BF187 /* JFConfig.swift */,
 				AB2ACF5224DC4961002C5F41 /* TagImporter.swift */,
 				ABA13D5A2382D29E00E885DD /* Extensions.swift */,
+				AB5493E325FBE4CB0072745B /* PlaceholderData.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -800,6 +803,7 @@
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
+				AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				AB1434AA25CEE53A00AA304F /* Season+CoreDataClass.swift in Sources */,

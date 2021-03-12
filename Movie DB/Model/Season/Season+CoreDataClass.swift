@@ -29,9 +29,9 @@ public class Season: NSManagedObject, Decodable {
         self.name = try container.decode(String.self, forKey: .name)
         self.overview = try container.decode(String?.self, forKey: .overview)
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
-        let rawAirDate = try container.decode(String.self, forKey: .airDate)
-        self.airDate = JFUtils.tmdbDateFormatter.date(from: rawAirDate)
-        // Show will be set by CoreData when adding the season to the show
+        let rawAirDate = try container.decode(String?.self, forKey: .airDate)
+        self.airDate = JFUtils.tmdbDateFormatter.date(from: rawAirDate ?? "")
+        // self.show will be set by CoreData when adding the season to the show
         self.show = nil
     }
     
