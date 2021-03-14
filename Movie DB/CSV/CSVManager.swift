@@ -107,7 +107,7 @@ struct CSVManager {
         
         // Check if media with this tmdbID already exists
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", tmdbID)
+        fetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", String(tmdbID))
         fetchRequest.fetchLimit = 1
         let existingAmount = (try? context.count(for: fetchRequest)) ?? 0
         if existingAmount > 0 {

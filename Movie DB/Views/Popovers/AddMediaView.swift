@@ -99,7 +99,7 @@ struct AddMediaView : View {
     func addMedia(_ result: TMDBSearchResult) {
         print("Selected \(result.title)")
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", result.id)
+        existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", String(result.id))
         existingFetchRequest.fetchLimit = 1
         let existingObjects = (try? managedObjectContext.count(for: existingFetchRequest)) ?? 0
         if existingObjects > 0 {
@@ -128,20 +128,13 @@ struct AddMediaView : View {
                 
                 // We don't have to do anything with the media object, since it already was added to the background context and the background context was saved.
                 // The object will automatically be merged with the viewContext.
-                
                 DispatchQueue.main.async {
-                    // TODO
-                    //                            do {
-                    //                                let media = managedObjectContext.object(with: bgMedia.objectID) as! Media
-                    //                                // Append the viewContext media object, not the one belonging to the background context
-                    //                                try self.library.append(media)
-                    //                                // Load the thumbnail for the correct media object
-                    //                                media.loadThumbnailAsync()
-                    //                            } catch let e {
-                    //                                print("Error adding media '\(bgMedia.title)'")
-                    //                                print(e)
-                    //                                AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
-                    //                            }
+                    if let mainMedia = PersistenceController.viewContext.object(with: media!.objectID) as? Media {
+                        // Call it on the media object in the viewContext, not on the mediaObject in the background context
+                        mainMedia.loadThumbnailAsync()
+                    } else {
+                        print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
+                    }
                     self.isLoading = false
                     self.presentationMode.wrappedValue.dismiss()
                 }

@@ -28,7 +28,7 @@ struct MediaDetail : View {
         .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
         .onAppear {
-            // If there is no thumbnail, try to re-download it again
+            // If there is no thumbnail, try to download it again
             // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
             if mediaObject.thumbnail == nil {
                 mediaObject.loadThumbnailAsync()

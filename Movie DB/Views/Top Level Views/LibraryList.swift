@@ -57,10 +57,9 @@ struct LibraryList: View {
                 .onDelete { indexSet in
                     for offset in indexSet {
                         let media = self.filteredMedia[offset]
-                        // TODO: Do we still need asyncAfter?
                         self.managedObjectContext.delete(media)
-                        PersistenceController.saveContext()
                     }
+                    PersistenceController.saveContext()
                 }
             }
         }

@@ -13,30 +13,35 @@ struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
     var body: some View {
-        NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
-            HStack {
-                Image(uiImage: mediaObject.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
-                    .thumbnail()
-                VStack(alignment: .leading) {
-                    Text(mediaObject.title)
-                        .lineLimit(2)
-                    // Under the title
-                    HStack {
-                        // MARK: Adult
-                        if mediaObject.isAdultMovie ?? false {
-                            Image(systemName: "a.square")
-                        }
-                        // MARK: Type
-                        if mediaObject.type == .movie {
-                            Image(systemName: "m.square")
-                        } else {
-                            Image(systemName: "s.square")
-                        }
-                        // MARK: FSK Rating
-                        //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
-                        // MARK: Year
-                        if mediaObject.year != nil {
-                            Text(mediaObject.year!.description)
+        if mediaObject.isFault {
+            // This will be displayed while the object is being deleted
+            Text("")
+        } else {
+            NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
+                HStack {
+                    Image(uiImage: mediaObject.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+                        .thumbnail()
+                    VStack(alignment: .leading) {
+                        Text(mediaObject.title)
+                            .lineLimit(2)
+                        // Under the title
+                        HStack {
+                            // MARK: Adult
+                            if mediaObject.isAdultMovie ?? false {
+                                Image(systemName: "a.square")
+                            }
+                            // MARK: Type
+                            if mediaObject.type == .movie {
+                                Image(systemName: "m.square")
+                            } else {
+                                Image(systemName: "s.square")
+                            }
+                            // MARK: FSK Rating
+                            //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
+                            // MARK: Year
+                            if mediaObject.year != nil {
+                                Text(mediaObject.year!.description)
+                            }
                         }
                     }
                 }

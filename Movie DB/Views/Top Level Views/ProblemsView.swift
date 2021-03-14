@@ -23,7 +23,7 @@ struct ProblemsView: View {
             // WatchAgain missing
             NSPredicate(format: "watchAgain = nil"),
             // Tags missing
-            NSPredicate(format: "tags[SIZE] = 0"),
+            NSPredicate(format: "tags[SIZE] = %@", String(0)),
             // Watched missing (Movie)
             NSPredicate(format: "mediaType = %@ AND watched = nil", MediaType.movie.rawValue),
             // LastWatched missing (Show)
