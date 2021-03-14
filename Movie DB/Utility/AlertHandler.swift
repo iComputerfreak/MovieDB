@@ -28,6 +28,12 @@ struct AlertHandler {
         controller.addAction(UIAlertAction(title: "Ok", style: .default))
         presentAlert(alert: controller)
     }
+    
+    static func showError(title: String?, error: Error) {
+        self.showSimpleAlert(title: title ?? "Error", message: error.localizedDescription)
+    }
+    
+    // MARK: - Private functions
 
     private static func keyWindow() -> UIWindow? {
         return UIApplication.shared.connectedScenes

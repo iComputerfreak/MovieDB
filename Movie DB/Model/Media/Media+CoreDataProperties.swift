@@ -99,9 +99,6 @@ extension Media {
     /// A list of user-specified tags
     @NSManaged public var tags: Set<Tag>
     
-    /// The library this media is in
-    @NSManaged public var library: MediaLibrary?
-    
     // MARK: - Computed Properties
     
     /// Whether the result is a movie and is for adults only

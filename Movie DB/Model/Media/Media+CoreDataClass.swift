@@ -91,40 +91,6 @@ public class Media: NSManagedObject {
         try self.managedObjectContext?.save()
     }
     
-    // MARK: - Repairable Conformance
-    
-    /// Attempts to identify problems and repair this media object by reloading the thumbnail, removing corrupted tags and re-loading the cast information
-    /// - Parameter progress: A binding for the progress of the repair status
-    /// - Returns: The number of fixed and not fixed problems
-    func repair(progress: Binding<Double>? = nil) -> RepairProblems {
-        // We have to check the following things:
-        // tmdbData, thumbnail, tags, missingInformation
-        let progressStep = 1.0/2.0
-        let group = DispatchGroup()
-        var fixed = 0
-        let notFixed = 0
-        // If we have no TMDBData, we have no tmdbID and therefore no possibility to reload the data.
-        progress?.wrappedValue += progressStep
-        // Thumbnail
-        if self.thumbnail == nil && imagePath != nil {
-            loadThumbnailAsync()
-            fixed += 1
-            print("[Verify] '\(title)' (\(id)) is missing the thumbnail. Trying to fix it.")
-        }
-        progress?.wrappedValue += progressStep
-        
-        // TODO: Check, if tmdbData is complete, nothing is missing (e.g. cast, seasons, translations, keywords, ...)
-        
-        group.wait()
-        // Make sure the progress is 100% (may be less due to rounding errors)
-        progress?.wrappedValue = 1.0
-        if fixed == 0 && notFixed == 0 {
-            return .none
-        } else {
-            return .some(fixed: fixed, notFixed: notFixed)
-        }
-    }
-    
     func missingInformation() -> Set<MediaInformation> {
         var missing: Set<MediaInformation> = []
         if personalRating == .noRating {

@@ -100,14 +100,12 @@ struct PersistenceController {
         m.watchAgain = false
         m.tags = [tags[0], tags[1], tags[3]]
         m.notes = "Sample Note\nWith multiple\nlines."
-        try! library.append(m)
         
         let s = Show(context: viewContext, tmdbData: tmdbShowData)
         s.personalRating = .oneAndAHalfStars
         s.lastWatched = .init(season: 3, episode: 5)
         s.watchAgain = nil
         s.tags = [tags[2], tags[0]]
-        try! library.append(s)
         
         do {
             try viewContext.save()

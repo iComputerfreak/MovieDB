@@ -14,14 +14,9 @@ import CoreData
 @objc(MediaLibrary)
 public class MediaLibrary: NSManagedObject {
     
-    /// Resets the nextID property
-    func resetNextID() {
-        self.nextID = 1
-    }
-    
     // Don't use a stored property to prevent accessing the viewContext from a background thread (during NSManagedObject creation)
-    var context: NSManagedObjectContext {
-        PersistenceController.viewContext
+    var libraryContext: NSManagedObjectContext {
+        self.managedObjectContext ?? PersistenceController.viewContext
     }
     
     // We only store a single MediaLibrary in the container, therefore we just use the first result
@@ -57,7 +52,10 @@ public class MediaLibrary: NSManagedObject {
                 return
             }
             
-            for media in self.mediaList.filter({ changedIDs.contains($0.tmdbID) }) {
+            let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
+            let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
+            for media in medias {
                 // This media has been changed
                 api.updateMedia(media) { error in
                     guard let error = error else { return }
@@ -73,92 +71,25 @@ public class MediaLibrary: NSManagedObject {
     
     /// Resets the library, deleting all media objects and resetting the nextID property
     func reset() throws {
-        self.mediaList.removeAll()
-        // Delete all thumbnails
-        do {
-            try FileManager.default.removeItem(at: JFUtils.url(for: "thumbnails"))
-            try FileManager.default.createDirectory(at: JFUtils.url(for: "thumbnails"), withIntermediateDirectories: true)
-        } catch let error {
-            print("Error deleting thumbnails: \(error)")
+        // Delete all Medias from the context
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        let allMedias = (try? libraryContext.fetch(fetchRequest)) ?? []
+        for media in allMedias {
+            libraryContext.delete(media)
+            // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
         }
         // Reset the ID counter for the media objects
         MediaLibrary.shared.resetNextID()
-        try context.save()
+        PersistenceController.saveContext(context: libraryContext)
     }
-    
-    func append(_ media: Media) throws {
-        // Check that the media objects does not belong to another context
-        guard media.managedObjectContext == self.managedObjectContext else {
-            print("Error adding \(media.title) to library. Object does not belong to the viewContext!")
-            return
-        }
-        self.addToMediaList(media)
-        try context.save()
-    }
-    
-    func append(contentsOf objects: [Media]) {
-        // This media object may come from another context
-        let libraryMOC = self.managedObjectContext
-        let medias = objects.map { media in
-            return libraryMOC?.object(with: media.objectID) as! Media
-        }
-        self.addToMediaList(NSSet(objects: medias))
-        PersistenceController.saveContext()
-    }
-    
-    func remove(id: Int) {
-        guard let mediaToDelete = self.mediaList.first(where: { $0.id == id }) else {
-            print("Unable to remove Media with ID \(id) since it does not exist.")
-            return
-        }
-        print("Removing \(mediaToDelete.title)")
-        DispatchQueue.main.async {
-            // Remove the media from the library
-            self.mediaList.remove(mediaToDelete)
-            // We have to wait, until the media object fully disappeared and it not needed again.
-            // This cane take some time, since the animation that deletes the item is not instantaneous
-            // Execute the delete after 1 second
-            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-                // Delete the object from the context
-                self.context.perform {
-                    // Remove it from the container
-                    self.context.delete(mediaToDelete)
-                    PersistenceController.saveContext()
-                    print("Removed media with ID \(id). \(self.mediaList.count) media objects remain.")
-                    print("mediaList: \(self.mediaList.map(\.title))")
-                }
-            }
-        }
-    }
-    
-    // MARK: - Problems
-    
-    /// Returns all problems in this library
-    /// - Returns: All problematic media objects and their missing information
-    func problems() -> [Media: Set<Media.MediaInformation>] {
-        var problems: [Media: Set<Media.MediaInformation>] = [:]
-        for media in self.mediaList {
-            if !media.missingInformation().isEmpty {
-                problems[media] = media.missingInformation()
-            }
-        }
-        return problems
-    }
-    
-    /// Returns the list of duplicate TMDB IDs
-    /// - Returns: The list of duplicate TMDB IDs
-    func duplicates() -> [Int?: [Media]] {
-        // Group the media objects by their TMDB IDs
-        return Dictionary(grouping: self.mediaList, by: \.tmdbID)
-            // Filter out all IDs with only one media object
-            .filter { (key: Int?, value: [Media]) in
-                return value.count > 1
-            }
+        
+    /// Resets the nextID property
+    func resetNextID() {
+        self.nextID = 1
     }
     
     /// Resets the nextID property
     func resetNextTagID() {
         self.nextTagID = 1
     }
-
 }

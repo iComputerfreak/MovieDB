@@ -54,13 +54,12 @@ class TMDBAPI {
     
     // TODO: Save contexts
     
-    /// Loads and decodes a media objects from the TMDB API
+    /// Loads and decodes a media object from the TMDB API
     /// - Parameters:
     ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
-    /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded media object
-    func fetchMediaAsync(id: Int, type: MediaType, completion: @escaping (Media?, Error?) -> Void) throws {
+    func fetchMediaAsync(id: Int, type: MediaType, completion: @escaping (Media?, Error?) -> Void) {
         self.context.perform {
             // Get the TMDB Data
             self.fetchTMDBData(for: id, type: type) { tmdbData, error in
@@ -85,6 +84,37 @@ class TMDBAPI {
                 }
             }
         }
+    }
+    
+    /// Loads and decodes a media object from the TMDB API **synchronously**
+    /// - Parameters:
+    ///   - id: The TMDB ID of the media object
+    ///   - type: The type of media
+    /// - Throws: Any errors that occurred while loading or decoding the media
+    /// - Returns: The media object
+    func fetchMedia(id: Int, type: MediaType) throws -> Media {
+        var returnMedia: Media!
+        var returnError: Error?
+        let group = DispatchGroup()
+        group.enter()
+        self.fetchMediaAsync(id: id, type: type) { (media, error) in
+            defer {
+                group.leave()
+            }
+            if let error = error {
+                returnError = error
+                return
+            }
+            if error == nil && media == nil {
+                fatalError()
+            }
+            returnMedia = media!
+        }
+        group.wait()
+        if let error = returnError {
+            throw error
+        }
+        return returnMedia
     }
     
     /// Updates the given media object by re-loading the TMDB data

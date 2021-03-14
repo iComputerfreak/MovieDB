@@ -42,24 +42,5 @@ extension MediaLibrary {
     
     /// The date and time of the last library update
     @NSManaged public var lastUpdated: Date?
-    /// The list of media objects in this library
-    @NSManaged public var mediaList: Set<Media>
-
-}
-
-// MARK: Generated accessors for mediaList
-extension MediaLibrary {
-
-    @objc(addMediaListObject:)
-    @NSManaged public func addToMediaList(_ value: Media)
-
-    @objc(removeMediaListObject:)
-    @NSManaged public func removeFromMediaList(_ value: Media)
-
-    @objc(addMediaList:)
-    @NSManaged public func addToMediaList(_ values: NSSet)
-
-    @objc(removeMediaList:)
-    @NSManaged public func removeFromMediaList(_ values: NSSet)
 
 }

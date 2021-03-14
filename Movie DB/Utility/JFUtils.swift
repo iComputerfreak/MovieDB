@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import CoreData
 
 extension TimeZone {
     static let utc = TimeZone(secondsFromGMT: 0)!
@@ -132,31 +133,68 @@ struct JFUtils {
     
     /// Returns a closed range containing the years of all media objects in the library
     static func yearBounds() -> ClosedRange<Int> {
-        let currentYear = Calendar.current.dateComponents([.year], from: Date()).year ?? 1970
-        let years = MediaLibrary.shared.mediaList.compactMap({ $0.year }).sorted()
-        guard !years.isEmpty else {
-            return currentYear ... currentYear
-        }
-        return years.first! ... years.last!
+        
+        let minShow = fetchMinMax(key: "firstAirDate", ascending: true)
+        let minMovie = fetchMinMax(key: "releaseDate", ascending: true)
+        let maxShow = fetchMinMax(key: "firstAirDate", ascending: false)
+        let maxMovie = fetchMinMax(key: "releaseDate", ascending: false)
+        
+        let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
+        let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
+        let upperBound: Int = max(maxShow?.year, maxMovie?.year) ?? currentYear
+        
+        assert(lowerBound <= upperBound, "The fetch request returned wrong results. Try inverting the ascending/descending order of the fetch requests")
+        
+        return lowerBound ... upperBound
     }
     
     /// Returns a closed range containing the season counts from all media objects in the library
     static func numberOfSeasonsBounds() -> ClosedRange<Int> {
-        let seasons = MediaLibrary.shared.mediaList.compactMap({ (media: Media) in
-            return (media as? Show)?.numberOfSeasons
-        }).sorted()
-        guard !seasons.isEmpty else {
-            return 0...0
+        let min = fetchMinMax(key: "numberOfSeasons", ascending: true) as? Show
+        let max = fetchMinMax(key: "numberOfSeasons", ascending: false) as? Show
+        
+        if min?.numberOfSeasons == nil {
+            return 0 ... (max?.numberOfSeasons ?? 0)
         }
-        return seasons.first! ... seasons.last!
+        return min!.numberOfSeasons! ... (max?.numberOfSeasons ?? min!.numberOfSeasons!)
     }
     
-    /// Returns a list of genres used in the media library.
-    /// Does not contain duplicates.
+    /// Returns a list of all genres existing in the viewContext.
     static func allGenres() -> [Genre] {
-        let genres = MediaLibrary.shared.mediaList.compactMap({ Array($0.genres) })
-        // Remove all duplicates
-        return Array(Set(genres.joined()))
+        return allObjects(entityName: "Genre")
+    }
+    
+    /// Returns a list of all media objects existing in the viewContext.
+    static func allMedias() -> [Media] {
+        return allObjects(entityName: "Media")
+    }
+    
+    /// Returns a list of all entities with the given name in the viewContext.
+    static func allObjects<T: NSManagedObject>(entityName: String) -> [T] {
+        let fetchRequest: NSFetchRequest<T> = NSFetchRequest(entityName: entityName)
+        let objects = try? PersistenceController.viewContext.fetch(fetchRequest)
+        return objects ?? []
+    }
+    
+    static private func fetchMinMax(key: String, ascending: Bool) -> Media? {
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "%K != nil", key)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending)]
+        fetchRequest.fetchLimit = 1
+        return try? PersistenceController.viewContext.fetch(fetchRequest).first
+    }
+    
+    
+    /// An ISO8601 time string representing the current date and time. Safe to use in filenames
+    /// - Parameter withTime: Whether to include the time
+    /// - Returns: The date (and possibly time) string
+    static func isoDateString(withTime: Bool = true) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withDashSeparatorInDate, .withFullDate]
+        if withTime {
+            formatter.formatOptions.formUnion([.withFullTime, .withTimeZone])
+        }
+        return formatter.string(from: Date())
     }
 }
 
@@ -237,4 +275,34 @@ extension Dictionary {
     mutating func merge(_ other: [Key : Value]) {
         self.merge(other, uniquingKeysWith: { _, new in new })
     }
+}
+
+/// Returns the smaller non-nil object of the given two objects
+/// - Parameters:
+///   - x: The first object to compare
+///   - y: The second object to compare
+/// - Returns: The smaller non-nil object. If both objects are nil, the function returns nil.
+func min<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
+    if x == nil {
+        return y
+    }
+    if y == nil {
+        return x
+    }
+    return min(x!, y!)
+}
+
+/// Returns the bigger non-nil object of the given two objects
+/// - Parameters:
+///   - x: The first object to compare
+///   - y: The second object to compare
+/// - Returns: The bigger non-nil object. If both objects are nil, the function returns nil.
+func max<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
+    if x == nil {
+        return y
+    }
+    if y == nil {
+        return x
+    }
+    return max(x!, y!)
 }

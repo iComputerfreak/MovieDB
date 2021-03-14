@@ -98,52 +98,52 @@ struct AddMediaView : View {
     
     func addMedia(_ result: TMDBSearchResult) {
         print("Selected \(result.title)")
-        if self.library.mediaList.contains(where: { $0.tmdbID == result.id }) {
+        let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", result.id)
+        existingFetchRequest.fetchLimit = 1
+        let existingObjects = (try? managedObjectContext.count(for: existingFetchRequest)) ?? 0
+        if existingObjects > 0 {
             // Already added
             AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
         } else {
             self.isLoading = true
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    try TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType) { (media: Media?, error: Error?) in
-                        
-                        if let error = error {
-                            print("Error fetching media: \(error)")
-                            return
-                        }
-                        
-                        guard let bgMedia = media else {
-                            print("Error fetching media. Media object is nil")
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            do {
-                                let media = managedObjectContext.object(with: bgMedia.objectID) as! Media
-                                // Append the viewContext media object, not the one belonging to the background context
-                                try self.library.append(media)
-                                // Load the thumbnail for the correct media object
-                                media.loadThumbnailAsync()
-                            } catch let e {
-                                print("Error adding media '\(bgMedia.title)'")
-                                print(e)
-                                AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
-                            }
-                            self.isLoading = false
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                } catch let error as LocalizedError {
+            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType) { (media: Media?, error: Error?) in
+                
+                if let error = error as? LocalizedError {
                     print("Error loading media: \(error)")
                     DispatchQueue.main.async {
                         AlertHandler.showSimpleAlert(title: "Error", message: "Error loading media: \(error.localizedDescription)")
                     }
-                } catch let otherError {
-                    print("Unknown Error: \(otherError)")
+                    self.isLoading = false
+                    return
+                } else if error != nil || media == nil {
+                    print("Unknown Error: \(String(describing: error))")
                     assertionFailure("This error should be captured specifically to give the user a more precise error message.")
                     DispatchQueue.main.async {
                         AlertHandler.showSimpleAlert(title: "Error", message: "There was an error loading the media.")
                     }
+                    self.isLoading = false
+                    return
+                }
+                
+                // We don't have to do anything with the media object, since it already was added to the background context and the background context was saved.
+                // The object will automatically be merged with the viewContext.
+                
+                DispatchQueue.main.async {
+                    // TODO
+                    //                            do {
+                    //                                let media = managedObjectContext.object(with: bgMedia.objectID) as! Media
+                    //                                // Append the viewContext media object, not the one belonging to the background context
+                    //                                try self.library.append(media)
+                    //                                // Load the thumbnail for the correct media object
+                    //                                media.loadThumbnailAsync()
+                    //                            } catch let e {
+                    //                                print("Error adding media '\(bgMedia.title)'")
+                    //                                print(e)
+                    //                                AlertHandler.showSimpleAlert(title: "Error", message: e.localizedDescription)
+                    //                            }
+                    self.isLoading = false
+                    self.presentationMode.wrappedValue.dismiss()
                 }
             }
         }
