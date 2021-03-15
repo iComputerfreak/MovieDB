@@ -31,9 +31,9 @@ public class Show: Media {
         self.numberOfEpisodes = showData.numberOfEpisodes
         self.episodeRuntime = showData.episodeRuntime
         self.isInProduction = showData.isInProduction
-        self.seasons = Set(showData.seasons)
+        self.seasons = Set(transferIntoContext(showData.seasons))
         self.showType = showData.showType
-        self.networks = Set(showData.networks)
+        self.networks = Set(transferIntoContext(showData.networks))
     }
     
     override func missingInformation() -> Set<MediaInformation> {

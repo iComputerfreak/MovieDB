@@ -55,6 +55,7 @@ public class MediaLibrary: NSManagedObject {
             let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
             let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
+            print("Updating \(medias.count) media objects.")
             for media in medias {
                 // This media has been changed
                 api.updateMedia(media) { error in

@@ -37,19 +37,24 @@ public class Media: NSManagedObject {
         self.title = tmdbData.title
         self.originalTitle = tmdbData.originalTitle
         self.imagePath = tmdbData.imagePath
-        self.genres = Set(tmdbData.genres)
+        self.genres = Set(transferIntoContext(tmdbData.genres))
         self.overview = tmdbData.overview
         self.status = tmdbData.status
         self.originalLanguage = tmdbData.originalLanguage
-        self.productionCompanies = Set(tmdbData.productionCompanies)
+        self.productionCompanies = Set(transferIntoContext(tmdbData.productionCompanies))
         self.homepageURL = tmdbData.homepageURL
         self.popularity = tmdbData.popularity
         self.voteAverage = tmdbData.voteAverage
         self.voteCount = tmdbData.voteCount
-        self.cast = Set(tmdbData.cast)
+        self.cast = Set(transferIntoContext(tmdbData.cast))
         self.keywords = tmdbData.keywords
         self.translations = tmdbData.translations
-        self.videos = Set(tmdbData.videos)
+        self.videos = Set(transferIntoContext(tmdbData.videos))
+    }
+    
+    func transferIntoContext<T: NSManagedObject>(_ objects: [T]) -> [T] {
+        // Make sure to use the objects from the correct context
+        return objects.map({ managedObjectContext!.object(with: $0.objectID) as! T })
     }
     
     public override func awakeFromInsert() {

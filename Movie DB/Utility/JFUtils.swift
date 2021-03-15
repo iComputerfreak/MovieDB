@@ -306,3 +306,10 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
     }
     return max(x!, y!)
 }
+
+/// Array extension to make all arrays with hashable elements identifiable
+extension Array: Identifiable where Element: Hashable {
+    public var id: Int {
+        return self.hashValue
+    }
+}

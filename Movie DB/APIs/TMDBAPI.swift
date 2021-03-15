@@ -59,27 +59,29 @@ class TMDBAPI {
     ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
     /// - Returns: The decoded media object
-    func fetchMediaAsync(id: Int, type: MediaType, completion: @escaping (Media?, Error?) -> Void) {
-        self.context.perform {
+    func fetchMediaAsync(id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (Media?, Error?) -> Void) {
+        let context = context ?? self.context
+        context.perform {
             // Get the TMDB Data
-            self.fetchTMDBData(for: id, type: type) { tmdbData, error in
+            self.fetchTMDBData(for: id, type: type, context: context) { tmdbData, error in
                 guard let tmdbData = tmdbData else {
                     print("Error retrieving TMDBData for \(type.rawValue) ID \(id)")
                     print(error ?? "nil")
-                    self.saveContext()
+                    PersistenceController.saveContext(context: context)
                     completion(nil, error)
                     return
                 }
                 // Create the media
-                self.context.perform {
+                context.perform {
                     var media: Media!
                     switch type {
                         case .movie:
-                            media = Movie(context: self.context, tmdbData: tmdbData)
+                            media = Movie(context: context, tmdbData: tmdbData)
                         case .show:
-                            media = Show(context: self.context, tmdbData: tmdbData)
+                            media = Show(context: context, tmdbData: tmdbData)
                     }
-                    self.saveContext()
+                    // Push the new media object into the viewContext
+                    PersistenceController.saveContext(context: context)
                     completion(media, nil)
                 }
             }
@@ -92,12 +94,12 @@ class TMDBAPI {
     ///   - type: The type of media
     /// - Throws: Any errors that occurred while loading or decoding the media
     /// - Returns: The media object
-    func fetchMedia(id: Int, type: MediaType) throws -> Media {
+    func fetchMedia(id: Int, type: MediaType, context: NSManagedObjectContext? = nil) throws -> Media {
         var returnMedia: Media!
         var returnError: Error?
         let group = DispatchGroup()
         group.enter()
-        self.fetchMediaAsync(id: id, type: type) { (media, error) in
+        self.fetchMediaAsync(id: id, type: type, context: context) { (media, error) in
             defer {
                 group.leave()
             }
@@ -131,9 +133,10 @@ class TMDBAPI {
                     print("Error updating \(media.type.rawValue) \(media.title)")
                     print(error ?? "nil")
                     completion(error)
-                    self.saveContext()
                     return
                 }
+                // Save the context to propagate the changes to the viewContext
+                self.saveContext()
                 // If fetching was successful, update the media object and thumbnail
                 DispatchQueue.main.async {
                     do {
@@ -165,38 +168,37 @@ class TMDBAPI {
         if let startDate = startDate {
             dateRangeParameters["start_date"] = JFUtils.tmdbDateFormatter.string(from: startDate)
         }
-        self.context.perform {
-            var allResults: [MediaChangeWrapper] = []
-            var requestError: Error? = nil
-            // We are already in a background thread, this means we can wait for both api calls to finish
-            let group = DispatchGroup()
-            // Fetch changes for all media types
-            for type in MediaType.allCases {
-                group.enter()
-                self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: self.context) { (results: [MediaChangeWrapper]?, error: Error?) in
-                    defer {
-                        group.leave()
-                    }
-                    // If we received an error, return
-                    if let error = error {
-                        requestError = error
-                        return
-                    }
-                    guard let results = results else {
-                        // If results and error are nil, abort
-                        return
-                    }
-                    allResults += results
+        var allResults: [MediaChangeWrapper] = []
+        var requestError: Error? = nil
+        // We are already in a background thread, this means we can wait for both api calls to finish
+        let group = DispatchGroup()
+        // Fetch changes for all media types
+        for type in MediaType.allCases {
+            group.enter()
+            // We specify a nil context to prevent blocking our own thread with group.wait()
+            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: nil) { (results: [MediaChangeWrapper]?, error: Error?) in
+                // If we received an error, return
+                if let error = error {
+                    requestError = error
+                    group.leave()
+                    return
                 }
+                guard let results = results else {
+                    // If results and error are nil, abort
+                    group.leave()
+                    return
+                }
+                allResults += results
+                group.leave()
             }
-            group.wait()
-            self.saveContext()
-            if requestError != nil {
-                completion(nil, requestError)
-            } else {
-                // Only return the TMDB IDs that changed
-                completion(allResults.map(\.id), nil)
-            }
+        }
+        group.wait()
+        self.saveContext()
+        if requestError != nil {
+            completion(nil, requestError)
+        } else {
+            // Only return the TMDB IDs that changed
+            completion(allResults.map(\.id), nil)
         }
     }
     
@@ -226,9 +228,10 @@ class TMDBAPI {
     ///   - pageWrapper: The struct, the result pages get decoded into
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The accumulated results of the API calls
-    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, context: NSManagedObjectContext, completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
+    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, context: NSManagedObjectContext?, completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
         let decoder = self.decoder(context: context)
-        context.perform {
+        // If there was no context specified, we just use a new background context to perform the work in the background
+        (context ?? PersistenceController.shared.container.newBackgroundContext()).perform {
             do {
                 // Fetch the JSON in the background
                 let data = try self.request(path: path, additionalParameters: additionalParameters)
@@ -265,9 +268,9 @@ class TMDBAPI {
     ///   - type: The type of media to load
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The data returned by the API call
-    private func fetchTMDBData(for id: Int, type: MediaType, completion: @escaping (TMDBData?, Error?) -> Void) {
+    private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (TMDBData?, Error?) -> Void) {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: self.context, userInfo: [.mediaType: type]) { tmdbData, error in
+        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context ?? self.context, userInfo: [.mediaType: type]) { tmdbData, error in
             completion(tmdbData, error)
         }
     }
@@ -356,7 +359,7 @@ class TMDBAPI {
     /// Create a new JSONDecoder with the given context as managedObjectContext
     /// - Parameter context: The context
     /// - Returns: The decoder
-    private func decoder(context: NSManagedObjectContext) -> JSONDecoder {
+    private func decoder(context: NSManagedObjectContext?) -> JSONDecoder {
         // Initialize the decoder and context
         let decoder = JSONDecoder()
         decoder.userInfo[.managedObjectContext] = context

@@ -131,7 +131,7 @@ struct PersistenceController {
         if context.hasChanges {
             // Make sure we save on the correct thread to prevent race conditions
             // See: https://developer.apple.com/forums/thread/668299
-            context.perform {
+            context.performAndWait {
                 do {
                     try context.save()
                 } catch {

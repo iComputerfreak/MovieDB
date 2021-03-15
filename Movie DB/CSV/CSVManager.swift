@@ -12,8 +12,8 @@ import CoreData
 
 struct CSVManager {
     
-    static let separator: Character = ","
-    static let arraySeparator: Character = ";"
+    static let separator: Character = ";"
+    static let arraySeparator: Character = ","
     static let lineSeparator: Character = "\n"
     /// The `DateFormatter` used for de- and encoding dates
     static let dateFormatter: DateFormatter = {
@@ -56,6 +56,12 @@ struct CSVManager {
         case showType = "show_type"
     }
     
+    enum CSVError: Error {
+        case noTMDBID
+        case noMediaType
+        case mediaAlreadyExists
+    }
+    
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched]
     static let exportKeys: [CSVKey] = CSVKey.allCases
@@ -94,15 +100,13 @@ struct CSVManager {
         .showType: (\Show.showType, { ($0 as! ShowType).rawValue })
     ]
     
-    static func createMedia(from values: [String: String], context: NSManagedObjectContext) -> Media? {
+    static func createMedia(from values: [String: String], context: NSManagedObjectContext) throws -> Media? {
         // We only need the tmdbID and user values from the CSV
         guard let tmdbIDValue = values[.tmdbID], let tmdbID = Int(tmdbIDValue) else {
-            // TODO: Error
-            return nil
+            throw CSVError.noTMDBID
         }
         guard let mediaTypeValue = values[.mediaType], let mediaType = MediaType(rawValue: mediaTypeValue) else {
-            // TODO: Warning
-            return nil
+            throw CSVError.noMediaType
         }
         
         // Check if media with this tmdbID already exists
@@ -111,22 +115,22 @@ struct CSVManager {
         fetchRequest.fetchLimit = 1
         let existingAmount = (try? context.count(for: fetchRequest)) ?? 0
         if existingAmount > 0 {
-            // Media already exists in context, return without error
-            return nil
+            // Media already exists in context
+            throw CSVError.mediaAlreadyExists
         }
         
         // Create the media
         // TODO: Handle errors
         // TODO: Somehow pass the errors to the user and show him which objects could not be imported
-        let media = try? TMDBAPI.shared.fetchMedia(id: tmdbID, type: mediaType)
+        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: mediaType, context: context)
         
         // Setting values with PartialKeyPaths is not possible, so we have to do it manually
         // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
         if let rawRating = values[.personalRating], let intRep = Int(rawRating), let personalRating = StarRating(integerRepresentation: intRep) {
-            media?.personalRating = personalRating
+            media.personalRating = personalRating
         }
         if let rawWatchAgain = values[.watchAgain], let watchAgain = Bool(rawWatchAgain) {
-            media?.watchAgain = watchAgain
+            media.watchAgain = watchAgain
         }
         if let rawTags = values[.tags] {
             var tags: [Tag] = []
@@ -138,6 +142,7 @@ struct CSVManager {
                     fetchRequest.predicate = NSPredicate(format: "%K = %@", "name", name)
                     fetchRequest.fetchLimit = 1
                     if let tag = try? context.fetch(fetchRequest).first {
+                        assert(tag.managedObjectContext == context)
                         tags.append(tag)
                     } else {
                         // Create a new tag with the name
@@ -145,11 +150,11 @@ struct CSVManager {
                         tags.append(tag)
                     }
                 }
-                media?.tags = Set(tags)
+                media.tags = Set(tags)
             }
         }
         if let notes = values[.notes] {
-            media?.notes = notes
+            media.notes = notes
         }
         if let rawWatched = values[.watched], let watched = Bool(rawWatched) {
             if mediaType == .movie {
@@ -161,6 +166,8 @@ struct CSVManager {
                 (media as! Show).lastWatched = lastWatched
             }
         }
+        
+        media.loadThumbnailAsync()
         
         return media
     }
