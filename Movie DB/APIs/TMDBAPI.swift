@@ -38,10 +38,10 @@ class TMDBAPI {
         return "\(language)-\(region)"
     }
     
-    // TODO: Maybe just create a separate background context for each execution?
-    lazy var context: NSManagedObjectContext = {
+    var backgroundContext: NSManagedObjectContext {
+        // Create a separate background context for each execution
         return PersistenceController.shared.container.newBackgroundContext()
-    }()
+    }
     
     var disposableContext: NSManagedObjectContext {
         PersistenceController.shared.disposableContext
@@ -52,15 +52,13 @@ class TMDBAPI {
     
     // MARK: - Public functions
     
-    // TODO: Save contexts
-    
     /// Loads and decodes a media object from the TMDB API
     /// - Parameters:
     ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
     /// - Returns: The decoded media object
     func fetchMediaAsync(id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (Media?, Error?) -> Void) {
-        let context = context ?? self.context
+        let context = context ?? self.backgroundContext
         context.perform {
             // Get the TMDB Data
             self.fetchTMDBData(for: id, type: type, context: context) { tmdbData, error in
@@ -127,7 +125,7 @@ class TMDBAPI {
     /// - Throws: `APIError` or `DecodingError`
     func updateMedia(_ media: Media, completion: @escaping (Error?) -> Void) {
         // Update TMDBData
-        self.context.perform {
+        self.backgroundContext.perform {
             self.fetchTMDBData(for: media.tmdbID, type: media.type) { (tmdbData, error) in
                 guard let tmdbData = tmdbData else {
                     print("Error updating \(media.type.rawValue) \(media.title)")
@@ -231,7 +229,7 @@ class TMDBAPI {
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, context: NSManagedObjectContext?, completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
         let decoder = self.decoder(context: context)
         // If there was no context specified, we just use a new background context to perform the work in the background
-        (context ?? PersistenceController.shared.container.newBackgroundContext()).perform {
+        (context ?? self.backgroundContext).perform {
             do {
                 // Fetch the JSON in the background
                 let data = try self.request(path: path, additionalParameters: additionalParameters)
@@ -247,15 +245,31 @@ class TMDBAPI {
                 
                 // Back to the background thread for loading the other pages
                 // Load the rest of the pages
+                let group = DispatchGroup()
+                var returnError: Error? = nil
                 for page in 2 ... min(wrapper.totalPages, maxPages) {
-                    let newParameters = additionalParameters.merging(["page": page])
-                    // Get the JSON
-                    let data = try self.request(path: path, additionalParameters: newParameters)
-                    // TODO: Decode on context thread asynchronously (so we can continue loading more pages)
-                    let wrapper = try decoder.decode(PageWrapper.self, from: data)
-                    results.append(contentsOf: wrapper.results)
+                    group.enter()
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        do {
+                            let newParameters = additionalParameters.merging(["page": page])
+                            // Get the JSON
+                            let data = try self.request(path: path, additionalParameters: newParameters)
+                            let wrapper = try decoder.decode(PageWrapper.self, from: data)
+                            results.append(contentsOf: wrapper.results)
+                            group.leave()
+                        } catch {
+                            returnError = error
+                            group.leave()
+                        }
+                    }
                 }
-                completion(results, nil)
+                // Wait for all pages to finish
+                group.wait()
+                if let error = returnError {
+                    completion(results, error)
+                } else {
+                    completion(results, nil)
+                }
             } catch let error {
                 completion(nil, error)
             }
@@ -270,7 +284,7 @@ class TMDBAPI {
     /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (TMDBData?, Error?) -> Void) {
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context ?? self.context, userInfo: [.mediaType: type]) { tmdbData, error in
+        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context ?? self.backgroundContext, userInfo: [.mediaType: type]) { tmdbData, error in
             completion(tmdbData, error)
         }
     }
@@ -368,7 +382,7 @@ class TMDBAPI {
     
     func saveContext() {
         print("Saving TMDBAPI context.")
-        PersistenceController.saveContext(context: self.context)
+        PersistenceController.saveContext(context: self.backgroundContext)
     }
     
 }

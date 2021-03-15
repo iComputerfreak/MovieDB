@@ -188,13 +188,28 @@ struct JFUtils {
     /// An ISO8601 time string representing the current date and time. Safe to use in filenames
     /// - Parameter withTime: Whether to include the time
     /// - Returns: The date (and possibly time) string
-    static func isoDateString(withTime: Bool = true) -> String {
+    static func isoDateString(withTime: Bool = false) -> String {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withDashSeparatorInDate, .withFullDate]
         if withTime {
             formatter.formatOptions.formUnion([.withFullTime, .withTimeZone])
         }
         return formatter.string(from: Date())
+    }
+    
+    static func share(items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
+        DispatchQueue.main.async {
+            guard let source = UIApplication.shared.windows.last?.rootViewController else {
+                return
+            }
+            let vc = UIActivityViewController(
+                activityItems: items,
+                applicationActivities: nil
+            )
+            vc.excludedActivityTypes = excludedActivityTypes
+            vc.popoverPresentationController?.sourceView = source.view
+            source.present(vc, animated: true)
+        }
     }
 }
 

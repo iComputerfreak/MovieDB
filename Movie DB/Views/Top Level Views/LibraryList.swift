@@ -20,6 +20,7 @@ struct LibraryList: View {
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
+    // TODO: Give filterSettings in init and apply to fetch request
     init(searchText: String) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
@@ -70,7 +71,6 @@ struct LibraryList: View {
         guard filteredMedia.count > 0 else {
             return Text("")
         }
-        // TODO: Replace this with a derived value maybe?
         let objCount = filteredMedia.count
         return Text("\(objCount) object\(objCount == 1 ? "" : "s")\(objCount == self.totalMediaItems ? " total" : "")")
     }

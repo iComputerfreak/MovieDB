@@ -142,7 +142,6 @@ struct SettingsView: View {
     // MARK: - Button Functions
     
     func updateMedia() {
-        // TODO: Fix error when updating
         self.updateInProgress = true
         DispatchQueue.global().async {
             print("Starting update...")
@@ -241,7 +240,6 @@ struct SettingsView: View {
                             }))
                             controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                                 // Make the changes to this context permanent by saving them to disk
-                                // TODO: Should this context be a sub-context of the viewContext? This way we would push them into the viewContext and avoid having to merge the viewContext with the container.
                                 PersistenceController.saveContext(context: importContext)
                                 importLog.append("Import complete.")
                                 self.showImportLog(importLog)
@@ -318,13 +316,9 @@ struct SettingsView: View {
             // On macOS present the file picker manually
             UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
             #else
-            self.shareSheet.shareFile(url: url)
+            JFUtils.share(items: [url!])
             #endif
-            
-            // Delete the file after sharing (this is only the local copy, that will be shared)
-            if FileManager.default.fileExists(atPath: url.path) {
-                try? FileManager.default.removeItem(at: url)
-            }
+            self.isLoading = false
         }
     }
     
@@ -360,8 +354,8 @@ struct SettingsView: View {
                             }
                         }))
                         controller.addAction(UIAlertAction(title: "No", style: .cancel))
-                        self.isLoading = false
                         AlertHandler.presentAlert(alert: controller)
+                        self.isLoading = false
                     }
                 } catch let error as LocalizedError {
                     print("Error importing: \(error)")
@@ -389,8 +383,8 @@ struct SettingsView: View {
     }
     
     func exportTags() {
-        var url: URL!
         PersistenceController.shared.container.performBackgroundTask { (context) in
+            var url: URL!
             do {
                 let exportData: String = try TagImporter.export(context: context)
                 // Save as a file to share it
@@ -401,32 +395,28 @@ struct SettingsView: View {
                 print(exception)
                 return
             }
-        }
-        #if targetEnvironment(macCatalyst)
-        // Show save file dialog
-        self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
-            print("Exporting \(url.lastPathComponent).")
-            // Document picker finished. Invalidate it.
-            self.documentPicker = nil
-            do {
-                // Export the csv to the file
-                try exportData.write(to: url, atomically: true, encoding: .utf8)
-            } catch let exception {
-                print("Error exporting Tag Export file:")
-                print(exception)
-            }
-        }, onCancel: {
-            print("Canceling...")
-            self.documentPicker = nil
-        })
-        // On macOS present the file picker manually
-        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
-        #else
-        self.shareSheet.shareFile(url: url)
-        #endif
-        // Delete the export (this is only the local copy, that was shared)
-        if FileManager.default.fileExists(atPath: url.path) {
-            try? FileManager.default.removeItem(at: url)
+            #if targetEnvironment(macCatalyst)
+            // Show save file dialog
+            self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+                print("Exporting \(url.lastPathComponent).")
+                // Document picker finished. Invalidate it.
+                self.documentPicker = nil
+                do {
+                    // Export the csv to the file
+                    try exportData.write(to: url, atomically: true, encoding: .utf8)
+                } catch let exception {
+                    print("Error exporting Tag Export file:")
+                    print(exception)
+                }
+            }, onCancel: {
+                print("Canceling...")
+                self.documentPicker = nil
+            })
+            // On macOS present the file picker manually
+            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+            #else
+            JFUtils.share(items: [url!])
+            #endif
         }
     }
     

@@ -9,6 +9,7 @@
 import SwiftUI
 import UIKit
 
+// TODO: Remove
 struct ShareSheet: UIViewControllerRepresentable {
     
     let activityViewController = ActivityViewController()
@@ -21,6 +22,7 @@ struct ShareSheet: UIViewControllerRepresentable {
     
     /// Shares the file at the given URL and then deletes it
     func shareFile(url: URL) {
+        print("Sharing file at URL \(url)")
         activityViewController.url = url
         activityViewController.shareFile()
     }
@@ -33,8 +35,10 @@ class ActivityViewController: UIViewController {
     /// Shares the file at the given URL and then deletes it
     func shareFile() {
         let vc = UIActivityViewController(activityItems: [url!], applicationActivities: [])
-        present(vc, animated: true)
-        vc.popoverPresentationController?.sourceView = self.view
+        DispatchQueue.main.async {
+            self.present(vc, animated: true)
+            vc.popoverPresentationController?.sourceView = self.view
+        }
     }
     
 }

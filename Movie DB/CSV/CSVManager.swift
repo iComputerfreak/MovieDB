@@ -88,10 +88,11 @@ struct CSVManager {
         .releaseDate: (\Movie.releaseDate, { dateFormatter.string(from: $0 as! Date) }),
         .runtime: (\Movie.runtime, nil),
         .revenue: (\Movie.revenue, nil),
+        .budget: (\Movie.budget, nil),
         .isAdult: (\Movie.isAdult, nil)
     ]
     static let showExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Show>, Converter?)] = [
-        .lastWatched: (\Show.lastWatched, { ($0 as! String) }),
+        .lastWatched: (\Show.lastWatched, nil),
         
         .firstAirDate: (\Show.firstAirDate, { dateFormatter.string(from: $0 as! Date) }),
         .lastAirDate: (\Show.lastAirDate, { dateFormatter.string(from: $0 as! Date) }),
@@ -120,8 +121,6 @@ struct CSVManager {
         }
         
         // Create the media
-        // TODO: Handle errors
-        // TODO: Somehow pass the errors to the user and show him which objects could not be imported
         let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: mediaType, context: context)
         
         // Setting values with PartialKeyPaths is not possible, so we have to do it manually
@@ -250,14 +249,16 @@ struct CSVManager {
     /// - Parameter mediaObjects: The list of media objects to encode
     /// - Returns: The CSV string
     static func createCSV(from mediaObjects: [Media]) -> String {
-        var csv = ""
+        var csv: [String] = []
+        // CSV Header
+        csv.append(exportKeys.map(\.rawValue).joined(separator: String(separator)))
+        // CSV Values
         for mediaObject in mediaObjects {
             let values = self.createRecord(from: mediaObject)
             let line: [String] = exportKeys.map({ values[$0]! })
             csv.append(line.joined(separator: String(separator)))
-            csv.append(lineSeparator)
         }
-        return csv
+        return csv.joined(separator: String(lineSeparator))
     }
     
 }
