@@ -78,61 +78,40 @@ struct SettingsView: View {
                     Section(footer: self.footer()) {
                         
                         // MARK: - Update Button
-                        Button(action: self.updateMedia, label: Text("Update Media").closure())
+                        Button("Update Media", action: self.updateMedia)
                         .disabled(self.updateInProgress)
                                                 
                         // MARK: - Import Button
-                        Button(action: self.importMedia) {
-                            Text("Import Media")
-                        }
-                        .popover(isPresented: .init(get: {
-                            #if targetEnvironment(macCatalyst)
-                            return false
-                            #else
-                            return self.documentPicker != nil
-                            #endif
-                        }, set: { newState in
-                            // If the new state is "hidden"
-                            if newState == false {
-                                self.documentPicker = nil
+                        Button("Import Media", action: self.importMedia)
+                            // MARK: Document Picker
+                            .popover(isPresented: .init(get: {
+                                #if targetEnvironment(macCatalyst)
+                                return false
+                                #else
+                                return self.documentPicker != nil
+                                #endif
+                            }, set: { newState in
+                                // If the new state is "hidden"
+                                if newState == false {
+                                    self.documentPicker = nil
+                                }
+                            })) {
+                                self.documentPicker!
                             }
-                        })) {
-                            self.documentPicker!
-                        }
                         
                         // MARK: - Export Button
                         Button(action: self.exportMedia) {
                             // Attach the share sheet above the export button (will be displayed correctly anyways)
                             ZStack(alignment: .leading) {
                                 Text("Export Media")
+                                // MARK: Share Sheet
                                 shareSheet
                             }
                         }
                         
                         // MARK: - Import Tags
-                        Button(action: self.importTags, label: {
-                            Text("Import Tags")
-                        })
-                        .popover(isPresented: .init(get: {
-                            #if targetEnvironment(macCatalyst)
-                            return false
-                            #else
-                            return self.documentPicker != nil
-                            #endif
-                        }, set: { newState in
-                            // If the new state is "hidden"
-                            if newState == false {
-                                self.documentPicker = nil
-                            }
-                        })) {
-                            self.documentPicker!
-                        }
-                        
-                        // MARK: - Export Tags
-                        Button(action: self.exportTags, label: Text("Export Tags").closure())
-                        
-                        // MARK: - Reset Button
-                        Button(action: self.resetLibrary, label: Text("Reset Library").closure())
+                        Button("Import Tags", action: self.importTags)
+                            // MARK: Import Log Popover
                             .popover(isPresented: .init(get: {
                                 self.importLog != nil
                             }, set: { (enabled) in
@@ -146,10 +125,16 @@ struct SettingsView: View {
                             })) {
                                 ImportLogViewer(log: self.$importLog)
                             }
+                        
+                        // MARK: - Export Tags
+                        Button("Export Tags", action: self.exportTags)
+                        
+                        // MARK: - Reset Button
+                        Button("Reset Library", action: self.resetLibrary)
                     }
                     
                 }
-                .navigationBarTitle("Settings")
+                .navigationTitle("Settings")
             }
         }
     }
@@ -409,11 +394,7 @@ struct SettingsView: View {
             do {
                 let exportData: String = try TagImporter.export(context: context)
                 // Save as a file to share it
-                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export.txt")
-                // Delete any old export, if it exists (this is only the local copy, that will be shared)
-                if FileManager.default.fileExists(atPath: url.path) {
-                    try? FileManager.default.removeItem(at: url)
-                }
+                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export_\(JFUtils.isoDateString()).txt")
                 try exportData.write(to: url, atomically: true, encoding: .utf8)
             } catch let exception {
                 print("Error writing Tags Export file")
@@ -443,13 +424,17 @@ struct SettingsView: View {
         #else
         self.shareSheet.shareFile(url: url)
         #endif
+        // Delete the export (this is only the local copy, that was shared)
+        if FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.removeItem(at: url)
+        }
     }
     
     func resetLibrary() {
         let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            // Don't reset the tags
+            // Don't reset the tags, only the media objects
             do {
                 try self.library.reset()
             } catch let e {

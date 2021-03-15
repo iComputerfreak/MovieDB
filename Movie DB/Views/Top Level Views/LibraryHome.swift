@@ -11,9 +11,15 @@ import Combine
 
 struct LibraryHome : View {
     
+    enum ActiveSheet: Identifiable {
+        case addMedia
+        case filter
+        
+        var id: Int { hashValue }
+    }
+    
     @ObservedObject private var library = MediaLibrary.shared
-    @State private var isAddingMedia: Bool = false
-    @State private var isShowingFilterOptions: Bool = false
+    @State private var activeSheet: ActiveSheet? = nil
     @State private var searchText: String = ""
     
     var body: some View {
@@ -27,24 +33,22 @@ struct LibraryHome : View {
                     LibraryList(searchText: searchText)
                 }
                 
-                // FUTURE: Workaround for using two sheet modifiers
-                .background(
-                    EmptyView()
-                        .sheet(isPresented: $isAddingMedia) { AddMediaView() }
-                        .background(
-                            EmptyView()
-                                .sheet(isPresented: $isShowingFilterOptions) { FilterView() }
-                                .background(
-                                    EmptyView()
-                                    // FUTURE: Open new item in editing mode
-                                    
-                                    //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
-                                )
-                        )
-                )
+                // Display the currently active sheet
+                .sheet(item: $activeSheet) { sheet in
+                    switch sheet {
+                        case .addMedia:
+                            AddMediaView()
+                        case .filter:
+                            FilterView()
+                        // FUTURE: Open new item in editing mode
+                        
+                        //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
+                    }
+                }
                 
-                .navigationBarItems(leading: Button(action: { self.isShowingFilterOptions = true }, label: Text("Filter").closure()),
-                                    trailing: Button(action: { self.isAddingMedia = true }, label: Image(systemName: "plus").closure())
+                .navigationBarItems(
+                    //leading: Button(action: { self.activeSheet = .filter }, label: Text("Filter").closure()),
+                    trailing: Button(action: { self.activeSheet = .addMedia }, label: Image(systemName: "plus").closure())
                 )
                 .navigationBarTitle(Text("Home"))
             }
