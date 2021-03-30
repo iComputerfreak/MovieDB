@@ -44,7 +44,7 @@ struct ProblemsView: View {
             } else {
                 List {
                     ForEach(missingInfoMedia) { mediaObject in
-                        ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation().map(\.rawValue).joined(separator: ", "))").italic())
+                        ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation().map(\.rawValue).sorted().joined(separator: ", "))").italic())
                             .environmentObject(mediaObject)
                     }
                 }

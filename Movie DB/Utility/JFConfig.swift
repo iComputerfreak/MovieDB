@@ -20,12 +20,7 @@ class JFConfig: ObservableObject {
             objectWillChange.send()
         }
     }
-    @ConfigValue(.region, defaultValue: Locale.current.regionCode ?? "US") var region: String {
-        willSet {
-            objectWillChange.send()
-        }
-    }
-    @ConfigValue(.language, defaultValue: Locale.current.languageCode ?? "en") var language: String {
+    @ConfigValue(.language, defaultValue: "en-US") var language: String {
         willSet {
             objectWillChange.send()
         }

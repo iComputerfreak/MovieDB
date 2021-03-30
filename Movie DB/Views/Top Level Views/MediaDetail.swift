@@ -16,7 +16,11 @@ struct MediaDetail : View {
     
     var body: some View {
         // Group is needed so swift can infer the return type
-        Group {
+        //Group {
+        if mediaObject.isFault {
+            Text("Error loading media")
+                .navigationTitle("Error")
+        } else {
             List {
                 TitleView(title: mediaObject.title, year: mediaObject.year, thumbnail: mediaObject.thumbnail)
                 UserData()
@@ -24,7 +28,7 @@ struct MediaDetail : View {
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())
-        }
+        //}
         .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
         .navigationBarItems(trailing: EditButton())
         .onAppear {
@@ -33,6 +37,7 @@ struct MediaDetail : View {
             if mediaObject.thumbnail == nil {
                 mediaObject.loadThumbnailAsync()
             }
+        }
         }
     }
 }

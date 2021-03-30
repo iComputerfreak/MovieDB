@@ -60,7 +60,6 @@ struct LibraryList: View {
                         let media = self.filteredMedia[offset]
                         self.managedObjectContext.delete(media)
                     }
-                    PersistenceController.saveContext()
                 }
             }
         }

@@ -17,6 +17,7 @@ struct TagImporter {
     static func export(context: NSManagedObjectContext) throws -> String {
         // Fetch all tags from storage
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Tag.name, ascending: true)]
         let tags = try context.fetch(fetchRequest)
         return tags.map(\.name).joined(separator: "\n")
     }

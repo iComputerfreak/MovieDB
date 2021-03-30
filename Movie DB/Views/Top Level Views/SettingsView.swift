@@ -19,36 +19,10 @@ struct SettingsView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
-    // TODO: Reload all media objects when changing region / Language to use the correct localized title and information
-    var sortedLanguages: [String] {
-        Locale.isoLanguageCodes.sorted { (code1, code2) -> Bool in
-            // Sort nil values to the end
-            guard let language1 = JFUtils.languageString(for: code1) else {
-                return false
-            }
-            guard let language2 = JFUtils.languageString(for: code2) else {
-                return true
-            }
-            return language1.lexicographicallyPrecedes(language2)
-        }
-    }
-    
-    var sortedRegions: [String] {
-        Locale.isoRegionCodes.sorted { (code1, code2) -> Bool in
-            // Sort nil values to the end
-            guard let region1 = JFUtils.regionString(for: code1) else {
-                return false
-            }
-            guard let region2 = JFUtils.regionString(for: code2) else {
-                return true
-            }
-            return region1.lexicographicallyPrecedes(region2)
-        }
-    }
-    
+    @State var sortedLanguages: [String] = UserDefaults.standard.stringArray(forKey: JFLiterals.Keys.tmdbLanguages) ?? []
+        
     @State private var updateInProgress = false
     
-    @State private var shareSheet = ShareSheet()
     @State private var documentPicker: DocumentPicker?
     
     @State private var isLoading: Bool = false
@@ -56,22 +30,30 @@ struct SettingsView: View {
     
     @State private var importLog: [String]? = nil
     
+    func loadLanguages() {
+        if self.sortedLanguages.isEmpty {
+            // Load the TMDB Languages
+            JFUtils.updateTMDBLanguages()
+            // Read the newly stored languages
+            self.sortedLanguages = UserDefaults.standard.stringArray(forKey: JFLiterals.Keys.tmdbLanguages) ?? []
+        }
+    }
+    
     var body: some View {
         LoadingView(isShowing: $isLoading, text: self.loadingText ?? "Loading...") {
             NavigationView {
                 Form {
                     Section {
                         Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
-                        Picker("Database Language", selection: $config.language) {
-                            ForEach(self.sortedLanguages, id: \.self) { code in
-                                Text(JFUtils.languageString(for: code) ?? code)
-                                    .tag(code)
-                            }
-                        }
-                        Picker("Region", selection: $config.region) {
-                            ForEach(self.sortedRegions, id: \.self) { code in
-                                Text(JFUtils.regionString(for: code) ?? code)
-                                    .tag(code)
+                        Picker("Language", selection: $config.language) {
+                            if self.sortedLanguages.isEmpty {
+                                Text("Loading...")
+                                    .onAppear(perform: loadLanguages)
+                            } else {
+                                ForEach(self.sortedLanguages, id: \.self) { code in
+                                    Text(Locale.current.localizedString(forIdentifier: code) ?? code)
+                                        .tag(code)
+                                }
                             }
                         }
                     }
@@ -101,12 +83,7 @@ struct SettingsView: View {
                         
                         // MARK: - Export Button
                         Button(action: self.exportMedia) {
-                            // Attach the share sheet above the export button (will be displayed correctly anyways)
-                            ZStack(alignment: .leading) {
-                                Text("Export Media")
-                                // MARK: Share Sheet
-                                shareSheet
-                            }
+                            Text("Export Media")
                         }
                         
                         // MARK: - Import Tags
@@ -145,6 +122,8 @@ struct SettingsView: View {
         self.updateInProgress = true
         DispatchQueue.global().async {
             print("Starting update...")
+            // Update the available TMDB Languages
+            JFUtils.updateTMDBLanguages()
             // Update and show the result
             self.library.update() { (updateCount: Int?, error: Error?) in
                 
@@ -178,6 +157,8 @@ struct SettingsView: View {
             
             // Perform the import into a separate context on a background thread
             PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
+                // Set the merge policy to not override existing data
+                importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
                 // The log containing all errors and information about the import
                 var importLog: [String] = []
                 // Load the CSV data
@@ -185,6 +166,7 @@ struct SettingsView: View {
                     let csvString = try String(contentsOf: url)
                     print("Read csv file. Trying to import into library.")
                     let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString, delimiter: String(CSVManager.separator))
+                    var csvHeader: [String] = []
                     importer.startImportingRecords { (headerValues: [String]) in
                         // Check if the header contains the necessary values
                         for header in CSVManager.requiredImportKeys {
@@ -198,11 +180,12 @@ struct SettingsView: View {
                             }
                         }
                         importLog.append("Importing CSV with header \(headerValues.joined(separator: String(CSVManager.separator)))")
+                        csvHeader = headerValues
                     } recordMapper: { values in
                         do {
                             return try CSVManager.createMedia(from: values, context: importContext)
                         } catch let error as CSVManager.CSVError {
-                            let line = values.values.joined(separator: String(CSVManager.separator))
+                            let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: String(CSVManager.separator))
                             switch error {
                                 case .noTMDBID:
                                     importLog.append("Error: The following line is missing a TMDB ID:\n\(line)")
@@ -465,10 +448,14 @@ struct SettingsView: View {
         
         let log: Binding<[String]?>
         
+        var logText: String {
+            log.wrappedValue?.joined(separator: "\n") ?? ""
+        }
+        
         var body: some View {
             NavigationView {
                 ScrollView {
-                    Text((log.wrappedValue ?? []).joined(separator: "\n"))
+                    Text(logText)
                         .lineLimit(nil)
                         .padding()
                         .font(.footnote)
@@ -479,6 +466,11 @@ struct SettingsView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Close") {
                             self.log.wrappedValue = nil
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Copy") {
+                            UIPasteboard.general.string = logText
                         }
                     }
                 }

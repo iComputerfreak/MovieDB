@@ -117,3 +117,14 @@ extension NSSet {
     }
     
 }
+
+extension NSManagedObjectContext {
+    
+    /// Creates and returns a new background context which is a child of this context.
+    /// - Returns: The background context with this context set as its parent
+    func newBackgroundContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = self
+        return context
+    }
+}

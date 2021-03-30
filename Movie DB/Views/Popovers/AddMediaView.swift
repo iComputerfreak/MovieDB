@@ -107,7 +107,7 @@ struct AddMediaView : View {
             AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
         } else {
             self.isLoading = true
-            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType) { (media: Media?, error: Error?) in
+            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: PersistenceController.viewContext) { (media: Media?, error: Error?) in
                 
                 if let error = error as? LocalizedError {
                     print("Error loading media: \(error)")

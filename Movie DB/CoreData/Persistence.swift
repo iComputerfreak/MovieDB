@@ -14,7 +14,7 @@ struct PersistenceController {
     
     /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
     var disposableContext: NSManagedObjectContext {
-        // The disposable context is an empty context without any data in it
+        // The disposable context is a new empty context without any data in it
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         return context
     }
@@ -128,10 +128,10 @@ struct PersistenceController {
     /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
         print("Trying to save context from \(file):\(line).")
-        if context.hasChanges {
-            // Make sure we save on the correct thread to prevent race conditions
-            // See: https://developer.apple.com/forums/thread/668299
-            context.performAndWait {
+        // Make sure we save on the correct thread to prevent race conditions
+        // See: https://developer.apple.com/forums/thread/668299
+        context.performAndWait {
+            if context.hasChanges {
                 do {
                     try context.save()
                 } catch {

@@ -10,20 +10,12 @@ import SwiftUI
 
 struct WatchedShowView: View {
     
-    @EnvironmentObject private var mediaObject: Media
+    @Binding var lastWatched: EpisodeNumber?
     @Environment(\.editMode) private var editMode
     @State private var isEditing: Bool = false
     
-    private var watched: EpisodeNumber? {
-        guard let show = mediaObject as? Show else {
-            assertionFailure("WatchedShowView must be supplied an EnvironmentObject of type Show.")
-            return nil
-        }
-        return show.lastWatched
-    }
-    
     private var episodeString: String {
-        guard let watched = watched else {
+        guard let watched = lastWatched else {
             return "No"
         }
         if watched.episode == nil {
@@ -36,7 +28,7 @@ struct WatchedShowView: View {
     var body: some View {
         Group {
             if editMode?.wrappedValue.isEditing ?? false {
-                NavigationLink(destination: EditView(show: (mediaObject as! Show)), isActive: $isEditing) {
+                NavigationLink(destination: EditView(lastWatched: $lastWatched), isActive: $isEditing) {
                     Text(episodeString)
                 }
                 .onTapGesture {
@@ -50,7 +42,7 @@ struct WatchedShowView: View {
     
     struct EditView: View {
         
-        var show: Show
+        @Binding var lastWatched: EpisodeNumber?
         
         @State private var season: Int
         private var seasonWrapper: Binding<Int> {
@@ -58,9 +50,14 @@ struct WatchedShowView: View {
                 self.season = season
                 if season == 0 {
                     // Delete both (episode and season)
-                    self.show.lastWatched = nil
+                    self.lastWatched = nil
                 } else {
-                    self.show.lastSeasonWatched = season
+                    // Update the season (or create, if nil)
+                    if self.lastWatched == nil {
+                        self.lastWatched = EpisodeNumber(season: season)
+                    } else {
+                        self.lastWatched!.season = season
+                    }
                 }
             })
         }
@@ -69,14 +66,14 @@ struct WatchedShowView: View {
         private var episodeWrapper: Binding<Int> {
             Binding<Int>(get: { self.episode }, set: { episode in
                 self.episode = episode
-                self.show.lastEpisodeWatched = (episode == 0 ? nil : episode)
+                self.lastWatched?.episode = (episode == 0 ? nil : episode)
             })
         }
         
-        init(show: Show) {
-            self.show = show
-            self._season = State(wrappedValue: show.lastSeasonWatched ?? 0)
-            self._episode = State(wrappedValue: show.lastEpisodeWatched ?? 0)
+        init(lastWatched: Binding<EpisodeNumber?>) {
+            self._lastWatched = lastWatched
+            self._season = State(wrappedValue: lastWatched.wrappedValue?.season ?? 0)
+            self._episode = State(wrappedValue: lastWatched.wrappedValue?.episode ?? 0)
         }
         
         var body: some View {
@@ -108,6 +105,6 @@ struct WatchedShowView: View {
 
 struct WatchedShowView_Previews: PreviewProvider {
     static var previews: some View {
-        WatchedShowView()
+        WatchedShowView(lastWatched: .constant(EpisodeNumber(season: 2, episode: 5)))
     }
 }

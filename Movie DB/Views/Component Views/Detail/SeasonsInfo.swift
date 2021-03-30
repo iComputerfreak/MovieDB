@@ -18,47 +18,31 @@ struct SeasonsInfo: View {
     
     // Assumes that mediaObject is a Show and !show.seasons.isEmpty
     var body: some View {
-        List {
-            ForEach(show.seasons.sorted(by: { (season1, season2) -> Bool in
-                return season1.seasonNumber < season2.seasonNumber
-            })) { (season: Season) in
-                HStack {
-                    Image(uiImage: self.seasonThumbnails[season.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                        .thumbnail()
-                    VStack(alignment: .leading) {
-                        // Row 1
-                        HStack {
-                            Text(season.name)
-                                .bold()
+        if self.mediaObject.isFault {
+            EmptyView()
+        } else {
+            List {
+                ForEach(show.seasons.sorted(by: { (season1, season2) -> Bool in
+                    return season1.seasonNumber < season2.seasonNumber
+                })) { (season: Season) in
+                    if season.overview != nil && !season.overview!.isEmpty {
+                        NavigationLink(destination: VStack {
+                            Text(season.overview!)
+                                .padding()
+                            Spacer()
+                                .navigationBarTitle(season.name)
+                        }) {
+                            SeasonInfo(season: season, thumbnail: $seasonThumbnails[season.id])
                         }
-                        // Row 2
-                        HStack {
-                            if season.airDate != nil {
-                                Text(JFUtils.dateFormatter.string(from: season.airDate!))
-                            }
-                            Text("\(season.episodeCount) Episodes")
-                        }
-                        // Row 3
-                        if season.overview != nil && !season.overview!.isEmpty {
-                            Divider()
-                            NavigationLink(destination: VStack {
-                                Text(season.overview!)
-                                    .padding()
-                                Spacer()
-                                    .navigationBarTitle(season.name)
-                            }) {
-                                Text(season.overview!)
-                                    .lineLimit(2)
-                            }
-                        }
+                    } else {
+                        SeasonInfo(season: season, thumbnail: $seasonThumbnails[season.id])
                     }
-                    .padding(.vertical)
                 }
             }
-        }
-        .navigationBarTitle("Seasons")
-        .onAppear {
-            self.loadSeasonThumbnails()
+            .navigationBarTitle("Seasons")
+            .onAppear {
+                self.loadSeasonThumbnails()
+            }
         }
     }
     
@@ -76,6 +60,34 @@ struct SeasonsInfo: View {
                     }
                 }
             }
+        }
+    }
+}
+
+struct SeasonInfo: View {
+    
+    @State var season: Season
+    @Binding var thumbnail: UIImage??
+    
+    var body: some View {
+        HStack {
+            Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
+                .thumbnail()
+            VStack(alignment: .leading) {
+                // Row 1
+                HStack {
+                    Text(season.name)
+                        .bold()
+                }
+                // Row 2
+                HStack {
+                    if season.airDate != nil {
+                        Text(JFUtils.dateFormatter.string(from: season.airDate!))
+                    }
+                    Text("\(season.episodeCount) Episode\(season.episodeCount == 1 ? "" : "s")")
+                }
+            }
+            .padding(.vertical)
         }
     }
 }

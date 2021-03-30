@@ -26,30 +26,36 @@ public class Media: NSManagedObject {
         self.personalRating = .noRating
         self.tags = []
         
-        // The castMembersSortOrder array contains the sorted CastMember IDs
-        self.castMembersSortOrder = tmdbData.cast.map(\.id)
-        
         self.id = MediaLibrary.shared.nextID
         self.type = type
         
-        // Set all properties from the tmdbData object
-        self.tmdbID = tmdbData.id
-        self.title = tmdbData.title
-        self.originalTitle = tmdbData.originalTitle
-        self.imagePath = tmdbData.imagePath
-        self.genres = Set(transferIntoContext(tmdbData.genres))
-        self.overview = tmdbData.overview
-        self.status = tmdbData.status
-        self.originalLanguage = tmdbData.originalLanguage
-        self.productionCompanies = Set(transferIntoContext(tmdbData.productionCompanies))
-        self.homepageURL = tmdbData.homepageURL
-        self.popularity = tmdbData.popularity
-        self.voteAverage = tmdbData.voteAverage
-        self.voteCount = tmdbData.voteCount
-        self.cast = Set(transferIntoContext(tmdbData.cast))
-        self.keywords = tmdbData.keywords
-        self.translations = tmdbData.translations
-        self.videos = Set(transferIntoContext(tmdbData.videos))
+        setTMDBData(tmdbData)
+    }
+    
+    private func setTMDBData(_ tmdbData: TMDBData) {
+        managedObjectContext!.performAndWait {
+            // The castMembersSortOrder array contains the sorted CastMember IDs
+            self.castMembersSortOrder = tmdbData.cast.map(\.id)
+            
+            // Set all properties from the tmdbData object
+            self.tmdbID = tmdbData.id
+            self.title = tmdbData.title
+            self.originalTitle = tmdbData.originalTitle
+            self.imagePath = tmdbData.imagePath
+            self.genres = Set(self.transferIntoContext(tmdbData.genres))
+            self.overview = tmdbData.overview
+            self.status = tmdbData.status
+            self.originalLanguage = tmdbData.originalLanguage
+            self.productionCompanies = Set(self.transferIntoContext(tmdbData.productionCompanies))
+            self.homepageURL = tmdbData.homepageURL
+            self.popularity = tmdbData.popularity
+            self.voteAverage = tmdbData.voteAverage
+            self.voteCount = tmdbData.voteCount
+            self.cast = Set(self.transferIntoContext(tmdbData.cast))
+            self.keywords = tmdbData.keywords
+            self.translations = tmdbData.translations
+            self.videos = Set(self.transferIntoContext(tmdbData.videos))
+        }
     }
     
     func transferIntoContext<T: NSManagedObject>(_ objects: [T]) -> [T] {
@@ -82,7 +88,6 @@ public class Media: NSManagedObject {
                 let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
                 DispatchQueue.main.async {
                     self.thumbnail = thumbnail
-                    PersistenceController.saveContext()
                 }
             }
         }
@@ -90,10 +95,8 @@ public class Media: NSManagedObject {
     
     /// Updates the media object with the given data
     /// - Parameter tmdbData: The new data
-    func update(tmdbData: TMDBData) throws {
-        // Set all TMDBData properties again
-        self.initMedia(type: type, tmdbData: tmdbData)
-        try self.managedObjectContext?.save()
+    func update(tmdbData: TMDBData) {
+        setTMDBData(tmdbData)
     }
     
     func missingInformation() -> Set<MediaInformation> {

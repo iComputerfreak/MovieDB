@@ -14,19 +14,23 @@ struct CastInfo: View {
     @State private var personThumbnails: [Int: UIImage?] = [:]
     
     var body: some View {
-        List {
-            ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
-                let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
-                HStack {
-                    Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                        .thumbnail()
-                    Text(member.name)
-                        .headline(member.roleName)
+        if self.mediaObject.isFault {
+            EmptyView()
+        } else {
+            List {
+                ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
+                    let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
+                    HStack {
+                        Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
+                            .thumbnail()
+                        Text(member.name)
+                            .headline(member.roleName)
+                    }
                 }
             }
-        }
-        .onAppear {
-            self.loadPersonThumbnails()
+            .onAppear {
+                self.loadPersonThumbnails()
+            }
         }
     }
     

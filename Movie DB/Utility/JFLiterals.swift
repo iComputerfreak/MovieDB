@@ -31,5 +31,7 @@ struct JFLiterals {
         static let allTags = "allTags"
         /// The key used for storing the MediaLibrary
         static let mediaLibrary = "mediaLibrary"
+        /// The key used for storing all available languages for TheMovieDB.org
+        static let tmdbLanguages = "tmdbLanguages"
     }
 }

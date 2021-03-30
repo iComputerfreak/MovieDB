@@ -26,12 +26,6 @@ func undefined<T>(_ message: String = "") -> T {
 }
 
 struct JFUtils {
-    
-    /// The words that will be ignored for sorting media objects in the library
-    static let wordsIgnoredForSorting = [
-        "the",
-        "a"
-    ]
         
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler, if the request failed.
@@ -223,20 +217,12 @@ extension JFUtils {
         return "https://image.tmdb.org/t/p/w\(size)/\(path)"
     }
     
-    // TODO: Maybe load the strings from TMDB instead of using the Locale values
-    // https://developers.themoviedb.org/3/configuration/get-languages
-    /// Returns the human readable language name (in english) from the given ISO-639-1 string
+    /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string
     ///
-    ///     languageString("en") // Returns "English"
+    ///     languageString("pt-BR") // Returns "Portuguese (Brazil)"
+    ///     languageString("de") // Returns "German"
     static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
-        return locale.localizedString(forLanguageCode: code)
-    }
-    
-    /// Returns the human readable region name (in english) from the given ISO-3166-1 string
-    ///
-    ///     languageString("US") // Returns "United States"
-    static func regionString(for code: String, locale: Locale = Locale.current) -> String? {
-        return locale.localizedString(forRegionCode: code)
+        return locale.localizedString(forIdentifier: code)
     }
     
     /// The `DateFormatter` for translating to and from TMDB date representation
@@ -245,6 +231,24 @@ extension JFUtils {
         formatter.timeZone = .utc
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
+    }
+    
+    static func updateTMDBLanguages() {
+        TMDBAPI.shared.getTMDBLanguageCodes { (codes, error) in
+            guard let codes = codes else { return }
+            // Sort the codes by the actual string that will be displayed, not the code itself
+            let sortedCodes = codes.sorted(by: { code1, code2 in
+                guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
+                    return false
+                }
+                guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else {
+                    return true
+                }
+                
+                return displayString1.lexicographicallyPrecedes(displayString2)
+            })
+            UserDefaults.standard.set(sortedCodes, forKey: JFLiterals.Keys.tmdbLanguages)
+        }
     }
 }
 

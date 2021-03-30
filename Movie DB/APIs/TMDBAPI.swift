@@ -24,28 +24,10 @@ class TMDBAPI {
     private let baseURL = "https://api.themoviedb.org/3"
     
     private let apiKey: String = "e4304a9deeb9ed2d62eb61d7b9a2da71"
-    /// The ISO 639-1 language code
-    var language: String {
-        JFConfig.shared.language
-    }
-    /// The ISO 3166-1 region code
-    var region: String {
-        JFConfig.shared.region
-    }
-    /// The combined string of language and region.
-    /// Format: `languageCode-regionCode`
-    var locale: String {
-        return "\(language)-\(region)"
-    }
+    /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
+    var locale: String { JFConfig.shared.language }
     
-    var backgroundContext: NSManagedObjectContext {
-        // Create a separate background context for each execution
-        return PersistenceController.shared.container.newBackgroundContext()
-    }
-    
-    var disposableContext: NSManagedObjectContext {
-        PersistenceController.shared.disposableContext
-    }
+    var disposableContext: NSManagedObjectContext { PersistenceController.shared.disposableContext }
     
     // This is a singleton
     private init() {}
@@ -56,16 +38,17 @@ class TMDBAPI {
     /// - Parameters:
     ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
+    ///   - context: The context to insert the new media object in
     /// - Returns: The decoded media object
-    func fetchMediaAsync(id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (Media?, Error?) -> Void) {
-        let context = context ?? self.backgroundContext
+    func fetchMediaAsync(id: Int, type: MediaType, context parent: NSManagedObjectContext, completion: @escaping (Media?, Error?) -> Void) {
+        // Create a background context to make the changes in, before merging them with the actual context given
+        let context = parent.newBackgroundContext()
         context.perform {
             // Get the TMDB Data
             self.fetchTMDBData(for: id, type: type, context: context) { tmdbData, error in
                 guard let tmdbData = tmdbData else {
                     print("Error retrieving TMDBData for \(type.rawValue) ID \(id)")
                     print(error ?? "nil")
-                    PersistenceController.saveContext(context: context)
                     completion(nil, error)
                     return
                 }
@@ -78,9 +61,10 @@ class TMDBAPI {
                         case .show:
                             media = Show(context: context, tmdbData: tmdbData)
                     }
-                    // Push the new media object into the viewContext
+                    // Save the changes to the parent context
                     PersistenceController.saveContext(context: context)
-                    completion(media, nil)
+                    // Return the object from the correct context
+                    completion(parent.object(with: media.objectID) as? Media, nil)
                 }
             }
         }
@@ -92,7 +76,7 @@ class TMDBAPI {
     ///   - type: The type of media
     /// - Throws: Any errors that occurred while loading or decoding the media
     /// - Returns: The media object
-    func fetchMedia(id: Int, type: MediaType, context: NSManagedObjectContext? = nil) throws -> Media {
+    func fetchMedia(id: Int, type: MediaType, context: NSManagedObjectContext) throws -> Media {
         var returnMedia: Media!
         var returnError: Error?
         let group = DispatchGroup()
@@ -123,30 +107,25 @@ class TMDBAPI {
     ///   - completion: A closure, executed after the media object has been updated
     ///   - context: The context to update the media objects in
     /// - Throws: `APIError` or `DecodingError`
-    func updateMedia(_ media: Media, completion: @escaping (Error?) -> Void) {
+    func updateMedia(_ media: Media, context parent: NSManagedObjectContext, completion: @escaping (Error?) -> Void) {
+        // Create a background context to make the changes in, before merging them with the actual context given
+        let context = parent.newBackgroundContext()
         // Update TMDBData
-        self.backgroundContext.perform {
-            self.fetchTMDBData(for: media.tmdbID, type: media.type) { (tmdbData, error) in
+        context.perform {
+            self.fetchTMDBData(for: media.tmdbID, type: media.type, context: context) { (tmdbData, error) in
                 guard let tmdbData = tmdbData else {
                     print("Error updating \(media.type.rawValue) \(media.title)")
                     print(error ?? "nil")
                     completion(error)
                     return
                 }
-                // Save the context to propagate the changes to the viewContext
-                self.saveContext()
-                // If fetching was successful, update the media object and thumbnail
-                DispatchQueue.main.async {
-                    do {
-                        try media.update(tmdbData: tmdbData)
-                    } catch let e {
-                        print("Error updating media")
-                        print(e)
-                        AlertHandler.showSimpleAlert(title: "Error updating", message: e.localizedDescription)
-                    }
+                context.performAndWait {
+                    // If fetching was successful, update the media object and thumbnail
+                    media.update(tmdbData: tmdbData)
                     // Redownload the thumbnail (it may have been updated)
                     media.loadThumbnailAsync(force: true)
-                    self.saveContext()
+                    // Save the changes to the parent context
+                    PersistenceController.saveContext(context: context)
                     completion(nil)
                 }
             }
@@ -159,7 +138,7 @@ class TMDBAPI {
     ///   - endDate: The end of the timespan
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The changed TMDB IDs
-    func getChanges(from startDate: Date?, to endDate: Date, completion: @escaping ([Int]?, Error?) -> Void) {
+    func getChangedIDs(from startDate: Date?, to endDate: Date, completion: @escaping ([Int]?, Error?) -> Void) {
         var dateRangeParameters: [String: Any?] = [
             "end_date": JFUtils.tmdbDateFormatter.string(from: endDate)
         ]
@@ -174,7 +153,7 @@ class TMDBAPI {
         for type in MediaType.allCases {
             group.enter()
             // We specify a nil context to prevent blocking our own thread with group.wait()
-            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: nil) { (results: [MediaChangeWrapper]?, error: Error?) in
+            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: self.disposableContext) { (results: [MediaChangeWrapper]?, error: Error?) in
                 // If we received an error, return
                 if let error = error {
                     requestError = error
@@ -191,7 +170,6 @@ class TMDBAPI {
             }
         }
         group.wait()
-        self.saveContext()
         if requestError != nil {
             completion(nil, requestError)
         } else {
@@ -216,6 +194,10 @@ class TMDBAPI {
         }
     }
     
+    func getTMDBLanguageCodes(completion: @escaping ([String]?, Error?) -> Void) {
+        self.decodeAPIURL(path: "configuration/primary_translations", as: [String].self, context: disposableContext, completion: completion)
+    }
+    
     // MARK: - Private functions
     
     /// Loads multiple pages of results and returns the accumulated data
@@ -226,10 +208,17 @@ class TMDBAPI {
     ///   - pageWrapper: The struct, the result pages get decoded into
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The accumulated results of the API calls
-    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String, additionalParameters: [String: Any?] = [:], maxPages: Int = .max, pageWrapper: PageWrapper.Type, context: NSManagedObjectContext?, completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
+    private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String,
+                                                                    additionalParameters: [String: Any?] = [:],
+                                                                    maxPages: Int = .max,
+                                                                    pageWrapper: PageWrapper.Type,
+                                                                    context parent: NSManagedObjectContext,
+                                                                    completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
+        // Create a background context to make the changes in, before merging them with the actual context given
+        let context = parent.newBackgroundContext()
         let decoder = self.decoder(context: context)
         // If there was no context specified, we just use a new background context to perform the work in the background
-        (context ?? self.backgroundContext).perform {
+        context.perform {
             do {
                 // Fetch the JSON in the background
                 let data = try self.request(path: path, additionalParameters: additionalParameters)
@@ -265,6 +254,8 @@ class TMDBAPI {
                 }
                 // Wait for all pages to finish
                 group.wait()
+                // Save the changes to the parent context
+                PersistenceController.saveContext(context: context)
                 if let error = returnError {
                     completion(results, error)
                 } else {
@@ -282,9 +273,10 @@ class TMDBAPI {
     ///   - type: The type of media to load
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The data returned by the API call
-    private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext? = nil, completion: @escaping (TMDBData?, Error?) -> Void) {
+    private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext, completion: @escaping (TMDBData?, Error?) -> Void) {
+        // We don't need to create a background context since this function is private and the caller will already have created a background context
         let parameters = ["append_to_response": "keywords,translations,videos,credits"]
-        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context ?? self.backgroundContext, userInfo: [.mediaType: type]) { tmdbData, error in
+        decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context, userInfo: [.mediaType: type]) { tmdbData, error in
             completion(tmdbData, error)
         }
     }
@@ -297,7 +289,11 @@ class TMDBAPI {
     ///   - type: The type of media
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
-    private func decodeAPIURL<T>(path: String, additionalParameters: [String: Any?] = [:], as type: T.Type, context: NSManagedObjectContext, userInfo: [CodingUserInfoKey: Any] = [:], completion: @escaping (T?, Error?) -> Void) where T: Decodable {
+    private func decodeAPIURL<T>(path: String,
+                                 additionalParameters: [String: Any?] = [:],
+                                 as type: T.Type, context: NSManagedObjectContext,
+                                 userInfo: [CodingUserInfoKey: Any] = [:],
+                                 completion: @escaping (T?, Error?) -> Void) where T: Decodable {
         // Load the JSON on a background thread
         context.perform {
             do {
@@ -324,8 +320,7 @@ class TMDBAPI {
         let url = "\(baseURL)/\(path)"
         var parameters: [String: Any?] = [
             "api_key": apiKey,
-            "language": locale,
-            "region": region
+            "language": locale
         ]
         // Overwrite existing keys
         parameters.merge(additionalParameters)
@@ -378,11 +373,6 @@ class TMDBAPI {
         let decoder = JSONDecoder()
         decoder.userInfo[.managedObjectContext] = context
         return decoder
-    }
-    
-    func saveContext() {
-        print("Saving TMDBAPI context.")
-        PersistenceController.saveContext(context: self.backgroundContext)
     }
     
 }

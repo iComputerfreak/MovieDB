@@ -13,60 +13,64 @@ struct BasicInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
-        Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
-            Text(String(format: "%04d", mediaObject.id))
-                .headline("ID")
-            if !mediaObject.genres.isEmpty {
-                Text(mediaObject.genres.map(\.name).joined(separator: ", "))
-                    .headline("Genres")
-            }
-            if let overview = mediaObject.overview, !overview.isEmpty {
-                LongTextView(overview, headline: "Description")
-                    .headline("Description")
-            }
-            // Movie exclusive data
-            if mediaObject.type == .movie, let movie = mediaObject as? Movie {
-                if let releaseDate = movie.releaseDate {
-                    Text(JFUtils.dateFormatter.string(from: releaseDate))
-                        .headline("Release Date")
+        if self.mediaObject.isFault {
+            EmptyView()
+        } else {
+            Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
+                Text(String(format: "%04d", mediaObject.id))
+                    .headline("ID")
+                if !mediaObject.genres.isEmpty {
+                    Text(mediaObject.genres.map(\.name).joined(separator: ", "))
+                        .headline("Genres")
                 }
-                if let runtime = movie.runtime {
-                    Text("\(runtime) Minutes (\(runtime >= 60 ? "\(runtime / 60)h " : "")\(runtime % 60)m)")
-                        .headline("Runtime")
+                if let overview = mediaObject.overview, !overview.isEmpty {
+                    LongTextView(overview, headline: "Description")
+                        .headline("Description")
                 }
-            }
-            // Show exclusive data
-            if mediaObject.type == .show, let show = mediaObject as? Show {
-                // Air date
-                if let firstAirDate = show.firstAirDate,
-                   let lastAirDate = show.lastAirDate {
-                    Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))")
-                        .headline("Air Date")
+                // Movie exclusive data
+                if mediaObject.type == .movie, let movie = mediaObject as? Movie {
+                    if let releaseDate = movie.releaseDate {
+                        Text(JFUtils.dateFormatter.string(from: releaseDate))
+                            .headline("Release Date")
+                    }
+                    if let runtime = movie.runtime {
+                        Text("\(runtime) Minutes (\(runtime >= 60 ? "\(runtime / 60)h " : "")\(runtime % 60)m)")
+                            .headline("Runtime")
+                    }
                 }
-                // Show type (e.g. Scripted)
-                if let type = show.showType {
-                    Text(type.rawValue)
-                        .headline("Show Type")
+                // Show exclusive data
+                if mediaObject.type == .show, let show = mediaObject as? Show {
+                    // Air date
+                    if let firstAirDate = show.firstAirDate,
+                       let lastAirDate = show.lastAirDate {
+                        Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))")
+                            .headline("Air Date")
+                    }
+                    // Show type (e.g. Scripted)
+                    if let type = show.showType {
+                        Text(type.rawValue)
+                            .headline("Show Type")
+                    }
                 }
-            }
-            Text(mediaObject.status.rawValue)
-                .headline("Status")
-            Text(mediaObject.originalTitle)
-                .headline("Original Title")
-            Text(JFUtils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
-                .headline("Original Language")
-            // Seasons Info
-            if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
-                NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
-                    // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
-                    Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
-                        .headline("Seasons")
+                Text(mediaObject.status.rawValue)
+                    .headline("Status")
+                Text(mediaObject.originalTitle)
+                    .headline("Original Title")
+                Text(JFUtils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
+                    .headline("Original Language")
+                // Seasons Info
+                if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
+                    NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
+                        // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
+                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
+                            .headline("Seasons")
+                    }
                 }
-            }
-            // Cast
-            if !mediaObject.cast.isEmpty {
-                NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
-                    Text("Cast")
+                // Cast
+                if !mediaObject.cast.isEmpty {
+                    NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
+                        Text("Cast")
+                    }
                 }
             }
         }

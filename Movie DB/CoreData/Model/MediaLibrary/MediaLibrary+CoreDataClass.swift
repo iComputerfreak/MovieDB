@@ -38,7 +38,7 @@ public class MediaLibrary: NSManagedObject {
     func update(completion: @escaping (Int?, Error?) -> Void) {
         var updateCount = 0
         let api = TMDBAPI.shared
-        api.getChanges(from: lastUpdated, to: Date()) { (changedIDs: [Int]?, error: Error?) in
+        api.getChangedIDs(from: lastUpdated, to: Date()) { (changedIDs: [Int]?, error: Error?) in
             
             if let error = error {
                 print("Error fetching changes: \(error)")
@@ -52,13 +52,15 @@ public class MediaLibrary: NSManagedObject {
                 return
             }
             
+            let updateContext: NSManagedObjectContext = PersistenceController.viewContext.newBackgroundContext()
+            
             let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
             let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
             print("Updating \(medias.count) media objects.")
             for media in medias {
                 // This media has been changed
-                api.updateMedia(media) { error in
+                api.updateMedia(media, context: updateContext) { error in
                     guard let error = error else { return }
                     print("Error updating media object with TMMDB ID \(media.tmdbID): \(error)")
                 }
@@ -66,6 +68,8 @@ public class MediaLibrary: NSManagedObject {
             }
             // After they all have been updated without errors, we can update the lastUpdate property
             self.lastUpdated = Date()
+            // Save the updated media into the parent context (viewContext)
+            PersistenceController.saveContext(context: updateContext)
             completion(updateCount, nil)
         }
     }

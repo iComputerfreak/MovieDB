@@ -14,35 +14,39 @@ struct UserData: View {
     @Environment(\.editMode) private var editMode
     
     var body: some View {
-        Section(header: HStack { Image(systemName: "person.fill"); Text("User Data") }) {
-            // Rating
-            RatingView(rating: $mediaObject.personalRating)
-                .environment(\.editMode, editMode)
-                .headline("Personal Rating")
-            // Watched field
-            if mediaObject.type == .movie {
-                SimpleValueView<Bool>.createYesNo(value: Binding<Bool?>(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
+        if self.mediaObject.isFault {
+            EmptyView()
+        } else {
+            Section(header: HStack { Image(systemName: "person.fill"); Text("User Data") }) {
+                // Rating
+                RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
-                    .headline("Watched?")
-            } else {
-                // Has watched show field
-                WatchedShowView()
+                    .headline("Personal Rating")
+                // Watched field
+                if mediaObject.type == .movie {
+                    SimpleValueView<Bool>.createYesNo(value: .init(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
+                        .environment(\.editMode, editMode)
+                        .headline("Watched?")
+                } else {
+                    // Has watched show field
+                    WatchedShowView(lastWatched: .init(get: { (mediaObject as! Show).lastWatched }, set: { (mediaObject as! Show).lastWatched = $0 }))
+                        .environment(\.editMode, editMode)
+                        .headline("Watched?")
+                }
+                // Watch again field
+                SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
-                    .headline("Watched?")
-            }
-            // Watch again field
-            SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                .environment(\.editMode, editMode)
-                .headline("Watch again?")
-            // Taglist
-            TagListView($mediaObject.tags)
-                .environment(\.editMode, editMode)
-                .headline("Tags")
-            // Notes
-            if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
-                NotesView($mediaObject.notes)
-                .environment(\.editMode, editMode)
-                .headline("Notes")
+                    .headline("Watch again?")
+                // Taglist
+                TagListView($mediaObject.tags)
+                    .environment(\.editMode, editMode)
+                    .headline("Tags")
+                // Notes
+                if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
+                    NotesView($mediaObject.notes)
+                        .environment(\.editMode, editMode)
+                        .headline("Notes")
+                }
             }
         }
     }
