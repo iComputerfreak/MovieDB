@@ -52,8 +52,13 @@ struct LibraryList: View {
         List {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
-                    LibraryRow()
-                        .environmentObject(mediaObject)
+                    // Workaround so that the list items don't stay selected after going back from the detail
+                    // FUTURE: Remove
+                    ZStack {
+                        Button("", action: {})
+                        LibraryRow()
+                            .environmentObject(mediaObject)
+                    }
                 }
                 .onDelete { indexSet in
                     for offset in indexSet {
