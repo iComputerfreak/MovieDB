@@ -19,7 +19,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
     let valueLabel: (T) -> ValueLabel
     
     private var proxies: (lower: Binding<T>, upper: Binding<T>) {
-        FilterSettings.rangeProxies(for: $setting, bounds: bounds)
+        FilterSetting.rangeProxies(for: $setting, bounds: bounds)
     }
     
     var body: some View {

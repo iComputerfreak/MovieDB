@@ -125,6 +125,7 @@ extension NSManagedObjectContext {
     func newBackgroundContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.parent = self
+        context.name = "Background Context (\(Date()), Child of \(self.description))"
         return context
     }
 }

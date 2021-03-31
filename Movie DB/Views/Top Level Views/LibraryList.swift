@@ -14,21 +14,20 @@ struct LibraryList: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @ObservedObject private var library = MediaLibrary.shared
+    
     private var fetchRequest: FetchRequest<Media>
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
-    // TODO: Give filterSettings in init and apply to fetch request
-    init(searchText: String) {
+    init(searchText: String, filterSetting: FilterSetting) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
             predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)", "title", searchText, "originalTitle", searchText))
         }
-        if true { // Filter is active
-            // TODO: Rewrite FilterSettings to create a predicate
-            // TODO: Apply filter predicate
+        if true { // TODO: Filter is active
+            predicates.append(filterSetting.predicate())
         }
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         

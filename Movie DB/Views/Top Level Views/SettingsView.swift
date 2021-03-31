@@ -159,6 +159,7 @@ struct SettingsView: View {
             PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
                 // Set the merge policy to not override existing data
                 importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+                importContext.name = "Import Context"
                 // The log containing all errors and information about the import
                 var importLog: [String] = []
                 // Load the CSV data
@@ -267,6 +268,7 @@ struct SettingsView: View {
         
         // Perform the export in a separate context on a background thread
         PersistenceController.shared.container.performBackgroundTask { (exportContext: NSManagedObjectContext) in
+            exportContext.name = "Export Context"
             let url: URL!
             do {
                 let medias = JFUtils.allMedias()
@@ -327,6 +329,7 @@ struct SettingsView: View {
                         controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                             // Use a background context for importing the tags
                             PersistenceController.shared.container.performBackgroundTask { (context) in
+                                context.name = "Tag Import Context"
                                 do {
                                     try TagImporter.import(importData, context: context)
                                     try context.save()
@@ -367,6 +370,7 @@ struct SettingsView: View {
     
     func exportTags() {
         PersistenceController.shared.container.performBackgroundTask { (context) in
+            context.name = "Tag Export Context"
             var url: URL!
             do {
                 let exportData: String = try TagImporter.export(context: context)

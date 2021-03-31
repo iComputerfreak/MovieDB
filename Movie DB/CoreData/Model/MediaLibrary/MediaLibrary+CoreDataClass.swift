@@ -53,6 +53,7 @@ public class MediaLibrary: NSManagedObject {
             }
             
             let updateContext: NSManagedObjectContext = PersistenceController.viewContext.newBackgroundContext()
+            updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
             
             let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)

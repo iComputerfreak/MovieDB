@@ -24,6 +24,7 @@ extension Tag {
     }
     /// The name of the tag
     @NSManaged public var name: String
+    @NSManaged public var filterSettings: Set<FilterSetting>
 
 }
 

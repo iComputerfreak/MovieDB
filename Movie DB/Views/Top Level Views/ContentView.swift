@@ -10,8 +10,6 @@ import SwiftUI
 
 struct ContentView : View {
     
-    @ObservedObject private var library = MediaLibrary.shared
-    
     var body: some View {
         TabView {
             LibraryHome()

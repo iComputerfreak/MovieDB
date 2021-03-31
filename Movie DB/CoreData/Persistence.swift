@@ -16,6 +16,7 @@ struct PersistenceController {
     var disposableContext: NSManagedObjectContext {
         // The disposable context is a new empty context without any data in it
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.name = "Disposable Context (\(Date()))"
         return context
     }
     
@@ -47,6 +48,7 @@ struct PersistenceController {
         container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
+        container.viewContext.name = "View Context"
     }
     
     /// Saves the shared viewContext

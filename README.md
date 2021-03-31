@@ -25,7 +25,6 @@ Currently still in development, but works without major bugs. Just be sure to ma
 
 ## Known Bugs
 * It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.
-* The filter function is currently disabled due to it not being re-worked yet after switching to Core Data
 
 ## Licensing
 This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).

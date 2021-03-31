@@ -332,3 +332,22 @@ extension Array: Identifiable where Element: Hashable {
         return self.hashValue
     }
 }
+
+extension Sequence {
+    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+        sorted { a, b in
+            a[keyPath: keyPath] < b[keyPath: keyPath]
+        }
+    }
+}
+
+extension NSManagedObjectContext {
+    
+    override public var description: String {
+        if let name = self.name {
+            return "<NSManagedObjectContext: \(name)>"
+        }
+        //assertionFailure()
+        return super.description
+    }
+}
