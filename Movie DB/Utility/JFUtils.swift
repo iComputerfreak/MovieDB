@@ -153,14 +153,14 @@ struct JFUtils {
         return min!.numberOfSeasons! ... (max?.numberOfSeasons ?? min!.numberOfSeasons!)
     }
     
-    /// Returns a list of all genres existing in the viewContext.
+    /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres() -> [Genre] {
-        return allObjects(entityName: "Genre")
+        return allObjects(entityName: "Genre").duplicatesRemoved(using: { $0.id == $1.id && $0.name == $1.name }).sorted(by: \.name)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias() -> [Media] {
-        return allObjects(entityName: "Media")
+        return allObjects(entityName: "Media").duplicatesRemoved(key: \.id).sorted(by: \.id)
     }
     
     /// Returns a list of all entities with the given name in the viewContext.
@@ -338,6 +338,28 @@ extension Sequence {
         sorted { a, b in
             a[keyPath: keyPath] < b[keyPath: keyPath]
         }
+    }
+}
+
+extension Sequence where Element: Hashable {
+    func duplicatesRemoved() -> [Element] {
+        return Array(Set(self))
+    }
+    
+    func duplicatesRemoved<Value: Equatable>(key keyPath: KeyPath<Element, Value>) -> [Element] {
+        return self.duplicatesRemoved { (element1, element2) -> Bool in
+            element1[keyPath: keyPath] == element2[keyPath: keyPath]
+        }
+    }
+    
+    func duplicatesRemoved(using isEqual: (Element, Element) -> Bool) -> [Element] {
+        var uniques: [Element] = []
+        for element in self {
+            if !uniques.contains(where: { isEqual($0, element) }) {
+                uniques.append(element)
+            }
+        }
+        return uniques
     }
 }
 

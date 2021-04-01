@@ -14,7 +14,7 @@ fileprivate let nilString = "any"
 
 struct FilterView: View {
     
-    @ObservedObject private var filterSettings = FilterSetting.shared
+    @ObservedObject private var filterSetting = FilterSetting.shared
     
     @Environment(\.presentationMode) private var presentationMode
         
@@ -24,18 +24,18 @@ struct FilterView: View {
         NavigationView {
             Form {
                 Section(header: Text("User Data")) {
-                    UserDataSection(filterSettings: filterSettings)
+                    UserDataSection(filterSetting: filterSetting)
                 }
                 Section(header: Text("Information")) {
-                    InformationSection(filterSettings: filterSettings)
+                    InformationSection(filterSetting: filterSetting)
                 }
                 Section(header: Text("Show specific")) {
-                    ShowSpecificSection(filterSettings: filterSettings)
+                    ShowSpecificSection(filterSetting: filterSetting)
                 }
             }
             .navigationBarTitle("Filter Options")
             .navigationBarItems(leading: Button(action: {
-                self.filterSettings.reset()
+                self.filterSetting.reset()
             }, label: Text("Reset").closure()), trailing: Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: Text("Apply").closure()))
@@ -45,21 +45,21 @@ struct FilterView: View {
 
 struct UserDataSection: View {
     
-    @State var filterSettings: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     
     private var watchedProxy: Binding<String> {
         .init(get: {
-            self.filterSettings.watched?.description ?? nilString
+            self.filterSetting.watched?.description ?? nilString
         }, set: { bool in
-            self.filterSettings.watched = bool.isNil ? nil : Bool(bool) ?? nil
+            self.filterSetting.watched = bool.isNil ? nil : Bool(bool) ?? nil
         })
     }
     
     private var watchAgainProxy: Binding<String> {
         .init(get: {
-            self.filterSettings.watchAgain?.description ?? nilString
+            self.filterSetting.watchAgain?.description ?? nilString
         }, set: { bool in
-            self.filterSettings.watchAgain = bool.isNil ? nil : Bool(bool) ?? nil
+            self.filterSetting.watchAgain = bool.isNil ? nil : Bool(bool) ?? nil
         })
     }
     
@@ -77,6 +77,8 @@ struct UserDataSection: View {
                 .tag(true.description)
             Text("No")
                 .tag(false.description)
+            
+                .navigationTitle("Watched?")
         }
         // MARK: - Watch Again?
         Picker("Watch again?", selection: watchAgainProxy) {
@@ -86,14 +88,17 @@ struct UserDataSection: View {
                 .tag(true.description)
             Text("No")
                 .tag(false.description)
+            
+                .navigationTitle("Watch again?")
         }
         // MARK: - Tags
+        // TODO: First selected item does not update the view
         FilterMultiPicker(
             selection: Binding(
-                get: { Array(filterSettings.tags) },
-                set: { filterSettings.tags = Set($0) }),
-            label: { $0.name },
-            values: allTags,
+                get: { Array(filterSetting.tags).sorted(by: \.name) },
+                set: { filterSetting.tags = Set($0) }),
+            label: { (tag: Tag) in tag.name },
+            values: Array(allTags),
             title: Text("Tags")
         )
     }
@@ -101,13 +106,13 @@ struct UserDataSection: View {
 
 private struct InformationSection: View {
     
-    @State var filterSettings: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     
     private var mediaTypeProxy: Binding<String> {
         .init(get: {
-            self.filterSettings.mediaType?.rawValue ?? nilString
+            self.filterSetting.mediaType?.rawValue ?? nilString
         }, set: { type in
-            self.filterSettings.mediaType = type.isNil ? nil : MediaType(rawValue: type)
+            self.filterSetting.mediaType = type.isNil ? nil : MediaType(rawValue: type)
         })
     }
     
@@ -120,64 +125,66 @@ private struct InformationSection: View {
                 .tag(MediaType.movie.rawValue)
             Text("Show")
                 .tag(MediaType.show.rawValue)
+            
+                .navigationTitle("Media Type")
         }
         // MARK: - Genres
         let genresProxy = Binding<[Genre]> {
-            Array(filterSettings.genres).sorted(by: \.name)
+            Array(filterSetting.genres).sorted(by: \.name)
         } set: { (newValue) in
-            filterSettings.genres = Set(newValue)
+            filterSetting.genres = Set(newValue)
         }
         FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: JFUtils.allGenres(), title: Text("Genres"))
         // MARK: - Rating
-        NavigationLink(destination: RangeEditingView(bounds: StarRating.noRating...StarRating.fiveStars, setting: $filterSettings.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
+        NavigationLink(destination: RangeEditingView(title: "Rating", bounds: StarRating.noRating...StarRating.fiveStars, setting: $filterSetting.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
             HStack {
                 Text("Rating")
                 Spacer()
-                if self.filterSettings.rating == nil {
+                if self.filterSetting.rating == nil {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSettings.rating!.lowerBound.starAmount) to \(self.filterSettings.rating!.upperBound.starAmount) stars")
+                    Text("\(self.filterSetting.rating!.lowerBound.starAmount) to \(self.filterSetting.rating!.upperBound.starAmount) stars")
                         .foregroundColor(.secondary)
                 }
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(bounds: JFUtils.yearBounds(), setting: $filterSettings.year, style: .wheel)) {
+        NavigationLink(destination: RangeEditingView(title: "Year", bounds: JFUtils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
             HStack {
                 Text("Year")
                 Spacer()
-                if self.filterSettings.year == nil {
+                if self.filterSetting.year == nil {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSettings.year!.lowerBound.description) to \(self.filterSettings.year!.upperBound.description)")
+                    Text("\(self.filterSetting.year!.lowerBound.description) to \(self.filterSetting.year!.upperBound.description)")
                         .foregroundColor(.secondary)
                 }
             }
         }
         // MARK: - Media Status
-        FilterMultiPicker(selection: $filterSettings.statuses, label: { $0.rawValue }, values: MediaStatus.allCases, title: Text("Status"))
+        FilterMultiPicker(selection: $filterSetting.statuses, label: { $0.rawValue }, values: MediaStatus.allCases.sorted(by: \.rawValue), title: Text("Status"))
     }
 }
 
 private struct ShowSpecificSection: View {
     
-    @State var filterSettings: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     
     var body: some View {
         // MARK: - Show Type
-        FilterMultiPicker(selection: $filterSettings.showTypes, label: { $0.rawValue }, values: ShowType.allCases, title: Text("Show Type"))
+        FilterMultiPicker(selection: $filterSetting.showTypes, label: { $0.rawValue }, values: ShowType.allCases.sorted(by: \.rawValue), title: Text("Show Type"))
         // MARK: - Number of Seasons
-        NavigationLink(destination: RangeEditingView(bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSettings.numberOfSeasons, style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(title: "Seasons", bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
             HStack {
                 Text("Seasons")
                 Spacer()
-                if self.filterSettings.numberOfSeasons == nil {
+                if self.filterSetting.numberOfSeasons == nil {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSettings.numberOfSeasons!.lowerBound) to \(self.filterSettings.numberOfSeasons!.upperBound) seasons")
+                    Text("\(self.filterSetting.numberOfSeasons!.lowerBound) to \(self.filterSetting.numberOfSeasons!.upperBound) seasons")
                         .foregroundColor(.secondary)
                 }
             }

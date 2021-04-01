@@ -8,22 +8,36 @@
 
 import SwiftUI
 
-struct FilterMultiPicker<SelectionValue, CollectionType>: View where SelectionValue: Hashable, CollectionType: RandomAccessCollection, CollectionType.Element == SelectionValue {
+/// Represents a Picker view that lets the user pick multiple values from a list
+struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
     
-    @Binding var selection: [SelectionValue]
+    /// The actual binding to the original property
+    @Binding var selectionBinding: [SelectionValue]
+    // This property is solely used for updating the view and duplicates the above value
+    // The above value does not update the view if the @Binding is not bound to a State or ObservedObject variable
+    @State private var selection: [SelectionValue] {
+        didSet {
+            // When changing the selection, save the new value to the actual binding
+            self.selectionBinding = self.selection
+        }
+    }
+    /// The label closure, mapping the values to a string for representation in the list
     let label: (SelectionValue) -> String
+    /// The label of the Picker
     let title: Text
-    @State var values: CollectionType
+    /// The values to pick from
+    @State var values: [SelectionValue]
     
-    init(selection: Binding<[SelectionValue]>, label: @escaping (SelectionValue) -> String, values: CollectionType, title: Text) {
-        self._selection = selection
+    init(selection: Binding<[SelectionValue]>, label: @escaping (SelectionValue) -> String, values: [SelectionValue], title: Text) {
+        self._selectionBinding = selection
+        self._selection = State(wrappedValue: selection.wrappedValue)
         self.label = label
         self._values = State(wrappedValue: values)
         self.title = title
     }
     
     var body: some View {
-        NavigationLink(destination: self.editView, label: {
+        NavigationLink(destination: EditView(label: label, title: title, values: $values, selectionBinding: $selectionBinding, selection: $selection)) {
             HStack {
                 self.title
                 Spacer()
@@ -38,26 +52,42 @@ struct FilterMultiPicker<SelectionValue, CollectionType>: View where SelectionVa
                         .foregroundColor(Color.secondary)
                 }
             }
-        })
+        }
     }
     
-    var editView: some View {
-        List {
-            ForEach(self.values, id: \.self) { (value: SelectionValue) in
-                Button(action: {
-                    if self.selection.contains(value) {
-                        self.selection.removeAll(where: { $0 == value })
-                    } else {
-                        self.selection.append(value)
+    struct EditView: View {
+        
+        let label: (SelectionValue) -> String
+        let title: Text
+        @Binding var values: [SelectionValue]
+        @Binding var selectionBinding: [SelectionValue]
+        @Binding var selection: [SelectionValue] {
+            didSet {
+                // When changing the selection, save the new value to the actual binding
+                self.selectionBinding = self.selection
+            }
+        }
+        
+        var body: some View {
+            List {
+                ForEach(self.values, id: \.self) { (value: SelectionValue) in
+                    Button(action: {
+                        if self.selection.contains(value) {
+                            self.selection.removeAll(where: { $0 == value })
+                            print("Removed \(value) to \(self.selection)")
+                        } else {
+                            self.selection.append(value)
+                            print("Added \(value) to \(self.selection)")
+                        }
+                    }) {
+                        HStack {
+                            Text(self.label(value))
+                            Spacer()
+                            Image(systemName: "checkmark").hidden(condition: !self.selection.contains(value))
+                        }
                     }
-                }) {
-                    HStack {
-                        Text(self.label(value))
-                        Spacer()
-                        Image(systemName: "checkmark").hidden(condition: !self.selection.contains(value))
-                    }
+                    .navigationTitle(title)
                 }
-                .foregroundColor(Color.primary)
             }
         }
     }

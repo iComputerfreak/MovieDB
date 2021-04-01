@@ -77,12 +77,10 @@ public class FilterSetting: NSManagedObject {
         if let numberOfSeasons = self.numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
-                NSPredicate(format: "%K < %@ AND %K > %@", "numberOfSeasons", numberOfSeasons.lowerBound, "numberOfSeasons", numberOfSeasons.upperBound),
-                // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
+                NSPredicate(format: "%K == %@ AND %K < %d AND %K > %d", "type", MediaType.show.rawValue, "numberOfSeasons", numberOfSeasons.upperBound, "numberOfSeasons", numberOfSeasons.lowerBound),
             ]))
         }
-        // We need to cast Bool to NSNumber for the predicate to work // TODO: STILL DOESNT WORK, TODO: CHANGE BOOL VARIABLES TO NSNUMBER IN ALL PREDICATES
+        // We need to cast Bool to NSNumber for the predicate to work
         if let watched = self.watched as NSNumber? {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie

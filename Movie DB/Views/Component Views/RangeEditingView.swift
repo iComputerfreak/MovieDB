@@ -11,6 +11,7 @@ import SwiftUI
 /// Represents a view in which you can choose a `ClosedRange` of values
 struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLabel: View {
     
+    let title: String
     let bounds: ClosedRange<T>
     @Binding var setting: ClosedRange<T>?
     let style: Style
@@ -48,6 +49,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
             Stepper(value: self.proxies.upper, in: self.proxies.lower.wrappedValue ... self.bounds.upperBound) {
                 self.toLabel(self.proxies.upper.wrappedValue)
             }
+            .navigationTitle(title)
         }
     }
     
@@ -79,6 +81,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
             }
                 // FUTURE: Height has to be set manually, because of GeometryReader
                 .frame(height: 216)
+            .navigationTitle(title)
         }
         .labelsHidden()
     }
@@ -92,8 +95,8 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
 
 extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueLabel)>> {
     /// Convenience init that synthesizes `fromLabel` and `toLabel` using `valueLabel`
-    init(bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style, valueLabel: @escaping (T) -> ValueLabel) {
-        self.init(bounds: bounds, setting: setting, style: style, fromLabel: { value in
+    init(title: String, bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style, valueLabel: @escaping (T) -> ValueLabel) {
+        self.init(title: title, bounds: bounds, setting: setting, style: style, fromLabel: { value in
             HStack {
                 Text("From")
                 Spacer()
@@ -111,8 +114,8 @@ extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueL
 
 extension RangeEditingView where Label == Text, ValueLabel == Text, T: CustomStringConvertible {
     /// Convenience init for default labels
-    init(bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style) {
-        self.init(bounds: bounds, setting: setting, style: style, fromLabel: { Text("From \($0.description)") }, toLabel: { Text("To \($0.description)") }, valueLabel: { Text($0.description) })
+    init(title: String, bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style) {
+        self.init(title: title, bounds: bounds, setting: setting, style: style, fromLabel: { Text("From \($0.description)") }, toLabel: { Text("To \($0.description)") }, valueLabel: { Text($0.description) })
     }
 }
 
