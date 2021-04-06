@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 
 struct WatchedShowView: View {
@@ -14,7 +15,7 @@ struct WatchedShowView: View {
     @Environment(\.editMode) private var editMode
     @State private var isEditing: Bool = false
     
-    private var episodeString: String {
+    private var episodeString: LocalizedStringKey {
         guard let watched = lastWatched else {
             return "No"
         }

@@ -24,7 +24,7 @@ struct CastInfo: View {
                         Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                             .thumbnail()
                         Text(member.name)
-                            .headline(member.roleName)
+                            .headline(verbatim: member.roleName)
                     }
                 }
             }

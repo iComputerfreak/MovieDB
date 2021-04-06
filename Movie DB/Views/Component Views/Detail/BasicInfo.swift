@@ -35,8 +35,15 @@ struct BasicInfo: View {
                             .headline("Release Date")
                     }
                     if let runtime = movie.runtime {
-                        Text("\(runtime) Minutes (\(runtime >= 60 ? "\(runtime / 60)h " : "")\(runtime % 60)m)")
-                            .headline("Runtime")
+                        if runtime > 60 {
+                            let formatString = NSLocalizedString("%lld Minutes (%lldh %lldm)", tableName: "Plurals", comment: "Movie Runtime")
+                            Text(String.localizedStringWithFormat(formatString, runtime, runtime / 60, runtime % 60))
+                                .headline("Runtime")
+                        } else {
+                            let formatString = NSLocalizedString("%lld Minutes", tableName: "Plurals", comment: "Movie Runtime")
+                            Text(String.localizedStringWithFormat(formatString, runtime))
+                                .headline("Runtime")
+                        }
                     }
                 }
                 // Show exclusive data
@@ -44,7 +51,8 @@ struct BasicInfo: View {
                     // Air date
                     if let firstAirDate = show.firstAirDate,
                        let lastAirDate = show.lastAirDate {
-                        Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))")
+                        // Cast to string to prevent localization
+                        Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))" as String)
                             .headline("Air Date")
                     }
                     // Show type (e.g. Scripted)

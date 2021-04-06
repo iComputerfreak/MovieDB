@@ -15,7 +15,7 @@ struct ContentView : View {
             LibraryHome()
                 .tabItem {
                     Image(systemName: "film")
-                    Text("Home")
+                    Text("Library")
                 }
             
             ProblemsView()

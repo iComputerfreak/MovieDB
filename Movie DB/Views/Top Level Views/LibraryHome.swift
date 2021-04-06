@@ -65,7 +65,7 @@ struct LibraryHome : View {
                     }, label: {
                         Image(systemName: "plus")
                     }))
-                .navigationBarTitle(Text("Home"))
+                .navigationBarTitle(Text("Library"))
             }
         }
     }

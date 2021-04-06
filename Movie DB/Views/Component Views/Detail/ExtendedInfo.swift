@@ -55,9 +55,9 @@ struct ExtendedInfo: View {
                     }
                 }
                 // TMDB Data
-                Text(String(mediaObject.popularity))
+                Text(String.localizedStringWithFormat("%.2f", mediaObject.popularity))
                     .headline("Popularity")
-                Text("\(String(format: "%.1f", mediaObject.voteAverage))/10.0 points from \(mediaObject.voteCount) votes")
+                Text("\(mediaObject.voteAverage)/10.0 points from \(mediaObject.voteCount) votes")
                     .headline("Scoring")
             }
         }

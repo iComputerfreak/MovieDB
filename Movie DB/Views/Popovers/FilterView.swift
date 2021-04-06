@@ -123,7 +123,7 @@ private struct InformationSection: View {
                 .tag(nilString)
             Text("Movie")
                 .tag(MediaType.movie.rawValue)
-            Text("Show")
+            Text("TV Show")
                 .tag(MediaType.show.rawValue)
             
                 .navigationTitle("Media Type")
@@ -153,7 +153,8 @@ private struct InformationSection: View {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSetting.rating!.lowerBound.starAmount) to \(self.filterSetting.rating!.upperBound.starAmount) stars", tableName: "Plurals")
+                    let formatString = NSLocalizedString("%lld to %lld stars", tableName: "Plural", comment: "Star range in filter settings")
+                    Text(String.localizedStringWithFormat(formatString, self.filterSetting.rating!.lowerBound.starAmount, self.filterSetting.rating!.upperBound.starAmount))
                         .foregroundColor(.secondary)
                 }
             }
@@ -193,7 +194,8 @@ private struct ShowSpecificSection: View {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSetting.numberOfSeasons!.lowerBound) to \(self.filterSetting.numberOfSeasons!.upperBound) seasons", tableName: "Plurals")
+                    let formatString = NSLocalizedString("%lld to %lld seasons", tableName: "Plurals", comment: "Season range in filter")
+                    Text(String.localizedStringWithFormat(formatString, self.filterSetting.numberOfSeasons!.lowerBound, self.filterSetting.numberOfSeasons!.upperBound))
                         .foregroundColor(.secondary)
                 }
             }

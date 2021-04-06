@@ -70,12 +70,13 @@ struct LibraryList: View {
         .listStyle(GroupedListStyle())
     }
     
-    var footerText: some View {
+    var footerText: Text {
         guard filteredMedia.count > 0 else {
             return Text("")
         }
         let objCount = filteredMedia.count
-        var footerString = NSLocalizedString("\(objCount) objects", tableName: "Plurals", comment: "")
+        let formatString = NSLocalizedString("%lld objects", tableName: "Plurals", comment: "Number of media objects in the footer")
+        var footerString = String.localizedStringWithFormat(formatString, objCount)
         if objCount == self.totalMediaItems {
             footerString += NSLocalizedString(" total", comment: "")
         }

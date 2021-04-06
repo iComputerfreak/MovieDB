@@ -62,7 +62,9 @@ struct TagListView: View {
         
         var body: some View {
             List {
-                Section(header: Text("Select all tags that apply"), footer: Text("\(allTags.count) tags total")) {
+                let footerFormatString = NSLocalizedString("%lld tags total", tableName: "Plurals", comment: "Total number of tags")
+                let footerString = String.localizedStringWithFormat(footerFormatString, allTags.count)
+                Section(header: Text("Select all tags that apply"), footer: Text(footerString)) {
                     ForEach(self.sortedTags, id: \.id) { tag in
                         Button(action: {
                             if self.tags.contains(tag) {

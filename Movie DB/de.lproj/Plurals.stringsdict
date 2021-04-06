@@ -2,23 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld to %lld stars</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%lld bis %#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>%lld Stern</string>
-			<key>other</key>
-			<string>%lld Sterne</string>
-		</dict>
-	</dict>
-	<key>%lld objects</key>
+	<key>%lld Episodes</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -26,26 +10,12 @@
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
-			<key>one</key>
-			<string>%lld Objekt</string>
-			<key>other</key>
-			<string>%lld Objekte</string>
-		</dict>
-	</dict>
-	<key>%lld to %lld seasons</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%lld bis %#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Staffel</string>
+			<string>%lld Folge</string>
 			<key>other</key>
-			<string>%lld Staffeln</string>
+			<string>%lld Folgen</string>
 		</dict>
 	</dict>
 	<key>%lld Seasons</key>
@@ -64,10 +34,10 @@
 			<string>%lld Staffeln</string>
 		</dict>
 	</dict>
-	<key>%lld Episodes</key>
+	<key>%lld to %lld seasons</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
+		<string>%lld bis %#@count@</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -75,9 +45,73 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Episode</string>
+			<string>%lld Staffel</string>
 			<key>other</key>
-			<string>%lld Episoden</string>
+			<string>%lld Staffeln</string>
+		</dict>
+	</dict>
+	<key>%lld objects</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>%lld Objekt</string>
+			<key>other</key>
+			<string>%lld Objekte</string>
+		</dict>
+	</dict>
+	<key>%lld tags total</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@ total</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>%lld Schlüsselwort</string>
+			<key>other</key>
+			<string>%lld Schlüsselwörter</string>
+		</dict>
+	</dict>
+	<key>%lld Minutes</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>%lld Minute</string>
+			<key>other</key>
+			<string>%lld Minuten</string>
+		</dict>
+	</dict>
+	<key>%lld Minutes (%lldh %lldm)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@ (%lldh %lldm)</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>%lld Minute</string>
+			<key>other</key>
+			<string>%lld Minuten</string>
 		</dict>
 	</dict>
 </dict>
