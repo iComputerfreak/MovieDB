@@ -32,7 +32,7 @@ struct LibraryList: View {
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         // TODO: Change if there is another option
-        let sortDescriptors = [NSSortDescriptor(keyPath: \Media.title, ascending: true)]
+        let sortDescriptors = [NSSortDescriptor(keyPath: \Media.creationDate, ascending: false)]
         
         self.fetchRequest = FetchRequest(
             entity: Media.entity(),
@@ -75,7 +75,11 @@ struct LibraryList: View {
             return Text("")
         }
         let objCount = filteredMedia.count
-        return Text("\(objCount) object\(objCount == 1 ? "" : "s")\(objCount == self.totalMediaItems ? " total" : "")")
+        var footerString = NSLocalizedString("\(objCount) objects", tableName: "Plurals", comment: "")
+        if objCount == self.totalMediaItems {
+            footerString += NSLocalizedString(" total", comment: "")
+        }
+        return Text(footerString)
     }
     
 }

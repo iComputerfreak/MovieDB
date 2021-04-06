@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H524" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D80" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -31,10 +31,12 @@
     </entity>
     <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
         <attribute name="castMembersSortOrder" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="homepageURL" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
         <attribute name="keywords" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="modificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="originalLanguage" optional="YES" attributeType="String"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
@@ -58,8 +60,6 @@
     </entity>
     <entity name="MediaLibrary" representedClassName="MediaLibrary" syncable="YES">
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="nextID" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="nextTagID" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
     </entity>
     <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
         <attribute name="budget" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
@@ -103,7 +103,7 @@
         <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="show" inverseEntity="Season"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="tags" inverseEntity="FilterSetting"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="tags" inverseEntity="Media"/>
@@ -124,9 +124,10 @@
     </entity>
     <elements>
         <element name="CastMember" positionX="-27" positionY="198" width="128" height="118"/>
+        <element name="FilterSetting" positionX="-81" positionY="135" width="128" height="253"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="103"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="418"/>
-        <element name="MediaLibrary" positionX="-63" positionY="162" width="128" height="88"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="434"/>
+        <element name="MediaLibrary" positionX="-63" positionY="162" width="128" height="58"/>
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
@@ -134,6 +135,5 @@
         <element name="Tag" positionX="-72" positionY="153" width="128" height="103"/>
         <element name="Thumbnail" positionX="-72" positionY="153" width="128" height="59"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
-        <element name="FilterSetting" positionX="-81" positionY="135" width="128" height="253"/>
     </elements>
 </model>

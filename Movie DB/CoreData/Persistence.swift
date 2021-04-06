@@ -49,6 +49,9 @@ struct PersistenceController {
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: nil)
     }
     
     /// Saves the shared viewContext

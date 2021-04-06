@@ -30,7 +30,7 @@ public class Movie: Media {
     }
     
     private func setTMDBMovieData(_ tmdbData: TMDBData) {
-        managedObjectContext!.perform {
+        managedObjectContext!.performAndWait {
             // This is a movie, therefore the TMDBData needs to have movie specific data
             let movieData = tmdbData.movieData!
             self.releaseDate = movieData.releaseDate

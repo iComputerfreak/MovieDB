@@ -84,7 +84,7 @@ struct SeasonInfo: View {
                     if season.airDate != nil {
                         Text(JFUtils.dateFormatter.string(from: season.airDate!))
                     }
-                    Text("\(season.episodeCount) Episode\(season.episodeCount == 1 ? "" : "s")")
+                    Text("\(season.episodeCount) Episodes", tableName: "Plurals")
                 }
             }
             .padding(.vertical)

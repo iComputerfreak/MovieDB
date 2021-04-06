@@ -17,8 +17,9 @@ struct BasicInfo: View {
             EmptyView()
         } else {
             Section(header: HStack { Image(systemName: "info.circle.fill"); Text("Basic Information") }) {
-                Text(String(format: "%04d", mediaObject.id))
-                    .headline("ID")
+                // TODO: Maybe put the ID somewhere at the bottom in a metadata section
+                //Text(mediaObject.id.uuidString)
+                //    .headline("ID")
                 if !mediaObject.genres.isEmpty {
                     Text(mediaObject.genres.map(\.name).joined(separator: ", "))
                         .headline("Genres")
@@ -62,7 +63,7 @@ struct BasicInfo: View {
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
-                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
+                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons", tableName: "Plurals")
                             .headline("Seasons")
                     }
                 }

@@ -172,15 +172,15 @@ struct SettingsView: View {
                         // Check if the header contains the necessary values
                         for header in CSVManager.requiredImportKeys {
                             if !headerValues.contains(header.rawValue) {
-                                importLog.append("Error: The CSV file does not contain the required header '\(header)'.")
+                                importLog.append("[Error] The CSV file does not contain the required header '\(header)'.")
                             }
                         }
                         for header in CSVManager.optionalImportKeys {
                             if !headerValues.contains(header.rawValue) {
-                                importLog.append("Warning: The CSV file does not contain the optional header '\(header)'.")
+                                importLog.append("[Warning] The CSV file does not contain the optional header '\(header)'.")
                             }
                         }
-                        importLog.append("Importing CSV with header \(headerValues.joined(separator: String(CSVManager.separator)))")
+                        importLog.append("[Info] Importing CSV with header \(headerValues.joined(separator: String(CSVManager.separator)))")
                         csvHeader = headerValues
                     } recordMapper: { values in
                         do {
@@ -189,15 +189,15 @@ struct SettingsView: View {
                             let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: String(CSVManager.separator))
                             switch error {
                                 case .noTMDBID:
-                                    importLog.append("Error: The following line is missing a TMDB ID:\n\(line)")
+                                    importLog.append("[Error] The following line is missing a TMDB ID:\n\(line)")
                                 case .noMediaType:
-                                    importLog.append("Error: The following line is missing a media type:\n\(line)")
+                                    importLog.append("[Error] The following line is missing a media type:\n\(line)")
                                 case .mediaAlreadyExists:
-                                    importLog.append("The following line already exists in the library. Skipping...\n\(line)")
+                                    importLog.append("[Warning] The following line already exists in the library. Skipping...\n\(line)")
                             }
                         } catch {
                             // Other errors, e.g., error while fetching the TMDBData
-                            importLog.append("Error: \(error.localizedDescription)")
+                            importLog.append("[Error] \(error.localizedDescription)")
                         }
                         return nil
                     }
@@ -206,7 +206,7 @@ struct SettingsView: View {
                         self.loadingText = "Loading \(progress) media objects..."
                     }
                     .onFail {
-                        importLog.append("Critical: Importing failed!")
+                        importLog.append("[FATAL] Importing failed!")
                         self.showImportLog(importLog)
                     }
                     .onFinish { (mediaObjects) in
@@ -219,13 +219,13 @@ struct SettingsView: View {
                             controller.addAction(UIAlertAction(title: "Undo", style: .destructive, handler: { _ in
                                 // Reset all the work we have just done
                                 importContext.reset()
-                                importLog.append("Undoing import. All imported objects removed.")
+                                importLog.append("[Info] Undoing import. All imported objects removed.")
                                 self.showImportLog(importLog)
                             }))
                             controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                                 // Make the changes to this context permanent by saving them to disk
                                 PersistenceController.saveContext(context: importContext)
-                                importLog.append("Import complete.")
+                                importLog.append("[Info] Import complete.")
                                 self.showImportLog(importLog)
                             }))
                             self.isLoading = false

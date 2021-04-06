@@ -41,7 +41,7 @@ struct AddMediaView : View {
                     }
                 }
                 .padding(.vertical)
-                .navigationTitle(Text("Add Movie"))
+                .navigationTitle(Text("Add Movie/Show"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
                     presentationMode.wrappedValue.dismiss()

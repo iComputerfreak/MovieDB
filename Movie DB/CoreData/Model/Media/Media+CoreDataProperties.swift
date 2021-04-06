@@ -19,10 +19,7 @@ extension Media {
     }
 
     /// The internal library id
-    public var id: Int {
-        get { getInt(forKey: "id") }
-        set { setInt(newValue, forKey: "id") }
-    }
+    @NSManaged public var id: UUID
     /// The type of media
     public var type: MediaType {
         get { getEnum(forKey: "type") }
@@ -98,6 +95,10 @@ extension Media {
     @NSManaged public var videos: Set<Video>
     /// A list of user-specified tags
     @NSManaged public var tags: Set<Tag>
+    
+    @NSManaged public var creationDate: Date
+    
+    @NSManaged public var modificationDate: Date
     
     // MARK: - Computed Properties
     

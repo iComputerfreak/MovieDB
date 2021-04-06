@@ -136,7 +136,16 @@ private struct InformationSection: View {
         }
         FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: JFUtils.allGenres(), title: Text("Genres"))
         // MARK: - Rating
-        NavigationLink(destination: RangeEditingView(title: "Rating", bounds: StarRating.noRating...StarRating.fiveStars, setting: $filterSetting.rating, style: .stepper, valueLabel: { RatingView(rating: .constant($0)) })) {
+        NavigationLink(
+            destination:
+                RangeEditingView(
+                    title: NSLocalizedString("Rating", comment: ""),
+                    bounds: StarRating.noRating...StarRating.fiveStars,
+                    setting: $filterSetting.rating,
+                    style: .stepper,
+                    valueLabel: { RatingView(rating: .constant($0)) }
+                )
+        ) {
             HStack {
                 Text("Rating")
                 Spacer()
@@ -144,7 +153,7 @@ private struct InformationSection: View {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSetting.rating!.lowerBound.starAmount) to \(self.filterSetting.rating!.upperBound.starAmount) stars")
+                    Text("\(self.filterSetting.rating!.lowerBound.starAmount) to \(self.filterSetting.rating!.upperBound.starAmount) stars", tableName: "Plurals")
                         .foregroundColor(.secondary)
                 }
             }
@@ -184,7 +193,7 @@ private struct ShowSpecificSection: View {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("\(self.filterSetting.numberOfSeasons!.lowerBound) to \(self.filterSetting.numberOfSeasons!.upperBound) seasons")
+                    Text("\(self.filterSetting.numberOfSeasons!.lowerBound) to \(self.filterSetting.numberOfSeasons!.upperBound) seasons", tableName: "Plurals")
                         .foregroundColor(.secondary)
                 }
             }

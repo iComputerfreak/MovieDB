@@ -75,6 +75,27 @@ public class MediaLibrary: NSManagedObject {
         }
     }
     
+    /// Fixes all duplicates IDs by assigning new IDs to the media objects
+    @objc static func fixDuplicates(notification: Notification?) {
+        // TODO: Fix duplicate TMDB IDs
+        // New data has just been merged from iCloud. Check for duplicates
+        let allMedia = JFUtils.allMedias()
+        let grouped = Dictionary(grouping: allMedia, by: \.id)
+        for group in grouped.values {
+            guard group.count > 1 else {
+                continue
+            }
+            // If the group has multiple entries, there are multiple media objects with the same ID
+            // For all media objects, except the first
+            for i in 1..<group.count {
+                let media = group[i]
+                // Assign a new, free ID
+                media.id = UUID()
+            }
+        }
+        
+    }
+    
     /// Resets the library, deleting all media objects and resetting the nextID property
     func reset() throws {
         // Delete all Medias from the context
@@ -85,17 +106,6 @@ public class MediaLibrary: NSManagedObject {
             // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
         }
         // Reset the ID counter for the media objects
-        MediaLibrary.shared.resetNextID()
         PersistenceController.saveContext(context: libraryContext)
-    }
-        
-    /// Resets the nextID property
-    func resetNextID() {
-        self.nextID = 1
-    }
-    
-    /// Resets the nextID property
-    func resetNextTagID() {
-        self.nextTagID = 1
     }
 }

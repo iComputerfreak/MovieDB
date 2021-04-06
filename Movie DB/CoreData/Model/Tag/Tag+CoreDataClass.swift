@@ -21,13 +21,13 @@ public class Tag: NSManagedObject, Codable {
         self.init(context: context)
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
+        self.id = try container.decode(UUID.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
     }
     
     public convenience init(name: String, context: NSManagedObjectContext) {
         self.init(context: context)
-        self.id = MediaLibrary.shared.nextTagID
+        self.id = UUID()
         self.name = name
     }
     

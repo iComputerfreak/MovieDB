@@ -76,7 +76,7 @@ struct CSVManager {
         .tags: (\Media.tags, { ($0 as! Set<Tag>).map(\.name).sorted().joined(separator: String(arraySeparator)) }),
         .notes: (\Media.notes, nil),
         
-        .id: (\Media.id as KeyPath<Media, Int>, nil),
+        .id: (\Media.id as KeyPath<Media, UUID>, { ($0 as! UUID).uuidString }),
         .originalTitle: (\Media.originalTitle, nil),
         .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: String(arraySeparator)) }),
         .overview: (\Media.overview, nil),

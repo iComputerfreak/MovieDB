@@ -26,7 +26,8 @@ public class Media: NSManagedObject {
         self.personalRating = .noRating
         self.tags = []
         
-        self.id = MediaLibrary.shared.nextID
+        // Assign a new UUID
+        self.id = UUID()
         self.type = type
         
         setTMDBData(tmdbData)
@@ -67,6 +68,16 @@ public class Media: NSManagedObject {
         super.awakeFromInsert()
         self.castMembersSortOrder = []
         self.tags = []
+        self.creationDate = Date()
+        self.modificationDate = Date()
+    }
+    
+    override public func willSave() {
+        // Changing properties in this function will invoke willSave again.
+        // We need to make sure we don't result in a infinite loop
+        if modificationDate.timeIntervalSince(Date()) > 10.0 {
+            self.modificationDate = Date()
+        }
     }
     
     // MARK: - Functions

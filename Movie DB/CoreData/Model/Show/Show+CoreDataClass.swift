@@ -34,7 +34,7 @@ public class Show: Media {
     }
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
-        managedObjectContext!.perform {
+        managedObjectContext!.performAndWait {
             // This is a show, therefore the TMDBData needs to have show specific data
             let showData = tmdbData.showData!
             self.firstAirDate = showData.firstAirDate

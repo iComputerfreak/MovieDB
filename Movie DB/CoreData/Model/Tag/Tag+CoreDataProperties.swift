@@ -17,11 +17,9 @@ extension Tag {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
 
+    // TODO: Change IDs to UUIDs
     /// The ID of the tag
-    public var id: Int {
-        get { getInt(forKey: "id") }
-        set { setInt(newValue, forKey: "id") }
-    }
+    @NSManaged public var id: UUID
     /// The name of the tag
     @NSManaged public var name: String
     @NSManaged public var filterSettings: Set<FilterSetting>
