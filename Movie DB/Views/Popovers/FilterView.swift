@@ -99,7 +99,7 @@ struct UserDataSection: View {
                 set: { filterSetting.tags = Set($0) }),
             label: { (tag: Tag) in tag.name },
             values: Array(allTags),
-            title: Text("Tags")
+            titleKey: "Tags"
         )
     }
 }
@@ -134,12 +134,12 @@ private struct InformationSection: View {
         } set: { (newValue) in
             filterSetting.genres = Set(newValue)
         }
-        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: JFUtils.allGenres(), title: Text("Genres"))
+        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: JFUtils.allGenres(), titleKey: "Genres")
         // MARK: - Rating
         NavigationLink(
             destination:
                 RangeEditingView(
-                    title: NSLocalizedString("Rating", comment: ""),
+                    title: Text("Rating"),
                     bounds: StarRating.noRating...StarRating.fiveStars,
                     setting: $filterSetting.rating,
                     style: .stepper,
@@ -159,7 +159,7 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(title: "Year", bounds: JFUtils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: JFUtils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
             HStack {
                 Text("Year")
                 Spacer()
@@ -173,7 +173,7 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Media Status
-        FilterMultiPicker(selection: $filterSetting.statuses, label: { $0.rawValue }, values: MediaStatus.allCases.sorted(by: \.rawValue), title: Text("Status"))
+        FilterMultiPicker(selection: $filterSetting.statuses, label: { $0.rawValue }, values: MediaStatus.allCases.sorted(by: \.rawValue), titleKey: "Status")
     }
 }
 
@@ -183,9 +183,9 @@ private struct ShowSpecificSection: View {
     
     var body: some View {
         // MARK: - Show Type
-        FilterMultiPicker(selection: $filterSetting.showTypes, label: { $0.rawValue }, values: ShowType.allCases.sorted(by: \.rawValue), title: Text("Show Type"))
+        FilterMultiPicker(selection: $filterSetting.showTypes, label: { $0.rawValue }, values: ShowType.allCases.sorted(by: \.rawValue), titleKey: "Show Type")
         // MARK: - Number of Seasons
-        NavigationLink(destination: RangeEditingView(title: "Seasons", bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Seasons"), bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
             HStack {
                 Text("Seasons")
                 Spacer()

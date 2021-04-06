@@ -25,7 +25,7 @@ struct BasicInfo: View {
                         .headline("Genres")
                 }
                 if let overview = mediaObject.overview, !overview.isEmpty {
-                    LongTextView(overview, headline: "Description")
+                    LongTextView(overview, headlineKey: "Description")
                         .headline("Description")
                 }
                 // Movie exclusive data

@@ -62,7 +62,7 @@ struct TagListView: View {
         
         var body: some View {
             List {
-                Section(header: Text("Select all tags that apply"), footer: Text("\(allTags.count) tags in total")) {
+                Section(header: Text("Select all tags that apply"), footer: Text("\(allTags.count) tags total")) {
                     ForEach(self.sortedTags, id: \.id) { tag in
                         Button(action: {
                             if self.tags.contains(tag) {
