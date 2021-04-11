@@ -17,7 +17,6 @@ extension Tag {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
 
-    // TODO: Change IDs to UUIDs
     /// The ID of the tag
     @NSManaged public var id: UUID
     /// The name of the tag
