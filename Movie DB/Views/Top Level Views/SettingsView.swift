@@ -129,7 +129,7 @@ struct SettingsView: View {
                 
                 if let error = error {
                     print("Error updating media objects: \(error)")
-                    AlertHandler.showSimpleAlert(title: "Update error", message: "Error updating media objects: \(error.localizedDescription)")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
                     return
                 }
                 
@@ -140,8 +140,8 @@ struct SettingsView: View {
                 
                 DispatchQueue.main.async {
                     self.updateInProgress = false
-                    let message = "\(updateCount == 0 ? "No" : "\(updateCount)") media \(updateCount == 1 ? "object has" : "objects have") been updated."
-                    AlertHandler.showSimpleAlert(title: "Update completed", message: message)
+                    let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"), message: String.localizedStringWithFormat(format, updateCount))
                 }
             }
         }
@@ -213,16 +213,18 @@ struct SettingsView: View {
                         // Presenting will change UI
                         DispatchQueue.main.async {
                             // TODO: Tell the user how many duplicates were not added
-                            let controller = UIAlertController(title: "Import",
-                                                               message: "Imported \(mediaObjects.count) media \(mediaObjects.count == 1 ? "object" : "objects")",
-                                                               preferredStyle: .alert)
-                            controller.addAction(UIAlertAction(title: "Undo", style: .destructive, handler: { _ in
+                            let format = NSLocalizedString("Imported %lld media objects.", tableName: "Plurals")
+                            let controller = UIAlertController(
+                                title: NSLocalizedString("Import"),
+                                message: String.localizedStringWithFormat(format, mediaObjects.count),
+                                preferredStyle: .alert)
+                            controller.addAction(UIAlertAction(title: NSLocalizedString("Undo"), style: .destructive, handler: { _ in
                                 // Reset all the work we have just done
                                 importContext.reset()
                                 importLog.append("[Info] Undoing import. All imported objects removed.")
                                 self.showImportLog(importLog)
                             }))
-                            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                            controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"), style: .default, handler: { _ in
                                 // Make the changes to this context permanent by saving them to disk
                                 PersistenceController.saveContext(context: importContext)
                                 importLog.append("[Info] Import complete.")
@@ -238,7 +240,7 @@ struct SettingsView: View {
                     
                 } catch {
                     print("Error importing: \(error)")
-                    AlertHandler.showSimpleAlert(title: "Import Error", message: "Error importing the media objects: \(error.localizedDescription)")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("Error importing the media objects: \(error.localizedDescription)"))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -323,10 +325,12 @@ struct SettingsView: View {
                     let count = importData.components(separatedBy: "\n").filter({ !$0.isEmpty }).count
                     // Presenting will change UI
                     DispatchQueue.main.async {
-                        let controller = UIAlertController(title: "Import",
-                                                           message: "Do you want to import \(count) tag\(count == 1 ? "" : "s")?",
-                                                           preferredStyle: .alert)
-                        controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                        let format = NSLocalizedString("Do you want to import %lld tags?", tableName: "Plurals")
+                        let controller = UIAlertController(
+                            title: NSLocalizedString("Import"),
+                            message: String.localizedStringWithFormat(format, count),
+                            preferredStyle: .alert)
+                        controller.addAction(UIAlertAction(title: NSLocalizedString("Yes"), style: .default, handler: { _ in
                             // Use a background context for importing the tags
                             PersistenceController.shared.container.performBackgroundTask { (context) in
                                 context.name = "Tag Import Context"
@@ -335,24 +339,24 @@ struct SettingsView: View {
                                     try context.save()
                                 } catch {
                                     print(error)
-                                    AlertHandler.showSimpleAlert(title: "Error Importing Tags", message: error.localizedDescription)
+                                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"), message: error.localizedDescription)
                                 }
                             }
                         }))
-                        controller.addAction(UIAlertAction(title: "No", style: .cancel))
+                        controller.addAction(UIAlertAction(title: NSLocalizedString("No"), style: .cancel))
                         AlertHandler.presentAlert(alert: controller)
                         self.isLoading = false
                     }
                 } catch let error as LocalizedError {
                     print("Error importing: \(error)")
-                    AlertHandler.showSimpleAlert(title: "Import Error", message: "Error importing the tags: \(error.localizedDescription)")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("Error Importing the Tags: \(error.localizedDescription)"))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
                 } catch let otherError {
                     print("Unknown Error: \(otherError)")
                     assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-                    AlertHandler.showSimpleAlert(title: "Import Error", message: "There was an error importing the tags.")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("There was an error importing the tags."))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -408,16 +412,16 @@ struct SettingsView: View {
     }
     
     func resetLibrary() {
-        let controller = UIAlertController(title: "Reset Library", message: "This will delete all media objects in your library. Do you want to continue?", preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        controller.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+        let controller = UIAlertController(title: NSLocalizedString("Reset Library"), message: NSLocalizedString("This will delete all media objects in your library. Do you want to continue?"), preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Delete"), style: .destructive, handler: { _ in
             // Don't reset the tags, only the media objects
             do {
                 try self.library.reset()
             } catch let e {
                 print("Error resetting media library")
                 print(e)
-                AlertHandler.showSimpleAlert(title: "Error resetting library", message: e.localizedDescription)
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error resetting library"), message: e.localizedDescription)
             }
         }))
         AlertHandler.presentAlert(alert: controller)

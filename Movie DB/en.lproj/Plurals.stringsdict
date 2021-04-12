@@ -2,6 +2,56 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%lld media objects have been updated.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@ updated.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>No media objects have been</string>
+			<key>one</key>
+			<string>%lld media object has been</string>
+			<key>other</key>
+			<string>%lld media objects have been</string>
+		</dict>
+	</dict>
+	<key>Do you want to import %lld tags?</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Do you want to import %#@count@?</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld tag</string>
+			<key>other</key>
+			<string>%lld tags</string>
+		</dict>
+	</dict>
+	<key>Imported %lld media objects.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Imported %#@count@.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld media object</string>
+			<key>other</key>
+			<string>%lld media objects</string>
+		</dict>
+	</dict>
 	<key>%lld Minutes (%lldh %lldm)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

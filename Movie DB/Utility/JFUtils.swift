@@ -373,3 +373,8 @@ extension NSManagedObjectContext {
         return super.description
     }
 }
+
+/// Overload of the default NSLocalizedString function that uses an empty comment
+public func NSLocalizedString(_ key: String, tableName: String? = nil) -> String {
+    NSLocalizedString(key, tableName: tableName, comment: "")
+}

@@ -82,12 +82,12 @@ struct TagListView: View {
                                 Spacer()
                                 Button(action: {
                                     // Rename
-                                    let alert = UIAlertController(title: "Rename Tag", message: "Enter a new name for the tag.", preferredStyle: .alert)
+                                    let alert = UIAlertController(title: NSLocalizedString("Rename Tag"), message: NSLocalizedString("Enter a new name for the tag."), preferredStyle: .alert)
                                     alert.addTextField() { textField in
                                         textField.autocapitalizationType = .words
                                     }
-                                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in }))
-                                    alert.addAction(UIAlertAction(title: "Rename", style: .default, handler: { action in
+                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel, handler: { _ in }))
+                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Rename"), style: .default, handler: { action in
                                         guard let textField = alert.textFields?.first else {
                                             return
                                         }
@@ -117,13 +117,13 @@ struct TagListView: View {
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {
-                let alert = UIAlertController(title: "New Tag", message: "Enter a name for the new tag.", preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("New Tag"), message: NSLocalizedString("Enter a name for the new tag."), preferredStyle: .alert)
                 alert.addTextField() { textField in
                     // Change textField properties
                     textField.autocapitalizationType = .words
                 }
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in })
-                alert.addAction(UIAlertAction(title: "Add", style: .default) { action in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { _ in })
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { action in
                     guard let textField = alert.textFields?.first else {
                         return
                     }

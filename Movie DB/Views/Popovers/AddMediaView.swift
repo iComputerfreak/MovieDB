@@ -41,7 +41,7 @@ struct AddMediaView : View {
                     }
                 }
                 .padding(.vertical)
-                .navigationTitle(Text("Add Movie/Show"))
+                .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
                     presentationMode.wrappedValue.dismiss()
@@ -62,7 +62,7 @@ struct AddMediaView : View {
             
             if let error = error {
                 print("Error searching for media with searchText '\(self.searchText)': \(error)")
-                AlertHandler.showSimpleAlert(title: "Error searching", message: "Error performing search: \(error.localizedDescription)")
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
                 return
             }
             
@@ -104,7 +104,7 @@ struct AddMediaView : View {
         let existingObjects = (try? managedObjectContext.count(for: existingFetchRequest)) ?? 0
         if existingObjects > 0 {
             // Already added
-            AlertHandler.showSimpleAlert(title: "Already added", message: "You already have '\(result.title)' in your library.")
+            AlertHandler.showSimpleAlert(title: NSLocalizedString("Already Added"), message: NSLocalizedString("You already have '\(result.title)' in your library."))
         } else {
             self.isLoading = true
             TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: PersistenceController.viewContext) { (media: Media?, error: Error?) in
@@ -112,7 +112,7 @@ struct AddMediaView : View {
                 if let error = error as? LocalizedError {
                     print("Error loading media: \(error)")
                     DispatchQueue.main.async {
-                        AlertHandler.showSimpleAlert(title: "Error", message: "Error loading media: \(error.localizedDescription)")
+                        AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"), message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
                     }
                     self.isLoading = false
                     return
@@ -120,7 +120,7 @@ struct AddMediaView : View {
                     print("Unknown Error: \(String(describing: error))")
                     assertionFailure("This error should be captured specifically to give the user a more precise error message.")
                     DispatchQueue.main.async {
-                        AlertHandler.showSimpleAlert(title: "Error", message: "There was an error loading the media.")
+                        AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"), message: NSLocalizedString("There was an error loading the media."))
                     }
                     self.isLoading = false
                     return
