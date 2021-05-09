@@ -1,0 +1,15 @@
+name: CSVImporter, nameSpecified: CSVImporter, owner: Flinesoft, version: 1.9.1
+
+name: HandySwift, nameSpecified: HandySwift, owner: Flinesoft, version: 2.8.0
+
+name: JFSwiftUI, nameSpecified: JFSwiftUI, owner: iComputerfreak, version: 1.2.4
+
+name: Nimble, nameSpecified: Nimble, owner: Quick, version: 7.3.4
+
+name: Quick, nameSpecified: Quick, owner: Quick, version: 1.3.4
+
+name: TextView, nameSpecified: TextView, owner: kenmueller, version: 1.4.7
+
+add-version-numbers: false
+
+LicensePlist Version: 3.0.7
