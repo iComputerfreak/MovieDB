@@ -94,6 +94,7 @@
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
 		ABD4C8462648758100BEB3A6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABD4C8452648758100BEB3A6 /* Settings.bundle */; };
+		ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD4C8472648793300BEB3A6 /* APIKeys.swift */; };
 		ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5A2375D6BB0049E236 /* TitleView.swift */; };
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD7CB612375D96C0049E236 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB602375D96C0049E236 /* LinkView.swift */; };
@@ -212,6 +213,7 @@
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		ABD4C8452648758100BEB3A6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		ABD4C8472648793300BEB3A6 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD7CB602375D96C0049E236 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				ABEA7AB6261BB9620060B5D2 /* Plurals.stringsdict */,
 				AB6718C822C0312B00F429E4 /* Preview Content */,
 				AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */,
+				ABD4C8472648793300BEB3A6 /* APIKeys.swift */,
 			);
 			path = "Movie DB";
 			sourceTree = "<group>";
@@ -805,6 +808,7 @@
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
+				ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */,
