@@ -378,3 +378,15 @@ extension NSManagedObjectContext {
 public func NSLocalizedString(_ key: String, tableName: String? = nil) -> String {
     NSLocalizedString(key, tableName: tableName, comment: "")
 }
+
+extension View {
+    /// Applies a workaround that prevents the list rows from staying selected
+    func fixHighlighting() -> some View {
+        // Workaround so that the list items don't stay selected after going back from the detail
+        // FUTURE: Remove
+        ZStack {
+            Button("", action: {})
+            self
+        }
+    }
+}

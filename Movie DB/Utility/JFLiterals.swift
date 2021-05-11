@@ -11,8 +11,6 @@ import UIKit
 import SwiftUI
 
 struct JFLiterals {
-    /// The TMDB API Key
-    static let apiKey = "e4304a9deeb9ed2d62eb61d7b9a2da71"
     /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
     private static let _multiplier: CGFloat = 2.0
     /// The size of the thumbnail in the `LibraryHome` list

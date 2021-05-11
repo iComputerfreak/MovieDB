@@ -27,6 +27,7 @@ struct BasicInfo: View {
                 if let overview = mediaObject.overview, !overview.isEmpty {
                     LongTextView(overview, headlineKey: "Description")
                         .headline("Description")
+                        .fixHighlighting()
                 }
                 // Movie exclusive data
                 if mediaObject.type == .movie, let movie = mediaObject as? Movie {
@@ -73,12 +74,14 @@ struct BasicInfo: View {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
                         Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons", tableName: "Plurals")
                             .headline("Seasons")
+                            .fixHighlighting()
                     }
                 }
                 // Cast
                 if !mediaObject.cast.isEmpty {
                     NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
                         Text("Cast")
+                            .fixHighlighting()
                     }
                 }
             }

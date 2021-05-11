@@ -23,9 +23,11 @@ class TMDBAPI {
     /// The base part of the TheMovieDB.org API URL
     private let baseURL = "https://api.themoviedb.org/3"
     
-    private let apiKey: String = "e4304a9deeb9ed2d62eb61d7b9a2da71"
+    private let apiKey: String = APIKeys.tmdbAPIKey
     /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
     var locale: String { JFConfig.shared.language }
+    /// The ISO 3166-1 region code, used for displaying matching release dates
+    var region: String? { locale.components(separatedBy: "-").last }
     
     var disposableContext: NSManagedObjectContext { PersistenceController.shared.disposableContext }
     
@@ -322,6 +324,10 @@ class TMDBAPI {
             "api_key": apiKey,
             "language": locale
         ]
+        // Add the region for country-specific information (i.e. theater release dates)
+        if let region = region {
+            parameters["region"] = region
+        }
         // Overwrite existing keys
         parameters.merge(additionalParameters)
         
