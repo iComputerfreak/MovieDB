@@ -23,19 +23,19 @@ struct LibraryHome : View {
     @ObservedObject private var filterSetting = FilterSetting.shared
     
     @State private var activeSheet: ActiveSheet? = nil
-    @State private var searchText: String = ""
     @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    @ObservedObject var searchBar: SearchBar = SearchBar()
     
     var body: some View {
         // Use the proxy to scroll to a specific item after adding it
         ScrollViewReader { proxy in
             NavigationView {
                 VStack {
-                    // TODO: http://blog.eppz.eu/swiftui-search-bar-in-the-navigation-bar/
-                    SearchBar(searchText: $searchText)
                     // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
                     // This way, the fetchRequest inside LibraryList will be re-built every time the searchText changes
-                    LibraryList(searchText: searchText, filterSetting: filterSetting)
+                    LibraryList(searchText: searchBar.text, filterSetting: filterSetting)
+                        .add(searchBar)
                 }
                 
                 // Display the currently active sheet

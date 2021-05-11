@@ -1,80 +1,57 @@
 //
-//  SearchBar.swift
+//  SearchBar2.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 07.07.20.
-//  Copyright © 2020 Jonas Frey. All rights reserved.
+//  Created by Geri Borbás on 27.04.2020
+//  Copyright © 2020. Geri Borbás
+//  Source: https://github.com/Geri-Borbas/iOS.Blog.SwiftUI_Search_Bar_in_Navigation_Bar/blob/main/SwiftUI_Search_Bar_in_Navigation_Bar/SearchBar/SearchBar.swift
+//  License: MIT License
 //
 
-import Foundation
 import SwiftUI
 
-extension UIApplication {
-    func endEditing(_ force: Bool) {
-        self.windows
-            .filter{$0.isKeyWindow}
-            .first?
-            .endEditing(force)
+class SearchBar: NSObject, ObservableObject, UISearchControllerDelegate {
+    
+    @Published var text: String = ""
+    let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    
+    override init() {
+        super.init()
+        self.searchController.obscuresBackgroundDuringPresentation = false
+        self.searchController.searchResultsUpdater = self
+    }
+    
+}
+
+extension SearchBar: UISearchResultsUpdating {
+   
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        // Publish search bar text changes.
+        if let searchBarText = searchController.searchBar.text {
+            self.text = searchBarText
+        }
     }
 }
 
-struct ResignKeyboardOnDragGesture: ViewModifier {
-    var gesture = DragGesture().onChanged{_ in
-        UIApplication.shared.endEditing(true)
-    }
+struct SearchBarModifier: ViewModifier {
+    
+    let searchBar: SearchBar
+    
     func body(content: Content) -> some View {
-        content.gesture(gesture)
+        content
+            .overlay(
+                ViewControllerResolver { viewController in
+                    viewController.navigationItem.searchController = self.searchBar.searchController
+                }
+                    .frame(width: 0, height: 0)
+            )
     }
 }
 
 extension View {
-    func resignKeyboardOnDragGesture() -> some View {
-        return modifier(ResignKeyboardOnDragGesture())
+    
+    func add(_ searchBar: SearchBar) -> some View {
+        return self.modifier(SearchBarModifier(searchBar: searchBar))
     }
-}
-
-struct SearchBar: View {
-    
-    @Binding var searchText: String
-    @State private var showCancelButton: Bool = false
-    
-    var onCommit: (() -> Void)?
-    var onEditingChanged: (() -> Void)?
-    
-    var body: some View {
-        HStack {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                
-                TextField("search", text: $searchText, onEditingChanged: { isEditing in
-                    self.showCancelButton = true
-                    self.onEditingChanged?()
-                }, onCommit: {
-                    self.onCommit?()
-                }).foregroundColor(.primary)
-                
-                Button(action: {
-                    self.searchText = ""
-                }) {
-                    Image(systemName: "xmark.circle.fill").opacity(searchText == "" ? 0 : 1)
-                }
-            }
-            .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-            .foregroundColor(.secondary)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(10.0)
-            
-            if showCancelButton  {
-                Button("Cancel") {
-                    UIApplication.shared.endEditing(true) // this must be placed before the other commands here
-                    self.searchText = ""
-                    self.showCancelButton = false
-                }
-                .foregroundColor(Color(.systemBlue))
-            }
-        }
-        .padding(.horizontal)
-        .navigationBarHidden(showCancelButton) // .animation(.default) // animation does not work properly
-    }
-    
 }

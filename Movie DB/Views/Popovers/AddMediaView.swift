@@ -8,29 +8,57 @@
 
 import SwiftUI
 import CoreData
+import Combine
 import struct JFSwiftUI.LoadingView
 
 struct AddMediaView : View {
     
     @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
-    @State private var searchText: String = ""
     @State private var isLoading: Bool = false
     
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    @State private var publisher: AnyCancellable?
+    
+    @ObservedObject var searchBar: SearchBar = {
+        let searchBar = SearchBar()
+        searchBar.searchController.hidesNavigationBarDuringPresentation = false
+        searchBar.searchController.automaticallyShowsCancelButton = false
+        return searchBar
+    }()
+    
+    func didAppear() {
+        // Register for search text updates
+        // We have to assign the publisher to a variable to it does not get deallocated and can be called with future changes
+        self.publisher = self.searchBar.$text
+            .print()
+            // Wait 500 ms before actually searching for the text
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            // Remove duplicate calls
+            .removeDuplicates()
+            // The search text should have at least 3 characters
+            .map { (searchText: String) -> String? in
+                if searchText.count == 0 {
+                    // TODO: Indicate that the list is empty because there is no search text, and not because there aren't any results
+                    self.results = []
+                }
+                return searchText.count >= 3 ? searchText : nil
+            }
+            // Remove nil
+            .compactMap { $0 }
+            // Process the search text
+            .sink { (searchText: String) in
+                // Execute searchMedia when the search text changes
+                self.searchMedia(searchText)
+            }
+    }
+    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
-                    // FIX: For SOME reason, calling searchMedia() inside onCommit crashes the app. We have to call it from a button
-                    SearchBar(searchText: $searchText, onCommit: {
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            searchMedia()
-                        }
-                    })
-                    
                     List {
                         ForEach(self.results) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
@@ -39,6 +67,7 @@ struct AddMediaView : View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
+                    .add(searchBar)
                 }
                 .padding(.vertical)
                 .navigationTitle(Text("Add Media"))
@@ -49,25 +78,26 @@ struct AddMediaView : View {
             }
             .navigationViewStyle(StackNavigationViewStyle())
         }
+        .onAppear(perform: didAppear)
     }
     
-    func searchMedia() {
-        print("Search: \(self.searchText)")
-        guard !self.searchText.isEmpty else {
+    func searchMedia(_ searchText: String) {
+        print("Search: \(searchText)")
+        guard !searchText.isEmpty else {
             self.results = []
             return
         }
         let api = TMDBAPI.shared
-        api.searchMedia(self.searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?, error: Error?) in
+        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?, error: Error?) in
             
             if let error = error {
-                print("Error searching for media with searchText '\(self.searchText)': \(error)")
+                print("Error searching for media with searchText '\(searchText)': \(error)")
                 AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
                 return
             }
             
             guard let results = results else {
-                print("Error searching for media with searchText '\(self.searchText)'")
+                print("Error searching for media with searchText '\(searchText)'")
                 return
             }
                 
