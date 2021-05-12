@@ -121,6 +121,8 @@ public enum StarRating: Int, Strideable, Codable {
     /// The amount of full stars as a string with an optional fraction digit
     var starAmount: String {
         let formatter = NumberFormatter()
+        // Set the locale to the correct fraction symbol
+        formatter.locale = Locale.current
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 1
         return formatter.string(from: Double(integerRepresentation) / 2)!

@@ -71,6 +71,14 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
         
         var body: some View {
             List {
+                if self.values.isEmpty {
+                    HStack {
+                        Spacer()
+                        Text("No entries")
+                            .italic()
+                        Spacer()
+                    }
+                } else {
                 ForEach(self.values, id: \.self) { (value: SelectionValue) in
                     Button(action: {
                         if self.selection.contains(value) {
@@ -89,6 +97,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                     }
                     .navigationTitle(title)
                 }
+            }
             }
         }
     }

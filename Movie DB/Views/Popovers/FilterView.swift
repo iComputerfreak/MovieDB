@@ -152,10 +152,25 @@ private struct InformationSection: View {
                 if self.filterSetting.rating == nil {
                     Text("Any")
                         .foregroundColor(.secondary)
+                } else if self.filterSetting.rating!.count == 1 {
+                    // We have to manage plurals on our own here, since the starAmount is a string and we cannot use the Plurals table
+                    let amount = self.filterSetting.rating!.lowerBound.starAmount
+                    if amount == "1" {
+                        Text(String.localizedStringWithFormat("%@ Star", amount))
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text(String.localizedStringWithFormat("%@ Stars", amount))
+                            .foregroundColor(.secondary)
+                    }
                 } else {
-                    let formatString = NSLocalizedString("%lld to %lld stars", tableName: "Plural", comment: "Star range in filter settings")
-                    Text(String.localizedStringWithFormat(formatString, self.filterSetting.rating!.lowerBound.starAmount, self.filterSetting.rating!.upperBound.starAmount))
-                        .foregroundColor(.secondary)
+                    // We have to manage plurals on our own here, since the starAmount is a string and we cannot use the Plurals table
+                    if self.filterSetting.rating!.upperBound.starAmount == "1" {
+                        Text(String.localizedStringWithFormat("%@ to %@ Star", self.filterSetting.rating!.lowerBound.starAmount, self.filterSetting.rating!.upperBound.starAmount))
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text(String.localizedStringWithFormat("%@ to %@ Stars", self.filterSetting.rating!.lowerBound.starAmount, self.filterSetting.rating!.upperBound.starAmount))
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
         }
@@ -166,6 +181,10 @@ private struct InformationSection: View {
                 Spacer()
                 if self.filterSetting.year == nil {
                     Text("Any")
+                        .foregroundColor(.secondary)
+                } else if self.filterSetting.year!.count == 1 {
+                    // Lower and upper bound are the same
+                    Text(self.filterSetting.year!.lowerBound.description)
                         .foregroundColor(.secondary)
                 } else {
                     Text("\(self.filterSetting.year!.lowerBound.description) to \(self.filterSetting.year!.upperBound.description)")
@@ -192,6 +211,10 @@ private struct ShowSpecificSection: View {
                 Spacer()
                 if self.filterSetting.numberOfSeasons == nil {
                     Text("Any")
+                        .foregroundColor(.secondary)
+                } else if self.filterSetting.numberOfSeasons!.count == 1 {
+                    let formatString = NSLocalizedString("%lld seasons", tableName: "Plurals", comment: "Season count in filter")
+                    Text(String.localizedStringWithFormat(formatString, self.filterSetting.numberOfSeasons!.lowerBound))
                         .foregroundColor(.secondary)
                 } else {
                     let formatString = NSLocalizedString("%lld to %lld seasons", tableName: "Plurals", comment: "Season range in filter")

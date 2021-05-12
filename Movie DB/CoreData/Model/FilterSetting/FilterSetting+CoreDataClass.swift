@@ -47,7 +47,7 @@ public class FilterSetting: NSManagedObject {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
         if let rating = self.rating {
-            predicates.append(NSPredicate(format: "%K < %@ AND %K > %@", "personalRating", rating.upperBound.rawValue, "personalRating", rating.lowerBound.rawValue))
+            predicates.append(NSPredicate(format: "%K < %d AND %K > %d", "personalRating", rating.upperBound.rawValue, "personalRating", rating.lowerBound.rawValue))
         }
         if let year = self.year {
             let formatter = DateFormatter()

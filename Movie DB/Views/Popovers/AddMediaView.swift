@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 import CoreData
 import Combine
@@ -15,6 +16,7 @@ struct AddMediaView : View {
     
     @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
+    @State private var resultsText: String = ""
     @State private var isLoading: Bool = false
     
     @Environment(\.presentationMode) private var presentationMode
@@ -58,8 +60,15 @@ struct AddMediaView : View {
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
-                VStack {
-                    List {
+                List {
+                    if self.results.isEmpty && !self.resultsText.isEmpty {
+                        HStack {
+                            Spacer()
+                            Text(self.resultsText)
+                                .italic()
+                            Spacer()
+                        }
+                    } else {
                         ForEach(self.results) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
                                 SearchResultView(result: result)
@@ -67,9 +76,8 @@ struct AddMediaView : View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    .add(searchBar)
                 }
-                .padding(.vertical)
+                .add(searchBar)
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
@@ -85,6 +93,7 @@ struct AddMediaView : View {
         print("Search: \(searchText)")
         guard !searchText.isEmpty else {
             self.results = []
+            self.resultsText = ""
             return
         }
         let api = TMDBAPI.shared
@@ -93,11 +102,15 @@ struct AddMediaView : View {
             if let error = error {
                 print("Error searching for media with searchText '\(searchText)': \(error)")
                 AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
+                self.results = []
+                self.resultsText = NSLocalizedString("Error loading search results")
                 return
             }
             
             guard let results = results else {
                 print("Error searching for media with searchText '\(searchText)'")
+                self.results = []
+                self.resultsText = NSLocalizedString("Error loading search results")
                 return
             }
                 
@@ -122,6 +135,9 @@ struct AddMediaView : View {
             }
             DispatchQueue.main.async {
                 self.results = filteredResults
+                if filteredResults.isEmpty {
+                    self.resultsText = NSLocalizedString("No results")
+                }
             }
         }
     }
