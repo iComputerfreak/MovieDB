@@ -95,10 +95,12 @@ extension Media {
     @NSManaged public var videos: Set<Video>
     /// A list of user-specified tags
     @NSManaged public var tags: Set<Tag>
-    
+    /// The date the media object was created
     @NSManaged public var creationDate: Date
-    
+    /// The date the media object was last modified
     @NSManaged public var modificationDate: Date
+    /// The date the media object was released or first aired
+    @NSManaged public var releaseDateOrFirstAired: Date?
     
     // MARK: - Computed Properties
     

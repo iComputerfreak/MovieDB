@@ -31,5 +31,11 @@ struct JFLiterals {
         static let mediaLibrary = "mediaLibrary"
         /// The key used for storing all available languages for TheMovieDB.org
         static let tmdbLanguages = "tmdbLanguages"
+        /// The version the app was last migrated to
+        static let migrationKey = "migrationVersion"
+        /// The attribute after which to sort the media objects
+        static let sortingOrder = "sortingOrder"
+        /// The direction in which to sort the media objects (ascending or descending)
+        static let sortingDirection = "sortingDirection"
     }
 }

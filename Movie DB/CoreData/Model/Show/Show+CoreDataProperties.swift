@@ -33,7 +33,15 @@ extension Show {
         set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
     }
     /// The date, the show was first aired
-    @NSManaged public var firstAirDate: Date?
+    public var firstAirDate: Date? {
+        get { getOptional(forKey: "firstAirDate") }
+        set {
+            setOptional(newValue, forKey: "firstAirDate")
+            // Update the convenience property
+            print("[JF] Updating convenience property for \(self.title) to \(newValue)")
+            self.releaseDateOrFirstAired = newValue
+        }
+    }
     /// The date, the show was last aired
     @NSManaged public var lastAirDate: Date?
     /// The number of seasons the show  has

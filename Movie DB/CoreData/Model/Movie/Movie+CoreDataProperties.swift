@@ -28,7 +28,15 @@ extension Movie {
         set { setOptionalInt(newValue, forKey: "runtime") }
     }
     /// The date, the movie was released
-    @NSManaged public var releaseDate: Date?
+    public var releaseDate: Date? {
+        get { getOptional(forKey: "releaseDate") }
+        set {
+            setOptional(newValue, forKey: "releaseDate")
+            // Update the convenience property
+            print("[JF] Updating convenience property for \(self.title) to \(newValue)")
+            self.releaseDateOrFirstAired = newValue
+        }
+    }
     /// The production budget in dollars
     public var budget: Int {
         get { getInt(forKey: "budget") }

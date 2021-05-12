@@ -15,13 +15,16 @@ struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @ObservedObject private var library = MediaLibrary.shared
     
-    private var fetchRequest: FetchRequest<Media>
+    private let sortingOrder: SortingOrder
+    private let sortingDirection: SortingDirection
+    
+    private let fetchRequest: FetchRequest<Media>
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
-    init(searchText: String, filterSetting: FilterSetting) {
+    init(searchText: String, filterSetting: FilterSetting, sortingOrder: SortingOrder, sortingDirection: SortingDirection) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
             predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)", "title", searchText, "originalTitle", searchText))
@@ -31,8 +34,20 @@ struct LibraryList: View {
         }
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
-        // TODO: Change if there is another option
-        let sortDescriptors = [NSSortDescriptor(keyPath: \Media.creationDate, ascending: false)]
+        var sortDescriptors = [NSSortDescriptor]()
+        switch sortingOrder {
+        case .name:
+            // Name sort descriptor gets appended at the end
+            break
+        case .created:
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate, ascending: sortingDirection == .ascending))
+        case .releaseDate:
+            sortDescriptors.append(NSSortDescriptor(key: "releaseDateOrFirstAired", ascending: sortingDirection == .ascending))
+        case .rating:
+            sortDescriptors.append(NSSortDescriptor(key: "personalRating", ascending: sortingDirection == .ascending))
+        }
+        // Append the name sort descriptor as a second alternative
+        sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: sortingDirection == .ascending))
         
         self.fetchRequest = FetchRequest(
             entity: Media.entity(),
@@ -41,6 +56,8 @@ struct LibraryList: View {
             predicate: compoundPredicate,
             animation: nil
         )
+        self.sortingOrder = sortingOrder
+        self.sortingDirection = sortingDirection
     }
     
     private var filteredMedia: FetchedResults<Media> {
