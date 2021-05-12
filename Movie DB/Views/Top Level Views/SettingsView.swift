@@ -130,11 +130,13 @@ struct SettingsView: View {
                 if let error = error {
                     print("Error updating media objects: \(error)")
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
+                    self.updateInProgress = false
                     return
                 }
                 
                 guard let updateCount = updateCount else {
                     print("Error updating media objects.")
+                    self.updateInProgress = false
                     return
                 }
                 

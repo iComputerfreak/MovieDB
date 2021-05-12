@@ -58,11 +58,11 @@ struct BasicInfo: View {
                     }
                     // Show type (e.g. Scripted)
                     if let type = show.showType {
-                        Text(type.rawValue)
+                        Text(NSLocalizedString(type.rawValue))
                             .headline("Show Type")
                     }
                 }
-                Text(mediaObject.status.rawValue)
+                Text(NSLocalizedString(mediaObject.status.rawValue))
                     .headline("Status")
                 Text(mediaObject.originalTitle)
                     .headline("Original Title")

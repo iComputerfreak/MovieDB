@@ -12,9 +12,11 @@ import UIKit
 
 class TMDBAPI {
     
-    enum APIError: Error {
+    enum APIError: Error, Equatable {
         case unauthorized
         case invalidResponse
+        case invalidPageRange
+        case pageOutOfBounds
         case unknown(Int)
     }
     
@@ -185,13 +187,15 @@ class TMDBAPI {
     ///   - name: The query to search for
     ///   - includeAdult: Whether to include adult media
     ///   - completion: The completion handler executed with the search results. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
+    ///   - fromPage: The first page to load results from
+    ///   - toPage: The last page to load results from
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The search results
-    func searchMedia(_ query: String, includeAdult: Bool = false, completion: @escaping ([TMDBSearchResult]?, Error?) -> Void) {
+    func searchMedia(_ query: String, includeAdult: Bool = false, fromPage: Int = 1, toPage: Int = JFLiterals.maxSearchPages, completion: @escaping ([TMDBSearchResult]?, Error?) -> Void) {
         self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": query,
             "include_adult": includeAdult
-        ], maxPages: JFLiterals.maxSearchPages, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext) { (results: [TMDBSearchResult]?, error: Error?) in
+        ], fromPage: fromPage, toPage: toPage, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext) { (results: [TMDBSearchResult]?, error: Error?) in
             completion(results, error)
         }
     }
@@ -212,10 +216,15 @@ class TMDBAPI {
     /// - Returns: The accumulated results of the API calls
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(path: String,
                                                                     additionalParameters: [String: Any?] = [:],
-                                                                    maxPages: Int = .max,
+                                                                    fromPage: Int = 1,
+                                                                    toPage: Int = .max,
                                                                     pageWrapper: PageWrapper.Type,
                                                                     context parent: NSManagedObjectContext,
                                                                     completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
+        guard fromPage <= toPage else {
+            completion(nil, APIError.invalidPageRange)
+            return
+        }
         // Create a background context to make the changes in, before merging them with the actual context given
         let context = parent.newBackgroundContext()
         let decoder = self.decoder(context: context)
@@ -223,13 +232,21 @@ class TMDBAPI {
         context.perform {
             do {
                 // Fetch the JSON in the background
-                let data = try self.request(path: path, additionalParameters: additionalParameters)
+                let data = try self.request(path: path, additionalParameters: additionalParameters.merging(["page": fromPage]))
                 // Decode on the context thread
                 let wrapper = try decoder.decode(PageWrapper.self, from: data)
                 var results = wrapper.results
                 
-                // If we only had to load 1 page in total, we can complete now
-                if wrapper.totalPages <= 1 {
+                if wrapper.totalPages == 0 {
+                    // No results
+                    completion([], nil)
+                    return
+                } else if wrapper.totalPages < fromPage {
+                    // If the page we were requested to load was out of bounds
+                    completion(nil, APIError.pageOutOfBounds)
+                    return
+                } else if wrapper.totalPages == fromPage {
+                    // If we only had to load 1 page in total, we can complete now
                     completion(results, nil)
                     return
                 }
@@ -238,7 +255,7 @@ class TMDBAPI {
                 // Load the rest of the pages
                 let group = DispatchGroup()
                 var returnError: Error? = nil
-                for page in 2 ... min(wrapper.totalPages, maxPages) {
+                for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
                     group.enter()
                     DispatchQueue.global(qos: .userInitiated).async {
                         do {

@@ -128,10 +128,10 @@ struct JFUtils {
     /// Returns a closed range containing the years of all media objects in the library
     static func yearBounds() -> ClosedRange<Int> {
         
-        let minShow = fetchMinMax(key: "firstAirDate", ascending: true)
-        let minMovie = fetchMinMax(key: "releaseDate", ascending: true)
-        let maxShow = fetchMinMax(key: "firstAirDate", ascending: false)
-        let maxMovie = fetchMinMax(key: "releaseDate", ascending: false)
+        let minShow = fetchMinMaxShow(key: "firstAirDate", ascending: true)
+        let minMovie = fetchMinMaxMovie(key: "releaseDate", ascending: true)
+        let maxShow = fetchMinMaxShow(key: "firstAirDate", ascending: false)
+        let maxMovie = fetchMinMaxMovie(key: "releaseDate", ascending: false)
         
         let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
         let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
@@ -144,8 +144,8 @@ struct JFUtils {
     
     /// Returns a closed range containing the season counts from all media objects in the library
     static func numberOfSeasonsBounds() -> ClosedRange<Int> {
-        let min = fetchMinMax(key: "numberOfSeasons", ascending: true) as? Show
-        let max = fetchMinMax(key: "numberOfSeasons", ascending: false) as? Show
+        let min = fetchMinMaxShow(key: "numberOfSeasons", ascending: true)
+        let max = fetchMinMaxShow(key: "numberOfSeasons", ascending: false)
         
         if min?.numberOfSeasons == nil {
             return 0 ... (max?.numberOfSeasons ?? 0)
@@ -170,8 +170,16 @@ struct JFUtils {
         return objects ?? []
     }
     
-    static private func fetchMinMax(key: String, ascending: Bool) -> Media? {
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+    static private func fetchMinMaxMovie(key: String, ascending: Bool) -> Movie? {
+        return fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key, ascending: ascending)
+    }
+    
+    static private func fetchMinMaxShow(key: String, ascending: Bool) -> Show? {
+        return fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending)
+    }
+    
+    static private func fetchMinMax<T>(fetchRequest: NSFetchRequest<T>, key: String, ascending: Bool) -> T? {
+        let fetchRequest = fetchRequest
         fetchRequest.predicate = NSPredicate(format: "%K != nil", key)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending)]
         fetchRequest.fetchLimit = 1

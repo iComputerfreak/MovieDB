@@ -17,7 +17,10 @@ struct AddMediaView : View {
     @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var resultsText: String = ""
+    @State private var searchText: String = ""
     @State private var isLoading: Bool = false
+    @State private var pagesLoaded: Int = 0
+    @State private var allPagesLoaded: Bool = true
     
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -75,6 +78,17 @@ struct AddMediaView : View {
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
+                        if !self.allPagesLoaded && !self.results.isEmpty {
+                            Button(action: self.loadMoreResults) {
+                                HStack {
+                                    Spacer()
+                                    Text("Load more results...")
+                                        .italic()
+                                    Spacer()
+                                }
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }
                 .add(searchBar)
@@ -96,50 +110,12 @@ struct AddMediaView : View {
             self.resultsText = ""
             return
         }
-        let api = TMDBAPI.shared
-        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults) { (results: [TMDBSearchResult]?, error: Error?) in
-            
-            if let error = error {
-                print("Error searching for media with searchText '\(searchText)': \(error)")
-                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
-                self.results = []
-                self.resultsText = NSLocalizedString("Error loading search results")
-                return
-            }
-            
-            guard let results = results else {
-                print("Error searching for media with searchText '\(searchText)'")
-                self.results = []
-                self.resultsText = NSLocalizedString("Error loading search results")
-                return
-            }
-                
-            var filteredResults = results
-            
-            // Filter out adult media from the search results
-            if !JFConfig.shared.showAdults {
-                filteredResults = results.filter { (searchResult: TMDBSearchResult) in
-                    // Only movie search results contain the adult flag
-                    if let movieResult = searchResult as? TMDBMovieSearchResult {
-                        return !movieResult.isAdult
-                    }
-                    return true
-                }
-            }
-            // Remove search results with the same TMDB ID
-            let duplicates = Dictionary(grouping: filteredResults, by: \.id).filter({ $0.value.count > 1 }).flatMap({ $0.value.dropFirst() })
-            for duplicate in duplicates {
-                // Delete duplicates from last to first
-                let index = filteredResults.lastIndex(where: { $0.id == duplicate.id })
-                filteredResults.remove(at: index!)
-            }
-            DispatchQueue.main.async {
-                self.results = filteredResults
-                if filteredResults.isEmpty {
-                    self.resultsText = NSLocalizedString("No results")
-                }
-            }
-        }
+        self.searchText = searchText
+        self.results = []
+        self.pagesLoaded = 0
+        self.resultsText = "Loading..."
+        // Load the first page of results
+        self.loadMoreResults()
     }
     
     func addMedia(_ result: TMDBSearchResult) {
@@ -183,6 +159,66 @@ struct AddMediaView : View {
                     }
                     self.isLoading = false
                     self.presentationMode.wrappedValue.dismiss()
+                }
+            }
+        }
+    }
+    
+    func loadMoreResults() {
+        guard !self.searchText.isEmpty || !self.results.isEmpty || self.pagesLoaded == 0 else {
+            return
+        }
+        let api = TMDBAPI.shared
+        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults, fromPage: self.pagesLoaded + 1, toPage: self.pagesLoaded + 2) { (results: [TMDBSearchResult]?, error: Error?) in
+            
+            // Clear "Loading..." from the first search
+            self.resultsText = ""
+            
+            // If the requested page was out of bounds, we stop displaying the "Load more results" button
+            if let error = error as? TMDBAPI.APIError, error == TMDBAPI.APIError.pageOutOfBounds {
+                self.allPagesLoaded = true
+            }
+            
+            if let error = error {
+                print("Error searching for media with searchText '\(searchText)': \(error)")
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
+                self.results = []
+                self.resultsText = NSLocalizedString("Error loading search results")
+                return
+            }
+            
+            guard let results = results else {
+                print("Error searching for media with searchText '\(searchText)'")
+                self.results = []
+                self.resultsText = NSLocalizedString("Error loading search results")
+                return
+            }
+            
+            var filteredResults = results
+            
+            // Filter out adult media from the search results
+            if !JFConfig.shared.showAdults {
+                filteredResults = results.filter { (searchResult: TMDBSearchResult) in
+                    // Only movie search results contain the adult flag
+                    if let movieResult = searchResult as? TMDBMovieSearchResult {
+                        return !movieResult.isAdult
+                    }
+                    return true
+                }
+            }
+            // Remove search results with the same TMDB ID
+            let duplicates = Dictionary(grouping: filteredResults, by: \.id).filter({ $0.value.count > 1 }).flatMap({ $0.value.dropFirst() })
+            for duplicate in duplicates {
+                // Delete duplicates from last to first
+                let index = filteredResults.lastIndex(where: { $0.id == duplicate.id })
+                filteredResults.remove(at: index!)
+            }
+            DispatchQueue.main.async {
+                self.results.append(contentsOf: filteredResults)
+                self.pagesLoaded += 1
+                self.allPagesLoaded = false
+                if filteredResults.isEmpty {
+                    self.resultsText = NSLocalizedString("No results")
                 }
             }
         }
