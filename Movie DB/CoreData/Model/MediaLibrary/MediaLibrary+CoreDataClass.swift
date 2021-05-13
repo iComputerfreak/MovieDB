@@ -96,6 +96,25 @@ public class MediaLibrary: NSManagedObject {
         
     }
     
+    func reloadAll() throws {
+        // TODO
+        let api = TMDBAPI.shared
+        let reloadContext: NSManagedObjectContext = PersistenceController.viewContext.newBackgroundContext()
+        reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
+        
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
+        print("Reloading \(medias.count) media objects.")
+        for media in medias {
+            api.updateMedia(media, context: reloadContext) { error in
+                guard let error = error else { return }
+                print("Error reloading media object with TMMDB ID \(media.tmdbID): \(error)")
+            }
+        }
+        // Save the reloaded media into the parent context (viewContext)
+        PersistenceController.saveContext(context: reloadContext)
+    }
+    
     /// Resets the library, deleting all media objects and resetting the nextID property
     func reset() throws {
         // Delete all Medias from the context

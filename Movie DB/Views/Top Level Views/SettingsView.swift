@@ -28,6 +28,8 @@ struct SettingsView: View {
     
     @State private var importLog: [String]? = nil
     
+    @State private var languageChanged: Bool = false
+    
     func loadLanguages() {
         if config.availableLanguages.isEmpty {
             // Load the TMDB Languages
@@ -52,13 +54,12 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                        .onChange(of: config.language) { languageCode in
+                            print("Language changed to \(languageCode)")
+                            self.languageChanged = true
+                        }
                     }
-                    Section(footer: self.footer()) {
-                        
-                        // MARK: - Update Button
-                        Button("Update Media", action: self.updateMedia)
-                        .disabled(self.updateInProgress)
-                                                
+                    Section {
                         // MARK: - Import Button
                         Button("Import Media", action: self.importMedia)
                             // MARK: Document Picker
@@ -101,6 +102,12 @@ struct SettingsView: View {
                         
                         // MARK: - Export Tags
                         Button("Export Tags", action: self.exportTags)
+                    }
+                    Section(footer: self.footer()) {
+                        
+                        // MARK: - Update Button
+                        Button("Update Media", action: self.updateMedia)
+                        .disabled(self.updateInProgress)
                         
                         // MARK: - Reset Button
                         Button("Reset Library", action: self.resetLibrary)
@@ -108,6 +115,25 @@ struct SettingsView: View {
                     
                 }
                 .navigationTitle("Settings")
+            }
+            
+            
+            
+            
+            
+            .onDisappear {
+                if self.languageChanged {
+                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"), message: NSLocalizedString("Do you want to reload all media objects using the new language?"), yesAction: { _ in
+                        do {
+                            // Reload all media objects
+                            try MediaLibrary.shared.reloadAll()
+                        } catch {
+                            print("Error reloading library: \(error)")
+                            AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
+                        }
+                    })
+                    self.languageChanged = false
+                }
             }
         }
     }
