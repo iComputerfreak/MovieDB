@@ -241,9 +241,12 @@ extension JFUtils {
         return formatter
     }
     
-    static func updateTMDBLanguages() {
+    static func updateTMDBLanguages(completion: (([String]?, Error?) -> Void)? = nil) {
         TMDBAPI.shared.getTMDBLanguageCodes { (codes, error) in
-            guard let codes = codes else { return }
+            guard let codes = codes else {
+                completion?(nil, error)
+                return
+            }
             // Sort the codes by the actual string that will be displayed, not the code itself
             let sortedCodes = codes.sorted(by: { code1, code2 in
                 guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
@@ -255,7 +258,8 @@ extension JFUtils {
                 
                 return displayString1.lexicographicallyPrecedes(displayString2)
             })
-            UserDefaults.standard.set(sortedCodes, forKey: JFLiterals.Keys.tmdbLanguages)
+            JFConfig.shared.availableLanguages = sortedCodes
+            completion?(sortedCodes, nil)
         }
     }
 }

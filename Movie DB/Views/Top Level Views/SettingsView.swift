@@ -18,9 +18,7 @@ struct SettingsView: View {
     @ObservedObject private var library = MediaLibrary.shared
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
-    
-    @State var sortedLanguages: [String] = UserDefaults.standard.stringArray(forKey: JFLiterals.Keys.tmdbLanguages) ?? []
-        
+            
     @State private var updateInProgress = false
     
     @State private var documentPicker: DocumentPicker?
@@ -31,11 +29,9 @@ struct SettingsView: View {
     @State private var importLog: [String]? = nil
     
     func loadLanguages() {
-        if self.sortedLanguages.isEmpty {
+        if config.availableLanguages.isEmpty {
             // Load the TMDB Languages
             JFUtils.updateTMDBLanguages()
-            // Read the newly stored languages
-            self.sortedLanguages = UserDefaults.standard.stringArray(forKey: JFLiterals.Keys.tmdbLanguages) ?? []
         }
     }
     
@@ -46,11 +42,11 @@ struct SettingsView: View {
                     Section {
                         Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
                         Picker("Language", selection: $config.language) {
-                            if self.sortedLanguages.isEmpty {
+                            if config.availableLanguages.isEmpty {
                                 Text("Loading...")
                                     .onAppear(perform: loadLanguages)
                             } else {
-                                ForEach(self.sortedLanguages, id: \.self) { code in
+                                ForEach(config.availableLanguages, id: \.self) { code in
                                     Text(Locale.current.localizedString(forIdentifier: code) ?? code)
                                         .tag(code)
                                 }

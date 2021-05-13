@@ -92,7 +92,6 @@ struct UserDataSection: View {
                 .navigationTitle("Watch again?")
         }
         // MARK: - Tags
-        // TODO: First selected item does not update the view
         FilterMultiPicker(
             selection: Binding(
                 get: { Array(filterSetting.tags).sorted(by: \.name) },

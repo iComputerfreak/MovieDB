@@ -38,7 +38,6 @@ extension Show {
         set {
             setOptional(newValue, forKey: "firstAirDate")
             // Update the convenience property
-            print("[JF] Updating convenience property for \(self.title) to \(newValue)")
             self.releaseDateOrFirstAired = newValue
         }
     }

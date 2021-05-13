@@ -33,7 +33,6 @@ extension Movie {
         set {
             setOptional(newValue, forKey: "releaseDate")
             // Update the convenience property
-            print("[JF] Updating convenience property for \(self.title) to \(newValue)")
             self.releaseDateOrFirstAired = newValue
         }
     }

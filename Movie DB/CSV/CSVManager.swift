@@ -54,6 +54,8 @@ struct CSVManager {
         case numberOfSeasons = "number_of_seasons"
         case isInProduction = "is_in_production"
         case showType = "show_type"
+        
+        case creationDate = "creation_date"
     }
     
     enum CSVError: Error {
@@ -63,7 +65,7 @@ struct CSVManager {
     }
     
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
-    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched]
+    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched, .creationDate]
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
     // MARK: Export KeyPaths
@@ -75,6 +77,7 @@ struct CSVManager {
         .watchAgain: (\Media.watchAgain, nil),
         .tags: (\Media.tags, { ($0 as! Set<Tag>).map(\.name).sorted().joined(separator: String(arraySeparator)) }),
         .notes: (\Media.notes, nil),
+        .creationDate: (\Media.creationDate, { dateFormatter.string(from: $0 as! Date) }),
         
         .id: (\Media.id as KeyPath<Media, UUID>, { ($0 as! UUID).uuidString }),
         .originalTitle: (\Media.originalTitle, nil),
@@ -164,6 +167,9 @@ struct CSVManager {
             if mediaType == .show {
                 (media as! Show).lastWatched = lastWatched
             }
+        }
+        if let rawCreationDate = values[.creationDate], let creationDate = dateFormatter.date(from: rawCreationDate) {
+            media.creationDate = creationDate
         }
         
         media.loadThumbnailAsync()

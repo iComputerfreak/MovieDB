@@ -17,12 +17,17 @@ class JFConfig: ObservableObject {
     // MARK: - Settings
     @ConfigValue(.showAdults, defaultValue: false) var showAdults: Bool {
         willSet {
-            objectWillChange.send()
+            DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
-    @ConfigValue(.language, defaultValue: "en-US") var language: String {
+    @ConfigValue(.language, defaultValue: "") var language: String {
         willSet {
-            objectWillChange.send()
+            DispatchQueue.main.async { self.objectWillChange.send() }
+        }
+    }
+    @ConfigValue(.availableLanguages, defaultValue: []) var availableLanguages: [String] {
+        willSet {
+            DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
     
@@ -32,6 +37,7 @@ class JFConfig: ObservableObject {
         case showAdults
         case region
         case language
+        case availableLanguages
     }
     
     /// Wraps a config value with a mechanism to load and save the value with the given key from/to `UserDefaults`

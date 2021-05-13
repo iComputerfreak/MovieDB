@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView : View {
     
+    @ObservedObject private var config: JFConfig = JFConfig.shared
+    
     var body: some View {
         TabView {
             LibraryHome()
@@ -29,6 +31,9 @@ struct ContentView : View {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
+        }
+        .fullScreenCover(isPresented: .init(get: { self.config.language.isEmpty }, set: { _ in })) {
+            LanguageChooser()
         }
     }
 }
