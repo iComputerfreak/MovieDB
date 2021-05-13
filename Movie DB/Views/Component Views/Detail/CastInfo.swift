@@ -36,11 +36,13 @@ struct CastInfo: View {
     
     func loadPersonThumbnails() {
         print("Loading person thumbnails for \(mediaObject.title)")
-        for member in mediaObject.cast {
-            if let imagePath = member.imagePath {
-                JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
-                    DispatchQueue.main.async {
-                        self.personThumbnails[member.id] = image
+        DispatchQueue.global(qos: .userInteractive).async {
+            for member in mediaObject.cast {
+                if let imagePath = member.imagePath {
+                    JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
+                        DispatchQueue.main.async {
+                            self.personThumbnails[member.id] = image
+                        }
                     }
                 }
             }
