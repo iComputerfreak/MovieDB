@@ -95,8 +95,8 @@ public class Media: NSManagedObject {
         print("[\(self.title)] Loading thumbnail...")
         JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { image in
             // Only update, if the image is not nil, dont delete existing images
-            if let image = image {
-                let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
+            if let image = image, let context = self.managedObjectContext {
+                let thumbnail = Thumbnail(context: context, pngData: image.pngData())
                 DispatchQueue.main.async {
                     self.thumbnail = thumbnail
                 }

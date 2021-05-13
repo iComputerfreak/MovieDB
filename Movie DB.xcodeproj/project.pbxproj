@@ -81,6 +81,7 @@
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
 		AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA37264D770F0048B8CC /* LanguageChooser.swift */; };
+		AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */; };
 		ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* MediaStatus.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
 		ABA48588264B045300B04278 /* ParentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA48587264B045300B04278 /* ParentResolver.swift */; };
@@ -201,6 +202,7 @@
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
 		AB98EA37264D770F0048B8CC /* LanguageChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooser.swift; sourceTree = "<group>"; };
+		AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateCastMember.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 			children = (
 				AB14349825CEE0E000AA304F /* CastMember+CoreDataClass.swift */,
 				AB14349925CEE0E000AA304F /* CastMember+CoreDataProperties.swift */,
+				AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */,
 			);
 			path = CastMember;
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
 				AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
+				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				AB1434AA25CEE53A00AA304F /* Season+CoreDataClass.swift in Sources */,
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,

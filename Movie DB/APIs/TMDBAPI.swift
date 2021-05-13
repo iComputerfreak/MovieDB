@@ -115,7 +115,8 @@ class TMDBAPI {
         // Create a background context to make the changes in, before merging them with the actual context given
         let context = parent.newBackgroundContext()
         // Update TMDBData
-        context.perform {
+        // TODO: Changed to `performAndWait`. Remove comment if it works
+        context.performAndWait {
             self.fetchTMDBData(for: media.tmdbID, type: media.type, context: context) { (tmdbData, error) in
                 guard let tmdbData = tmdbData else {
                     print("Error updating \(media.type.rawValue) \(media.title)")
@@ -123,11 +124,15 @@ class TMDBAPI {
                     completion(error)
                     return
                 }
+                // Copy the media into the background context and modify it there.
+                // Otherwise, the view context will be in an inconsistent state
+                guard let bgMedia = context.object(with: media.objectID) as? Media else {
+                    print("Update Error: Unable to copy the media object into the background context")
+                    return
+                }
                 context.performAndWait {
                     // If fetching was successful, update the media object and thumbnail
-                    media.update(tmdbData: tmdbData)
-                    // Redownload the thumbnail (it may have been updated)
-                    media.loadThumbnailAsync(force: true)
+                    bgMedia.update(tmdbData: tmdbData)
                     // Save the changes to the parent context
                     PersistenceController.saveContext(context: context)
                     completion(nil)
@@ -294,7 +299,7 @@ class TMDBAPI {
     /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext, completion: @escaping (TMDBData?, Error?) -> Void) {
         // We don't need to create a background context since this function is private and the caller will already have created a background context
-        let parameters = ["append_to_response": "keywords,translations,videos,credits"]
+        let parameters = ["append_to_response": "keywords,translations,videos,credits,aggregate_credits"]
         decodeAPIURL(path: "\(type.rawValue)/\(id)", additionalParameters: parameters, as: TMDBData.self, context: context, userInfo: [.mediaType: type]) { tmdbData, error in
             completion(tmdbData, error)
         }

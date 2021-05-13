@@ -27,6 +27,8 @@ public class Show: Media {
     }
     
     override func update(tmdbData: TMDBData) {
+        assert(managedObjectContext != PersistenceController.viewContext, "Media updates should not be done in the view context. Modifications should be done on a background context to prevent an inconsistent view context state")
+        print("[JF] Updating in MOC \(managedObjectContext?.name ?? "nil")")
         // Set general TMDBData
         super.update(tmdbData: tmdbData)
         // Set Show specific TMDBData only
@@ -34,6 +36,7 @@ public class Show: Media {
     }
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
+        print("[JF] Setting TMDBShowData in MOC \(managedObjectContext?.name ?? "nil")")
         managedObjectContext!.performAndWait {
             // This is a show, therefore the TMDBData needs to have show specific data
             let showData = tmdbData.showData!

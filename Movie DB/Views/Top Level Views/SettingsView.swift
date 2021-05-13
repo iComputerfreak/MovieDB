@@ -20,6 +20,7 @@ struct SettingsView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
             
     @State private var updateInProgress = false
+    @State private var reloadInProgress = false
     
     @State private var documentPicker: DocumentPicker?
     
@@ -105,6 +106,9 @@ struct SettingsView: View {
                     }
                     Section(footer: self.footer()) {
                         
+                        // MARK: - Reload Button
+                        Button("Reload Media", action: self.reloadMedia)
+                        
                         // MARK: - Update Button
                         Button("Update Media", action: self.updateMedia)
                         .disabled(self.updateInProgress)
@@ -123,15 +127,7 @@ struct SettingsView: View {
             
             .onDisappear {
                 if self.languageChanged {
-                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"), message: NSLocalizedString("Do you want to reload all media objects using the new language?"), yesAction: { _ in
-                        do {
-                            // Reload all media objects
-                            try MediaLibrary.shared.reloadAll()
-                        } catch {
-                            print("Error reloading library: \(error)")
-                            AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
-                        }
-                    })
+                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"), message: NSLocalizedString("Do you want to reload all media objects using the new language?"), yesAction: { _ in self.reloadMedia() })
                     self.languageChanged = false
                 }
             }
@@ -139,6 +135,27 @@ struct SettingsView: View {
     }
     
     // MARK: - Button Functions
+    
+    func reloadMedia() {
+        self.reloadInProgress = true
+        DispatchQueue.global().async {
+            print("Starting reload...")
+            // Reload and show the result
+            self.library.reloadAll { (error: Error?) in
+                if let error = error {
+                    print("Error reloading media objects: \(error)")
+                    AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
+                    self.reloadInProgress = false
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.reloadInProgress = false
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Reload Completed"), message: NSLocalizedString("All media objects have been reloaded."))
+                }
+            }
+        }
+    }
     
     func updateMedia() {
         self.updateInProgress = true
