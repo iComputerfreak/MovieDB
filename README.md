@@ -27,5 +27,6 @@ Currently still in development, but works without major bugs. Just be sure to ma
 * It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.
 
 ## Licensing
-This project is licensed under the MIT License together with the proprietary [Commons Clause License](https://commonsclause.com).
-For questions or inquiries, feel free to contact me at [dev@jonasfrey.de](mailto:dev@jonasfrey.de).
+As of the 14th of May 2021, this project no longer has a license and is therefore "All Rights Reserved". If you wish to use parts of the code or the code as a whole in any way, feel free to contact me at [dev@jonasfrey.de](mailto:dev@jonasfrey.de).
+
+Older versions of the code are still licensed under the MIT License together with the [Commons Clause License](https://commonsclause.com). You can still use these code versions according to their license.
