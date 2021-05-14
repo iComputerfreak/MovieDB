@@ -23,9 +23,6 @@ Currently still in development, but works without major bugs. Just be sure to ma
 * Show streaming service availability
 * Notification when a new season is available on your streaming services
 
-## Known Bugs
-* It is possible to select an invalid range in the Filter Settings. This is only visual, the best matching valid range will be saved.
-
 ## Licensing
 As of the 14th of May 2021, this project no longer has a license and is therefore "All Rights Reserved". If you wish to use parts of the code or the code as a whole in any way, feel free to contact me at [dev@jonasfrey.de](mailto:dev@jonasfrey.de).
 
