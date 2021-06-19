@@ -65,9 +65,9 @@ struct SettingsView: View {
                     // MARK: - Buy Pro
                     Section {
                         Button("Buy Pro", action: { self.isShowingProInfo = true })
-                            .popover(isPresented: $isShowingProInfo, content: {
+                            .popover(isPresented: $isShowingProInfo) {
                                 ProInfoView()
-                            })
+                            }
                     }
                     Section {
                         // MARK: - Import Button
@@ -207,12 +207,12 @@ struct SettingsView: View {
         if !JFUtils.purchasedPro() {
             if let mediaCount = MediaLibrary.shared.mediaCount() {
                 if mediaCount >= JFLiterals.nonProMediaLimit {
-                    // TODO: Localize
-                    AlertHandler.showSimpleAlert(title: "Media Limit Exceeded", message: "You already have \(mediaCount) media objects in your library. To add more, please purchase the pro version of the app in the settings.")
+                    self.isShowingProInfo = true
                     return
                 }
             } else {
                 print("Error retrieving media count")
+                // continue with import
             }
         }
         // Use iOS file picker

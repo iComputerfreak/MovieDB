@@ -19,6 +19,7 @@ struct AddMediaView : View {
     @State private var resultsText: String = ""
     @State private var searchText: String = ""
     @State private var isLoading: Bool = false
+    @State private var isShowingProPopup: Bool = false
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded: Bool = true
     
@@ -101,6 +102,9 @@ struct AddMediaView : View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
         .onAppear(perform: didAppear)
+        .popover(isPresented: $isShowingProPopup) {
+            ProInfoView()
+        }
     }
     
     func searchMedia(_ searchText: String) {
@@ -128,6 +132,11 @@ struct AddMediaView : View {
             // Already added
             AlertHandler.showSimpleAlert(title: NSLocalizedString("Already Added"), message: NSLocalizedString("You already have '\(result.title)' in your library."))
         } else {
+            guard JFUtils.purchasedPro() || (MediaLibrary.shared.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+                // Show the Pro popup
+                self.isShowingProPopup = true
+                return
+            }
             self.isLoading = true
             TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: PersistenceController.viewContext) { (media: Media?, error: Error?) in
                 

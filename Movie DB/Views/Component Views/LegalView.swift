@@ -32,7 +32,7 @@ struct LegalView: View {
                     Link("https://www.themoviedb.org/", destination: URL(string: "https://www.themoviedb.org/")!)
                 }
                 Divider()
-                Text("All content and images are properties of their respective owners. ")
+                Text("All content and images are properties of their respective owners.")
                     // Without this, it does not wrap the line
                     .fixedSize(horizontal: false, vertical: true)
                 Text("For legal concerns, contact")
