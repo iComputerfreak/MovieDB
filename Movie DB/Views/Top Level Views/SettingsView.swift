@@ -31,6 +31,8 @@ struct SettingsView: View {
     
     @State private var languageChanged: Bool = false
     
+    @State private var isShowingProInfo: Bool = false
+    
     func loadLanguages() {
         if config.availableLanguages.isEmpty {
             // Load the TMDB Languages
@@ -39,7 +41,7 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $isLoading, text: self.loadingText ?? "Loading...") {
+        LoadingView(isShowing: $isLoading, text: self.loadingText ?? NSLocalizedString("Loading...")) {
             NavigationView {
                 Form {
                     Section {
@@ -59,6 +61,13 @@ struct SettingsView: View {
                             print("Language changed to \(languageCode)")
                             self.languageChanged = true
                         }
+                    }
+                    // MARK: - Buy Pro
+                    Section {
+                        Button("Buy Pro", action: { self.isShowingProInfo = true })
+                            .popover(isPresented: $isShowingProInfo, content: {
+                                ProInfoView()
+                            })
                     }
                     Section {
                         // MARK: - Import Button
@@ -119,6 +128,12 @@ struct SettingsView: View {
                     
                 }
                 .navigationTitle("Settings")
+                // TODO: Localize
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        NavigationLink("Legal", destination: LegalView())
+                    }
+                }
             }
             
             
@@ -189,6 +204,17 @@ struct SettingsView: View {
     }
     
     func importMedia() {
+        if !JFUtils.purchasedPro() {
+            if let mediaCount = MediaLibrary.shared.mediaCount() {
+                if mediaCount >= JFLiterals.nonProMediaLimit {
+                    // TODO: Localize
+                    AlertHandler.showSimpleAlert(title: "Media Limit Exceeded", message: "You already have \(mediaCount) media objects in your library. To add more, please purchase the pro version of the app in the settings.")
+                    return
+                }
+            } else {
+                print("Error retrieving media count")
+            }
+        }
         // Use iOS file picker
         self.documentPicker = DocumentPicker(onSelect: { url in
             print("Importing \(url.lastPathComponent).")

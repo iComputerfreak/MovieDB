@@ -45,7 +45,7 @@ struct SearchResultView : View {
                     if (result.isAdultMovie ?? false) {
                         Image(systemName: "a.square")
                     }
-                    Text(result.mediaType == .movie ? "Movie" : "Series")
+                    Text(result.mediaType == .movie ? NSLocalizedString("Movie") : NSLocalizedString("Series"))
                         .italic()
                     // Make sure the content is left-aligned
                     Spacer()

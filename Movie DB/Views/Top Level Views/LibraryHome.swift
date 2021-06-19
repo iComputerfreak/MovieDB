@@ -146,7 +146,7 @@ struct LibraryHome : View {
             HStack {
                 Image(systemName: "checkmark")
                     .hidden(condition: !checked)
-                Text(title)
+                Text(NSLocalizedString(title))
                 Spacer()
                 if image != nil {
                     image!

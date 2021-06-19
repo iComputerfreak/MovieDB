@@ -113,7 +113,7 @@ struct AddMediaView : View {
         self.searchText = searchText
         self.results = []
         self.pagesLoaded = 0
-        self.resultsText = "Loading..."
+        self.resultsText = NSLocalizedString("Loading...")
         // Load the first page of results
         self.loadMoreResults()
     }

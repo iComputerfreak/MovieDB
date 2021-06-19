@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MARK: - Run Migration
         let version = UserDefaults.standard.integer(forKey: JFLiterals.Keys.migrationKey)
-        if version <= 1 {
+        if version < 1 {
             print("Starting migration to version 1...")
             // Run migration to version 1
             // Fill in releaseDateOrFirstAir property for all media objects created before this version

@@ -12,6 +12,9 @@ struct LibraryRow: View {
     
     @EnvironmentObject var mediaObject: Media
     
+    let movieSymbol = NSLocalizedString("Movie").first!.lowercased() + ".square"
+    let seriesSymbol = NSLocalizedString("Series").first!.lowercased() + ".square"
+    
     var body: some View {
         if mediaObject.isFault {
             // This will be displayed while the object is being deleted
@@ -26,15 +29,11 @@ struct LibraryRow: View {
                             .lineLimit(2)
                         // Under the title
                         HStack {
-                            // MARK: Adult
-                            if mediaObject.isAdultMovie ?? false {
-                                Image(systemName: "a.square")
-                            }
                             // MARK: Type
                             if mediaObject.type == .movie {
-                                Image(systemName: "m.square")
+                                Image(systemName: movieSymbol)
                             } else {
-                                Image(systemName: "s.square")
+                                Image(systemName: seriesSymbol)
                             }
                             // MARK: FSK Rating
                             //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)

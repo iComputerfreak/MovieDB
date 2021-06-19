@@ -170,4 +170,9 @@ public class MediaLibrary: NSManagedObject {
         // Reset the ID counter for the media objects
         PersistenceController.saveContext(context: libraryContext)
     }
+    
+    func mediaCount() -> Int? {
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        return try? self.managedObjectContext?.count(for: fetchRequest)
+    }
 }

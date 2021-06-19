@@ -262,6 +262,11 @@ extension JFUtils {
             completion?(sortedCodes, nil)
         }
     }
+    
+    static func purchasedPro() -> Bool {
+        // TODO: Implement
+        return false
+    }
 }
 
 // MARK: - FSK Rating

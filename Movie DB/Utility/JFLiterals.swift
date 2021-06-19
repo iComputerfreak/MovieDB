@@ -23,6 +23,8 @@ struct JFLiterals {
     static let kTrailerVideoType = "Trailer"
     /// The maximum amount of pages to load when searching for media
     static let maxSearchPages = 10
+    /// The maximum number of media objects a user can add to his library while not having purchased a pro subscription
+    static let nonProMediaLimit = 25
     
     struct Keys {
         /// The key used for storing the TagLibrary
