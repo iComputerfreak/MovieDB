@@ -21,16 +21,11 @@ struct SettingsView: View {
             
     @State private var updateInProgress = false
     @State private var reloadInProgress = false
-    
     @State private var documentPicker: DocumentPicker?
-    
     @State private var isLoading: Bool = false
     @State private var loadingText: String? = nil
-    
     @State private var importLog: [String]? = nil
-    
     @State private var languageChanged: Bool = false
-    
     @State private var isShowingProInfo: Bool = false
     
     func loadLanguages() {

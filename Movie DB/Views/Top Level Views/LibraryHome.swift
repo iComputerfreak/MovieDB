@@ -78,7 +78,7 @@ struct LibraryHome : View {
                     leading: Menu {
                         Section {
                             let filterImage = self.filterSetting.isReset ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill"
-                            Button(action: showFilter, label: MenuLabel(title: "Filter", image: Image(systemName: filterImage)).closure())
+                            Button(action: showFilter, label: { Label("Filter", systemImage: filterImage) })
                         }
                         // MARK: Sorting Options
                         Section {
@@ -98,10 +98,10 @@ struct LibraryHome : View {
                             Picker(selection: sortingOrderProxy, label: Text("Sorting")) {
                                 ForEach(SortingOrder.allCases, id: \.rawValue) { order in
                                     if self.sortingOrder == order {
-                                        Label(order.rawValue, systemImage: self.sortingDirection == .ascending ? "chevron.up" : "chevron.down")
+                                        Label(NSLocalizedString(order.rawValue), systemImage: self.sortingDirection == .ascending ? "chevron.up" : "chevron.down")
                                             .tag(order)
                                     } else {
-                                        Text(order.rawValue)
+                                        Text(NSLocalizedString(order.rawValue))
                                             .tag(order)
                                     }
                                 }
@@ -120,32 +120,13 @@ struct LibraryHome : View {
         }
     }
     
-    private struct SortingOptionsButton: View {
-        
-        @Binding var sortingOrder: SortingOrder
-        @Binding var sortingDirection: SortingDirection
-        let order: SortingOrder
-        
-        var body: some View {
-            Button {
-                //
-            } label: {
-                let image = Image(systemName: "chevron.up")//sortingDirection == .ascending ? "chevron.up" : "chevron.down")
-                MenuLabel(title: order.rawValue, image: sortingOrder == order ? image : nil, checked: sortingOrder == order)
-            }
-        }
-    }
-    
     private struct MenuLabel: View {
         
         let title: String
         @State var image: Image? = nil
-        @State var checked: Bool = false
         
         var body: some View {
             HStack {
-                Image(systemName: "checkmark")
-                    .hidden(condition: !checked)
                 Text(NSLocalizedString(title))
                 Spacer()
                 if image != nil {
