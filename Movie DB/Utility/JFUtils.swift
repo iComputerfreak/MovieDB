@@ -26,6 +26,8 @@ func undefined<T>(_ message: String = "") -> T {
 }
 
 struct JFUtils {
+    
+    static var posterBlacklist: [String] = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterBlacklist) as? [String] ?? []
         
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler, if the request failed.
@@ -70,6 +72,10 @@ struct JFUtils {
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("Making GET Request to \(urlStringWithParameters)")
+        #if DEBUG
+        // In Debug mode, always load the URL, never use the cache
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        #endif
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
     }
     
@@ -222,6 +228,12 @@ extension JFUtils {
     ///   - path: The path of the image
     ///   - size: The size of the image
     static func getTMDBImageURL(path: String, size: Int = 500) -> String {
+        guard !posterBlacklist.contains(path) else {
+            print("Poster path \(path) is blacklisted. Not fetching.")
+            assertionFailure("This should have been prevented from being called for blacklisted poster paths in the first place.")
+            // As a fallback, load the placeholder as thumbnail
+            return "https://www.jonasfrey.de/appdata/PosterPlaceholder.png"
+        }
         return "https://image.tmdb.org/t/p/w\(size)/\(path)"
     }
     
@@ -265,7 +277,7 @@ extension JFUtils {
     
     static func purchasedPro() -> Bool {
         // TODO: Implement
-        return false
+        return true
     }
 }
 

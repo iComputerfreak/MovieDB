@@ -39,5 +39,9 @@ struct JFLiterals {
         static let sortingOrder = "sortingOrder"
         /// The direction in which to sort the media objects (ascending or descending)
         static let sortingDirection = "sortingDirection"
+        /// The paths of posters that have been blacklisted
+        static let posterBlacklist = "posterBlacklist"
+        /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster blacklist has last been updated
+        static let posterBlacklistLastUpdated = "posterBlacklistLastUpdated"
     }
 }

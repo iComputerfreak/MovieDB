@@ -43,6 +43,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        // MARK: Update Poster Blacklist
+        // Only update once per day
+        let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
+        // Convert to full seconds
+        let time = Int(Date().timeIntervalSince1970)
+        let diff = time - lastUpdated
+        
+        // If the last update was at least 24h ago
+        if diff >= 24 * 60 * 60 {
+            // Load the blacklist
+            let blacklistURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
+            JFUtils.getRequest(blacklistURL, parameters: [:]) { (data) in
+                guard let data = data else {
+                    print("Error fetching blacklist. Keeping current one.")
+                    return
+                }
+                guard let text = String(data: data, encoding: .utf8) else {
+                    print("Error decoding blacklist")
+                    return
+                }
+                var newBlacklist: [String] = []
+                for line in text.components(separatedBy: .newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
+                    // Skip empty lines and comments
+                    if line.isEmpty || line.starts(with: "#") {
+                        continue
+                    }
+                    if !line.starts(with: "/") {
+                        print("Invalid line: '\(line)'. Skipping...")
+                        continue
+                    }
+                    // Otherwise, we assume the line contains a poster path
+                    newBlacklist.append(line)
+                }
+                
+                // Update the blacklist
+                JFUtils.posterBlacklist = newBlacklist
+                // Update the timestamp
+                UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
+                // Save the blacklist
+                UserDefaults.standard.set(newBlacklist, forKey: JFLiterals.Keys.posterBlacklist)
+            }
+        } else {
+            print("Last blacklist update was \(diff) seconds ago. Not updating blacklist. (\(diff) < \(24 * 60 * 60))")
+        }
+        
         return true
     }
 

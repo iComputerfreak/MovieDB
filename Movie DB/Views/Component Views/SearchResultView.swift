@@ -22,6 +22,10 @@ struct SearchResultView : View {
             print("\(result.title) has no thumbnail")
             return
         }
+        guard !JFUtils.posterBlacklist.contains(imagePath) else {
+            print("\(result.title) is blacklisted. Refusing to load thumbnail.")
+            return
+        }
         let urlString = JFUtils.getTMDBImageURL(path: imagePath)
         JFUtils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
