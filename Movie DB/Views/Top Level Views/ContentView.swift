@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView : View {
     
     @ObservedObject private var config: JFConfig = JFConfig.shared
+    @StateObject private var storeManager = StoreManager.shared
     
     var body: some View {
         TabView {

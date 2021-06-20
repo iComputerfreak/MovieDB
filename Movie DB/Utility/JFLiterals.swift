@@ -25,6 +25,10 @@ struct JFLiterals {
     static let maxSearchPages = 10
     /// The maximum number of media objects a user can add to his library while not having purchased a pro subscription
     static let nonProMediaLimit = 25
+    /// The list of IAP IDs
+    static let inAppPurchaseIDs = [inAppPurchaseIDPro]
+    /// The IAP ID for the Pro version of the app
+    static let inAppPurchaseIDPro = "movie_db_pro"
     
     struct Keys {
         /// The key used for storing the TagLibrary

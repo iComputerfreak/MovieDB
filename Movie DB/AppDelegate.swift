@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import StoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -87,6 +88,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             print("Last blacklist update was \(diff) seconds ago. Not updating blacklist. (\(diff) < \(24 * 60 * 60))")
         }
+        
+        // MARK: Set up In App Purchases
+        // Load available products
+        StoreManager.shared.getProducts(productIDs: JFLiterals.inAppPurchaseIDs)
+        // Add store manager as observer for changes
+        SKPaymentQueue.default().add(StoreManager.shared)
+        
         
         return true
     }

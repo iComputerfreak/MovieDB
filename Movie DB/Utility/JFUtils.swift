@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SwiftUI
 import CoreData
+import StoreKit
 
 extension TimeZone {
     static let utc = TimeZone(secondsFromGMT: 0)!
@@ -276,8 +277,7 @@ extension JFUtils {
     }
     
     static func purchasedPro() -> Bool {
-        // TODO: Implement
-        return true
+        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
 }
 

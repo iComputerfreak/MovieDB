@@ -42,6 +42,7 @@
 		AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27425F2389E06500744B83 /* SimpleValueView.swift */; };
 		AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2ACF5024DB1FFF002C5F41 /* APIError.swift */; };
 		AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2ACF5224DC4961002C5F41 /* TagImporter.swift */; };
+		AB2D07EF267F83AA005D6353 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D07EE267F83AA005D6353 /* StoreManager.swift */; };
 		AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
@@ -161,6 +162,7 @@
 		AB27425F2389E06500744B83 /* SimpleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleValueView.swift; sourceTree = "<group>"; };
 		AB2ACF5024DB1FFF002C5F41 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		AB2ACF5224DC4961002C5F41 /* TagImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagImporter.swift; sourceTree = "<group>"; };
+		AB2D07EE267F83AA005D6353 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetail.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				AB2ACF5224DC4961002C5F41 /* TagImporter.swift */,
 				ABA13D5A2382D29E00E885DD /* Extensions.swift */,
 				AB5493E325FBE4CB0072745B /* PlaceholderData.swift */,
+				AB2D07EE267F83AA005D6353 /* StoreManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -781,6 +784,7 @@
 				ABB668CF2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift in Sources */,
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
 				ABA4858A264B05DE00B04278 /* SearchBar.swift in Sources */,
+				AB2D07EF267F83AA005D6353 /* StoreManager.swift in Sources */,
 				AB1434D725CF282B00AA304F /* MediaLibrary+CoreDataProperties.swift in Sources */,
 				AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */,
 				AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */,
