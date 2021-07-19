@@ -24,6 +24,16 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
         request.start()
     }
     
+    // MARK: - Restore Purchases
+    
+    func restorePurchases() {
+        let request = SKReceiptRefreshRequest()
+        request.delegate = self
+        request.start()
+    }
+    
+    // MARK: - Fetch Products
+    
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         print("Did receive response")
         

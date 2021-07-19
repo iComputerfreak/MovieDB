@@ -34,29 +34,34 @@ struct ProInfoView: View {
                 }
                 Spacer()
                 // TODO: Make new button style (rounded)
-                Button("Buy Pro - $4.99") {
-                    // TODO: Implement
-                    print("Buying Pro")
-                    let manager = StoreManager.shared
-                    guard let product = manager.products.first(where: { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }) else {
-                        AlertHandler.showSimpleAlert(title: NSLocalizedString("Unable to Purchase"), message: NSLocalizedString("The requested In-App Purchase was not found."))
-                        return
+                if JFUtils.purchasedPro() {
+                    Text("Already Purchased")
+                        .foregroundColor(.blue)
+                } else {
+                    Button("Buy Pro - $4.99") {
+                        // TODO: Implement
+                        print("Buying Pro")
+                        let manager = StoreManager.shared
+                        guard let product = manager.products.first(where: { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }) else {
+                            AlertHandler.showSimpleAlert(title: NSLocalizedString("Unable to Purchase"), message: NSLocalizedString("The requested In-App Purchase was not found."))
+                            return
+                        }
+                        // Execute the purchase
+                        StoreManager.shared.purchase(product: product)
                     }
-                    // Execute the purchase
-                    StoreManager.shared.purchase(product: product)
                 }
             }
             .navigationTitle("Movie DB Pro")
             .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
+                ToolbarItem(placement: .primaryAction) {
                     Button("Restore") {
                         // TODO: Implement
                         print("Restoring Purchases")
+                        StoreManager.shared.restorePurchases()
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        // TODO: Test if this works. Does not work in simulator
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }

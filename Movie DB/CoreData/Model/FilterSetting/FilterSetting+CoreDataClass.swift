@@ -19,6 +19,7 @@ public class FilterSetting: NSManagedObject {
         let fetchRequest: NSFetchRequest<FilterSetting> = FilterSetting.fetchRequest()
         fetchRequest.fetchLimit = 1
         let results = try? context.fetch(fetchRequest)
+        assert((results?.count ?? 0) <= 1)
         // Return the fetched result or create a new one
         return results?.first ?? FilterSetting(context: context)
     }()
@@ -47,7 +48,7 @@ public class FilterSetting: NSManagedObject {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
         if let rating = self.rating {
-            predicates.append(NSPredicate(format: "%K < %d AND %K > %d", "personalRating", rating.upperBound.rawValue, "personalRating", rating.lowerBound.rawValue))
+            predicates.append(NSPredicate(format: "%K <= %d AND %K => %d", "personalRating", rating.upperBound.rawValue, "personalRating", rating.lowerBound.rawValue))
         }
         if let year = self.year {
             let formatter = DateFormatter()
@@ -58,9 +59,9 @@ public class FilterSetting: NSManagedObject {
             let upperDate = formatter.date(from: "\(year.upperBound + 1)-01-01")! as NSDate
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
-                NSPredicate(format: "%K < %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),
+                NSPredicate(format: "%K <= %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),
                 // Show
-                NSPredicate(format: "%K < %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate),
+                NSPredicate(format: "%K <= %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate),
             ]))
         }
         if !self.statuses.isEmpty {

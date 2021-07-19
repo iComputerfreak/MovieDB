@@ -58,11 +58,13 @@ struct SettingsView: View {
                         }
                     }
                     // MARK: - Buy Pro
-                    Section {
-                        Button("Buy Pro", action: { self.isShowingProInfo = true })
-                            .popover(isPresented: $isShowingProInfo) {
-                                ProInfoView()
-                            }
+                    if !JFUtils.purchasedPro() {
+                        Section {
+                            Button("Buy Pro", action: { self.isShowingProInfo = true })
+                                .popover(isPresented: $isShowingProInfo) {
+                                    ProInfoView()
+                                }
+                        }
                     }
                     Section {
                         // MARK: - Import Button
@@ -343,6 +345,7 @@ struct SettingsView: View {
             } catch let exception {
                 print("Error writing CSV file")
                 print(exception)
+                self.isLoading = false
                 return
             }
             #if targetEnvironment(macCatalyst)
@@ -435,6 +438,9 @@ struct SettingsView: View {
     }
     
     func exportTags() {
+        print("Exporting Tags...")
+        self.isLoading = true
+        
         PersistenceController.shared.container.performBackgroundTask { (context) in
             context.name = "Tag Export Context"
             var url: URL!
@@ -446,6 +452,7 @@ struct SettingsView: View {
             } catch let exception {
                 print("Error writing Tags Export file")
                 print(exception)
+                self.isLoading = false
                 return
             }
             #if targetEnvironment(macCatalyst)
@@ -470,6 +477,7 @@ struct SettingsView: View {
             #else
             JFUtils.share(items: [url!])
             #endif
+            self.isLoading = false
         }
     }
     

@@ -34,11 +34,22 @@ struct FilterView: View {
                 }
             }
             .navigationBarTitle("Filter Options")
-            .navigationBarItems(leading: Button(action: {
-                self.filterSetting.reset()
-            }, label: Text("Reset").closure()), trailing: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: Text("Apply").closure()))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        self.filterSetting.reset()
+                    } label: {
+                        Text("Reset")
+                    }
+                }
+                ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
+                    Button {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Apply")
+                    }
+                }
+            }
         }
     }
 }

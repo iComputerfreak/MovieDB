@@ -25,7 +25,7 @@ struct LibraryHome : View {
     @State private var activeSheet: ActiveSheet? = nil
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @ObservedObject var searchBar: SearchBar = SearchBar()
+    @StateObject var searchBar: SearchBar = SearchBar()
     
     // TODO: Make persistent (only locally, not via iCloud)
     @State private var sortingOrder: SortingOrder = {
