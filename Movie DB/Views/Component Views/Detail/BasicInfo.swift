@@ -32,7 +32,7 @@ struct BasicInfo: View {
                 if mediaObject.type == .movie, let movie = mediaObject as? Movie {
                     // MARK: Release Date
                     if let releaseDate = movie.releaseDate {
-                        Text(JFUtils.dateFormatter.string(from: releaseDate))
+                        Text(Utils.dateFormatter.string(from: releaseDate))
                             .headline("Release Date")
                     }
                     // MARK: Runtime
@@ -54,7 +54,7 @@ struct BasicInfo: View {
                     if let firstAirDate = show.firstAirDate,
                        let lastAirDate = show.lastAirDate {
                         // Cast to string to prevent localization
-                        Text("\(JFUtils.dateFormatter.string(from: firstAirDate)) - \(JFUtils.dateFormatter.string(from: lastAirDate))" as String)
+                        Text("\(Utils.dateFormatter.string(from: firstAirDate)) - \(Utils.dateFormatter.string(from: lastAirDate))" as String)
                             .headline("Air Date")
                     }
                     // MARK: Show type (e.g. Scripted)
@@ -70,7 +70,7 @@ struct BasicInfo: View {
                 Text(mediaObject.originalTitle)
                     .headline("Original Title")
                 // MARK: Original Language
-                Text(JFUtils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
+                Text(Utils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
                     .headline("Original Language")
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {

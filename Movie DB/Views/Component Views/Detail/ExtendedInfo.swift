@@ -24,11 +24,11 @@ struct ExtendedInfo: View {
                             .headline("Tagline")
                     }
                     if movie.budget > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movie.budget)!)
+                        Text(Utils.moneyFormatter.string(from: movie.budget)!)
                             .headline("Budget")
                     }
                     if movie.revenue > 0 {
-                        Text(JFUtils.moneyFormatter.string(from: movie.revenue)!)
+                        Text(Utils.moneyFormatter.string(from: movie.revenue)!)
                             .headline("Revenue")
                     }
                     if let imdbID = movie.imdbID {

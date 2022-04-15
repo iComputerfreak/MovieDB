@@ -97,7 +97,7 @@ public class MediaLibrary: NSManagedObject {
     @objc static func fixDuplicates(notification: Notification?) {
         // TODO: Fix duplicate TMDB IDs
         // New data has just been merged from iCloud. Check for duplicates
-        let allMedia = JFUtils.allMedias()
+        let allMedia = Utils.allMedias()
         let grouped = Dictionary(grouping: allMedia, by: \.id)
         for group in grouped.values {
             guard group.count > 1 else {

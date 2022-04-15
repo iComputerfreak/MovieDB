@@ -31,7 +31,7 @@ struct SettingsView: View {
     func loadLanguages() {
         if config.availableLanguages.isEmpty {
             // Load the TMDB Languages
-            JFUtils.updateTMDBLanguages()
+            Utils.updateTMDBLanguages()
         }
     }
     
@@ -58,7 +58,7 @@ struct SettingsView: View {
                         }
                     }
                     // MARK: - Buy Pro
-                    if !JFUtils.purchasedPro() {
+                    if !Utils.purchasedPro() {
                         Section {
                             Button("Buy Pro", action: { self.isShowingProInfo = true })
                                 .popover(isPresented: $isShowingProInfo) {
@@ -174,7 +174,7 @@ struct SettingsView: View {
         DispatchQueue.global().async {
             print("Starting update...")
             // Update the available TMDB Languages
-            JFUtils.updateTMDBLanguages()
+            Utils.updateTMDBLanguages()
             // Update and show the result
             self.library.update() { (updateCount: Int?, error: Error?) in
                 
@@ -201,7 +201,7 @@ struct SettingsView: View {
     }
     
     func importMedia() {
-        if !JFUtils.purchasedPro() {
+        if !Utils.purchasedPro() {
             if let mediaCount = MediaLibrary.shared.mediaCount() {
                 if mediaCount >= JFLiterals.nonProMediaLimit {
                     self.isShowingProInfo = true
@@ -337,10 +337,10 @@ struct SettingsView: View {
             exportContext.name = "Export Context"
             let url: URL!
             do {
-                let medias = JFUtils.allMedias()
+                let medias = Utils.allMedias()
                 let csv = CSVManager.createCSV(from: medias)
                 // Save the csv as a file to share it
-                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Export_\(JFUtils.isoDateString()).csv")
+                url = Utils.documentsPath.appendingPathComponent("MovieDB_Export_\(Utils.isoDateString()).csv")
                 try csv.write(to: url, atomically: true, encoding: .utf8)
             } catch let exception {
                 print("Error writing CSV file")
@@ -368,7 +368,7 @@ struct SettingsView: View {
             // On macOS present the file picker manually
             UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
             #else
-            JFUtils.share(items: [url!])
+            Utils.share(items: [url!])
             #endif
             self.isLoading = false
         }
@@ -447,7 +447,7 @@ struct SettingsView: View {
             do {
                 let exportData: String = try TagImporter.export(context: context)
                 // Save as a file to share it
-                url = JFUtils.documentsPath.appendingPathComponent("MovieDB_Tags_Export_\(JFUtils.isoDateString()).txt")
+                url = Utils.documentsPath.appendingPathComponent("MovieDB_Tags_Export_\(Utils.isoDateString()).txt")
                 try exportData.write(to: url, atomically: true, encoding: .utf8)
             } catch let exception {
                 print("Error writing Tags Export file")
@@ -475,7 +475,7 @@ struct SettingsView: View {
             // On macOS present the file picker manually
             UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
             #else
-            JFUtils.share(items: [url!])
+            Utils.share(items: [url!])
             #endif
             self.isLoading = false
         }

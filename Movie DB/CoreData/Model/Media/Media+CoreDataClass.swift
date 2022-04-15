@@ -93,12 +93,12 @@ public class Media: NSManagedObject {
             return
         }
         // If the image is blacklisted, delete it and don't reload
-        guard !JFUtils.posterBlacklist.contains(imagePath) else {
+        guard !Utils.posterBlacklist.contains(imagePath) else {
             print("[\(self.title)] Thumbnail is blacklisted. Will not load.")
             return
         }
         print("[\(self.title)] Loading thumbnail...")
-        JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { image in
+        Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath)) { image in
             // Only update, if the image is not nil, dont delete existing images
             if let image = image, let context = self.managedObjectContext {
                 let thumbnail = Thumbnail(context: context, pngData: image.pngData())

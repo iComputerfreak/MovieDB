@@ -22,9 +22,9 @@ class JFUtilsTests: XCTestCase {
     }
     
     func testLocale() {
-        XCTAssertEqual(JFUtils.languageString(for: "en", locale: Locale(identifier: "en")), "English")
-        XCTAssertEqual(JFUtils.regionString(for: "US", locale: Locale(identifier: "en")), "United States")
-        XCTAssertEqual(JFUtils.languageString(for: "en", locale: Locale(identifier: "de")), "Englisch")
-        XCTAssertEqual(JFUtils.regionString(for: "US", locale: Locale(identifier: "de")), "Vereinigte Staaten")
+        XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "en")), "English")
+        XCTAssertEqual(Utils.regionString(for: "US", locale: Locale(identifier: "en")), "United States")
+        XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "de")), "Englisch")
+        XCTAssertEqual(Utils.regionString(for: "US", locale: Locale(identifier: "de")), "Vereinigte Staaten")
     }
 }

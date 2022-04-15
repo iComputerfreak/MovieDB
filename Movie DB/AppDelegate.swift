@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if diff >= 24 * 60 * 60 {
             // Load the blacklist
             let blacklistURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
-            JFUtils.getRequest(blacklistURL, parameters: [:]) { (data) in
+            Utils.getRequest(blacklistURL, parameters: [:]) { (data) in
                 guard let data = data else {
                     print("Error fetching blacklist. Keeping current one.")
                     return
@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 // Update the blacklist
-                JFUtils.posterBlacklist = newBlacklist
+                Utils.posterBlacklist = newBlacklist
                 // Update the timestamp
                 UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
                 // Save the blacklist

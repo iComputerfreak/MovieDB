@@ -1,5 +1,5 @@
 //
-//  JFUtils.swift
+//  Utils.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 24.06.19.
@@ -11,10 +11,7 @@ import UIKit
 import SwiftUI
 import CoreData
 import StoreKit
-
-extension TimeZone {
-    static let utc = TimeZone(secondsFromGMT: 0)!
-}
+import JFUtils
 
 /// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
 ///
@@ -26,7 +23,7 @@ func undefined<T>(_ message: String = "") -> T {
     fatalError(message)
 }
 
-struct JFUtils {
+struct Utils {
     
     static var posterBlacklist: [String] = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterBlacklist) as? [String] ?? []
         
@@ -123,9 +120,10 @@ struct JFUtils {
     
     static func loadImage(urlString: String, completion: @escaping (UIImage?) -> ()) {
         print("Loading image from \(urlString)")
-        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
+        Utils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
                 print("Unable to get image")
+                completion(nil)
                 return
             }
             completion(UIImage(data: data))
@@ -223,7 +221,7 @@ struct JFUtils {
 }
 
 // MARK: - TMDB API
-extension JFUtils {
+extension Utils {
     /// Builds the URL for an TMDB image
     /// - Parameters:
     ///   - path: The path of the image
@@ -277,12 +275,13 @@ extension JFUtils {
     }
     
     static func purchasedPro() -> Bool {
+        return true
         UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
 }
 
 // MARK: - FSK Rating
-extension JFUtils {
+extension Utils {
     enum FSKRating: String, CaseIterable {
         case noRestriction = "0"
         case ageSix = "6"
@@ -309,19 +308,6 @@ extension JFUtils {
     static func fskLabel(_ rating: FSKRating) -> some View {
         Image(systemName: "\(rating.rawValue).square")
             .foregroundColor(fskColor(rating))
-    }
-}
-
-extension Dictionary {
-    
-    /// Merges the given dictionary with this dictionary by overriding the existing values with the given new values
-    func merging(_ other: [Key : Value]) -> [Key : Value] {
-        return self.merging(other, uniquingKeysWith: { _, new in new })
-    }
-    
-    /// Merges the given dictionary with this dictionary by overriding the existing values with the given new values
-    mutating func merge(_ other: [Key : Value]) {
-        self.merge(other, uniquingKeysWith: { _, new in new })
     }
 }
 
@@ -362,43 +348,12 @@ extension Array: Identifiable where Element: Hashable {
     }
 }
 
-extension Sequence {
-    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> [Element] {
-        sorted { a, b in
-            a[keyPath: keyPath] < b[keyPath: keyPath]
-        }
-    }
-}
-
-extension Sequence where Element: Hashable {
-    func duplicatesRemoved() -> [Element] {
-        return Array(Set(self))
-    }
-    
-    func duplicatesRemoved<Value: Equatable>(key keyPath: KeyPath<Element, Value>) -> [Element] {
-        return self.duplicatesRemoved { (element1, element2) -> Bool in
-            element1[keyPath: keyPath] == element2[keyPath: keyPath]
-        }
-    }
-    
-    func duplicatesRemoved(using isEqual: (Element, Element) -> Bool) -> [Element] {
-        var uniques: [Element] = []
-        for element in self {
-            if !uniques.contains(where: { isEqual($0, element) }) {
-                uniques.append(element)
-            }
-        }
-        return uniques
-    }
-}
-
 extension NSManagedObjectContext {
     
     override public var description: String {
         if let name = self.name {
             return "<NSManagedObjectContext: \(name)>"
         }
-        //assertionFailure()
         return super.description
     }
 }
@@ -406,16 +361,4 @@ extension NSManagedObjectContext {
 /// Overload of the default NSLocalizedString function that uses an empty comment
 public func NSLocalizedString(_ key: String, tableName: String? = nil) -> String {
     NSLocalizedString(key, tableName: tableName, comment: "")
-}
-
-extension View {
-    /// Applies a workaround that prevents the list rows from staying selected
-    func fixHighlighting() -> some View {
-        // Workaround so that the list items don't stay selected after going back from the detail
-        // FUTURE: Remove
-        ZStack {
-            Button("", action: {})
-            self
-        }
-    }
 }

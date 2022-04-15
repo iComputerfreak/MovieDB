@@ -38,7 +38,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
         }
         .navigationBarItems(trailing: Button(action: {
             self.setting = nil
-        }, label: Text("Reset").closure()))
+        }, label: { Text("Reset") }))
     }
     
     func makeStepperBody() -> some View {

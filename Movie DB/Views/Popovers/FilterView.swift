@@ -144,7 +144,7 @@ private struct InformationSection: View {
         } set: { (newValue) in
             filterSetting.genres = Set(newValue)
         }
-        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: JFUtils.allGenres(), titleKey: "Genres")
+        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: Utils.allGenres(), titleKey: "Genres")
         // MARK: - Rating
         NavigationLink(
             destination:
@@ -185,7 +185,7 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: JFUtils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: Utils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
             HStack {
                 Text("Year")
                 Spacer()
@@ -215,7 +215,7 @@ private struct ShowSpecificSection: View {
         // MARK: - Show Type
         FilterMultiPicker(selection: $filterSetting.showTypes, label: { $0.rawValue }, values: ShowType.allCases.sorted(by: \.rawValue), titleKey: "Show Type")
         // MARK: - Number of Seasons
-        NavigationLink(destination: RangeEditingView(title: Text("Seasons"), bounds: JFUtils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Seasons"), bounds: Utils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
             HStack {
                 Text("Seasons")
                 Spacer()

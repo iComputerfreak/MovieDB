@@ -51,7 +51,7 @@ struct SeasonsInfo: View {
         print("Loading season thumbnails for \(show.title)")
         for season in show.seasons {
             if let imagePath = season.imagePath {
-                JFUtils.loadImage(urlString: JFUtils.getTMDBImageURL(path: imagePath)) { (image) in
+                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath)) { (image) in
                     DispatchQueue.main.async {
                         self.seasonThumbnails[season.id] = image
                     }
@@ -79,7 +79,7 @@ struct SeasonInfo: View {
                 // Row 2
                 HStack {
                     if season.airDate != nil {
-                        Text(JFUtils.dateFormatter.string(from: season.airDate!))
+                        Text(Utils.dateFormatter.string(from: season.airDate!))
                     }
                     Text("\(season.episodeCount) Episodes", tableName: "Plurals")
                 }

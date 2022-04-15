@@ -22,12 +22,12 @@ struct SearchResultView : View {
             print("\(result.title) has no thumbnail")
             return
         }
-        guard !JFUtils.posterBlacklist.contains(imagePath) else {
+        guard !Utils.posterBlacklist.contains(imagePath) else {
             print("\(result.title) is blacklisted. Refusing to load thumbnail.")
             return
         }
-        let urlString = JFUtils.getTMDBImageURL(path: imagePath)
-        JFUtils.getRequest(urlString, parameters: [:]) { (data) in
+        let urlString = Utils.getTMDBImageURL(path: imagePath)
+        Utils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
                 print("Error getting search result image")
                 return
@@ -69,7 +69,7 @@ struct SearchResultView_Previews : PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0..<5, id: \.self) { i in
-                        SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: JFUtils.tmdbDateFormatter.date(from: "2020-04-20")))
+                        SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
                             .background(Color.red)
                     }
                 }
@@ -77,7 +77,7 @@ struct SearchResultView_Previews : PreviewProvider {
             }
             
             
-            SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: JFUtils.tmdbDateFormatter.date(from: "2020-04-20")))
+            SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
                 .background(Color.red)
                 .previewLayout(.fixed(width: 300, height: 100))
         }

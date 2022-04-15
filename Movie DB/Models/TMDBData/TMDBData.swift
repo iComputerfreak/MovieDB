@@ -176,7 +176,7 @@ struct TMDBData: Decodable, Hashable {
     struct MovieData: Decodable, Hashable {
         var rawReleaseDate: String
         var releaseDate: Date? {
-            JFUtils.tmdbDateFormatter.date(from: rawReleaseDate)
+            Utils.tmdbDateFormatter.date(from: rawReleaseDate)
         }
         var runtime: Int?
         var budget: Int
@@ -199,11 +199,11 @@ struct TMDBData: Decodable, Hashable {
     struct ShowData: Decodable, Hashable {
         var rawFirstAirDate: String
         var firstAirDate: Date? {
-            JFUtils.tmdbDateFormatter.date(from: rawFirstAirDate)
+            Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
         }
         var rawLastAirDate: String
         var lastAirDate: Date? {
-            JFUtils.tmdbDateFormatter.date(from: rawLastAirDate)
+            Utils.tmdbDateFormatter.date(from: rawLastAirDate)
         }
         var numberOfSeasons: Int?
         var numberOfEpisodes: Int

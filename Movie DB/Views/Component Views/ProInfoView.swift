@@ -34,7 +34,7 @@ struct ProInfoView: View {
                 }
                 Spacer()
                 // TODO: Make new button style (rounded)
-                if JFUtils.purchasedPro() {
+                if Utils.purchasedPro() {
                     Text("Already Purchased")
                         .foregroundColor(.blue)
                 } else {

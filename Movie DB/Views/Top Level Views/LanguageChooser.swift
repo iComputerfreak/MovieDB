@@ -17,7 +17,7 @@ struct LanguageChooser: View {
     init() {
         // Load the available langugages from TMDB
         if config.availableLanguages.isEmpty {
-            JFUtils.updateTMDBLanguages()
+            Utils.updateTMDBLanguages()
         }
     }
     

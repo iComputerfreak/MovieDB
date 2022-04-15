@@ -149,10 +149,10 @@ class TMDBAPI {
     /// - Returns: The changed TMDB IDs
     func getChangedIDs(from startDate: Date?, to endDate: Date, completion: @escaping ([Int]?, Error?) -> Void) {
         var dateRangeParameters: [String: Any?] = [
-            "end_date": JFUtils.tmdbDateFormatter.string(from: endDate)
+            "end_date": Utils.tmdbDateFormatter.string(from: endDate)
         ]
         if let startDate = startDate {
-            dateRangeParameters["start_date"] = JFUtils.tmdbDateFormatter.string(from: startDate)
+            dateRangeParameters["start_date"] = Utils.tmdbDateFormatter.string(from: startDate)
         }
         var allResults: [MediaChangeWrapper] = []
         var requestError: Error? = nil
@@ -358,7 +358,7 @@ class TMDBAPI {
         var data: Data? = nil
         var response: URLResponse? = nil
         var error: Error? = nil
-        JFUtils.getRequest(url, parameters: parameters) { (d, r, e) in
+        Utils.getRequest(url, parameters: parameters) { (d, r, e) in
             data = d
             response = r
             error = e

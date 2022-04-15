@@ -132,7 +132,7 @@ struct AddMediaView : View {
             // Already added
             AlertHandler.showSimpleAlert(title: NSLocalizedString("Already Added"), message: NSLocalizedString("You already have '\(result.title)' in your library."))
         } else {
-            guard JFUtils.purchasedPro() || (MediaLibrary.shared.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+            guard Utils.purchasedPro() || (MediaLibrary.shared.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
                 // Show the Pro popup
                 self.isShowingProPopup = true
                 return
