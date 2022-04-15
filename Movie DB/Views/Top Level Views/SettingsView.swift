@@ -230,50 +230,15 @@ struct SettingsView: View {
                 do {
                     let csvString = try String(contentsOf: url)
                     print("Read csv file. Trying to import into library.")
-                    let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString, delimiter: String(CSVManager.separator))
-                    var csvHeader: [String] = []
-                    importer.startImportingRecords { (headerValues: [String]) in
-                        // Check if the header contains the necessary values
-                        for header in CSVManager.requiredImportKeys {
-                            if !headerValues.contains(header.rawValue) {
-                                importLog.append("[Error] The CSV file does not contain the required header '\(header)'.")
-                            }
-                        }
-                        for header in CSVManager.optionalImportKeys {
-                            if !headerValues.contains(header.rawValue) {
-                                importLog.append("[Warning] The CSV file does not contain the optional header '\(header)'.")
-                            }
-                        }
-                        importLog.append("[Info] Importing CSV with header \(headerValues.joined(separator: String(CSVManager.separator)))")
-                        csvHeader = headerValues
-                    } recordMapper: { values in
-                        do {
-                            return try CSVManager.createMedia(from: values, context: importContext)
-                        } catch let error as CSVManager.CSVError {
-                            let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: String(CSVManager.separator))
-                            switch error {
-                                case .noTMDBID:
-                                    importLog.append("[Error] The following line is missing a TMDB ID:\n\(line)")
-                                case .noMediaType:
-                                    importLog.append("[Error] The following line is missing a media type:\n\(line)")
-                                case .mediaAlreadyExists:
-                                    importLog.append("[Warning] The following line already exists in the library. Skipping...\n\(line)")
-                            }
-                        } catch {
-                            // Other errors, e.g., error while fetching the TMDBData
-                            importLog.append("[Error] \(error.localizedDescription)")
-                        }
-                        return nil
-                    }
-                    .onProgress { (progress: Int) in
+                    CSVHelper.importMediaObjects(csvString: csvString, importContext: importContext, onProgress: { progress in
                         // Update the loading view
                         self.loadingText = "Loading \(progress) media objects..."
-                    }
-                    .onFail {
+                    }, onFail: { log in
+                        importLog = log
                         importLog.append("[FATAL] Importing failed!")
                         self.showImportLog(importLog)
-                    }
-                    .onFinish { (mediaObjects) in
+                    }, onFinish: { (mediaObjects, log) in
+                        importLog = log
                         // Presenting will change UI
                         DispatchQueue.main.async {
                             // TODO: Tell the user how many duplicates were not added
@@ -299,8 +264,7 @@ struct SettingsView: View {
                             self.loadingText = nil
                             AlertHandler.presentAlert(alert: controller)
                         }
-                    }
-                    
+                    })
                     
                 } catch {
                     print("Error importing: \(error)")
@@ -337,7 +301,7 @@ struct SettingsView: View {
             exportContext.name = "Export Context"
             let url: URL!
             do {
-                let medias = Utils.allMedias()
+                let medias = Utils.allMedias(context: self.managedObjectContext)
                 let csv = CSVManager.createCSV(from: medias)
                 // Save the csv as a file to share it
                 url = Utils.documentsPath.appendingPathComponent("MovieDB_Export_\(Utils.isoDateString()).csv")
@@ -400,8 +364,8 @@ struct SettingsView: View {
                             PersistenceController.shared.container.performBackgroundTask { (context) in
                                 context.name = "Tag Import Context"
                                 do {
-                                    try TagImporter.import(importData, context: context)
-                                    try context.save()
+                                    try TagImporter.import(importData, into: context)
+                                    PersistenceController.saveContext(context: context)
                                 } catch {
                                     print(error)
                                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"), message: error.localizedDescription)

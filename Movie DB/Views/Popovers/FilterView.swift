@@ -17,6 +17,7 @@ struct FilterView: View {
     @ObservedObject private var filterSetting = FilterSetting.shared
     
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.managedObjectContext) private var managedObjectContext
         
     init() {}
         
@@ -117,6 +118,7 @@ struct UserDataSection: View {
 private struct InformationSection: View {
     
     @ObservedObject var filterSetting: FilterSetting
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     private var mediaTypeProxy: Binding<String> {
         .init(get: {
@@ -144,7 +146,7 @@ private struct InformationSection: View {
         } set: { (newValue) in
             filterSetting.genres = Set(newValue)
         }
-        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: Utils.allGenres(), titleKey: "Genres")
+        FilterMultiPicker(selection: genresProxy, label: { $0.name }, values: Utils.allGenres(context: self.managedObjectContext), titleKey: "Genres")
         // MARK: - Rating
         NavigationLink(
             destination:
@@ -185,7 +187,7 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: Utils.yearBounds(), setting: $filterSetting.year, style: .wheel)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: Utils.yearBounds(context: managedObjectContext), setting: $filterSetting.year, style: .wheel)) {
             HStack {
                 Text("Year")
                 Spacer()
@@ -210,12 +212,13 @@ private struct InformationSection: View {
 private struct ShowSpecificSection: View {
     
     @ObservedObject var filterSetting: FilterSetting
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
         // MARK: - Show Type
         FilterMultiPicker(selection: $filterSetting.showTypes, label: { $0.rawValue }, values: ShowType.allCases.sorted(by: \.rawValue), titleKey: "Show Type")
         // MARK: - Number of Seasons
-        NavigationLink(destination: RangeEditingView(title: Text("Seasons"), bounds: Utils.numberOfSeasonsBounds(), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Seasons"), bounds: Utils.numberOfSeasonsBounds(context: managedObjectContext), setting: self.$filterSetting.numberOfSeasons, style: .stepper)) {
             HStack {
                 Text("Seasons")
                 Spacer()

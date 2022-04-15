@@ -24,7 +24,7 @@ struct TagImporter {
     
     /// Imports the newline separated tag names and creates new tags, if they don't exist yet
     /// - Parameter tags: The newline separated list of tags
-    static func `import`(_ tags: String, context: NSManagedObjectContext) throws {
+    static func `import`(_ tags: String, into context: NSManagedObjectContext) throws {
         // Fetch all existing tags from storage
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         let fetchedTags = try context.fetch(fetchRequest)
@@ -38,7 +38,7 @@ struct TagImporter {
                 _ = Tag(name: name, context: context)
             }
         }
-        try context.save()
+        PersistenceController.saveContext(context: context)
     }
     
 }

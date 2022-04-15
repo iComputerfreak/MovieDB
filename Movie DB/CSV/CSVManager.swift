@@ -40,6 +40,7 @@ struct CSVManager {
         
         // Export only
         case id
+        case title
         case originalTitle = "original_title"
         case genres
         case overview
@@ -75,13 +76,14 @@ struct CSVManager {
         .mediaType: (\Media.type, { ($0 as! MediaType).rawValue }),
         .personalRating: (\Media.personalRating, { String(($0 as! StarRating).integerRepresentation) }),
         .watchAgain: (\Media.watchAgain, nil),
-        .tags: (\Media.tags, { ($0 as! Set<Tag>).map(\.name).sorted().joined(separator: String(arraySeparator)) }),
+        .tags: (\Media.tags, { ($0 as! Set<Tag>).map(\.name).sorted().joined(separator: arraySeparator) }),
         .notes: (\Media.notes, nil),
         .creationDate: (\Media.creationDate, { dateFormatter.string(from: $0 as! Date) }),
         
         .id: (\Media.id as KeyPath<Media, UUID>, { ($0 as! UUID).uuidString }),
+        .title: (\Media.title, nil),
         .originalTitle: (\Media.originalTitle, nil),
-        .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: String(arraySeparator)) }),
+        .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: arraySeparator) }),
         .overview: (\Media.overview, nil),
         .status: (\Media.status, { ($0 as! MediaStatus).rawValue })
     ]
@@ -257,14 +259,14 @@ struct CSVManager {
     static func createCSV(from mediaObjects: [Media]) -> String {
         var csv: [String] = []
         // CSV Header
-        csv.append(exportKeys.map(\.rawValue).joined(separator: String(separator)))
+        csv.append(exportKeys.map(\.rawValue).joined(separator: separator))
         // CSV Values
         for mediaObject in mediaObjects {
             let values = self.createRecord(from: mediaObject)
             let line: [String] = exportKeys.map({ values[$0]! })
-            csv.append(line.joined(separator: String(separator)))
+            csv.append(line.joined(separator: separator))
         }
-        return csv.joined(separator: String(lineSeparator))
+        return csv.joined(separator: lineSeparator)
     }
     
 }

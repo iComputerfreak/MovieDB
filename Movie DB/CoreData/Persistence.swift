@@ -27,6 +27,7 @@ struct PersistenceController {
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
+                // TODO: Implement
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 
@@ -50,8 +51,9 @@ struct PersistenceController {
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
         
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: nil)
+        if !inMemory {
+            NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: container.viewContext)
+        }
     }
     
     /// Saves the shared viewContext
@@ -75,50 +77,7 @@ struct PersistenceController {
     }
     
     static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
-        
-        // Create sample library
-        let library = MediaLibrary(context: viewContext)
-        
-        // Create sample Tags
-        var tags: [Tag] = []
-        for name in ["Happy Ending", "Trashy", "Time Travel", "Immortality"] {
-            tags.append(Tag(name: name, context: viewContext))
-        }
-        
-        // Create sample TMDBData
-        let decoder = JSONDecoder()
-        
-        let jsonMovieData = try! Data(contentsOf: Bundle.main.url(forResource: "TMDBMovie", withExtension: "json")!)
-        decoder.userInfo = [.managedObjectContext: viewContext, .mediaType: MediaType.movie]
-        let tmdbMovieData = try! decoder.decode(TMDBData.self, from: jsonMovieData)
-        
-        let jsonShowData = try! Data(contentsOf: Bundle.main.url(forResource: "TMDBShow", withExtension: "json")!)
-        decoder.userInfo = [.managedObjectContext: viewContext, .mediaType: MediaType.show]
-        let tmdbShowData = try! decoder.decode(TMDBData.self, from: jsonShowData)
-        
-        // Create Media objects
-        let m = Movie(context: viewContext, tmdbData: tmdbMovieData)
-        m.personalRating = .fourStars
-        m.watched = true
-        m.watchAgain = false
-        m.tags = [tags[0], tags[1], tags[3]]
-        m.notes = "Sample Note\nWith multiple\nlines."
-        
-        let s = Show(context: viewContext, tmdbData: tmdbShowData)
-        s.personalRating = .oneAndAHalfStars
-        s.lastWatched = .init(season: 3, episode: 5)
-        s.watchAgain = nil
-        s.tags = [tags[2], tags[0]]
-        
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        return result
+        return PersistenceController(inMemory: true)
     }()
     
     // MARK: Saving
@@ -140,6 +99,7 @@ struct PersistenceController {
                 do {
                     try context.save()
                 } catch {
+                    // TODO: Implement
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError

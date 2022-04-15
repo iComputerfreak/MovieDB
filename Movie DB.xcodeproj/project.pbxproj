@@ -116,6 +116,7 @@
 		ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B0823932A8F00F4C327 /* FilterView.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
 		ABFFE80A28099DCE00598356 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABFFE80928099DCE00598356 /* JFUtils */; };
+		ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFFE80B2809AF4D00598356 /* CSVHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +244,7 @@
 		ABED3B062393263E00F4C327 /* ShowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowType.swift; sourceTree = "<group>"; };
 		ABED3B0823932A8F00F4C327 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
+		ABFFE80B2809AF4D00598356 /* CSVHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				AB54940425FD41B90072745B /* CSVManager.swift */,
+				ABFFE80B2809AF4D00598356 /* CSVHelper.swift */,
 			);
 			path = CSV;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,
+				ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */,
 				AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,

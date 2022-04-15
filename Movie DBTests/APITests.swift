@@ -13,25 +13,20 @@ class APITests: XCTestCase {
     
     let api = TMDBAPI.shared
     
-    let matrix: TMDBMovieData = TestingUtils.load("Matrix.json")
-    let fightClub: TMDBMovieData = TestingUtils.load("FightClub.json")
-    let blacklist: TMDBShowData = TestingUtils.load("Blacklist.json")
-    let gameOfThrones: TMDBShowData = TestingUtils.load("GameOfThrones.json")
+    let matrix: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie)
+    let fightClub: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie)
+    let blacklist: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show)
+    let gameOfThrones: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show)
     
-    let emptyMedia = Movie()
     let brokenMedia: Movie = {
-        let movie = Movie()
-        movie.tmdbData = TestingUtils.load("Matrix.json")
-        movie.tmdbData?.id = -1
+        let movie = Movie(context: TestingUtils.context, tmdbData: TestingUtils.load("Matrix.json", mediaType: .movie))
+        movie.tmdbID = -1
+        PersistenceController.saveContext(context: TestingUtils.context)
         return movie
     }()
     
     override func setUp() {
-        
-    }
-    
-    override func tearDown() {
-        
+        TestingUtils.context.reset()
     }
     
     func testAPISuccess() throws {
@@ -42,30 +37,48 @@ class APITests: XCTestCase {
             DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist")
         ]
         
-        for dummy in mediaObjects {
-            let result = try api.fetchMedia(id: dummy.tmdbID, type: dummy.type)
+        for dummy in mediaObjects.reversed() {
+            let result = try api.fetchMedia(id: dummy.tmdbID, type: dummy.type, context: TestingUtils.context)
             assertMediaMatches(result, dummy)
             
             // Modify the title to check, if the update function correctly restores it
-            result.tmdbData?.title = "None"
+            result.title = "None"
             let promise = XCTestExpectation()
-            XCTAssertNoThrow(try api.updateMedia(result, completion: { promise.fulfill() }))
+            XCTAssertNoThrow(api.updateMedia(result, context: TestingUtils.context, completion: { _ in promise.fulfill() }))
             wait(for: [promise], timeout: 5)
             assertMediaMatches(result, dummy)
         }
     }
     
     func testAPIFailure() {
-        XCTAssertThrowsError(try api.fetchMedia(id: -1, type: .movie))
-        XCTAssertThrowsError(try api.updateMedia(emptyMedia))
-        XCTAssertThrowsError(try api.updateMedia(brokenMedia))
+        XCTAssertThrowsError(try api.fetchMedia(id: -1, type: .movie, context: TestingUtils.context))
+        let promise = XCTestExpectation()
+        api.updateMedia(brokenMedia, context: TestingUtils.context, completion: { error in
+            XCTAssertNotNil(error)
+            promise.fulfill()
+        })
+        wait(for: [promise], timeout: 5)
     }
     
     func testSearch() throws {
-        let results = try api.searchMedia("matrix", includeAdult: true)
+        let promise = XCTestExpectation()
+        var searchResults: [TMDBSearchResult]? = nil
+        api.searchMedia("matrix", includeAdult: true, completion: { results, _ in
+            searchResults = results
+            promise.fulfill()
+        })
+        wait(for: [promise], timeout: 5)
+        let results = try XCTUnwrap(searchResults)
         XCTAssertGreaterThan(results.count, 0)
         
-        let results2 = try api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults")
+        let promise2 = XCTestExpectation()
+        var searchResults2: [TMDBSearchResult]? = nil
+        api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults", includeAdult: true, completion: { results, _ in
+            searchResults2 = results
+            promise2.fulfill()
+        })
+        wait(for: [promise2], timeout: 5)
+        let results2 = try XCTUnwrap(searchResults2)
         XCTAssertEqual(results2.count, 0)
     }
 }
@@ -80,7 +93,7 @@ struct DummyMedia {
 
 func assertMediaMatches(_ media: Media?, _ dummy: DummyMedia) {
     XCTAssertNotNil(media)
-    XCTAssertNotNil(media?.tmdbData)
-    XCTAssertEqual(media?.tmdbData?.id, dummy.tmdbID)
-    XCTAssertEqual(media?.tmdbData?.title, dummy.title)
+    XCTAssertEqual(media?.type, dummy.type)
+    XCTAssertEqual(media?.tmdbID, dummy.tmdbID)
+    XCTAssertEqual(media?.title, dummy.title)
 }

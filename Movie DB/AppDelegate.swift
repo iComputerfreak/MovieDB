@@ -16,34 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // MARK: - Run Migration
-        let version = UserDefaults.standard.integer(forKey: JFLiterals.Keys.migrationKey)
-        if version < 1 {
-            print("Starting migration to version 1...")
-            // Run migration to version 1
-            // Fill in releaseDateOrFirstAir property for all media objects created before this version
-            let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-            do {
-                let results = try PersistenceController.viewContext.fetch(fetchRequest)
-                for media in results {
-                    if media.releaseDateOrFirstAired == nil {
-                        if let movie = media as? Movie {
-                            media.releaseDateOrFirstAired = movie.releaseDate
-                        } else if let show = media as? Show {
-                            media.releaseDateOrFirstAired = show.firstAirDate
-                        } else {
-                            assertionFailure("Media object is neither movie, nor show")
-                        }
-                    }
-                }
-                // Mark the migration as complete
-                UserDefaults.standard.set(1, forKey: JFLiterals.Keys.migrationKey)
-                print("Migration complete.")
-            } catch {
-                print("Error migrating database: \(error)")
-            }
-        }
-        
         // MARK: Update Poster Blacklist
         // Only update once per day
         let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
@@ -86,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UserDefaults.standard.set(newBlacklist, forKey: JFLiterals.Keys.posterBlacklist)
             }
         } else {
-            print("Last blacklist update was \(diff) seconds ago. Not updating blacklist. (\(diff) < \(24 * 60 * 60))")
+            print("Last blacklist update was \(Double(diff)/3600.0) hours ago. Not updating blacklist. (\(diff) < \(24 * 60 * 60))")
         }
         
         // MARK: Set up In App Purchases

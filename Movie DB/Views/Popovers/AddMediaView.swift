@@ -138,7 +138,7 @@ struct AddMediaView : View {
                 return
             }
             self.isLoading = true
-            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: PersistenceController.viewContext) { (media: Media?, error: Error?) in
+            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: managedObjectContext) { (media: Media?, error: Error?) in
                 
                 if let error = error as? LocalizedError {
                     print("Error loading media: \(error)")
@@ -160,7 +160,7 @@ struct AddMediaView : View {
                 // We don't have to do anything with the media object, since it already was added to the background context and the background context was saved.
                 // The object will automatically be merged with the viewContext.
                 DispatchQueue.main.async {
-                    if let mainMedia = PersistenceController.viewContext.object(with: media!.objectID) as? Media {
+                    if let mainMedia = self.managedObjectContext.object(with: media!.objectID) as? Media {
                         // Call it on the media object in the viewContext, not on the mediaObject in the background context
                         mainMedia.loadThumbnailAsync()
                     } else {

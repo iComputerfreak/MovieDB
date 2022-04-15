@@ -14,6 +14,7 @@ struct TagListView: View {
     @Binding var tags: Set<Tag>
     @Environment(\.editMode) private var editMode
     @State private var editingTags: Bool = false
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     init(_ tags: Binding<Set<Tag>>) {
         self._tags = tags
@@ -45,7 +46,7 @@ struct TagListView: View {
     
     private struct EditView: View {
         
-        @Environment(\.managedObjectContext) private var context
+        @Environment(\.managedObjectContext) private var managedObjectContext
         
         @FetchRequest(
             entity: Tag.entity(),
@@ -108,8 +109,8 @@ struct TagListView: View {
                         for index in indexSet {
                             let tag = self.sortedTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
-                            self.context.delete(tag)
-                            PersistenceController.saveContext()
+                            self.managedObjectContext.delete(tag)
+                            PersistenceController.saveContext(context: self.managedObjectContext)
                         }
                     })
                 }
@@ -130,7 +131,7 @@ struct TagListView: View {
                     guard let text = textField.text, !text.isEmpty else {
                         return
                     }
-                    _ = Tag(name: text, context: self.context)
+                    _ = Tag(name: text, context: self.managedObjectContext)
                 })
                 AlertHandler.presentAlert(alert: alert)
             }) {
