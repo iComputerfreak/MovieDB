@@ -29,7 +29,7 @@ struct LibraryList: View {
         if !searchText.isEmpty {
             predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)", "title", searchText, "originalTitle", searchText))
         }
-        if true { // TODO: Filter is active
+        if true { // TODO: Only if filter is active (currently no on/off switch available to toggle that)
             predicates.append(filterSetting.predicate())
         }
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -51,7 +51,6 @@ struct LibraryList: View {
         
         self.fetchRequest = FetchRequest(
             entity: Media.entity(),
-            // TODO: Replace with actual sort order
             sortDescriptors: sortDescriptors,
             predicate: compoundPredicate,
             animation: nil

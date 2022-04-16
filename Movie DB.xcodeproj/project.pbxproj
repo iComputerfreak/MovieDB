@@ -723,7 +723,6 @@
 				AB250999238B18AF00F7A411 /* XCRemoteSwiftPackageReference "TextView" */,
 				AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */,
 				ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */,
-				AB3FA4FC280B035900FA3C75 /* XCRemoteSwiftPackageReference "JFUtils" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -1182,14 +1181,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.0;
-			};
-		};
-		AB3FA4FC280B035900FA3C75 /* XCRemoteSwiftPackageReference "JFUtils" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/iComputerfreak/JFUtils";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
 			};
 		};
 		AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */ = {

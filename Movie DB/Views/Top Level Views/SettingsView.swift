@@ -125,7 +125,7 @@ struct SettingsView: View {
                     
                 }
                 .navigationTitle("Settings")
-                // TODO: Localize
+                // TODO: Localize Legal
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         NavigationLink("Legal", destination: LegalView())

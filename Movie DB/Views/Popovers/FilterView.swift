@@ -187,7 +187,7 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: Utils.yearBounds(context: managedObjectContext), setting: $filterSetting.year, style: .wheel)) {
+        NavigationLink(destination: RangeEditingView(title: Text("Year"), bounds: Utils.yearBounds(context: managedObjectContext), setting: $filterSetting.year, style: .stepper)) {
             HStack {
                 Text("Year")
                 Spacer()

@@ -39,7 +39,6 @@ struct ProInfoView: View {
                         .foregroundColor(.blue)
                 } else {
                     Button("Buy Pro - $4.99") {
-                        // TODO: Implement
                         print("Buying Pro")
                         let manager = StoreManager.shared
                         guard let product = manager.products.first(where: { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }) else {
@@ -55,7 +54,6 @@ struct ProInfoView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button("Restore") {
-                        // TODO: Implement
                         print("Restoring Purchases")
                         StoreManager.shared.restorePurchases()
                     }

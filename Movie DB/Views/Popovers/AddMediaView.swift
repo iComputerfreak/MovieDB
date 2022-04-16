@@ -47,8 +47,9 @@ struct AddMediaView : View {
             // The search text should have at least 3 characters
             .map { (searchText: String) -> String? in
                 if searchText.count == 0 {
-                    // TODO: Indicate that the list is empty because there is no search text, and not because there aren't any results
                     self.results = []
+                    // Clear the search text (e.g. "No Results")
+                    self.resultsText = ""
                 }
                 return searchText.count >= 3 ? searchText : nil
             }

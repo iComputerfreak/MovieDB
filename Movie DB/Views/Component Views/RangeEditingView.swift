@@ -27,8 +27,6 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
         Group {
             if self.style == .stepper {
                 self.makeStepperBody()
-            } else if self.style == .wheel {
-                self.makeWheelBody()
             }
         }
         .onDisappear {
@@ -53,42 +51,8 @@ struct RangeEditingView<Label, ValueLabel, T>: View where T: Hashable, T: Stride
         }
     }
     
-    func makeWheelBody() -> some View {
-        List {
-            GeometryReader { geometry in
-                HStack {
-                    // FUTURE: Pickers should only range from lower ... bounds or bounds ... upper (currently modifying the content of a picker throws an IndexOutOfRange Error)
-                    Picker(selection: self.proxies.lower, label: Text("")) {
-                        ForEach(self.bounds/* TODO: Array(self.bounds.lowerBound ... self.proxies.upper.wrappedValue)*/, id: \.self) { value in
-                            self.valueLabel(value)
-                                .tag(value)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: geometry.size.width / 2, height: geometry.size.height)
-                    .clipped()
-                    
-                    Picker(selection: self.proxies.upper, label: Text("")) {
-                        ForEach(self.bounds/*Array(self.proxies.lower.wrappedValue ... self.bounds.upperBound)*/, id: \.self) { value in
-                            self.valueLabel(value)
-                                .tag(value)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: geometry.size.width / 2, height: geometry.size.height)
-                    .clipped()
-                }
-            }
-                // FUTURE: Height has to be set manually, because of GeometryReader
-                .frame(height: 216)
-            .navigationTitle(title)
-        }
-        .labelsHidden()
-    }
-    
     enum Style {
         case stepper
-        case wheel
     }
     
 }

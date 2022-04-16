@@ -27,7 +27,6 @@ struct LibraryHome : View {
     
     @StateObject var searchBar: SearchBar = SearchBar()
     
-    // TODO: Make persistent (only locally, not via iCloud)
     @State private var sortingOrder: SortingOrder = {
         if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingOrder) {
             return SortingOrder(rawValue: rawValue)!

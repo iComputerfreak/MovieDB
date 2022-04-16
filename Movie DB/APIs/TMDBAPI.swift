@@ -115,7 +115,6 @@ class TMDBAPI {
         // Create a background context to make the changes in, before merging them with the actual context given
         let context = parent.newBackgroundContext()
         // Update TMDBData
-        // TODO: Changed to `performAndWait`. Remove comment if it works
         context.performAndWait {
             self.fetchTMDBData(for: media.tmdbID, type: media.type, context: context) { (tmdbData, error) in
                 guard let tmdbData = tmdbData else {

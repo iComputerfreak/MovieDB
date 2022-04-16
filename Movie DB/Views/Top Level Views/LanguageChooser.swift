@@ -11,9 +11,7 @@ import SwiftUI
 struct LanguageChooser: View {
     
     @ObservedObject private var config: JFConfig = JFConfig.shared
-    
-    // TODO: Localize file
-    
+        
     init() {
         // Load the available langugages from TMDB
         if config.availableLanguages.isEmpty {
