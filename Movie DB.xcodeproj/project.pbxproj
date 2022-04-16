@@ -46,6 +46,7 @@
 		AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
+		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
 		AB4CD56024D45FBE005FAF20 /* SearchResults-2.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */; };
@@ -93,7 +94,6 @@
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABB668CE2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB668CC2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift */; };
 		ABB668CF2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB668CD2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift */; };
-		ABBDC037280A43FB005DD60F /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABBDC036280A43FB005DD60F /* JFUtils */; };
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
 		ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */; };
@@ -219,7 +219,6 @@
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABB668CC2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB668CD2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		ABBDC035280A43B7005DD60F /* JFUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JFUtils; path = ../../../Libraries/JFUtils; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -253,7 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABBDC037280A43FB005DD60F /* JFUtils in Frameworks */,
+				AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */,
 				AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */,
 				AB54940125FD41930072745B /* CSVImporter in Frameworks */,
 				AB25099B238B18AF00F7A411 /* TextView in Frameworks */,
@@ -503,7 +502,6 @@
 		AB6718B422C0312A00F429E4 = {
 			isa = PBXGroup;
 			children = (
-				ABBDC034280A43B7005DD60F /* Packages */,
 				ABA13D592381F02A00E885DD /* README.md */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
@@ -629,14 +627,6 @@
 			path = FilterSetting;
 			sourceTree = "<group>";
 		};
-		ABBDC034280A43B7005DD60F /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				ABBDC035280A43B7005DD60F /* JFUtils */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		ABE6721A25E0183B00CAF7C3 /* Thumbnail */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,7 +665,7 @@
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
 				AB25099A238B18AF00F7A411 /* TextView */,
 				AB54940025FD41930072745B /* CSVImporter */,
-				ABBDC036280A43FB005DD60F /* JFUtils */,
+				AB3FA4FD280B035900FA3C75 /* JFUtils */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -733,6 +723,7 @@
 				AB250999238B18AF00F7A411 /* XCRemoteSwiftPackageReference "TextView" */,
 				AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */,
 				ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */,
+				AB3FA4FC280B035900FA3C75 /* XCRemoteSwiftPackageReference "JFUtils" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -1193,6 +1184,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		AB3FA4FC280B035900FA3C75 /* XCRemoteSwiftPackageReference "JFUtils" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iComputerfreak/JFUtils";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Flinesoft/CSVImporter.git";
@@ -1225,6 +1224,11 @@
 			package = AB250999238B18AF00F7A411 /* XCRemoteSwiftPackageReference "TextView" */;
 			productName = TextView;
 		};
+		AB3FA4FD280B035900FA3C75 /* JFUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFUtils;
+		};
 		AB54940025FD41930072745B /* CSVImporter */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */;
@@ -1234,10 +1238,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
-		};
-		ABBDC036280A43FB005DD60F /* JFUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = JFUtils;
 		};
 /* End XCSwiftPackageProductDependency section */
 
