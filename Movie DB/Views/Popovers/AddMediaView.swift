@@ -175,11 +175,12 @@ struct AddMediaView : View {
     }
     
     func loadMoreResults() {
-        guard !self.searchText.isEmpty || !self.results.isEmpty || self.pagesLoaded == 0 else {
+        // We cannot load results for an empty text
+        guard !self.searchText.isEmpty else {
             return
         }
         let api = TMDBAPI.shared
-        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults, fromPage: self.pagesLoaded + 1, toPage: self.pagesLoaded + 2) { (results: [TMDBSearchResult]?, error: Error?) in
+        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults, fromPage: self.pagesLoaded + 1, toPage: self.pagesLoaded + 2) { (results: [TMDBSearchResult]?, totalPages: Int?, error: Error?) in
             
             // Clear "Loading..." from the first search
             self.resultsText = ""
@@ -187,6 +188,7 @@ struct AddMediaView : View {
             // If the requested page was out of bounds, we stop displaying the "Load more results" button
             if let error = error as? TMDBAPI.APIError, error == TMDBAPI.APIError.pageOutOfBounds {
                 self.allPagesLoaded = true
+                return
             }
             
             if let error = error {
@@ -226,7 +228,8 @@ struct AddMediaView : View {
             DispatchQueue.main.async {
                 self.results.append(contentsOf: filteredResults)
                 self.pagesLoaded += 1
-                self.allPagesLoaded = false
+                // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
+                self.allPagesLoaded = totalPages.map({ self.pagesLoaded >= $0 }) ?? false
                 if filteredResults.isEmpty {
                     self.resultsText = NSLocalizedString("No results")
                 }

@@ -60,7 +60,6 @@ struct NotesView: View {
             TextView(text: $notes, isEditing: $isEditing, textColor: Utils.primaryUIColor(colorScheme), backgroundColor: .clear, autocorrection: .default, autocapitalization: .sentences)
                 .padding(5)
                 .padding(.bottom, responder.height)
-                .background(Color(.sRGB, white: 0.95, opacity: 1))
             .navigationBarTitle(Text("Notes"))
         }
     }

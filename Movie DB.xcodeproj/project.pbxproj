@@ -779,7 +779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\n/opt/homebrew/bin/license-plist --output-path \"$PRODUCT_NAME/Settings.bundle\"\nfi\n";
+			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nif [ $CONFIGURATION = \"Debug\" ]; then\n/opt/homebrew/bin/license-plist --output-path \"$PRODUCT_NAME/Settings.bundle\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

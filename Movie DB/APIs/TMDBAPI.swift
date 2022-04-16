@@ -161,7 +161,7 @@ class TMDBAPI {
         for type in MediaType.allCases {
             group.enter()
             // We specify a nil context to prevent blocking our own thread with group.wait()
-            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: self.disposableContext) { (results: [MediaChangeWrapper]?, error: Error?) in
+            self.multiPageRequest(path: "\(type.rawValue)/changes", additionalParameters: dateRangeParameters, pageWrapper: ResultsPageWrapper.self, context: self.disposableContext) { (results: [MediaChangeWrapper]?, totalPages: Int?, error: Error?) in
                 // If we received an error, return
                 if let error = error {
                     requestError = error
@@ -190,17 +190,17 @@ class TMDBAPI {
     /// - Parameters:
     ///   - name: The query to search for
     ///   - includeAdult: Whether to include adult media
-    ///   - completion: The completion handler executed with the search results. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
+    ///   - completion: The completion handler called with the search results, the total number of pages that can be loaded and a possible error that occurred. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
     ///   - fromPage: The first page to load results from
     ///   - toPage: The last page to load results from
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The search results
-    func searchMedia(_ query: String, includeAdult: Bool = false, fromPage: Int = 1, toPage: Int = JFLiterals.maxSearchPages, completion: @escaping ([TMDBSearchResult]?, Error?) -> Void) {
+    func searchMedia(_ query: String, includeAdult: Bool = false, fromPage: Int = 1, toPage: Int = JFLiterals.maxSearchPages, completion: @escaping ([TMDBSearchResult]?, Int?, Error?) -> Void) {
         self.multiPageRequest(path: "search/multi", additionalParameters: [
             "query": query,
             "include_adult": includeAdult
-        ], fromPage: fromPage, toPage: toPage, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext) { (results: [TMDBSearchResult]?, error: Error?) in
-            completion(results, error)
+        ], fromPage: fromPage, toPage: toPage, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext) { (results: [TMDBSearchResult]?, totalPages: Int?, error: Error?) in
+            completion(results, totalPages, error)
         }
     }
     
@@ -224,9 +224,9 @@ class TMDBAPI {
                                                                     toPage: Int = .max,
                                                                     pageWrapper: PageWrapper.Type,
                                                                     context parent: NSManagedObjectContext,
-                                                                    completion: @escaping ([PageWrapper.ObjectWrapper]?, Error?) -> Void) {
+                                                                    completion: @escaping ([PageWrapper.ObjectWrapper]?, Int?, Error?) -> Void) {
         guard fromPage <= toPage else {
-            completion(nil, APIError.invalidPageRange)
+            completion(nil, nil, APIError.invalidPageRange)
             return
         }
         // Create a background context to make the changes in, before merging them with the actual context given
@@ -243,15 +243,15 @@ class TMDBAPI {
                 
                 if wrapper.totalPages == 0 {
                     // No results
-                    completion([], nil)
+                    completion([], 0, nil)
                     return
                 } else if wrapper.totalPages < fromPage {
                     // If the page we were requested to load was out of bounds
-                    completion(nil, APIError.pageOutOfBounds)
+                    completion(nil, wrapper.totalPages, APIError.pageOutOfBounds)
                     return
                 } else if wrapper.totalPages == fromPage {
                     // If we only had to load 1 page in total, we can complete now
-                    completion(results, nil)
+                    completion(results, wrapper.totalPages, nil)
                     return
                 }
                 
@@ -279,13 +279,9 @@ class TMDBAPI {
                 group.wait()
                 // Save the changes to the parent context
                 PersistenceController.saveContext(context: context)
-                if let error = returnError {
-                    completion(results, error)
-                } else {
-                    completion(results, nil)
-                }
+                completion(results, wrapper.totalPages, returnError)
             } catch let error {
-                completion(nil, error)
+                completion(nil, nil, error)
             }
         }
     }

@@ -39,6 +39,11 @@ struct LegalView: View {
                     // Without this, it does not wrap the line
                     .fixedSize(horizontal: false, vertical: true)
                 Link("legal@jonasfreyapps.de", destination: URL(string: "mailto:legal@joansfreyapps.de")!)
+                Divider()
+                HStack(spacing: 0) {
+                    Text("App Icon: ")
+                    Link("https://uxwing.com", destination: URL(string: "https://uxwing.com")!)
+                }
             }
         }
         .lineLimit(nil)
