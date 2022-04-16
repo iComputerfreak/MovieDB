@@ -12,43 +12,6 @@ struct PersistenceController {
     
     let container: NSPersistentCloudKitContainer
     
-    func newBackgroundContext() -> NSManagedObjectContext {
-        container.newBackgroundContext()
-    }
-    
-    /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
-    /// A context created by this method may not be saved!
-    static func createDisposableContext() -> NSManagedObjectContext {
-        // The disposable context is a new empty context without any data in it
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        context.name = "Disposable Context (\(Date()))"
-        return context
-    }
-    
-    static func createTestingContext() -> NSManagedObjectContext {
-        shared.createTestingContext()
-    }
-    
-    // Creates a new context with a fresh container behind it, used for testing
-    func createTestingContext() -> NSManagedObjectContext {
-        // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
-        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: self.container.managedObjectModel)
-        container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        container.loadPersistentStores { storeDescription, error in
-            if let error = error as NSError? {
-                fatalError("Unexpected Error \(error)")
-            }
-        }
-        // Automatically merge changes done in other context of this container.
-        // E.g. merge changes from a background context, as soon as that context saves
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        container.viewContext.undoManager = nil
-        container.viewContext.shouldDeleteInaccessibleFaults = true
-        container.viewContext.name = "Testing View Context"
-        return container.viewContext
-    }
-    
     private init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Movie DB")
         if inMemory {
@@ -93,19 +56,65 @@ struct PersistenceController {
     
     // MARK: - Static Properties and Functions
     
+    /// The main instance of the PersistenceController
     static let shared = PersistenceController()
     
+    /// The view context of the shared container
     static var viewContext: NSManagedObjectContext {
         return shared.container.viewContext
     }
     
+    /// The view context of the preview container
     static var previewContext: NSManagedObjectContext {
         return preview.container.viewContext
     }
     
+    /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
     static var preview: PersistenceController = {
         return PersistenceController(inMemory: true)
     }()
+    
+    /// Creates a new background context without a parent
+    /// - Returns: A background context that saves directly to the container
+    func newBackgroundContext() -> NSManagedObjectContext {
+        container.newBackgroundContext()
+    }
+    
+    /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
+    /// A context created by this method may not be saved!
+    static func createDisposableContext() -> NSManagedObjectContext {
+        // The disposable context is a new empty context without any data in it
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.name = "Disposable Context (\(Date()))"
+        return context
+    }
+    
+    /// Creates a new context with a new, empty container behind it to be used for testing
+    /// - Returns: A context of a newly created, empty container
+    static func createTestingContext() -> NSManagedObjectContext {
+        shared.createTestingContext()
+    }
+    
+    /// Creates a new context with a new, empty container behind it to be used for testing
+    /// - Returns: A context of a newly created, empty container
+    func createTestingContext() -> NSManagedObjectContext {
+        // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
+        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: self.container.managedObjectModel)
+        container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        container.loadPersistentStores { storeDescription, error in
+            if let error = error as NSError? {
+                fatalError("Unexpected Error \(error)")
+            }
+        }
+        // Automatically merge changes done in other context of this container.
+        // E.g. merge changes from a background context, as soon as that context saves
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        container.viewContext.undoManager = nil
+        container.viewContext.shouldDeleteInaccessibleFaults = true
+        container.viewContext.name = "Testing View Context"
+        return container.viewContext
+    }
     
     // MARK: Saving
     
