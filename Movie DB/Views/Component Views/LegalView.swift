@@ -21,29 +21,21 @@ struct LegalView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text("This app uses data from The Movie Database.")
-                    // Without this, it does not wrap the line
-                    .fixedSize(horizontal: false, vertical: true)
-                Text("This product uses the TMDb API but is not endorsed or certified by TMDb.") // DO NOT TRANSLATE (?)
-                    // Without this, it does not wrap the line
-                    .fixedSize(horizontal: false, vertical: true)
+                Text("""
+                    This app uses data from The Movie Database.
+                    This product uses the TMDb API but is not endorsed or certified by TMDb.
+                    """) // DO NOT TRANSLATE (?)
                 HStack {
                     tmdbLogo
                     Link("https://www.themoviedb.org/", destination: URL(string: "https://www.themoviedb.org/")!)
                 }
                 Divider()
-                Text("All content and images are properties of their respective owners.")
-                    // Without this, it does not wrap the line
-                    .fixedSize(horizontal: false, vertical: true)
-                Text("For legal concerns, contact")
-                    // Without this, it does not wrap the line
-                    .fixedSize(horizontal: false, vertical: true)
-                Link("legal@jonasfreyapps.de", destination: URL(string: "mailto:legal@joansfreyapps.de")!)
+                Text("""
+                    All content and images are properties of their respective owners.
+                    For legal concerns, contact [legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)
+                    """)
                 Divider()
-                HStack(spacing: 0) {
-                    Text("App Icon: ")
-                    Link("https://uxwing.com", destination: URL(string: "https://uxwing.com")!)
-                }
+                Text("App Icon: [https://uxwing.com](https://uxwing.com)")
             }
         }
         .lineLimit(nil)

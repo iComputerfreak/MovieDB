@@ -95,7 +95,6 @@ struct AddMediaView : View {
                     searchTextChangedSubject.send(self.searchText)
                 }
                 
-                
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
