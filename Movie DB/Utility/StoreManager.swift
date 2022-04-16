@@ -37,17 +37,19 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         print("Did receive response")
         
-        if !response.products.isEmpty {
-            products = []
-            for fetchedProduct in response.products {
-                DispatchQueue.main.async {
-                    self.products.append(fetchedProduct)
+        DispatchQueue.main.async {
+            if !response.products.isEmpty {
+                self.products = []
+                for fetchedProduct in response.products {
+                    DispatchQueue.main.async {
+                        self.products.append(fetchedProduct)
+                    }
                 }
             }
-        }
-        
-        for invalidIdentifier in response.invalidProductIdentifiers {
-            print("Invalid identifiers found: \(invalidIdentifier)")
+            
+            for invalidIdentifier in response.invalidProductIdentifiers {
+                print("Invalid identifiers found: \(invalidIdentifier)")
+            }
         }
     }
     

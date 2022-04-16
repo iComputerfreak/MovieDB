@@ -43,7 +43,7 @@ extension FilterSetting {
     }
     public var statuses: [MediaStatus] {
         get {
-            let rawStatuses = getTransformerValue(forKey: "statuses") as [String]?
+            let rawStatuses = getTransformerValue(forKey: "statuses", defaultValue: []) as [String]?
             return rawStatuses!.map({ MediaStatus(rawValue: $0)! })
         }
         set {
@@ -53,7 +53,7 @@ extension FilterSetting {
     }
     public var showTypes: [ShowType] {
         get {
-            let rawShowTypes = getTransformerValue(forKey: "showTypes") as [String]?
+            let rawShowTypes = getTransformerValue(forKey: "showTypes", defaultValue: []) as [String]?
             return rawShowTypes!.map({ ShowType(rawValue: $0)! })
         }
         set {

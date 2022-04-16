@@ -22,12 +22,12 @@ extension Media {
     @NSManaged public var id: UUID
     /// The type of media
     public var type: MediaType {
-        get { getEnum(forKey: "type") }
+        get { getEnum(forKey: "type", defaultValue: .movie) }
         set { setEnum(newValue, forKey: "type") }
     }
     /// A rating between 0 and 10 (no Rating and 5 stars)
     public var personalRating: StarRating {
-        get { getEnum(forKey: "personalRating") }
+        get { getEnum(forKey: "personalRating", defaultValue: .noRating) }
         set { setEnum(newValue, forKey: "personalRating") }
     }
     /// Whether the user would watch the media again
@@ -60,7 +60,7 @@ extension Media {
     @NSManaged public var overview: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
     public var status: MediaStatus {
-        get { getEnum(forKey: "status") }
+        get { getEnum(forKey: "status", defaultValue: .planned) }
         set { setEnum(newValue, forKey: "status") }
     }
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')

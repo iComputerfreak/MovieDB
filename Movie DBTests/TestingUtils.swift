@@ -12,9 +12,9 @@ import CoreData
 
 struct TestingUtils {
     
-    static let context = PersistenceController.previewContext
+    let context: NSManagedObjectContext
     
-    static func load<T: Decodable>(_ filename: String, mediaType: MediaType? = nil, as type: T.Type = T.self) -> T {
+    static func load<T: Decodable>(_ filename: String, mediaType: MediaType? = nil, into context: NSManagedObjectContext, as type: T.Type = T.self) -> T {
         let data: Data
         
         guard let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
@@ -38,66 +38,73 @@ struct TestingUtils {
         }
     }
     
-    static let previewTags: Set<Tag> = [
-        Tag(name: "Future", context: context),
-        Tag(name: "Conspiracy", context: context),
-        Tag(name: "Dark", context: context),
-        Tag(name: "Violent", context: context),
-        Tag(name: "Gangsters", context: context),
-        Tag(name: "Terrorist", context: context),
-        Tag(name: "Past", context: context),
-        Tag(name: "Fantasy", context: context),
-    ]
+    init() {
+        let context = PersistenceController.createTestingContext()
+        self.context = context
+        let previewTags: Set<Tag> = [
+            Tag(name: "Future", context: context),
+            Tag(name: "Conspiracy", context: context),
+            Tag(name: "Dark", context: context),
+            Tag(name: "Violent", context: context),
+            Tag(name: "Gangsters", context: context),
+            Tag(name: "Terrorist", context: context),
+            Tag(name: "Past", context: context),
+            Tag(name: "Fantasy", context: context),
+        ]
+        self.previewTags = previewTags
+        self.matrixMovie = {
+            let tmdbData: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie, into: context)
+            let m = Movie(context: context, tmdbData: tmdbData)
+            m.personalRating = .twoAndAHalfStars
+            m.tags = TestingUtils.getPreviewTags(["Future", "Conspiracy", "Dark"], of: previewTags)
+            m.notes = ""
+            m.watched = true
+            m.watchAgain = false
+            return m
+        }()
+        self.fightClubMovie = {
+            let tmdbData: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie, into: context)
+            let m = Movie(context: context, tmdbData: tmdbData)
+            m.personalRating = .noRating
+            m.tags = TestingUtils.getPreviewTags(["Dark", "Violent"], of: previewTags)
+            m.notes = "Never watched it..."
+            m.watched = false
+            m.watchAgain = nil
+            return m
+        }()
+        self.blacklistShow = {
+            let tmdbData: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: context)
+            let s = Show(context: context, tmdbData: tmdbData)
+            s.personalRating = .fiveStars
+            s.tags = TestingUtils.getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"], of: previewTags)
+            s.notes = "A masterpiece!"
+            s.lastWatched = .init(season: 7, episode: nil)
+            s.watchAgain = true
+            return s
+        }()
+        self.gameOfThronesShow = {
+            let tmdbData: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: context)
+            let s = Show(context: context, tmdbData: tmdbData)
+            s.personalRating = .twoAndAHalfStars
+            s.tags = TestingUtils.getPreviewTags(["Past", "Fantasy"], of: previewTags)
+            s.notes = "Bad ending"
+            s.lastWatched = .init(season: 8, episode: 3)
+            s.watchAgain = false
+            return s
+        }()
+        self.mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
+    }
     
-    static let matrixMovie: Movie = {
-        let tmdbData: TMDBData = load("Matrix.json", mediaType: .movie)
-        let m = Movie(context: context, tmdbData: tmdbData)
-        m.personalRating = .twoAndAHalfStars
-        m.tags = getPreviewTags(["Future", "Conspiracy", "Dark"])
-        m.notes = ""
-        m.watched = true
-        m.watchAgain = false
-        return m
-    }()
+    let previewTags: Set<Tag>
+    let matrixMovie: Movie
+    let fightClubMovie: Movie
+    let blacklistShow: Show
+    let gameOfThronesShow: Show
+    var mediaSamples: [Media]
     
-    static let fightClubMovie: Movie = {
-        let tmdbData: TMDBData = load("FightClub.json", mediaType: .movie)
-        let m = Movie(context: context, tmdbData: tmdbData)
-        m.personalRating = .noRating
-        m.tags = getPreviewTags(["Dark", "Violent"])
-        m.notes = "Never watched it..."
-        m.watched = false
-        m.watchAgain = nil
-        return m
-    }()
-    
-    static let blacklistShow: Show = {
-        let tmdbData: TMDBData = load("Blacklist.json", mediaType: .show)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.personalRating = .fiveStars
-        s.tags = getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"])
-        s.notes = "A masterpiece!"
-        s.lastWatched = .init(season: 7, episode: nil)
-        s.watchAgain = true
-        return s
-    }()
-    
-    static let gameOfThronesShow: Show = {
-        let tmdbData: TMDBData = load("GameOfThrones.json", mediaType: .show)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.personalRating = .twoAndAHalfStars
-        s.tags = getPreviewTags(["Past", "Fantasy"])
-        s.notes = "Bad ending"
-        s.lastWatched = .init(season: 8, episode: 3)
-        s.watchAgain = false
-        return s
-    }()
-    
-    static let mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
-                     
-    static func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
+    static func getPreviewTags(_ tagNames: [String], of tags: Set<Tag>) -> Set<Tag> {
         return Set(tagNames.map({ name in
-            let tag = previewTags.first { tag in
+            let tag = tags.first { tag in
                 tag.name == name
             }
             guard let tag = tag else {
@@ -105,6 +112,10 @@ struct TestingUtils {
             }
             return tag
         }))
+    }
+                     
+    func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
+        return TestingUtils.getPreviewTags(tagNames, of: self.previewTags)
     }
 }
 
@@ -261,8 +272,8 @@ func assertContains(_ value: [CastMember], in other: [CastMember]) {
 // MARK: - Testing Initializers
 
 extension ProductionCompany {
-    static func create(id: Int, name: String, logoPath: String?, originCountry: String) -> ProductionCompany {
-        let c = ProductionCompany(context: TestingUtils.context)
+    static func create(context: NSManagedObjectContext, id: Int, name: String, logoPath: String?, originCountry: String) -> ProductionCompany {
+        let c = ProductionCompany(context: context)
         c.id = id
         c.name = name
         c.logoPath = logoPath
@@ -272,8 +283,8 @@ extension ProductionCompany {
 }
 
 extension Genre {
-    static func create(id: Int, name: String) -> Genre {
-        let g = Genre(context: TestingUtils.context)
+    static func create(context: NSManagedObjectContext, id: Int, name: String) -> Genre {
+        let g = Genre(context: context)
         g.id = id
         g.name = name
         return g
@@ -281,8 +292,8 @@ extension Genre {
 }
 
 extension Video {
-    static func create(key: String, name: String, site: String, type: String, resolution: Int, language: String, region: String) -> Video {
-        let v = Video(context: TestingUtils.context)
+    static func create(context: NSManagedObjectContext, key: String, name: String, site: String, type: String, resolution: Int, language: String, region: String) -> Video {
+        let v = Video(context: context)
         v.key = key
         v.name = name
         v.site = site
@@ -295,8 +306,8 @@ extension Video {
 }
 
 extension CastMember {
-    static func create(id: Int, name: String, roleName: String, imagePath: String?) -> CastMember {
-        let c = CastMember(context: TestingUtils.context)
+    static func create(context: NSManagedObjectContext, id: Int, name: String, roleName: String, imagePath: String?) -> CastMember {
+        let c = CastMember(context: context)
         c.id = id
         c.name = name
         c.roleName = roleName
@@ -306,8 +317,8 @@ extension CastMember {
 }
 
 extension Season {
-    static func create(id: Int, seasonNumber: Int, episodeCount: Int, name: String, overview: String?, imagePath: String?, rawAirDate: String) -> Season {
-        let s = Season(context: TestingUtils.context)
+    static func create(context: NSManagedObjectContext, id: Int, seasonNumber: Int, episodeCount: Int, name: String, overview: String?, imagePath: String?, rawAirDate: String) -> Season {
+        let s = Season(context: context)
         s.id = id
         s.seasonNumber = seasonNumber
         s.episodeCount = episodeCount
@@ -318,3 +329,7 @@ extension Season {
         return s
     }
 }
+
+
+
+// TODO: Just refactored tests to use disposable test, check if everything runs!

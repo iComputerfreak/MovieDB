@@ -8,25 +8,47 @@
 
 import XCTest
 @testable import Movie_DB
+import CoreData
 
 class APITests: XCTestCase {
     
+    var testingUtils: TestingUtils!
+    var testContext: NSManagedObjectContext {
+        testingUtils.context
+    }
+    
     let api = TMDBAPI.shared
     
-    let matrix: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie)
-    let fightClub: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie)
-    let blacklist: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show)
-    let gameOfThrones: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show)
-    
-    let brokenMedia: Movie = {
-        let movie = Movie(context: TestingUtils.context, tmdbData: TestingUtils.load("Matrix.json", mediaType: .movie))
-        movie.tmdbID = -1
-        PersistenceController.saveContext(context: TestingUtils.context)
-        return movie
-    }()
+    var matrix: TMDBData!
+    var fightClub: TMDBData!
+    var blacklist: TMDBData!
+    var gameOfThrones: TMDBData!
+    var brokenMedia: Movie!
     
     override func setUp() {
-        TestingUtils.context.reset()
+        testingUtils = TestingUtils()
+        matrix = TestingUtils.load("Matrix.json", mediaType: .movie, into: testContext)
+        fightClub = TestingUtils.load("FightClub.json", mediaType: .movie, into: testContext)
+        blacklist = TestingUtils.load("Blacklist.json", mediaType: .show, into: testContext)
+        gameOfThrones = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: testContext)
+        brokenMedia = {
+            let movie = Movie(context: testContext, tmdbData: TestingUtils.load("Matrix.json", mediaType: .movie, into: testContext))
+            movie.tmdbID = -1
+            return movie
+        }()
+    }
+    
+    func testSaveContext() throws {
+        try testContext.save()
+    }
+    
+    func testSaveChildContext() throws {
+        try testContext.newBackgroundContext().save()
+    }
+    
+    func testFetchTMDBData() throws {
+        let result = try api.fetchMedia(id: 603, type: .movie, context: testContext)
+        print(result)
     }
     
     func testAPISuccess() throws {
@@ -37,23 +59,23 @@ class APITests: XCTestCase {
             DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist")
         ]
         
-        for dummy in mediaObjects.reversed() {
-            let result = try api.fetchMedia(id: dummy.tmdbID, type: dummy.type, context: TestingUtils.context)
+        for dummy in mediaObjects {
+            let result = try api.fetchMedia(id: dummy.tmdbID, type: dummy.type, context: testContext)
             assertMediaMatches(result, dummy)
             
             // Modify the title to check, if the update function correctly restores it
             result.title = "None"
             let promise = XCTestExpectation()
-            XCTAssertNoThrow(api.updateMedia(result, context: TestingUtils.context, completion: { _ in promise.fulfill() }))
+            XCTAssertNoThrow(api.updateMedia(result, context: testContext, completion: { _ in promise.fulfill() }))
             wait(for: [promise], timeout: 5)
             assertMediaMatches(result, dummy)
         }
     }
     
     func testAPIFailure() {
-        XCTAssertThrowsError(try api.fetchMedia(id: -1, type: .movie, context: TestingUtils.context))
+        XCTAssertThrowsError(try api.fetchMedia(id: -1, type: .movie, context: testContext))
         let promise = XCTestExpectation()
-        api.updateMedia(brokenMedia, context: TestingUtils.context, completion: { error in
+        api.updateMedia(brokenMedia, context: testContext, completion: { error in
             XCTAssertNotNil(error)
             promise.fulfill()
         })

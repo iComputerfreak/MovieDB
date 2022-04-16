@@ -14,7 +14,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/CSVImporter</string>
 			<key>Title</key>
-			<string>csvimporter</string>
+			<string>CSVImporter</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -22,7 +22,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/HandySwift</string>
 			<key>Title</key>
-			<string>handyswift</string>
+			<string>HandySwift</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/JFSwiftUI</string>
 			<key>Title</key>
-			<string>jfswiftui</string>
+			<string>JFSwiftUI</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -38,7 +38,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Nimble</string>
 			<key>Title</key>
-			<string>nimble</string>
+			<string>Nimble</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -46,7 +46,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Quick</string>
 			<key>Title</key>
-			<string>quick</string>
+			<string>Quick</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -54,7 +54,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/TextView</string>
 			<key>Title</key>
-			<string>textview</string>
+			<string>TextView</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>

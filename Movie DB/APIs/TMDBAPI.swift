@@ -31,7 +31,7 @@ class TMDBAPI {
     /// The ISO 3166-1 region code, used for displaying matching release dates
     var region: String? { locale.components(separatedBy: "-").last }
     
-    var disposableContext: NSManagedObjectContext { PersistenceController.shared.disposableContext }
+    var disposableContext: NSManagedObjectContext { PersistenceController.createDisposableContext() }
     
     // This is a singleton
     private init() {}
@@ -65,7 +65,7 @@ class TMDBAPI {
                         case .show:
                             media = Show(context: context, tmdbData: tmdbData)
                     }
-                    // Save the changes to the parent context
+                    // Save the changes (the new media object) to the parent context
                     PersistenceController.saveContext(context: context)
                     // Return the object from the correct context
                     completion(parent.object(with: media.objectID) as? Media, nil)
@@ -379,6 +379,7 @@ class TMDBAPI {
         
         // Unauthorized
         if httpResponse.statusCode == 401 {
+            print(httpResponse)
             throw APIError.unauthorized
         }
         

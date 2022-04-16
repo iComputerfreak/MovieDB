@@ -12,12 +12,41 @@ struct PersistenceController {
     
     let container: NSPersistentCloudKitContainer
     
+    func newBackgroundContext() -> NSManagedObjectContext {
+        container.newBackgroundContext()
+    }
+    
     /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
-    var disposableContext: NSManagedObjectContext {
+    /// A context created by this method may not be saved!
+    static func createDisposableContext() -> NSManagedObjectContext {
         // The disposable context is a new empty context without any data in it
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.name = "Disposable Context (\(Date()))"
         return context
+    }
+    
+    static func createTestingContext() -> NSManagedObjectContext {
+        shared.createTestingContext()
+    }
+    
+    // Creates a new context with a fresh container behind it, used for testing
+    func createTestingContext() -> NSManagedObjectContext {
+        // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
+        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: self.container.managedObjectModel)
+        container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        container.loadPersistentStores { storeDescription, error in
+            if let error = error as NSError? {
+                fatalError("Unexpected Error \(error)")
+            }
+        }
+        // Automatically merge changes done in other context of this container.
+        // E.g. merge changes from a background context, as soon as that context saves
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        container.viewContext.undoManager = nil
+        container.viewContext.shouldDeleteInaccessibleFaults = true
+        container.viewContext.name = "Testing View Context"
+        return container.viewContext
     }
     
     private init(inMemory: Bool = false) {
@@ -51,9 +80,7 @@ struct PersistenceController {
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
         
-        if !inMemory {
-            NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: container.viewContext)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: container.viewContext)
     }
     
     /// Saves the shared viewContext
@@ -91,7 +118,7 @@ struct PersistenceController {
     /// Saves the given context if it has been modified since the last save
     /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
-        print("Trying to save context from \(file):\(line).")
+        print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         context.performAndWait {
@@ -105,6 +132,8 @@ struct PersistenceController {
                     let nserror = error as NSError
                     fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
+            } else {
+                print("Context has no changes.")
             }
         }
     }

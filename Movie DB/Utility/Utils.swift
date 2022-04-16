@@ -348,16 +348,6 @@ extension Array: Identifiable where Element: Hashable {
     }
 }
 
-extension NSManagedObjectContext {
-    
-    override public var description: String {
-        if let name = self.name {
-            return "<NSManagedObjectContext: \(name)>"
-        }
-        return super.description
-    }
-}
-
 /// Overload of the default NSLocalizedString function that uses an empty comment
 public func NSLocalizedString(_ key: String, tableName: String? = nil) -> String {
     NSLocalizedString(key, tableName: tableName, comment: "")

@@ -1,16 +1,14 @@
-name: CSVImporter, nameSpecified: csvimporter, owner: Flinesoft, version: 1.9.1, source: https://github.com/Flinesoft/CSVImporter
+name: CSVImporter, nameSpecified: CSVImporter, owner: Flinesoft, version: 1.9.1, source: https://github.com/Flinesoft/CSVImporter
 
-name: HandySwift, nameSpecified: handyswift, owner: Flinesoft, version: 2.8.0, source: https://github.com/Flinesoft/HandySwift
+name: HandySwift, nameSpecified: HandySwift, owner: Flinesoft, version: 2.8.0, source: https://github.com/Flinesoft/HandySwift
 
-name: JFSwiftUI, nameSpecified: jfswiftui, owner: iComputerfreak, version: 1.2.4, source: https://github.com/iComputerfreak/JFSwiftUI
+name: JFSwiftUI, nameSpecified: JFSwiftUI, owner: iComputerfreak, version: 1.2.4, source: https://github.com/iComputerfreak/JFSwiftUI
 
-name: JFUtils, nameSpecified: jfutils, owner: iComputerfreak, version: 1.4.1, source: https://github.com/iComputerfreak/JFUtils
+name: Nimble, nameSpecified: Nimble, owner: Quick, version: 7.3.4, source: https://github.com/Quick/Nimble
 
-name: Nimble, nameSpecified: nimble, owner: Quick, version: 7.3.4, source: https://github.com/Quick/Nimble
+name: Quick, nameSpecified: Quick, owner: Quick, version: 1.3.4, source: https://github.com/Quick/Quick
 
-name: Quick, nameSpecified: quick, owner: Quick, version: 1.3.4, source: https://github.com/Quick/Quick
-
-name: TextView, nameSpecified: textview, owner: kenmueller, version: 1.5.0, source: https://github.com/kenmueller/TextView
+name: TextView, nameSpecified: TextView, owner: kenmueller, version: 1.5.0, source: https://github.com/kenmueller/TextView
 
 add-version-numbers: false
 

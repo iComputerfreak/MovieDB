@@ -93,6 +93,7 @@
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABB668CE2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB668CC2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift */; };
 		ABB668CF2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB668CD2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift */; };
+		ABBDC037280A43FB005DD60F /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABBDC036280A43FB005DD60F /* JFUtils */; };
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
 		ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */; };
@@ -115,7 +116,6 @@
 		ABED3B072393263E00F4C327 /* ShowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B062393263E00F4C327 /* ShowType.swift */; };
 		ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B0823932A8F00F4C327 /* FilterView.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
-		ABFFE80A28099DCE00598356 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABFFE80928099DCE00598356 /* JFUtils */; };
 		ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFFE80B2809AF4D00598356 /* CSVHelper.swift */; };
 /* End PBXBuildFile section */
 
@@ -219,6 +219,7 @@
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABB668CC2613E85E00E7A6A4 /* FilterSetting+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB668CD2613E85E00E7A6A4 /* FilterSetting+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		ABBDC035280A43B7005DD60F /* JFUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JFUtils; path = ../../../Libraries/JFUtils; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -252,7 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABFFE80A28099DCE00598356 /* JFUtils in Frameworks */,
+				ABBDC037280A43FB005DD60F /* JFUtils in Frameworks */,
 				AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */,
 				AB54940125FD41930072745B /* CSVImporter in Frameworks */,
 				AB25099B238B18AF00F7A411 /* TextView in Frameworks */,
@@ -502,6 +503,7 @@
 		AB6718B422C0312A00F429E4 = {
 			isa = PBXGroup;
 			children = (
+				ABBDC034280A43B7005DD60F /* Packages */,
 				ABA13D592381F02A00E885DD /* README.md */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
@@ -627,6 +629,14 @@
 			path = FilterSetting;
 			sourceTree = "<group>";
 		};
+		ABBDC034280A43B7005DD60F /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				ABBDC035280A43B7005DD60F /* JFUtils */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		ABE6721A25E0183B00CAF7C3 /* Thumbnail */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,7 +675,7 @@
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
 				AB25099A238B18AF00F7A411 /* TextView */,
 				AB54940025FD41930072745B /* CSVImporter */,
-				ABFFE80928099DCE00598356 /* JFUtils */,
+				ABBDC036280A43FB005DD60F /* JFUtils */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -1225,9 +1235,8 @@
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
 		};
-		ABFFE80928099DCE00598356 /* JFUtils */ = {
+		ABBDC036280A43FB005DD60F /* JFUtils */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */;
 			productName = JFUtils;
 		};
 /* End XCSwiftPackageProductDependency section */

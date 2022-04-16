@@ -9,8 +9,15 @@
 import XCTest
 import JFUtils
 @testable import Movie_DB
+import CoreData
 
 class CSVCoderTests: XCTestCase {
+    
+    var testingUtils: TestingUtils!
+    
+    override func setUp() {
+        testingUtils = TestingUtils()
+    }
         
     func testDecode() throws {
         let sample1 = """
@@ -20,7 +27,7 @@ class CSVCoderTests: XCTestCase {
         125;79130;tv;Another Life;1;false;Artificial Intelligence,Aliens,Female Lead,Haunted,Future,Horror,Space,Extinction Level Event;;Another Life;Drama,Sci-Fi & Fantasy;After a massive alien artifact lands on Earth, Niko Breckinridge leads an interstellar mission to track down its source and make first contact.;Returning Series;;;;;;;3/5;2019-07-25;2019-07-25;1;true;Scripted
         116;399402;movie;Hunter Killer;0;false;;A note with some special characters.\\/:?!;Hunter Killer;Action,Thriller;;Released;true;2018-10-19;122;0;0;false;;;;;;
         """
-        CSVHelper.importMediaObjects(csvString: sample1, importContext: TestingUtils.context) { mediaObjects, _ in
+        CSVHelper.importMediaObjects(csvString: sample1, importContext: testingUtils.context) { mediaObjects, _ in
             do {
                 XCTAssertEqual(mediaObjects.count, 4)
                 
@@ -116,7 +123,7 @@ class CSVCoderTests: XCTestCase {
     }
     
     func testEncode() throws {
-        let sortedSamples = TestingUtils.mediaSamples.sorted(by: \.title)
+        let sortedSamples = testingUtils.mediaSamples.sorted(by: \.title)
         let csv = CSVManager.createCSV(from: sortedSamples)
         let lines = csv.components(separatedBy: CSVManager.lineSeparator)
         // We should get an extra line for the header
@@ -209,9 +216,9 @@ class CSVCoderTests: XCTestCase {
     }
     
     func testEncodeMediaWithIllegalCharacters() throws {
-        let media = TestingUtils.matrixMovie
+        let media = testingUtils.matrixMovie
         let newName = "Illegal\(CSVManager.separator) Tag"
-        let tagWithSeparator = Tag(name: newName, context: TestingUtils.context)
+        let tagWithSeparator = Tag(name: newName, context: testingUtils.context)
         media.tags.insert(tagWithSeparator)
         media.notes = "This note contains:\(CSVManager.lineSeparator)\(CSVManager.separator)\(CSVManager.arraySeparator)"
         let csv = CSVManager.createCSV(from: [media])
@@ -220,7 +227,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
         XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:")
-        XCTAssertEqual(lines[2], ";,\";true;;\(media.id);The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;2022-04-15")
+        XCTAssertEqual(lines[2], ";,\";true;;\(media.id);The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;\(CSVManager.dateFormatter.string(from: media.creationDate))")
     }
     
 }
