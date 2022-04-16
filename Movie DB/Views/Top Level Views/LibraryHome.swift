@@ -25,7 +25,8 @@ struct LibraryHome : View {
     @State private var activeSheet: ActiveSheet? = nil
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @StateObject var searchBar: SearchBar = SearchBar()
+    //@StateObject var searchBar: SearchBar = SearchBar()
+    @State private var searchText: String = ""
     
     @State private var sortingOrder: SortingOrder = {
         if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingOrder) {
@@ -55,8 +56,8 @@ struct LibraryHome : View {
                 VStack {
                     // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
                     // This way, the fetchRequest inside LibraryList will be re-built every time the searchText changes
-                    LibraryList(searchText: searchBar.text, filterSetting: filterSetting, sortingOrder: sortingOrder, sortingDirection: sortingDirection)
-                        .add(searchBar)
+                    LibraryList(searchText: searchText, filterSetting: filterSetting, sortingOrder: sortingOrder, sortingDirection: sortingDirection)
+                        .searchable(text: $searchText)
                 }
                 
                 // Display the currently active sheet

@@ -26,19 +26,14 @@ struct AddMediaView : View {
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @State private var publisher: AnyCancellable?
-    
-    @ObservedObject var searchBar: SearchBar = {
-        let searchBar = SearchBar()
-        searchBar.searchController.hidesNavigationBarDuringPresentation = false
-        searchBar.searchController.automaticallyShowsCancelButton = false
-        return searchBar
-    }()
+    @State private var cancellable: AnyCancellable?
+    // The subject used to fire the searchText changed events
+    private let searchTextChangedSubject = PassthroughSubject<String, Never>()
     
     func didAppear() {
         // Register for search text updates
         // We have to assign the publisher to a variable to it does not get deallocated and can be called with future changes
-        self.publisher = self.searchBar.$text
+        self.cancellable = searchTextChangedSubject
             .print()
             // Wait 500 ms before actually searching for the text
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -73,6 +68,7 @@ struct AddMediaView : View {
                                 .italic()
                             Spacer()
                         }
+                        
                     } else {
                         ForEach(self.results) { (result: TMDBSearchResult) in
                             Button(action: { addMedia(result) }) {
@@ -93,7 +89,13 @@ struct AddMediaView : View {
                         }
                     }
                 }
-                .add(searchBar)
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+                .onChange(of: self.searchText) { newValue in
+                    // If the user enters a search text, perform the search after a delay
+                    searchTextChangedSubject.send(self.searchText)
+                }
+                
+                
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
