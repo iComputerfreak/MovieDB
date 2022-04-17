@@ -140,7 +140,7 @@ struct AddMediaView : View {
                 return
             }
             self.isLoading = true
-            TMDBAPI.shared.fetchMediaAsync(id: result.id, type: result.mediaType, context: managedObjectContext) { (media: Media?, error: Error?) in
+            TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType, context: managedObjectContext) { (media: Media?, error: Error?) in
                 
                 if let error = error as? LocalizedError {
                     print("Error loading media: \(error)")
