@@ -106,7 +106,7 @@ struct CSVManager {
         .showType: (\Show.showType, { ($0 as! ShowType).rawValue })
     ]
     
-    static func createMedia(from values: [String: String], context: NSManagedObjectContext) throws -> Media? {
+    static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media? {
         // We only need the tmdbID and user values from the CSV
         guard let tmdbIDValue = values[.tmdbID], let tmdbID = Int(tmdbIDValue) else {
             throw CSVError.noTMDBID
@@ -126,7 +126,7 @@ struct CSVManager {
         }
         
         // Create the media
-        let media = try TMDBAPI.shared.fetchMedia(id: tmdbID, type: mediaType, context: context)
+        let media = try await TMDBAPI.shared.fetchMedia(for: tmdbID, type: mediaType, context: context)
         
         // Setting values with PartialKeyPaths is not possible, so we have to do it manually
         // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then

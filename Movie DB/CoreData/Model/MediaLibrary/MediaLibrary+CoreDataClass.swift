@@ -36,63 +36,41 @@ public class MediaLibrary: NSManagedObject {
     }
     
     /// Updates the media library by updaing every media object with API calls again.
-    func update(completion: ((Int?, Error?) -> Void)? = nil) {
+    func update() async throws -> Int {
+        // Fetch the tmdbIDs of the media objects that changed
+        let changedIDs = try await TMDBAPI.shared.fetchChangedIDs(from: lastUpdated, to: Date())
+        
+        // Create a child context to update the media objects in
+        let updateContext = self.libraryContext.newBackgroundContext()
+        updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
+        
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
+        let medias = try self.libraryContext.fetch(fetchRequest)
+        print("Updating \(medias.count) media objects.")
+        
+        // TODO: Make all taskGroups cancellable!
+        // Update the media objects using a task group
         var updateCount = 0
-        let api = TMDBAPI.shared
-        api.getChangedIDs(from: lastUpdated, to: Date()) { (changedIDs: [Int]?, error: Error?) in
-            
-            if let error = error {
-                print("Error fetching changes: \(error)")
-                completion?(nil, error)
-                return
-            }
-            
-            guard let changedIDs = changedIDs else {
-                print("Error fetching changes. Returned changes are nil.")
-                completion?(nil, nil)
-                return
-            }
-            
-            let updateContext: NSManagedObjectContext = self.libraryContext.newBackgroundContext()
-            updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
-            
-            let group = DispatchGroup()
-            var lastError: Error? = nil
-            let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
-            let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
-            print("Updating \(medias.count) media objects.")
+        try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
-                group.enter()
-                // This media has been changed
-                api.updateMedia(media, context: updateContext) { error in
-                    if let error = error {
-                        print("Error updating media object with TMMDB ID \(media.tmdbID): \(error)")
-                        // Pass down the error, but keep updating
-                        lastError = error
-                    }
-                    // We need to download the thumbnail again on the view context
-                    DispatchQueue.main.async {
-                        assert(self.managedObjectContext != nil)
-                        if let mainMedia = self.libraryContext.object(with: media.objectID) as? Media {
-                            // Call it on the media object in the viewContext, not on the mediaObject in the background context
-                            mainMedia.loadThumbnailAsync(force: true)
-                        } else {
-                            print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
-                            assertionFailure()
-                        }
-                    }
-                    updateCount += 1
-                    group.leave()
+                group.addTask {
+                    // Update the media inside the update context
+                    // TODO: Regularly update all thumbnails in the library
+                    // TODO: Updating should invalidate the thumbnail (has to be loaded on the main view context again)
+                    try await TMDBAPI.shared.updateMedia(media, context: updateContext)
                 }
             }
-            group.wait()
-            // After they all have been updated without errors, we can update the lastUpdate property
-            self.lastUpdated = Date()
-            // Save the updated media into the parent context (viewContext)
-            PersistenceController.saveContext(context: updateContext)
-            completion?(updateCount, lastError)
+            // Count how many medias were updated and wait for all of them to finish
+            for try await _ in group {
+                updateCount += 1
+            }
         }
+        // After they all have been updated without errors, we can update the lastUpdate property
+        self.lastUpdated = .now
+        // Save the updated media into the parent context (viewContext)
+        PersistenceController.saveContext(context: updateContext)
+        return updateCount
     }
     
     /// Fixes all duplicates IDs by assigning new IDs to the media objects
@@ -119,32 +97,31 @@ public class MediaLibrary: NSManagedObject {
         
     }
     
+    // TODO: Fix documentation for new async functions
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
-    func reloadAll(completion: ((Error?) -> Void)? = nil) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            // TODO: Pass down multiple errors, generated by the update calls?
-            let api = TMDBAPI.shared
-            var latestError: Error? = nil
-            assert(self.managedObjectContext != nil)
-            let reloadContext: NSManagedObjectContext = self.libraryContext.newBackgroundContext()
-            reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
-            
-            let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-            let medias = (try? self.libraryContext.fetch(fetchRequest)) ?? []
-            print("Reloading \(medias.count) media objects.")
-            let group = DispatchGroup()
+    func reloadAll() async throws {
+        // TODO: Pass down multiple errors, generated by the update calls?
+        assert(self.managedObjectContext != nil)
+        // Create a new child context to perform the reload in
+        let reloadContext = self.libraryContext.newBackgroundContext()
+        reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
+        
+        // Fetch all media objects from the store (using the reload context)
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        let medias = (try? reloadContext.fetch(fetchRequest)) ?? []
+        print("Reloading \(medias.count) media objects.")
+        
+        // Reload all media objects using a task group
+        try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
-                group.enter()
-                api.updateMedia(media, context: reloadContext) { error in
-                    if let error = error {
-                        print("Error reloading media object with TMMDB ID \(media.tmdbID): \(error)")
-                        // Report the error in the completion closure, but continue with the execution
-                        latestError = error
-                    }
+                group.addTask {
+                    try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
                     // We need to download the thumbnail again on the view context (i.e. the library's context)
+                    // TODO: This needs to happen after the context save (the new thumbnail url is not yet in the main context)
                     DispatchQueue.main.async {
                         assert(self.managedObjectContext != nil)
+                        // TODO: Should not have to be executed on main thread (only the final assignment)
                         if let mainMedia = self.libraryContext.object(with: media.objectID) as? Media {
                             // Call it on the media object in the viewContext, not on the mediaObject in the background context
                             mainMedia.loadThumbnailAsync(force: true)
@@ -152,16 +129,15 @@ public class MediaLibrary: NSManagedObject {
                             assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
                         }
                     }
-                    // Leave the group when the media has been updated
-                    group.leave()
                 }
             }
-            // Wait for all updates to finish
-            group.wait()
-            // Save the reloaded media into the parent context (viewContext)
-            PersistenceController.saveContext(context: reloadContext)
-            completion?(latestError)
+            // Wait for all tasks to finish and rethrow any errors
+            try await group.waitForAll()
         }
+        // Save the reloaded media into the parent context (viewContext)
+        await PersistenceController.saveContext(reloadContext)
+        // Reload the thumbnails of all updated media objects in the main context
+        // TODO: Reload thumbnails async (but update the result on the main thread)
     }
     
     /// Resets the library, deleting all media objects and resetting the nextID property

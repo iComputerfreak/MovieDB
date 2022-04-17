@@ -11,18 +11,18 @@ import SwiftUI
 struct LanguageChooser: View {
     
     @ObservedObject private var config: JFConfig = JFConfig.shared
-        
-    init() {
-        // Load the available langugages from TMDB
-        if config.availableLanguages.isEmpty {
-            Utils.updateTMDBLanguages()
-        }
-    }
     
     var body: some View {
         NavigationView {
             if config.availableLanguages.isEmpty {
                 Text("Loading Languages...")
+                    .task {
+                        do {
+                            try await Utils.updateTMDBLanguages()
+                        } catch {
+                            AlertHandler.showSimpleAlert(title: "Error loading languages", message: "Error loading the list of available languages: \(error)")
+                        }
+                    }
                     .navigationTitle("Select Language")
             } else {
                 let proxy = Binding<String?>(get: { return config.language }, set: { newValue in config.language = newValue ?? "" })

@@ -35,23 +35,40 @@ struct CSVHelper {
             importLog.append("[Info] Importing CSV with header \(headerValues.joined(separator: CSVManager.separator))")
             csvHeader = headerValues
         } recordMapper: { values in
-            do {
-                return try CSVManager.createMedia(from: values, context: importContext)
-            } catch let error as CSVManager.CSVError {
-                let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: CSVManager.separator)
-                switch error {
+            let group = DispatchGroup()
+            group.enter()
+            var result: Media? = nil
+            // We use the wrapper using a completion closure to make the async call to CSVManager.createMedia synchronous
+            // (this recordMapper closure needs to be synchronous)
+            createMedia(from: values, context: importContext) { media, error in
+                defer { group.leave() }
+                // CSVError
+                if let error = error as? CSVManager.CSVError {
+                    let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: CSVManager.separator)
+                    switch error {
                     case .noTMDBID:
                         importLog.append("[Error] The following line is missing a TMDB ID:\n\(line)")
                     case .noMediaType:
                         importLog.append("[Error] The following line is missing a media type:\n\(line)")
                     case .mediaAlreadyExists:
                         importLog.append("[Warning] The following line already exists in the library. Skipping...\n\(line)")
+                    }
+                    return
                 }
-            } catch {
-                // Other errors, e.g., error while fetching the TMDBData
-                importLog.append("[Error] \(error.localizedDescription)")
+                // Any other error
+                if let error = error {
+                    print(error)
+                    // Other errors, e.g., error while fetching the TMDBData
+                    importLog.append("[Error] \(error.localizedDescription)")
+                    return
+                }
+                guard let media = media else {
+                    return
+                }
+                result = media
             }
-            return nil
+            group.wait()
+            return result
         }
         .onProgress { importedDataLinesCount in
             onProgress?(importedDataLinesCount)
@@ -61,6 +78,18 @@ struct CSVHelper {
         }
         .onFinish { importedRecords in
             onFinish?(importedRecords, importLog)
+        }
+    }
+    
+    // Proxy to use the async function with a completion handler
+    private static func createMedia(from values: [String: String], context: NSManagedObjectContext, completion: @escaping (Media?, Error?) -> Void) {
+        Task {
+            do {
+                let media = try await CSVManager.createMedia(from: values, context: context)
+                completion(media, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 }

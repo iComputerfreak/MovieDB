@@ -62,7 +62,7 @@ class TMDBAPI {
                 media = Show(context: childContext, tmdbData: tmdbData)
             }
             // Save the changes (the new media object) into the parent context
-            PersistenceController.saveContext(context: context)
+            PersistenceController.saveContext(context: childContext)
             // Return the object inside the parent context as the result
             return context.object(with: media.objectID) as! Media
         }
@@ -75,6 +75,8 @@ class TMDBAPI {
     ///   - context: The context to update the media objects in
     /// - Throws: `APIError` or `DecodingError`
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
+        // The given media object should be from the context to perform the update in
+        assert(media.managedObjectContext == context)
         // Create a child context to make the changes in, before merging them with the actual context given
         let childContext = context.newBackgroundContext()
         // Fetch the TMDBData into the child context
@@ -293,7 +295,23 @@ class TMDBAPI {
         parameters.merge(additionalParameters)
         
         // MARK: URL Request
-        let (data, response) = try await URLSession.shared.data(from: URL(string: url)!)
+        // Build URL String
+        // TODO: Do with components
+        var urlStringWithParameters = "\(url)"
+        // We should only append the '?', if we really have parameters
+        if !parameters.isEmpty {
+            urlStringWithParameters += "?\(parameters.percentEscaped())"
+        }
+        var request = URLRequest(url: URL(string: urlStringWithParameters)!)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        print("Making GET Request to \(urlStringWithParameters)")
+        #if DEBUG
+        // In Debug mode, always load the URL, never use the cache
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        #endif
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse(response)
         }

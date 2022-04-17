@@ -132,7 +132,6 @@ struct Utils {
     
     /// Returns a closed range containing the years of all media objects in the library
     static func yearBounds(context: NSManagedObjectContext) -> ClosedRange<Int> {
-        
         let minShow = fetchMinMaxShow(key: "firstAirDate", ascending: true, context: context)
         let minMovie = fetchMinMaxMovie(key: "releaseDate", ascending: true, context: context)
         let maxShow = fetchMinMaxShow(key: "firstAirDate", ascending: false, context: context)
@@ -252,26 +251,23 @@ extension Utils {
         return formatter
     }
     
-    static func updateTMDBLanguages(completion: (([String]?, Error?) -> Void)? = nil) {
-        TMDBAPI.shared.getTMDBLanguageCodes { (codes, error) in
-            guard let codes = codes else {
-                completion?(nil, error)
-                return
+    @discardableResult
+    static func updateTMDBLanguages() async throws -> [String] {
+        let codes = try await TMDBAPI.shared.getTMDBLanguageCodes()
+        // Sort the codes by the actual string that will be displayed, not the code itself
+        let sortedCodes = codes.sorted(by: { code1, code2 in
+            guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
+                return false
             }
-            // Sort the codes by the actual string that will be displayed, not the code itself
-            let sortedCodes = codes.sorted(by: { code1, code2 in
-                guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
-                    return false
-                }
-                guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else {
-                    return true
-                }
-                
-                return displayString1.lexicographicallyPrecedes(displayString2)
-            })
-            JFConfig.shared.availableLanguages = sortedCodes
-            completion?(sortedCodes, nil)
-        }
+            guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else {
+                return true
+            }
+            
+            return displayString1.lexicographicallyPrecedes(displayString2)
+        })
+        // TODO: Executed on correct thread?
+        JFConfig.shared.availableLanguages = sortedCodes
+        return sortedCodes
     }
     
     static func purchasedPro() -> Bool {

@@ -126,11 +126,35 @@ struct PersistenceController {
     
     /// Saves the given context if it has been modified since the last save
     /// - Parameter context: The `NSManagedObjectContext` to save
+    @available(*, deprecated, renamed: "saveContext(_:file:line:)")
     static func saveContext(context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
         print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         context.performAndWait {
+            if context.hasChanges {
+                do {
+                    try context.save()
+                } catch {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    let nserror = error as NSError
+                    AlertHandler.showSimpleAlert(title: "Error saving data", message: "There was an error while saving. \(nserror), \(nserror.userInfo)")
+                    //fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            } else {
+                print("Context has no changes.")
+            }
+        }
+    }
+    
+    // TODO: Either always use the new, async save function or rename both
+    
+    static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) async {
+        print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
+        // Make sure we save on the correct thread to prevent race conditions
+        // See: https://developer.apple.com/forums/thread/668299
+        await context.perform {
             if context.hasChanges {
                 do {
                     try context.save()

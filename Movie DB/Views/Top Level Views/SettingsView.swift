@@ -28,13 +28,6 @@ struct SettingsView: View {
     @State private var languageChanged: Bool = false
     @State private var isShowingProInfo: Bool = false
     
-    func loadLanguages() {
-        if config.availableLanguages.isEmpty {
-            // Load the TMDB Languages
-            Utils.updateTMDBLanguages()
-        }
-    }
-    
     var body: some View {
         LoadingView(isShowing: $isLoading, text: self.loadingText ?? NSLocalizedString("Loading...")) {
             NavigationView {
@@ -44,7 +37,20 @@ struct SettingsView: View {
                         Picker("Language", selection: $config.language) {
                             if config.availableLanguages.isEmpty {
                                 Text("Loading...")
-                                    .onAppear(perform: loadLanguages)
+                                    .task {
+                                        if config.availableLanguages.isEmpty {
+                                            // Load the TMDB Languages
+                                            do {
+                                                try await Utils.updateTMDBLanguages()
+                                            } catch {
+                                                DispatchQueue.main.async {
+                                                    print(error)
+                                                    AlertHandler.showSimpleAlert(title: "Error updating languages",
+                                                                                 message: "There was an error updating the available languages.")
+                                                }
+                                            }
+                                        }
+                                    }
                             } else {
                                 ForEach(config.availableLanguages, id: \.self) { code in
                                     Text(Locale.current.localizedString(forIdentifier: code) ?? code)
@@ -113,10 +119,18 @@ struct SettingsView: View {
                     Section(footer: self.footer()) {
                         
                         // MARK: - Reload Button
-                        Button("Reload Media", action: self.reloadMedia)
+                        Button("Reload Media") {
+                            Task {
+                                await self.reloadMedia()
+                            }
+                        }
                         
                         // MARK: - Update Button
-                        Button("Update Media", action: self.updateMedia)
+                        Button("Update Media") {
+                            Task {
+                                await self.updateMedia()
+                            }
+                        }
                         .disabled(self.updateInProgress)
                         
                         // MARK: - Reset Button
@@ -133,13 +147,11 @@ struct SettingsView: View {
                 }
             }
             
-            
-            
-            
-            
             .onDisappear {
                 if self.languageChanged {
-                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"), message: NSLocalizedString("Do you want to reload all media objects using the new language?"), yesAction: { _ in self.reloadMedia() })
+                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"),
+                                                message: NSLocalizedString("Do you want to reload all media objects using the new language?"),
+                                                yesAction: { _ in Task { await self.reloadMedia() }})
                     self.languageChanged = false
                 }
             }
@@ -148,53 +160,53 @@ struct SettingsView: View {
     
     // MARK: - Button Functions
     
-    func reloadMedia() {
+    func reloadMedia() async {
         self.reloadInProgress = true
-        DispatchQueue.global().async {
+        
+        // Perform the reload in the background on a different thread
+        Task.detached(priority: .background) {
             print("Starting reload...")
-            // Reload and show the result
-            self.library.reloadAll { (error: Error?) in
-                if let error = error {
-                    print("Error reloading media objects: \(error)")
-                    AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
-                    self.reloadInProgress = false
-                    return
-                }
-                
+            do {
+                // Reload and show the result
+                try await self.library.reloadAll()
                 DispatchQueue.main.async {
                     self.reloadInProgress = false
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Reload Completed"), message: NSLocalizedString("All media objects have been reloaded."))
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Reload Completed"),
+                                                 message: NSLocalizedString("All media objects have been reloaded."))
+                }
+            } catch {
+                print("Error reloading media objects: \(error)")
+                DispatchQueue.main.async {
+                    self.reloadInProgress = false
+                    AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
                 }
             }
         }
     }
     
-    func updateMedia() {
+    func updateMedia() async {
         self.updateInProgress = true
-        DispatchQueue.global().async {
-            print("Starting update...")
-            // Update the available TMDB Languages
-            Utils.updateTMDBLanguages()
-            // Update and show the result
-            self.library.update() { (updateCount: Int?, error: Error?) in
+        // Execute the update in the background
+        Task.detached(priority: .background) {
+            // We have to handle our errors inside this task manually, otherwise they are simply discarded
+            do {
+                // Update the available TMDB Languages
+                try await Utils.updateTMDBLanguages()
+                // Update and show the result
+                let updateCount = try await self.library.update()
                 
-                if let error = error {
-                    print("Error updating media objects: \(error)")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
-                    self.updateInProgress = false
-                    return
-                }
-                
-                guard let updateCount = updateCount else {
-                    print("Error updating media objects.")
-                    self.updateInProgress = false
-                    return
-                }
-                
+                // Report back the result to the user on the main thread
                 DispatchQueue.main.async {
                     self.updateInProgress = false
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"), message: String.localizedStringWithFormat(format, updateCount))
+                }
+            } catch {
+                print("Error updating media objects: \(error)")
+                // Update UI on the main thread
+                DispatchQueue.main.async {
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
+                    self.updateInProgress = false
                 }
             }
         }

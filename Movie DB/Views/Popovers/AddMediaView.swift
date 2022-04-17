@@ -71,13 +71,21 @@ struct AddMediaView : View {
                         
                     } else {
                         ForEach(self.results) { (result: TMDBSearchResult) in
-                            Button(action: { addMedia(result) }) {
+                            Button {
+                                Task {
+                                    await addMedia(result)
+                                }
+                            } label: {
                                 SearchResultView(result: result)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
                         if !self.allPagesLoaded && !self.results.isEmpty {
-                            Button(action: self.loadMoreResults) {
+                            Button {
+                                Task {
+                                    await loadMoreResults()
+                                }
+                            } label: {
                                 HStack {
                                     Spacer()
                                     Text("Load more results...")
@@ -121,118 +129,130 @@ struct AddMediaView : View {
         self.pagesLoaded = 0
         self.resultsText = NSLocalizedString("Loading...")
         // Load the first page of results
-        self.loadMoreResults()
+        Task {
+            await self.loadMoreResults()
+        }
     }
     
-    func addMedia(_ result: TMDBSearchResult) {
+    func addMedia(_ result: TMDBSearchResult) async {
         print("Selected \(result.title)")
+        // Check if title already exists in library
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", String(result.id))
         existingFetchRequest.fetchLimit = 1
         let existingObjects = (try? managedObjectContext.count(for: existingFetchRequest)) ?? 0
-        if existingObjects > 0 {
+        // There should be no media objects with this tmdbID in the library
+        guard existingObjects == 0 else {
             // Already added
             AlertHandler.showSimpleAlert(title: NSLocalizedString("Already Added"), message: NSLocalizedString("You already have '\(result.title)' in your library."))
-        } else {
-            guard Utils.purchasedPro() || (MediaLibrary.shared.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
-                // Show the Pro popup
-                self.isShowingProPopup = true
-                return
+            return
+        }
+        // Pro limitations
+        guard Utils.purchasedPro() || (MediaLibrary.shared.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+            // Show the Pro popup
+            self.isShowingProPopup = true
+            return
+        }
+        
+        // Otherwise we can begin to load
+        self.isLoading = true
+        
+        do {
+            // Try fetching the media object
+            let media = try await TMDBAPI.shared.fetchMedia(for: result.id, type: result.mediaType, context: managedObjectContext)
+            
+            // fetchMedia already created the Media object in a child context and saved it into the view context
+            // All we need to do now is to load the thumbnail and update the UI
+            DispatchQueue.main.async {
+                if let mainMedia = self.managedObjectContext.object(with: media.objectID) as? Media {
+                    // Call it on the media object in the viewContext, not on the mediaObject in the background context
+                    mainMedia.loadThumbnailAsync()
+                } else {
+                    print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
+                }
+                self.isLoading = false
+                // Dismiss the AddMediaView
+                self.presentationMode.wrappedValue.dismiss()
             }
-            self.isLoading = true
-            TMDBAPI.shared.fetchMedia(id: result.id, type: result.mediaType, context: managedObjectContext) { (media: Media?, error: Error?) in
-                
-                if let error = error as? LocalizedError {
-                    print("Error loading media: \(error)")
-                    DispatchQueue.main.async {
-                        AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"), message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
-                    }
-                    self.isLoading = false
-                    return
-                } else if error != nil || media == nil {
-                    print("Unknown Error: \(String(describing: error))")
-                    assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-                    DispatchQueue.main.async {
-                        AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"), message: NSLocalizedString("There was an error loading the media."))
-                    }
-                    self.isLoading = false
-                    return
-                }
-                
-                // We don't have to do anything with the media object, since it already was added to the background context and the background context was saved.
-                // The object will automatically be merged with the viewContext.
-                DispatchQueue.main.async {
-                    if let mainMedia = self.managedObjectContext.object(with: media!.objectID) as? Media {
-                        // Call it on the media object in the viewContext, not on the mediaObject in the background context
-                        mainMedia.loadThumbnailAsync()
-                    } else {
-                        print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
-                    }
-                    self.isLoading = false
-                    self.presentationMode.wrappedValue.dismiss()
-                }
+        } catch let error as LocalizedError {
+            print("Error loading media: \(error)")
+            DispatchQueue.main.async {
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"),
+                                             message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
+                self.isLoading = false
+            }
+        } catch {
+            print("Unknown Error: \(String(describing: error))")
+            assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+            DispatchQueue.main.async {
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"),
+                                             message: NSLocalizedString("There was an error loading the media."))
+                self.isLoading = false
             }
         }
     }
     
-    func loadMoreResults() {
+    func loadMoreResults() async {
         // We cannot load results for an empty text
         guard !self.searchText.isEmpty else {
             return
         }
-        let api = TMDBAPI.shared
-        api.searchMedia(searchText, includeAdult: JFConfig.shared.showAdults, fromPage: self.pagesLoaded + 1, toPage: self.pagesLoaded + 2) { (results: [TMDBSearchResult]?, totalPages: Int?, error: Error?) in
-            
-            // Clear "Loading..." from the first search
-            self.resultsText = ""
-            
-            // If the requested page was out of bounds, we stop displaying the "Load more results" button
-            if let error = error as? TMDBAPI.APIError, error == TMDBAPI.APIError.pageOutOfBounds {
-                self.allPagesLoaded = true
-                return
-            }
-            
-            if let error = error {
-                print("Error searching for media with searchText '\(searchText)': \(error)")
-                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"), message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
-                self.results = []
-                self.resultsText = NSLocalizedString("Error loading search results")
-                return
-            }
-            
-            guard let results = results else {
-                print("Error searching for media with searchText '\(searchText)'")
-                self.results = []
-                self.resultsText = NSLocalizedString("Error loading search results")
-                return
-            }
-            
-            var filteredResults = results
-            
-            // Filter out adult media from the search results
-            if !JFConfig.shared.showAdults {
-                filteredResults = results.filter { (searchResult: TMDBSearchResult) in
-                    // Only movie search results contain the adult flag
-                    if let movieResult = searchResult as? TMDBMovieSearchResult {
-                        return !movieResult.isAdult
-                    }
-                    return true
+        // Fetch the additional search results in the background
+        // TODO: Put some assertions in the API to ensure that it is not called on the main thread
+        Task {
+            do {
+                let (results, totalPages) = try await TMDBAPI.shared.searchMedia(searchText,
+                                                                                 includeAdult: JFConfig.shared.showAdults,
+                                                                                 fromPage: self.pagesLoaded + 1,
+                                                                                 toPage: self.pagesLoaded + 2)
+                
+                // Clear "Loading..." from the first search
+                DispatchQueue.main.async {
+                    self.resultsText = ""
                 }
-            }
-            // Remove search results with the same TMDB ID
-            let duplicates = Dictionary(grouping: filteredResults, by: \.id).filter({ $0.value.count > 1 }).flatMap({ $0.value.dropFirst() })
-            for duplicate in duplicates {
-                // Delete duplicates from last to first
-                let index = filteredResults.lastIndex(where: { $0.id == duplicate.id })
-                filteredResults.remove(at: index!)
-            }
-            DispatchQueue.main.async {
-                self.results.append(contentsOf: filteredResults)
-                self.pagesLoaded += 1
-                // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
-                self.allPagesLoaded = totalPages.map({ self.pagesLoaded >= $0 }) ?? false
-                if filteredResults.isEmpty {
-                    self.resultsText = NSLocalizedString("No results")
+                
+                // Create a mutable copy
+                var filteredResults = results
+                
+                // Filter out adult media from the search results
+                if !JFConfig.shared.showAdults {
+                    filteredResults = results.filter { (searchResult: TMDBSearchResult) in
+                        // Only movie search results contain the adult flag
+                        if let movieResult = searchResult as? TMDBMovieSearchResult {
+                            return !movieResult.isAdult
+                        }
+                        return true
+                    }
+                }
+                
+                // Remove search results with the same TMDB ID
+                filteredResults = filteredResults.duplicatesRemoved(key: \.id)
+                
+                // Create a non-mutable copy to use below
+                let finalResults = filteredResults
+                
+                // Add the results to the list
+                DispatchQueue.main.async {
+                    self.results.append(contentsOf: finalResults)
+                    self.pagesLoaded += 1
+                    // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
+                    self.allPagesLoaded = self.pagesLoaded >= totalPages
+                    if finalResults.isEmpty {
+                        self.resultsText = NSLocalizedString("No results")
+                    }
+                }
+            } catch TMDBAPI.APIError.pageOutOfBounds(_) {
+                DispatchQueue.main.async {
+                    // If the requested page was out of bounds, we stop displaying the "Load more results" button
+                    self.allPagesLoaded = true
+                }
+            } catch {
+                print("Error searching for media with searchText '\(searchText)': \(error)")
+                DispatchQueue.main.async {
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"),
+                                                 message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
+                    self.results = []
+                    self.resultsText = NSLocalizedString("Error loading search results")
                 }
             }
         }
