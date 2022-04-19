@@ -159,12 +159,16 @@ struct Utils {
     
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
-        return allObjects(entityName: "Genre", context: context).duplicatesRemoved(using: { $0.id == $1.id && $0.name == $1.name }).sorted(by: \.name)
+        return allObjects(entityName: "Genre", context: context)
+            .removingDuplicates(using: { $0.id == $1.id && $0.name == $1.name })
+            .sorted(by: \.name)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
-        return allObjects(entityName: "Media", context: context).duplicatesRemoved(key: \.id).sorted(by: \.id)
+        return allObjects(entityName: "Media", context: context)
+            .removingDuplicates(key: \.id)
+            .sorted(by: \.id)
     }
     
     /// Returns a list of all entities with the given name in the given context.

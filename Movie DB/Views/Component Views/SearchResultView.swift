@@ -16,28 +16,6 @@ struct SearchResultView : View {
     /// The image used as a thumbnail for the search results
     @State private var image: UIImage?
     
-    // View did appear
-    func didAppear() {
-        guard let imagePath = result.imagePath else {
-            print("\(result.title) has no thumbnail")
-            return
-        }
-        guard !Utils.posterBlacklist.contains(imagePath) else {
-            print("\(result.title) is blacklisted. Refusing to load thumbnail.")
-            return
-        }
-        let urlString = Utils.getTMDBImageURL(path: imagePath)
-        Utils.getRequest(urlString, parameters: [:]) { (data) in
-            guard let data = data else {
-                print("Error getting search result image")
-                return
-            }
-            DispatchQueue.main.async {
-                self.image = UIImage(data: data)
-            }
-        }
-    }
-    
     var body: some View {
         HStack {
             Image(uiImage: image, defaultImage: JFLiterals.posterPlaceholderName)
@@ -58,7 +36,30 @@ struct SearchResultView : View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .onAppear(perform: self.didAppear)
+        .task({ await loadImage() })
+    }
+    
+    func loadImage() async {
+        guard let imagePath = result.imagePath else {
+            print("\(result.title) has no thumbnail")
+            return
+        }
+        guard !Utils.posterBlacklist.contains(imagePath) else {
+            print("\(result.title) is blacklisted. Refusing to load thumbnail.")
+            return
+        }
+        
+        do {
+            let urlString = Utils.getTMDBImageURL(path: imagePath)
+            let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
+            
+            await MainActor.run {
+                self.image = UIImage(data: data)
+            }
+        } catch {
+            print(error)
+            // If we failed to load the search result image, we just silently fail
+        }
     }
 }
 

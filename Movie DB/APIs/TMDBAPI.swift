@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 
-class TMDBAPI {
+actor TMDBAPI {
     
     enum APIError: Error, Equatable {
         case unauthorized
@@ -282,6 +282,7 @@ class TMDBAPI {
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The data from the API call
     private func request(path: String, additionalParameters: [String: Any?] = [:]) async throws -> Data {
+        assert(!Thread.isMainThread)
         let url = "\(baseURL)/\(path)"
         var parameters: [String: Any?] = [
             "api_key": apiKey,

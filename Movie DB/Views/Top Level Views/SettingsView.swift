@@ -33,35 +33,12 @@ struct SettingsView: View {
             NavigationView {
                 Form {
                     Section {
-                        Toggle(isOn: $config.showAdults, label: Text("Show Adult Content").closure())
-                        Picker("Language", selection: $config.language) {
-                            if config.availableLanguages.isEmpty {
-                                Text("Loading...")
-                                    .task {
-                                        if config.availableLanguages.isEmpty {
-                                            // Load the TMDB Languages
-                                            do {
-                                                try await Utils.updateTMDBLanguages()
-                                            } catch {
-                                                DispatchQueue.main.async {
-                                                    print(error)
-                                                    AlertHandler.showSimpleAlert(title: "Error updating languages",
-                                                                                 message: "There was an error updating the available languages.")
-                                                }
-                                            }
-                                        }
-                                    }
-                            } else {
-                                ForEach(config.availableLanguages, id: \.self) { code in
-                                    Text(Locale.current.localizedString(forIdentifier: code) ?? code)
-                                        .tag(code)
-                                }
+                        Toggle("Show Adult Content", isOn: $config.showAdults)
+                        LanguagePickerView(config: config)
+                            .onChange(of: config.language) { languageCode in
+                                print("Language changed to \(languageCode)")
+                                self.languageChanged = true
                             }
-                        }
-                        .onChange(of: config.language) { languageCode in
-                            print("Language changed to \(languageCode)")
-                            self.languageChanged = true
-                        }
                     }
                     // MARK: - Buy Pro
                     if !Utils.purchasedPro() {
@@ -119,19 +96,11 @@ struct SettingsView: View {
                     Section(footer: self.footer()) {
                         
                         // MARK: - Reload Button
-                        Button("Reload Media") {
-                            Task {
-                                await self.reloadMedia()
-                            }
-                        }
+                        Button("Reload Media", action: self.reloadMedia)
                         
                         // MARK: - Update Button
-                        Button("Update Media") {
-                            Task {
-                                await self.updateMedia()
-                            }
-                        }
-                        .disabled(self.updateInProgress)
+                        Button("Update Media", action: self.updateMedia)
+                            .disabled(self.updateInProgress)
                         
                         // MARK: - Reset Button
                         Button("Reset Library", action: self.resetLibrary)
@@ -151,8 +120,45 @@ struct SettingsView: View {
                 if self.languageChanged {
                     AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"),
                                                 message: NSLocalizedString("Do you want to reload all media objects using the new language?"),
-                                                yesAction: { _ in Task { await self.reloadMedia() }})
+                                                yesAction: { _ in self.reloadMedia() })
                     self.languageChanged = false
+                }
+            }
+        }
+    }
+    
+    // MARK: - Views
+    struct LanguagePickerView: View {
+        
+        @ObservedObject var config: JFConfig
+        
+        var body: some View {
+            Picker("Language", selection: $config.language) {
+                if config.availableLanguages.isEmpty {
+                    Text("Loading...")
+                        .task({ await self.updateLanguages() })
+                } else {
+                    ForEach(config.availableLanguages, id: \.self) { code in
+                        let languageName = Locale.current.localizedString(forIdentifier: code) ?? code
+                        Text(languageName)
+                            .tag(code)
+                    }
+                }
+            }
+        }
+        
+        private func updateLanguages() async {
+            if config.availableLanguages.isEmpty {
+                // Load the TMDB Languages
+                do {
+                    try await Utils.updateTMDBLanguages()
+                } catch {
+                    await MainActor.run {
+                        print(error)
+                        AlertHandler.showSimpleAlert(
+                            title: "Error updating languages",
+                            message: "There was an error updating the available languages.")
+                    }
                 }
             }
         }
@@ -160,23 +166,23 @@ struct SettingsView: View {
     
     // MARK: - Button Functions
     
-    func reloadMedia() async {
+    func reloadMedia() {
         self.reloadInProgress = true
         
         // Perform the reload in the background on a different thread
-        Task.detached(priority: .background) {
+        Task {
             print("Starting reload...")
             do {
                 // Reload and show the result
                 try await self.library.reloadAll()
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.reloadInProgress = false
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Reload Completed"),
                                                  message: NSLocalizedString("All media objects have been reloaded."))
                 }
             } catch {
                 print("Error reloading media objects: \(error)")
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.reloadInProgress = false
                     AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
                 }
@@ -184,10 +190,10 @@ struct SettingsView: View {
         }
     }
     
-    func updateMedia() async {
+    func updateMedia() {
         self.updateInProgress = true
         // Execute the update in the background
-        Task.detached(priority: .background) {
+        Task {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
             do {
                 // Update the available TMDB Languages
@@ -196,7 +202,7 @@ struct SettingsView: View {
                 let updateCount = try await self.library.update()
                 
                 // Report back the result to the user on the main thread
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.updateInProgress = false
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"), message: String.localizedStringWithFormat(format, updateCount))
@@ -204,7 +210,7 @@ struct SettingsView: View {
             } catch {
                 print("Error updating media objects: \(error)")
                 // Update UI on the main thread
-                DispatchQueue.main.async {
+                await MainActor.run {
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
                     self.updateInProgress = false
                 }
@@ -224,6 +230,7 @@ struct SettingsView: View {
                 // continue with import
             }
         }
+        // TODO: Exchange logFile with real logger
         // Use iOS file picker
         self.documentPicker = DocumentPicker(onSelect: { url in
             print("Importing \(url.lastPathComponent).")
@@ -357,6 +364,8 @@ struct SettingsView: View {
             self.isLoading = true
             // Document picker finished. Invalidate it.
             self.documentPicker = nil
+            // TODO: Replace with actor to import the tags
+            // TODO: Same for media
             DispatchQueue.global().async {
                 // Load the CSV data and decode it
                 do {
