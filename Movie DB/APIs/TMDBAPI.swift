@@ -24,9 +24,6 @@ actor TMDBAPI {
     
     static let shared = TMDBAPI()
     
-    /// The base part of the TheMovieDB.org API URL
-    private let baseURL = "https://api.themoviedb.org/3"
-    
     private let apiKey: String = APIKeys.tmdbAPIKey
     /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
     var locale: String { JFConfig.shared.language }
@@ -104,8 +101,8 @@ actor TMDBAPI {
     /// - Returns: The changed TMDB IDs
     func fetchChangedIDs(from startDate: Date?, to endDate: Date) async throws -> [Int] {
         // Construct the request parameters for the date range
-        let dateRangeParameters: [String: Any?] = {
-            var dict: [String: Any?] = ["end_date": Utils.tmdbDateFormatter.string(from: endDate)]
+        let dateRangeParameters: [String: String?] = {
+            var dict: [String: String?] = ["end_date": Utils.tmdbDateFormatter.string(from: endDate)]
             if let startDate = startDate {
                 dict["start_date"] = Utils.tmdbDateFormatter.string(from: startDate)
             }
@@ -117,7 +114,7 @@ actor TMDBAPI {
             for type in MediaType.allCases {
                 // Fetch the changes for the current media type and return the child result
                 group.addTask {
-                    let (results, _) = try await self.multiPageRequest(path: "\(type.rawValue)/changes",
+                    let (results, _) = try await self.multiPageRequest(path: "/\(type.rawValue)/changes",
                                                                        additionalParameters: dateRangeParameters,
                                                                        pageWrapper: ResultsPageWrapper<MediaChangeWrapper>.self,
                                                                        // We use a disposable context since we only use the IDs from the results
@@ -150,14 +147,14 @@ actor TMDBAPI {
                      includeAdult: Bool = false,
                      fromPage: Int = 1,
                      toPage: Int = JFLiterals.maxSearchPages) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
-        try await self.multiPageRequest(path: "search/multi", additionalParameters: [
+        try await self.multiPageRequest(path: "/search/multi", additionalParameters: [
             "query": query,
-            "include_adult": includeAdult
+            "include_adult": String(includeAdult)
         ], fromPage: fromPage, toPage: toPage, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext)
     }
     
     func getTMDBLanguageCodes() async throws -> [String] {
-        try await self.decodeAPIURL(path: "configuration/primary_translations", as: [String].self, context: disposableContext)
+        try await self.decodeAPIURL(path: "/configuration/primary_translations", as: [String].self, context: disposableContext)
     }
     
     // MARK: - Private functions
@@ -172,7 +169,7 @@ actor TMDBAPI {
     /// - Returns: The accumulated results of the API calls
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(
         path: String,
-        additionalParameters: [String: Any?] = [:],
+        additionalParameters: [String: String?] = [:],
         fromPage: Int = 1,
         toPage: Int = .max,
         pageWrapper: PageWrapper.Type,
@@ -188,7 +185,7 @@ actor TMDBAPI {
 
             // Fetch the JSON in the background
             // TODO: async let
-            let data = try await self.request(path: path, additionalParameters: additionalParameters.merging(["page": fromPage]))
+            let data = try await self.request(path: path, additionalParameters: additionalParameters.merging(["page": String(fromPage)]))
             // Decode on the child context thread
             let wrapper = try await childContext.perform {
                 return try decoder.decode(PageWrapper.self, from: data)
@@ -212,7 +209,7 @@ actor TMDBAPI {
                 for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
                     // Fetch the page
                     group.addTask {
-                        let newParameters = additionalParameters.merging(["page": page])
+                        let newParameters = additionalParameters.merging(["page": String(page)])
                         // Make the request
                         let data = try await self.request(path: path, additionalParameters: newParameters)
                         // Decode the data in the context's thread
@@ -246,7 +243,7 @@ actor TMDBAPI {
         // We don't need to create a background context since this function is private and the caller will already have created a background context
         let parameters = ["append_to_response": "keywords,translations,videos,credits,aggregate_credits"]
         return try await decodeAPIURL(
-            path: "\(type.rawValue)/\(id)",
+            path: "/\(type.rawValue)/\(id)",
             additionalParameters: parameters,
             as: TMDBData.self,
             context: context,
@@ -262,7 +259,7 @@ actor TMDBAPI {
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
     private func decodeAPIURL<T: Decodable>(path: String,
-                                 additionalParameters: [String: Any?] = [:],
+                                 additionalParameters: [String: String?] = [:],
                                  as type: T.Type, context: NSManagedObjectContext,
                                  userInfo: [CodingUserInfoKey: Any] = [:]) async throws -> T {
         // Load the JSON on a background thread
@@ -278,14 +275,23 @@ actor TMDBAPI {
     
     /// Performs an API GET request and returns the data
     /// - Parameters:
-    ///   - path: The API URL path
+    ///   - path: The API URL path, including a `/`-prefix
     ///   - additionalParameters: Additional parameters to use for the API call
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The data from the API call
-    private func request(path: String, additionalParameters: [String: Any?] = [:]) async throws -> Data {
+    private func request(path: String, additionalParameters: [String: String?] = [:]) async throws -> Data {
+        // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
-        let url = "\(baseURL)/\(path)"
-        var parameters: [String: Any?] = [
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.themoviedb.org"
+        components.path = "/3\(path)"
+        components.queryItems = [
+            URLQueryItem(name: "api_key", value: apiKey),
+            URLQueryItem(name: "language", value: locale)
+        ]
+       
+        var parameters: [String: String?] = [
             "api_key": apiKey,
             "language": locale
         ]
@@ -295,19 +301,11 @@ actor TMDBAPI {
         }
         // Overwrite existing keys
         parameters.merge(additionalParameters)
+        components.queryItems = parameters.map(URLQueryItem.init)
         
-        // MARK: URL Request
-        // Build URL String
-        // TODO: Do with components
-        var urlStringWithParameters = "\(url)"
-        // We should only append the '?', if we really have parameters
-        if !parameters.isEmpty {
-            urlStringWithParameters += "?\(parameters.percentEscaped())"
-        }
-        var request = URLRequest(url: URL(string: urlStringWithParameters)!)
-        request.httpMethod = "GET"
+        var request = URLRequest(url: components.url!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("Making GET Request to \(urlStringWithParameters)")
+        print("Making GET Request to \(components.url!)")
         #if DEBUG
         // In Debug mode, always load the URL, never use the cache
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -324,8 +322,8 @@ actor TMDBAPI {
             throw APIError.unauthorized
         }
                 
-        // Any other error
-        guard httpResponse.statusCode == 200 else {
+        // Status codes 2xx are ok
+        guard 200...299 ~= httpResponse.statusCode else {
             print("API Request returned status code \(httpResponse.statusCode).")
             print("Headers: \(httpResponse.allHeaderFields)")
             print("Body: \(String(data: data, encoding: .utf8) ?? "nil")")
