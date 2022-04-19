@@ -1,4 +1,11 @@
 APIKeys.swift
+
+# License-plist
+**/Settings.bundle/com.mono0926.LicensePlist
+**/Settings.bundle/com.mono0926.LicensePlist.latest_result.txt
+**/Settings.bundle/com.mono0926.LicensePlist.plist
+
+
 # Created by https://www.gitignore.io/api/swift,xcode,macos
 # Edit at https://www.gitignore.io/?templates=swift,xcode,macos
 
