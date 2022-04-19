@@ -38,7 +38,7 @@ struct TagImporter {
                 _ = Tag(name: name, context: context)
             }
         }
-        PersistenceController.saveContext(context: context)
+        PersistenceController.saveContext(context)
     }
     
 }

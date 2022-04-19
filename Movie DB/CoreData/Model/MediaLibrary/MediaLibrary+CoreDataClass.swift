@@ -69,7 +69,7 @@ public class MediaLibrary: NSManagedObject {
         // After they all have been updated without errors, we can update the lastUpdate property
         self.lastUpdated = .now
         // Save the updated media into the parent context (viewContext)
-        PersistenceController.saveContext(context: updateContext)
+        await PersistenceController.saveContext(updateContext)
         return updateCount
     }
     
@@ -150,7 +150,8 @@ public class MediaLibrary: NSManagedObject {
             // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
         }
         // Reset the ID counter for the media objects
-        PersistenceController.saveContext(context: libraryContext)
+        // TODO: Make async
+        PersistenceController.saveContext(libraryContext)
     }
     
     func mediaCount() -> Int? {

@@ -52,20 +52,21 @@ actor TMDBAPI {
         let childContext = context.newBackgroundContext()
         // Get the TMDB Data using the child context
         let tmdbData = try await self.fetchTMDBData(for: id, type: type, context: childContext)
-        return await childContext.perform {
+        let childMedia: Media = await childContext.perform {
             // Create the media in the child context
-            var media: Media!
+            let media: Media
             switch type {
-            case .movie:
-                media = Movie(context: childContext, tmdbData: tmdbData)
-            case .show:
-                media = Show(context: childContext, tmdbData: tmdbData)
+                case .movie:
+                    media = Movie(context: childContext, tmdbData: tmdbData)
+                case .show:
+                    media = Show(context: childContext, tmdbData: tmdbData)
             }
-            // Save the changes (the new media object) into the parent context
-            PersistenceController.saveContext(context: childContext)
-            // Return the object inside the parent context as the result
-            return context.object(with: media.objectID) as! Media
+            return media
         }
+        // Save the changes (the new media object) into the parent context (synchronous)
+        await PersistenceController.saveContext(childContext)
+        // Return the object inside the parent context as the result
+        return context.object(with: childMedia.objectID) as! Media
     }
     
     /// Updates the given media object by re-loading the TMDB data
@@ -90,9 +91,9 @@ actor TMDBAPI {
             }
             // Update the media object and thumbnail
             bgMedia.update(tmdbData: tmdbData)
-            // Save the changes to the parent context
-            PersistenceController.saveContext(context: childContext)
         }
+        // Save the changes to the parent context
+        await PersistenceController.saveContext(childContext)
     }
     
     /// Loads the TMDB IDs of all media objects changed in the given timeframe
@@ -230,7 +231,7 @@ actor TMDBAPI {
             }
             
             // Save the changes to the parent context
-            PersistenceController.saveContext(context: childContext)
+            await PersistenceController.saveContext(childContext)
             // Return the results from page 1 + the additional results loaded from the other pages
             return (wrapper.results + additionalResults, wrapper.totalPages)
     }

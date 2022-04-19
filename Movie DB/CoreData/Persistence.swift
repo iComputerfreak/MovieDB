@@ -46,14 +46,6 @@ struct PersistenceController {
         NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: container.viewContext)
     }
     
-    /// Saves the shared viewContext
-    func saveContext () {
-        print("========================")
-        print("SAVING CORE DATA CONTEXT")
-        print("========================")
-        PersistenceController.saveContext(context: container.viewContext)
-    }
-    
     // MARK: - Static Properties and Functions
     
     /// The main instance of the PersistenceController
@@ -119,15 +111,26 @@ struct PersistenceController {
     // MARK: Saving
     
     /// Saves the shared viewContext
+    func saveContext() {
+        Task {
+            print("========================")
+            print("SAVING CORE DATA CONTEXT")
+            print("========================")
+            await PersistenceController.saveContext(container.viewContext)
+        }
+    }
+    
+    /// Saves the shared viewContext
     static func saveContext(file: String = #file, line: Int = #line) {
         print("Saving shared viewContext from \(file):\(line)")
         shared.saveContext()
     }
     
     /// Saves the given context if it has been modified since the last save
+    /// Performs the save operation synchronous and returns when it was completed.
     /// - Parameter context: The `NSManagedObjectContext` to save
     @available(*, deprecated, renamed: "saveContext(_:file:line:)")
-    static func saveContext(context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
+    static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
         print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
@@ -148,8 +151,9 @@ struct PersistenceController {
         }
     }
     
-    // TODO: Either always use the new, async save function or rename both
-    
+    /// Saves the given context if it has been modified since the last save
+    /// Performs the save operation asynchronous
+    /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) async {
         print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions

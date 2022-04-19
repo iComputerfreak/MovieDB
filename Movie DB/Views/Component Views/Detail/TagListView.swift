@@ -110,7 +110,10 @@ struct TagListView: View {
                             let tag = self.sortedTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
                             self.managedObjectContext.delete(tag)
-                            PersistenceController.saveContext(context: self.managedObjectContext)
+                            // Save asynchronous
+                            Task {
+                                await PersistenceController.saveContext(self.managedObjectContext)
+                            }
                         }
                     })
                 }

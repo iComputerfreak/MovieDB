@@ -273,10 +273,17 @@ struct SettingsView: View {
                                 self.showImportLog(importLog)
                             }))
                             controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"), style: .default, handler: { _ in
-                                // Make the changes to this context permanent by saving them to disk
-                                PersistenceController.saveContext(context: importContext)
-                                importLog.append("[Info] Import complete.")
-                                self.showImportLog(importLog)
+                                // Make an immutable copy (TODO: Replace when using real logger)
+                                let importLog = importLog
+                                Task {
+                                    // Make the changes to this context permanent by saving them to disk
+                                    await PersistenceController.saveContext(importContext)
+                                    await MainActor.run {
+                                        // TODO: Replace when using real logger
+                                        let finalLog = importLog + ["[Info] Import complete."]
+                                        self.showImportLog(finalLog)
+                                    }
+                                }
                             }))
                             self.isLoading = false
                             // Reset the loading text
@@ -386,7 +393,9 @@ struct SettingsView: View {
                                 context.name = "Tag Import Context"
                                 do {
                                     try TagImporter.import(importData, into: context)
-                                    PersistenceController.saveContext(context: context)
+                                    Task {
+                                        await PersistenceController.saveContext(context)
+                                    }
                                 } catch {
                                     print(error)
                                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"), message: error.localizedDescription)

@@ -270,6 +270,7 @@ extension Utils {
             return displayString1.lexicographicallyPrecedes(displayString2)
         })
         // TODO: Executed on correct thread?
+        // TODO: Make JFConfig an actor
         JFConfig.shared.availableLanguages = sortedCodes
         return sortedCodes
     }
@@ -293,15 +294,15 @@ extension Utils {
     static func fskColor(_ rating: FSKRating) -> Color {
         switch rating {
             case .noRestriction:
-                return Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0)
+                return Color("NoRestriction")
             case .ageSix:
-                return Color(red: 255.0/255.0, green: 242.0/255.0, blue: 0.0/255.0)
+                return Color("AgeSix")
             case .ageTwelve:
-                return Color(red: 51.0/255.0, green: 255.0/255.0, blue: 0.0/255.0)
+                return Color("AgeTwelve")
             case .ageSixteen:
-                return Color(red: 51.0/255.0, green: 217.0/255.0, blue: 255.0/255.0)
+                return Color("AgeSixteen")
             case .ageEighteen:
-                return Color(red: 255.0/255.0, green: 0.0/255.0, blue: 0.0/255.0)
+                return Color("AgeEighteen")
         }
     }
     
