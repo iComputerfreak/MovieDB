@@ -15,8 +15,6 @@ struct MediaDetail : View {
     @Environment(\.editMode) private var editMode
     
     var body: some View {
-        // Group is needed so swift can infer the return type
-        //Group {
         if mediaObject.isFault {
             Text("Error loading media")
                 .navigationTitle("Error")
@@ -28,16 +26,15 @@ struct MediaDetail : View {
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())
-        //}
-        .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())
-        .onAppear {
-            // If there is no thumbnail, try to download it again
-            // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
-            if mediaObject.thumbnail == nil {
-                mediaObject.loadThumbnailAsync()
+            .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
+            .navigationBarItems(trailing: EditButton())
+            .task {
+                // If there is no thumbnail, try to download it again
+                // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
+                if mediaObject.thumbnail == nil {
+                    await mediaObject.loadThumbnail()
+                }
             }
-        }
         }
     }
 }

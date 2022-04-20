@@ -174,7 +174,7 @@ struct CSVManager {
             media.creationDate = creationDate
         }
         
-        media.loadThumbnailAsync()
+        await media.loadThumbnail()
         
         return media
     }

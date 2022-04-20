@@ -50,8 +50,8 @@ struct SearchResultView : View {
         }
         
         do {
-            let urlString = Utils.getTMDBImageURL(path: imagePath)
-            let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
+            let url = Utils.getTMDBImageURL(path: imagePath)
+            let (data, _) = try await URLSession.shared.data(from: url)
             
             await MainActor.run {
                 self.image = UIImage(data: data)

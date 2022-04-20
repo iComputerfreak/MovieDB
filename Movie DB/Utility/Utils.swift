@@ -229,14 +229,15 @@ extension Utils {
     /// - Parameters:
     ///   - path: The path of the image
     ///   - size: The size of the image
-    static func getTMDBImageURL(path: String, size: Int = 500) -> String {
+    static func getTMDBImageURL(path: String, size: Int = 500) -> URL {
+        // Don't load blacklisted images (should be checked before calling this function and replace with a placeholder image)
         guard !posterBlacklist.contains(path) else {
             print("Poster path \(path) is blacklisted. Not fetching.")
             assertionFailure("This should have been prevented from being called for blacklisted poster paths in the first place.")
             // As a fallback, load the placeholder as thumbnail
-            return "https://www.jonasfrey.de/appdata/PosterPlaceholder.png"
+            return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
         }
-        return "https://image.tmdb.org/t/p/w\(size)/\(path)"
+        return URL(string: "https://image.tmdb.org/t/p/w\(size)/\(path)")!
     }
     
     /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string

@@ -43,6 +43,7 @@ struct SeasonsInfo: View {
         }
     }
     
+    // TODO: Make async
     func loadSeasonThumbnails() {
         guard let show = mediaObject as? Show else { return }
         guard !show.seasons.isEmpty else {
@@ -51,7 +52,7 @@ struct SeasonsInfo: View {
         print("Loading season thumbnails for \(show.title)")
         for season in show.seasons {
             if let imagePath = season.imagePath {
-                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath)) { (image) in
+                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { (image) in
                     DispatchQueue.main.async {
                         self.seasonThumbnails[season.id] = image
                     }

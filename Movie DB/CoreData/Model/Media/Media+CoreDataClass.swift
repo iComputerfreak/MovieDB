@@ -83,6 +83,7 @@ public class Media: NSManagedObject {
     // MARK: - Functions
     
     /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
+    @available(*, deprecated, message: "Use async version instead")
     func loadThumbnailAsync(force: Bool = false) {
         guard thumbnail == nil || force else {
             // Thumbnail already present, don't download again, overridden with force parameter
@@ -98,13 +99,52 @@ public class Media: NSManagedObject {
             return
         }
         print("[\(self.title)] Loading thumbnail...")
-        Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath)) { image in
+        Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { image in
             // Only update, if the image is not nil, dont delete existing images
             if let image = image, let context = self.managedObjectContext {
                 let thumbnail = Thumbnail(context: context, pngData: image.pngData())
                 DispatchQueue.main.async {
                     self.thumbnail = thumbnail
                 }
+            }
+        }
+    }
+    
+    // TODO: Loading is not happening on background thread. Maybe use a store actor?
+    func loadThumbnail(force: Bool = false) async {
+        guard thumbnail == nil || force else {
+            // Thumbnail already present, don't download again, unless force parameter is given
+            return
+        }
+        guard let imagePath = imagePath, !imagePath.isEmpty else {
+            // No image path set means no image to load
+            return
+        }
+        // If the image is blacklisted, delete it and don't reload
+        guard !Utils.posterBlacklist.contains(imagePath) else {
+            print("[\(self.title)] Thumbnail is blacklisted. Will not load.")
+            // Use the placeholder image instead
+            self.thumbnail = Thumbnail(context: self.managedObjectContext!,
+                                       pngData: UIImage(named: "PosterPlaceholder")?.pngData())
+            return
+        }
+        print("[\(self.title)] Loading thumbnail...")
+        
+        let url = Utils.getTMDBImageURL(path: imagePath)
+        let result = try? await URLSession.shared.data(from: url)
+        
+        // If we get a non-200 response and invalid image data, we fail silently below by not being able to construct
+        // an image from the data
+        
+        // Only update, if the loaded image is not nil, dont delete existing images
+        if
+            let data = result?.0,
+            let image = UIImage(data: data),
+            let context = self.managedObjectContext
+        {
+            let thumbnail = Thumbnail(context: context, pngData: image.pngData())
+            await MainActor.run {
+                self.thumbnail = thumbnail
             }
         }
     }

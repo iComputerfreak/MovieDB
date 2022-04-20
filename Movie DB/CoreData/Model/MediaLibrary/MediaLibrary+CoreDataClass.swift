@@ -115,29 +115,25 @@ public class MediaLibrary: NSManagedObject {
         // Reload all media objects using a task group
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
-                group.addTask {
+                _ = group.addTaskUnlessCancelled {
                     try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
-                    // We need to download the thumbnail again on the view context (i.e. the library's context)
-                    // TODO: This needs to happen after the context save (the new thumbnail url is not yet in the main context)
-                    DispatchQueue.main.async {
-                        assert(self.managedObjectContext != nil)
-                        // TODO: Should not have to be executed on main thread (only the final assignment)
-                        if let mainMedia = self.libraryContext.object(with: media.objectID) as? Media {
-                            // Call it on the media object in the viewContext, not on the mediaObject in the background context
-                            mainMedia.loadThumbnailAsync(force: true)
-                        } else {
-                            assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
-                        }
-                    }
                 }
             }
-            // Wait for all tasks to finish and rethrow any errors
+            // Wait for all tasks to finish updating the media objects and rethrow any errors
             try await group.waitForAll()
+            // Save the reloaded media into the parent context (viewContext)
+            await PersistenceController.saveContext(reloadContext)
+            // Reload the thumbnails of all updated media objects in the main context
+            for media in medias {
+                _ = group.addTaskUnlessCancelled {
+                    let mainMedia = await self.libraryContext.perform {
+                        self.libraryContext.object(with: media.objectID) as? Media
+                    }
+                    await mainMedia?.loadThumbnail(force: true)
+                }
+            }
+            // We don't need to wait for all the thumbnails to finish loading, we can just exit here
         }
-        // Save the reloaded media into the parent context (viewContext)
-        await PersistenceController.saveContext(reloadContext)
-        // Reload the thumbnails of all updated media objects in the main context
-        // TODO: Reload thumbnails async (but update the result on the main thread)
     }
     
     /// Resets the library, deleting all media objects and resetting the nextID property

@@ -34,12 +34,13 @@ struct CastInfo: View {
         }
     }
     
+    // TODO: Make async
     func loadPersonThumbnails() {
         print("Loading person thumbnails for \(mediaObject.title)")
         DispatchQueue.global(qos: .userInteractive).async {
             for member in mediaObject.cast {
                 if let imagePath = member.imagePath {
-                    Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath)) { (image) in
+                    Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { (image) in
                         DispatchQueue.main.async {
                             self.personThumbnails[member.id] = image
                         }
