@@ -292,7 +292,7 @@ actor TMDBAPI {
             URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "language", value: locale)
         ]
-       
+        
         // MARK: Collect parameters
         var parameters: [String: String?] = [
             "api_key": apiKey,
@@ -328,7 +328,7 @@ actor TMDBAPI {
             print(httpResponse)
             throw APIError.unauthorized
         }
-                
+        
         // Status codes 2xx are ok
         guard 200...299 ~= httpResponse.statusCode else {
             print("API Request returned status code \(httpResponse.statusCode).")

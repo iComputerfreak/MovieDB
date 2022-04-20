@@ -24,7 +24,8 @@ struct SettingsView: View {
     @State private var documentPicker: DocumentPicker?
     @State private var isLoading: Bool = false
     @State private var loadingText: String? = nil
-    @State private var importLog: [String]? = nil
+    @State private var importLogger: TagImporter.BasicLogger? = nil
+    @State private var importLogShowing: Bool = false
     @State private var languageChanged: Bool = false
     @State private var isShowingProInfo: Bool = false
     
@@ -77,17 +78,17 @@ struct SettingsView: View {
                         Button("Import Tags", action: self.importTags)
                             // MARK: Import Log Popover
                             .popover(isPresented: .init(get: {
-                                self.importLog != nil
+                                self.importLogger != nil
                             }, set: { (enabled) in
                                 if enabled {
-                                    if self.importLog == nil {
-                                        self.importLog = []
+                                    if self.importLogger == nil {
+                                        self.importLogger = .init()
                                     }
                                 } else {
-                                    self.importLog = nil
+                                    self.importLogger = nil
                                 }
                             })) {
-                                ImportLogViewer(log: self.$importLog)
+                                ImportLogViewer(logger: self.importLogger!)
                             }
                         
                         // MARK: - Export Tags
@@ -241,10 +242,11 @@ struct SettingsView: View {
             // Perform the import into a separate context on a background thread
             PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
                 // Set the merge policy to not override existing data
+                // TODO: Maybe we should?
                 importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
                 importContext.name = "Import Context"
-                // The log containing all errors and information about the import
-                var importLog: [String] = []
+                // Initialize the logger
+                self.importLogger = .init()
                 // Load the CSV data
                 do {
                     let csvString = try String(contentsOf: url)
@@ -253,11 +255,11 @@ struct SettingsView: View {
                         // Update the loading view
                         self.loadingText = "Loading \(progress) media objects..."
                     }, onFail: { log in
-                        importLog = log
-                        importLog.append("[FATAL] Importing failed!")
-                        self.showImportLog(importLog)
+                        importLogger?.log(contentsOf: log, level: .info)
+                        importLogger?.critical("Importing failed!")
+                        self.importLogShowing = true
                     }, onFinish: { (mediaObjects, log) in
-                        importLog = log
+                        importLogger?.log(contentsOf: log, level: .info)
                         // Presenting will change UI
                         DispatchQueue.main.async {
                             // TODO: Tell the user how many duplicates were not added
@@ -269,19 +271,18 @@ struct SettingsView: View {
                             controller.addAction(UIAlertAction(title: NSLocalizedString("Undo"), style: .destructive, handler: { _ in
                                 // Reset all the work we have just done
                                 importContext.reset()
-                                importLog.append("[Info] Undoing import. All imported objects removed.")
-                                self.showImportLog(importLog)
+                                importLogger?.info("Undoing import. All imported objects removed.")
+                                self.importLogShowing = true
                             }))
                             controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"), style: .default, handler: { _ in
-                                // Make an immutable copy (TODO: Replace when using real logger)
-                                let importLog = importLog
                                 Task {
                                     // Make the changes to this context permanent by saving them to disk
                                     await PersistenceController.saveContext(importContext)
                                     await MainActor.run {
                                         // TODO: Replace when using real logger
-                                        let finalLog = importLog + ["[Info] Import complete."]
-                                        self.showImportLog(finalLog)
+                                        // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
+                                        self.importLogger?.info("Import complete.")
+                                        self.importLogShowing = true
                                     }
                                 }
                             }))
@@ -310,11 +311,6 @@ struct SettingsView: View {
         UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
         #endif
         
-    }
-    
-    func showImportLog(_ log: [String]) {
-        // Present the import Log as a separate view controller
-        self.importLog = log
     }
     
     func exportMedia() {
@@ -373,6 +369,7 @@ struct SettingsView: View {
             self.documentPicker = nil
             // TODO: Replace with actor to import the tags
             // TODO: Same for media
+            
             DispatchQueue.global().async {
                 // Load the CSV data and decode it
                 do {
@@ -518,16 +515,14 @@ struct SettingsView: View {
     
     struct ImportLogViewer: View {
         
-        let log: Binding<[String]?>
+        let logger: TagImporter.BasicLogger
         
-        var logText: String {
-            log.wrappedValue?.joined(separator: "\n") ?? ""
-        }
+        @Environment(\.presentationMode) var presentationMode
         
         var body: some View {
             NavigationView {
                 ScrollView {
-                    Text(logText)
+                    Text(logger.log)
                         .lineLimit(nil)
                         .padding()
                         .font(.footnote)
@@ -537,12 +532,12 @@ struct SettingsView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Close") {
-                            self.log.wrappedValue = nil
+                            self.presentationMode.wrappedValue.dismiss()
                         }
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Copy") {
-                            UIPasteboard.general.string = logText
+                            UIPasteboard.general.string = logger.log
                         }
                     }
                 }

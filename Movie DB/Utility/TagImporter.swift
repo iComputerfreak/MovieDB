@@ -10,7 +10,9 @@ import Foundation
 import CoreData
 
 /// Represents a utility struct that ex- or imports tags from and to the TagLibrary
-struct TagImporter {
+actor TagImporter {
+    
+    let logger = BasicLogger()
     
     /// Exports all tags as a newline separated string
     /// - Returns: The exported tags
@@ -39,6 +41,51 @@ struct TagImporter {
             }
         }
         PersistenceController.saveContext(context)
+    }
+    
+    class BasicLogger {
+        
+        enum LogLevel: String {
+            case debug, info, warning, error, critical
+        }
+        
+        private var _log: [String]
+        
+        var log: String {
+            return _log.joined(separator: "\n")
+        }
+        
+        init() {
+            self._log = []
+        }
+        
+        func debug(_ message: String) {
+            log(message, level: .debug)
+        }
+        
+        func info(_ message: String) {
+            log(message, level: .info)
+        }
+        
+        func warn(_ message: String) {
+            log(message, level: .warning)
+        }
+        
+        func error(_ message: String) {
+            log(message, level: .error)
+        }
+        
+        func critical(_ message: String) {
+            log(message, level: .critical)
+        }
+        
+        func log(_ message: String, level: LogLevel) {
+            log(contentsOf: [message], level: level)
+        }
+        
+        func log(contentsOf log: [String], level: LogLevel) {
+            _log.append(contentsOf: log.map({ "[\(level.rawValue.uppercased())] \($0)" }))
+        }
     }
     
 }
