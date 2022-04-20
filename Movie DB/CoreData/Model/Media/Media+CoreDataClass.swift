@@ -61,6 +61,7 @@ public class Media: NSManagedObject {
     
     func transferIntoContext<T: NSManagedObject>(_ objects: [T]) -> [T] {
         // Make sure to use the objects from the correct context
+        // swiftlint:disable:next force_cast
         return objects.map({ managedObjectContext!.object(with: $0.objectID) as! T })
     }
     

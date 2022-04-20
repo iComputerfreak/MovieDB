@@ -19,13 +19,14 @@ struct PlaceholderData {
     
     static let allTags: [Tag] = fetchAll()
     
-    
     private static func fetchFirst<T: NSManagedObject>() -> T {
         fetchAll().first!
     }
     
     private static func fetchAll<T: NSManagedObject>() -> [T] {
         let fetchRequest: NSFetchRequest<T> = NSFetchRequest(entityName: T.entity().name!)
+        // Only used in Previews
+        // swiftlint:disable:next force_try
         return try! viewContext.fetch(fetchRequest)
     }
     

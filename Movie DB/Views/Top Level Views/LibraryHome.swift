@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-struct LibraryHome : View {
+struct LibraryHome: View {
     
     enum ActiveSheet: Identifiable {
         case addMedia
@@ -22,10 +22,10 @@ struct LibraryHome : View {
     // The filter setting
     @ObservedObject private var filterSetting = FilterSetting.shared
     
-    @State private var activeSheet: ActiveSheet? = nil
+    @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    //@StateObject var searchBar: SearchBar = SearchBar()
+//    @StateObject var searchBar: SearchBar = SearchBar()
     @State private var searchText: String = ""
     
     @State private var sortingOrder: SortingOrder = {
@@ -51,7 +51,7 @@ struct LibraryHome : View {
     
     var body: some View {
         // Use the proxy to scroll to a specific item after adding it
-        ScrollViewReader { proxy in
+        ScrollViewReader { _ in
             NavigationView {
                 VStack {
                     // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
@@ -63,14 +63,14 @@ struct LibraryHome : View {
                 // Display the currently active sheet
                 .sheet(item: $activeSheet) { sheet in
                     switch sheet {
-                        case .addMedia:
-                            AddMediaView()
-                                .environment(\.managedObjectContext, managedObjectContext)
-                        case .filter:
-                            FilterView()
-                                .environment(\.managedObjectContext, managedObjectContext)
+                    case .addMedia:
+                        AddMediaView()
+                            .environment(\.managedObjectContext, managedObjectContext)
+                    case .filter:
+                        FilterView()
+                            .environment(\.managedObjectContext, managedObjectContext)
                         // FUTURE: Open new item in editing mode
-                        //.sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
+//                        .sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                     }
                 }
                 
@@ -123,7 +123,7 @@ struct LibraryHome : View {
     private struct MenuLabel: View {
         
         let title: String
-        @State var image: Image? = nil
+        @State var image: Image?
         
         var body: some View {
             HStack {
@@ -142,7 +142,7 @@ struct LibraryHome : View {
 }
 
 #if DEBUG
-struct LibraryHome_Previews : PreviewProvider {
+struct LibraryHome_Previews: PreviewProvider {
     static var previews: some View {
         LibraryHome()
     }

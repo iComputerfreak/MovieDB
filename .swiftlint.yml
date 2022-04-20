@@ -1,0 +1,22 @@
+# By default, SwiftLint uses a set of sensible default rules you can adjust:
+disabled_rules:
+  - line_length
+  - identifier_name
+  - todo
+  - type_name
+  # re-enable
+  - cyclomatic_complexity
+  - function_body_length
+  - inclusive_language
+  - file_length
+  - type_body_length
+opt_in_rules: # some rules are turned off by default, so you need to opt-in
+  - empty_count # Find all the available rules by running: `swiftlint rules`
+
+force_cast: warning
+force_try: warning
+
+trailing_whitespace:
+  ignores_empty_lines: true
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

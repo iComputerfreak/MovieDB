@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension CastMember {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CastMember> {
@@ -32,6 +31,4 @@ extension CastMember {
 
 }
 
-extension CastMember : Identifiable {
-
-}
+extension CastMember: Identifiable {}

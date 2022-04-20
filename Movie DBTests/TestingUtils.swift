@@ -10,6 +10,10 @@ import XCTest
 import CoreData
 @testable import Movie_DB
 
+// swiftlint:disable private_over_fileprivate
+// swiftlint:disable function_body_length
+// swiftlint:disable function_parameter_count
+
 struct TestingUtils {
     
     let context: NSManagedObjectContext
@@ -49,7 +53,7 @@ struct TestingUtils {
             Tag(name: "Gangsters", context: context),
             Tag(name: "Terrorist", context: context),
             Tag(name: "Past", context: context),
-            Tag(name: "Fantasy", context: context),
+            Tag(name: "Fantasy", context: context)
         ]
         self.previewTags = previewTags
         self.matrixMovie = {
@@ -98,7 +102,7 @@ struct TestingUtils {
     let previewTags: Set<Tag>
     let matrixMovie: Movie
     let fightClubMovie: Movie
-    let blacklistShow: Show
+    let blacklistShow: Show // swiftlint:disable:this inclusive_language
     let gameOfThronesShow: Show
     var mediaSamples: [Media]
     

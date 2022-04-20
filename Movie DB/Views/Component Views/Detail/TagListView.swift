@@ -67,7 +67,7 @@ struct TagListView: View {
                 let footerString = String.localizedStringWithFormat(footerFormatString, allTags.count)
                 Section(header: Text("Select all tags that apply"), footer: Text(footerString)) {
                     ForEach(self.sortedTags, id: \.id) { tag in
-                        Button(action: {
+                        Button {
                             if self.tags.contains(tag) {
                                 print("Removing Tag \(tag.name)")
                                 self.tags.remove(tag)
@@ -75,20 +75,20 @@ struct TagListView: View {
                                 print("Adding Tag \(tag.name)")
                                 self.tags.insert(tag)
                             }
-                        }) {
+                        } label: {
                             HStack {
                                 Image(systemName: "checkmark")
                                     .hidden(condition: !self.tags.contains(tag))
                                 Text(tag.name)
                                 Spacer()
-                                Button(action: {
+                                Button {
                                     // Rename
                                     let alert = UIAlertController(title: NSLocalizedString("Rename Tag"), message: NSLocalizedString("Enter a new name for the tag."), preferredStyle: .alert)
-                                    alert.addTextField() { textField in
+                                    alert.addTextField { textField in
                                         textField.autocapitalizationType = .words
                                     }
                                     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel, handler: { _ in }))
-                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Rename"), style: .default, handler: { action in
+                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Rename"), style: .default, handler: { _ in
                                         guard let textField = alert.textFields?.first else {
                                             return
                                         }
@@ -98,7 +98,7 @@ struct TagListView: View {
                                         tag.name = text
                                     }))
                                     AlertHandler.presentAlert(alert: alert)
-                                }) {
+                                } label: {
                                     Image(systemName: "pencil")
                                 }
                                 .foregroundColor(.blue)
@@ -122,12 +122,12 @@ struct TagListView: View {
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {
                 let alert = UIAlertController(title: NSLocalizedString("New Tag"), message: NSLocalizedString("Enter a name for the new tag."), preferredStyle: .alert)
-                alert.addTextField() { textField in
+                alert.addTextField { textField in
                     // Change textField properties
                     textField.autocapitalizationType = .words
                 }
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { _ in })
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { action in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { _ in
                     guard let textField = alert.textFields?.first else {
                         return
                     }
@@ -137,9 +137,9 @@ struct TagListView: View {
                     _ = Tag(name: text, context: self.managedObjectContext)
                 })
                 AlertHandler.presentAlert(alert: alert)
-            }) {
+            }, label: {
                 Image(systemName: "plus")
-            })
+            }))
         }
     }
 }

@@ -80,7 +80,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                     }
                 } else {
                 ForEach(self.values, id: \.self) { (value: SelectionValue) in
-                    Button(action: {
+                    Button {
                         if self.selection.contains(value) {
                             self.selection.removeAll(where: { $0 == value })
                             print("Removed \(value) to \(self.selection)")
@@ -88,7 +88,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                             self.selection.append(value)
                             print("Added \(value) to \(self.selection)")
                         }
-                    }) {
+                    } label: {
                         HStack {
                             Text(self.label(value))
                             Spacer()

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView : View {
+struct ContentView: View {
     
     @ObservedObject private var config: JFConfig = JFConfig.shared
     @StateObject private var storeManager = StoreManager.shared
@@ -40,7 +40,7 @@ struct ContentView : View {
 }
 
 #if DEBUG
-struct ContentView_Previews : PreviewProvider {
+struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }

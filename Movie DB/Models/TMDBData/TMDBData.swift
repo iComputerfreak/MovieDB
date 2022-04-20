@@ -157,6 +157,7 @@ struct TMDBData: Decodable, Hashable {
     private struct Translation: Codable, Hashable {
         var language: String
         
+        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case language = "english_name"
         }
@@ -166,6 +167,7 @@ struct TMDBData: Decodable, Hashable {
     private struct Keyword: Codable, Hashable {
         var keyword: String
         
+        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case keyword = "name"
         }
@@ -185,6 +187,7 @@ struct TMDBData: Decodable, Hashable {
         var isAdult: Bool
         var imdbID: String?
         
+        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case rawReleaseDate = "release_date"
             case runtime
@@ -213,6 +216,7 @@ struct TMDBData: Decodable, Hashable {
         var showType: ShowType?
         var networks: [ProductionCompany]
         
+        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case rawFirstAirDate = "first_air_date"
             case rawLastAirDate = "last_air_date"
@@ -226,5 +230,3 @@ struct TMDBData: Decodable, Hashable {
         }
     }
 }
-
-

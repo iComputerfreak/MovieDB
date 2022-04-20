@@ -78,7 +78,8 @@ public class MediaLibrary: NSManagedObject {
         // TODO: Fix duplicate TMDB IDs
         // New data has just been merged from iCloud. Check for duplicate Media IDs
         // TODO: Does passing the context like this work?
-        let context: NSManagedObjectContext = notification.object as! NSManagedObjectContext
+        // swiftlint:disable:next force_cast
+        let context = notification.object as! NSManagedObjectContext
         let allMedia = Utils.allMedias(context: context)
         let grouped = Dictionary(grouping: allMedia, by: \.id)
         for group in grouped.values {

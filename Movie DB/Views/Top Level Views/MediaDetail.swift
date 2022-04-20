@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MediaDetail : View {
+struct MediaDetail: View {
     
     @ObservedObject private var library = MediaLibrary.shared
     @EnvironmentObject private var mediaObject: Media
@@ -40,7 +40,7 @@ struct MediaDetail : View {
 }
 
 #if DEBUG
-struct MediaDetail_Previews : PreviewProvider {
+struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
         MediaDetail()
             .environmentObject(PlaceholderData.movie as Media)

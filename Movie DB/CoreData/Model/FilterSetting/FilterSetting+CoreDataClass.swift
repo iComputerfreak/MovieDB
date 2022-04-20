@@ -32,7 +32,6 @@ public class FilterSetting: NSManagedObject {
         self.statuses = []
     }
     
-    
     /// Builds a predicate that represents the current filter configuration
     /// - Returns: The `NSCompoundPredicate` representing the current filter configuration
     func predicate() -> NSPredicate {
@@ -61,7 +60,7 @@ public class FilterSetting: NSManagedObject {
                 // Movie
                 NSPredicate(format: "%K <= %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),
                 // Show
-                NSPredicate(format: "%K <= %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate),
+                NSPredicate(format: "%K <= %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate)
             ]))
         }
         if !self.statuses.isEmpty {
@@ -78,7 +77,7 @@ public class FilterSetting: NSManagedObject {
         if let numberOfSeasons = self.numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
-                NSPredicate(format: "%K == %@ AND %K < %d AND %K > %d", "type", MediaType.show.rawValue, "numberOfSeasons", numberOfSeasons.upperBound, "numberOfSeasons", numberOfSeasons.lowerBound),
+                NSPredicate(format: "%K == %@ AND %K < %d AND %K > %d", "type", MediaType.show.rawValue, "numberOfSeasons", numberOfSeasons.upperBound, "numberOfSeasons", numberOfSeasons.lowerBound)
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
@@ -173,5 +172,4 @@ public class FilterSetting: NSManagedObject {
         return (lowerProxy, upperProxy)
     }
 
-    
 }

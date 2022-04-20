@@ -118,7 +118,7 @@ struct Utils {
         return colorScheme == .light ? .black : .white
     }
     
-    static func loadImage(urlString: String, completion: @escaping (UIImage?) -> ()) {
+    static func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         print("Loading image from \(urlString)")
         Utils.getRequest(urlString, parameters: [:]) { (data) in
             guard let data = data else {
@@ -193,7 +193,6 @@ struct Utils {
         fetchRequest.fetchLimit = 1
         return try? context.fetch(fetchRequest).first
     }
-    
     
     /// An ISO8601 time string representing the current date and time. Safe to use in filenames
     /// - Parameter withTime: Whether to include the time
@@ -294,16 +293,16 @@ extension Utils {
     
     static func fskColor(_ rating: FSKRating) -> Color {
         switch rating {
-            case .noRestriction:
-                return Color("NoRestriction")
-            case .ageSix:
-                return Color("AgeSix")
-            case .ageTwelve:
-                return Color("AgeTwelve")
-            case .ageSixteen:
-                return Color("AgeSixteen")
-            case .ageEighteen:
-                return Color("AgeEighteen")
+        case .noRestriction:
+            return Color("NoRestriction")
+        case .ageSix:
+            return Color("AgeSix")
+        case .ageTwelve:
+            return Color("AgeTwelve")
+        case .ageSixteen:
+            return Color("AgeSixteen")
+        case .ageEighteen:
+            return Color("AgeEighteen")
         }
     }
     
@@ -318,7 +317,7 @@ extension Utils {
 ///   - x: The first object to compare
 ///   - y: The second object to compare
 /// - Returns: The smaller non-nil object. If both objects are nil, the function returns nil.
-func min<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
+func min<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
     if x == nil {
         return y
     }
@@ -333,7 +332,7 @@ func min<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
 ///   - x: The first object to compare
 ///   - y: The second object to compare
 /// - Returns: The bigger non-nil object. If both objects are nil, the function returns nil.
-func max<T>(_ x: T?, _ y: T?) -> T? where T : Comparable {
+func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
     if x == nil {
         return y
     }

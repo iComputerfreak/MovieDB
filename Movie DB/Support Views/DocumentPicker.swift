@@ -15,16 +15,16 @@ import SwiftUI
 final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     
     var urlToExport: URL?
-    var onSelect: (URL) -> ()
-    var onCancel: (() -> ())?
+    var onSelect: (URL) -> Void
+    var onCancel: (() -> Void)?
     
-    init(urlToExport: URL, onSelect: @escaping (URL) -> (), onCancel: (() -> ())?) {
+    init(urlToExport: URL, onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
         self.urlToExport = urlToExport
         self.onSelect = onSelect
         self.onCancel = onCancel
     }
     
-    init(onSelect: @escaping (URL) -> (), onCancel: (() -> ())?) {
+    init(onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
         self.urlToExport = nil
         self.onSelect = onSelect
         self.onCancel = onCancel

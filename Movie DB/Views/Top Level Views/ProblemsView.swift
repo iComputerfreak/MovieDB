@@ -32,8 +32,6 @@ struct ProblemsView: View {
         animation: nil
     ) private var missingInfoMedia: FetchedResults<Media>
     
-    
-    
     @State private var problems: [Media: Set<Media.MediaInformation>] = [:]
         
     var body: some View {

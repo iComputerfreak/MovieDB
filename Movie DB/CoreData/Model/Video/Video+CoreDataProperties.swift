@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Video {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Video> {
@@ -39,6 +38,4 @@ extension Video {
 
 }
 
-extension Video : Identifiable {
-
-}
+extension Video: Identifiable {}

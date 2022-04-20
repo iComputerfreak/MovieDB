@@ -10,6 +10,7 @@ import SwiftUI
 import CoreData
 
 /// The string representing a `nil` value in a `Picker`
+// swiftlint:disable:next private_over_fileprivate
 fileprivate let nilString = "any"
 
 struct FilterView: View {
@@ -243,7 +244,6 @@ fileprivate extension String {
     /// Whether this string is equal to the `nilString`
     var isNil: Bool { self == nilString }
 }
-
 
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {

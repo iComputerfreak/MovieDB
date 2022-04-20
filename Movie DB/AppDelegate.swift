@@ -67,7 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Add store manager as observer for changes
         SKPaymentQueue.default().add(StoreManager.shared)
         
-        
         return true
     }
 
@@ -90,4 +89,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

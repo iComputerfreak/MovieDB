@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SearchResultView : View {
+struct SearchResultView: View {
     
     /// The search result to display
     @ObservedObject var result: TMDBSearchResult
@@ -24,7 +24,7 @@ struct SearchResultView : View {
                 Text("\(result.title)")
                     .bold()
                 HStack {
-                    if (result.isAdultMovie ?? false) {
+                    if result.isAdultMovie ?? false {
                         Image(systemName: "a.square")
                     }
                     Text(result.mediaType == .movie ? NSLocalizedString("Movie") : NSLocalizedString("Series"))
@@ -64,19 +64,18 @@ struct SearchResultView : View {
 }
 
 #if DEBUG
-struct SearchResultView_Previews : PreviewProvider {
+struct SearchResultView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
                 List {
-                    ForEach(0..<5, id: \.self) { i in
+                    ForEach(0..<5, id: \.self) { _ in
                         SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
                             .background(Color.red)
                     }
                 }
                 .navigationTitle("Search Results")
             }
-            
             
             SearchResultView(result: TMDBMovieSearchResult(id: 0, title: "The Matrix", mediaType: .movie, imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", overview: "", originalTitle: "", originalLanguage: "", popularity: 0.0, voteAverage: 0.0, voteCount: 0, isAdult: true, releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
                 .background(Color.red)

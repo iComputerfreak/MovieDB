@@ -45,6 +45,7 @@ actor TagImporter {
     
     class BasicLogger {
         
+        // swiftlint:disable:next nesting
         enum LogLevel: String {
             case debug, info, warning, error, critical
         }

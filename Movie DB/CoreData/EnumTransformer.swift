@@ -49,7 +49,7 @@ public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransfor
         guard let enumValue = value as? EnumType else {
             fatalError("Trying to convert non-enum value \(value ?? "nil") using EnumTransformer<\(String(describing: EnumType.self))>")
         }
-        return NSNumber(integerLiteral: enumValue.rawValue)
+        return NSNumber(value: enumValue.rawValue)
     }
     
     public override func reverseTransformedValue(_ value: Any?) -> Any? {

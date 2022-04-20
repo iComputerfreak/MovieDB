@@ -53,16 +53,17 @@ actor TMDBAPI {
             // Create the media in the child context
             let media: Media
             switch type {
-                case .movie:
-                    media = Movie(context: childContext, tmdbData: tmdbData)
-                case .show:
-                    media = Show(context: childContext, tmdbData: tmdbData)
+            case .movie:
+                media = Movie(context: childContext, tmdbData: tmdbData)
+            case .show:
+                media = Show(context: childContext, tmdbData: tmdbData)
             }
             return media
         }
         // Save the changes (the new media object) into the parent context (synchronous)
         await PersistenceController.saveContext(childContext)
         // Return the object inside the parent context as the result
+        // swiftlint:disable:next force_cast
         return context.object(with: childMedia.objectID) as! Media
     }
     
@@ -259,9 +260,9 @@ actor TMDBAPI {
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
     private func decodeAPIURL<T: Decodable>(path: String,
-                                 additionalParameters: [String: String?] = [:],
-                                 as type: T.Type, context: NSManagedObjectContext,
-                                 userInfo: [CodingUserInfoKey: Any] = [:]) async throws -> T {
+                                            additionalParameters: [String: String?] = [:],
+                                            as type: T.Type, context: NSManagedObjectContext,
+                                            userInfo: [CodingUserInfoKey: Any] = [:]) async throws -> T {
         // Load the JSON on a background thread
         let data = try await self.request(path: path, additionalParameters: additionalParameters)
         // Decode on the thread of the context (hopefully a background thread)
@@ -350,10 +351,9 @@ actor TMDBAPI {
         return decoder
     }
     
-}
-
-/// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.
-fileprivate struct MediaChangeWrapper: Codable {
-    var id: Int
-    var adult: Bool?
+    /// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.
+    private struct MediaChangeWrapper: Codable {
+        var id: Int
+        var adult: Bool?
+    }
 }

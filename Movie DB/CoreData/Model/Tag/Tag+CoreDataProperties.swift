@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Tag {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Tag> {
@@ -28,6 +27,4 @@ extension Tag {
 
 }
 
-extension Tag : Identifiable {
-
-}
+extension Tag: Identifiable {}

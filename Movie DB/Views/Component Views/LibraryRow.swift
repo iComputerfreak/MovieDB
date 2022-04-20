@@ -36,7 +36,7 @@ struct LibraryRow: View {
                                 Image(systemName: seriesSymbol)
                             }
                             // MARK: FSK Rating
-                            //JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
+//                            JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
                             // MARK: Year
                             if mediaObject.year != nil {
                                 Text(mediaObject.year!.description)
@@ -73,7 +73,7 @@ struct ProblemsLibraryRow<T>: View where T: View {
 }
 
 #if DEBUG
-struct LibraryRow_Previews : PreviewProvider {
+struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
         LibraryRow()
             .environmentObject(PlaceholderData.movie)

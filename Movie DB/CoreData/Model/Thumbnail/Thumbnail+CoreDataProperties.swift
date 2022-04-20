@@ -29,6 +29,4 @@ extension Thumbnail {
 
 }
 
-extension Thumbnail : Identifiable {
-
-}
+extension Thumbnail: Identifiable {}

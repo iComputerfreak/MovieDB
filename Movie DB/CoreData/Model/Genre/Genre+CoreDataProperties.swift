@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Genre {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Genre> {
@@ -29,6 +28,6 @@ extension Genre {
 
 }
 
-extension Genre : Identifiable {
+extension Genre: Identifiable {
 
 }

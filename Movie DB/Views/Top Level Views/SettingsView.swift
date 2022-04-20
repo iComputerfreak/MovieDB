@@ -23,8 +23,8 @@ struct SettingsView: View {
     @State private var reloadInProgress = false
     @State private var documentPicker: DocumentPicker?
     @State private var isLoading: Bool = false
-    @State private var loadingText: String? = nil
-    @State private var importLogger: TagImporter.BasicLogger? = nil
+    @State private var loadingText: String?
+    @State private var importLogger: TagImporter.BasicLogger?
     @State private var importLogShowing: Bool = false
     @State private var languageChanged: Bool = false
     @State private var isShowingProInfo: Bool = false

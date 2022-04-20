@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 import UIKit
 
-
 extension Media {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Media> {
@@ -191,6 +190,4 @@ extension Media {
     
 }
 
-extension Media : Identifiable {
-    
-}
+extension Media: Identifiable {}

@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension FilterSetting {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
@@ -124,6 +123,4 @@ extension FilterSetting {
 
 }
 
-extension FilterSetting : Identifiable {
-
-}
+extension FilterSetting: Identifiable {}

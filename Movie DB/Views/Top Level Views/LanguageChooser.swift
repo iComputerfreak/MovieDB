@@ -31,7 +31,7 @@ struct LanguageChooser: View {
                         .tag(code)
                 })
                 .environment(\.editMode, .constant(.active))
-                .onChange(of: config.language) { newValue in
+                .onChange(of: config.language) { _ in
                     print("Language changed to \(config.language)")
                 }
                 .navigationTitle("Select Language")

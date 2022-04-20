@@ -70,6 +70,7 @@ struct CSVManager {
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
     // MARK: Export KeyPaths
+    // swiftlint:disable force_cast
     /// Contains the corresponding key paths for all Media `CSVKey`s and an optional converter closure to convert the value to String
     static let exportKeyPaths: [CSVKey: (PartialKeyPath<Media>, Converter?)] = [
         .tmdbID: (\Media.tmdbID, nil),
@@ -105,6 +106,7 @@ struct CSVManager {
         .isInProduction: (\Show.isInProduction, nil),
         .showType: (\Show.showType, { ($0 as! ShowType).rawValue })
     ]
+    // swiftlint:enable force_cast
     
     static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media? {
         // We only need the tmdbID and user values from the CSV
@@ -162,11 +164,13 @@ struct CSVManager {
         }
         if let rawWatched = values[.watched], let watched = Bool(rawWatched) {
             if mediaType == .movie {
+                // swiftlint:disable:next force_cast
                 (media as! Movie).watched = watched
             }
         }
         if let rawLastWatched = values[.lastWatched], let lastWatched = EpisodeNumber(rawLastWatched) {
             if mediaType == .show {
+                // swiftlint:disable:next force_cast
                 (media as! Show).lastWatched = lastWatched
             }
         }
@@ -185,7 +189,7 @@ struct CSVManager {
     static func createRecord(from media: Media) -> [CSVKey: String] {
         var values: [CSVKey: String] = [:]
         for key in self.exportKeys {
-            var tuple: (Any, Converter?)? = nil
+            var tuple: (Any, Converter?)?
             
             // Extract the value by reading the KeyPath; Pass the converter to the tuple
             if let (keyPath, conv) = self.exportKeyPaths[key] {
@@ -222,20 +226,20 @@ struct CSVManager {
             // Convert the value to a string (and convert nil to "")
             var stringValue: String
             switch value {
-                case Optional<Any>.none:
-                    stringValue = ""
-                default:
-                    // Create a mirror of the object to read the `some` property of the Optional
-                    let mirror = Mirror(reflecting: value)
-                    // If value is an Optional
-                    if mirror.displayStyle == .optional {
-                        // Since `value` is an Optional, it has exactly one property (`some`)
-                        let unwrapped = mirror.children.first?.value
-                        stringValue = "\(unwrapped ?? "")"
-                    } else {
-                        // If value is no Optional, we don't need to unwrap it
-                        stringValue = "\(value)"
-                    }
+            case Optional<Any>.none:
+                stringValue = ""
+            default:
+                // Create a mirror of the object to read the `some` property of the Optional
+                let mirror = Mirror(reflecting: value)
+                // If value is an Optional
+                if mirror.displayStyle == .optional {
+                    // Since `value` is an Optional, it has exactly one property (`some`)
+                    let unwrapped = mirror.children.first?.value
+                    stringValue = "\(unwrapped ?? "")"
+                } else {
+                    // If value is no Optional, we don't need to unwrap it
+                    stringValue = "\(value)"
+                }
             }
             
             // Double all quotation marks in the value (escape them)

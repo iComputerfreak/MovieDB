@@ -14,6 +14,7 @@ struct SeasonsInfo: View {
     /// The season thumbnails
     @State private var seasonThumbnails: [Int: UIImage?] = [:]
     
+    // swiftlint:disable:next force_cast
     private var show: Show { mediaObject as! Show }
     
     // Assumes that mediaObject is a Show and !show.seasons.isEmpty

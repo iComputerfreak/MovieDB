@@ -12,7 +12,7 @@ import CoreData
 import Combine
 import struct JFSwiftUI.LoadingView
 
-struct AddMediaView : View {
+struct AddMediaView: View {
     
     @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
@@ -41,7 +41,7 @@ struct AddMediaView : View {
             .removeDuplicates()
             // The search text should have at least 3 characters
             .map { (searchText: String) -> String? in
-                if searchText.count == 0 {
+                if searchText.isEmpty {
                     self.results = []
                     // Clear the search text (e.g. "No Results")
                     self.resultsText = ""
@@ -94,7 +94,7 @@ struct AddMediaView : View {
                     }
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .onChange(of: self.searchText) { newValue in
+                .onChange(of: self.searchText) { _ in
                     // If the user enters a search text, perform the search after a delay
                     searchTextChangedSubject.send(self.searchText)
                 }
@@ -162,8 +162,11 @@ struct AddMediaView : View {
                 // All we need to do now is to load the thumbnail and update the UI
                 await MainActor.run {
                     if let mainMedia = self.managedObjectContext.object(with: media.objectID) as? Media {
-                        // Call it on the media object in the viewContext, not on the mediaObject in the background context
-                        mainMedia.loadThumbnailAsync()
+                        // We don't need to wait for the thumbnail to finish loading
+                        Task {
+                            // Call it on the media object in the viewContext, not on the mediaObject in the background context
+                            await mainMedia.loadThumbnail()
+                        }
                     } else {
                         print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
                     }
@@ -270,7 +273,7 @@ struct AddMediaView : View {
 }
 
 #if DEBUG
-struct AddMediaView_Previews : PreviewProvider {
+struct AddMediaView_Previews: PreviewProvider {
     static var previews: some View {
         AddMediaView()
             .preferredColorScheme(.dark)

@@ -37,7 +37,7 @@ struct CSVHelper {
         } recordMapper: { values in
             let group = DispatchGroup()
             group.enter()
-            var result: Media? = nil
+            var result: Media?
             // We use the wrapper using a completion closure to make the async call to CSVManager.createMedia synchronous
             // (this recordMapper closure needs to be synchronous)
             createMedia(from: values, context: importContext) { media, error in

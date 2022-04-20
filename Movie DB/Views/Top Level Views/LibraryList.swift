@@ -83,7 +83,7 @@ struct LibraryList: View {
     }
     
     var footerText: Text {
-        guard filteredMedia.count > 0 else {
+        guard !filteredMedia.isEmpty else {
             return Text("")
         }
         let objCount = filteredMedia.count

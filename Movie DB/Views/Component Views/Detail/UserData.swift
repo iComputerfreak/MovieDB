@@ -24,11 +24,13 @@ struct UserData: View {
                     .headline("Personal Rating")
                 // Watched field
                 if mediaObject.type == .movie {
+                    // swiftlint:disable:next force_cast
                     SimpleValueView<Bool>.createYesNo(value: .init(get: { (self.mediaObject as! Movie).watched }, set: { (self.mediaObject as! Movie).watched = $0 }))
                         .environment(\.editMode, editMode)
                         .headline("Watched?")
                 } else {
                     // Has watched show field
+                    // swiftlint:disable:next force_cast
                     WatchedShowView(lastWatched: .init(get: { (mediaObject as! Show).lastWatched }, set: { (mediaObject as! Show).lastWatched = $0 }))
                         .environment(\.editMode, editMode)
                         .headline("Watched?")
