@@ -277,11 +277,13 @@ actor TMDBAPI {
     /// - Parameters:
     ///   - path: The API URL path, including a `/`-prefix
     ///   - additionalParameters: Additional parameters to use for the API call
-    /// - Throws: `APIError` or `DecodingError`
+    /// - Throws: Any errors that occurred during the request
     /// - Returns: The data from the API call
     private func request(path: String, additionalParameters: [String: String?] = [:]) async throws -> Data {
         // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
+        
+        // MARK: Build URL components
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.themoviedb.org"
@@ -291,6 +293,7 @@ actor TMDBAPI {
             URLQueryItem(name: "language", value: locale)
         ]
        
+        // MARK: Collect parameters
         var parameters: [String: String?] = [
             "api_key": apiKey,
             "language": locale
@@ -303,6 +306,7 @@ actor TMDBAPI {
         parameters.merge(additionalParameters)
         components.queryItems = parameters.map(URLQueryItem.init)
         
+        // MARK: Execute Request
         var request = URLRequest(url: components.url!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("Making GET Request to \(components.url!)")
@@ -312,10 +316,13 @@ actor TMDBAPI {
         #endif
         
         let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // MARK: Handle Errors
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse(response)
         }
-                
+        
         // Unauthorized
         guard httpResponse.statusCode != 401 else {
             print(httpResponse)
@@ -330,7 +337,6 @@ actor TMDBAPI {
             throw APIError.statusNotOk(httpResponse)
         }
         
-        // By now we have cleared all errors or non-200-responses
         return data
     }
     
