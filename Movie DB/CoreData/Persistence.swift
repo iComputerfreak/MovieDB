@@ -19,7 +19,8 @@ struct PersistenceController {
         }
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
-                AlertHandler.showSimpleAlert(title: "Error loading data", message: "There was an error while loading. \(error)")
+                AlertHandler.showSimpleAlert(title: "Error loading data",
+                                             message: "There was an error while loading. \(error)")
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 
@@ -43,7 +44,10 @@ struct PersistenceController {
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(MediaLibrary.fixDuplicates(notification:)), name: .NSPersistentStoreRemoteChange, object: container.viewContext)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MediaLibrary.fixDuplicates(notification:)),
+                                               name: .NSPersistentStoreRemoteChange,
+                                               object: container.viewContext)
     }
     
     // MARK: - Static Properties and Functions
@@ -131,7 +135,8 @@ struct PersistenceController {
     /// - Parameter context: The `NSManagedObjectContext` to save
     @available(*, deprecated, renamed: "saveContext(_:file:line:)")
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
-        print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
+        print("Trying to save context \(context.description) from \(file):\(line). " +
+              "Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         context.performAndWait {
@@ -142,7 +147,9 @@ struct PersistenceController {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
-                    AlertHandler.showSimpleAlert(title: "Error saving data", message: "There was an error while saving. \(nserror), \(nserror.userInfo)")
+                    AlertHandler.showSimpleAlert(title: "Error saving data",
+                                                 message: "There was an error while saving. " +
+                                                 "\(nserror), \(nserror.userInfo)")
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {
@@ -155,7 +162,8 @@ struct PersistenceController {
     /// Performs the save operation asynchronous
     /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) async {
-        print("Trying to save context \(context.description) from \(file):\(line). Parent: \(context.parent?.description ?? "nil")")
+        print("Trying to save context \(context.description) from \(file):\(line). " +
+              "Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         await context.perform {
@@ -166,7 +174,9 @@ struct PersistenceController {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
-                    AlertHandler.showSimpleAlert(title: "Error saving data", message: "There was an error while saving. \(nserror), \(nserror.userInfo)")
+                    AlertHandler.showSimpleAlert(title: "Error saving data",
+                                                 message: "There was an error while saving. " +
+                                                 "\(nserror), \(nserror.userInfo)")
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {

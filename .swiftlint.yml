@@ -1,13 +1,11 @@
 # By default, SwiftLint uses a set of sensible default rules you can adjust:
 disabled_rules:
-  - line_length
   - identifier_name
   - todo
   - type_name
-  # re-enable
+  # TODO: re-enable
   - cyclomatic_complexity
   - function_body_length
-  - inclusive_language
   - file_length
   - type_body_length
 opt_in_rules: # some rules are turned off by default, so you need to opt-in
@@ -15,6 +13,10 @@ opt_in_rules: # some rules are turned off by default, so you need to opt-in
 
 force_cast: warning
 force_try: warning
+line_length:
+  warning: 120
+  error: 240
+  ignores_comments: true
 
 trailing_whitespace:
   ignores_empty_lines: true

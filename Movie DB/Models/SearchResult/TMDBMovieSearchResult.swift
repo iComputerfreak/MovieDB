@@ -16,10 +16,29 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     let releaseDate: Date?
     
     /// Creates a new `TMDBMovieSearchResult` object with the given values
-    init(id: Int, title: String, mediaType: MediaType, imagePath: String? = nil, overview: String? = nil, originalTitle: String, originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int, isAdult: Bool, releaseDate: Date? = nil) {
+    init(id: Int,
+         title: String,
+         mediaType: MediaType,
+         imagePath: String? = nil,
+         overview: String? = nil,
+         originalTitle: String,
+         originalLanguage: String,
+         popularity: Float,
+         voteAverage: Float,
+         voteCount: Int,
+         isAdult: Bool,
+         releaseDate: Date? = nil) {
         self.isAdult = isAdult
         self.releaseDate = releaseDate
-        super.init(id: id, title: title, mediaType: mediaType, imagePath: imagePath, overview: overview, originalTitle: originalTitle, originalLanguage: originalLanguage, popularity: popularity, voteAverage: voteAverage, voteCount: voteCount)
+        super.init(id: id,
+                   title: title, mediaType: mediaType,
+                   imagePath: imagePath,
+                   overview: overview,
+                   originalTitle: originalTitle,
+                   originalLanguage: originalLanguage,
+                   popularity: popularity,
+                   voteAverage: voteAverage,
+                   voteCount: voteCount)
     }
     
     // MARK: - Codable Conformance

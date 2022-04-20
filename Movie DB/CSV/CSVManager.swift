@@ -66,7 +66,8 @@ struct CSVManager {
     }
     
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
-    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched, .creationDate]
+    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched,
+                                               .creationDate]
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
     // MARK: Export KeyPaths
@@ -132,7 +133,11 @@ struct CSVManager {
         
         // Setting values with PartialKeyPaths is not possible, so we have to do it manually
         // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
-        if let rawRating = values[.personalRating], let intRep = Int(rawRating), let personalRating = StarRating(integerRepresentation: intRep) {
+        if
+            let rawRating = values[.personalRating],
+            let intRep = Int(rawRating),
+            let personalRating = StarRating(integerRepresentation: intRep)
+        {
             media.personalRating = personalRating
         }
         if let rawWatchAgain = values[.watchAgain], let watchAgain = Bool(rawWatchAgain) {
@@ -212,7 +217,8 @@ struct CSVManager {
                     tuple = ("", nil)
                 }
             } else {
-                fatalError("The key \(key) has no assigned KeyPath. Please add the key to one of the following dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
+                fatalError("The key \(key) has no assigned KeyPath. Please add the key to one of the following " +
+                           "dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
             }
             
             // Unwrap the value and converter

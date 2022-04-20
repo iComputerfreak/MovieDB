@@ -13,30 +13,33 @@ import StoreKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         // Override point for customization after application launch.
         
-        // MARK: Update Poster Blacklist
+        // MARK: Update Poster Deny List
         // Only update once per day
-        let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
+        let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
         // Convert to full seconds
         let time = Int(Date().timeIntervalSince1970)
         let diff = time - lastUpdated
         
         // If the last update was at least 24h ago
         if diff >= 24 * 60 * 60 {
-            // Load the blacklist
-            let blacklistURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
-            Utils.getRequest(blacklistURL, parameters: [:]) { (data) in
+            // Load the deny list
+            let denyListURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
+            Utils.getRequest(denyListURL, parameters: [:]) { (data) in
                 guard let data = data else {
-                    print("Error fetching blacklist. Keeping current one.")
+                    print("Error fetching deny list. Keeping current one.")
                     return
                 }
                 guard let text = String(data: data, encoding: .utf8) else {
-                    print("Error decoding blacklist")
+                    print("Error decoding deny list")
                     return
                 }
-                var newBlacklist: [String] = []
+                var newDenyList: [String] = []
                 for line in text.components(separatedBy: .newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
                     // Skip empty lines and comments
                     if line.isEmpty || line.starts(with: "#") {
@@ -47,18 +50,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         continue
                     }
                     // Otherwise, we assume the line contains a poster path
-                    newBlacklist.append(line)
+                    newDenyList.append(line)
                 }
                 
-                // Update the blacklist
-                Utils.posterBlacklist = newBlacklist
+                // Update the deny list
+                Utils.posterDenyList = newDenyList
                 // Update the timestamp
-                UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterBlacklistLastUpdated)
-                // Save the blacklist
-                UserDefaults.standard.set(newBlacklist, forKey: JFLiterals.Keys.posterBlacklist)
+                UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterDenyListLastUpdated)
+                // Save the deny list
+                UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
             }
         } else {
-            print("Last blacklist update was \(Double(diff)/3600.0) hours ago. Not updating blacklist. (\(diff) < \(24 * 60 * 60))")
+            print("Last deny list update was \(Double(diff)/3600.0) hours ago. " +
+                  "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
         }
         
         // MARK: Set up In App Purchases
@@ -76,7 +80,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: UISceneSession Lifecycle
 
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)

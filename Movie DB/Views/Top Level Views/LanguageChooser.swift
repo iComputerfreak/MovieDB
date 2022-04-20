@@ -20,12 +20,14 @@ struct LanguageChooser: View {
                         do {
                             try await Utils.updateTMDBLanguages()
                         } catch {
-                            AlertHandler.showSimpleAlert(title: "Error loading languages", message: "Error loading the list of available languages: \(error)")
+                            AlertHandler.showSimpleAlert(
+                                title: "Error loading languages",
+                                message: "Error loading the list of available languages: \(error)")
                         }
                     }
                     .navigationTitle("Select Language")
             } else {
-                let proxy = Binding<String?>(get: { return config.language }, set: { newValue in config.language = newValue ?? "" })
+                let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
                 List(config.availableLanguages, id: \.self, selection: proxy, rowContent: { (code: String) in
                     Text(Locale.current.localizedString(forIdentifier: code) ?? code)
                         .tag(code)

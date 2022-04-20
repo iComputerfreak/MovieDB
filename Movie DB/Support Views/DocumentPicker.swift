@@ -44,7 +44,10 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
         return controller
     }()
     
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {}
+    func updateUIViewController(
+        _ uiViewController: UIDocumentPickerViewController,
+        context: UIViewControllerRepresentableContext<DocumentPicker>
+    ) {}
     
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         viewController.delegate = self

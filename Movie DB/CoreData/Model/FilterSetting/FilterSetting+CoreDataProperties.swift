@@ -110,7 +110,10 @@ extension FilterSetting {
     
     var numberOfSeasons: ClosedRange<Int>? {
         get {
-            guard let minNumberOfSeasons = self.minNumberOfSeasons, let maxNumberOfSeasons = self.maxNumberOfSeasons else {
+            guard
+                let minNumberOfSeasons = self.minNumberOfSeasons,
+                let maxNumberOfSeasons = self.maxNumberOfSeasons
+            else {
                 return nil
             }
             return minNumberOfSeasons ... maxNumberOfSeasons

@@ -21,7 +21,8 @@ struct CastInfo: View {
                 ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
                     let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
                     HStack {
-                        Image(uiImage: self.personThumbnails[member.id] ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
+                        Image(uiImage: self.personThumbnails[member.id] ?? nil,
+                              defaultImage: JFLiterals.posterPlaceholderName)
                             .thumbnail()
                         Text(member.name)
                             .headline(verbatim: member.roleName)

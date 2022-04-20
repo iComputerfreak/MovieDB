@@ -16,7 +16,13 @@ public class CastMember: NSManagedObject, Decodable {
     
     // MARK: - Initializers
     
-    public convenience init(context: NSManagedObjectContext, id: Int, name: String, roleName: String, imagePath: String? = nil) {
+    public convenience init(
+        context: NSManagedObjectContext,
+        id: Int,
+        name: String,
+        roleName: String,
+        imagePath: String? = nil
+    ) {
         self.init(context: context)
         self.id = id
         self.name = name

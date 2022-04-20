@@ -37,7 +37,8 @@ struct ExtendedInfo: View {
                     }
                 }
                 
-                LinkView(text: String(mediaObject.tmdbID), link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)")
+                LinkView(text: String(mediaObject.tmdbID),
+                         link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)")
                     .headline("TMDB ID")
                 if let homepageURL = mediaObject.homepageURL, !homepageURL.isEmpty {
                     LinkView(text: homepageURL, link: homepageURL)

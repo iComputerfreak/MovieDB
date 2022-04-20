@@ -27,7 +27,8 @@ struct ProblemsView: View {
             // Watched missing (Movie)
             NSPredicate(format: "type = %@ AND watched = nil", MediaType.movie.rawValue),
             // LastWatched missing (Show)
-            NSPredicate(format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil", MediaType.show.rawValue)
+            NSPredicate(format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
+                        MediaType.show.rawValue)
         ]),
         animation: nil
     ) private var missingInfoMedia: FetchedResults<Media>
@@ -42,7 +43,11 @@ struct ProblemsView: View {
             } else {
                 List {
                     ForEach(missingInfoMedia) { mediaObject in
-                        ProblemsLibraryRow(content: Text("Missing: \(mediaObject.missingInformation().map(\.rawValue).sorted().joined(separator: ", "))").italic())
+                        let missing = mediaObject.missingInformation()
+                            .map(\.rawValue)
+                            .sorted()
+                            .joined(separator: ", ")
+                        ProblemsLibraryRow(content: Text("Missing: \(missing)").italic())
                             .environmentObject(mediaObject)
                     }
                 }

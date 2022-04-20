@@ -38,7 +38,18 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
     var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
     
     /// Creates a new `TMDBSearchResult` object with the given values
-    init(id: Int, title: String, mediaType: MediaType, imagePath: String? = nil, overview: String? = nil, originalTitle: String, originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int) {
+    init(
+        id: Int,
+        title: String,
+        mediaType: MediaType,
+        imagePath: String? = nil,
+        overview: String? = nil,
+        originalTitle: String,
+        originalLanguage: String,
+        popularity: Float,
+        voteAverage: Float,
+        voteCount: Int
+    ) {
         self.id = id
         self.title = title
         self.mediaType = mediaType

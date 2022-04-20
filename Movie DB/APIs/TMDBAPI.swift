@@ -110,16 +110,19 @@ actor TMDBAPI {
             return dict
         }()
         // Do both fetch requests concurrently using a task group
-        let groupResult: [MediaChangeWrapper] = try await withThrowingTaskGroup(of: [MediaChangeWrapper].self) { group in
+        let groupResult = try await withThrowingTaskGroup(
+            of: [MediaChangeWrapper].self
+        ) { group -> [MediaChangeWrapper] in
             // Fetch changes for all media types
             for type in MediaType.allCases {
                 // Fetch the changes for the current media type and return the child result
                 group.addTask {
-                    let (results, _) = try await self.multiPageRequest(path: "/\(type.rawValue)/changes",
-                                                                       additionalParameters: dateRangeParameters,
-                                                                       pageWrapper: ResultsPageWrapper<MediaChangeWrapper>.self,
-                                                                       // We use a disposable context since we only use the IDs from the results
-                                                                       context: self.disposableContext)
+                    let (results, _) = try await self.multiPageRequest(
+                        path: "/\(type.rawValue)/changes",
+                        additionalParameters: dateRangeParameters,
+                        pageWrapper: ResultsPageWrapper<MediaChangeWrapper>.self,
+                        // We use a disposable context since we only use the IDs from the results
+                        context: self.disposableContext)
                     return results
                 }
             }
@@ -135,27 +138,38 @@ actor TMDBAPI {
         return groupResult.map(\.id)
     }
     
+    // TODO: Update documentation of async functions
     /// Searches for media with a given query on TheMovieDB.org
     /// - Parameters:
     ///   - name: The query to search for
     ///   - includeAdult: Whether to include adult media
-    ///   - completion: The completion handler called with the search results, the total number of pages that can be loaded and a possible error that occurred. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
+    ///   - completion: The completion handler called with the search results, the total number of pages that can be loaded and a possible error that
+    ///   occurred. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
     ///   - fromPage: The first page to load results from
     ///   - toPage: The last page to load results from
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The search results
-    func searchMedia(_ query: String,
-                     includeAdult: Bool = false,
-                     fromPage: Int = 1,
-                     toPage: Int = JFLiterals.maxSearchPages) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
-        try await self.multiPageRequest(path: "/search/multi", additionalParameters: [
-            "query": query,
-            "include_adult": String(includeAdult)
-        ], fromPage: fromPage, toPage: toPage, pageWrapper: SearchResultsPageWrapper.self, context: self.disposableContext)
+    func searchMedia(
+        _ query: String,
+        includeAdult: Bool = false,
+        fromPage: Int = 1,
+        toPage: Int = JFLiterals.maxSearchPages
+    ) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
+        try await self.multiPageRequest(path: "/search/multi",
+                                        additionalParameters: [
+                                            "query": query,
+                                            "include_adult": String(includeAdult)
+                                        ],
+                                        fromPage: fromPage,
+                                        toPage: toPage,
+                                        pageWrapper: SearchResultsPageWrapper.self,
+                                        context: self.disposableContext)
     }
     
     func getTMDBLanguageCodes() async throws -> [String] {
-        try await self.decodeAPIURL(path: "/configuration/primary_translations", as: [String].self, context: disposableContext)
+        try await self.decodeAPIURL(path: "/configuration/primary_translations",
+                                    as: [String].self,
+                                    context: disposableContext)
     }
     
     // MARK: - Private functions
@@ -186,7 +200,9 @@ actor TMDBAPI {
 
             // Fetch the JSON in the background
             // TODO: async let
-            let data = try await self.request(path: path, additionalParameters: additionalParameters.merging(["page": String(fromPage)]))
+            let data = try await self.request(
+                path: path,
+                additionalParameters: additionalParameters.merging(["page": String(fromPage)]))
             // Decode on the child context thread
             let wrapper = try await childContext.perform {
                 return try decoder.decode(PageWrapper.self, from: data)

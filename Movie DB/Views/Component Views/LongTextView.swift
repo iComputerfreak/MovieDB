@@ -19,7 +19,13 @@ struct LongTextView: View {
     /// - Parameters:
     ///   - headline: The headline of the new full text view
     ///   - text: The full text
-    init(_ text: String, headlineKey: LocalizedStringKey, tableName: String? = nil, bundle: Bundle? = nil, comment: StaticString? = nil) {
+    init(
+        _ text: String,
+        headlineKey: LocalizedStringKey,
+        tableName: String? = nil,
+        bundle: Bundle? = nil,
+        comment: StaticString? = nil
+    ) {
         self.headline = Text(headlineKey, tableName: tableName, bundle: bundle, comment: comment)
         self.text = text
     }

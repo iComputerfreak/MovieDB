@@ -18,8 +18,13 @@ final class KeyboardResponder: ObservableObject {
     
     init(_ center: NotificationCenter = .default) {
         self.center = center
-        self.center.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        self.center.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.center.addObserver(self,
+                                selector: #selector(keyboardWillShow(notification:)),
+                                name: UIResponder.keyboardWillShowNotification,
+                                object: nil)
+        self.center.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
+                                name: UIResponder.keyboardWillHideNotification,
+                                object: nil)
     }
     
     deinit {
@@ -28,7 +33,8 @@ final class KeyboardResponder: ObservableObject {
     
     @objc func keyboardWillShow(notification: Notification) {
         print("[Responder] Keyboard will show")
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        if let keyboardSize = keyboardFrame?.cgRectValue {
             self.height = keyboardSize.height
         }
     }

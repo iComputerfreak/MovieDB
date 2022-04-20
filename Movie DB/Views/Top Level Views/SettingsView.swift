@@ -119,9 +119,10 @@ struct SettingsView: View {
             
             .onDisappear {
                 if self.languageChanged {
-                    AlertHandler.showYesNoAlert(title: NSLocalizedString("Reload library?"),
-                                                message: NSLocalizedString("Do you want to reload all media objects using the new language?"),
-                                                yesAction: { _ in self.reloadMedia() })
+                    AlertHandler.showYesNoAlert(
+                        title: NSLocalizedString("Reload library?"),
+                        message: NSLocalizedString("Do you want to reload all media objects using the new language?"),
+                        yesAction: { _ in self.reloadMedia() })
                     self.languageChanged = false
                 }
             }
@@ -206,13 +207,16 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.updateInProgress = false
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"), message: String.localizedStringWithFormat(format, updateCount))
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"),
+                                                 message: String.localizedStringWithFormat(format, updateCount))
                 }
             } catch {
                 print("Error updating media objects: \(error)")
                 // Update UI on the main thread
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Error"), message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Update Error"),
+                        message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
                     self.updateInProgress = false
                 }
             }
@@ -251,7 +255,9 @@ struct SettingsView: View {
                 do {
                     let csvString = try String(contentsOf: url)
                     print("Read csv file. Trying to import into library.")
-                    CSVHelper.importMediaObjects(csvString: csvString, importContext: importContext, onProgress: { progress in
+                    CSVHelper.importMediaObjects(csvString: csvString,
+                                                 importContext: importContext,
+                                                 onProgress: { progress in
                         // Update the loading view
                         self.loadingText = "Loading \(progress) media objects..."
                     }, onFail: { log in
@@ -268,13 +274,17 @@ struct SettingsView: View {
                                 title: NSLocalizedString("Import"),
                                 message: String.localizedStringWithFormat(format, mediaObjects.count),
                                 preferredStyle: .alert)
-                            controller.addAction(UIAlertAction(title: NSLocalizedString("Undo"), style: .destructive, handler: { _ in
+                            controller.addAction(UIAlertAction(title: NSLocalizedString("Undo"),
+                                                               style: .destructive,
+                                                               handler: { _ in
                                 // Reset all the work we have just done
                                 importContext.reset()
                                 importLogger?.info("Undoing import. All imported objects removed.")
                                 self.importLogShowing = true
                             }))
-                            controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"), style: .default, handler: { _ in
+                            controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"),
+                                                               style: .default,
+                                                               handler: { _ in
                                 Task {
                                     // Make the changes to this context permanent by saving them to disk
                                     await PersistenceController.saveContext(importContext)
@@ -295,7 +305,9 @@ struct SettingsView: View {
                     
                 } catch {
                     print("Error importing: \(error)")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("Error importing the media objects: \(error.localizedDescription)"))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Import Error"),
+                        message: NSLocalizedString("Error importing the media objects: \(error.localizedDescription)"))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -352,7 +364,8 @@ struct SettingsView: View {
                 self.documentPicker = nil
             })
             // On macOS present the file picker manually
-            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+            UIApplication.shared.windows[0].rootViewController!
+                .present(self.documentPicker!.viewController, animated: true)
             #else
             Utils.share(items: [url!])
             #endif
@@ -384,7 +397,9 @@ struct SettingsView: View {
                             title: NSLocalizedString("Import"),
                             message: String.localizedStringWithFormat(format, count),
                             preferredStyle: .alert)
-                        controller.addAction(UIAlertAction(title: NSLocalizedString("Yes"), style: .default, handler: { _ in
+                        controller.addAction(UIAlertAction(title: NSLocalizedString("Yes"),
+                                                           style: .default,
+                                                           handler: { _ in
                             // Use a background context for importing the tags
                             PersistenceController.shared.container.performBackgroundTask { (context) in
                                 context.name = "Tag Import Context"
@@ -395,7 +410,8 @@ struct SettingsView: View {
                                     }
                                 } catch {
                                     print(error)
-                                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"), message: error.localizedDescription)
+                                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"),
+                                                                 message: error.localizedDescription)
                                 }
                             }
                         }))
@@ -405,14 +421,18 @@ struct SettingsView: View {
                     }
                 } catch let error as LocalizedError {
                     print("Error importing: \(error)")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("Error Importing the Tags: \(error.localizedDescription)"))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Import Error"),
+                        message: NSLocalizedString("Error Importing the Tags: \(error.localizedDescription)"))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
                 } catch let otherError {
                     print("Unknown Error: \(otherError)")
-                    assertionFailure("This error should be captured specifically to give the user a more precise error message.")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"), message: NSLocalizedString("There was an error importing the tags."))
+                    assertionFailure("This error should be captured specifically to give the user a more precise " +
+                                     "error message.")
+                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"),
+                                                 message: NSLocalizedString("There was an error importing the tags."))
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -464,7 +484,8 @@ struct SettingsView: View {
                 self.documentPicker = nil
             })
             // On macOS present the file picker manually
-            UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
+            UIApplication.shared.windows[0].rootViewController!
+                .present(self.documentPicker!.viewController, animated: true)
             #else
             Utils.share(items: [url!])
             #endif
@@ -473,7 +494,10 @@ struct SettingsView: View {
     }
     
     func resetLibrary() {
-        let controller = UIAlertController(title: NSLocalizedString("Reset Library"), message: NSLocalizedString("This will delete all media objects in your library. Do you want to continue?"), preferredStyle: .alert)
+        let controller = UIAlertController(
+            title: NSLocalizedString("Reset Library"),
+            message: NSLocalizedString("This will delete all media objects in your library. Do you want to continue?"),
+            preferredStyle: .alert)
         controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
         controller.addAction(UIAlertAction(title: NSLocalizedString("Delete"), style: .destructive, handler: { _ in
             // Don't reset the tags, only the media objects
@@ -482,7 +506,8 @@ struct SettingsView: View {
             } catch let e {
                 print("Error resetting media library")
                 print(e)
-                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error resetting library"), message: e.localizedDescription)
+                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error resetting library"),
+                                             message: e.localizedDescription)
             }
         }))
         AlertHandler.presentAlert(alert: controller)

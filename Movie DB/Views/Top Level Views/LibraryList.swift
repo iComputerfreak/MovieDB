@@ -24,10 +24,17 @@ struct LibraryList: View {
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
-    init(searchText: String, filterSetting: FilterSetting, sortingOrder: SortingOrder, sortingDirection: SortingDirection) {
+    init(
+        searchText: String,
+        filterSetting: FilterSetting,
+        sortingOrder: SortingOrder,
+        sortingDirection: SortingDirection
+    ) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
-            predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)", "title", searchText, "originalTitle", searchText))
+            predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)",
+                                          "title", searchText,
+                                          "originalTitle", searchText))
         }
         if true { // TODO: Only if filter is active (currently no on/off switch available to toggle that)
             predicates.append(filterSetting.predicate())
@@ -40,9 +47,11 @@ struct LibraryList: View {
             // Name sort descriptor gets appended at the end
             break
         case .created:
-            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate, ascending: sortingDirection == .ascending))
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate,
+                                                    ascending: sortingDirection == .ascending))
         case .releaseDate:
-            sortDescriptors.append(NSSortDescriptor(key: "releaseDateOrFirstAired", ascending: sortingDirection == .ascending))
+            sortDescriptors.append(NSSortDescriptor(key: "releaseDateOrFirstAired",
+                                                    ascending: sortingDirection == .ascending))
         case .rating:
             sortDescriptors.append(NSSortDescriptor(key: "personalRating", ascending: sortingDirection == .ascending))
         }
@@ -87,7 +96,9 @@ struct LibraryList: View {
             return Text("")
         }
         let objCount = filteredMedia.count
-        let formatString = NSLocalizedString("%lld objects", tableName: "Plurals", comment: "Number of media objects in the footer")
+        let formatString = NSLocalizedString("%lld objects",
+                                             tableName: "Plurals",
+                                             comment: "Number of media objects in the footer")
         var footerString = String.localizedStringWithFormat(formatString, objCount)
         if objCount == self.totalMediaItems {
             footerString += NSLocalizedString(" total")

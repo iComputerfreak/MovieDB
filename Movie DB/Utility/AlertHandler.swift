@@ -34,7 +34,12 @@ struct AlertHandler {
         self.showSimpleAlert(title: title ?? "Error", message: error.localizedDescription)
     }
     
-    static func showYesNoAlert(title: String?, message: String?, yesAction: ((UIAlertAction) -> Void)? = nil, noAction: ((UIAlertAction) -> Void)? = nil) {
+    static func showYesNoAlert(
+        title: String?,
+        message: String?,
+        yesAction: ((UIAlertAction) -> Void)? = nil,
+        noAction: ((UIAlertAction) -> Void)? = nil
+    ) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
         controller.addAction(.init(title: "Yes", style: .default, handler: yesAction))
         controller.addAction(.init(title: "No", style: .cancel, handler: noAction))

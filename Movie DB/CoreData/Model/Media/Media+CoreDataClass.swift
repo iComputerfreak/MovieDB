@@ -94,9 +94,9 @@ public class Media: NSManagedObject {
             // No image path set, no image to load
             return
         }
-        // If the image is blacklisted, delete it and don't reload
-        guard !Utils.posterBlacklist.contains(imagePath) else {
-            print("[\(self.title)] Thumbnail is blacklisted. Will not load.")
+        // If the image is on the deny list, delete it and don't reload
+        guard !Utils.posterDenyList.contains(imagePath) else {
+            print("[\(self.title)] Thumbnail is on deny list. Will not load.")
             return
         }
         print("[\(self.title)] Loading thumbnail...")
@@ -121,9 +121,9 @@ public class Media: NSManagedObject {
             // No image path set means no image to load
             return
         }
-        // If the image is blacklisted, delete it and don't reload
-        guard !Utils.posterBlacklist.contains(imagePath) else {
-            print("[\(self.title)] Thumbnail is blacklisted. Will not load.")
+        // If the image is on deny list, delete it and don't reload
+        guard !Utils.posterDenyList.contains(imagePath) else {
+            print("[\(self.title)] Thumbnail is on deny list. Will not load.")
             // Use the placeholder image instead
             self.thumbnail = Thumbnail(context: self.managedObjectContext!,
                                        pngData: UIImage(named: "PosterPlaceholder")?.pngData())

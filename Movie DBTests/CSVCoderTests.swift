@@ -11,6 +11,7 @@ import JFUtils
 @testable import Movie_DB
 import CoreData
 
+// swiftlint:disable line_length
 class CSVCoderTests: XCTestCase {
     
     var testingUtils: TestingUtils!

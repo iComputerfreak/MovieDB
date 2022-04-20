@@ -18,7 +18,8 @@ struct CSVHelper {
                                    onFail: (([String]) -> Void)? = nil,
                                    onFinish: (([Media?], [String]) -> Void)?) {
         var importLog: [String] = []
-        let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString, delimiter: String(CSVManager.separator))
+        let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString,
+                                                                delimiter: String(CSVManager.separator))
         var csvHeader: [String] = []
         importer.startImportingRecords { (headerValues: [String]) in
             // Check if the header contains the necessary values
@@ -51,7 +52,8 @@ struct CSVHelper {
                     case .noMediaType:
                         importLog.append("[Error] The following line is missing a media type:\n\(line)")
                     case .mediaAlreadyExists:
-                        importLog.append("[Warning] The following line already exists in the library. Skipping...\n\(line)")
+                        importLog.append("[Warning] The following line already exists in the library. Skipping...\n" +
+                                         "\(line)")
                     }
                     return
                 }
@@ -82,7 +84,11 @@ struct CSVHelper {
     }
     
     // Proxy to use the async function with a completion handler
-    private static func createMedia(from values: [String: String], context: NSManagedObjectContext, completion: @escaping (Media?, Error?) -> Void) {
+    private static func createMedia(
+        from values: [String: String],
+        context: NSManagedObjectContext,
+        completion: @escaping (Media?, Error?) -> Void
+    ) {
         Task {
             do {
                 let media = try await CSVManager.createMedia(from: values, context: context)

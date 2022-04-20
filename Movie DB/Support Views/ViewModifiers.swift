@@ -18,7 +18,9 @@ extension Image {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: JFLiterals.thumbnailSize.width * multiplier, height: JFLiterals.thumbnailSize.height * multiplier, alignment: .center)
+            .frame(width: JFLiterals.thumbnailSize.width * multiplier,
+                   height: JFLiterals.thumbnailSize.height * multiplier,
+                   alignment: .center)
     }
     
 }

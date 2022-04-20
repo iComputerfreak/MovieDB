@@ -25,7 +25,7 @@ func undefined<T>(_ message: String = "") -> T {
 
 struct Utils {
     
-    static var posterBlacklist: [String] = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterBlacklist) as? [String] ?? []
+    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
         
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler, if the request failed.
@@ -55,12 +55,17 @@ struct Utils {
         }
     }
     
+    // TODO: Remove
     /// Executes a HTTP GET request
     /// - Parameters:
     ///   - urlString: The URL string of the request
     ///   - parameters: The parameters for the request
     ///   - completion: The closure to execute on completion of the request
-    static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func getRequest(
+        _ urlString: String,
+        parameters: [String: Any?],
+        completion: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) {
         var urlStringWithParameters = "\(urlString)"
         // We should only append the '?', if we really have parameters
         if !parameters.isEmpty {
@@ -141,7 +146,8 @@ struct Utils {
         let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
         let upperBound: Int = max(maxShow?.year, maxMovie?.year) ?? currentYear
         
-        assert(lowerBound <= upperBound, "The fetch request returned wrong results. Try inverting the ascending/descending order of the fetch requests")
+        assert(lowerBound <= upperBound, "The fetch request returned wrong results. " +
+               "Try inverting the ascending/descending order of the fetch requests")
         
         return lowerBound ... upperBound
     }
@@ -186,7 +192,12 @@ struct Utils {
         return fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending, context: context)
     }
     
-    static private func fetchMinMax<T>(fetchRequest: NSFetchRequest<T>, key: String, ascending: Bool, context: NSManagedObjectContext) -> T? {
+    static private func fetchMinMax<T>(
+        fetchRequest: NSFetchRequest<T>,
+        key: String,
+        ascending: Bool,
+        context: NSManagedObjectContext
+    ) -> T? {
         let fetchRequest = fetchRequest
         fetchRequest.predicate = NSPredicate(format: "%K != nil", key)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending)]
@@ -229,10 +240,11 @@ extension Utils {
     ///   - path: The path of the image
     ///   - size: The size of the image
     static func getTMDBImageURL(path: String, size: Int = 500) -> URL {
-        // Don't load blacklisted images (should be checked before calling this function and replace with a placeholder image)
-        guard !posterBlacklist.contains(path) else {
-            print("Poster path \(path) is blacklisted. Not fetching.")
-            assertionFailure("This should have been prevented from being called for blacklisted poster paths in the first place.")
+        // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
+        guard !posterDenyList.contains(path) else {
+            print("Poster path \(path) is on deny list. Not fetching.")
+            assertionFailure("This should have been prevented from being called for poster paths on the deny list " +
+                             "in the first place.")
             // As a fallback, load the placeholder as thumbnail
             return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
         }

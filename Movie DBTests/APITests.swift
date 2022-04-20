@@ -21,6 +21,7 @@ class APITests: XCTestCase {
     
     var matrix: TMDBData!
     var fightClub: TMDBData!
+    // swiftlint:disable:next inclusive_language
     var blacklist: TMDBData!
     var gameOfThrones: TMDBData!
     var brokenMedia: Movie!
@@ -32,7 +33,10 @@ class APITests: XCTestCase {
         blacklist = TestingUtils.load("Blacklist.json", mediaType: .show, into: testContext)
         gameOfThrones = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: testContext)
         brokenMedia = {
-            let movie = Movie(context: testContext, tmdbData: TestingUtils.load("Matrix.json", mediaType: .movie, into: testContext))
+            let movie = Movie(context: testContext,
+                              tmdbData: TestingUtils.load("Matrix.json",
+                                                          mediaType: .movie,
+                                                          into: testContext))
             movie.tmdbID = -1
             return movie
         }()
@@ -83,7 +87,8 @@ class APITests: XCTestCase {
         let (results, _) = try await api.searchMedia("matrix", includeAdult: true)
         XCTAssertGreaterThan(results.count, 0)
         
-        let (results2, _) = try await api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults", includeAdult: true)
+        let (results2, _) = try await api.searchMedia("ThisIsSomeReallyLongNameIHopeWillResultInZeroResults",
+                                                      includeAdult: true)
         XCTAssertEqual(results2.count, 0)
     }
 }

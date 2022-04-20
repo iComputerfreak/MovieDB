@@ -18,12 +18,18 @@ struct TestingUtils {
     
     let context: NSManagedObjectContext
     
-    static func load<T: Decodable>(_ filename: String, mediaType: MediaType? = nil, into context: NSManagedObjectContext, as type: T.Type = T.self) -> T {
+    static func load<T: Decodable>(
+        _ filename: String,
+        mediaType: MediaType? = nil,
+        into context: NSManagedObjectContext,
+        as type: T.Type = T.self
+    ) -> T {
         let data: Data
         
-        guard let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
-            else {
-                fatalError("Couldn't find \(filename) in main bundle.")
+        guard
+            let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
+        else {
+            fatalError("Couldn't find \(filename) in main bundle.")
         }
         
         do {
@@ -276,7 +282,13 @@ func assertContains(_ value: [CastMember], in other: [CastMember]) {
 // MARK: - Testing Initializers
 
 extension ProductionCompany {
-    static func create(context: NSManagedObjectContext, id: Int, name: String, logoPath: String?, originCountry: String) -> ProductionCompany {
+    static func create(
+        context: NSManagedObjectContext,
+        id: Int,
+        name: String,
+        logoPath: String?,
+        originCountry: String
+    ) -> ProductionCompany {
         let c = ProductionCompany(context: context)
         c.id = id
         c.name = name
@@ -296,7 +308,16 @@ extension Genre {
 }
 
 extension Video {
-    static func create(context: NSManagedObjectContext, key: String, name: String, site: String, type: String, resolution: Int, language: String, region: String) -> Video {
+    static func create(
+        context: NSManagedObjectContext,
+        key: String,
+        name: String,
+        site: String,
+        type: String,
+        resolution: Int,
+        language: String,
+        region: String
+    ) -> Video {
         let v = Video(context: context)
         v.key = key
         v.name = name
@@ -310,7 +331,13 @@ extension Video {
 }
 
 extension CastMember {
-    static func create(context: NSManagedObjectContext, id: Int, name: String, roleName: String, imagePath: String?) -> CastMember {
+    static func create(
+        context: NSManagedObjectContext,
+        id: Int,
+        name: String,
+        roleName: String,
+        imagePath: String?
+    ) -> CastMember {
         let c = CastMember(context: context)
         c.id = id
         c.name = name
@@ -321,7 +348,16 @@ extension CastMember {
 }
 
 extension Season {
-    static func create(context: NSManagedObjectContext, id: Int, seasonNumber: Int, episodeCount: Int, name: String, overview: String?, imagePath: String?, rawAirDate: String) -> Season {
+    static func create(
+        context: NSManagedObjectContext,
+        id: Int,
+        seasonNumber: Int,
+        episodeCount: Int,
+        name: String,
+        overview: String?,
+        imagePath: String?,
+        rawAirDate: String
+    ) -> Season {
         let s = Season(context: context)
         s.id = id
         s.seasonNumber = seasonNumber

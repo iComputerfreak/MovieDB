@@ -27,7 +27,8 @@ extension KeyedDecodingContainer {
                 return value
             }
         }
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "No value associated with any of the keys \(keys)")
+        let context = DecodingError.Context(codingPath: codingPath,
+                                            debugDescription: "No value associated with any of the keys \(keys)")
         throw DecodingError.keyNotFound(keys.first!, context)
     }
 }
@@ -59,7 +60,8 @@ extension Dictionary where Key == String, Value == Any? {
     func percentEscaped() -> String {
         return map { (key, value) in
             let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-            let escapedValue = "\(value ?? "null")".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            let escapedValue = "\(value ?? "null")"
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             return escapedKey + "=" + escapedValue
         }
         .joined(separator: "&")

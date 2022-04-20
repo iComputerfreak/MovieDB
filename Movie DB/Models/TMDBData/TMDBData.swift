@@ -86,7 +86,8 @@ struct TMDBData: Decodable, Hashable {
         self.keywords = keywords.map(\.keyword)
         
         // Load translations.translations as self.translations
-        let translationsContainer = try container.nestedContainer(keyedBy: TranslationsCodingKeys.self, forKey: .translations)
+        let translationsContainer = try container.nestedContainer(keyedBy: TranslationsCodingKeys.self,
+                                                                  forKey: .translations)
         let translations = try translationsContainer.decode([Translation].self, forKey: .translations)
         // Only save the languages, not the Translation objects
         self.translations = translations.map(\.language)
@@ -104,7 +105,8 @@ struct TMDBData: Decodable, Hashable {
                 self.showData = try ShowData(from: decoder)
             }
         } else {
-            print("Decoding TMDBData without mediaType in the userInfo dict. Please specify the type of media we are decoding! Guessing the type...")
+            print("Decoding TMDBData without mediaType in the userInfo dict. " +
+                  "Please specify the type of media we are decoding! Guessing the type...")
             // If we don't know the type of media, we have to try both and hope one works
             self.movieData = try? MovieData(from: decoder)
             self.showData = try? ShowData(from: decoder)

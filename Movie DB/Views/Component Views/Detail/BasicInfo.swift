@@ -38,11 +38,15 @@ struct BasicInfo: View {
                     // MARK: Runtime
                     if let runtime = movie.runtime {
                         if runtime > 60 {
-                            let formatString = NSLocalizedString("%lld Minutes (%lldh %lldm)", tableName: "Plurals", comment: "Movie Runtime")
+                            let formatString = NSLocalizedString("%lld Minutes (%lldh %lldm)",
+                                                                 tableName: "Plurals",
+                                                                 comment: "Movie Runtime")
                             Text(String.localizedStringWithFormat(formatString, runtime, runtime / 60, runtime % 60))
                                 .headline("Runtime")
                         } else {
-                            let formatString = NSLocalizedString("%lld Minutes", tableName: "Plurals", comment: "Movie Runtime")
+                            let formatString = NSLocalizedString("%lld Minutes",
+                                                                 tableName: "Plurals",
+                                                                 comment: "Movie Runtime")
                             Text(String.localizedStringWithFormat(formatString, runtime))
                                 .headline("Runtime")
                         }
@@ -51,10 +55,14 @@ struct BasicInfo: View {
                 // Show exclusive data
                 if mediaObject.type == .show, let show = mediaObject as? Show {
                     // MARK: Air date
-                    if let firstAirDate = show.firstAirDate,
-                       let lastAirDate = show.lastAirDate {
+                    if
+                        let firstAirDate = show.firstAirDate,
+                        let lastAirDate = show.lastAirDate
+                    {
+                        let from = Utils.dateFormatter.string(from: firstAirDate)
+                        let to = Utils.dateFormatter.string(from: lastAirDate)
                         // Cast to string to prevent localization
-                        Text("\(Utils.dateFormatter.string(from: firstAirDate)) - \(Utils.dateFormatter.string(from: lastAirDate))" as String)
+                        Text("\(from) - \(to)" as String)
                             .headline("Air Date")
                     }
                     // MARK: Show type (e.g. Scripted)

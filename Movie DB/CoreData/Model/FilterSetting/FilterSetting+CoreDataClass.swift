@@ -47,7 +47,9 @@ public class FilterSetting: NSManagedObject {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
         if let rating = self.rating {
-            predicates.append(NSPredicate(format: "%K <= %d AND %K => %d", "personalRating", rating.upperBound.rawValue, "personalRating", rating.lowerBound.rawValue))
+            predicates.append(NSPredicate(format: "%K <= %d AND %K => %d",
+                                          "personalRating", rating.upperBound.rawValue,
+                                          "personalRating", rating.lowerBound.rawValue))
         }
         if let year = self.year {
             let formatter = DateFormatter()
@@ -77,7 +79,10 @@ public class FilterSetting: NSManagedObject {
         if let numberOfSeasons = self.numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
-                NSPredicate(format: "%K == %@ AND %K < %d AND %K > %d", "type", MediaType.show.rawValue, "numberOfSeasons", numberOfSeasons.upperBound, "numberOfSeasons", numberOfSeasons.lowerBound)
+                NSPredicate(format: "%K == %@ AND %K < %d AND %K > %d",
+                            "type", MediaType.show.rawValue,
+                            "numberOfSeasons", numberOfSeasons.upperBound,
+                            "numberOfSeasons", numberOfSeasons.lowerBound)
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
@@ -87,9 +92,15 @@ public class FilterSetting: NSManagedObject {
                 NSPredicate(format: "%K == %@", "watched", watched),
                 // Show
                 // watched == true && lastSeasonWatched != nil
-                NSPredicate(format: "%K == %@ AND %@ == TRUE AND %K != nil", "type", MediaType.show.rawValue, watched, "lastSeasonWatched"),
+                NSPredicate(format: "%K == %@ AND %@ == TRUE AND %K != nil",
+                            "type", MediaType.show.rawValue,
+                            watched,
+                            "lastSeasonWatched"),
                 // watched == false && lastSeasonWatched == nil
-                NSPredicate(format: "%K == %@ AND %@ == FALSE AND %K = nil", "type", MediaType.show.rawValue, watched, "lastSeasonWatched")
+                NSPredicate(format: "%K == %@ AND %@ == FALSE AND %K = nil",
+                            "type", MediaType.show.rawValue,
+                            watched,
+                            "lastSeasonWatched")
             ]))
         }
         if let watchAgain = self.watchAgain as NSNumber? {
@@ -137,7 +148,10 @@ public class FilterSetting: NSManagedObject {
     /// - Parameters:
     ///   - setting: The binding for the `ClosedRange` to create proxies from
     ///   - bounds: The bounds of the range
-    static func rangeProxies<T>(for setting: Binding<ClosedRange<T>?>, bounds: ClosedRange<T>) -> (lower: Binding<T>, upper: Binding<T>) {
+    static func rangeProxies<T>(
+        for setting: Binding<ClosedRange<T>?>,
+        bounds: ClosedRange<T>
+    ) -> (lower: Binding<T>, upper: Binding<T>) {
         var lowerProxy: Binding<T> {
             Binding<T>(get: { setting.wrappedValue?.lowerBound ?? bounds.lowerBound }, set: { lower in
                 // Ensure that we are not setting an illegal range

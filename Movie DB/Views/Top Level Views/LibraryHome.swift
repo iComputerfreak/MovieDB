@@ -56,7 +56,10 @@ struct LibraryHome: View {
                 VStack {
                     // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
                     // This way, the fetchRequest inside LibraryList will be re-built every time the searchText changes
-                    LibraryList(searchText: searchText, filterSetting: filterSetting, sortingOrder: sortingOrder, sortingDirection: sortingDirection)
+                    LibraryList(searchText: searchText,
+                                filterSetting: filterSetting,
+                                sortingOrder: sortingOrder,
+                                sortingDirection: sortingDirection)
                         .searchable(text: $searchText)
                 }
                 
@@ -77,7 +80,9 @@ struct LibraryHome: View {
                 .navigationBarItems(
                     leading: Menu {
                         Section {
-                            let filterImage = self.filterSetting.isReset ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill"
+                            let filterImageReset = "line.horizontal.3.decrease.circle"
+                            let filterImageSet = "line.horizontal.3.decrease.circle.fill"
+                            let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
                             Button(action: showFilter, label: { Label("Filter", systemImage: filterImage) })
                         }
                         // MARK: Sorting Options
@@ -98,7 +103,9 @@ struct LibraryHome: View {
                             Picker(selection: sortingOrderProxy, label: Text("Sorting")) {
                                 ForEach(SortingOrder.allCases, id: \.rawValue) { order in
                                     if self.sortingOrder == order {
-                                        Label(NSLocalizedString(order.rawValue), systemImage: self.sortingDirection == .ascending ? "chevron.up" : "chevron.down")
+                                        Label(NSLocalizedString(order.rawValue),
+                                              systemImage: self.sortingDirection == .ascending ? "chevron.up" : "chevron.down")
+                                        // swiftlint:disable:previous line_length
                                             .tag(order)
                                     } else {
                                         Text(NSLocalizedString(order.rawValue))

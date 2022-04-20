@@ -10,6 +10,7 @@ import XCTest
 @testable import Movie_DB
 import CoreData
 
+// swiftlint:disable line_length
 class CodableTests: XCTestCase {
     
     let api = TMDBAPI.shared
@@ -143,6 +144,7 @@ class CodableTests: XCTestCase {
         assertContains(cast, in: movie.cast)
     }
     
+    // swiftlint:disable:next inclusive_language
     func testDecodeShowBlacklist() throws {
         let companies = [
             ProductionCompany.create(context: testContext, id: 11073, name: "Sony Pictures Television", logoPath: "/wHs44fktdoj6c378ZbSWfzKsM2Z.png", originCountry: "US")

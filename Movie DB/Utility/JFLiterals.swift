@@ -16,7 +16,8 @@ struct JFLiterals {
     /// The size of the thumbnail in the `LibraryHome` list
     static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
     /// The size of the thumbnail in the `MediaDetail` view
-    static let detailPosterSize: CGSize = .init(width: JFLiterals.thumbnailSize.width * _multiplier, height: JFLiterals.thumbnailSize.height * _multiplier)
+    static let detailPosterSize: CGSize = .init(width: JFLiterals.thumbnailSize.width * _multiplier,
+                                                height: JFLiterals.thumbnailSize.height * _multiplier)
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos
@@ -43,9 +44,9 @@ struct JFLiterals {
         static let sortingOrder = "sortingOrder"
         /// The direction in which to sort the media objects (ascending or descending)
         static let sortingDirection = "sortingDirection"
-        /// The paths of posters that have been blacklisted
-        static let posterBlacklist = "posterBlacklist"
-        /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster blacklist has last been updated
-        static let posterBlacklistLastUpdated = "posterBlacklistLastUpdated"
+        /// The paths of posters that should not be loaded
+        static let posterDenyList = "posterDenyList"
+        /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster deny list has last been updated
+        static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
     }
 }

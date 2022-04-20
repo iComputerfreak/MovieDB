@@ -138,7 +138,9 @@ struct AddMediaView: View {
         // There should be no media objects with this tmdbID in the library
         guard existingObjects == 0 else {
             // Already added
-            AlertHandler.showSimpleAlert(title: NSLocalizedString("Already Added"), message: NSLocalizedString("You already have '\(result.title)' in your library."))
+            AlertHandler.showSimpleAlert(
+                title: NSLocalizedString("Already Added"),
+                message: NSLocalizedString("You already have '\(result.title)' in your library."))
             return
         }
         // Pro limitations
@@ -156,7 +158,9 @@ struct AddMediaView: View {
             do {
                 // Try fetching the media object
                 // Will be called on a background thread automatically, because TMDBAPI is an actor
-                let media = try await TMDBAPI.shared.fetchMedia(for: result.id, type: result.mediaType, context: managedObjectContext)
+                let media = try await TMDBAPI.shared.fetchMedia(for: result.id,
+                                                                type: result.mediaType,
+                                                                context: managedObjectContext)
                 
                 // fetchMedia already created the Media object in a child context and saved it into the view context
                 // All we need to do now is to load the thumbnail and update the UI
@@ -177,13 +181,15 @@ struct AddMediaView: View {
             } catch let error as LocalizedError {
                 print("Error loading media: \(error)")
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"),
-                                                 message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Error"),
+                        message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
                     self.isLoading = false
                 }
             } catch {
                 print("Unknown Error: \(String(describing: error))")
-                assertionFailure("This error should be captured specifically to give the user a more precise error message.")
+                assertionFailure("This error should be captured specifically to give the user a more precise error " +
+                                 "message.")
                 await MainActor.run {
                     AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"),
                                                  message: NSLocalizedString("There was an error loading the media."))
@@ -247,8 +253,9 @@ struct AddMediaView: View {
             } catch {
                 print("Error searching for media with searchText '\(searchText)': \(error)")
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error searching"),
-                                                 message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Error searching"),
+                        message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
                     self.results = []
                     self.resultsText = NSLocalizedString("Error loading search results")
                 }
