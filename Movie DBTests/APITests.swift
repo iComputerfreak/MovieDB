@@ -42,6 +42,15 @@ class APITests: XCTestCase {
         }()
     }
     
+    override func tearDown() {
+        testingUtils = nil
+        matrix = nil
+        fightClub = nil
+        blacklist = nil
+        gameOfThrones = nil
+        brokenMedia = nil
+    }
+    
     func testSaveContext() throws {
         try testContext.save()
     }

@@ -46,7 +46,9 @@ struct SeasonsInfo: View {
     
     // TODO: Make async
     func loadSeasonThumbnails() {
-        guard let show = mediaObject as? Show else { return }
+        guard let show = mediaObject as? Show else {
+            return
+        }
         guard !show.seasons.isEmpty else {
             return
         }

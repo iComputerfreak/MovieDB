@@ -11,6 +11,7 @@ import JFSwiftUI
 import CoreData
 import CSVImporter
 
+// TODO: Too long!
 struct SettingsView: View {
     
     // Reference to the config instance
@@ -223,6 +224,7 @@ struct SettingsView: View {
         }
     }
     
+    // TODO: Refactor
     func importMedia() {
         if !Utils.purchasedPro() {
             if let mediaCount = MediaLibrary.shared.mediaCount() {
@@ -373,6 +375,7 @@ struct SettingsView: View {
         }
     }
     
+    // TODO: Refactor, use async
     func importTags() {
         // Use iOS file picker
         self.documentPicker = DocumentPicker(onSelect: { url in
@@ -534,7 +537,7 @@ struct SettingsView: View {
         }
     }
     
-    struct Keys {
+    enum Keys {
         static let showAdults = "showAdults"
     }
     

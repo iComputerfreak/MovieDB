@@ -11,7 +11,8 @@ import CoreData
 
 extension ProductionCompany {
     
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
         return NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
     }
     

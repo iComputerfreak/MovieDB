@@ -13,7 +13,8 @@ import UIKit
 
 extension Thumbnail {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
         return NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
     }
 

@@ -83,6 +83,8 @@ struct CSVHelper {
         }
     }
     
+    private init() {}
+    
     // Proxy to use the async function with a completion handler
     private static func createMedia(
         from values: [String: String],

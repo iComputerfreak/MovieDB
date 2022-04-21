@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-struct JFLiterals {
+enum JFLiterals {
     /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
     private static let _multiplier: CGFloat = 2.0
     /// The size of the thumbnail in the `LibraryHome` list
@@ -31,7 +31,7 @@ struct JFLiterals {
     /// The IAP ID for the Pro version of the app
     static let inAppPurchaseIDPro = "movie_db_pro"
     
-    struct Keys {
+    enum Keys {
         /// The key used for storing the TagLibrary
         static let allTags = "allTags"
         /// The key used for storing the MediaLibrary

@@ -12,7 +12,8 @@ import CoreData
 
 extension Season {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Season> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Season> {
         return NSFetchRequest<Season>(entityName: "Season")
     }
 

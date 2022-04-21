@@ -31,7 +31,8 @@ final class KeyboardResponder: ObservableObject {
         self.center.removeObserver(self)
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc
+    func keyboardWillShow(notification: Notification) {
         print("[Responder] Keyboard will show")
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         if let keyboardSize = keyboardFrame?.cgRectValue {
@@ -39,7 +40,8 @@ final class KeyboardResponder: ObservableObject {
         }
     }
     
-    @objc func keyboardWillHide(notification: Notification) {
+    @objc
+    func keyboardWillHide(notification: Notification) {
         print("[Responder] Keyboard will hide")
         self.height = 0
     }

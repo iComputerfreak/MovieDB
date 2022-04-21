@@ -11,6 +11,8 @@ import XCTest
 import CoreData
 
 // swiftlint:disable line_length
+// swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
 class CodableTests: XCTestCase {
     
     let api = TMDBAPI.shared
@@ -21,6 +23,10 @@ class CodableTests: XCTestCase {
     
     override func setUp() {
         testingUtils = TestingUtils()
+    }
+    
+    override func tearDown() {
+        testingUtils = nil
     }
         
     /// Tests the decode and encode functions of TMDBMovieData

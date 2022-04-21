@@ -12,7 +12,8 @@ import CoreData
 
 extension FilterSetting {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
         return NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-struct PlaceholderData {
+enum PlaceholderData {
     
     static let viewContext = PersistenceController.previewContext
     

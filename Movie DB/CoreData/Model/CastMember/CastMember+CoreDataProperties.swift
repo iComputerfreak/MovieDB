@@ -12,7 +12,8 @@ import CoreData
 
 extension CastMember {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<CastMember> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<CastMember> {
         return NSFetchRequest<CastMember>(entityName: "CastMember")
     }
 

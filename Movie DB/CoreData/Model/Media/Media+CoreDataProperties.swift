@@ -13,7 +13,8 @@ import UIKit
 
 extension Media {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Media> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Media> {
         return NSFetchRequest<Media>(entityName: "Media")
     }
 

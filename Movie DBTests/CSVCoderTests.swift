@@ -19,6 +19,10 @@ class CSVCoderTests: XCTestCase {
     override func setUp() {
         testingUtils = TestingUtils()
     }
+    
+    override func tearDown() {
+        testingUtils = nil
+    }
         
     func testDecode() throws {
         let sample1 = """

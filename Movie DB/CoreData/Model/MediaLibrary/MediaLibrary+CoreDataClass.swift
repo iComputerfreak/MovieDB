@@ -74,7 +74,8 @@ public class MediaLibrary: NSManagedObject {
     }
     
     /// Fixes all duplicates IDs by assigning new IDs to the media objects
-    @objc static func fixDuplicates(notification: Notification) {
+    @objc
+    static func fixDuplicates(notification: Notification) {
         // TODO: Fix duplicate TMDB IDs
         // New data has just been merged from iCloud. Check for duplicate Media IDs
         // TODO: Does passing the context like this work?

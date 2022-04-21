@@ -12,6 +12,8 @@ import SwiftUI
 
 /// Represents a utility struct that displays Alerts
 struct AlertHandler {
+    
+    private init() {}
 
     /// Triggers an Alert on the top most view controller in the window
     /// - Parameter alert: The Alert Controller

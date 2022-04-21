@@ -11,7 +11,6 @@ import CoreData
 @testable import Movie_DB
 
 // swiftlint:disable private_over_fileprivate
-// swiftlint:disable function_body_length
 // swiftlint:disable function_parameter_count
 
 struct TestingUtils {

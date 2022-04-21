@@ -12,7 +12,8 @@ import CoreData
 
 extension MediaLibrary {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<MediaLibrary> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<MediaLibrary> {
         return NSFetchRequest<MediaLibrary>(entityName: "MediaLibrary")
     }
     

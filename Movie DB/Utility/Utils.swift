@@ -25,6 +25,8 @@ func undefined<T>(_ message: String = "") -> T {
 
 struct Utils {
     
+    private init() {}
+    
     static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
         
     /// Convenience function to execute a HTTP GET request.

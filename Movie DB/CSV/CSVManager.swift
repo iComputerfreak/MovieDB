@@ -70,6 +70,8 @@ struct CSVManager {
                                                .creationDate]
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
+    private init() {}
+    
     // MARK: Export KeyPaths
     // swiftlint:disable force_cast
     /// Contains the corresponding key paths for all Media `CSVKey`s and an optional converter closure to convert the value to String
@@ -109,6 +111,7 @@ struct CSVManager {
     ]
     // swiftlint:enable force_cast
     
+    // swiftlint:disable:next cyclomatic_complexity
     static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media? {
         // We only need the tmdbID and user values from the CSV
         guard let tmdbIDValue = values[.tmdbID], let tmdbID = Int(tmdbIDValue) else {
@@ -191,6 +194,7 @@ struct CSVManager {
     /// Creates a CSV record (line) from the given media object
     /// - Parameter media: The media object to export
     /// - Returns: The CSV line as a dictionary with all string values, keyed by their CSV header
+    // swiftlint:disable cyclomatic_complexity
     static func createRecord(from media: Media) -> [CSVKey: String] {
         var values: [CSVKey: String] = [:]
         for key in self.exportKeys {

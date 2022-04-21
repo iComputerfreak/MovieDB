@@ -12,7 +12,8 @@ import CoreData
 
 extension Video {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Video> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Video> {
         return NSFetchRequest<Video>(entityName: "Video")
     }
     

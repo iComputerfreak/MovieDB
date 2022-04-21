@@ -12,7 +12,8 @@ import CoreData
 
 extension Show {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Show> {
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Show> {
         return NSFetchRequest<Show>(entityName: "Show")
     }
 
