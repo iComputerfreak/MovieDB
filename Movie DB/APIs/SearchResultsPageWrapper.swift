@@ -10,7 +10,6 @@ import Foundation
 
 /// Deocdes a search result as either a `TMDBMovieSearchResult` or a `TMDBShowSearchResult`.
 struct SearchResultsPageWrapper: PageWrapperProtocol {
-    
     var results: [TMDBSearchResult]
     var totalPages: Int
     
@@ -49,7 +48,6 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
     }
     
     private struct GenericMedia: Codable {
-        
         var mediaType: String
         
         // swiftlint:disable:next nesting

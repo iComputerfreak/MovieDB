@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension Tag {
-
     /// The ID of the tag
     @NSManaged public var id: UUID
     /// The name of the tag
@@ -23,7 +22,7 @@ extension Tag {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Tag> {
-        return NSFetchRequest<Tag>(entityName: "Tag")
+        NSFetchRequest<Tag>(entityName: "Tag")
     }
 }
 

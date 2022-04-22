@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct TagListView: View {
-    
     @Binding var tags: Set<Tag>
     @Environment(\.editMode) private var editMode
     @State private var editingTags = false
@@ -46,7 +45,6 @@ struct TagListView: View {
     }
     
     private struct EditView: View {
-        
         @Environment(\.managedObjectContext) private var managedObjectContext
         
         @FetchRequest(
@@ -57,16 +55,16 @@ struct TagListView: View {
         
         // Keep a local copy of the tags, sorted by name, to modify
         private var sortedTags: [Tag] {
-            allTags.sorted { tag1, tag2 -> Bool in
-                return tag1.name.lexicographicallyPrecedes(tag2.name)
-            }
+            allTags.sorted { $0.name.lexicographicallyPrecedes($1.name) }
         }
         
         var body: some View {
             List {
-                let footerFormatString = NSLocalizedString("%lld tags total",
-                                                           tableName: "Plurals",
-                                                           comment: "Total number of tags")
+                let footerFormatString = NSLocalizedString(
+                    "%lld tags total",
+                    tableName: "Plurals",
+                    comment: "Total number of tags"
+                )
                 let footerString = String.localizedStringWithFormat(footerFormatString, allTags.count)
                 Section(header: Text("Select all tags that apply"), footer: Text(footerString)) {
                     ForEach(self.sortedTags, id: \.id) { tag in
@@ -89,16 +87,20 @@ struct TagListView: View {
                                     let alert = UIAlertController(
                                         title: NSLocalizedString("Rename Tag"),
                                         message: NSLocalizedString("Enter a new name for the tag."),
-                                        preferredStyle: .alert)
+                                        preferredStyle: .alert
+                                    )
                                     alert.addTextField { textField in
                                         textField.autocapitalizationType = .words
                                     }
-                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"),
-                                                                  style: .cancel,
-                                                                  handler: { _ in }))
-                                    alert.addAction(UIAlertAction(title: NSLocalizedString("Rename"),
-                                                                  style: .default,
-                                                                  handler: { _ in
+                                    alert.addAction(UIAlertAction(
+                                        title: NSLocalizedString("Cancel"),
+                                        style: .cancel,
+                                        handler: { _ in }
+                                    ))
+                                    alert.addAction(UIAlertAction(
+                                        title: NSLocalizedString("Rename"),
+                                        style: .default
+                                    ) { _ in
                                         guard let textField = alert.textFields?.first else {
                                             return
                                         }
@@ -106,7 +108,7 @@ struct TagListView: View {
                                             return
                                         }
                                         tag.name = text
-                                    }))
+                                    })
                                     AlertHandler.presentAlert(alert: alert)
                                 } label: {
                                     Image(systemName: "pencil")
@@ -131,9 +133,11 @@ struct TagListView: View {
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("Tags"))
             .navigationBarItems(trailing: Button(action: {
-                let alert = UIAlertController(title: NSLocalizedString("New Tag"),
-                                              message: NSLocalizedString("Enter a name for the new tag."),
-                                              preferredStyle: .alert)
+                let alert = UIAlertController(
+                    title: NSLocalizedString("New Tag"),
+                    message: NSLocalizedString("Enter a name for the new tag."),
+                    preferredStyle: .alert
+                )
                 alert.addTextField { textField in
                     // Change textField properties
                     textField.autocapitalizationType = .words

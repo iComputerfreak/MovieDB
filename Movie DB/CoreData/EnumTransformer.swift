@@ -9,16 +9,12 @@
 import Foundation
 import CoreData
 
+// swiftlint:disable:next file_types_order
 public final class EnumStringTransformer<EnumType: RawRepresentable>: ValueTransformer
 where EnumType.RawValue == String {
+    override public static func transformedValueClass() -> AnyClass { NSString.self }
     
-    override public static func transformedValueClass() -> AnyClass {
-        return NSString.self
-    }
-    
-    override public static func allowsReverseTransformation() -> Bool {
-        return true
-    }
+    override public static func allowsReverseTransformation() -> Bool { true }
     
     override public func transformedValue(_ value: Any?) -> Any? {
         guard let enumValue = value as? EnumType else {
@@ -38,14 +34,9 @@ where EnumType.RawValue == String {
 }
 
 public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransformer where EnumType.RawValue == Int {
+    override public class func transformedValueClass() -> AnyClass { NSNumber.self }
     
-    override public class func transformedValueClass() -> AnyClass {
-        return NSNumber.self
-    }
-    
-    override public class func allowsReverseTransformation() -> Bool {
-        return true
-    }
+    override public class func allowsReverseTransformation() -> Bool { true }
     
     override public func transformedValue(_ value: Any?) -> Any? {
         guard let enumValue = value as? EnumType else {

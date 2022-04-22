@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 extension KeyedDecodingContainer {
-    
     /// Tries to decode a value with any of the given keys
     ///
     /// - Parameters:
@@ -27,8 +26,10 @@ extension KeyedDecodingContainer {
                 return value
             }
         }
-        let context = DecodingError.Context(codingPath: codingPath,
-                                            debugDescription: "No value associated with any of the keys \(keys)")
+        let context = DecodingError.Context(
+            codingPath: codingPath,
+            debugDescription: "No value associated with any of the keys \(keys)"
+        )
         throw DecodingError.keyNotFound(keys.first!, context)
     }
 }
@@ -58,7 +59,7 @@ extension Dictionary where Key == String, Value == Any? {
     ///     [key1: "test", key2: "Hello World"].percentEscaped()
     ///     // Returns "key1=test&key2=Hello%20World"
     func percentEscaped() -> String {
-        return map { key, value in
+        map { key, value in
             let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             let escapedValue = "\(value ?? "null")"
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""

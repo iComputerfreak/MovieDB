@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension Video {
-    
     /// The video key
     @NSManaged public var key: String
     /// The name of the video
@@ -34,7 +33,7 @@ extension Video {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Video> {
-        return NSFetchRequest<Video>(entityName: "Video")
+        NSFetchRequest<Video>(entityName: "Video")
     }
 }
 

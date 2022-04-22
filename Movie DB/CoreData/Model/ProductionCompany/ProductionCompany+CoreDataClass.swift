@@ -12,7 +12,6 @@ import CoreData
 /// Represents a production company
 @objc(ProductionCompany)
 public class ProductionCompany: NSManagedObject, Decodable {
-    
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             throw DecoderConfigurationError.missingManagedObjectContext

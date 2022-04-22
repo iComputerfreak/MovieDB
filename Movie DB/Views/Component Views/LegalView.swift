@@ -10,7 +10,6 @@ import SwiftUI
 
 // TODO: Localize
 struct LegalView: View {
-    
     var tmdbLogo: some View {
         Image("TMDb Logo", bundle: .main)
             .resizable()

@@ -10,7 +10,6 @@ import SwiftUI
 
 /// Represents a basic text view that shows a clickable link
 struct LinkView: View {
-    
     var text: String
     var link: String
     

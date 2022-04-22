@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 extension Image {
-    
     /// Modifies the image to be of a pre-set thumbnail size
     /// - Parameter multiplier: A multiplier value applied to the thumbnail size
     /// - Returns: The image resized to a thumbnail
@@ -18,18 +17,19 @@ extension Image {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: JFLiterals.thumbnailSize.width * multiplier,
-                   height: JFLiterals.thumbnailSize.height * multiplier,
-                   alignment: .center)
+            .frame(
+                width: JFLiterals.thumbnailSize.width * multiplier,
+                height: JFLiterals.thumbnailSize.height * multiplier,
+                alignment: .center
+            )
     }
 }
 
 extension View {
-    
     /// Adds a headline view above this view with the given title
     /// - Parameter headlineKey: The title to use for the headline
     func headline(_ headlineKey: LocalizedStringKey) -> some View {
-        return VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(headlineKey)
                 .font(.caption)
                 .foregroundColor(.primary)
@@ -40,7 +40,7 @@ extension View {
     /// Adds a headline view above this view with the given title
     /// - Parameter headline: The title to use for the headline
     func headline(verbatim headline: String) -> some View {
-        return VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(headline)
                 .font(.caption)
                 .foregroundColor(.primary)

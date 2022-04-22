@@ -12,7 +12,6 @@ import CoreData
 
 @objc(Movie)
 public class Movie: Media {
-    
     /// Creates a new `Movie` object.
     convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
         self.init(context: context)

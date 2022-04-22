@@ -11,7 +11,6 @@ import CoreData
 import UIKit
 
 actor TMDBAPI {
-    
     static let shared = TMDBAPI()
     
     private let apiKey: String = APIKeys.tmdbAPIKey
@@ -112,7 +111,8 @@ actor TMDBAPI {
                         additionalParameters: dateRangeParameters,
                         pageWrapper: ResultsPageWrapper<MediaChangeWrapper>.self,
                         // We use a disposable context since we only use the IDs from the results
-                        context: self.disposableContext)
+                        context: self.disposableContext
+                    )
                     return results
                 }
             }
@@ -145,21 +145,25 @@ actor TMDBAPI {
         fromPage: Int = 1,
         toPage: Int = JFLiterals.maxSearchPages
     ) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
-        try await self.multiPageRequest(path: "/search/multi",
-                                        additionalParameters: [
-                                            "query": query,
-                                            "include_adult": String(includeAdult)
-                                        ],
-                                        fromPage: fromPage,
-                                        toPage: toPage,
-                                        pageWrapper: SearchResultsPageWrapper.self,
-                                        context: self.disposableContext)
+        try await self.multiPageRequest(
+            path: "/search/multi",
+            additionalParameters: [
+                "query": query,
+                "include_adult": String(includeAdult)
+            ],
+            fromPage: fromPage,
+            toPage: toPage,
+            pageWrapper: SearchResultsPageWrapper.self,
+            context: self.disposableContext
+        )
     }
     
     func getTMDBLanguageCodes() async throws -> [String] {
-        try await self.decodeAPIURL(path: "/configuration/primary_translations",
-                                    as: [String].self,
-                                    context: disposableContext)
+        try await self.decodeAPIURL(
+            path: "/configuration/primary_translations",
+            as: [String].self,
+            context: disposableContext
+        )
     }
     
     // MARK: - Private functions
@@ -180,65 +184,66 @@ actor TMDBAPI {
         pageWrapper: PageWrapper.Type,
         context: NSManagedObjectContext
     ) async throws -> (results: [PageWrapper.ObjectWrapper], totalPages: Int) {
-            
-            // TODO: Use ClosedRange instead
-            guard fromPage <= toPage else {
-                throw APIError.invalidPageRange
-            }
-            // Create a child context to make the changes in, before merging them with the actual context given
-            let childContext = context.newBackgroundContext()
-            let decoder = self.decoder(context: childContext)
-
-            // Fetch the JSON in the background
-            // TODO: async let
-            let data = try await self.request(
-                path: path,
-                additionalParameters: additionalParameters.merging(["page": String(fromPage)]))
-            // Decode on the child context thread
-            let wrapper = try await childContext.perform {
-                return try decoder.decode(PageWrapper.self, from: data)
-            }
-            
-            if wrapper.totalPages == 0 {
-                // No results
-                return ([], 0)
-            } else if wrapper.totalPages < fromPage {
-                // If the page we were requested to load was out of bounds
-                throw APIError.pageOutOfBounds(wrapper.totalPages)
-            } else if wrapper.totalPages == fromPage {
-                // If we only had to load 1 page in total, we can complete now
-                return (wrapper.results, wrapper.totalPages)
-            }
-            
-            // MARK: Load the additional pages
-            let additionalResults: [PageWrapper.ObjectWrapper] = try await withThrowingTaskGroup(
-                of: [PageWrapper.ObjectWrapper].self) { group in
-                // Fetch the pages concurrently
-                for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
-                    // Fetch the page
-                    group.addTask {
-                        let newParameters = additionalParameters.merging(["page": String(page)])
-                        // Make the request
-                        let data = try await self.request(path: path, additionalParameters: newParameters)
-                        // Decode the data in the context's thread
-                        let wrapper = try await context.perform {
-                            try decoder.decode(PageWrapper.self, from: data)
-                        }
-                        return wrapper.results
+        // TODO: Use ClosedRange instead
+        guard fromPage <= toPage else {
+            throw APIError.invalidPageRange
+        }
+        // Create a child context to make the changes in, before merging them with the actual context given
+        let childContext = context.newBackgroundContext()
+        let decoder = self.decoder(context: childContext)
+        
+        // Fetch the JSON in the background
+        // TODO: async let
+        let data = try await self.request(
+            path: path,
+            additionalParameters: additionalParameters.merging(["page": String(fromPage)])
+        )
+        // Decode on the child context thread
+        let wrapper = try await childContext.perform {
+            return try decoder.decode(PageWrapper.self, from: data) // swiftlint:disable:this implicit_return
+        }
+        
+        if wrapper.totalPages == 0 {
+            // No results
+            return ([], 0)
+        } else if wrapper.totalPages < fromPage {
+            // If the page we were requested to load was out of bounds
+            throw APIError.pageOutOfBounds(wrapper.totalPages)
+        } else if wrapper.totalPages == fromPage {
+            // If we only had to load 1 page in total, we can complete now
+            return (wrapper.results, wrapper.totalPages)
+        }
+        
+        // MARK: Load the additional pages
+        let additionalResults: [PageWrapper.ObjectWrapper] = try await withThrowingTaskGroup(
+            of: [PageWrapper.ObjectWrapper].self
+        ) { group in
+            // Fetch the pages concurrently
+            for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
+                // Fetch the page
+                group.addTask {
+                    let newParameters = additionalParameters.merging(["page": String(page)])
+                    // Make the request
+                    let data = try await self.request(path: path, additionalParameters: newParameters)
+                    // Decode the data in the context's thread
+                    let wrapper = try await context.perform {
+                        try decoder.decode(PageWrapper.self, from: data)
                     }
+                    return wrapper.results
                 }
-                
-                var allResults: [PageWrapper.ObjectWrapper] = []
-                for try await results in group {
-                    allResults.append(contentsOf: results)
-                }
-                return allResults
             }
             
-            // Save the changes to the parent context
-            await PersistenceController.saveContext(childContext)
-            // Return the results from page 1 + the additional results loaded from the other pages
-            return (wrapper.results + additionalResults, wrapper.totalPages)
+            var allResults: [PageWrapper.ObjectWrapper] = []
+            for try await results in group {
+                allResults.append(contentsOf: results)
+            }
+            return allResults
+        }
+        
+        // Save the changes to the parent context
+        await PersistenceController.saveContext(childContext)
+        // Return the results from page 1 + the additional results loaded from the other pages
+        return (wrapper.results + additionalResults, wrapper.totalPages)
     }
     
     /// Loads and decodes a subclass of `TMDBData` for the given TMDB ID and type
@@ -255,7 +260,8 @@ actor TMDBAPI {
             additionalParameters: parameters,
             as: TMDBData.self,
             context: context,
-            userInfo: [.mediaType: type])
+            userInfo: [.mediaType: type]
+        )
     }
     
     /// Loads and decodes an API URL
@@ -280,7 +286,7 @@ actor TMDBAPI {
         // Merge the userInfo dicts, preferring the new, user-supplied values
         decoder.userInfo.merge(userInfo)
         return try await context.perform {
-            return try decoder.decode(T.self, from: data)
+            return try decoder.decode(T.self, from: data) // swiftlint:disable:this implicit_return
         }
     }
     

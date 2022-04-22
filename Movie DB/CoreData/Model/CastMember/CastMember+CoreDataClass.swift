@@ -13,7 +13,6 @@ import CoreData
 /// Represents an actor starring in a specific movie
 @objc(CastMember)
 public class CastMember: NSManagedObject, Decodable {
-    
     // MARK: - Initializers
     
     public convenience init(

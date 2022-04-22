@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ProInfoView: View {
-    
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
@@ -48,7 +47,8 @@ struct ProInfoView: View {
                         }) else {
                             AlertHandler.showSimpleAlert(
                                 title: NSLocalizedString("Unable to Purchase"),
-                                message: NSLocalizedString("The requested In-App Purchase was not found."))
+                                message: NSLocalizedString("The requested In-App Purchase was not found.")
+                            )
                             return
                         }
                         // Execute the purchase
@@ -75,13 +75,12 @@ struct ProInfoView: View {
 }
 
 struct ProInfoView_Previews: PreviewProvider {
-    
     @State private static var isShowing = true
     
     static var previews: some View {
         Text("Hello, world!")
-            .popover(isPresented: $isShowing, content: {
+            .popover(isPresented: $isShowing) {
                 ProInfoView()
-            })
+            }
     }
 }

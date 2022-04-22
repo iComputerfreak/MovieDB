@@ -9,7 +9,6 @@
 import Foundation
 
 extension TMDBAPI.APIError: LocalizedError {
-    
     var errorDescription: String? {
         switch self {
         case .invalidResponse:

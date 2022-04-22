@@ -11,7 +11,6 @@ import CSVImporter
 import CoreData
 
 struct CSVManager {
-    
     typealias Converter = (Any) -> String
     
     static let separator: Character = ";"
@@ -26,8 +25,10 @@ struct CSVManager {
     }()
     
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
+    // swiftlint:disable multiline_literal_brackets
     static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched,
                                                .creationDate]
+    // swiftlint:enable multiline_literal_brackets
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
     // MARK: Export KeyPaths
@@ -237,7 +238,7 @@ struct CSVManager {
         // CSV Values
         for mediaObject in mediaObjects {
             let values = self.createRecord(from: mediaObject)
-            let line: [String] = exportKeys.map({ values[$0]! })
+            let line: [String] = exportKeys.map { values[$0]! }
             csv.append(line.joined(separator: separator))
         }
         return csv.joined(separator: lineSeparator)
@@ -285,10 +286,9 @@ struct CSVManager {
 }
 
 fileprivate extension Dictionary where Key == String {
-    
     subscript(key: CSVManager.CSVKey) -> Value? {
         get {
-            return self[key.rawValue]
+            self[key.rawValue]
         }
         set(newValue) {
             self[key.rawValue] = newValue

@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct SearchResultView: View {
-    
     /// The search result to display
     @ObservedObject var result: TMDBSearchResult
     
@@ -82,7 +81,8 @@ struct SearchResultView_Previews: PreviewProvider {
                             voteAverage: 0.0,
                             voteCount: 0,
                             isAdult: true,
-                            releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
+                            releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")
+                        ))
                         .background(Color.red)
                     }
                 }
@@ -101,7 +101,8 @@ struct SearchResultView_Previews: PreviewProvider {
                 voteAverage: 0.0,
                 voteCount: 0,
                 isAdult: true,
-                releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")))
+                releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")
+            ))
             .background(Color.red)
                 .previewLayout(.fixed(width: 300, height: 100))
         }

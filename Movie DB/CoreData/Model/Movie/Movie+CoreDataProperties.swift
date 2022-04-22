@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension Movie {
-
     /// Whether the user has watched the media (partly or fully)
     public var watched: Bool? {
         get { getOptional(forKey: "watched") }
@@ -50,6 +49,6 @@ extension Movie {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Movie> {
-        return NSFetchRequest<Movie>(entityName: "Movie")
+        NSFetchRequest<Movie>(entityName: "Movie")
     }
 }

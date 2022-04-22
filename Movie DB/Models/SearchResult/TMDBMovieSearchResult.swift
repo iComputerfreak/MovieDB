@@ -32,15 +32,18 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     ) {
         self.isAdult = isAdult
         self.releaseDate = releaseDate
-        super.init(id: id,
-                   title: title, mediaType: mediaType,
-                   imagePath: imagePath,
-                   overview: overview,
-                   originalTitle: originalTitle,
-                   originalLanguage: originalLanguage,
-                   popularity: popularity,
-                   voteAverage: voteAverage,
-                   voteCount: voteCount)
+        super.init(
+            id: id,
+            title: title,
+            mediaType: mediaType,
+            imagePath: imagePath,
+            overview: overview,
+            originalTitle: originalTitle,
+            originalLanguage: originalLanguage,
+            popularity: popularity,
+            voteAverage: voteAverage,
+            voteCount: voteCount
+        )
     }
     
     // MARK: - Codable Conformance

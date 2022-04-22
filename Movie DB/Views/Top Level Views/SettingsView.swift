@@ -13,7 +13,6 @@ import CSVImporter
 
 // TODO: Too long!
 struct SettingsView: View {
-    
     // Reference to the config instance
     @ObservedObject private var config = JFConfig.shared
     @ObservedObject private var library = MediaLibrary.shared
@@ -96,7 +95,6 @@ struct SettingsView: View {
                         Button("Export Tags", action: self.exportTags)
                     }
                     Section(footer: self.footer()) {
-                        
                         // MARK: - Reload Button
                         Button("Reload Media", action: self.reloadMedia)
                         
@@ -122,7 +120,8 @@ struct SettingsView: View {
                     AlertHandler.showYesNoAlert(
                         title: NSLocalizedString("Reload library?"),
                         message: NSLocalizedString("Do you want to reload all media objects using the new language?"),
-                        yesAction: { _ in self.reloadMedia() })
+                        yesAction: { _ in self.reloadMedia() }
+                    )
                     self.languageChanged = false
                 }
             }
@@ -142,8 +141,10 @@ struct SettingsView: View {
                 try await self.library.reloadAll()
                 await MainActor.run {
                     self.reloadInProgress = false
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Reload Completed"),
-                                                 message: NSLocalizedString("All media objects have been reloaded."))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Reload Completed"),
+                        message: NSLocalizedString("All media objects have been reloaded.")
+                    )
                 }
             } catch {
                 print("Error reloading media objects: \(error)")
@@ -170,8 +171,10 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.updateInProgress = false
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Update Completed"),
-                                                 message: String.localizedStringWithFormat(format, updateCount))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Update Completed"),
+                        message: String.localizedStringWithFormat(format, updateCount)
+                    )
                 }
             } catch {
                 print("Error updating media objects: \(error)")
@@ -179,7 +182,8 @@ struct SettingsView: View {
                 await MainActor.run {
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Update Error"),
-                        message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)"))
+                        message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)")
+                    )
                     self.updateInProgress = false
                 }
             }
@@ -219,58 +223,66 @@ struct SettingsView: View {
                 do {
                     let csvString = try String(contentsOf: url)
                     print("Read csv file. Trying to import into library.")
-                    CSVHelper.importMediaObjects(csvString: csvString,
-                                                 importContext: importContext,
-                                                 onProgress: { progress in
-                        // Update the loading view
-                        self.loadingText = "Loading \(progress) media objects..."
-                    }, onFail: { log in
-                        importLogger?.log(contentsOf: log, level: .info)
-                        importLogger?.critical("Importing failed!")
-                        self.importLogShowing = true
-                    }, onFinish: { mediaObjects, log in
-                        importLogger?.log(contentsOf: log, level: .info)
-                        // Presenting will change UI
-                        DispatchQueue.main.async {
-                            // TODO: Tell the user how many duplicates were not added
-                            let format = NSLocalizedString("Imported %lld media objects.", tableName: "Plurals")
-                            let controller = UIAlertController(
-                                title: NSLocalizedString("Import"),
-                                message: String.localizedStringWithFormat(format, mediaObjects.count),
-                                preferredStyle: .alert)
-                            controller.addAction(UIAlertAction(title: NSLocalizedString("Undo"),
-                                                               style: .destructive,
-                                                               handler: { _ in
-                                // Reset all the work we have just done
-                                importContext.reset()
-                                importLogger?.info("Undoing import. All imported objects removed.")
-                                self.importLogShowing = true
-                            }))
-                            controller.addAction(UIAlertAction(title: NSLocalizedString("Ok"),
-                                                               style: .default,
-                                                               handler: { _ in
-                                Task {
-                                    // Make the changes to this context permanent by saving them to disk
-                                    await PersistenceController.saveContext(importContext)
-                                    await MainActor.run {
-                                        // TODO: Replace when using real logger
-                                        // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
-                                        self.importLogger?.info("Import complete.")
-                                        self.importLogShowing = true
+                    CSVHelper.importMediaObjects(
+                        csvString: csvString,
+                        importContext: importContext,
+                        onProgress: { progress in
+                            // Update the loading view
+                            self.loadingText = "Loading \(progress) media objects..."
+                        },
+                        onFail: { log in
+                            importLogger?.log(contentsOf: log, level: .info)
+                            importLogger?.critical("Importing failed!")
+                            self.importLogShowing = true
+                        },
+                        onFinish: { mediaObjects, log in
+                            importLogger?.log(contentsOf: log, level: .info)
+                            // Presenting will change UI
+                            DispatchQueue.main.async {
+                                // TODO: Tell the user how many duplicates were not added
+                                let format = NSLocalizedString("Imported %lld media objects.", tableName: "Plurals")
+                                let controller = UIAlertController(
+                                    title: NSLocalizedString("Import"),
+                                    message: String.localizedStringWithFormat(format, mediaObjects.count),
+                                    preferredStyle: .alert
+                                )
+                                controller.addAction(UIAlertAction(
+                                    title: NSLocalizedString("Undo"),
+                                    style: .destructive
+                                ) { _ in
+                                    // Reset all the work we have just done
+                                    importContext.reset()
+                                    importLogger?.info("Undoing import. All imported objects removed.")
+                                    self.importLogShowing = true
+                                })
+                                controller.addAction(UIAlertAction(
+                                    title: NSLocalizedString("Ok"),
+                                    style: .default
+                                ) { _ in
+                                    Task {
+                                        // Make the changes to this context permanent by saving them to disk
+                                        await PersistenceController.saveContext(importContext)
+                                        await MainActor.run {
+                                            // TODO: Replace when using real logger
+                                            // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
+                                            self.importLogger?.info("Import complete.")
+                                            self.importLogShowing = true
+                                        }
                                     }
-                                }
-                            }))
-                            self.isLoading = false
-                            // Reset the loading text
-                            self.loadingText = nil
-                            AlertHandler.presentAlert(alert: controller)
+                                })
+                                self.isLoading = false
+                                // Reset the loading text
+                                self.loadingText = nil
+                                AlertHandler.presentAlert(alert: controller)
+                            }
                         }
-                    })
+                    )
                 } catch {
                     print("Error importing: \(error)")
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Import Error"),
-                        message: NSLocalizedString("Error importing the media objects: \(error.localizedDescription)"))
+                        message: NSLocalizedString("Error importing the media objects: \(error.localizedDescription)")
+                    )
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -294,13 +306,13 @@ struct SettingsView: View {
         // Perform the export in a separate context on a background thread
         PersistenceController.shared.container.performBackgroundTask { (exportContext: NSManagedObjectContext) in
             exportContext.name = "Export Context"
-            let url: URL!
+            let url: URL?
             do {
                 let medias = Utils.allMedias(context: self.managedObjectContext)
                 let csv = CSVManager.createCSV(from: medias)
                 // Save the csv as a file to share it
                 url = Utils.documentsPath.appendingPathComponent("MovieDB_Export_\(Utils.isoDateString()).csv")
-                try csv.write(to: url, atomically: true, encoding: .utf8)
+                try csv.write(to: url!, atomically: true, encoding: .utf8)
             } catch let exception {
                 print("Error writing CSV file")
                 print(exception)
@@ -309,7 +321,7 @@ struct SettingsView: View {
             }
             #if targetEnvironment(macCatalyst)
             // Show save file dialog
-            self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+            self.documentPicker = DocumentPicker(urlToExport: url) { url in
                 print("Exporting \(url.lastPathComponent).")
                 // Document picker finished. Invalidate it.
                 self.documentPicker = nil
@@ -320,10 +332,10 @@ struct SettingsView: View {
                     print("Error exporting csv file:")
                     print(exception)
                 }
-            }, onCancel: {
+            } onCancel: {
                 print("Canceling...")
                 self.documentPicker = nil
-            })
+            }
             // On macOS present the file picker manually
             UIApplication.shared.windows[0].rootViewController!
                 .present(self.documentPicker!.viewController, animated: true)
@@ -358,10 +370,12 @@ struct SettingsView: View {
                         let controller = UIAlertController(
                             title: NSLocalizedString("Import"),
                             message: String.localizedStringWithFormat(format, count),
-                            preferredStyle: .alert)
-                        controller.addAction(UIAlertAction(title: NSLocalizedString("Yes"),
-                                                           style: .default,
-                                                           handler: { _ in
+                            preferredStyle: .alert
+                        )
+                        controller.addAction(UIAlertAction(
+                            title: NSLocalizedString("Yes"),
+                            style: .default
+                        ) { _ in
                             // Use a background context for importing the tags
                             PersistenceController.shared.container.performBackgroundTask { context in
                                 context.name = "Tag Import Context"
@@ -372,11 +386,13 @@ struct SettingsView: View {
                                     }
                                 } catch {
                                     print(error)
-                                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error Importing Tags"),
-                                                                 message: error.localizedDescription)
+                                    AlertHandler.showSimpleAlert(
+                                        title: NSLocalizedString("Error Importing Tags"),
+                                        message: error.localizedDescription
+                                    )
                                 }
                             }
-                        }))
+                        })
                         controller.addAction(UIAlertAction(title: NSLocalizedString("No"), style: .cancel))
                         AlertHandler.presentAlert(alert: controller)
                         self.isLoading = false
@@ -385,7 +401,8 @@ struct SettingsView: View {
                     print("Error importing: \(error)")
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Import Error"),
-                        message: NSLocalizedString("Error Importing the Tags: \(error.localizedDescription)"))
+                        message: NSLocalizedString("Error Importing the Tags: \(error.localizedDescription)")
+                    )
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -393,8 +410,10 @@ struct SettingsView: View {
                     print("Unknown Error: \(otherError)")
                     assertionFailure("This error should be captured specifically to give the user a more precise " +
                                      "error message.")
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Import Error"),
-                                                 message: NSLocalizedString("There was an error importing the tags."))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Import Error"),
+                        message: NSLocalizedString("There was an error importing the tags.")
+                    )
                     DispatchQueue.main.async {
                         self.isLoading = false
                     }
@@ -416,12 +435,12 @@ struct SettingsView: View {
         
         PersistenceController.shared.container.performBackgroundTask { context in
             context.name = "Tag Export Context"
-            var url: URL!
+            var url: URL?
             do {
                 let exportData: String = try TagImporter.export(context: context)
                 // Save as a file to share it
                 url = Utils.documentsPath.appendingPathComponent("MovieDB_Tags_Export_\(Utils.isoDateString()).txt")
-                try exportData.write(to: url, atomically: true, encoding: .utf8)
+                try exportData.write(to: url!, atomically: true, encoding: .utf8)
             } catch let exception {
                 print("Error writing Tags Export file")
                 print(exception)
@@ -430,7 +449,7 @@ struct SettingsView: View {
             }
             #if targetEnvironment(macCatalyst)
             // Show save file dialog
-            self.documentPicker = DocumentPicker(urlToExport: url, onSelect: { url in
+            self.documentPicker = DocumentPicker(urlToExport: url) { url in
                 print("Exporting \(url.lastPathComponent).")
                 // Document picker finished. Invalidate it.
                 self.documentPicker = nil
@@ -441,10 +460,10 @@ struct SettingsView: View {
                     print("Error exporting Tag Export file:")
                     print(exception)
                 }
-            }, onCancel: {
+            } onCancel: {
                 print("Canceling...")
                 self.documentPicker = nil
-            })
+            }
             // On macOS present the file picker manually
             UIApplication.shared.windows[0].rootViewController!
                 .present(self.documentPicker!.viewController, animated: true)
@@ -459,19 +478,25 @@ struct SettingsView: View {
         let controller = UIAlertController(
             title: NSLocalizedString("Reset Library"),
             message: NSLocalizedString("This will delete all media objects in your library. Do you want to continue?"),
-            preferredStyle: .alert)
+            preferredStyle: .alert
+        )
         controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Delete"), style: .destructive, handler: { _ in
+        controller.addAction(UIAlertAction(
+            title: NSLocalizedString("Delete"),
+            style: .destructive
+        ) { _ in
             // Don't reset the tags, only the media objects
             do {
                 try self.library.reset()
             } catch let e {
                 print("Error resetting media library")
                 print(e)
-                AlertHandler.showSimpleAlert(title: NSLocalizedString("Error resetting library"),
-                                             message: e.localizedDescription)
+                AlertHandler.showSimpleAlert(
+                    title: NSLocalizedString("Error resetting library"),
+                    message: e.localizedDescription
+                )
             }
-        }))
+        })
         AlertHandler.presentAlert(alert: controller)
     }
     
@@ -498,14 +523,13 @@ struct SettingsView: View {
     
     // MARK: - Views
     struct LanguagePickerView: View {
-        
         @ObservedObject var config: JFConfig
         
         var body: some View {
             Picker("Language", selection: $config.language) {
                 if config.availableLanguages.isEmpty {
                     Text("Loading...")
-                        .task({ await self.updateLanguages() })
+                        .task { await self.updateLanguages() }
                 } else {
                     ForEach(config.availableLanguages, id: \.self) { code in
                         let languageName = Locale.current.localizedString(forIdentifier: code) ?? code
@@ -526,7 +550,8 @@ struct SettingsView: View {
                         print(error)
                         AlertHandler.showSimpleAlert(
                             title: "Error updating languages",
-                            message: "There was an error updating the available languages.")
+                            message: "There was an error updating the available languages."
+                        )
                     }
                 }
             }
@@ -538,7 +563,6 @@ struct SettingsView: View {
     }
     
     struct ImportLogViewer: View {
-        
         let logger: TagImporter.BasicLogger
         
         @Environment(\.presentationMode) var presentationMode

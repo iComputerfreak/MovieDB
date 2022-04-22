@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 enum PlaceholderData {
-    
     static let viewContext = PersistenceController.previewContext
     
     static let allMedia: [Media] = fetchAll()

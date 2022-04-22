@@ -26,7 +26,6 @@ public struct EpisodeNumber: Codable, Hashable {
 }
 
 extension EpisodeNumber: LosslessStringConvertible {
-    
     public var description: String { episode == nil ? "\(season)" : "\(season)/\(episode!)" }
     
     /// Instantiates an instance of the conforming type from a string

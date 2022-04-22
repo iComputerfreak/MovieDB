@@ -11,7 +11,6 @@ import CoreData
 
 /// Represents a `CastMember` that was decoded from the aggregate_casts key
 struct AggregateCastMember: Decodable {
-    
     var id: Int
     /// The name of the actor
     var name: String

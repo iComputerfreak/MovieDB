@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct UserData: View {
-    
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     
@@ -25,19 +24,23 @@ struct UserData: View {
                 // Watched field
                 if mediaObject.type == .movie {
                     // swiftlint:disable force_cast
-                    SimpleValueView<Bool>.createYesNo(value: .init(get: { (self.mediaObject as! Movie).watched },
-                                                                   set: { (self.mediaObject as! Movie).watched = $0 }))
+                    SimpleValueView<Bool>.createYesNo(value: .init(
+                        get: { (self.mediaObject as! Movie).watched },
+                        set: { (self.mediaObject as! Movie).watched = $0 }
+                    ))
                     // swiftlint:enable force_cast
-                        .environment(\.editMode, editMode)
-                        .headline("Watched?")
+                    .environment(\.editMode, editMode)
+                    .headline("Watched?")
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
-                    WatchedShowView(lastWatched: .init(get: { (mediaObject as! Show).lastWatched },
-                                                       set: { (mediaObject as! Show).lastWatched = $0 }))
+                    WatchedShowView(lastWatched: .init(
+                        get: { (mediaObject as! Show).lastWatched },
+                        set: { (mediaObject as! Show).lastWatched = $0 }
+                    ))
                     // swiftlint:enable force_cast
-                        .environment(\.editMode, editMode)
-                        .headline("Watched?")
+                    .environment(\.editMode, editMode)
+                    .headline("Watched?")
                 }
                 // Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)

@@ -13,7 +13,7 @@ import CoreData
 
 // swiftlint:disable line_length
 class CSVCoderTests: XCTestCase {
-    
+    // swiftlint:disable:next implicitly_unwrapped_optional
     var testingUtils: TestingUtils!
     
     override func setUp() {
@@ -146,7 +146,7 @@ class CSVCoderTests: XCTestCase {
         }
         
         // Map the values to their headers to make a dictionary
-        let components: [[String]] = lines.dropFirst().map({ $0.components(separatedBy: CSVManager.separator) })
+        let components: [[String]] = lines.dropFirst().map { $0.components(separatedBy: CSVManager.separator) }
         var dictionaries: [[CSVManager.CSVKey: String]] = []
         for line in components {
             XCTAssertEqual(line.count, CSVManager.exportKeys.count)

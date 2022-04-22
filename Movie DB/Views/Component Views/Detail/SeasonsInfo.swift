@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct SeasonsInfo: View {
-    
     @EnvironmentObject private var mediaObject: Media
     /// The season thumbnails
     @State private var seasonThumbnails: [Int: UIImage?] = [:]
@@ -65,8 +64,8 @@ struct SeasonsInfo: View {
     }
 }
 
+// swiftlint:disable:next file_types_order
 struct SeasonInfo: View {
-    
     @State var season: Season
     @Binding var thumbnail: UIImage??
     

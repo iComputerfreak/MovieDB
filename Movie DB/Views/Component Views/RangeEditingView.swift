@@ -11,7 +11,6 @@ import SwiftUI
 /// Represents a view in which you can choose a `ClosedRange` of values
 struct RangeEditingView<Label, ValueLabel, T>: View
 where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLabel: View {
-    
     let title: Text
     let bounds: ClosedRange<T>
     @Binding var setting: ClosedRange<T>?
@@ -57,6 +56,7 @@ where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLab
     }
 }
 
+// swiftlint:disable:next file_types_order
 extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueLabel)>> {
     /// Convenience init that synthesizes `fromLabel` and `toLabel` using `valueLabel`
     init(
@@ -66,32 +66,42 @@ extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueL
         style: Style,
         valueLabel: @escaping (T) -> ValueLabel
     ) {
-        self.init(title: title, bounds: bounds, setting: setting, style: style, fromLabel: { value in
-            HStack {
-                Text("From")
-                Spacer()
-                valueLabel(value)
-            }
-        }, toLabel: { value in
-            HStack {
-                Text("To")
-                Spacer()
-                valueLabel(value)
-            }
-        }, valueLabel: valueLabel)
+        self.init(
+            title: title,
+            bounds: bounds,
+            setting: setting,
+            style: style,
+            fromLabel: { value in
+                HStack {
+                    Text("From")
+                    Spacer()
+                    valueLabel(value)
+                }
+            }, toLabel: { value in
+                HStack {
+                    Text("To")
+                    Spacer()
+                    valueLabel(value)
+                }
+            },
+            valueLabel: valueLabel
+        )
     }
 }
 
+// swiftlint:disable:next file_types_order
 extension RangeEditingView where Label == Text, ValueLabel == Text, T: CustomStringConvertible {
     /// Convenience init for default labels
     init(title: Text, bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style) {
-        self.init(title: title,
-                  bounds: bounds,
-                  setting: setting,
-                  style: style,
-                  fromLabel: { Text("From \($0.description)") },
-                  toLabel: { Text("To \($0.description)") },
-                  valueLabel: { Text($0.description) })
+        self.init(
+            title: title,
+            bounds: bounds,
+            setting: setting,
+            style: style,
+            fromLabel: { Text("From \($0.description)") },
+            toLabel: { Text("To \($0.description)") },
+            valueLabel: { Text($0.description) }
+        )
     }
 }
 

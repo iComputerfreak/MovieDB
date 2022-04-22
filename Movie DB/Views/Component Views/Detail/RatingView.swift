@@ -10,7 +10,6 @@ import SwiftUI
 
 /// Provides a view that displays an editable star rating
 struct RatingView: View {
-    
     @Binding var rating: StarRating
     @Environment(\.editMode) private var editMode
     
@@ -27,7 +26,7 @@ struct RatingView: View {
     }
     
     private func stars(_ rating: StarRating) -> some View {
-        return HStack {
+        HStack {
             ForEach(Array(0..<(rating.integerRepresentation / 2)), id: \.self) { _ in
                 Image(systemName: "star.fill")
             }
@@ -91,7 +90,6 @@ struct RatingView_Previews: PreviewProvider {
 }
 
 public enum StarRating: Int, Strideable, Codable {
-    
     case noRating = 0
     case halfStar
     case oneStar
@@ -107,9 +105,7 @@ public enum StarRating: Int, Strideable, Codable {
     public typealias Stride = Int
     
     /// The integer value of the rating (amount of half stars)
-    var integerRepresentation: Int {
-        return rawValue
-    }
+    var integerRepresentation: Int { rawValue }
     
     /// The amount of full stars as a string with an optional fraction digit
     var starAmount: String {
@@ -129,10 +125,10 @@ public enum StarRating: Int, Strideable, Codable {
     }
     
     public func advanced(by n: Int) -> StarRating {
-        return StarRating(rawValue: self.rawValue + n)!
+        StarRating(rawValue: self.rawValue + n)!
     }
     
     public func distance(to other: StarRating) -> Int {
-        return other.rawValue - self.rawValue
+        other.rawValue - self.rawValue
     }
 }

@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension Season {
-
     /// The id of the season on TMDB
     public var id: Int {
         get { getInt(forKey: "id") }
@@ -40,7 +39,7 @@ extension Season {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Season> {
-        return NSFetchRequest<Season>(entityName: "Season")
+        NSFetchRequest<Season>(entityName: "Season")
     }
 }
 

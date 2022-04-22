@@ -12,7 +12,6 @@ import XCTest
 @testable import Movie_DB
 
 class JFUtilsTests: XCTestCase {
-    
     func testLocale() {
         XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "en")), "English")
         XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "de")), "Englisch")

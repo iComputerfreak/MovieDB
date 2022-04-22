@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct LibraryHome: View {
-    
     @ObservedObject private var library = MediaLibrary.shared
     // The filter setting
     @ObservedObject private var filterSetting = FilterSetting.shared
@@ -48,11 +47,13 @@ struct LibraryHome: View {
                 VStack {
                     // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
                     // This way, the fetchRequest inside LibraryList will be re-built every time the searchText changes
-                    LibraryList(searchText: searchText,
-                                filterSetting: filterSetting,
-                                sortingOrder: sortingOrder,
-                                sortingDirection: sortingDirection)
-                        .searchable(text: $searchText)
+                    LibraryList(
+                        searchText: searchText,
+                        filterSetting: filterSetting,
+                        sortingOrder: sortingOrder,
+                        sortingDirection: sortingDirection
+                    )
+                    .searchable(text: $searchText)
                 }
                 
                 // Display the currently active sheet
@@ -81,7 +82,7 @@ struct LibraryHome: View {
                         Section {
                             // To allow toggling the sorting direction, we need to use a custom binding as proxy
                             let sortingOrderProxy = Binding<SortingOrder> {
-                                return self.sortingOrder
+                                self.sortingOrder
                             } set: { newValue in
                                 if self.sortingOrder == newValue {
                                     // Toggle the direction when tapping an already selected item
@@ -95,9 +96,10 @@ struct LibraryHome: View {
                             Picker(selection: sortingOrderProxy, label: Text("Sorting")) {
                                 ForEach(SortingOrder.allCases, id: \.rawValue) { order in
                                     if self.sortingOrder == order {
-                                        Label(NSLocalizedString(order.rawValue),
-                                              systemImage: self.sortingDirection == .ascending ? "chevron.up" : "chevron.down")
-                                        // swiftlint:disable:previous line_length
+                                        Label(
+                                            NSLocalizedString(order.rawValue),
+                                            systemImage: sortingDirection == .ascending ? "chevron.up" : "chevron.down"
+                                        )
                                             .tag(order)
                                     } else {
                                         Text(NSLocalizedString(order.rawValue))
@@ -109,11 +111,12 @@ struct LibraryHome: View {
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     },
-                    trailing: Button(action: {
+                    trailing: Button {
                         self.activeSheet = .addMedia
-                    }, label: {
+                    } label: {
                         Image(systemName: "plus")
-                    }))
+                    }
+                )
                 .navigationBarTitle(Text("Library"))
             }
         }
@@ -131,7 +134,6 @@ struct LibraryHome: View {
     }
     
     private struct MenuLabel: View {
-        
         let title: String
         @State var image: Image?
         

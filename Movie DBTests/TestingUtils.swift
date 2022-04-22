@@ -15,7 +15,6 @@ import CoreData
 // swiftlint:disable prefer_self_in_static_references
 
 struct TestingUtils {
-    
     let context: NSManagedObjectContext
     
     let previewTags: Set<Tag>
@@ -113,7 +112,7 @@ struct TestingUtils {
     }
     
     static func getPreviewTags(_ tagNames: [String], of tags: Set<Tag>) -> Set<Tag> {
-        return Set(tagNames.map({ name in
+        Set(tagNames.map { name in
             let tag = tags.first { tag in
                 tag.name == name
             }
@@ -121,11 +120,11 @@ struct TestingUtils {
                 fatalError("Preview Tag \(name) does not exist.")
             }
             return tag
-        }))
+        })
     }
                      
     func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
-        return TestingUtils.getPreviewTags(tagNames, of: self.previewTags)
+        TestingUtils.getPreviewTags(tagNames, of: self.previewTags)
     }
 }
 
@@ -133,7 +132,6 @@ struct TestingUtils {
 
 /// Tests each element of the array by itself, to get a more local error
 func assertEqual<T>(_ value1: [T], _ value2: [T]) where T: Equatable {
-    
     XCTAssertEqual(value1.count, value2.count)
     for i in 0..<value1.count {
         XCTAssertEqual(value1[i], value2[i])
@@ -153,7 +151,6 @@ func assertEqual(_ date: Date?, _ year: Int, _ month: Int, _ day: Int) {
 // MARK: assertEqual() overloads for specific NSManagedObjects
 
 fileprivate struct ProductionCompanyDummy: Equatable {
-    
     let id: Int
     let name: String
     let logoPath: String?
@@ -174,7 +171,6 @@ func assertEqual(_ value1: [ProductionCompany], _ value2: [ProductionCompany]) {
 }
 
 fileprivate struct GenreDummy: Equatable {
-    
     let id: Int
     let name: String
     
@@ -191,7 +187,6 @@ func assertEqual(_ value1: [Genre], _ value2: [Genre]) {
 }
 
 fileprivate struct VideoDummy: Equatable {
-    
     let key: String
     let name: String
     let site: String
@@ -218,7 +213,6 @@ func assertEqual(_ value1: [Video], _ value2: [Video]) {
 }
 
 fileprivate struct CastMemberDummy: Equatable {
-    
     let id: Int
     let name: String
     let roleName: String
@@ -239,7 +233,6 @@ func assertEqual(_ value1: [CastMember], _ value2: [CastMember]) {
 }
 
 fileprivate struct SeasonDummy: Equatable {
-    
     let id: Int
     let seasonNumber: Int
     let episodeCount: Int

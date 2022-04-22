@@ -16,9 +16,7 @@ enum SortingOrder: String, Equatable, CaseIterable {
     // TODO: More sorting options
     
     /// The default sorting order
-    static var `default`: Self {
-        return .created
-    }
+    static var `default`: Self { .created }
     
     var defaultDirection: SortingDirection {
         switch self {

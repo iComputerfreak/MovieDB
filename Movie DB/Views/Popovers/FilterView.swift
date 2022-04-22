@@ -14,7 +14,6 @@ import CoreData
 fileprivate let nilString = "any"
 
 struct FilterView: View {
-    
     @ObservedObject private var filterSetting = FilterSetting.shared
     
     @Environment(\.presentationMode) private var presentationMode
@@ -57,8 +56,8 @@ struct FilterView: View {
     }
 }
 
+// swiftlint:disable:next file_types_order
 struct UserDataSection: View {
-    
     @ObservedObject var filterSetting: FilterSetting
     
     private var watchedProxy: Binding<String> {
@@ -109,7 +108,8 @@ struct UserDataSection: View {
         FilterMultiPicker(
             selection: Binding(
                 get: { Array(filterSetting.tags).sorted(by: \.name) },
-                set: { filterSetting.tags = Set($0) }),
+                set: { filterSetting.tags = Set($0) }
+            ),
             label: { (tag: Tag) in tag.name },
             values: Array(allTags),
             titleKey: "Tags"
@@ -117,8 +117,8 @@ struct UserDataSection: View {
     }
 }
 
+// swiftlint:disable:next file_types_order
 private struct InformationSection: View {
-    
     @ObservedObject var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
@@ -148,10 +148,12 @@ private struct InformationSection: View {
         } set: { newValue in
             filterSetting.genres = Set(newValue)
         }
-        FilterMultiPicker(selection: genresProxy,
-                          label: { $0.name },
-                          values: Utils.allGenres(context: self.managedObjectContext),
-                          titleKey: "Genres")
+        FilterMultiPicker(
+            selection: genresProxy,
+            label: { $0.name },
+            values: Utils.allGenres(context: self.managedObjectContext),
+            titleKey: "Genres"
+        )
         // MARK: - Rating
         NavigationLink(
             destination:
@@ -182,24 +184,30 @@ private struct InformationSection: View {
                 } else {
                     // We have to manage plurals on our own here, since the starAmount is a string and we cannot use the Plurals table
                     if self.filterSetting.rating!.upperBound.starAmount == "1" {
-                        Text(String.localizedStringWithFormat("%@ to %@ Star",
-                                                              self.filterSetting.rating!.lowerBound.starAmount,
-                                                              self.filterSetting.rating!.upperBound.starAmount))
-                            .foregroundColor(.secondary)
+                        Text(String.localizedStringWithFormat(
+                            "%@ to %@ Star",
+                            self.filterSetting.rating!.lowerBound.starAmount,
+                            self.filterSetting.rating!.upperBound.starAmount
+                        ))
+                        .foregroundColor(.secondary)
                     } else {
-                        Text(String.localizedStringWithFormat("%@ to %@ Stars",
-                                                              self.filterSetting.rating!.lowerBound.starAmount,
-                                                              self.filterSetting.rating!.upperBound.starAmount))
-                            .foregroundColor(.secondary)
+                        Text(String.localizedStringWithFormat(
+                            "%@ to %@ Stars",
+                            self.filterSetting.rating!.lowerBound.starAmount,
+                            self.filterSetting.rating!.upperBound.starAmount
+                        ))
+                        .foregroundColor(.secondary)
                     }
                 }
             }
         }
         // MARK: - Year
-        NavigationLink(destination: RangeEditingView(title: Text("Year"),
-                                                     bounds: Utils.yearBounds(context: managedObjectContext),
-                                                     setting: $filterSetting.year,
-                                                     style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(
+            title: Text("Year"),
+            bounds: Utils.yearBounds(context: managedObjectContext),
+            setting: $filterSetting.year,
+            style: .stepper
+        )) {
             HStack {
                 Text("Year")
                 Spacer()
@@ -219,29 +227,35 @@ private struct InformationSection: View {
             }
         }
         // MARK: - Media Status
-        FilterMultiPicker(selection: $filterSetting.statuses,
-                          label: { $0.rawValue },
-                          values: MediaStatus.allCases.sorted(by: \.rawValue),
-                          titleKey: "Status")
+        FilterMultiPicker(
+            selection: $filterSetting.statuses,
+            label: { $0.rawValue },
+            values: MediaStatus.allCases.sorted(by: \.rawValue),
+            titleKey: "Status"
+        )
     }
 }
 
+// swiftlint:disable:next file_types_order
 private struct ShowSpecificSection: View {
-    
     @ObservedObject var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
         // MARK: - Show Type
-        FilterMultiPicker(selection: $filterSetting.showTypes,
+        FilterMultiPicker(
+            selection: $filterSetting.showTypes,
                           label: { $0.rawValue },
                           values: ShowType.allCases.sorted(by: \.rawValue),
-                          titleKey: "Show Type")
+                          titleKey: "Show Type"
+        )
         // MARK: - Number of Seasons
-        NavigationLink(destination: RangeEditingView(title: Text("Seasons"),
-                                                     bounds: Utils.numberOfSeasonsBounds(context: managedObjectContext),
-                                                     setting: self.$filterSetting.numberOfSeasons,
-                                                     style: .stepper)) {
+        NavigationLink(destination: RangeEditingView(
+            title: Text("Seasons"),
+            bounds: Utils.numberOfSeasonsBounds(context: managedObjectContext),
+            setting: self.$filterSetting.numberOfSeasons,
+            style: .stepper
+        )) {
             HStack {
                 Text("Seasons")
                 Spacer()
@@ -249,18 +263,24 @@ private struct ShowSpecificSection: View {
                     Text("Any")
                         .foregroundColor(.secondary)
                 } else if self.filterSetting.numberOfSeasons!.count == 1 {
-                    let formatString = NSLocalizedString("%lld seasons",
-                                                         tableName: "Plurals",
-                                                         comment: "Season count in filter")
+                    let formatString = NSLocalizedString(
+                        "%lld seasons",
+                        tableName: "Plurals",
+                        comment: "Season count in filter"
+                    )
                     Text(String.localizedStringWithFormat(formatString, self.filterSetting.numberOfSeasons!.lowerBound))
                         .foregroundColor(.secondary)
                 } else {
-                    let formatString = NSLocalizedString("%lld to %lld seasons",
-                                                         tableName: "Plurals",
-                                                         comment: "Season range in filter")
-                    Text(String.localizedStringWithFormat(formatString,
-                                                          self.filterSetting.numberOfSeasons!.lowerBound,
-                                                          self.filterSetting.numberOfSeasons!.upperBound))
+                    let formatString = NSLocalizedString(
+                        "%lld to %lld seasons",
+                        tableName: "Plurals",
+                        comment: "Season range in filter"
+                    )
+                    Text(String.localizedStringWithFormat(
+                        formatString,
+                        self.filterSetting.numberOfSeasons!.lowerBound,
+                        self.filterSetting.numberOfSeasons!.upperBound
+                    ))
                         .foregroundColor(.secondary)
                 }
             }
@@ -268,13 +288,13 @@ private struct ShowSpecificSection: View {
     }
 }
 
-fileprivate extension String {
-    /// Whether this string is equal to the `nilString`
-    var isNil: Bool { self == nilString }
-}
-
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
         FilterView()
     }
+}
+
+fileprivate extension String {
+    /// Whether this string is equal to the `nilString`
+    var isNil: Bool { self == nilString }
 }

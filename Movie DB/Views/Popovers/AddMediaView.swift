@@ -13,7 +13,6 @@ import Combine
 import struct JFSwiftUI.LoadingView
 
 struct AddMediaView: View {
-    
     @ObservedObject private var library = MediaLibrary.shared
     @State private var results: [TMDBSearchResult] = []
     @State private var resultsText: String = ""
@@ -139,7 +138,8 @@ struct AddMediaView: View {
             // Already added
             AlertHandler.showSimpleAlert(
                 title: NSLocalizedString("Already Added"),
-                message: NSLocalizedString("You already have '\(result.title)' in your library."))
+                message: NSLocalizedString("You already have '\(result.title)' in your library.")
+            )
             return
         }
         // Pro limitations
@@ -157,9 +157,11 @@ struct AddMediaView: View {
             do {
                 // Try fetching the media object
                 // Will be called on a background thread automatically, because TMDBAPI is an actor
-                let media = try await TMDBAPI.shared.fetchMedia(for: result.id,
-                                                                type: result.mediaType,
-                                                                context: managedObjectContext)
+                let media = try await TMDBAPI.shared.fetchMedia(
+                    for: result.id,
+                    type: result.mediaType,
+                    context: managedObjectContext
+                )
                 
                 // fetchMedia already created the Media object in a child context and saved it into the view context
                 // All we need to do now is to load the thumbnail and update the UI
@@ -182,7 +184,8 @@ struct AddMediaView: View {
                 await MainActor.run {
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Error"),
-                        message: NSLocalizedString("Error loading media: \(error.localizedDescription)"))
+                        message: NSLocalizedString("Error loading media: \(error.localizedDescription)")
+                    )
                     self.isLoading = false
                 }
             } catch {
@@ -190,8 +193,10 @@ struct AddMediaView: View {
                 assertionFailure("This error should be captured specifically to give the user a more precise error " +
                                  "message.")
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(title: NSLocalizedString("Error"),
-                                                 message: NSLocalizedString("There was an error loading the media."))
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Error"),
+                        message: NSLocalizedString("There was an error loading the media.")
+                    )
                     self.isLoading = false
                 }
             }
@@ -210,7 +215,8 @@ struct AddMediaView: View {
                     searchText,
                     includeAdult: JFConfig.shared.showAdults,
                     fromPage: self.pagesLoaded + 1,
-                    toPage: self.pagesLoaded + 2)
+                    toPage: self.pagesLoaded + 2
+                )
                 
                 // Clear "Loading..." from the first search
                 await MainActor.run {
@@ -254,7 +260,8 @@ struct AddMediaView: View {
                 await MainActor.run {
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Error searching"),
-                        message: NSLocalizedString("Error performing search: \(error.localizedDescription)"))
+                        message: NSLocalizedString("Error performing search: \(error.localizedDescription)")
+                    )
                     self.results = []
                     self.resultsText = NSLocalizedString("Error loading search results")
                 }

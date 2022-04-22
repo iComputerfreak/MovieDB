@@ -8,16 +8,8 @@
 
 import Foundation
 
-/// Decodes a page result
-protocol PageWrapperProtocol: Decodable {
-    associatedtype ObjectWrapper
-    var results: [ObjectWrapper] { get set }
-    var totalPages: Int { get set }
-}
-
 /// Generic results page decoder
 struct ResultsPageWrapper<T: Decodable>: PageWrapperProtocol {
-    
     var results: [T]
     var page: Int
     var totalPages: Int
@@ -29,4 +21,11 @@ struct ResultsPageWrapper<T: Decodable>: PageWrapperProtocol {
         case totalPages = "total_pages"
         case totalResults = "total_results"
     }
+}
+
+/// Decodes a page result
+protocol PageWrapperProtocol: Decodable {
+    associatedtype ObjectWrapper
+    var results: [ObjectWrapper] { get set }
+    var totalPages: Int { get set }
 }

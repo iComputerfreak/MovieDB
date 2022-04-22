@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension FilterSetting {
-
     public var isAdult: Bool? {
         get { getOptional(forKey: "isAdult") }
         set { setOptional(newValue, forKey: "isAdult") }
@@ -39,7 +38,7 @@ extension FilterSetting {
     public var statuses: [MediaStatus] {
         get {
             let rawStatuses = getTransformerValue(forKey: "statuses", defaultValue: []) as [String]?
-            return rawStatuses!.map({ MediaStatus(rawValue: $0)! })
+            return rawStatuses!.map { MediaStatus(rawValue: $0)! }
         }
         set {
             let rawStatuses = newValue.map(\.rawValue)
@@ -49,7 +48,7 @@ extension FilterSetting {
     public var showTypes: [ShowType] {
         get {
             let rawShowTypes = getTransformerValue(forKey: "showTypes", defaultValue: []) as [String]?
-            return rawShowTypes!.map({ ShowType(rawValue: $0)! })
+            return rawShowTypes!.map { ShowType(rawValue: $0)! }
         }
         set {
             let rawShowTypes = newValue.map(\.rawValue)
@@ -122,7 +121,7 @@ extension FilterSetting {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
-        return NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
+        NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
     }
 }
 

@@ -11,7 +11,6 @@ import Foundation
 
 /// Represents a Picker view that lets the user pick multiple values from a list
 struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
-    
     /// The actual binding to the original property
     @Binding var selectionBinding: [SelectionValue]
     // This property is solely used for updating the view and duplicates the above value
@@ -30,11 +29,13 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
     @State var values: [SelectionValue]
     
     var body: some View {
-        NavigationLink(destination: EditView(label: label,
-                                             title: title,
-                                             values: $values,
-                                             selectionBinding: $selectionBinding,
-                                             selection: $selection)) {
+        NavigationLink(destination: EditView(
+            label: label,
+            title: title,
+            values: $values,
+            selectionBinding: $selectionBinding,
+            selection: $selection
+        )) {
             HStack {
                 self.title
                 Spacer()
@@ -69,7 +70,6 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
     }
     
     struct EditView: View {
-        
         let label: (SelectionValue) -> String
         let title: Text
         @Binding var values: [SelectionValue]
@@ -94,7 +94,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                     ForEach(self.values, id: \.self) { (value: SelectionValue) in
                         Button {
                             if self.selection.contains(value) {
-                                self.selection.removeAll(where: { $0 == value })
+                                self.selection.removeAll { $0 == value }
                                 print("Removed \(value) to \(self.selection)")
                             } else {
                                 self.selection.append(value)
@@ -116,15 +116,16 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
 }
 
 struct FilterMultiPicker_Previews: PreviewProvider {
-    
     @State private static var selection: [String] = []
     
     static var previews: some View {
         Form {
-            FilterMultiPicker(selection: Self.$selection,
-                              label: { $0 },
-                              values: ["Value 1", "Value 2", "Value 3", "Value 4"],
-                              titleKey: "Title")
+            FilterMultiPicker(
+                selection: Self.$selection,
+                label: { $0 },
+                values: ["Value 1", "Value 2", "Value 3", "Value 4"],
+                titleKey: "Title"
+            )
         }
     }
 }

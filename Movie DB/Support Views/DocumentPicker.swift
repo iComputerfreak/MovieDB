@@ -13,13 +13,12 @@ import SwiftUI
 
 // TODO: Make async using a continuation
 final class DocumentPicker: NSObject, UIViewControllerRepresentable {
-    
     var urlToExport: URL?
     var onSelect: (URL) -> Void
     var onCancel: (() -> Void)?
     
     lazy var viewController: UIDocumentPickerViewController = {
-        let controller: UIDocumentPickerViewController!
+        let controller: UIDocumentPickerViewController
         if let url = self.urlToExport {
             // Save file
             controller = UIDocumentPickerViewController(forExporting: [url])

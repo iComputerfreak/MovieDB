@@ -12,7 +12,6 @@ import SwiftUI
 
 /// Represents a utility struct that displays Alerts
 struct AlertHandler {
-    
     private init() {}
 
     /// Triggers an Alert on the top most view controller in the window
@@ -49,9 +48,9 @@ struct AlertHandler {
     }
     
     // MARK: - Private functions
-
+    
     private static func keyWindow() -> UIWindow? {
-        return UIApplication.shared.connectedScenes
+        UIApplication.shared.connectedScenes
             .filter { $0.activationState == .foregroundActive }
             .compactMap { $0 as? UIWindowScene }
             .first?

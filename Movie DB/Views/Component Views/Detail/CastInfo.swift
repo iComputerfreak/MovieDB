@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct CastInfo: View {
-    
     @EnvironmentObject private var mediaObject: Media
     @State private var personThumbnails: [Int: UIImage?] = [:]
     
@@ -22,9 +21,11 @@ struct CastInfo: View {
                     let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
                     HStack {
                         // swiftlint:disable:next redundant_nil_coalescing
-                        Image(uiImage: self.personThumbnails[member.id] ?? nil,
-                              defaultImage: JFLiterals.posterPlaceholderName)
-                            .thumbnail()
+                        Image(
+                            uiImage: self.personThumbnails[member.id] ?? nil,
+                            defaultImage: JFLiterals.posterPlaceholderName
+                        )
+                        .thumbnail()
                         Text(member.name)
                             .headline(verbatim: member.roleName)
                     }

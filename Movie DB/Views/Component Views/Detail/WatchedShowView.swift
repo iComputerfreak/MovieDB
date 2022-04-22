@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 struct WatchedShowView: View {
-    
     @Binding var lastWatched: EpisodeNumber?
     @Environment(\.editMode) private var editMode
     @State private var isEditing = false
@@ -42,7 +41,6 @@ struct WatchedShowView: View {
     }
     
     struct EditView: View {
-        
         @Binding var lastWatched: EpisodeNumber?
         
         @State private var season: Int

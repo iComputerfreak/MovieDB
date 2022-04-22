@@ -14,9 +14,10 @@ import CoreData
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
 class CodableTests: XCTestCase {
-    
     let api = TMDBAPI.shared
+    // swiftlint:disable:next implicitly_unwrapped_optional
     var testingUtils: TestingUtils!
+    
     var testContext: NSManagedObjectContext {
         testingUtils.context
     }
@@ -161,6 +162,8 @@ class CodableTests: XCTestCase {
             ProductionCompany.create(context: testContext, id: 6, name: "NBC", logoPath: "/o3OedEP0f9mfZr33jz2BfXOUK5.png", originCountry: "US")
         ]
         // swiftlint:disable vertical_parameter_alignment_on_call
+        // swiftlint:disable multiline_arguments
+        // swiftlint:disable multiline_arguments_brackets
         let seasons = [
             Season.create(context: testContext, id: 55083, seasonNumber: 0, episodeCount: 7, name: "Specials",
                    overview: "",
@@ -188,6 +191,8 @@ class CodableTests: XCTestCase {
                    imagePath: "/zBnDzqCYOcvl8OmC53Hzd7W5hiZ.jpg", rawAirDate: "2019-10-04")
         ]
         // swiftlint:enable vertical_parameter_alignment_on_call
+        // swiftlint:enable multiline_arguments
+        // swiftlint:enable multiline_arguments_brackets
         
         // Test, if the Decoding works
         let show: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: testContext)
@@ -253,6 +258,7 @@ class CodableTests: XCTestCase {
         let networks = [
             ProductionCompany.create(context: testContext, id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US")
         ]
+        // swiftlint:disable multiline_arguments multiline_arguments_brackets
         let seasons = [
             Season.create(context: testContext, id: 3627, seasonNumber: 0, episodeCount: 53, name: "Specials",
                           overview: "",
@@ -282,6 +288,7 @@ class CodableTests: XCTestCase {
                           overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
                           imagePath: "/39FHkTLnNMjMVXdIDwZN8SxYqD6.jpg", rawAirDate: "2019-04-14")
         ]
+        // swiftlint:enable multiline_arguments multiline_arguments_brackets
         
         // Test, if the Decoding works
         let show: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: testContext)

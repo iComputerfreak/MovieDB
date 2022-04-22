@@ -11,7 +11,6 @@ import CoreData
 
 /// Represents a utility struct that ex- or imports tags from and to the TagLibrary
 actor TagImporter {
-    
     let logger = BasicLogger()
     
     /// Exports all tags as a newline separated string
@@ -44,7 +43,6 @@ actor TagImporter {
     }
     
     class BasicLogger {
-        
         // swiftlint:disable:next nesting
         enum LogLevel: String {
             case debug, info, warning, error, critical
@@ -52,9 +50,7 @@ actor TagImporter {
         
         private var _log: [String]
         
-        var log: String {
-            return _log.joined(separator: "\n")
-        }
+        var log: String { _log.joined(separator: "\n") }
         
         init() {
             self._log = []

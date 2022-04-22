@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct MediaDetail: View {
-    
     @ObservedObject private var library = MediaLibrary.shared
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode

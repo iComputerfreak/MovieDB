@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension CastMember {
-
     public var id: Int {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
@@ -27,7 +26,7 @@ extension CastMember {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<CastMember> {
-        return NSFetchRequest<CastMember>(entityName: "CastMember")
+        NSFetchRequest<CastMember>(entityName: "CastMember")
     }
 }
 

@@ -16,8 +16,10 @@ enum JFLiterals {
     /// The size of the thumbnail in the `LibraryHome` list
     static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
     /// The size of the thumbnail in the `MediaDetail` view
-    static let detailPosterSize: CGSize = .init(width: Self.thumbnailSize.width * _multiplier,
-                                                height: Self.thumbnailSize.height * _multiplier)
+    static let detailPosterSize: CGSize = .init(
+        width: Self.thumbnailSize.width * _multiplier,
+        height: Self.thumbnailSize.height * _multiplier
+    )
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos

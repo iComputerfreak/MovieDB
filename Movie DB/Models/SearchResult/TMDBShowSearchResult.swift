@@ -28,16 +28,18 @@ class TMDBShowSearchResult: TMDBSearchResult {
         firstAirDate: Date? = nil
     ) {
         self.firstAirDate = firstAirDate
-        super.init(id: id,
-                   title: title,
-                   mediaType: mediaType,
-                   imagePath: imagePath,
-                   overview: overview,
-                   originalTitle: originalTitle,
-                   originalLanguage: originalLanguage,
-                   popularity: popularity,
-                   voteAverage: voteAverage,
-                   voteCount: voteCount)
+        super.init(
+            id: id,
+            title: title,
+            mediaType: mediaType,
+            imagePath: imagePath,
+            overview: overview,
+            originalTitle: originalTitle,
+            originalLanguage: originalLanguage,
+            popularity: popularity,
+            voteAverage: voteAverage,
+            voteCount: voteCount
+        )
     }
     
     // MARK: - Codable Conformance

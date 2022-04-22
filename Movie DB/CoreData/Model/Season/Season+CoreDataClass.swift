@@ -13,7 +13,6 @@ import CoreData
 /// Represents a season of a show
 @objc(Season)
 public class Season: NSManagedObject, Decodable {
-    
     // MARK: - Decodable Conformance
     
     public required convenience init(from decoder: Decoder) throws {

@@ -11,7 +11,6 @@ import CSVImporter
 import CoreData
 
 struct CSVHelper {
-    
     private init() {}
     
     static func importMediaObjects(
@@ -22,8 +21,10 @@ struct CSVHelper {
         onFinish: (([Media?], [String]) -> Void)?
     ) {
         var importLog: [String] = []
-        let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString,
-                                                                delimiter: String(CSVManager.separator))
+        let importer: CSVImporter<Media?> = CSVImporter<Media?>(
+            contentString: csvString,
+            delimiter: String(CSVManager.separator)
+        )
         var csvHeader: [String] = []
         importer.startImportingRecords { (headerValues: [String]) in
             // Check if the header contains the necessary values

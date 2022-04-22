@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct TitleView: View {
-    
     let title: String
     let year: Int?
     @State var thumbnail: Thumbnail?
@@ -19,8 +18,8 @@ struct TitleView: View {
             if thumbnail?.image == nil {
                 self.titleView
             } else {
-                NavigationLink(destination:
-                                Image(uiImage: thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+                NavigationLink(
+                    destination: Image(uiImage: thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()

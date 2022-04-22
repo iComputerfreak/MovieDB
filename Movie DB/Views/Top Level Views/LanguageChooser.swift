@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct LanguageChooser: View {
-    
     @ObservedObject private var config = JFConfig.shared
     
     var body: some View {
@@ -22,16 +21,17 @@ struct LanguageChooser: View {
                         } catch {
                             AlertHandler.showSimpleAlert(
                                 title: "Error loading languages",
-                                message: "Error loading the list of available languages: \(error)")
+                                message: "Error loading the list of available languages: \(error)"
+                            )
                         }
                     }
                     .navigationTitle("Select Language")
             } else {
                 let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
-                List(config.availableLanguages, id: \.self, selection: proxy, rowContent: { (code: String) in
+                List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in
                     Text(Locale.current.localizedString(forIdentifier: code) ?? code)
                         .tag(code)
-                })
+                }
                 .environment(\.editMode, .constant(.active))
                 .onChange(of: config.language) { _ in
                     print("Language changed to \(config.language)")

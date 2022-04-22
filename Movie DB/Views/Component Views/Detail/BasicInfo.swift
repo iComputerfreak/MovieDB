@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct BasicInfo: View {
-    
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
@@ -38,15 +37,19 @@ struct BasicInfo: View {
                     // MARK: Runtime
                     if let runtime = movie.runtime {
                         if runtime > 60 {
-                            let formatString = NSLocalizedString("%lld Minutes (%lldh %lldm)",
-                                                                 tableName: "Plurals",
-                                                                 comment: "Movie Runtime")
+                            let formatString = NSLocalizedString(
+                                "%lld Minutes (%lldh %lldm)",
+                                tableName: "Plurals",
+                                comment: "Movie Runtime"
+                            )
                             Text(String.localizedStringWithFormat(formatString, runtime, runtime / 60, runtime % 60))
                                 .headline("Runtime")
                         } else {
-                            let formatString = NSLocalizedString("%lld Minutes",
-                                                                 tableName: "Plurals",
-                                                                 comment: "Movie Runtime")
+                            let formatString = NSLocalizedString(
+                                "%lld Minutes",
+                                tableName: "Plurals",
+                                comment: "Movie Runtime"
+                            )
                             Text(String.localizedStringWithFormat(formatString, runtime))
                                 .headline("Runtime")
                         }

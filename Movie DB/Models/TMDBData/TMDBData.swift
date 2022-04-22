@@ -12,7 +12,6 @@ import CoreData
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
 struct TMDBData: Decodable, Hashable {
-    
     // Basic Data
     var id: Int
     var title: String
@@ -61,13 +60,13 @@ struct TMDBData: Decodable, Hashable {
         self.voteCount = try container.decode(Int.self, forKey: .voteCount)
         
         // Load credits.cast as self.cast
-        let creditsContainer: KeyedDecodingContainer<CreditsCodingKeys>!
-        let cast: [CastMember]!
+        let creditsContainer: KeyedDecodingContainer<CreditsCodingKeys>
+        let cast: [CastMember]
         // If the aggregate_credits key exists, this is a show and we have received the cast for all seasons
         if container.contains(.aggregateCredits) {
             creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .aggregateCredits)
             let aggregateCast = try creditsContainer.decode([AggregateCastMember].self, forKey: .cast)
-            cast = aggregateCast.map({ $0.createCastMember(decodingContext) })
+            cast = aggregateCast.map { $0.createCastMember(decodingContext) }
         } else {
             // If this is a normal movie or we did not receive the aggregate credits for some other reason, we use the normal credits
             creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
@@ -82,8 +81,10 @@ struct TMDBData: Decodable, Hashable {
         self.keywords = keywords.map(\.keyword)
         
         // Load translations.translations as self.translations
-        let translationsContainer = try container.nestedContainer(keyedBy: TranslationsCodingKeys.self,
-                                                                  forKey: .translations)
+        let translationsContainer = try container.nestedContainer(
+            keyedBy: TranslationsCodingKeys.self,
+            forKey: .translations
+        )
         let translations = try translationsContainer.decode([Translation].self, forKey: .translations)
         // Only save the languages, not the Translation objects
         self.translations = translations.map(\.language)

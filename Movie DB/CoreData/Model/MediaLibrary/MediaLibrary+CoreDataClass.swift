@@ -13,7 +13,6 @@ import CoreData
 /// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
 @objc(MediaLibrary)
 public class MediaLibrary: NSManagedObject {
-    
     // We only store a single MediaLibrary in the container, therefore we just use the first result
     static let shared = MediaLibrary.getInstance()
     

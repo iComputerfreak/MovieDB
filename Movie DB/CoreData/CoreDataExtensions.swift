@@ -1,5 +1,5 @@
 //
-//  CoreData Extensions.swift
+//  CoreDataExtensions.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 05.02.21.
@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
+enum DecoderConfigurationError: Error {
+    case missingManagedObjectContext
+}
+
 extension CodingUserInfoKey {
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")!
     static let mediaType = CodingUserInfoKey(rawValue: "mediaType")!
-}
-
-enum DecoderConfigurationError: Error {
-    case missingManagedObjectContext
 }

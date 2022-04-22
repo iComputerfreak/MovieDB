@@ -11,7 +11,6 @@ import SwiftUI
 
 /// Represents all the config values that the user can change
 class JFConfig: ObservableObject {
-    
     static let shared = JFConfig()
     
     // MARK: - Settings

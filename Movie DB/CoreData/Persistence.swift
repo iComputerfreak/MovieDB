@@ -9,24 +9,17 @@
 import CoreData
 
 struct PersistenceController {
-    
     /// The main instance of the PersistenceController
     static let shared = PersistenceController()
     
     /// The view context of the shared container
-    static var viewContext: NSManagedObjectContext {
-        return shared.container.viewContext
-    }
+    static var viewContext: NSManagedObjectContext { shared.container.viewContext }
     
     /// The view context of the preview container
-    static var previewContext: NSManagedObjectContext {
-        return preview.container.viewContext
-    }
+    static var previewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
-    static var preview: PersistenceController = {
-        return PersistenceController(inMemory: true)
-    }()
+    static var preview: PersistenceController = { PersistenceController(inMemory: true) }()
     
     let container: NSPersistentCloudKitContainer
     
@@ -35,10 +28,12 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { _, error in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                AlertHandler.showSimpleAlert(title: "Error loading data",
-                                             message: "There was an error while loading. \(error)")
+                AlertHandler.showSimpleAlert(
+                    title: "Error loading data",
+                    message: "There was an error while loading. \(error)"
+                )
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 
@@ -52,7 +47,7 @@ struct PersistenceController {
                  */
 //                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
         
         // Automatically merge changes done in other context of this container.
         // E.g. merge changes from a background context, as soon as that context saves
@@ -62,10 +57,12 @@ struct PersistenceController {
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(MediaLibrary.fixDuplicates(notification:)),
-                                               name: .NSPersistentStoreRemoteChange,
-                                               object: container.viewContext)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(MediaLibrary.fixDuplicates(notification:)),
+            name: .NSPersistentStoreRemoteChange,
+            object: container.viewContext
+        )
     }
     
     /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
@@ -106,9 +103,10 @@ struct PersistenceController {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
-                    AlertHandler.showSimpleAlert(title: "Error saving data",
-                                                 message: "There was an error while saving. " +
-                                                 "\(nserror), \(nserror.userInfo)")
+                    AlertHandler.showSimpleAlert(
+                        title: "Error saving data",
+                        message: "There was an error while saving. \(nserror), \(nserror.userInfo)"
+                    )
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {
@@ -133,9 +131,10 @@ struct PersistenceController {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
-                    AlertHandler.showSimpleAlert(title: "Error saving data",
-                                                 message: "There was an error while saving. " +
-                                                 "\(nserror), \(nserror.userInfo)")
+                    AlertHandler.showSimpleAlert(
+                        title: "Error saving data",
+                        message: "There was an error while saving. \(nserror), \(nserror.userInfo)"
+                    )
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {

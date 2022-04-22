@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct LibraryRow: View {
-    
     @EnvironmentObject var mediaObject: Media
     
     let movieSymbol = NSLocalizedString("Movie").first!.lowercased() + ".square"
@@ -49,8 +48,8 @@ struct LibraryRow: View {
     }
 }
 
+// swiftlint:disable:next file_types_order
 struct ProblemsLibraryRow<T>: View where T: View {
-    
     @EnvironmentObject var mediaObject: Media
     let content: T
     

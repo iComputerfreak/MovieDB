@@ -25,7 +25,6 @@ func undefined<T>(_ message: String = "") -> T {
 }
 
 struct Utils {
-    
     static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
     
     /// The URL describing the documents directory of the app
@@ -123,7 +122,7 @@ struct Utils {
     /// Returns either black or white, depending on the color scheme
     /// - Parameter colorScheme: The current color scheme environment variable
     static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {
-        return colorScheme == .light ? .black : .white
+        colorScheme == .light ? .black : .white
     }
     
     static func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
@@ -168,14 +167,14 @@ struct Utils {
     
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
-        return allObjects(entityName: "Genre", context: context)
-            .removingDuplicates(using: { $0.id == $1.id && $0.name == $1.name })
+        allObjects(entityName: "Genre", context: context)
+            .removingDuplicates { $0.id == $1.id && $0.name == $1.name }
             .sorted(by: \.name)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
-        return allObjects(entityName: "Media", context: context)
+        allObjects(entityName: "Media", context: context)
             .removingDuplicates(key: \.id)
             .sorted(by: \.id)
     }
@@ -188,11 +187,11 @@ struct Utils {
     }
     
     private static func fetchMinMaxMovie(key: String, ascending: Bool, context: NSManagedObjectContext) -> Movie? {
-        return fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key, ascending: ascending, context: context)
+        fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key, ascending: ascending, context: context)
     }
     
     private static func fetchMinMaxShow(key: String, ascending: Bool, context: NSManagedObjectContext) -> Show? {
-        return fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending, context: context)
+        fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending, context: context)
     }
     
     private static func fetchMinMax<T>(
@@ -267,14 +266,14 @@ extension Utils {
     ///     languageString("pt-BR") // Returns "Portuguese (Brazil)"
     ///     languageString("de") // Returns "German"
     static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
-        return locale.localizedString(forIdentifier: code)
+        locale.localizedString(forIdentifier: code)
     }
     
     @discardableResult
     static func updateTMDBLanguages() async throws -> [String] {
         let codes = try await TMDBAPI.shared.getTMDBLanguageCodes()
         // Sort the codes by the actual string that will be displayed, not the code itself
-        let sortedCodes = codes.sorted(by: { code1, code2 in
+        let sortedCodes = codes.sorted { code1, code2 in
             guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
                 return false
             }
@@ -283,7 +282,7 @@ extension Utils {
             }
             
             return displayString1.lexicographicallyPrecedes(displayString2)
-        })
+        }
         // TODO: Executed on correct thread?
         // TODO: Make JFConfig an actor
         JFConfig.shared.availableLanguages = sortedCodes
@@ -291,7 +290,7 @@ extension Utils {
     }
     
     static func purchasedPro() -> Bool {
-        return true
+        return true // swiftlint:disable:this implicit_return
         UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
 }
@@ -359,9 +358,7 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
 
 /// Array extension to make all arrays with hashable elements identifiable
 extension Array: Identifiable where Element: Hashable {
-    public var id: Int {
-        return self.hashValue
-    }
+    public var id: Int { self.hashValue }
 }
 
 /// Overload of the default NSLocalizedString function that uses an empty comment

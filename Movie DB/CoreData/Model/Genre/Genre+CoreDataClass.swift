@@ -13,7 +13,6 @@ import CoreData
 /// Represents a Media genre
 @objc(Genre)
 public class Genre: NSManagedObject, Codable {
-    
     // MARK: - Decodable Conformance
     
     public required convenience init(from decoder: Decoder) throws {

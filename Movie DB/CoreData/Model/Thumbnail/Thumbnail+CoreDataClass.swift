@@ -12,7 +12,6 @@ import CoreData
 
 @objc(Thumbnail)
 public class Thumbnail: NSManagedObject {
-    
     convenience init(context: NSManagedObjectContext, pngData: Data?) {
         self.init(context: context)
         self.pngData = pngData

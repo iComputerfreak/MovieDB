@@ -10,7 +10,6 @@ import SwiftUI
 import TextView
 
 struct NotesView: View {
-    
     @Binding var notes: String
     @Environment(\.editMode) private var editMode
     @State private var editingNotes = false
@@ -57,14 +56,16 @@ struct NotesView: View {
         }
         
         var body: some View {
-            TextView(text: $notes,
-                     isEditing: $isEditing,
-                     textColor: Utils.primaryUIColor(colorScheme),
-                     backgroundColor: .clear,
-                     autocorrection: .default,
-                     autocapitalization: .sentences)
-                .padding(5)
-                .padding(.bottom, responder.height)
+            TextView(
+                text: $notes,
+                isEditing: $isEditing,
+                textColor: Utils.primaryUIColor(colorScheme),
+                backgroundColor: .clear,
+                autocorrection: .default,
+                autocapitalization: .sentences
+            )
+            .padding(5)
+            .padding(.bottom, responder.height)
             .navigationBarTitle(Text("Notes"))
         }
     }

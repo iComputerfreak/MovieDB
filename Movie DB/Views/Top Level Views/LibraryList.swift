@@ -11,7 +11,6 @@ import CoreData
 import SwiftUI
 
 struct LibraryList: View {
-    
     @Environment(\.managedObjectContext) private var managedObjectContext
     @ObservedObject private var library = MediaLibrary.shared
     
@@ -26,7 +25,7 @@ struct LibraryList: View {
     }
     
     private var filteredMedia: FetchedResults<Media> {
-        return fetchRequest.wrappedValue
+        fetchRequest.wrappedValue
     }
     
     // swiftlint:disable:next type_contents_order
@@ -38,9 +37,13 @@ struct LibraryList: View {
     ) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
-            predicates.append(NSPredicate(format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)",
-                                          "title", searchText,
-                                          "originalTitle", searchText))
+            predicates.append(NSPredicate(
+                format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)",
+                "title",
+                searchText,
+                "originalTitle",
+                searchText
+            ))
         }
         if true { // TODO: Only if filter is active (currently no on/off switch available to toggle that)
             predicates.append(filterSetting.predicate())
@@ -53,13 +56,20 @@ struct LibraryList: View {
             // Name sort descriptor gets appended at the end
             break
         case .created:
-            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate,
-                                                    ascending: sortingDirection == .ascending))
+            sortDescriptors.append(NSSortDescriptor(
+                keyPath: \Media.creationDate,
+                ascending: sortingDirection == .ascending
+            ))
         case .releaseDate:
-            sortDescriptors.append(NSSortDescriptor(key: "releaseDateOrFirstAired",
-                                                    ascending: sortingDirection == .ascending))
+            sortDescriptors.append(NSSortDescriptor(
+                key: "releaseDateOrFirstAired",
+                ascending: sortingDirection == .ascending
+            ))
         case .rating:
-            sortDescriptors.append(NSSortDescriptor(key: "personalRating", ascending: sortingDirection == .ascending))
+            sortDescriptors.append(NSSortDescriptor(
+                key: "personalRating",
+                ascending: sortingDirection == .ascending
+            ))
         }
         // Append the name sort descriptor as a second alternative
         sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: sortingDirection == .ascending))
@@ -98,9 +108,11 @@ struct LibraryList: View {
             return Text("")
         }
         let objCount = filteredMedia.count
-        let formatString = NSLocalizedString("%lld objects",
-                                             tableName: "Plurals",
-                                             comment: "Number of media objects in the footer")
+        let formatString = NSLocalizedString(
+            "%lld objects",
+            tableName: "Plurals",
+            comment: "Number of media objects in the footer"
+        )
         var footerString = String.localizedStringWithFormat(formatString, objCount)
         if objCount == self.totalMediaItems {
             footerString += NSLocalizedString(" total")

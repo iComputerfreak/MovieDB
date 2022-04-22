@@ -11,7 +11,6 @@ import SwiftUI
 
 /// Represents an observable object, that notifies views of keyboard size updates
 final class KeyboardResponder: ObservableObject {
-    
     let center: NotificationCenter
     /// The current height of the keyboard
     @Published private(set) var height: CGFloat = 0

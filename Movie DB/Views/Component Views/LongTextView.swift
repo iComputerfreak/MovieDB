@@ -10,7 +10,6 @@ import SwiftUI
 
 /// Represents a view that displays a preview of a longer text with the option to show the full text in a new view
 struct LongTextView: View {
-    
     var headline: Text
     var text: String
     

@@ -10,12 +10,10 @@ import Foundation
 import StoreKit
 
 class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    
     static let shared = StoreManager()
     
     @Published var products: [SKProduct] = []
     @Published var transactionState: SKPaymentTransactionState?
-    var request: SKProductsRequest!
     
     func getProducts(productIDs: [String]) {
         print("Start requesting products ...")

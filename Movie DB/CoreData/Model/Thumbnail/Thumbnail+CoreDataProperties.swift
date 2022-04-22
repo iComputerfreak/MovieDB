@@ -12,7 +12,6 @@ import CoreData
 import UIKit
 
 extension Thumbnail {
-
     @NSManaged public var pngData: Data?
     @NSManaged public var media: Media?
     
@@ -25,7 +24,7 @@ extension Thumbnail {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
-        return NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
+        NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
     }
 }
 

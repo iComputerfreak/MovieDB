@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension Show {
-
     /// The type of the show (e.g. Scripted)
     public var showType: ShowType? {
         get { getOptionalEnum(forKey: "showType") }
@@ -77,13 +76,12 @@ extension Show {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Show> {
-        return NSFetchRequest<Show>(entityName: "Show")
+        NSFetchRequest<Show>(entityName: "Show")
     }
 }
 
 // MARK: Generated accessors for seasons
 extension Show {
-    
     @objc(addSeasonsObject:)
     @NSManaged public func addToSeasons(_ value: Season)
     
@@ -99,7 +97,6 @@ extension Show {
 
 // MARK: Generated accessors for networks
 extension Show {
-
     @objc(addNetworksObject:)
     @NSManaged public func addToNetworks(_ value: ProductionCompany)
     

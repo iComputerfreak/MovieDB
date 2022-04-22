@@ -17,7 +17,6 @@ import CoreData
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    
     // MARK: - Missing Information
     
     /// Initialize all Media properties from the given TMDBData
@@ -62,7 +61,7 @@ public class Media: NSManagedObject {
     func transferIntoContext<T: NSManagedObject>(_ objects: [T]) -> [T] {
         // Make sure to use the objects from the correct context
         // swiftlint:disable:next force_cast
-        return objects.map({ managedObjectContext!.object(with: $0.objectID) as! T })
+        return objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
     }
     
     override public func awakeFromInsert() {
@@ -125,8 +124,10 @@ public class Media: NSManagedObject {
         guard !Utils.posterDenyList.contains(imagePath) else {
             print("[\(self.title)] Thumbnail is on deny list. Will not load.")
             // Use the placeholder image instead
-            self.thumbnail = Thumbnail(context: self.managedObjectContext!,
-                                       pngData: UIImage(named: "PosterPlaceholder")?.pngData())
+            self.thumbnail = Thumbnail(
+                context: self.managedObjectContext!,
+                pngData: UIImage(named: "PosterPlaceholder")?.pngData()
+            )
             return
         }
         print("[\(self.title)] Loading thumbnail...")

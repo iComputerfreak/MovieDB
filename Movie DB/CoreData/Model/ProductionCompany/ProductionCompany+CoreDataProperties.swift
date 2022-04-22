@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension ProductionCompany {
-    
     /// The ID of the production company on TMDB
     public var id: Int {
         get { getInt(forKey: "id") }
@@ -29,13 +28,12 @@ extension ProductionCompany {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
-        return NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
+        NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
     }
 }
 
 // MARK: Generated accessors for medias
 extension ProductionCompany {
-    
     @objc(addMediasObject:)
     @NSManaged public func addToMedias(_ value: Media)
     
@@ -51,7 +49,6 @@ extension ProductionCompany {
 
 // MARK: Generated accessors for shows
 extension ProductionCompany {
-    
     @objc(addShowsObject:)
     @NSManaged public func addToShows(_ value: Show)
     

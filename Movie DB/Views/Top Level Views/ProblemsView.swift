@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct ProblemsView: View {
-    
     @ObservedObject private var library = MediaLibrary.shared
     
     @FetchRequest(
@@ -27,8 +26,10 @@ struct ProblemsView: View {
             // Watched missing (Movie)
             NSPredicate(format: "type = %@ AND watched = nil", MediaType.movie.rawValue),
             // LastWatched missing (Show)
-            NSPredicate(format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
-                        MediaType.show.rawValue)
+            NSPredicate(
+                format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
+                MediaType.show.rawValue
+            )
         ]),
         animation: nil
     ) private var missingInfoMedia: FetchedResults<Media>

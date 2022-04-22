@@ -13,7 +13,6 @@ import CoreData
 /// Represents a user specified tag
 @objc(Tag)
 public class Tag: NSManagedObject, Codable {
-    
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             throw DecoderConfigurationError.missingManagedObjectContext
@@ -45,8 +44,6 @@ public class Tag: NSManagedObject, Codable {
 
 extension Collection where Element == Tag {
     func lexicographicallySorted() -> [Tag] {
-        return self.sorted { tag1, tag2 -> Bool in
-            return tag1.name.lexicographicallyPrecedes(tag2.name)
-        }
+        self.sorted { $0.name.lexicographicallyPrecedes($1.name) }
     }
 }

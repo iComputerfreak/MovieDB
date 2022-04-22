@@ -12,7 +12,6 @@ import CoreData
 import UIKit
 
 extension Media {
-
     /// The internal library id
     @NSManaged public var id: UUID
     /// The type of media
@@ -118,13 +117,12 @@ extension Media {
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Media> {
-        return NSFetchRequest<Media>(entityName: "Media")
+        NSFetchRequest<Media>(entityName: "Media")
     }
 }
 
 // MARK: Generated accessors for genres
 extension Media {
-    
     @objc(addGenresObject:)
     @NSManaged public func addToGenres(_ value: Genre)
     
@@ -140,7 +138,6 @@ extension Media {
 
 // MARK: Generated accessors for videos
 extension Media {
-    
     @objc(addVideosObject:)
     @NSManaged public func addToVideos(_ value: Video)
     
@@ -156,7 +153,6 @@ extension Media {
 
 // MARK: Generated accessors for productionCompanies
 extension Media {
-    
     @objc(addProductionCompaniesObject:)
     @NSManaged public func addToProductionCompanies(_ value: ProductionCompany)
     
@@ -172,7 +168,6 @@ extension Media {
 
 // MARK: Generated accessors for cast
 extension Media {
-    
     @objc(addCastObject:)
     @NSManaged public func addToCast(_ value: CastMember)
     
