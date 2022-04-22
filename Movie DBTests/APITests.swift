@@ -105,11 +105,11 @@ class APITests: XCTestCase {
 }
 
 struct DummyMedia {
+    static let broken = DummyMedia(tmdbID: -1, type: .movie, title: "")
+    
     var tmdbID: Int
     var type: MediaType
     var title: String
-    
-    static let broken = DummyMedia(tmdbID: -1, type: .movie, title: "")
 }
 
 func assertMediaMatches(_ media: Media?, _ dummy: DummyMedia) {

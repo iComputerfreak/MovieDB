@@ -129,43 +129,6 @@ struct SettingsView: View {
         }
     }
     
-    // MARK: - Views
-    struct LanguagePickerView: View {
-        
-        @ObservedObject var config: JFConfig
-        
-        var body: some View {
-            Picker("Language", selection: $config.language) {
-                if config.availableLanguages.isEmpty {
-                    Text("Loading...")
-                        .task({ await self.updateLanguages() })
-                } else {
-                    ForEach(config.availableLanguages, id: \.self) { code in
-                        let languageName = Locale.current.localizedString(forIdentifier: code) ?? code
-                        Text(languageName)
-                            .tag(code)
-                    }
-                }
-            }
-        }
-        
-        private func updateLanguages() async {
-            if config.availableLanguages.isEmpty {
-                // Load the TMDB Languages
-                do {
-                    try await Utils.updateTMDBLanguages()
-                } catch {
-                    await MainActor.run {
-                        print(error)
-                        AlertHandler.showSimpleAlert(
-                            title: "Error updating languages",
-                            message: "There was an error updating the available languages.")
-                    }
-                }
-            }
-        }
-    }
-    
     // MARK: - Button Functions
     
     func reloadMedia() {
@@ -530,6 +493,43 @@ struct SettingsView: View {
                 Text("Version \(appVersion ?? "unknown")")
             }
             Spacer()
+        }
+    }
+    
+    // MARK: - Views
+    struct LanguagePickerView: View {
+        
+        @ObservedObject var config: JFConfig
+        
+        var body: some View {
+            Picker("Language", selection: $config.language) {
+                if config.availableLanguages.isEmpty {
+                    Text("Loading...")
+                        .task({ await self.updateLanguages() })
+                } else {
+                    ForEach(config.availableLanguages, id: \.self) { code in
+                        let languageName = Locale.current.localizedString(forIdentifier: code) ?? code
+                        Text(languageName)
+                            .tag(code)
+                    }
+                }
+            }
+        }
+        
+        private func updateLanguages() async {
+            if config.availableLanguages.isEmpty {
+                // Load the TMDB Languages
+                do {
+                    try await Utils.updateTMDBLanguages()
+                } catch {
+                    await MainActor.run {
+                        print(error)
+                        AlertHandler.showSimpleAlert(
+                            title: "Error updating languages",
+                            message: "There was an error updating the available languages.")
+                    }
+                }
+            }
         }
     }
     

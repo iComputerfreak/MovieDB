@@ -12,11 +12,6 @@ import CoreData
 
 extension Tag {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Tag> {
-        return NSFetchRequest<Tag>(entityName: "Tag")
-    }
-
     /// The ID of the tag
     @NSManaged public var id: UUID
     /// The name of the tag
@@ -25,6 +20,11 @@ extension Tag {
     
     /// All media objects tagged with this tag
     @NSManaged public var medias: Set<Media>
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Tag> {
+        return NSFetchRequest<Tag>(entityName: "Tag")
+    }
 }
 
 extension Tag: Identifiable {}

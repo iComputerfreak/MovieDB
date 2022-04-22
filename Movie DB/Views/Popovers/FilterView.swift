@@ -19,7 +19,8 @@ struct FilterView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
-        
+    
+    // swiftlint:disable:next type_contents_order
     init() {}
         
     var body: some View {

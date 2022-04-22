@@ -11,13 +11,6 @@ import Combine
 
 struct LibraryHome: View {
     
-    enum ActiveSheet: Identifiable {
-        case addMedia
-        case filter
-        
-        var id: Int { hashValue }
-    }
-    
     @ObservedObject private var library = MediaLibrary.shared
     // The filter setting
     @ObservedObject private var filterSetting = FilterSetting.shared
@@ -25,7 +18,6 @@ struct LibraryHome: View {
     @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-//    @StateObject var searchBar: SearchBar = SearchBar()
     @State private var searchText: String = ""
     
     @State private var sortingOrder: SortingOrder = {
@@ -127,6 +119,17 @@ struct LibraryHome: View {
         }
     }
     
+    func showFilter() {
+        self.activeSheet = .filter
+    }
+    
+    enum ActiveSheet: Identifiable {
+        case addMedia
+        case filter
+        
+        var id: Int { hashValue }
+    }
+    
     private struct MenuLabel: View {
         
         let title: String
@@ -141,10 +144,6 @@ struct LibraryHome: View {
                 }
             }
         }
-    }
-    
-    func showFilter() {
-        self.activeSheet = .filter
     }
 }
 

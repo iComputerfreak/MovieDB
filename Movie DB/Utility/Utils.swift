@@ -26,10 +26,32 @@ func undefined<T>(_ message: String = "") -> T {
 
 struct Utils {
     
+    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
+    
+    /// The URL describing the documents directory of the app
+    static var documentsPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    /// Returns a date formatter to display `Date` values.
+    static var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeZone = .utc
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }
+    
+    /// Returns a number formatter to display money values
+    static var moneyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
     private init() {}
     
-    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
-        
     /// Convenience function to execute a HTTP GET request.
     /// Ignores errors and just passes nil to the completion handler, if the request failed.
     /// - Parameters:
@@ -83,28 +105,6 @@ struct Utils {
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         #endif
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
-    }
-    
-    /// The URL describing the documents directory of the app
-    static var documentsPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    }
-    
-    /// Returns a date formatter to display `Date` values.
-    static var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeZone = .utc
-        formatter.dateFormat = "dd.MM.yyyy"
-        return formatter
-    }
-    
-    /// Returns a number formatter to display money values
-    static var moneyFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "en_US")
-        formatter.usesGroupingSeparator = true
-        return formatter
     }
     
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
@@ -238,6 +238,14 @@ struct Utils {
 
 // MARK: - TMDB API
 extension Utils {
+    /// The `DateFormatter` for translating to and from TMDB date representation
+    static var tmdbDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeZone = .utc
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+    
     /// Builds the URL for an TMDB image
     /// - Parameters:
     ///   - path: The path of the image
@@ -260,14 +268,6 @@ extension Utils {
     ///     languageString("de") // Returns "German"
     static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
         return locale.localizedString(forIdentifier: code)
-    }
-    
-    /// The `DateFormatter` for translating to and from TMDB date representation
-    static var tmdbDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeZone = .utc
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
     }
     
     @discardableResult
@@ -298,14 +298,6 @@ extension Utils {
 
 // MARK: - FSK Rating
 extension Utils {
-    enum FSKRating: String, CaseIterable {
-        case noRestriction = "0"
-        case ageSix = "6"
-        case ageTwelve = "12"
-        case ageSixteen = "16"
-        case ageEighteen = "18"
-    }
-    
     static func fskColor(_ rating: FSKRating) -> Color {
         switch rating {
         case .noRestriction:
@@ -324,6 +316,14 @@ extension Utils {
     static func fskLabel(_ rating: FSKRating) -> some View {
         Image(systemName: "\(rating.rawValue).square")
             .foregroundColor(fskColor(rating))
+    }
+    
+    enum FSKRating: String, CaseIterable {
+        case noRestriction = "0"
+        case ageSix = "6"
+        case ageTwelve = "12"
+        case ageSixteen = "16"
+        case ageEighteen = "18"
     }
 }
 

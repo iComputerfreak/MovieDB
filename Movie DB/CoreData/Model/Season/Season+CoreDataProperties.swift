@@ -12,11 +12,6 @@ import CoreData
 
 extension Season {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Season> {
-        return NSFetchRequest<Season>(entityName: "Season")
-    }
-
     /// The id of the season on TMDB
     public var id: Int {
         get { getInt(forKey: "id") }
@@ -42,6 +37,11 @@ extension Season {
     @NSManaged public var airDate: Date?
     /// The show this season belongs to
     @NSManaged public var show: Show?
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Season> {
+        return NSFetchRequest<Season>(entityName: "Season")
+    }
 }
 
 extension Season: Identifiable {}

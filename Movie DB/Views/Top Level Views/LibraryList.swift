@@ -74,7 +74,6 @@ struct LibraryList: View {
         self.sortingDirection = sortingDirection
     }
     
-    
     var body: some View {
         List {
             Section(footer: footerText) {

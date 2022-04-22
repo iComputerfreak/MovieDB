@@ -30,33 +30,6 @@ struct AddMediaView: View {
     // The subject used to fire the searchText changed events
     private let searchTextChangedSubject = PassthroughSubject<String, Never>()
     
-    func didAppear() {
-        // Register for search text updates
-        // We have to assign the publisher to a variable to it does not get deallocated and can be called with future changes
-        self.cancellable = searchTextChangedSubject
-            .print()
-            // Wait 500 ms before actually searching for the text
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-            // Remove duplicate calls
-            .removeDuplicates()
-            // The search text should have at least 3 characters
-            .map { (searchText: String) -> String? in
-                if searchText.isEmpty {
-                    self.results = []
-                    // Clear the search text (e.g. "No Results")
-                    self.resultsText = ""
-                }
-                return searchText.count >= 3 ? searchText : nil
-            }
-            // Remove nil
-            .compactMap { $0 }
-            // Process the search text
-            .sink { (searchText: String) in
-                // Execute searchMedia when the search text changes
-                self.searchMedia(searchText)
-            }
-    }
-    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
@@ -110,6 +83,33 @@ struct AddMediaView: View {
         .popover(isPresented: $isShowingProPopup) {
             ProInfoView()
         }
+    }
+    
+    func didAppear() {
+        // Register for search text updates
+        // We have to assign the publisher to a variable to it does not get deallocated and can be called with future changes
+        self.cancellable = searchTextChangedSubject
+            .print()
+            // Wait 500 ms before actually searching for the text
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            // Remove duplicate calls
+            .removeDuplicates()
+            // The search text should have at least 3 characters
+            .map { (searchText: String) -> String? in
+                if searchText.isEmpty {
+                    self.results = []
+                    // Clear the search text (e.g. "No Results")
+                    self.resultsText = ""
+                }
+                return searchText.count >= 3 ? searchText : nil
+            }
+            // Remove nil
+            .compactMap { $0 }
+            // Process the search text
+            .sink { (searchText: String) in
+                // Execute searchMedia when the search text changes
+                self.searchMedia(searchText)
+            }
     }
     
     func searchMedia(_ searchText: String) {

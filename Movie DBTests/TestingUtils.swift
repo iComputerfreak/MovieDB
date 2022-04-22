@@ -18,35 +18,12 @@ struct TestingUtils {
     
     let context: NSManagedObjectContext
     
-    static func load<T: Decodable>(
-        _ filename: String,
-        mediaType: MediaType? = nil,
-        into context: NSManagedObjectContext,
-        as type: T.Type = T.self
-    ) -> T {
-        let data: Data
-        
-        guard
-            let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
-        else {
-            fatalError("Couldn't find \(filename) in main bundle.")
-        }
-        
-        do {
-            data = try Data(contentsOf: file)
-        } catch {
-            fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            decoder.userInfo[.managedObjectContext] = context
-            decoder.userInfo[.mediaType] = mediaType
-            return try decoder.decode(T.self, from: data)
-        } catch let error {
-            fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
-        }
-    }
+    let previewTags: Set<Tag>
+    let matrixMovie: Movie
+    let fightClubMovie: Movie
+    let blacklistShow: Show // swiftlint:disable:this inclusive_language
+    let gameOfThronesShow: Show
+    var mediaSamples: [Media]
     
     init() {
         let context = PersistenceController.createTestingContext()
@@ -105,12 +82,35 @@ struct TestingUtils {
         self.mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
     }
     
-    let previewTags: Set<Tag>
-    let matrixMovie: Movie
-    let fightClubMovie: Movie
-    let blacklistShow: Show // swiftlint:disable:this inclusive_language
-    let gameOfThronesShow: Show
-    var mediaSamples: [Media]
+    static func load<T: Decodable>(
+        _ filename: String,
+        mediaType: MediaType? = nil,
+        into context: NSManagedObjectContext,
+        as type: T.Type = T.self
+    ) -> T {
+        let data: Data
+        
+        guard
+            let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
+        else {
+            fatalError("Couldn't find \(filename) in main bundle.")
+        }
+        
+        do {
+            data = try Data(contentsOf: file)
+        } catch {
+            fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.userInfo[.managedObjectContext] = context
+            decoder.userInfo[.mediaType] = mediaType
+            return try decoder.decode(T.self, from: data)
+        } catch let error {
+            fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+        }
+    }
     
     static func getPreviewTags(_ tagNames: [String], of tags: Set<Tag>) -> Set<Tag> {
         return Set(tagNames.map({ name in
