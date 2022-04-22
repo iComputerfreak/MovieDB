@@ -106,7 +106,7 @@ public class Media: NSManagedObject {
         
         // Fail silently and just now show the image
         // Only update, if the loaded image is not nil, dont delete existing images
-        if let image = try? await Utils.loadImage(with: imagePath) {
+        if let image = try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize) {
             assert(self.managedObjectContext != nil)
             let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
             await MainActor.run {

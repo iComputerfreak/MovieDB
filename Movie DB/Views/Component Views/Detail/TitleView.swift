@@ -9,21 +9,14 @@
 import SwiftUI
 
 struct TitleView: View {
-    let title: String
-    let year: Int?
-    @State var thumbnail: Thumbnail?
+    let media: Media
     
     var body: some View {
         Group {
-            if thumbnail?.image == nil {
+            if media.thumbnail?.image == nil {
                 self.titleView
             } else {
-                NavigationLink(
-                    destination: Image(uiImage: thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
-                ) {
+                NavigationLink(destination: PosterView(imagePath: media.imagePath)) {
                     self.titleView
                 }
             }
@@ -32,20 +25,50 @@ struct TitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            Image(uiImage: thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail(multiplier: 2.0)
+            Image(uiImage: media.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+                .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
                 .padding([.vertical, .trailing])
             // Title and year
             VStack(alignment: .leading) {
-                Text(title)
+                Text(media.title)
                     .font(.headline)
                     .lineLimit(3)
                     .padding([.bottom], 5.0)
-                if year != nil {
-                    Text(String(year!))
+                if media.year != nil {
+                    Text(String(media.year!))
                         .padding(4.0)
                         .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 2))
                 }
+            }
+        }
+    }
+}
+
+// swiftlint:disable:next file_types_order
+struct PosterView: View {
+    let imagePath: String?
+    
+    var url: URL? {
+        imagePath.map { Utils.getTMDBImageURL(path: $0, size: nil) }
+    }
+    
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+            case .failure:
+                Image(JFLiterals.posterPlaceholderName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+            case .success(let image):
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+            @unknown default:
+                fatalError("Unknown image phase: \(phase)")
             }
         }
     }
@@ -55,7 +78,7 @@ struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Section {
-                TitleView(title: PlaceholderData.movie.title, year: PlaceholderData.movie.year!, thumbnail: nil)
+                TitleView(media: PlaceholderData.movie)
             }
             Section {
                 Text("Other stuff")

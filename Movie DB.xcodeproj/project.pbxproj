@@ -49,13 +49,7 @@
 		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
-		AB4CD56024D45FBE005FAF20 /* SearchResults-2.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */; };
-		AB4CD56224D45FBE005FAF20 /* Matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55C24D45FBE005FAF20 /* Matrix.json */; };
-		AB4CD56324D45FBE005FAF20 /* Blacklist.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55D24D45FBE005FAF20 /* Blacklist.json */; };
-		AB4CD56524D45FBE005FAF20 /* SearchResults-1.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD55F24D45FBE005FAF20 /* SearchResults-1.json */; };
 		AB4CD56824D4664F005FAF20 /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD56724D4664F005FAF20 /* CodableTests.swift */; };
-		AB4CD56B24D46818005FAF20 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD56924D46818005FAF20 /* FightClub.json */; };
-		AB4CD56C24D46818005FAF20 /* GameOfThrones.json in Resources */ = {isa = PBXBuildFile; fileRef = AB4CD56A24D46818005FAF20 /* GameOfThrones.json */; };
 		AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB50944C238D63FD003A81DB /* SettingsView.swift */; };
 		AB5493D625FAB0850072745B /* LibraryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493D525FAB0850072745B /* LibraryList.swift */; };
 		AB5493DC25FBDD990072745B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493DB25FBDD990072745B /* Persistence.swift */; };
@@ -113,6 +107,12 @@
 		ABED3B072393263E00F4C327 /* ShowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B062393263E00F4C327 /* ShowType.swift */; };
 		ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABED3B0823932A8F00F4C327 /* FilterView.swift */; };
 		ABEEB07B280F1B7300230F0B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB07A280F1B7300230F0B /* Settings.bundle */; };
+		ABEEB0C22813084D00230F0B /* SearchResults-2.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0BC2813084D00230F0B /* SearchResults-2.json */; };
+		ABEEB0C32813084D00230F0B /* GameOfThrones.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0BD2813084D00230F0B /* GameOfThrones.json */; };
+		ABEEB0C42813084D00230F0B /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0BE2813084D00230F0B /* FightClub.json */; };
+		ABEEB0C52813084D00230F0B /* Matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0BF2813084D00230F0B /* Matrix.json */; };
+		ABEEB0C62813084D00230F0B /* SearchResults-1.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0C02813084D00230F0B /* SearchResults-1.json */; };
+		ABEEB0C72813084D00230F0B /* Blacklist.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0C12813084D00230F0B /* Blacklist.json */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
 		ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFFE80B2809AF4D00598356 /* CSVHelper.swift */; };
 /* End PBXBuildFile section */
@@ -168,13 +168,7 @@
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
 		AB4085412663A7BA008C559B /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
 		AB4085472663B325008C559B /* ProInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProInfoView.swift; sourceTree = "<group>"; };
-		AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SearchResults-2.json"; sourceTree = "<group>"; };
-		AB4CD55C24D45FBE005FAF20 /* Matrix.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Matrix.json; sourceTree = "<group>"; };
-		AB4CD55D24D45FBE005FAF20 /* Blacklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Blacklist.json; sourceTree = "<group>"; };
-		AB4CD55F24D45FBE005FAF20 /* SearchResults-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SearchResults-1.json"; sourceTree = "<group>"; };
 		AB4CD56724D4664F005FAF20 /* CodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableTests.swift; sourceTree = "<group>"; };
-		AB4CD56924D46818005FAF20 /* FightClub.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FightClub.json; sourceTree = "<group>"; };
-		AB4CD56A24D46818005FAF20 /* GameOfThrones.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GameOfThrones.json; sourceTree = "<group>"; };
 		AB50944C238D63FD003A81DB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AB5493D525FAB0850072745B /* LibraryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryList.swift; sourceTree = "<group>"; };
 		AB5493DB25FBDD990072745B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -240,6 +234,18 @@
 		ABED3B0823932A8F00F4C327 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		ABEEB07A280F1B7300230F0B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		ABEEB07D28104D8800230F0B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		ABEEB0B32813078900230F0B /* Matrix.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Matrix.json; sourceTree = "<group>"; };
+		ABEEB0B42813078900230F0B /* GameOfThrones.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GameOfThrones.json; sourceTree = "<group>"; };
+		ABEEB0B52813078900230F0B /* Blacklist.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Blacklist.json; sourceTree = "<group>"; };
+		ABEEB0B62813078900230F0B /* FightClub.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FightClub.json; sourceTree = "<group>"; };
+		ABEEB0B72813078900230F0B /* SearchResults-1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "SearchResults-1.json"; sourceTree = "<group>"; };
+		ABEEB0B82813078900230F0B /* SearchResults-2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "SearchResults-2.json"; sourceTree = "<group>"; };
+		ABEEB0BC2813084D00230F0B /* SearchResults-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SearchResults-2.json"; sourceTree = "<group>"; };
+		ABEEB0BD2813084D00230F0B /* GameOfThrones.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GameOfThrones.json; sourceTree = "<group>"; };
+		ABEEB0BE2813084D00230F0B /* FightClub.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FightClub.json; sourceTree = "<group>"; };
+		ABEEB0BF2813084D00230F0B /* Matrix.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Matrix.json; sourceTree = "<group>"; };
+		ABEEB0C02813084D00230F0B /* SearchResults-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SearchResults-1.json"; sourceTree = "<group>"; };
+		ABEEB0C12813084D00230F0B /* Blacklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Blacklist.json; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
 		ABFFE80B2809AF4D00598356 /* CSVHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -544,6 +550,7 @@
 		AB6718C822C0312B00F429E4 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				ABEEB0BB2813084D00230F0B /* Resources */,
 				AB6718C922C0312B00F429E4 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -552,7 +559,7 @@
 		AB6718D622C0312B00F429E4 /* Movie DBTests */ = {
 			isa = PBXGroup;
 			children = (
-				AB6718FD22C2A0B900F429E4 /* Resources */,
+				ABEEB0B22813078900230F0B /* Resources */,
 				AB6478DF22C7C91700F3E14E /* TestingUtils.swift */,
 				AB4CD56724D4664F005FAF20 /* CodableTests.swift */,
 				AB01097324D850A2001BEF39 /* CSVCoderTests.swift */,
@@ -582,19 +589,6 @@
 				AB01096624D5C3CC001BEF39 /* SearchResultsPageWrapper.swift */,
 			);
 			path = APIs;
-			sourceTree = "<group>";
-		};
-		AB6718FD22C2A0B900F429E4 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				AB4CD56924D46818005FAF20 /* FightClub.json */,
-				AB4CD55C24D45FBE005FAF20 /* Matrix.json */,
-				AB4CD56A24D46818005FAF20 /* GameOfThrones.json */,
-				AB4CD55D24D45FBE005FAF20 /* Blacklist.json */,
-				AB4CD55F24D45FBE005FAF20 /* SearchResults-1.json */,
-				AB4CD55A24D45FBE005FAF20 /* SearchResults-2.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		AB79E99C25C9F1850050BD8D /* Frameworks */ = {
@@ -638,6 +632,32 @@
 				AB6718EF22C037E300F429E4 /* TMDBData.swift */,
 			);
 			path = TMDBData;
+			sourceTree = "<group>";
+		};
+		ABEEB0B22813078900230F0B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ABEEB0B62813078900230F0B /* FightClub.json */,
+				ABEEB0B32813078900230F0B /* Matrix.json */,
+				ABEEB0B42813078900230F0B /* GameOfThrones.json */,
+				ABEEB0B52813078900230F0B /* Blacklist.json */,
+				ABEEB0B72813078900230F0B /* SearchResults-1.json */,
+				ABEEB0B82813078900230F0B /* SearchResults-2.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ABEEB0BB2813084D00230F0B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ABEEB0BC2813084D00230F0B /* SearchResults-2.json */,
+				ABEEB0BD2813084D00230F0B /* GameOfThrones.json */,
+				ABEEB0BE2813084D00230F0B /* FightClub.json */,
+				ABEEB0BF2813084D00230F0B /* Matrix.json */,
+				ABEEB0C02813084D00230F0B /* SearchResults-1.json */,
+				ABEEB0C12813084D00230F0B /* Blacklist.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -736,12 +756,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABEEB0C52813084D00230F0B /* Matrix.json in Resources */,
+				ABEEB0C22813084D00230F0B /* SearchResults-2.json in Resources */,
 				ABEA7AAA261BB8B80060B5D2 /* Localizable.strings in Resources */,
+				ABEEB0C42813084D00230F0B /* FightClub.json in Resources */,
 				AB6718CD22C0312B00F429E4 /* LaunchScreen.storyboard in Resources */,
 				AB6718CA22C0312B00F429E4 /* Preview Assets.xcassets in Resources */,
+				ABEEB0C32813084D00230F0B /* GameOfThrones.json in Resources */,
 				ABEA7AB4261BB9620060B5D2 /* Plurals.stringsdict in Resources */,
+				ABEEB0C62813084D00230F0B /* SearchResults-1.json in Resources */,
 				ABEEB07B280F1B7300230F0B /* Settings.bundle in Resources */,
 				AB6718C722C0312B00F429E4 /* Assets.xcassets in Resources */,
+				ABEEB0C72813084D00230F0B /* Blacklist.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,12 +775,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB4CD56224D45FBE005FAF20 /* Matrix.json in Resources */,
-				AB4CD56524D45FBE005FAF20 /* SearchResults-1.json in Resources */,
-				AB4CD56024D45FBE005FAF20 /* SearchResults-2.json in Resources */,
-				AB4CD56324D45FBE005FAF20 /* Blacklist.json in Resources */,
-				AB4CD56C24D46818005FAF20 /* GameOfThrones.json in Resources */,
-				AB4CD56B24D46818005FAF20 /* FightClub.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

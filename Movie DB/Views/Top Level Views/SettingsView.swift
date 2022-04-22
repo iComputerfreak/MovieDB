@@ -203,7 +203,7 @@ struct SettingsView: View {
                 // continue with import
             }
         }
-        // TODO: Exchange logFile with real logger
+        // TODO: Replace DocumentPicker with some async version
         // Use iOS file picker
         self.documentPicker = DocumentPicker(onSelect: { url in
             print("Importing \(url.lastPathComponent).")

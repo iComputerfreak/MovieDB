@@ -11,15 +11,13 @@ import UIKit
 import SwiftUI
 
 enum JFLiterals {
-    /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
-    private static let _multiplier: CGFloat = 2.0
     /// The size of the thumbnail in the `LibraryHome` list
     static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
-    /// The size of the thumbnail in the `MediaDetail` view
-    static let detailPosterSize: CGSize = .init(
-        width: Self.thumbnailSize.width * _multiplier,
-        height: Self.thumbnailSize.height * _multiplier
-    )
+    /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
+    static let detailThumbnailMultiplier: CGFloat = 2.0
+    /// The size of thumbnails to load from the TMDB API
+    // Thumbnails are 53 pixels wide (@2x in the detail view)
+    static let thumbnailTMDBSize: Int = 185
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos

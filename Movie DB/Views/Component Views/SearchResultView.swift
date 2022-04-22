@@ -49,7 +49,7 @@ struct SearchResultView: View {
         }
         
         do {
-            let image = try await Utils.loadImage(with: imagePath)
+            let image = try await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize)
             await MainActor.run {
                 self.image = image
             }

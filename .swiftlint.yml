@@ -88,6 +88,9 @@ type_body_length: [200, 400]
 trailing_whitespace:
   ignores_empty_lines: true
 
+unused_declaration:
+  include_public_and_open: true
+
 type_contents_order:
   order:
     - case

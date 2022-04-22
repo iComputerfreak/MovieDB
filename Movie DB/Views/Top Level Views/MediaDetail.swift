@@ -19,7 +19,7 @@ struct MediaDetail: View {
                 .navigationTitle("Error")
         } else {
             List {
-                TitleView(title: mediaObject.title, year: mediaObject.year, thumbnail: mediaObject.thumbnail)
+                TitleView(media: mediaObject)
                 UserData()
                 BasicInfo()
                 ExtendedInfo()

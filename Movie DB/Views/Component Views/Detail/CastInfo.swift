@@ -49,7 +49,7 @@ struct CastInfo: View {
                         // Fail silently
                         return (0, nil)
                     }
-                    return (member.id, try? await Utils.loadImage(with: imagePath))
+                    return (member.id, try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize))
                 }
             }
             

@@ -92,13 +92,13 @@ struct TestingUtils {
         guard
             let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
         else {
-            fatalError("Couldn't find \(filename) in main bundle.")
+            fatalError("Couldn't find \(filename) in test bundle.")
         }
         
         do {
             data = try Data(contentsOf: file)
         } catch {
-            fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
+            fatalError("Couldn't load \(filename) from test bundle:\n\(error)")
         }
         
         do {
