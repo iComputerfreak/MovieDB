@@ -65,7 +65,7 @@ public class Media: NSManagedObject {
         return objects.map({ managedObjectContext!.object(with: $0.objectID) as! T })
     }
     
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         self.castMembersSortOrder = []
         self.tags = []

@@ -32,7 +32,6 @@ struct AggregateCastMember: Decodable {
         case roles
         case imagePath = "profile_path"
     }
-    
 }
 
 struct Role: Decodable {

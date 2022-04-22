@@ -16,18 +16,20 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     let releaseDate: Date?
     
     /// Creates a new `TMDBMovieSearchResult` object with the given values
-    init(id: Int,
-         title: String,
-         mediaType: MediaType,
-         imagePath: String? = nil,
-         overview: String? = nil,
-         originalTitle: String,
-         originalLanguage: String,
-         popularity: Float,
-         voteAverage: Float,
-         voteCount: Int,
-         isAdult: Bool,
-         releaseDate: Date? = nil) {
+    init(
+        id: Int,
+        title: String,
+        mediaType: MediaType,
+        imagePath: String? = nil,
+        overview: String? = nil,
+        originalTitle: String,
+        originalLanguage: String,
+        popularity: Float,
+        voteAverage: Float,
+        voteCount: Int,
+        isAdult: Bool,
+        releaseDate: Date? = nil
+    ) {
         self.isAdult = isAdult
         self.releaseDate = releaseDate
         super.init(id: id,
@@ -61,5 +63,4 @@ class TMDBMovieSearchResult: TMDBSearchResult {
         case isAdult = "adult"
         case rawReleaseDate = "release_date"
     }
-    
 }

@@ -14,17 +14,17 @@ import CoreData
 @objc(MediaLibrary)
 public class MediaLibrary: NSManagedObject {
     
+    // We only store a single MediaLibrary in the container, therefore we just use the first result
+    static let shared = MediaLibrary.getInstance()
+    
     // Don't use a stored property to prevent accessing the viewContext from a background thread (during NSManagedObject creation)
     var libraryContext: NSManagedObjectContext {
         assert(managedObjectContext != nil)
         return self.managedObjectContext ?? PersistenceController.viewContext
     }
     
-    // We only store a single MediaLibrary in the container, therefore we just use the first result
-    static let shared: MediaLibrary = MediaLibrary.getInstance()
-    
     private static func getInstance() -> MediaLibrary {
-        let results = try? PersistenceController.viewContext.fetch(MediaLibrary.fetchRequest())
+        let results = try? PersistenceController.viewContext.fetch(Self.fetchRequest())
         if let storedLibrary = results?.first as? MediaLibrary {
             return storedLibrary
         }
@@ -33,6 +33,31 @@ public class MediaLibrary: NSManagedObject {
         PersistenceController.saveContext()
         
         return newLibrary
+    }
+    
+    /// Fixes all duplicates IDs by assigning new IDs to the media objects
+    @objc
+    static func fixDuplicates(notification: Notification) {
+        // TODO: Fix duplicate TMDB IDs
+        // New data has just been merged from iCloud. Check for duplicate Media IDs
+        // TODO: Does passing the context like this work?
+        // swiftlint:disable:next force_cast
+        let context = notification.object as! NSManagedObjectContext
+        let allMedia = Utils.allMedias(context: context)
+        let grouped = Dictionary(grouping: allMedia, by: \.id)
+        for group in grouped.values {
+            // If there is only one item in the group, there are no duplicates
+            guard group.count > 1 else {
+                continue
+            }
+            // If the group has multiple entries, there are multiple media objects with the same ID
+            // For all media objects, except the first
+            for i in 1..<group.count {
+                let media = group[i]
+                // Assign a new, free ID
+                media.id = UUID()
+            }
+        }
     }
     
     /// Updates the media library by updaing every media object with API calls again.
@@ -71,32 +96,6 @@ public class MediaLibrary: NSManagedObject {
         // Save the updated media into the parent context (viewContext)
         await PersistenceController.saveContext(updateContext)
         return updateCount
-    }
-    
-    /// Fixes all duplicates IDs by assigning new IDs to the media objects
-    @objc
-    static func fixDuplicates(notification: Notification) {
-        // TODO: Fix duplicate TMDB IDs
-        // New data has just been merged from iCloud. Check for duplicate Media IDs
-        // TODO: Does passing the context like this work?
-        // swiftlint:disable:next force_cast
-        let context = notification.object as! NSManagedObjectContext
-        let allMedia = Utils.allMedias(context: context)
-        let grouped = Dictionary(grouping: allMedia, by: \.id)
-        for group in grouped.values {
-            // If there is only one item in the group, there are no duplicates
-            guard group.count > 1 else {
-                continue
-            }
-            // If the group has multiple entries, there are multiple media objects with the same ID
-            // For all media objects, except the first
-            for i in 1..<group.count {
-                let media = group[i]
-                // Assign a new, free ID
-                media.id = UUID()
-            }
-        }
-        
     }
     
     // TODO: Fix documentation for new async functions

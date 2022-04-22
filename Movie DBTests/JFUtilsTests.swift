@@ -13,14 +13,6 @@ import XCTest
 
 class JFUtilsTests: XCTestCase {
     
-    override func setUp() {
-        
-    }
-    
-    override func tearDown() {
-        
-    }
-    
     func testLocale() {
         XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "en")), "English")
         XCTAssertEqual(Utils.languageString(for: "en", locale: Locale(identifier: "de")), "Englisch")

@@ -67,11 +67,13 @@ struct BasicInfo: View {
                     }
                     // MARK: Show type (e.g. Scripted)
                     if let type = show.showType {
+                        // swiftlint:disable:next nslocalizedstring_key
                         Text(NSLocalizedString(type.rawValue))
                             .headline("Show Type")
                     }
                 }
                 // MARK: Status
+                // swiftlint:disable:next nslocalizedstring_key
                 Text(NSLocalizedString(mediaObject.status.rawValue))
                     .headline("Status")
                 // MARK: Original Title

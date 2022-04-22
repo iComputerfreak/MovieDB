@@ -19,6 +19,7 @@ import JFUtils
 ///
 ///     let value: String = undefined() // Will compile as a String
 ///     print(value.components(separatedBy: " ") // Will not throw any compiler errors
+// swiftlint:disable:next unavailable_function
 func undefined<T>(_ message: String = "") -> T {
     fatalError(message)
 }
@@ -36,7 +37,7 @@ struct Utils {
     ///   - parameters: The parameters for the request
     ///   - completion: The closure to execute on completion of the request
     static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?) -> Void) {
-        getRequest(urlString, parameters: parameters) { (data, response, error) in
+        getRequest(urlString, parameters: parameters) { data, response, error in
             guard let data = data, let response = response as? HTTPURLResponse, error == nil else {
                 print("error", error ?? "Unknown error")
                 completion(nil)
@@ -127,7 +128,7 @@ struct Utils {
     
     static func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         print("Loading image from \(urlString)")
-        Utils.getRequest(urlString, parameters: [:]) { (data) in
+        Self.getRequest(urlString, parameters: [:]) { data in
             guard let data = data else {
                 print("Unable to get image")
                 completion(nil)
@@ -186,15 +187,15 @@ struct Utils {
         return objects ?? []
     }
     
-    static private func fetchMinMaxMovie(key: String, ascending: Bool, context: NSManagedObjectContext) -> Movie? {
+    private static func fetchMinMaxMovie(key: String, ascending: Bool, context: NSManagedObjectContext) -> Movie? {
         return fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key, ascending: ascending, context: context)
     }
     
-    static private func fetchMinMaxShow(key: String, ascending: Bool, context: NSManagedObjectContext) -> Show? {
+    private static func fetchMinMaxShow(key: String, ascending: Bool, context: NSManagedObjectContext) -> Show? {
         return fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending, context: context)
     }
     
-    static private func fetchMinMax<T>(
+    private static func fetchMinMax<T>(
         fetchRequest: NSFetchRequest<T>,
         key: String,
         ascending: Bool,

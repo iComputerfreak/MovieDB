@@ -11,8 +11,6 @@ import Foundation
 /// Deocdes a search result as either a `TMDBMovieSearchResult` or a `TMDBShowSearchResult`.
 struct SearchResultsPageWrapper: PageWrapperProtocol {
     
-    private struct Empty: Decodable {}
-    
     var results: [TMDBSearchResult]
     var totalPages: Int
     
@@ -60,4 +58,5 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
         }
     }
     
+    private struct Empty: Decodable {}
 }

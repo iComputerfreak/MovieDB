@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if diff >= 24 * 60 * 60 {
             // Load the deny list
             let denyListURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
-            Utils.getRequest(denyListURL, parameters: [:]) { (data) in
+            Utils.getRequest(denyListURL, parameters: [:]) { data in
                 guard let data = data else {
                     print("Error fetching deny list. Keeping current one.")
                     return
@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
             }
         } else {
-            print("Last deny list update was \(Double(diff)/3600.0) hours ago. " +
+            print("Last deny list update was \(Double(diff) / 3600.0) hours ago. " +
                   "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
         }
         
@@ -95,5 +95,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
 }

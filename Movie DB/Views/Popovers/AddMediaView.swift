@@ -18,10 +18,10 @@ struct AddMediaView: View {
     @State private var results: [TMDBSearchResult] = []
     @State private var resultsText: String = ""
     @State private var searchText: String = ""
-    @State private var isLoading: Bool = false
-    @State private var isShowingProPopup: Bool = false
+    @State private var isLoading = false
+    @State private var isShowingProPopup = false
     @State private var pagesLoaded: Int = 0
-    @State private var allPagesLoaded: Bool = true
+    @State private var allPagesLoaded = true
     
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -68,7 +68,6 @@ struct AddMediaView: View {
                                 .italic()
                             Spacer()
                         }
-                        
                     } else {
                         ForEach(self.results) { (result: TMDBSearchResult) in
                             Button {

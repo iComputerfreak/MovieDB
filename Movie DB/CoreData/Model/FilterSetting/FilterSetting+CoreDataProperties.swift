@@ -12,11 +12,6 @@ import CoreData
 
 extension FilterSetting {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
-        return NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
-    }
-
     public var isAdult: Bool? {
         get { getOptional(forKey: "isAdult") }
         set { setOptional(newValue, forKey: "isAdult") }
@@ -124,7 +119,11 @@ extension FilterSetting {
             self.maxNumberOfSeasons = newValue?.upperBound
         }
     }
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<FilterSetting> {
+        return NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
+    }
 }
 
 extension FilterSetting: Identifiable {}

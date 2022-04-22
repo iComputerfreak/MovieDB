@@ -92,8 +92,6 @@ struct RatingView_Previews: PreviewProvider {
 
 public enum StarRating: Int, Strideable, Codable {
     
-    public typealias Stride = Int
-    
     case noRating = 0
     case halfStar
     case oneStar
@@ -106,12 +104,7 @@ public enum StarRating: Int, Strideable, Codable {
     case fourAndAHalfStars
     case fiveStars
     
-    init?(integerRepresentation: Int) {
-        guard let rating = StarRating(rawValue: integerRepresentation) else {
-            return nil
-        }
-        self = rating
-    }
+    public typealias Stride = Int
     
     /// The integer value of the rating (amount of half stars)
     var integerRepresentation: Int {
@@ -128,6 +121,13 @@ public enum StarRating: Int, Strideable, Codable {
         return formatter.string(from: Double(integerRepresentation) / 2)!
     }
     
+    init?(integerRepresentation: Int) {
+        guard let rating = StarRating(rawValue: integerRepresentation) else {
+            return nil
+        }
+        self = rating
+    }
+    
     public func advanced(by n: Int) -> StarRating {
         return StarRating(rawValue: self.rawValue + n)!
     }
@@ -135,5 +135,4 @@ public enum StarRating: Int, Strideable, Codable {
     public func distance(to other: StarRating) -> Int {
         return other.rawValue - self.rawValue
     }
-    
 }

@@ -18,18 +18,6 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
     var onSelect: (URL) -> Void
     var onCancel: (() -> Void)?
     
-    init(urlToExport: URL, onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
-        self.urlToExport = urlToExport
-        self.onSelect = onSelect
-        self.onCancel = onCancel
-    }
-    
-    init(onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
-        self.urlToExport = nil
-        self.onSelect = onSelect
-        self.onCancel = onCancel
-    }
-    
     lazy var viewController: UIDocumentPickerViewController = {
         let controller: UIDocumentPickerViewController!
         if let url = self.urlToExport {
@@ -44,6 +32,18 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
         return controller
     }()
     
+    init(urlToExport: URL, onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
+        self.urlToExport = urlToExport
+        self.onSelect = onSelect
+        self.onCancel = onCancel
+    }
+    
+    init(onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
+        self.urlToExport = nil
+        self.onSelect = onSelect
+        self.onCancel = onCancel
+    }
+    
     func updateUIViewController(
         _ uiViewController: UIDocumentPickerViewController,
         context: UIViewControllerRepresentableContext<DocumentPicker>
@@ -53,7 +53,6 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable {
         viewController.delegate = self
         return viewController
     }
-    
 }
 
 extension DocumentPicker: UIDocumentPickerDelegate {

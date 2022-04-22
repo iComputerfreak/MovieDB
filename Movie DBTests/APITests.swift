@@ -27,6 +27,7 @@ class APITests: XCTestCase {
     var brokenMedia: Movie!
     
     override func setUp() {
+        super.setUp()
         testingUtils = TestingUtils()
         matrix = TestingUtils.load("Matrix.json", mediaType: .movie, into: testContext)
         fightClub = TestingUtils.load("FightClub.json", mediaType: .movie, into: testContext)
@@ -43,6 +44,7 @@ class APITests: XCTestCase {
     }
     
     override func tearDown() {
+        super.tearDown()
         testingUtils = nil
         matrix = nil
         fightClub = nil

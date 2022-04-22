@@ -11,13 +11,11 @@ import Foundation
 import CoreData
 
 extension MediaLibrary {
-
+    /// The date and time of the last library update
+    @NSManaged public var lastUpdated: Date?
+    
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<MediaLibrary> {
         return NSFetchRequest<MediaLibrary>(entityName: "MediaLibrary")
     }
-    
-    /// The date and time of the last library update
-    @NSManaged public var lastUpdated: Date?
-
 }

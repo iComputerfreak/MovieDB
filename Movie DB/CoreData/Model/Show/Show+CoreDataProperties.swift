@@ -12,11 +12,6 @@ import CoreData
 
 extension Show {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Show> {
-        return NSFetchRequest<Show>(entityName: "Show")
-    }
-
     /// The type of the show (e.g. Scripted)
     public var showType: ShowType? {
         get { getOptionalEnum(forKey: "showType") }
@@ -79,7 +74,11 @@ extension Show {
             self.lastEpisodeWatched = episodeNumber.episode
         }
     }
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Show> {
+        return NSFetchRequest<Show>(entityName: "Show")
+    }
 }
 
 // MARK: Generated accessors for seasons
@@ -96,12 +95,11 @@ extension Show {
     
     @objc(removeSeasons:)
     @NSManaged public func removeFromSeasons(_ values: NSSet)
-    
 }
 
 // MARK: Generated accessors for networks
 extension Show {
-    
+
     @objc(addNetworksObject:)
     @NSManaged public func addToNetworks(_ value: ProductionCompany)
     
@@ -113,5 +111,4 @@ extension Show {
     
     @objc(removeNetworks:)
     @NSManaged public func removeFromNetworks(_ values: NSSet)
-    
 }

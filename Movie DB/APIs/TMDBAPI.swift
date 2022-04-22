@@ -12,16 +12,6 @@ import UIKit
 
 actor TMDBAPI {
     
-    enum APIError: Error, Equatable {
-        case unauthorized
-        case invalidResponse(URLResponse)
-        case invalidPageRange
-        case pageOutOfBounds(Int)
-        case updateError(reason: String)
-        case statusNotOk(HTTPURLResponse)
-        case unknown(Int)
-    }
-    
     static let shared = TMDBAPI()
     
     private let apiKey: String = APIKeys.tmdbAPIKey
@@ -188,7 +178,8 @@ actor TMDBAPI {
         fromPage: Int = 1,
         toPage: Int = .max,
         pageWrapper: PageWrapper.Type,
-        context: NSManagedObjectContext) async throws -> (results: [PageWrapper.ObjectWrapper], totalPages: Int) {
+        context: NSManagedObjectContext
+    ) async throws -> (results: [PageWrapper.ObjectWrapper], totalPages: Int) {
             
             // TODO: Use ClosedRange instead
             guard fromPage <= toPage else {
@@ -275,10 +266,13 @@ actor TMDBAPI {
     ///   - type: The type of media
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
-    private func decodeAPIURL<T: Decodable>(path: String,
-                                            additionalParameters: [String: String?] = [:],
-                                            as type: T.Type, context: NSManagedObjectContext,
-                                            userInfo: [CodingUserInfoKey: Any] = [:]) async throws -> T {
+    private func decodeAPIURL<T: Decodable>(
+        path: String,
+        additionalParameters: [String: String?] = [:],
+        as type: T.Type,
+        context: NSManagedObjectContext,
+        userInfo: [CodingUserInfoKey: Any] = [:]
+    ) async throws -> T {
         // Load the JSON on a background thread
         let data = try await self.request(path: path, additionalParameters: additionalParameters)
         // Decode on the thread of the context (hopefully a background thread)
@@ -365,6 +359,16 @@ actor TMDBAPI {
         let decoder = JSONDecoder()
         decoder.userInfo[.managedObjectContext] = context
         return decoder
+    }
+    
+    enum APIError: Error, Equatable {
+        case unauthorized
+        case invalidResponse(URLResponse)
+        case invalidPageRange
+        case pageOutOfBounds(Int)
+        case updateError(reason: String)
+        case statusNotOk(HTTPURLResponse)
+        case unknown(Int)
     }
     
     /// Respresents a wrapper containing the ID of a media and whether that media is an adult media or not.

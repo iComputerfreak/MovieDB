@@ -12,15 +12,15 @@ import CoreData
 public final class EnumStringTransformer<EnumType: RawRepresentable>: ValueTransformer
 where EnumType.RawValue == String {
     
-    public override class func transformedValueClass() -> AnyClass {
+    override public static func transformedValueClass() -> AnyClass {
         return NSString.self
     }
     
-    public override class func allowsReverseTransformation() -> Bool {
+    override public static func allowsReverseTransformation() -> Bool {
         return true
     }
     
-    public override func transformedValue(_ value: Any?) -> Any? {
+    override public func transformedValue(_ value: Any?) -> Any? {
         guard let enumValue = value as? EnumType else {
             fatalError("Trying to convert non-enum value \(value ?? "nil") using " +
                        "EnumTransformer<\(String(describing: EnumType.self))>")
@@ -28,27 +28,26 @@ where EnumType.RawValue == String {
         return NSString(string: enumValue.rawValue)
     }
     
-    public override func reverseTransformedValue(_ value: Any?) -> Any? {
+    override public func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let rawValue = value as? String else {
             fatalError("Trying to reverse convert non-string value \(value ?? "nil") using " +
                        "EnumTransformer<\(String(describing: EnumType.self))>")
         }
         return EnumType(rawValue: rawValue)
     }
-    
 }
 
 public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransformer where EnumType.RawValue == Int {
     
-    public override class func transformedValueClass() -> AnyClass {
+    override public class func transformedValueClass() -> AnyClass {
         return NSNumber.self
     }
     
-    public override class func allowsReverseTransformation() -> Bool {
+    override public class func allowsReverseTransformation() -> Bool {
         return true
     }
     
-    public override func transformedValue(_ value: Any?) -> Any? {
+    override public func transformedValue(_ value: Any?) -> Any? {
         guard let enumValue = value as? EnumType else {
             fatalError("Trying to convert non-enum value \(value ?? "nil") using " +
                        "EnumTransformer<\(String(describing: EnumType.self))>")
@@ -56,7 +55,7 @@ public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransfor
         return NSNumber(value: enumValue.rawValue)
     }
     
-    public override func reverseTransformedValue(_ value: Any?) -> Any? {
+    override public func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let number = value as? NSNumber else {
             fatalError("Trying to reverse convert non-string value \(value ?? "nil") using " +
                        "EnumTransformer<\(String(describing: EnumType.self))>")
@@ -64,5 +63,4 @@ public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransfor
         let rawValue = number.intValue as Int
         return EnumType(rawValue: rawValue)
     }
-    
 }

@@ -64,7 +64,7 @@ struct UserDataSection: View {
         .init(get: {
             self.filterSetting.watched?.description ?? nilString
         }, set: { bool in
-            self.filterSetting.watched = bool.isNil ? nil : Bool(bool) ?? nil
+            self.filterSetting.watched = bool.isNil ? nil : Bool(bool)
         })
     }
     
@@ -72,7 +72,7 @@ struct UserDataSection: View {
         .init(get: {
             self.filterSetting.watchAgain?.description ?? nilString
         }, set: { bool in
-            self.filterSetting.watchAgain = bool.isNil ? nil : Bool(bool) ?? nil
+            self.filterSetting.watchAgain = bool.isNil ? nil : Bool(bool)
         })
     }
     
@@ -144,7 +144,7 @@ private struct InformationSection: View {
         // MARK: - Genres
         let genresProxy = Binding<[Genre]> {
             Array(filterSetting.genres).sorted(by: \.name)
-        } set: { (newValue) in
+        } set: { newValue in
             filterSetting.genres = Set(newValue)
         }
         FilterMultiPicker(selection: genresProxy,

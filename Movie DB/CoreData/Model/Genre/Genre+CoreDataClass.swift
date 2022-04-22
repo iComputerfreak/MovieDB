@@ -16,7 +16,7 @@ public class Genre: NSManagedObject, Codable {
     
     // MARK: - Decodable Conformance
     
-    required convenience public init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             throw DecoderConfigurationError.missingManagedObjectContext
         }

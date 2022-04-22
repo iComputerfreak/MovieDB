@@ -45,10 +45,10 @@ opt_in_rules: # some rules are turned off by default, so you need to opt-in
 #  - multiline_arguments
 #  - multiline_arguments_brackets
   - multiline_function_chains
-  - multiline_literal_brackets
+  #- multiline_literal_brackets
   - multiline_parameters
   - multiline_parameters_brackets
-  - nslocalizedstring_key
+#  - nslocalizedstring_key
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
@@ -58,7 +58,7 @@ opt_in_rules: # some rules are turned off by default, so you need to opt-in
   - prefer_zero_over_explicit_init
   - private_subject
   - prohibited_super_call
-  - raw_value_for_camel_cased_codable_enum
+  #- raw_value_for_camel_cased_codable_enum
   - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
@@ -68,8 +68,7 @@ opt_in_rules: # some rules are turned off by default, so you need to opt-in
   - switch_case_on_newline
   - toggle_bool
 #  - trailing_closure
-#  - type_contents_order
-  - typesafe_array_init
+  - type_contents_order
   - unneeded_parentheses_in_closure_argument
   - unavailable_function
   - unused_declaration
@@ -91,5 +90,23 @@ type_body_length: [200, 400]
 
 trailing_whitespace:
   ignores_empty_lines: true
+
+type_contents_order:
+  order:
+    - case
+    - type_alias
+    - associated_type
+    - type_property
+    - instance_property
+    - ib_inspectable
+    - ib_outlet
+    - initializer
+    - type_method
+    - view_life_cycle_method
+    - ib_action
+    - other_method
+    - subscript
+    - deinitializer
+    - subtype
 
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

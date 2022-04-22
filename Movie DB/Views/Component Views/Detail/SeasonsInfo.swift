@@ -55,7 +55,7 @@ struct SeasonsInfo: View {
         print("Loading season thumbnails for \(show.title)")
         for season in show.seasons {
             if let imagePath = season.imagePath {
-                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { (image) in
+                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { image in
                     DispatchQueue.main.async {
                         self.seasonThumbnails[season.id] = image
                     }
@@ -72,6 +72,7 @@ struct SeasonInfo: View {
     
     var body: some View {
         HStack {
+            // swiftlint:disable:next redundant_nil_coalescing
             Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
             VStack(alignment: .leading) {

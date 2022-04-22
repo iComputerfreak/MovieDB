@@ -14,17 +14,19 @@ class TMDBShowSearchResult: TMDBSearchResult {
     let firstAirDate: Date?
     
     /// Creates a new `TMDBShowSearchResult` object with the given values
-    init(id: Int,
-         title: String,
-         mediaType: MediaType,
-         imagePath: String? = nil,
-         overview: String? = nil,
-         originalTitle: String,
-         originalLanguage: String,
-         popularity: Float,
-         voteAverage: Float,
-         voteCount: Int,
-         firstAirDate: Date? = nil) {
+    init(
+        id: Int,
+        title: String,
+        mediaType: MediaType,
+        imagePath: String? = nil,
+        overview: String? = nil,
+        originalTitle: String,
+        originalLanguage: String,
+        popularity: Float,
+        voteAverage: Float,
+        voteCount: Int,
+        firstAirDate: Date? = nil
+    ) {
         self.firstAirDate = firstAirDate
         super.init(id: id,
                    title: title,

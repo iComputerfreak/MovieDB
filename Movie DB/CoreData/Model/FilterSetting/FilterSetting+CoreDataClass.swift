@@ -24,7 +24,66 @@ public class FilterSetting: NSManagedObject {
         return results?.first ?? FilterSetting(context: context)
     }()
     
-    public override func awakeFromInsert() {
+    var isReset: Bool {
+        self.isAdult == nil &&
+            self.mediaType == nil &&
+            self.genres.isEmpty &&
+            self.rating == nil &&
+            self.year == nil &&
+            self.statuses.isEmpty &&
+            self.showTypes.isEmpty &&
+            self.numberOfSeasons == nil &&
+            self.watched == nil &&
+            self.watchAgain == nil &&
+            self.tags.isEmpty
+    }
+    
+    /// Creates two proxies for the upper and lower bound of the given range Binding
+    ///
+    /// Ensures that the set values never exceed the given bounds and that the set values form a valid range (`lowerBound <= upperBound`)
+    ///
+    /// - Parameters:
+    ///   - setting: The binding for the `ClosedRange` to create proxies from
+    ///   - bounds: The bounds of the range
+    static func rangeProxies<T>(
+        for setting: Binding<ClosedRange<T>?>,
+        bounds: ClosedRange<T>
+    ) -> (lower: Binding<T>, upper: Binding<T>) {
+        var lowerProxy: Binding<T> {
+            Binding<T>(get: { setting.wrappedValue?.lowerBound ?? bounds.lowerBound }, set: { lower in
+                // Ensure that we are not setting an illegal range
+                var lower = max(lower, bounds.lowerBound)
+                let upper = setting.wrappedValue?.upperBound ?? bounds.upperBound
+                if lower > upper {
+                    // Illegal range selected, set lower to lowest value possible
+                    lower = upper
+                }
+                // Update the binding in the main thread (may be bound to UI)
+                DispatchQueue.main.async {
+                    setting.wrappedValue = lower ... upper
+                }
+            })
+        }
+
+        var upperProxy: Binding<T> {
+            Binding<T>(get: { setting.wrappedValue?.upperBound ?? bounds.upperBound }, set: { upper in
+                let lower = setting.wrappedValue?.lowerBound ?? bounds.lowerBound
+                var upper = min(upper, bounds.upperBound)
+                if lower > upper {
+                    // Illegal range selected
+                    upper = lower
+                }
+                // Update the binding in the main thread (may be bound to UI)
+                DispatchQueue.main.async {
+                    setting.wrappedValue = lower ... upper
+                }
+            })
+        }
+
+        return (lowerProxy, upperProxy)
+    }
+    
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         self.genres = []
         self.tags = []
@@ -126,64 +185,4 @@ public class FilterSetting: NSManagedObject {
         self.tags = []
         assert(self.isReset, "FilterSetting is not in reset state after calling reset()")
     }
-    
-    var isReset: Bool {
-        self.isAdult == nil &&
-            self.mediaType == nil &&
-            self.genres.isEmpty &&
-            self.rating == nil &&
-            self.year == nil &&
-            self.statuses.isEmpty &&
-            self.showTypes.isEmpty &&
-            self.numberOfSeasons == nil &&
-            self.watched == nil &&
-            self.watchAgain == nil &&
-            self.tags.isEmpty
-    }
-    
-    /// Creates two proxies for the upper and lower bound of the given range Binding
-    ///
-    /// Ensures that the set values never exceed the given bounds and that the set values form a valid range (`lowerBound <= upperBound`)
-    ///
-    /// - Parameters:
-    ///   - setting: The binding for the `ClosedRange` to create proxies from
-    ///   - bounds: The bounds of the range
-    static func rangeProxies<T>(
-        for setting: Binding<ClosedRange<T>?>,
-        bounds: ClosedRange<T>
-    ) -> (lower: Binding<T>, upper: Binding<T>) {
-        var lowerProxy: Binding<T> {
-            Binding<T>(get: { setting.wrappedValue?.lowerBound ?? bounds.lowerBound }, set: { lower in
-                // Ensure that we are not setting an illegal range
-                var lower = max(lower, bounds.lowerBound)
-                let upper = setting.wrappedValue?.upperBound ?? bounds.upperBound
-                if lower > upper {
-                    // Illegal range selected, set lower to lowest value possible
-                    lower = upper
-                }
-                // Update the binding in the main thread (may be bound to UI)
-                DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
-                }
-            })
-        }
-
-        var upperProxy: Binding<T> {
-            Binding<T>(get: { setting.wrappedValue?.upperBound ?? bounds.upperBound }, set: { upper in
-                let lower = setting.wrappedValue?.lowerBound ?? bounds.lowerBound
-                var upper = min(upper, bounds.upperBound)
-                if lower > upper {
-                    // Illegal range selected
-                    upper = lower
-                }
-                // Update the binding in the main thread (may be bound to UI)
-                DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
-                }
-            })
-        }
-
-        return (lowerProxy, upperProxy)
-    }
-
 }

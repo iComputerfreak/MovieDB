@@ -29,5 +29,4 @@ struct ResultsPageWrapper<T: Decodable>: PageWrapperProtocol {
         case totalPages = "total_pages"
         case totalResults = "total_results"
     }
-    
 }

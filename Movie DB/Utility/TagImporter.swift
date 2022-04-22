@@ -88,5 +88,4 @@ actor TagImporter {
             _log.append(contentsOf: log.map({ "[\(level.rawValue.uppercased())] \($0)" }))
         }
     }
-    
 }

@@ -13,11 +13,6 @@ import UIKit
 
 extension Media {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Media> {
-        return NSFetchRequest<Media>(entityName: "Media")
-    }
-
     /// The internal library id
     @NSManaged public var id: UUID
     /// The type of media
@@ -120,7 +115,11 @@ extension Media {
         }
         return nil
     }
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Media> {
+        return NSFetchRequest<Media>(entityName: "Media")
+    }
 }
 
 // MARK: Generated accessors for genres
@@ -137,7 +136,6 @@ extension Media {
     
     @objc(removeGenres:)
     @NSManaged public func removeFromGenres(_ values: NSSet)
-    
 }
 
 // MARK: Generated accessors for videos
@@ -154,7 +152,6 @@ extension Media {
     
     @objc(removeVideos:)
     @NSManaged public func removeFromVideos(_ values: NSSet)
-    
 }
 
 // MARK: Generated accessors for productionCompanies
@@ -171,7 +168,6 @@ extension Media {
     
     @objc(removeProductionCompanies:)
     @NSManaged public func removeFromProductionCompanies(_ values: NSSet)
-    
 }
 
 // MARK: Generated accessors for cast
@@ -188,7 +184,6 @@ extension Media {
     
     @objc(removeCast:)
     @NSManaged public func removeFromCast(_ values: NSSet)
-    
 }
 
 extension Media: Identifiable {}

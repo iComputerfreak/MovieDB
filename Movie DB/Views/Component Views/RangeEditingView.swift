@@ -55,7 +55,6 @@ where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLab
     enum Style {
         case stepper
     }
-    
 }
 
 extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueLabel)>> {

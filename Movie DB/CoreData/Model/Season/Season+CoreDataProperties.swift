@@ -42,9 +42,6 @@ extension Season {
     @NSManaged public var airDate: Date?
     /// The show this season belongs to
     @NSManaged public var show: Show?
-
 }
 
-extension Season: Identifiable {
-
-}
+extension Season: Identifiable {}

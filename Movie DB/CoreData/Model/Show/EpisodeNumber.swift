@@ -9,7 +9,7 @@
 import Foundation
 
 /// Represents an episode of a show
-public struct EpisodeNumber: Codable, Hashable, LosslessStringConvertible {
+public struct EpisodeNumber: Codable, Hashable {
     /// The season number of the episode
     var season: Int
     /// The episode number
@@ -23,8 +23,9 @@ public struct EpisodeNumber: Codable, Hashable, LosslessStringConvertible {
         self.season = season
         self.episode = episode
     }
-    
-    // MARK: - LosslessStringConvertible Conformance
+}
+
+extension EpisodeNumber: LosslessStringConvertible {
     
     public var description: String { episode == nil ? "\(season)" : "\(season)/\(episode!)" }
     

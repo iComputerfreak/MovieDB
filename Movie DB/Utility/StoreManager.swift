@@ -88,5 +88,4 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             print("User can't make payment.")
         }
     }
-    
 }

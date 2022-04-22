@@ -76,7 +76,7 @@ struct ProInfoView: View {
 
 struct ProInfoView_Previews: PreviewProvider {
     
-    @State private static var isShowing: Bool = true
+    @State private static var isShowing = true
     
     static var previews: some View {
         Text("Hello, world!")

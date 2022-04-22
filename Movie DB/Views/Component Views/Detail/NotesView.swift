@@ -13,12 +13,12 @@ struct NotesView: View {
     
     @Binding var notes: String
     @Environment(\.editMode) private var editMode
+    @State private var editingNotes = false
     
+    // swiftlint:disable:next type_contents_order
     init(_ notes: Binding<String>) {
         self._notes = notes
     }
-    
-    @State private var editingNotes: Bool = false
     
     var body: some View {
         Group {
@@ -48,7 +48,7 @@ struct NotesView: View {
     
     fileprivate struct EditView: View {
         @Binding var notes: String
-        @State private var isEditing: Bool = true
+        @State private var isEditing = true
         @State private var responder = KeyboardResponder()
         @Environment(\.colorScheme) private var colorScheme
         

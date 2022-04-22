@@ -28,5 +28,4 @@ extension TMDBAPI.APIError: LocalizedError {
             return "Error executing request. HTTP Reponse code \(response.statusCode)."
         }
     }
-    
 }

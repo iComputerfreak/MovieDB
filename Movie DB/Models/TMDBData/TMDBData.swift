@@ -13,10 +13,6 @@ import CoreData
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
 struct TMDBData: Decodable, Hashable {
     
-    enum TMDBDataError: Error {
-        case noDecodingContext
-    }
-    
     // Basic Data
     var id: Int
     var title: String
@@ -136,6 +132,10 @@ struct TMDBData: Decodable, Hashable {
         case keywords
         case translations
         case videos
+    }
+    
+    enum TMDBDataError: Error {
+        case noDecodingContext
     }
     
     private enum VideosCodingKeys: String, CodingKey {

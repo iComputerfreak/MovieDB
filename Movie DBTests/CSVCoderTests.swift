@@ -17,10 +17,12 @@ class CSVCoderTests: XCTestCase {
     var testingUtils: TestingUtils!
     
     override func setUp() {
+        super.setUp()
         testingUtils = TestingUtils()
     }
     
     override func tearDown() {
+        super.tearDown()
         testingUtils = nil
     }
         
@@ -234,5 +236,4 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:")
         XCTAssertEqual(lines[2], ";,\";true;;\(media.id);The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;\(CSVManager.dateFormatter.string(from: media.creationDate))")
     }
-    
 }

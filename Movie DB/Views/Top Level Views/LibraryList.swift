@@ -19,11 +19,17 @@ struct LibraryList: View {
     private let sortingDirection: SortingDirection
     
     private let fetchRequest: FetchRequest<Media>
+    
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
+    private var filteredMedia: FetchedResults<Media> {
+        return fetchRequest.wrappedValue
+    }
+    
+    // swiftlint:disable:next type_contents_order
     init(
         searchText: String,
         filterSetting: FilterSetting,
@@ -68,9 +74,6 @@ struct LibraryList: View {
         self.sortingDirection = sortingDirection
     }
     
-    private var filteredMedia: FetchedResults<Media> {
-        return fetchRequest.wrappedValue
-    }
     
     var body: some View {
         List {
@@ -105,5 +108,4 @@ struct LibraryList: View {
         }
         return Text(footerString)
     }
-    
 }

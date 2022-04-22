@@ -58,7 +58,7 @@ extension Dictionary where Key == String, Value == Any? {
     ///     [key1: "test", key2: "Hello World"].percentEscaped()
     ///     // Returns "key1=test&key2=Hello%20World"
     func percentEscaped() -> String {
-        return map { (key, value) in
+        return map { key, value in
             let escapedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             let escapedValue = "\(value ?? "null")"
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""

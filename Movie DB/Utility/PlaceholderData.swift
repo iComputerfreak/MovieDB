@@ -29,5 +29,4 @@ enum PlaceholderData {
         // swiftlint:disable:next force_try
         return try! viewContext.fetch(fetchRequest)
     }
-    
 }

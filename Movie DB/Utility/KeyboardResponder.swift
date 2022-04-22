@@ -45,5 +45,4 @@ final class KeyboardResponder: ObservableObject {
         print("[Responder] Keyboard will hide")
         self.height = 0
     }
-    
 }

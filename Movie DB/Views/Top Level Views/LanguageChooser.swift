@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LanguageChooser: View {
     
-    @ObservedObject private var config: JFConfig = JFConfig.shared
+    @ObservedObject private var config = JFConfig.shared
     
     var body: some View {
         NavigationView {

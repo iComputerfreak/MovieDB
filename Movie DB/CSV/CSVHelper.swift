@@ -12,11 +12,15 @@ import CoreData
 
 struct CSVHelper {
     
-    static func importMediaObjects(csvString: String,
-                                   importContext: NSManagedObjectContext,
-                                   onProgress: ((Int) -> Void)? = nil,
-                                   onFail: (([String]) -> Void)? = nil,
-                                   onFinish: (([Media?], [String]) -> Void)?) {
+    private init() {}
+    
+    static func importMediaObjects(
+        csvString: String,
+        importContext: NSManagedObjectContext,
+        onProgress: ((Int) -> Void)? = nil,
+        onFail: (([String]) -> Void)? = nil,
+        onFinish: (([Media?], [String]) -> Void)?
+    ) {
         var importLog: [String] = []
         let importer: CSVImporter<Media?> = CSVImporter<Media?>(contentString: csvString,
                                                                 delimiter: String(CSVManager.separator))
@@ -82,8 +86,6 @@ struct CSVHelper {
             onFinish?(importedRecords, importLog)
         }
     }
-    
-    private init() {}
     
     // Proxy to use the async function with a completion handler
     private static func createMedia(

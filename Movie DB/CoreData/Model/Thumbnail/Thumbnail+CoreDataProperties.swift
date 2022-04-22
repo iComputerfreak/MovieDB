@@ -13,11 +13,6 @@ import UIKit
 
 extension Thumbnail {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
-        return NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
-    }
-
     @NSManaged public var pngData: Data?
     @NSManaged public var media: Media?
     
@@ -27,7 +22,11 @@ extension Thumbnail {
         }
         return nil
     }
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
+        return NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
+    }
 }
 
 extension Thumbnail: Identifiable {}

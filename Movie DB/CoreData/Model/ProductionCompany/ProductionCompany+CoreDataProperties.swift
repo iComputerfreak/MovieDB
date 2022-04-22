@@ -11,11 +11,6 @@ import CoreData
 
 extension ProductionCompany {
     
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
-        return NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
-    }
-    
     /// The ID of the production company on TMDB
     public var id: Int {
         get { getInt(forKey: "id") }
@@ -32,6 +27,10 @@ extension ProductionCompany {
     /// The shows that were released on this network
     @NSManaged public var shows: Set<Show>
     
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
+        return NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
+    }
 }
 
 // MARK: Generated accessors for medias
@@ -48,7 +47,6 @@ extension ProductionCompany {
     
     @objc(removeMedias:)
     @NSManaged public func removeFromMedias(_ values: NSSet)
-    
 }
 
 // MARK: Generated accessors for shows
@@ -65,9 +63,6 @@ extension ProductionCompany {
     
     @objc(removeShows:)
     @NSManaged public func removeFromShows(_ values: NSSet)
-    
 }
 
-extension ProductionCompany: Identifiable {
-    
-}
+extension ProductionCompany: Identifiable {}

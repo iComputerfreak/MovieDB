@@ -13,9 +13,10 @@ struct TagListView: View {
     
     @Binding var tags: Set<Tag>
     @Environment(\.editMode) private var editMode
-    @State private var editingTags: Bool = false
+    @State private var editingTags = false
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
         self._tags = tags
     }
@@ -56,7 +57,7 @@ struct TagListView: View {
         
         // Keep a local copy of the tags, sorted by name, to modify
         private var sortedTags: [Tag] {
-            allTags.sorted { (tag1, tag2) -> Bool in
+            allTags.sorted { tag1, tag2 -> Bool in
                 return tag1.name.lexicographicallyPrecedes(tag2.name)
             }
         }

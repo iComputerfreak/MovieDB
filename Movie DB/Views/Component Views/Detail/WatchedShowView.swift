@@ -13,7 +13,7 @@ struct WatchedShowView: View {
     
     @Binding var lastWatched: EpisodeNumber?
     @Environment(\.editMode) private var editMode
-    @State private var isEditing: Bool = false
+    @State private var isEditing = false
     
     private var episodeString: LocalizedStringKey {
         guard let watched = lastWatched else {

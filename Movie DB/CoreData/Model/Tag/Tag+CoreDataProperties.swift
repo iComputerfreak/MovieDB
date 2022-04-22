@@ -25,7 +25,6 @@ extension Tag {
     
     /// All media objects tagged with this tag
     @NSManaged public var medias: Set<Media>
-
 }
 
 extension Tag: Identifiable {}

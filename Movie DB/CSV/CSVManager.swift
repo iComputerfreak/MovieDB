@@ -12,6 +12,8 @@ import CoreData
 
 struct CSVManager {
     
+    typealias Converter = (Any) -> String
+    
     static let separator: Character = ";"
     static let arraySeparator: Character = ","
     static let lineSeparator: Character = "\n"
@@ -23,54 +25,10 @@ struct CSVManager {
         return formatter
     }()
     
-    typealias Converter = (Any) -> String
-    
-    enum CSVKey: String, CaseIterable {
-        // Import
-        case tmdbID = "tmdb_id"
-        case mediaType = "type"
-        case personalRating = "personal_rating"
-        case watchAgain = "watch_again"
-        case tags
-        case notes
-        // Movie exclusive
-        case watched
-        // Show exclusive
-        case lastWatched = "last_episode_watched"
-        
-        // Export only
-        case id
-        case title
-        case originalTitle = "original_title"
-        case genres
-        case overview
-        case status
-        case releaseDate = "release_date"
-        case runtime
-        case budget
-        case revenue
-        case isAdult = "is_adult"
-        case firstAirDate = "first_air_date"
-        case lastAirDate = "last_air_date"
-        case numberOfSeasons = "number_of_seasons"
-        case isInProduction = "is_in_production"
-        case showType = "show_type"
-        
-        case creationDate = "creation_date"
-    }
-    
-    enum CSVError: Error {
-        case noTMDBID
-        case noMediaType
-        case mediaAlreadyExists
-    }
-    
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched,
                                                .creationDate]
     static let exportKeys: [CSVKey] = CSVKey.allCases
-    
-    private init() {}
     
     // MARK: Export KeyPaths
     // swiftlint:disable force_cast
@@ -110,6 +68,8 @@ struct CSVManager {
         .showType: (\Show.showType, { ($0 as! ShowType).rawValue })
     ]
     // swiftlint:enable force_cast
+    
+    private init() {}
     
     // swiftlint:disable:next cyclomatic_complexity
     static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media? {
@@ -283,6 +243,45 @@ struct CSVManager {
         return csv.joined(separator: lineSeparator)
     }
     
+    enum CSVKey: String, CaseIterable {
+        // Import
+        case tmdbID = "tmdb_id"
+        case mediaType = "type"
+        case personalRating = "personal_rating"
+        case watchAgain = "watch_again"
+        case tags
+        case notes
+        // Movie exclusive
+        case watched
+        // Show exclusive
+        case lastWatched = "last_episode_watched"
+        
+        // Export only
+        case id
+        case title
+        case originalTitle = "original_title"
+        case genres
+        case overview
+        case status
+        case releaseDate = "release_date"
+        case runtime
+        case budget
+        case revenue
+        case isAdult = "is_adult"
+        case firstAirDate = "first_air_date"
+        case lastAirDate = "last_air_date"
+        case numberOfSeasons = "number_of_seasons"
+        case isInProduction = "is_in_production"
+        case showType = "show_type"
+        
+        case creationDate = "creation_date"
+    }
+    
+    enum CSVError: Error {
+        case noTMDBID
+        case noMediaType
+        case mediaAlreadyExists
+    }
 }
 
 fileprivate extension Dictionary where Key == String {
@@ -295,5 +294,4 @@ fileprivate extension Dictionary where Key == String {
             self[key.rawValue] = newValue
         }
     }
-    
 }

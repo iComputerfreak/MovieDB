@@ -16,7 +16,7 @@ public class Season: NSManagedObject, Decodable {
     
     // MARK: - Decodable Conformance
     
-    required convenience public init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             throw DecoderConfigurationError.missingManagedObjectContext
         }
@@ -44,5 +44,4 @@ public class Season: NSManagedObject, Decodable {
         case imagePath = "poster_path"
         case airDate = "air_date"
     }
-
 }

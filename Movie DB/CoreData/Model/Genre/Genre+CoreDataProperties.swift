@@ -12,11 +12,6 @@ import CoreData
 
 extension Genre {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Genre> {
-        return NSFetchRequest<Genre>(entityName: "Genre")
-    }
-
     /// The ID of the genre on TMDB
     public var id: Int {
         get { getInt(forKey: "id") }
@@ -26,9 +21,11 @@ extension Genre {
     @NSManaged public var name: String
     @NSManaged public var medias: Set<Media>
     @NSManaged public var filterSettings: Set<FilterSetting>
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<Genre> {
+        return NSFetchRequest<Genre>(entityName: "Genre")
+    }
 }
 
-extension Genre: Identifiable {
-
-}
+extension Genre: Identifiable {}

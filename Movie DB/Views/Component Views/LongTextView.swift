@@ -14,22 +14,6 @@ struct LongTextView: View {
     var headline: Text
     var text: String
     
-    /// Creates a new view that displays a preview of the given text (3 lines).
-    /// Provides the option to show the full text in a new view.
-    /// - Parameters:
-    ///   - headline: The headline of the new full text view
-    ///   - text: The full text
-    init(
-        _ text: String,
-        headlineKey: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
-    ) {
-        self.headline = Text(headlineKey, tableName: tableName, bundle: bundle, comment: comment)
-        self.text = text
-    }
-    
     var body: some View {
             NavigationLink(destination: preview) {
                 Text(text)
@@ -45,6 +29,22 @@ struct LongTextView: View {
             Spacer()
         }
         .navigationBarTitle(headline)
+    }
+    
+    /// Creates a new view that displays a preview of the given text (3 lines).
+    /// Provides the option to show the full text in a new view.
+    /// - Parameters:
+    ///   - headline: The headline of the new full text view
+    ///   - text: The full text
+    init(
+        _ text: String,
+        headlineKey: LocalizedStringKey,
+        tableName: String? = nil,
+        bundle: Bundle? = nil,
+        comment: StaticString? = nil
+    ) {
+        self.headline = Text(headlineKey, tableName: tableName, bundle: bundle, comment: comment)
+        self.text = text
     }
 }
 

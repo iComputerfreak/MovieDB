@@ -12,6 +12,7 @@ import CoreData
 
 // swiftlint:disable private_over_fileprivate
 // swiftlint:disable function_parameter_count
+// swiftlint:disable prefer_self_in_static_references
 
 struct TestingUtils {
     

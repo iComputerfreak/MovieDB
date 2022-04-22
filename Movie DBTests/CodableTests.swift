@@ -22,10 +22,12 @@ class CodableTests: XCTestCase {
     }
     
     override func setUp() {
+        super.setUp()
         testingUtils = TestingUtils()
     }
     
     override func tearDown() {
+        super.tearDown()
         testingUtils = nil
     }
         
@@ -158,6 +160,7 @@ class CodableTests: XCTestCase {
         let networks = [
             ProductionCompany.create(context: testContext, id: 6, name: "NBC", logoPath: "/o3OedEP0f9mfZr33jz2BfXOUK5.png", originCountry: "US")
         ]
+        // swiftlint:disable vertical_parameter_alignment_on_call
         let seasons = [
             Season.create(context: testContext, id: 55083, seasonNumber: 0, episodeCount: 7, name: "Specials",
                    overview: "",
@@ -184,6 +187,7 @@ class CodableTests: XCTestCase {
                    overview: "",
                    imagePath: "/zBnDzqCYOcvl8OmC53Hzd7W5hiZ.jpg", rawAirDate: "2019-10-04")
         ]
+        // swiftlint:enable vertical_parameter_alignment_on_call
         
         // Test, if the Decoding works
         let show: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: testContext)
@@ -251,32 +255,32 @@ class CodableTests: XCTestCase {
         ]
         let seasons = [
             Season.create(context: testContext, id: 3627, seasonNumber: 0, episodeCount: 53, name: "Specials",
-                   overview: "",
-                   imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", rawAirDate: "2010-12-05"),
+                          overview: "",
+                          imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", rawAirDate: "2010-12-05"),
             Season.create(context: testContext, id: 3624, seasonNumber: 1, episodeCount: 10, name: "Season 1",
-                   overview: "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
-                   imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", rawAirDate: "2011-04-17"),
+                          overview: "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
+                          imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", rawAirDate: "2011-04-17"),
             Season.create(context: testContext, id: 3625, seasonNumber: 2, episodeCount: 10, name: "Season 2",
-                   overview: "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
-                   imagePath: "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg", rawAirDate: "2012-04-01"),
+                          overview: "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
+                          imagePath: "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg", rawAirDate: "2012-04-01"),
             Season.create(context: testContext, id: 3626, seasonNumber: 3, episodeCount: 10, name: "Season 3",
-                   overview: "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
-                   imagePath: "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg", rawAirDate: "2013-03-31"),
+                          overview: "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
+                          imagePath: "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg", rawAirDate: "2013-03-31"),
             Season.create(context: testContext, id: 3628, seasonNumber: 4, episodeCount: 10, name: "Season 4",
-                   overview: "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
-                   imagePath: "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg", rawAirDate: "2014-04-06"),
+                          overview: "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
+                          imagePath: "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg", rawAirDate: "2014-04-06"),
             Season.create(context: testContext, id: 62090, seasonNumber: 5, episodeCount: 10, name: "Season 5",
-                   overview: "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
-                   imagePath: "/527sR9hNDcgVDKNUE3QYra95vP5.jpg", rawAirDate: "2015-04-12"),
+                          overview: "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
+                          imagePath: "/527sR9hNDcgVDKNUE3QYra95vP5.jpg", rawAirDate: "2015-04-12"),
             Season.create(context: testContext, id: 71881, seasonNumber: 6, episodeCount: 10, name: "Season 6",
-                   overview: "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
-                   imagePath: "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg", rawAirDate: "2016-04-24"),
+                          overview: "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
+                          imagePath: "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg", rawAirDate: "2016-04-24"),
             Season.create(context: testContext, id: 81266, seasonNumber: 7, episodeCount: 7, name: "Season 7",
-                   overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
-                   imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", rawAirDate: "2017-07-16"),
+                          overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
+                          imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", rawAirDate: "2017-07-16"),
             Season.create(context: testContext, id: 107971, seasonNumber: 8, episodeCount: 6, name: "Season 8",
-                   overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
-                   imagePath: "/39FHkTLnNMjMVXdIDwZN8SxYqD6.jpg", rawAirDate: "2019-04-14")
+                          overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
+                          imagePath: "/39FHkTLnNMjMVXdIDwZN8SxYqD6.jpg", rawAirDate: "2019-04-14")
         ]
         
         // Test, if the Decoding works

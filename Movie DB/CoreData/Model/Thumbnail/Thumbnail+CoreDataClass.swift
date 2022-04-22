@@ -17,5 +17,4 @@ public class Thumbnail: NSManagedObject {
         self.init(context: context)
         self.pngData = pngData
     }
-
 }

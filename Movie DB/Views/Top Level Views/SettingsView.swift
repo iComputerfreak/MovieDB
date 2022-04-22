@@ -23,12 +23,12 @@ struct SettingsView: View {
     @State private var updateInProgress = false
     @State private var reloadInProgress = false
     @State private var documentPicker: DocumentPicker?
-    @State private var isLoading: Bool = false
+    @State private var isLoading = false
     @State private var loadingText: String?
     @State private var importLogger: TagImporter.BasicLogger?
-    @State private var importLogShowing: Bool = false
-    @State private var languageChanged: Bool = false
-    @State private var isShowingProInfo: Bool = false
+    @State private var importLogShowing = false
+    @State private var languageChanged = false
+    @State private var isShowingProInfo = false
     
     var body: some View {
         LoadingView(isShowing: $isLoading, text: self.loadingText ?? NSLocalizedString("Loading...")) {
@@ -80,7 +80,7 @@ struct SettingsView: View {
                             // MARK: Import Log Popover
                             .popover(isPresented: .init(get: {
                                 self.importLogger != nil
-                            }, set: { (enabled) in
+                            }, set: { enabled in
                                 if enabled {
                                     if self.importLogger == nil {
                                         self.importLogger = .init()
@@ -107,7 +107,6 @@ struct SettingsView: View {
                         // MARK: - Reset Button
                         Button("Reset Library", action: self.resetLibrary)
                     }
-                    
                 }
                 .navigationTitle("Settings")
                 // TODO: Localize Legal
@@ -266,7 +265,7 @@ struct SettingsView: View {
                         importLogger?.log(contentsOf: log, level: .info)
                         importLogger?.critical("Importing failed!")
                         self.importLogShowing = true
-                    }, onFinish: { (mediaObjects, log) in
+                    }, onFinish: { mediaObjects, log in
                         importLogger?.log(contentsOf: log, level: .info)
                         // Presenting will change UI
                         DispatchQueue.main.async {
@@ -304,7 +303,6 @@ struct SettingsView: View {
                             AlertHandler.presentAlert(alert: controller)
                         }
                     })
-                    
                 } catch {
                     print("Error importing: \(error)")
                     AlertHandler.showSimpleAlert(
@@ -314,7 +312,6 @@ struct SettingsView: View {
                         self.isLoading = false
                     }
                 }
-                
             }
         }, onCancel: {
             print("Canceling...")
@@ -324,7 +321,6 @@ struct SettingsView: View {
         // On macOS present the file picker manually
         UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
         #endif
-        
     }
     
     func exportMedia() {
@@ -404,7 +400,7 @@ struct SettingsView: View {
                                                            style: .default,
                                                            handler: { _ in
                             // Use a background context for importing the tags
-                            PersistenceController.shared.container.performBackgroundTask { (context) in
+                            PersistenceController.shared.container.performBackgroundTask { context in
                                 context.name = "Tag Import Context"
                                 do {
                                     try TagImporter.import(importData, into: context)
@@ -455,7 +451,7 @@ struct SettingsView: View {
         print("Exporting Tags...")
         self.isLoading = true
         
-        PersistenceController.shared.container.performBackgroundTask { (context) in
+        PersistenceController.shared.container.performBackgroundTask { context in
             context.name = "Tag Export Context"
             var url: URL!
             do {

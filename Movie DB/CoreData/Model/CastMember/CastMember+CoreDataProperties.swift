@@ -12,11 +12,6 @@ import CoreData
 
 extension CastMember {
 
-    @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<CastMember> {
-        return NSFetchRequest<CastMember>(entityName: "CastMember")
-    }
-
     public var id: Int {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
@@ -29,7 +24,11 @@ extension CastMember {
     @NSManaged public var imagePath: String?
     /// The media this `CastMember` belongs to
     @NSManaged public var medias: Set<Media>
-
+    
+    @nonobjc
+    public class func fetchRequest() -> NSFetchRequest<CastMember> {
+        return NSFetchRequest<CastMember>(entityName: "CastMember")
+    }
 }
 
 extension CastMember: Identifiable {}

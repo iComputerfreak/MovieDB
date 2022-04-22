@@ -22,7 +22,6 @@ extension Image {
                    height: JFLiterals.thumbnailSize.height * multiplier,
                    alignment: .center)
     }
-    
 }
 
 extension View {
