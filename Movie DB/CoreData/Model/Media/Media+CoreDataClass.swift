@@ -82,34 +82,6 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    /// Triggers a reload of the thumbnail using the `imagePath` in `tmdbData`
-    @available(*, deprecated, message: "Use async version instead")
-    func loadThumbnailAsync(force: Bool = false) {
-        guard thumbnail == nil || force else {
-            // Thumbnail already present, don't download again, overridden with force parameter
-            return
-        }
-        guard let imagePath = imagePath, !imagePath.isEmpty else {
-            // No image path set, no image to load
-            return
-        }
-        // If the image is on the deny list, delete it and don't reload
-        guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(self.title)] Thumbnail is on deny list. Will not load.")
-            return
-        }
-        print("[\(self.title)] Loading thumbnail...")
-        Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { image in
-            // Only update, if the image is not nil, dont delete existing images
-            if let image = image, let context = self.managedObjectContext {
-                let thumbnail = Thumbnail(context: context, pngData: image.pngData())
-                DispatchQueue.main.async {
-                    self.thumbnail = thumbnail
-                }
-            }
-        }
-    }
-    
     // TODO: Loading is not happening on background thread. Maybe use a store actor?
     func loadThumbnail(force: Bool = false) async {
         guard thumbnail == nil || force else {
@@ -132,19 +104,11 @@ public class Media: NSManagedObject {
         }
         print("[\(self.title)] Loading thumbnail...")
         
-        let url = Utils.getTMDBImageURL(path: imagePath)
-        let result = try? await URLSession.shared.data(from: url)
-        
-        // If we get a non-200 response and invalid image data, we fail silently below by not being able to construct
-        // an image from the data
-        
+        // Fail silently and just now show the image
         // Only update, if the loaded image is not nil, dont delete existing images
-        if
-            let data = result?.0,
-            let image = UIImage(data: data),
-            let context = self.managedObjectContext
-        {
-            let thumbnail = Thumbnail(context: context, pngData: image.pngData())
+        if let image = try? await Utils.loadImage(with: imagePath) {
+            assert(self.managedObjectContext != nil)
+            let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
             await MainActor.run {
                 self.thumbnail = thumbnail
             }

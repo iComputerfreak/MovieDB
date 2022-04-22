@@ -37,29 +37,46 @@ struct SeasonsInfo: View {
                 }
             }
             .navigationBarTitle("Seasons")
-            .onAppear {
-                self.loadSeasonThumbnails()
+            .task {
+                await self.loadSeasonThumbnails()
             }
         }
     }
     
-    // TODO: Make async
-    func loadSeasonThumbnails() {
-        guard let show = mediaObject as? Show else {
-            return
-        }
-        guard !show.seasons.isEmpty else {
+    func loadSeasonThumbnails() async {
+        guard
+            let show = mediaObject as? Show,
+            !show.seasons.isEmpty
+        else {
             return
         }
         print("Loading season thumbnails for \(show.title)")
-        for season in show.seasons {
-            if let imagePath = season.imagePath {
-                Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { image in
-                    DispatchQueue.main.async {
-                        self.seasonThumbnails[season.id] = image
+        
+        // We don't use a throwing task group, since we want to fail silently.
+        // Unavailable images should just not be loaded instead of showing an error message
+        let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
+            for season in show.seasons {
+                _ = group.addTaskUnlessCancelled {
+                    guard let imagePath = season.imagePath else {
+                        // Fail silently
+                        return (0, nil)
                     }
+                    return (season.id, try? await Utils.loadImage(with: imagePath))
                 }
             }
+            
+            // Accumulate results
+            var results: [Int: UIImage] = [:]
+            for await (seasonID, image) in group {
+                guard let image = image else { continue }
+                results[seasonID] = image
+            }
+            
+            return results
+        }
+        // Update the thumbnails
+        await MainActor.run {
+            self.seasonThumbnails = images
         }
     }
 }

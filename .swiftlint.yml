@@ -3,7 +3,7 @@ disabled_rules:
   - identifier_name
   - todo
   - type_name
-opt_in_rules: # some rules are turned off by default, so you need to opt-in
+opt_in_rules:
   - anonymous_argument_in_multiline_closure
   - array_init
   - attributes

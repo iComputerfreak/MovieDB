@@ -20,8 +20,8 @@ struct CastInfo: View {
                 ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
                     let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
                     HStack {
-                        // swiftlint:disable:next redundant_nil_coalescing
                         Image(
+                            // swiftlint:disable:next redundant_nil_coalescing
                             uiImage: self.personThumbnails[member.id] ?? nil,
                             defaultImage: JFLiterals.posterPlaceholderName
                         )
@@ -31,25 +31,40 @@ struct CastInfo: View {
                     }
                 }
             }
-            .onAppear {
-                self.loadPersonThumbnails()
+            .task {
+                await self.loadPersonThumbnails()
             }
         }
     }
     
-    // TODO: Make async
-    func loadPersonThumbnails() {
+    func loadPersonThumbnails() async {
         print("Loading person thumbnails for \(mediaObject.title)")
-        DispatchQueue.global(qos: .userInteractive).async {
+        
+        // We don't use a throwing task group, since we want to fail silently.
+        // Unavailable images should just not be loaded instead of showing an error message
+        let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
             for member in mediaObject.cast {
-                if let imagePath = member.imagePath {
-                    Utils.loadImage(urlString: Utils.getTMDBImageURL(path: imagePath).absoluteString) { image in
-                        DispatchQueue.main.async {
-                            self.personThumbnails[member.id] = image
-                        }
+                _ = group.addTaskUnlessCancelled {
+                    guard let imagePath = member.imagePath else {
+                        // Fail silently
+                        return (0, nil)
                     }
+                    return (member.id, try? await Utils.loadImage(with: imagePath))
                 }
             }
+            
+            // Accumulate results
+            var results: [Int: UIImage] = [:]
+            for await (memberID, image) in group {
+                guard let image = image else { continue }
+                results[memberID] = image
+            }
+            
+            return results
+        }
+        // Update the thumbnails
+        await MainActor.run {
+            self.personThumbnails = images
         }
     }
 }

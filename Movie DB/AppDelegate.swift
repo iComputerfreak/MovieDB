@@ -19,49 +19,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // MARK: Update Poster Deny List
-        // Only update once per day
-        let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
-        // Convert to full seconds
-        let time = Int(Date().timeIntervalSince1970)
-        let diff = time - lastUpdated
-        
-        // If the last update was at least 24h ago
-        if diff >= 24 * 60 * 60 {
-            // Load the deny list
-            let denyListURL = "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt"
-            Utils.getRequest(denyListURL, parameters: [:]) { data in
-                guard let data = data else {
-                    print("Error fetching deny list. Keeping current one.")
-                    return
-                }
-                guard let text = String(data: data, encoding: .utf8) else {
-                    print("Error decoding deny list")
-                    return
-                }
-                var newDenyList: [String] = []
-                for line in text.components(separatedBy: .newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
-                    // Skip empty lines and comments
-                    if line.isEmpty || line.starts(with: "#") {
-                        continue
-                    }
-                    if !line.starts(with: "/") {
-                        print("Invalid line: '\(line)'. Skipping...")
-                        continue
-                    }
-                    // Otherwise, we assume the line contains a poster path
-                    newDenyList.append(line)
-                }
-                
-                // Update the deny list
-                Utils.posterDenyList = newDenyList
-                // Update the timestamp
-                UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterDenyListLastUpdated)
-                // Save the deny list
-                UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
+        Task {
+            // Only update once per day
+            let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
+            // Convert to full seconds
+            let time = Int(Date().timeIntervalSince1970)
+            let diff = time - lastUpdated
+            
+            // Only update once every 24h
+            guard diff <= 24 * 60 * 60 else {
+                print("Last deny list update was \(Double(diff) / 3600.0) hours ago. " +
+                      "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
+                return
             }
-        } else {
-            print("Last deny list update was \(Double(diff) / 3600.0) hours ago. " +
-                  "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
+            
+            // Load the deny list
+            let denyListURL = URL(string: "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt")!
+            let (data, response) = try await Utils.request(from: denyListURL)
+            
+            guard
+                let httpResponse = response as? HTTPURLResponse,
+                httpResponse.statusCode == 200
+            else {
+                print("Error updating deny list. Invalid response: \(response)")
+                return
+            }
+            
+            guard let text = String(data: data, encoding: .utf8) else {
+                print("Error decoding deny list:\n\(data)")
+                return
+            }
+            
+            var newDenyList: [String] = []
+            for line in text.components(separatedBy: .newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
+                // Skip empty lines and comments
+                if line.isEmpty || line.starts(with: "#") {
+                    continue
+                }
+                if !line.starts(with: "/") {
+                    print("Invalid line: '\(line)'. Lines must begin with a '/'. Skipping...")
+                    continue
+                }
+                // Otherwise, we assume the line contains a poster path
+                newDenyList.append(line)
+            }
+            
+            // Update the deny list in memory
+            Utils.posterDenyList = newDenyList
+            // Update the timestamp
+            UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterDenyListLastUpdated)
+            // Save the deny list
+            UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
         }
         
         // MARK: Set up In App Purchases

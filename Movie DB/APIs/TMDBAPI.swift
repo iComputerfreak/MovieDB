@@ -31,7 +31,7 @@ actor TMDBAPI {
     /// - Parameters:
     ///   - id: The TMDB ID of the media object
     ///   - type: The type of media
-    ///   - context: The context to insert the new media object in
+    ///   - context: The context to insert the new media object into
     /// - Returns: The decoded media object
     func fetchMedia(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
         // Create a child context to make the changes in, before merging them with the actual context given
@@ -56,12 +56,10 @@ actor TMDBAPI {
         return context.object(with: childMedia.objectID) as! Media
     }
     
-    /// Updates the given media object by re-loading the TMDB data
+    /// Updates the given media object by re-loading and replacing the TMDB data
     /// - Parameters:
     ///   - media: The media object to update
-    ///   - completion: A closure, executed after the media object has been updated
     ///   - context: The context to update the media objects in
-    /// - Throws: `APIError` or `DecodingError`
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
         assert(media.managedObjectContext == context)
@@ -83,12 +81,12 @@ actor TMDBAPI {
         await PersistenceController.saveContext(childContext)
     }
     
+    // TODO: Use range?
     /// Loads the TMDB IDs of all media objects changed in the given timeframe
     /// - Parameters:
     ///   - startDate: The start of the timespan
     ///   - endDate: The end of the timespan
-    /// - Throws: `APIError` or `DecodingError`
-    /// - Returns: The changed TMDB IDs
+    /// - Returns: All TMDB IDs that changed during the given timespan
     func fetchChangedIDs(from startDate: Date?, to endDate: Date) async throws -> [Int] {
         // Construct the request parameters for the date range
         let dateRangeParameters: [String: String?] = {
@@ -128,17 +126,13 @@ actor TMDBAPI {
         return groupResult.map(\.id)
     }
     
-    // TODO: Update documentation of async functions
     /// Searches for media with a given query on TheMovieDB.org
     /// - Parameters:
-    ///   - name: The query to search for
+    ///   - query: The query to search for
     ///   - includeAdult: Whether to include adult media
-    ///   - completion: The completion handler called with the search results, the total number of pages that can be loaded and a possible error that
-    ///   occurred. The search results belong to a disposable `NSManagedObjectContext` which will not be merged with the main context.
     ///   - fromPage: The first page to load results from
     ///   - toPage: The last page to load results from
-    /// - Throws: `APIError` or `DecodingError`
-    /// - Returns: The search results
+    /// - Returns: The search results and the total amount of pages available for that search term
     func searchMedia(
         _ query: String,
         includeAdult: Bool = false,
@@ -158,6 +152,7 @@ actor TMDBAPI {
         )
     }
     
+    /// Returns all language codes available in the TMDB API
     func getTMDBLanguageCodes() async throws -> [String] {
         try await self.decodeAPIURL(
             path: "/configuration/primary_translations",
@@ -168,14 +163,16 @@ actor TMDBAPI {
     
     // MARK: - Private functions
     
-    /// Loads multiple pages of results and returns the accumulated data
+    // TODO: Use range?
+    /// Loads multiple pages of results by making multiple API calls and returns the accumulated data
     /// - Parameters:
-    ///   - path: The API URL path to request the data from
+    ///   - path: The API URL path to request the data from, including a `/`-prefix
     ///   - additionalParameters: Additional parameters for the API call
-    ///   - maxPages: The maximum amount of pages to parse
-    ///   - pageWrapper: The struct, the result pages get decoded into
-    /// - Throws: `APIError` or `DecodingError`
-    /// - Returns: The accumulated results of the API calls
+    ///   - fromPage: The page to start fetching data from
+    ///   - toPage: The last page to fetch data from before returning
+    ///   - pageWrapper: The type used for decoding a page
+    ///   - context: The context to decode the results into
+    /// - Returns: The accumulated results of the given pages and the total number of pages available for the given request
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(
         path: String,
         additionalParameters: [String: String?] = [:],
@@ -246,14 +243,13 @@ actor TMDBAPI {
         return (wrapper.results + additionalResults, wrapper.totalPages)
     }
     
-    /// Loads and decodes a subclass of `TMDBData` for the given TMDB ID and type
+    /// Fetches the TMDB data for the given media object
     /// - Parameters:
-    ///   - id: The TMDB ID to load the data for
+    ///   - id: The TMDB ID of the media object
     ///   - type: The type of media to load
-    /// - Throws: `APIError` or `DecodingError`
+    ///   - context: The context to decode the `TMDBData` into
     /// - Returns: The data returned by the API call
     private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> TMDBData {
-        // We don't need to create a background context since this function is private and the caller will already have created a background context
         let parameters = ["append_to_response": "keywords,translations,videos,credits,aggregate_credits"]
         return try await decodeAPIURL(
             path: "/\(type.rawValue)/\(id)",
@@ -266,10 +262,11 @@ actor TMDBAPI {
     
     /// Loads and decodes an API URL
     /// - Parameters:
-    ///   - context: The context to decode the objects with. Should be a background context, since the decoding can take some time.
-    ///   - path: The API URL path to decode
+    ///   - path: The API URL path to decode, including a `/`-prefix
     ///   - additionalParameters: Additional parameters to use for the API call
-    ///   - type: The type of media
+    ///   - type: The type to decode the data as
+    ///   - context: The context to decode the objects in
+    ///   - userInfo: The `userInfo` dictionary to use for decoding
     /// - Throws: `APIError` or `DecodingError`
     /// - Returns: The decoded result
     private func decodeAPIURL<T: Decodable>(
@@ -290,12 +287,11 @@ actor TMDBAPI {
         }
     }
     
-    /// Performs an API GET request and returns the data
+    /// Performs an HTTP GET request and returns the data
     /// - Parameters:
     ///   - path: The API URL path, including a `/`-prefix
     ///   - additionalParameters: Additional parameters to use for the API call
-    /// - Throws: Any errors that occurred during the request
-    /// - Returns: The data from the API call
+    /// - Returns: The data returned by the API call
     private func request(path: String, additionalParameters: [String: String?] = [:]) async throws -> Data {
         // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
@@ -324,15 +320,7 @@ actor TMDBAPI {
         components.queryItems = parameters.map(URLQueryItem.init)
         
         // MARK: Execute Request
-        var request = URLRequest(url: components.url!)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("Making GET Request to \(components.url!)")
-        #if DEBUG
-        // In Debug mode, always load the URL, never use the cache
-        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-        #endif
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await Utils.request(from: components.url!)
         
         // MARK: Handle Errors
         
@@ -357,9 +345,9 @@ actor TMDBAPI {
         return data
     }
     
-    /// Create a new JSONDecoder with the given context as managedObjectContext
+    /// Create a new JSONDecoder with the given context as the managedObjectContext
     /// - Parameter context: The context
-    /// - Returns: The decoder
+    /// - Returns: The JSON decoder
     private func decoder(context: NSManagedObjectContext?) -> JSONDecoder {
         // Initialize the decoder and context
         let decoder = JSONDecoder()
@@ -367,6 +355,7 @@ actor TMDBAPI {
         return decoder
     }
     
+    /// Represents the different errors that can occurr while performing API requests
     enum APIError: Error, Equatable {
         case unauthorized
         case invalidResponse(URLResponse)

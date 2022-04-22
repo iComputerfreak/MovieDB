@@ -25,8 +25,6 @@ func undefined<T>(_ message: String = "") -> T {
 }
 
 struct Utils {
-    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
-    
     /// The URL describing the documents directory of the app
     static var documentsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -51,59 +49,18 @@ struct Utils {
     
     private init() {}
     
-    /// Convenience function to execute a HTTP GET request.
-    /// Ignores errors and just passes nil to the completion handler, if the request failed.
-    /// - Parameters:
-    ///   - urlString: The URL string of the request
-    ///   - parameters: The parameters for the request
-    ///   - completion: The closure to execute on completion of the request
-    static func getRequest(_ urlString: String, parameters: [String: Any?], completion: @escaping (Data?) -> Void) {
-        getRequest(urlString, parameters: parameters) { data, response, error in
-            guard let data = data, let response = response as? HTTPURLResponse, error == nil else {
-                print("error", error ?? "Unknown error")
-                completion(nil)
-                return
-            }
-            
-            // Check for http errors
-            guard (200 ... 299) ~= response.statusCode else {
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                print("headerFields = \(String(describing: response.allHeaderFields))")
-                print("data = \(String(data: data, encoding: .utf8) ?? "nil")")
-                completion(nil)
-                return
-            }
-            
-            completion(data)
-        }
-    }
-    
-    // TODO: Remove
-    /// Executes a HTTP GET request
-    /// - Parameters:
-    ///   - urlString: The URL string of the request
-    ///   - parameters: The parameters for the request
-    ///   - completion: The closure to execute on completion of the request
-    static func getRequest(
-        _ urlString: String,
-        parameters: [String: Any?],
-        completion: @escaping (Data?, URLResponse?, Error?) -> Void
-    ) {
-        var urlStringWithParameters = "\(urlString)"
-        // We should only append the '?', if we really have parameters
-        if !parameters.isEmpty {
-            urlStringWithParameters += "?\(parameters.percentEscaped())"
-        }
-        var request = URLRequest(url: URL(string: urlStringWithParameters)!)
-        request.httpMethod = "GET"
+    /// Executes an HTTP request with the given URL
+    /// - Parameter url: The URL to request
+    /// - Returns: The data and URLResponse
+    static func request(from url: URL) async throws -> (Data, URLResponse) {
+        var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("Making GET Request to \(urlStringWithParameters)")
+        print("Making GET Request to \(request.url?.absoluteString ?? "nil")")
         #if DEBUG
         // In Debug mode, always load the URL, never use the cache
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         #endif
-        URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+        return try await URLSession.shared.data(for: request)
     }
     
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
@@ -125,16 +82,28 @@ struct Utils {
         colorScheme == .light ? .black : .white
     }
     
-    static func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
-        print("Loading image from \(urlString)")
-        Self.getRequest(urlString, parameters: [:]) { data in
-            guard let data = data else {
-                print("Unable to get image")
-                completion(nil)
-                return
-            }
-            completion(UIImage(data: data))
+    /// Downloads an image using the given URL
+    /// - Parameter url: The URL to download the image from
+    /// - Returns: The downloaded UIImage
+    static func loadImage(from url: URL) async throws -> UIImage {
+        print("Loading image from \(url.absoluteString)")
+        let (data, response) = try await Self.request(from: url)
+        
+        guard
+            let httpResponse = response as? HTTPURLResponse,
+            (200...299) ~= httpResponse.statusCode
+        else {
+            print("statusCode should be 2xx, but is \(String(describing: (response as? HTTPURLResponse)?.statusCode))")
+            print("response = \(response)")
+            print("data = \(String(data: data, encoding: .utf8) ?? "nil")")
+            throw HTTPError.invalidResponse
         }
+        
+        guard let image = UIImage(data: data) else {
+            throw JFError.decodingError
+        }
+        
+        return image
     }
     
     /// Returns a closed range containing the years of all media objects in the library
@@ -233,10 +202,27 @@ struct Utils {
             source.present(vc, animated: true)
         }
     }
+    
+    static func purchasedPro() -> Bool {
+        return true // swiftlint:disable:this implicit_return
+        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
+    }
+    
+    /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string
+    ///
+    ///     languageString("pt-BR") // Returns "Portuguese (Brazil)"
+    ///     languageString("de") // Returns "German"
+    static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
+        locale.localizedString(forIdentifier: code)
+    }
 }
 
 // MARK: - TMDB API
+// swiftlint:disable:next file_types_order
 extension Utils {
+    /// The list of TMDB image paths to not download
+    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
+    
     /// The `DateFormatter` for translating to and from TMDB date representation
     static var tmdbDateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -261,14 +247,6 @@ extension Utils {
         return URL(string: "https://image.tmdb.org/t/p/w\(size)/\(path)")!
     }
     
-    /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string
-    ///
-    ///     languageString("pt-BR") // Returns "Portuguese (Brazil)"
-    ///     languageString("de") // Returns "German"
-    static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
-        locale.localizedString(forIdentifier: code)
-    }
-    
     @discardableResult
     static func updateTMDBLanguages() async throws -> [String] {
         let codes = try await TMDBAPI.shared.getTMDBLanguageCodes()
@@ -289,10 +267,20 @@ extension Utils {
         return sortedCodes
     }
     
-    static func purchasedPro() -> Bool {
-        return true // swiftlint:disable:this implicit_return
-        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
+    /// Downloads an image using the given TMDB image path
+    /// - Parameter imagePath: The TMDB image path
+    /// - Returns: The downloaded UIImage
+    static func loadImage(with imagePath: String) async throws -> UIImage {
+        try await loadImage(from: Self.getTMDBImageURL(path: imagePath))
     }
+}
+
+enum HTTPError: Error {
+    case invalidResponse
+}
+
+enum JFError: Error {
+    case decodingError
 }
 
 // MARK: - FSK Rating
