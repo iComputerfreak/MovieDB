@@ -12,7 +12,8 @@ import UIKit
 import SwiftUI
 
 // TODO: Make async using a continuation
-final class DocumentPicker: NSObject, UIViewControllerRepresentable {
+final class DocumentPicker: NSObject, UIViewControllerRepresentable, Identifiable {
+    let id = UUID()
     var urlToExport: URL?
     var onSelect: (URL) -> Void
     var onCancel: (() -> Void)?

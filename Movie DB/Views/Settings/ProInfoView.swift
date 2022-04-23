@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// TODO: Not correctly localized
 struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     
@@ -78,9 +79,6 @@ struct ProInfoView_Previews: PreviewProvider {
     @State private static var isShowing = true
     
     static var previews: some View {
-        Text("Hello, world!")
-            .popover(isPresented: $isShowing) {
-                ProInfoView()
-            }
+        ProInfoView()
     }
 }

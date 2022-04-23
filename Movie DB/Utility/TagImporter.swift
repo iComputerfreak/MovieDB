@@ -42,7 +42,8 @@ actor TagImporter {
         PersistenceController.saveContext(context)
     }
     
-    class BasicLogger {
+    class BasicLogger: Identifiable {
+        let id = UUID()
         // swiftlint:disable:next nesting
         enum LogLevel: String {
             case debug, info, warning, error, critical
