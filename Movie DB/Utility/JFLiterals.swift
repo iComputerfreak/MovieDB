@@ -21,7 +21,7 @@ enum JFLiterals {
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos
-    static let kTrailerVideoType = "Trailer"
+    static let trailerVideoType = "Trailer"
     /// The maximum amount of pages to load when searching for media
     static let maxSearchPages = 10
     /// The maximum number of media objects a user can add to his library while not having purchased a pro subscription

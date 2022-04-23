@@ -245,9 +245,9 @@ private struct ShowSpecificSection: View {
         // MARK: - Show Type
         FilterMultiPicker(
             selection: $filterSetting.showTypes,
-                          label: { $0.rawValue },
-                          values: ShowType.allCases.sorted(by: \.rawValue),
-                          titleKey: "Show Type"
+            label: { $0.rawValue },
+            values: ShowType.allCases.sorted(by: \.rawValue),
+            titleKey: "Show Type"
         )
         // MARK: - Number of Seasons
         NavigationLink(destination: RangeEditingView(
