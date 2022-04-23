@@ -189,17 +189,19 @@ struct Utils {
     }
     
     static func share(items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
-        DispatchQueue.main.async {
-            guard let source = UIApplication.shared.windows.last?.rootViewController else {
-                return
+        Task(priority: .userInitiated) {
+            await MainActor.run {
+                guard let source = UIApplication.shared.windows.last?.rootViewController else {
+                    return
+                }
+                let vc = UIActivityViewController(
+                    activityItems: items,
+                    applicationActivities: nil
+                )
+                vc.excludedActivityTypes = excludedActivityTypes
+                vc.popoverPresentationController?.sourceView = source.view
+                source.present(vc, animated: true)
             }
-            let vc = UIActivityViewController(
-                activityItems: items,
-                applicationActivities: nil
-            )
-            vc.excludedActivityTypes = excludedActivityTypes
-            vc.popoverPresentationController?.sourceView = source.view
-            source.present(vc, animated: true)
         }
     }
     
