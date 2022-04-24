@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20E232" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -41,6 +41,8 @@
         <attribute name="originalLanguage" optional="YES" attributeType="String"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="parentalRatingColor" optional="YES" attributeType="Transformable" valueTransformerName="SerializableColorTransformer" customClassName="SerializableColor"/>
+        <attribute name="parentalRatingLabel" optional="YES" attributeType="String"/>
         <attribute name="personalRating" optional="YES" attributeType="Integer 64" minValueString="0" maxValueString="10" usesScalarValueType="YES"/>
         <attribute name="popularity" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
         <attribute name="releaseDateOrFirstAired" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -127,7 +129,7 @@
         <element name="CastMember" positionX="-27" positionY="198" width="128" height="118"/>
         <element name="FilterSetting" positionX="-81" positionY="135" width="128" height="253"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="103"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="449"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="479"/>
         <element name="MediaLibrary" positionX="-63" positionY="162" width="128" height="58"/>
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>

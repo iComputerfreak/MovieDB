@@ -55,6 +55,7 @@ public class Media: NSManagedObject {
             self.keywords = tmdbData.keywords
             self.translations = tmdbData.translations
             self.videos = Set(self.transferIntoContext(tmdbData.videos))
+            self.parentalRating = tmdbData.parentalRating
         }
     }
     
@@ -82,7 +83,7 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    // TODO: Loading is not happening on background thread. Maybe use a store actor?
+    // TODO: Loading is not happening on background thread. Use a task
     func loadThumbnail(force: Bool = false) async {
         guard thumbnail == nil || force else {
             // Thumbnail already present, don't download again, unless force parameter is given

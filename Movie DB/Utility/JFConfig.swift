@@ -19,7 +19,13 @@ class JFConfig: ObservableObject {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
+    /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
     @ConfigValue(.language, defaultValue: "") var language: String {
+        willSet {
+            DispatchQueue.main.async { self.objectWillChange.send() }
+        }
+    }
+    @ConfigValue(.region, defaultValue: "") var region: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
@@ -37,6 +43,7 @@ class JFConfig: ObservableObject {
         case region
         case language
         case availableLanguages
+        case availableRegions
     }
     
     /// Wraps a config value with a mechanism to load and save the value with the given key from/to `UserDefaults`

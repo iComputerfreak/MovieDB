@@ -35,7 +35,10 @@ struct LibraryRow: View {
                                 Image(systemName: seriesSymbol)
                             }
                             // MARK: FSK Rating
-//                            JFUtils.fskLabel(JFUtils.FSKRating.allCases.randomElement()!)
+                            if let rating = mediaObject.parentalRating {
+                                Image(systemName: "\(rating.label).square")
+                                    .foregroundColor(rating.color ?? .primary)
+                            }
                             // MARK: Year
                             if mediaObject.year != nil {
                                 Text(mediaObject.year!.description)
@@ -74,8 +77,10 @@ struct ProblemsLibraryRow<T>: View where T: View {
 #if DEBUG
 struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryRow()
-            .environmentObject(PlaceholderData.movie)
+        List {
+            LibraryRow()
+                .environmentObject(PlaceholderData.movie as Media)
+        }
     }
 }
 #endif

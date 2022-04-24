@@ -17,7 +17,7 @@ actor TMDBAPI {
     /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
     var locale: String { JFConfig.shared.language }
     /// The ISO 3166-1 region code, used for displaying matching release dates
-    var region: String? { locale.components(separatedBy: "-").last }
+    var region: String { JFConfig.shared.region }
     
     var disposableContext: NSManagedObjectContext { PersistenceController.createDisposableContext() }
     
@@ -37,7 +37,7 @@ actor TMDBAPI {
         // Create a child context to make the changes in, before merging them with the actual context given
         let childContext = context.newBackgroundContext()
         // Get the TMDB Data using the child context
-        let tmdbData = try await self.fetchTMDBData(for: id, type: type, context: childContext)
+        let tmdbData = try await self.tmdbData(for: id, type: type, context: childContext)
         let childMedia: Media = await childContext.perform {
             // Create the media in the child context
             let media: Media
@@ -66,7 +66,7 @@ actor TMDBAPI {
         // Create a child context to make the changes in, before merging them with the actual context given
         let childContext = context.newBackgroundContext()
         // Fetch the TMDBData into the child context
-        let tmdbData = try await self.fetchTMDBData(for: media.tmdbID, type: media.type, context: childContext)
+        let tmdbData = try await self.tmdbData(for: media.tmdbID, type: media.type, context: childContext)
         // Update the media in the thread of the child context
         try await childContext.perform {
             // Copy the media into the child context and modify it there.
@@ -249,8 +249,13 @@ actor TMDBAPI {
     ///   - type: The type of media to load
     ///   - context: The context to decode the `TMDBData` into
     /// - Returns: The data returned by the API call
-    private func fetchTMDBData(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> TMDBData {
-        let parameters = ["append_to_response": "keywords,translations,videos,credits,aggregate_credits"]
+    private func tmdbData(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> TMDBData {
+        let parameters = [
+            // release_dates only for movies
+            // content_ratings only for tv
+            "append_to_response": "keywords,translations,videos,credits,aggregate_credits" +
+            (type == .movie ? ",release_dates" : ",content_ratings")
+        ]
         return try await decodeAPIURL(
             path: "/\(type.rawValue)/\(id)",
             additionalParameters: parameters,
@@ -309,12 +314,9 @@ actor TMDBAPI {
         // MARK: Collect parameters
         var parameters: [String: String?] = [
             "api_key": apiKey,
-            "language": locale
+            "language": locale,
+            "region": region
         ]
-        // Add the region for country-specific information (i.e. theater release dates)
-        if let region = region {
-            parameters["region"] = region
-        }
         // Overwrite existing keys
         parameters.merge(additionalParameters)
         components.queryItems = parameters.map(URLQueryItem.init)

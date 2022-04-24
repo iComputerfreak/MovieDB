@@ -217,6 +217,29 @@ struct Utils {
     static func languageString(for code: String, locale: Locale = Locale.current) -> String? {
         locale.localizedString(forIdentifier: code)
     }
+    
+    static func parentalRating(for label: String) -> ParentalRating? {
+        // We use FSKRating for Germany and ContentRating for everything else
+        if JFConfig.shared.region.lowercased() == "de" {
+            // The given label should be one of the FSK labels
+            switch label {
+            case ParentalRating.fskNoRestriction.label:
+                return ParentalRating.fskNoRestriction
+            case ParentalRating.fskAgeSix.label:
+                return ParentalRating.fskAgeSix
+            case ParentalRating.fskAgeTwelve.label:
+                return ParentalRating.fskAgeTwelve
+            case ParentalRating.fskAgeSixteen.label:
+                return ParentalRating.fskAgeSixteen
+            case ParentalRating.fskAgeEighteen.label:
+                return ParentalRating.fskAgeEighteen
+            default:
+                // If the label is not one of the FSK labels, we just use the default return value below
+                break
+            }
+        }
+        return ParentalRating(label)
+    }
 }
 
 // MARK: - TMDB API
@@ -286,35 +309,23 @@ enum JFError: Error {
     case decodingError
 }
 
-// MARK: - FSK Rating
-extension Utils {
-    static func fskColor(_ rating: FSKRating) -> Color {
-        switch rating {
-        case .noRestriction:
-            return Color("NoRestriction")
-        case .ageSix:
-            return Color("AgeSix")
-        case .ageTwelve:
-            return Color("AgeTwelve")
-        case .ageSixteen:
-            return Color("AgeSixteen")
-        case .ageEighteen:
-            return Color("AgeEighteen")
-        }
-    }
+public struct ParentalRating {
+    var color: Color?
+    var label: String
     
-    static func fskLabel(_ rating: FSKRating) -> some View {
-        Image(systemName: "\(rating.rawValue).square")
-            .foregroundColor(fskColor(rating))
+    init(_ label: String, color: Color? = nil) {
+        self.label = label
+        self.color = color
     }
-    
-    enum FSKRating: String, CaseIterable {
-        case noRestriction = "0"
-        case ageSix = "6"
-        case ageTwelve = "12"
-        case ageSixteen = "16"
-        case ageEighteen = "18"
-    }
+}
+
+extension ParentalRating {
+    static let fskRatings = [fskNoRestriction, fskAgeSix, fskAgeTwelve, fskAgeSixteen, fskAgeEighteen]
+    static let fskNoRestriction: Self = .init("0", color: .init("NoRestriction"))
+    static let fskAgeSix: Self = .init("6", color: .init("AgeSix"))
+    static let fskAgeTwelve: Self = .init("12", color: .init("AgeTwelve"))
+    static let fskAgeSixteen: Self = .init("16", color: .init("AgeSixteen"))
+    static let fskAgeEighteen: Self = .init("18", color: .init("AgeEighteen"))
 }
 
 /// Returns the smaller non-nil object of the given two objects

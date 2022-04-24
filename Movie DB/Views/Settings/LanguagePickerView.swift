@@ -33,6 +33,7 @@ struct LanguagePickerView: View {
             do {
                 try await Utils.updateTMDBLanguages()
             } catch {
+                // We need to report the error, otherwise the user may be confused due to the loading text
                 await MainActor.run {
                     print(error)
                     AlertHandler.showSimpleAlert(

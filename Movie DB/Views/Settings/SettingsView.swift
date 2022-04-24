@@ -83,5 +83,6 @@ struct SettingsViewConfig {
     var isLoading = false
     var loadingText: String?
     var languageChanged = false
+    var regionChanged = false
     var isShowingProInfo = false
 }

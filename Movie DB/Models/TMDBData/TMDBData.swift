@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
-struct TMDBData: Decodable, Hashable {
+struct TMDBData: Decodable {
     // Basic Data
     var id: Int
     var title: String
@@ -35,10 +35,12 @@ struct TMDBData: Decodable, Hashable {
     var keywords: [String]
     var translations: [String]
     var videos: [Video]
+    var parentalRating: ParentalRating?
     
     var movieData: MovieData?
     var showData: ShowData?
     
+    // swiftlint:disable:next function_body_length
     init(from decoder: Decoder) throws {
         guard let decodingContext = decoder.userInfo[.managedObjectContext] as? NSManagedObjectContext else {
             throw TMDBDataError.noDecodingContext
@@ -93,20 +95,58 @@ struct TMDBData: Decodable, Hashable {
         let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
         self.videos = try videosContainer.decode([Video].self, forKey: .results)
         
+        func decodeMovieRating() throws -> ParentalRating? {
+            let releaseDates = try container.decode([String: [ReleaseDatesCountry]].self, forKey: .releaseDates)
+            let certification: String? = releaseDates["results"]!
+                // We are only interested in results for our country
+                .filter { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() }
+                // We should only have one result for our country
+                .first?
+                // We take all the release dates from that country
+                .results
+                // We don't need release dates without a parental rating
+                .filter { !$0.certification.isEmpty }
+                // We only want theatrical releases (type 3)
+                .first(where: { (release: ReleaseDateCertification) in release.type == 3 })?
+                // The parental rating of that release
+                .certification
+            return certification.flatMap(Utils.parentalRating(for:))
+        }
+        
+        func decodeShowRating() throws -> ParentalRating? {
+            let contentRatings = try container.decode(ContentRatingResult.self, forKey: .contentCertifications)
+            let certification: String? = contentRatings
+                .results
+                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })?
+                .rating
+            return certification.flatMap(Utils.parentalRating(for:))
+        }
+        
         // If we know which type of media we are, we can decode that type of exclusive data only.
         // This way, we still get proper error handling.
         if let mediaType = decoder.userInfo[.mediaType] as? MediaType {
             if mediaType == .movie {
                 self.movieData = try MovieData(from: decoder)
+                // Load the parental rating from the release dates
+                self.parentalRating = try decodeMovieRating()
             } else {
                 self.showData = try ShowData(from: decoder)
+                // Load the parental rating from the content_ratings
+                self.parentalRating = try decodeShowRating()
             }
         } else {
-            print("Decoding TMDBData without mediaType in the userInfo dict. " +
-                  "Please specify the type of media we are decoding! Guessing the type...")
+            assertionFailure("Decoding TMDBData without mediaType in the userInfo dict. " +
+                             "Please specify the type of media we are decoding! Guessing the type...")
             // If we don't know the type of media, we have to try both and hope one works
             self.movieData = try? MovieData(from: decoder)
             self.showData = try? ShowData(from: decoder)
+            if self.movieData != nil {
+                self.parentalRating = try decodeMovieRating()
+            } else if self.showData != nil {
+                self.parentalRating = try decodeShowRating()
+            } else {
+                fatalError("Unable to decode media object. MediaType is unknown.")
+            }
         }
         
         assert(!(self.movieData == nil && self.showData == nil), "Error decoding movie/show data for '\(self.title)'")
@@ -133,6 +173,8 @@ struct TMDBData: Decodable, Hashable {
         case keywords
         case translations
         case videos
+        case releaseDates = "release_dates"
+        case contentCertifications = "content_ratings"
     }
     
     enum TMDBDataError: Error {
@@ -231,5 +273,33 @@ struct TMDBData: Decodable, Hashable {
             case showType = "type"
             case networks
         }
+    }
+}
+
+extension TMDBData: Hashable {
+    static func == (lhs: TMDBData, rhs: TMDBData) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(title)
+        hasher.combine(originalTitle)
+        hasher.combine(imagePath)
+        hasher.combine(genres)
+        hasher.combine(overview)
+        hasher.combine(status)
+        hasher.combine(originalLanguage)
+        hasher.combine(productionCompanies)
+        hasher.combine(homepageURL)
+        hasher.combine(popularity)
+        hasher.combine(voteAverage)
+        hasher.combine(cast)
+        hasher.combine(keywords)
+        hasher.combine(translations)
+        hasher.combine(videos)
+        hasher.combine(parentalRating?.label)
+        hasher.combine(movieData)
+        hasher.combine(showData)
     }
 }

@@ -10,6 +10,7 @@
 import Foundation
 import CoreData
 import UIKit
+import SwiftUI
 
 extension Media {
     /// The internal library id
@@ -95,6 +96,29 @@ extension Media {
     @NSManaged public var modificationDate: Date
     /// The date the media object was released or first aired
     @NSManaged public var releaseDateOrFirstAired: Date?
+    /// The color of the parental rating label
+    @NSManaged private var parentalRatingColor: SerializableColor?
+    /// The parental rating certification of the media
+    @NSManaged private var parentalRatingLabel: String?
+    
+    /// The parental rating of this media (e.g. FSK 16)
+    var parentalRating: ParentalRating? {
+        get {
+            if let label = parentalRatingLabel {
+                return ParentalRating(label, color: parentalRatingColor?.color)
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                parentalRatingLabel = newValue.label
+                parentalRatingColor = newValue.color.map(SerializableColor.init(from:))
+            } else {
+                parentalRatingLabel = nil
+                parentalRatingColor = nil
+            }
+        }
+    }
     
     // MARK: - Computed Properties
     

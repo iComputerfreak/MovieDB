@@ -22,6 +22,7 @@ enum PlaceholderData {
         m.notes = ""
         m.watched = true
         m.watchAgain = false
+        m.parentalRating = .fskAgeTwelve
         return m
     }()
     static let show: Show = {
@@ -33,6 +34,7 @@ enum PlaceholderData {
         s.notes = "A masterpiece!"
         s.lastWatched = .init(season: 7, episode: nil)
         s.watchAgain = true
+        s.parentalRating = .fskAgeSixteen
         return s
     }()
     

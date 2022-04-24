@@ -10,13 +10,20 @@ import UIKit
 import CoreData
 import StoreKit
 
+// TODO: Push new schema to production
+// TODO: How to migrate schema?
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Override point for customization after application launch.
+        // Register color transformer
+        ValueTransformer.setValueTransformer(
+            SerializableColorTransformer(),
+            forName: NSValueTransformerName(rawValue: "SerializableColorTransformer")
+        )
         
         // MARK: Update Poster Deny List
         Task {
