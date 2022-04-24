@@ -275,31 +275,3 @@ struct TMDBData: Decodable {
         }
     }
 }
-
-extension TMDBData: Hashable {
-    static func == (lhs: TMDBData, rhs: TMDBData) -> Bool {
-        lhs.hashValue == rhs.hashValue
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(title)
-        hasher.combine(originalTitle)
-        hasher.combine(imagePath)
-        hasher.combine(genres)
-        hasher.combine(overview)
-        hasher.combine(status)
-        hasher.combine(originalLanguage)
-        hasher.combine(productionCompanies)
-        hasher.combine(homepageURL)
-        hasher.combine(popularity)
-        hasher.combine(voteAverage)
-        hasher.combine(cast)
-        hasher.combine(keywords)
-        hasher.combine(translations)
-        hasher.combine(videos)
-        hasher.combine(parentalRating?.label)
-        hasher.combine(movieData)
-        hasher.combine(showData)
-    }
-}
