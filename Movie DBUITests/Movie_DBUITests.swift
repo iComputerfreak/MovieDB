@@ -7,57 +7,55 @@
 //
 
 import XCTest
-@testable import Movie_DB
-import CoreData
 
 // swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language
 class Movie_DBUITests: XCTestCase {
     var app: XCUIApplication! = nil
     
-    var libraryNavBar: XCUIElement!
-    var addMediaNavBar: XCUIElement!
-    var addMediaButton: XCUIElement!
-    var addMediaSearch: XCUIElement!
+    var navBar: XCUIElement {
+        app.navigationBars.element
+    }
+    
+    var libraryNavBar: XCUIElement {
+        navBar
+    }
+    var addMediaNavBar: XCUIElement {
+        navBar
+    }
+    var addMediaButton: XCUIElement {
+        libraryNavBar.buttons["add-media"]
+    }
+    var addMediaSearch: XCUIElement {
+        addMediaNavBar.searchFields.firstMatch
+    }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
         app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
-        app.launchEnvironment = ["animations": "0"]
-        UIView.setAnimationsEnabled(false)
-        
-        libraryNavBar = app.navigationBars["Library"]
-        addMediaNavBar = app.navigationBars["Add Media"]
-        addMediaButton = libraryNavBar.buttons["add-media"]
-        addMediaSearch = addMediaNavBar.searchFields.firstMatch
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         app = nil
-        
-        libraryNavBar = nil
-        addMediaNavBar = nil
-        addMediaButton = nil
-        addMediaSearch = nil
     }
     
-    func testAddMovie() throws {
+    func testAddMovie() {
         app.launch()
         addMedia("Matrix", name: "The Matrix, Movie")
         // Matrix should be in the library now
         XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
     }
     
-    func testAddShow() throws {
+    func testAddShow() {
         app.launch()
         addMedia("Blacklist", name: "The Blacklist, Series")
         // Matrix should be in the library now
         XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].waitForExistence(timeout: 10))
     }
     
-    func testAddTwice() throws {
+    func testAddTwice() {
         app.launch()
         addMedia("Matrix", name: "The Matrix, Movie")
         // Wait until the first movie has been added
@@ -71,12 +69,10 @@ class Movie_DBUITests: XCTestCase {
         XCTAssertEqual(app.alerts.element.label, "Already Added")
     }
     
-    func testAddAndRemove() throws {
+    func testAddAndRemove() {
         app.launch()
         addMatrix()
         XCTAssertTrue(app.tables.cells["The Matrix, 1999"].wait().exists)
-//        addBlacklist()
-//        XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].wait().exists)
         // Delete the new movie
         app.tables.cells["The Matrix, 1999"]
             .swipeLeft()
@@ -85,6 +81,166 @@ class Movie_DBUITests: XCTestCase {
             .tap()
         // Should not exist anymore
         XCTAssertFalse(app.tables.cells["The Matrix, 1999"].exists)
+    }
+    
+    func testShowMovieDetail() {
+        app.launch()
+        addMatrix()
+        app.tables.cells["The Matrix, 1999"]
+            .wait()
+            .tap()
+        // Title cell
+        app.tables.cells["The Matrix, 1999"].tap()
+        let detailBackButton = app.navigationBars.element.buttons.firstMatch
+        detailBackButton.tap()
+        app.tables.cells
+            .first(hasPrefix: "Description")
+            .tap()
+        detailBackButton.tap()
+        app.tables.cells["Cast"].tap()
+        // Give the cast page a bit of time to load
+        wait()
+        detailBackButton.tap()
+    }
+    
+    func testShowShowDetail() {
+        app.launch()
+        addBlacklist()
+        app.tables.cells["The Blacklist, 2013"]
+            .wait()
+            .tap()
+        // Title cell
+        app.tables.cells["The Blacklist, 2013"].tap()
+        let detailBackButton = app.navigationBars.element.buttons.firstMatch
+        detailBackButton.tap()
+        app.tables.cells
+            .first(hasPrefix: "Description")
+            .tap()
+        detailBackButton.tap()
+        app.tables.cells
+            .first(hasPrefix: "Seasons")
+            .tap()
+        wait()
+        detailBackButton.tap()
+        
+        app.tables.cells["Cast"].tap()
+        // Give the cast page a bit of time to load
+        wait()
+        detailBackButton.tap()
+    }
+    
+    func testEditShowDetail() {
+        app.launch()
+        addBlacklist()
+        app.tables.cells["The Blacklist, 2013"]
+            .wait()
+            .tap()
+        // Go into edit mode
+        app.navigationBars.element.buttons["Edit"].tap()
+        
+        app.tables.cells
+            .first(hasPrefix: "Personal Rating")
+            .buttons["Increment"]
+            .tap(withNumberOfTaps: 7, numberOfTouches: 1)
+        
+        app.tables.cells
+            .first(hasPrefix: "Watched?")
+            .staticTexts
+            .element(boundBy: 1)
+            .tap()
+        app.steppers.element.buttons["Increment"]
+            .tap(withNumberOfTaps: 3, numberOfTouches: 1)
+        app.steppers.element(boundBy: 1).buttons["Increment"]
+            .tap(withNumberOfTaps: 10, numberOfTouches: 1)
+        app.steppers.element(boundBy: 1).buttons["Increment"]
+            .tap(withNumberOfTaps: 5, numberOfTouches: 1)
+        goBack()
+        
+        app.tables.cells
+            .first(hasPrefix: "Watch again?")
+            .buttons["No"]
+            .tap()
+        
+        app.tables.cells
+            .first(hasPrefix: "Tags")
+            .staticTexts
+            .element(boundBy: 1)
+            .tap()
+        // Create tags
+        func addTag(_ name: String) {
+            navBar.buttons["Add"].tap()
+            app.textFields.element.typeText(name)
+            app.alerts.buttons["Add"].tap()
+        }
+        
+        addTag("Tag1!")
+        addTag("Tag 2")
+        addTag("Tag~3.test")
+        
+        app.tables.cells.first(hasPrefix: "Tag1!").tap()
+        app.tables.cells.first(hasPrefix: "Tag~3.test").tap()
+        
+        // Modify
+        goBack()
+        
+        app.tables.cells
+            .first(hasPrefix: "Notes")
+            .staticTexts
+            .element(boundBy: 1)
+            .tap()
+        // Modify
+        app.textViews.firstMatch.tap()
+        app.textViews.firstMatch.typeText("This is a sample note.\nDone.")
+        goBack()
+        
+        // Stop Editing
+        app.navigationBars.element.buttons["Done"].tap()
+        
+        // Assertions
+        XCTAssertEqual(
+            app.tables.cells.first(hasPrefix: "Personal Rating").label,
+            "Personal Rating, Favorite, Favorite, Favorite, Half Star, Favorite"
+        )
+        XCTAssertEqual(
+            app.tables.cells.first(hasPrefix: "Watched?").label,
+            "Watched?, Season 3, Episode 15"
+        )
+        XCTAssertEqual(
+            app.tables.cells.first(hasPrefix: "Watch again?").label,
+            "Watch again?, No"
+        )
+        XCTAssertEqual(
+            app.tables.cells.first(hasPrefix: "Tags").label,
+            "Tags, Tag1!, Tag~3.test"
+        )
+        XCTAssertEqual(
+            app.tables.cells.first(hasPrefix: "Notes").label,
+            "Notes, This is a sample note.\nDone."
+        )
+        goBack()
+    }
+    
+    func disabled_testFilter() {
+        // Add and configure Blacklist
+        testEditShowDetail()
+        // TODO: Test filter
+        // Implement after reworking the filter UI
+    }
+    
+    func testSearch() {
+        app.launch()
+        addMatrix()
+        addBlacklist()
+        navBar.searchFields.element.wait().tap()
+        navBar.searchFields.element.typeText("Blacklist")
+        XCTAssertEqual(app.tables.cells.count, 1)
+        XCTAssertEqual(app.tables.cells.element.label, "The Blacklist, 2013")
+    }
+    
+    // TODO: UI Tests for settings
+    
+    func goBack() {
+        app.navigationBars.element.buttons.firstMatch.tap()
     }
     
     func addMatrix() {
@@ -101,6 +257,16 @@ class Movie_DBUITests: XCTestCase {
         addMediaSearch.typeText("\(query)\n")
         XCTAssertTrue(app.tables.cells[name].waitForExistence(timeout: 10))
         app.tables.cells[name].tap()
+    }
+    
+    func wait(_ timeout: TimeInterval = 1) {
+        XCTAssertFalse(app.wait(for: .runningBackground, timeout: timeout))
+    }
+}
+
+extension XCUIElementQuery {
+    func first(where key: String = "label", hasPrefix prefix: String) -> XCUIElement {
+        self.matching(NSPredicate(format: "%K BEGINSWITH %@", key, prefix)).firstMatch
     }
 }
 

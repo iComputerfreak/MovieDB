@@ -23,7 +23,7 @@ class Movie_DBUITestsLaunchTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testLaunch() throws {
+    func disabled_testLaunch() throws {
         let app = XCUIApplication()
         app.launch()
 

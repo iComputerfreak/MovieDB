@@ -264,7 +264,7 @@ func assertEqual(_ value1: [Season], _ value2: [Season]) {
 func assertContains<T>(_ value: [T], in other: [T]) where T: Equatable {
     XCTAssertLessThanOrEqual(value.count, other.count)
     for element in value {
-        XCTAssertTrue(other.contains(element))
+        XCTAssertTrue(other.contains(element), "\(element) not found.")
     }
 }
 
