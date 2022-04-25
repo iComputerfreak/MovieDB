@@ -95,7 +95,6 @@ struct ImportExportSection: View {
                                     // Make the changes to this context permanent by saving them to disk
                                     await PersistenceController.saveContext(importContext)
                                     await MainActor.run {
-                                        // TODO: Replace when using real logger
                                         // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
                                         self.importLogger?.info("Import complete.")
                                         self.importLogShowing = true

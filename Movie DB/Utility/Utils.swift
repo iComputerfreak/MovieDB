@@ -191,7 +191,10 @@ struct Utils {
     static func share(items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
         Task(priority: .userInitiated) {
             await MainActor.run {
-                guard let source = UIApplication.shared.windows.last?.rootViewController else {
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                    return
+                }
+                guard let source = scene.windows.last?.rootViewController else {
                     return
                 }
                 let vc = UIActivityViewController(
@@ -206,8 +209,9 @@ struct Utils {
     }
     
     static func purchasedPro() -> Bool {
-        return true // swiftlint:disable:this implicit_return
-        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
+        // TODO: Revert before deploying
+        true
+        //UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
     
     /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string

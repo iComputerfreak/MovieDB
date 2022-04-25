@@ -35,7 +35,6 @@ struct ProInfoView: View {
                     Spacer()
                 }
                 Spacer()
-                // TODO: Make new button style (rounded)
                 if Utils.purchasedPro() {
                     Text("Already Purchased")
                         .foregroundColor(.blue)
@@ -55,6 +54,7 @@ struct ProInfoView: View {
                         // Execute the purchase
                         StoreManager.shared.purchase(product: product)
                     }
+                    .buttonStyle(.borderedProminent)
                 }
             }
             .navigationTitle("Movie DB Pro")

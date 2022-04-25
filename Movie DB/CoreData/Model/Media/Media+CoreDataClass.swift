@@ -83,7 +83,7 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    // TODO: Loading is not happening on background thread. Use a task
+    // TODO: Loading is not happening on background thread, but async. Problem?
     func loadThumbnail(force: Bool = false) async {
         guard thumbnail == nil || force else {
             // Thumbnail already present, don't download again, unless force parameter is given

@@ -130,9 +130,15 @@ struct AddMediaView: View {
         print("Selected \(result.title)")
         // Check if title already exists in library
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", String(result.id))
+        existingFetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", result.id)
         existingFetchRequest.fetchLimit = 1
-        let existingObjects = (try? managedObjectContext.count(for: existingFetchRequest)) ?? 0
+        let existingObjects: Int
+        do {
+            existingObjects = try managedObjectContext.count(for: existingFetchRequest)
+        } catch {
+            assertionFailure("Error fetching media count while adding '\(result.title)': \(error)")
+            existingObjects = 0
+        }
         // There should be no media objects with this tmdbID in the library
         guard existingObjects == 0 else {
             // Already added
@@ -162,7 +168,6 @@ struct AddMediaView: View {
                     type: result.mediaType,
                     context: managedObjectContext
                 )
-                
                 // fetchMedia already created the Media object in a child context and saved it into the view context
                 // All we need to do now is to load the thumbnail and update the UI
                 await MainActor.run {
@@ -173,12 +178,13 @@ struct AddMediaView: View {
                             await mainMedia.loadThumbnail()
                         }
                     } else {
-                        print("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
+                        assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
                     }
                     self.isLoading = false
                     // Dismiss the AddMediaView
                     self.presentationMode.wrappedValue.dismiss()
                 }
+                assert(self.managedObjectContext == PersistenceController.viewContext)
             } catch let error as LocalizedError {
                 print("Error loading media: \(error)")
                 await MainActor.run {

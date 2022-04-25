@@ -90,7 +90,7 @@ struct TestingUtils {
         let data: Data
         
         guard
-            let file = Bundle(identifier: "de.JonasFrey.Movie-DBTests")!.url(forResource: filename, withExtension: nil)
+            let file = Bundle(for: APITests.self).url(forResource: filename, withExtension: nil)
         else {
             fatalError("Couldn't find \(filename) in test bundle.")
         }

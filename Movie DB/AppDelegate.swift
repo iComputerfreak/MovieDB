@@ -10,9 +10,6 @@ import UIKit
 import CoreData
 import StoreKit
 
-// TODO: Push new schema to production
-// TODO: How to migrate schema?
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
@@ -35,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Only update once every 24h
             guard diff <= 24 * 60 * 60 else {
-                print("Last deny list update was \(Double(diff) / 3600.0) hours ago. " +
+                print("Last deny list update was \(Double(diff) / (60 * 60 * 1000)) hours ago. " +
                       "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
                 return
             }

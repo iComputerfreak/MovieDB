@@ -103,7 +103,7 @@ actor TMDBAPI {
             // Fetch changes for all media types
             for type in MediaType.allCases {
                 // Fetch the changes for the current media type and return the child result
-                group.addTask {
+                _ = group.addTaskUnlessCancelled {
                     let (results, _) = try await self.multiPageRequest(
                         path: "/\(type.rawValue)/changes",
                         additionalParameters: dateRangeParameters,
@@ -190,7 +190,6 @@ actor TMDBAPI {
         let decoder = self.decoder(context: childContext)
         
         // Fetch the JSON in the background
-        // TODO: async let
         let data = try await self.request(
             path: path,
             additionalParameters: additionalParameters.merging(["page": String(fromPage)])
@@ -218,10 +217,12 @@ actor TMDBAPI {
             // Fetch the pages concurrently
             for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
                 // Fetch the page
-                group.addTask {
+                _ = group.addTaskUnlessCancelled {
                     let newParameters = additionalParameters.merging(["page": String(page)])
                     // Make the request
                     let data = try await self.request(path: path, additionalParameters: newParameters)
+                    // Abort, if we are already cancelled
+                    try Task.checkCancellation()
                     // Decode the data in the context's thread
                     let wrapper = try await context.perform {
                         try decoder.decode(PageWrapper.self, from: data)

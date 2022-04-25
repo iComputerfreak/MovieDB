@@ -28,14 +28,15 @@ struct PreferencesSection: View {
                 .onChange(of: preferences.region) { regionCode in
                     print("Region changed to \(regionCode)")
                     self.config.regionChanged = true
-                    // TODO: Reload?
                 }
         }
         .onDisappear {
             if self.config.languageChanged || self.config.regionChanged {
                 AlertHandler.showYesNoAlert(
                     title: NSLocalizedString("Reload library?"),
-                    message: NSLocalizedString("Do you want to reload all media objects using the new language/region settings?"),
+                    message: NSLocalizedString(
+                        "Do you want to reload all media objects using the new language/region settings?"
+                    ),
                     yesAction: { _ in self.reloadHandler() }
                 )
                 self.config.languageChanged = false
