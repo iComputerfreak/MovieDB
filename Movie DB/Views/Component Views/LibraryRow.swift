@@ -11,6 +11,7 @@ import SwiftUI
 struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
+    // Use the localized word for "movie" or "series" and take the first character of that
     let movieSymbol = NSLocalizedString("Movie").first!.lowercased() + ".square"
     let seriesSymbol = NSLocalizedString("Series").first!.lowercased() + ".square"
     

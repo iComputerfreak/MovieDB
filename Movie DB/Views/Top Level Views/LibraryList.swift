@@ -53,7 +53,7 @@ struct LibraryList: View {
         var sortDescriptors = [NSSortDescriptor]()
         switch sortingOrder {
         case .name:
-            // Name sort descriptor gets appended at the end
+            // Name sort descriptor gets appended at the end as a tie breaker
             break
         case .created:
             sortDescriptors.append(NSSortDescriptor(
@@ -78,7 +78,7 @@ struct LibraryList: View {
             entity: Media.entity(),
             sortDescriptors: sortDescriptors,
             predicate: compoundPredicate,
-            animation: nil
+            animation: .default
         )
         self.sortingOrder = sortingOrder
         self.sortingDirection = sortingDirection

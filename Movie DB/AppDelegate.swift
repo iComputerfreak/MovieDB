@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Prepare for UI testing
+        #if DEBUG
+        if CommandLine.arguments.contains("--uitesting") {
+            // Prepare a fresh container to do the UI testing in
+            PersistenceController.prepareForUITesting()
+        }
+        #endif
         // Register color transformer
         ValueTransformer.setValueTransformer(
             SerializableColorTransformer(),

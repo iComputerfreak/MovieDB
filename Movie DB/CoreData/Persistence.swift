@@ -10,7 +10,7 @@ import CoreData
 
 struct PersistenceController {
     /// The main instance of the PersistenceController
-    static let shared = PersistenceController()
+    private(set) static var shared = PersistenceController()
     
     /// The view context of the shared container
     static var viewContext: NSManagedObjectContext { shared.container.viewContext }
@@ -21,7 +21,7 @@ struct PersistenceController {
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
     static var preview: PersistenceController = { PersistenceController(inMemory: true) }()
     
-    let container: NSPersistentCloudKitContainer
+    private(set) var container: NSPersistentContainer
     
     private init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Movie DB")
@@ -77,7 +77,13 @@ struct PersistenceController {
     /// Creates a new context with a new, empty container behind it to be used for testing
     /// - Returns: A context of a newly created, empty container
     static func createTestingContext() -> NSManagedObjectContext {
-        shared.createTestingContext()
+        createTestingContainer().viewContext
+    }
+    
+    /// Creates a new context with a new, empty container behind it to be used for testing
+    /// - Returns: A context of a newly created, empty container
+    static func createTestingContainer() -> NSPersistentContainer {
+        shared.createTestingContainer()
     }
     
     /// Saves the shared viewContext
@@ -145,6 +151,11 @@ struct PersistenceController {
         }
     }
     
+    static func prepareForUITesting() {
+        shared.container = createTestingContainer()
+        shared.container.viewContext.name = "UI Testing View Context"
+    }
+    
     /// Saves the shared viewContext
     func saveContext() {
         Task {
@@ -155,9 +166,9 @@ struct PersistenceController {
         }
     }
     
-    /// Creates a new context with a new, empty container behind it to be used for testing
-    /// - Returns: A context of a newly created, empty container
-    func createTestingContext() -> NSManagedObjectContext {
+    /// Creates a new, empty container to be used for testing
+    /// - Returns: A newly created, empty container
+    func createTestingContainer() -> NSPersistentContainer {
         // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
         let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: self.container.managedObjectModel)
         container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
@@ -173,7 +184,13 @@ struct PersistenceController {
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "Testing View Context"
-        return container.viewContext
+        return container
+    }
+    
+    /// Creates a new context with a new, empty container behind it to be used for testing
+    /// - Returns: A context of a newly created, empty container
+    func createTestingContext() -> NSManagedObjectContext {
+        createTestingContainer().viewContext
     }
     
     /// Creates a new background context without a parent

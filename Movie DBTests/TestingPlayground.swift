@@ -12,6 +12,10 @@ import CoreData
 
 class TestingPlayground: XCTestCase {
     func testPlayground() async throws {
-        let _ = try await TMDBAPI.shared.fetchMedia(for: 1399, type: .show, context: PersistenceController.createDisposableContext())
+        _ = try await TMDBAPI.shared.fetchMedia(
+            for: 1399,
+            type: .show,
+            context: PersistenceController.createDisposableContext()
+        )
     }
 }

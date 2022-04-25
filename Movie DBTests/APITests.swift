@@ -53,14 +53,6 @@ class APITests: XCTestCase {
         brokenMedia = nil
     }
     
-    func testSaveContext() throws {
-        try testContext.save()
-    }
-    
-    func testSaveChildContext() throws {
-        try testContext.newBackgroundContext().save()
-    }
-    
     func disabled_testFetchTMDBData() async throws {
         // TODO: See testAPISuccess
         let result = try await api.fetchMedia(for: 603, type: .movie, context: testContext)

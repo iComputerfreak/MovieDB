@@ -61,4 +61,12 @@ class CoreDataTests: XCTestCase {
         existingFetchRequest.predicate = NSPredicate(format: "%K = %@", "tmdbID", NSNumber(603))
         XCTAssertEqual(try testContext.fetch(existingFetchRequest).count, 1)
     }
+    
+    func testSaveContext() throws {
+        try testContext.save()
+    }
+    
+    func testSaveChildContext() throws {
+        try testContext.newBackgroundContext().save()
+    }
 }

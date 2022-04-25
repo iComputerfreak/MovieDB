@@ -116,6 +116,7 @@ struct LibraryHome: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                        .accessibilityIdentifier("add-media")
                 )
                 .navigationBarTitle(Text("Library"))
             }
