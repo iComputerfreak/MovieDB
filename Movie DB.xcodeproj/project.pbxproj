@@ -475,9 +475,6 @@
 		AB25099F238B2ACB00F7A411 /* Component Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB5A9DC024D312940059C5C9 /* Detail */,
-				ABF8FCC022CAB52F00611036 /* LibraryRow.swift */,
-				AB6478E122C7D59300F3E14E /* SearchResultView.swift */,
 				AB27425F2389E06500744B83 /* SimpleValueView.swift */,
 				ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */,
 				ABD7CB602375D96C0049E236 /* LinkView.swift */,
@@ -492,10 +489,9 @@
 			children = (
 				ABEEB0DD2815825100230F0B /* Top Level */,
 				ABEEB0DB2815823C00230F0B /* Library */,
+				ABD86476281747AA001A1F7C /* Add Media */,
 				ABEEB0DC2815824300230F0B /* Detail */,
 				ABEEB0CC2814314400230F0B /* Settings */,
-				AB5A9DBE24D312490059C5C9 /* Top Level Views */,
-				AB5A9DBF24D3125C0059C5C9 /* Popovers */,
 				AB25099F238B2ACB00F7A411 /* Component Views */,
 			);
 			path = Views;
@@ -517,45 +513,6 @@
 				AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */,
 			);
 			path = "Movie DBUITests";
-			sourceTree = "<group>";
-		};
-		AB5A9DBE24D312490059C5C9 /* Top Level Views */ = {
-			isa = PBXGroup;
-			children = (
-				AB6718C422C0312B00F429E4 /* ContentView.swift */,
-				AB11C30B22CA3E1A0057105A /* LibraryHome.swift */,
-				AB5493D525FAB0850072745B /* LibraryList.swift */,
-				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
-				AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */,
-				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
-			);
-			path = "Top Level Views";
-			sourceTree = "<group>";
-		};
-		AB5A9DBF24D3125C0059C5C9 /* Popovers */ = {
-			isa = PBXGroup;
-			children = (
-				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
-				AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */,
-			);
-			path = Popovers;
-			sourceTree = "<group>";
-		};
-		AB5A9DC024D312940059C5C9 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				ABCEA48F238D1FCD00D92B95 /* UserData.swift */,
-				ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */,
-				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
-				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
-				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
-				ABD7CB5A2375D6BB0049E236 /* TitleView.swift */,
-				AB2742552389D95200744B83 /* RatingView.swift */,
-				AB27425B2389DFEE00744B83 /* WatchedShowView.swift */,
-				AB5F7E1A238ADF360007A3FE /* NotesView.swift */,
-				AB5F7E1C238ADF400007A3FE /* TagListView.swift */,
-			);
-			path = Detail;
 			sourceTree = "<group>";
 		};
 		AB6718B422C0312A00F429E4 = {
@@ -679,6 +636,26 @@
 			path = FilterSetting;
 			sourceTree = "<group>";
 		};
+		ABD864752817478A001A1F7C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AB2742552389D95200744B83 /* RatingView.swift */,
+				AB27425B2389DFEE00744B83 /* WatchedShowView.swift */,
+				AB5F7E1A238ADF360007A3FE /* NotesView.swift */,
+				AB5F7E1C238ADF400007A3FE /* TagListView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		ABD86476281747AA001A1F7C /* Add Media */ = {
+			isa = PBXGroup;
+			children = (
+				AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */,
+				AB6478E122C7D59300F3E14E /* SearchResultView.swift */,
+			);
+			path = "Add Media";
+			sourceTree = "<group>";
+		};
 		ABE6721A25E0183B00CAF7C3 /* Thumbnail */ = {
 			isa = PBXGroup;
 			children = (
@@ -743,6 +720,9 @@
 		ABEEB0DB2815823C00230F0B /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				AB11C30B22CA3E1A0057105A /* LibraryHome.swift */,
+				AB5493D525FAB0850072745B /* LibraryList.swift */,
+				ABF8FCC022CAB52F00611036 /* LibraryRow.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -750,6 +730,14 @@
 		ABEEB0DC2815824300230F0B /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
+				ABD7CB5A2375D6BB0049E236 /* TitleView.swift */,
+				ABCEA48F238D1FCD00D92B95 /* UserData.swift */,
+				ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */,
+				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
+				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
+				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
+				ABD864752817478A001A1F7C /* Components */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -757,6 +745,10 @@
 		ABEEB0DD2815825100230F0B /* Top Level */ = {
 			isa = PBXGroup;
 			children = (
+				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
+				AB6718C422C0312B00F429E4 /* ContentView.swift */,
+				AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */,
+				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
 			);
 			path = "Top Level";
 			sourceTree = "<group>";

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchResultView: View {
     /// The search result to display
-    @ObservedObject var result: TMDBSearchResult
+    @StateObject var result: TMDBSearchResult
     
     /// The image used as a thumbnail for the search results
     @State private var image: UIImage?
