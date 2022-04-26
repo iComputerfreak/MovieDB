@@ -19,6 +19,11 @@ struct ContentView: View {
                     Image(systemName: "film")
                     Text("Library")
                 }
+            LookupView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Lookup")
+                }
             
             ProblemsView()
                 .tabItem {
@@ -38,10 +43,8 @@ struct ContentView: View {
     }
 }
 
-#if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
-#endif

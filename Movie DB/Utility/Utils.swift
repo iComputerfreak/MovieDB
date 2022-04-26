@@ -246,7 +246,7 @@ struct Utils {
     }
 }
 
-// MARK: - TMDB API
+// MARK: - TMDB
 // swiftlint:disable:next file_types_order
 extension Utils {
     /// The list of TMDB image paths to not download

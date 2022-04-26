@@ -44,36 +44,6 @@ struct TitleView: View {
     }
 }
 
-// swiftlint:disable:next file_types_order
-struct PosterView: View {
-    let imagePath: String?
-    
-    var url: URL? {
-        imagePath.map { Utils.getTMDBImageURL(path: $0, size: nil) }
-    }
-    
-    var body: some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty:
-                ProgressView()
-            case .failure:
-                Image(JFLiterals.posterPlaceholderName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
-            case .success(let image):
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
-            @unknown default:
-                fatalError("Unknown image phase: \(phase)")
-            }
-        }
-    }
-}
-
 struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
         List {

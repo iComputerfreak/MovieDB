@@ -75,7 +75,6 @@ struct ProblemsLibraryRow<T>: View where T: View {
     }
 }
 
-#if DEBUG
 struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -84,4 +83,3 @@ struct LibraryRow_Previews: PreviewProvider {
         }
     }
 }
-#endif

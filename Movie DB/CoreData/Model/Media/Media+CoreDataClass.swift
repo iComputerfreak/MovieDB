@@ -97,10 +97,12 @@ public class Media: NSManagedObject {
         guard !Utils.posterDenyList.contains(imagePath) else {
             print("[\(self.title)] Thumbnail is on deny list. Will not load.")
             // Use the placeholder image instead
-            self.thumbnail = Thumbnail(
-                context: self.managedObjectContext!,
-                pngData: UIImage(named: "PosterPlaceholder")?.pngData()
-            )
+            await MainActor.run {
+                self.thumbnail = Thumbnail(
+                    context: self.managedObjectContext!,
+                    pngData: UIImage(named: "PosterPlaceholder")?.pngData()
+                )
+            }
             return
         }
         print("[\(self.title)] Loading thumbnail...")
@@ -109,8 +111,8 @@ public class Media: NSManagedObject {
         // Only update, if the loaded image is not nil, dont delete existing images
         if let image = try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize) {
             assert(self.managedObjectContext != nil)
-            let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
             await MainActor.run {
+                let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
                 self.thumbnail = thumbnail
             }
         }

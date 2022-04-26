@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 /// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
 @objc(MediaLibrary)
@@ -56,6 +57,69 @@ public class MediaLibrary: NSManagedObject {
                 // Assign a new, free ID
                 media.id = UUID()
             }
+        }
+    }
+    
+    func mediaExists(_ tmdbID: Int, in context: NSManagedObjectContext) -> Bool {
+        let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        existingFetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", tmdbID)
+        existingFetchRequest.fetchLimit = 1
+        let existingObjects: Int
+        do {
+            existingObjects = try context.count(for: existingFetchRequest)
+        } catch {
+            assertionFailure("Error fetching media count for tmdbID '\(tmdbID)': \(error)")
+            existingObjects = 0
+        }
+        return existingObjects > 0
+    }
+    
+    func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>, isShowingProPopup: Binding<Bool>) async throws {
+        assert(self.managedObjectContext != nil)
+        // There should be no media objects with this tmdbID in the library
+        guard !self.mediaExists(result.id, in: managedObjectContext!) else {
+            // Already added
+            AlertHandler.showSimpleAlert(
+                title: NSLocalizedString("Already Added"),
+                message: NSLocalizedString("You already have '\(result.title)' in your library.")
+            )
+            return
+        }
+        // Pro limitations
+        guard Utils.purchasedPro() || (self.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+            // Show the Pro popup
+            await MainActor.run {
+                isShowingProPopup.wrappedValue = true
+            }
+            return
+        }
+        
+        // Otherwise we can begin to load
+        await MainActor.run {
+            isLoading.wrappedValue = true
+        }
+        
+        // Run async
+        // Try fetching the media object
+        // Will be called on a background thread automatically, because TMDBAPI is an actor
+        let media = try await TMDBAPI.shared.fetchMedia(
+            for: result.id,
+            type: result.mediaType,
+            context: managedObjectContext!
+        )
+        // fetchMedia already created the Media object in a child context and saved it into the view context
+        // All we need to do now is to load the thumbnail and update the UI
+        await MainActor.run {
+            if let mainMedia = self.managedObjectContext?.object(with: media.objectID) as? Media {
+                // We don't need to wait for the thumbnail to finish loading
+                Task {
+                    // Call it on the media object in the viewContext, not on the mediaObject in the background context
+                    await mainMedia.loadThumbnail()
+                }
+            } else {
+                assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
+            }
+            isLoading.wrappedValue = false
         }
     }
     

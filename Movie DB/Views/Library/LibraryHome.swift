@@ -150,10 +150,8 @@ struct LibraryHome: View {
     }
 }
 
-#if DEBUG
 struct LibraryHome_Previews: PreviewProvider {
     static var previews: some View {
         LibraryHome()
     }
 }
-#endif

@@ -1,5 +1,5 @@
 //
-//  SearchResultView.swift
+//  SearchResultRow.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 29.06.19.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SearchResultView: View {
+struct SearchResultRow: View {
     /// The search result to display
     @StateObject var result: TMDBSearchResult
     
@@ -60,14 +60,13 @@ struct SearchResultView: View {
     }
 }
 
-#if DEBUG
 struct SearchResultView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
                 List {
                     ForEach(0..<5, id: \.self) { _ in
-                        SearchResultView(result: TMDBMovieSearchResult(
+                        SearchResultRow(result: TMDBMovieSearchResult(
                             id: 0,
                             title: "The Matrix",
                             mediaType: .movie,
@@ -87,7 +86,7 @@ struct SearchResultView_Previews: PreviewProvider {
                 .navigationTitle("Search Results")
             }
             
-            SearchResultView(result: TMDBMovieSearchResult(
+            SearchResultRow(result: TMDBMovieSearchResult(
                 id: 0,
                 title: "The Matrix",
                 mediaType: .movie,
@@ -106,4 +105,3 @@ struct SearchResultView_Previews: PreviewProvider {
         }
     }
 }
-#endif

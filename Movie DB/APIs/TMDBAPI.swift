@@ -250,7 +250,7 @@ actor TMDBAPI {
     ///   - type: The type of media to load
     ///   - context: The context to decode the `TMDBData` into
     /// - Returns: The data returned by the API call
-    private func tmdbData(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> TMDBData {
+    func tmdbData(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> TMDBData {
         let parameters = [
             // release_dates only for movies
             // content_ratings only for tv
