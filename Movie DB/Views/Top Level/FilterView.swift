@@ -14,25 +14,22 @@ import CoreData
 fileprivate let nilString = "any"
 
 struct FilterView: View {
-    @ObservedObject private var filterSetting = FilterSetting.shared
+    @Binding var filterSetting: FilterSetting
     
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
-    // swiftlint:disable:next type_contents_order
-    init() {}
         
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("User Data")) {
-                    UserDataSection(filterSetting: filterSetting)
+                    UserDataSection(filterSetting: $filterSetting)
                 }
                 Section(header: Text("Information")) {
-                    InformationSection(filterSetting: filterSetting)
+                    InformationSection(filterSetting: $filterSetting)
                 }
                 Section(header: Text("Show specific")) {
-                    ShowSpecificSection(filterSetting: filterSetting)
+                    ShowSpecificSection(filterSetting: $filterSetting)
                 }
             }
             .navigationBarTitle("Filter Options")
@@ -58,7 +55,7 @@ struct FilterView: View {
 
 // swiftlint:disable:next file_types_order
 struct UserDataSection: View {
-    @ObservedObject var filterSetting: FilterSetting
+    @Binding var filterSetting: FilterSetting
     
     private var watchedProxy: Binding<String> {
         .init(get: {
@@ -119,7 +116,7 @@ struct UserDataSection: View {
 
 // swiftlint:disable:next file_types_order
 private struct InformationSection: View {
-    @ObservedObject var filterSetting: FilterSetting
+    @Binding var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     private var mediaTypeProxy: Binding<String> {
@@ -238,7 +235,7 @@ private struct InformationSection: View {
 
 // swiftlint:disable:next file_types_order
 private struct ShowSpecificSection: View {
-    @ObservedObject var filterSetting: FilterSetting
+    @Binding var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
@@ -290,7 +287,7 @@ private struct ShowSpecificSection: View {
 
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterView()
+        FilterView(filterSetting: .constant(FilterSetting()))
     }
 }
 

@@ -1,42 +1,106 @@
 //
-//  FilterSetting+CoreDataClass.swift
+//  FilterSetting.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 31.03.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+//  Created by Jonas Frey on 26.04.22.
+//  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
 import Foundation
-import CoreData
 import SwiftUI
 
-@objc(FilterSetting)
-public class FilterSetting: NSManagedObject {
-    static let shared: FilterSetting = {
-        let context = PersistenceController.viewContext
-        let fetchRequest: NSFetchRequest<FilterSetting> = FilterSetting.fetchRequest()
-        fetchRequest.fetchLimit = 1
-        let results = try? context.fetch(fetchRequest)
-        assert((results?.count ?? 0) <= 1)
-        // Return the fetched result or create a new one
-        return results?.first ?? FilterSetting(context: context)
-    }()
+struct FilterSetting: Identifiable, Codable {
+    var id = UUID()
+    
+    var isAdult: Bool?
+    var mediaType: MediaType?
+    var minRating: Int?
+    var maxRating: Int?
+    var minYear: Int?
+    var maxYear: Int?
+    var statuses: [MediaStatus] = []
+    var showTypes: [ShowType] = []
+    var minNumberOfSeasons: Int?
+    var maxNumberOfSeasons: Int?
+    var watched: Bool?
+    var watchAgain: Bool?
+    var genres: Set<Genre> = []
+    var tags: Set<Tag> = []
+    
+    var rating: ClosedRange<StarRating>? {
+        get {
+            guard let rawMinRating = self.minRating, let minRating = StarRating(rawValue: rawMinRating),
+                  let rawMaxRating = self.maxRating, let maxRating = StarRating(rawValue: rawMaxRating) else {
+                return nil
+            }
+            return minRating ... maxRating
+        }
+        set {
+            self.minRating = newValue?.lowerBound.rawValue
+            self.maxRating = newValue?.upperBound.rawValue
+        }
+    }
+    
+    var year: ClosedRange<Int>? {
+        get {
+            guard let minYear = self.minYear, let maxYear = self.maxYear else {
+                return nil
+            }
+            return minYear ... maxYear
+        }
+        set {
+            self.minYear = newValue?.lowerBound
+            self.maxYear = newValue?.upperBound
+        }
+    }
+    
+    var numberOfSeasons: ClosedRange<Int>? {
+        get {
+            guard
+                let minNumberOfSeasons = self.minNumberOfSeasons,
+                let maxNumberOfSeasons = self.maxNumberOfSeasons
+            else {
+                return nil
+            }
+            return minNumberOfSeasons ... maxNumberOfSeasons
+        }
+        set {
+            self.minNumberOfSeasons = newValue?.lowerBound
+            self.maxNumberOfSeasons = newValue?.upperBound
+        }
+    }
     
     var isReset: Bool {
         self.isAdult == nil &&
-            self.mediaType == nil &&
-            self.genres.isEmpty &&
-            self.rating == nil &&
-            self.year == nil &&
-            self.statuses.isEmpty &&
-            self.showTypes.isEmpty &&
-            self.numberOfSeasons == nil &&
-            self.watched == nil &&
-            self.watchAgain == nil &&
-            self.tags.isEmpty
+        self.mediaType == nil &&
+        self.genres.isEmpty &&
+        self.rating == nil &&
+        self.year == nil &&
+        self.statuses.isEmpty &&
+        self.showTypes.isEmpty &&
+        self.numberOfSeasons == nil &&
+        self.watched == nil &&
+        self.watchAgain == nil &&
+        self.tags.isEmpty
     }
     
+    mutating func reset() {
+        self.isAdult = nil
+        self.mediaType = nil
+        self.genres = []
+        self.rating = nil
+        self.year = nil
+        self.statuses = []
+        self.showTypes = []
+        self.numberOfSeasons = nil
+        self.watched = nil
+        self.watchAgain = nil
+        self.tags = []
+        assert(self.isReset, "FilterSetting is not in reset state after calling reset()")
+    }
+}
+
+extension FilterSetting {
     /// Creates two proxies for the upper and lower bound of the given range Binding
     ///
     /// Ensures that the set values never exceed the given bounds and that the set values form a valid range (`lowerBound <= upperBound`)
@@ -63,7 +127,7 @@ public class FilterSetting: NSManagedObject {
                 }
             })
         }
-
+        
         var upperProxy: Binding<T> {
             Binding<T>(get: { setting.wrappedValue?.upperBound ?? bounds.upperBound }, set: { upper in
                 let lower = setting.wrappedValue?.lowerBound ?? bounds.lowerBound
@@ -78,20 +142,15 @@ public class FilterSetting: NSManagedObject {
                 }
             })
         }
-
+        
         return (lowerProxy, upperProxy)
     }
-    
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        self.genres = []
-        self.tags = []
-        self.showTypes = []
-        self.statuses = []
-    }
-    
+}
+
+extension FilterSetting {
     /// Builds a predicate that represents the current filter configuration
     /// - Returns: The `NSCompoundPredicate` representing the current filter configuration
+    // swiftlint:disable:next function_body_length
     func predicate() -> NSPredicate {
         var predicates: [NSPredicate] = []
         if let isAdult = self.isAdult as NSNumber? {
@@ -133,7 +192,13 @@ public class FilterSetting: NSManagedObject {
         if !self.showTypes.isEmpty {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
-                NSPredicate(format: "%K IN %@", "showType", showTypes.map(\.rawValue)),
+                NSPredicate(
+                    format: "%K == %@ AND %K IN %@",
+                    "type",
+                    MediaType.show.rawValue,
+                    "showType",
+                    showTypes.map(\.rawValue)
+                ),
                 // Movie
                 NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
             ]))
@@ -156,7 +221,13 @@ public class FilterSetting: NSManagedObject {
         if let watched = self.watched as NSNumber? {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
-                NSPredicate(format: "%K == %@", "watched", watched),
+                NSPredicate(
+                    format: "%K == %@ AND %K == %@",
+                    "type",
+                    MediaType.movie.rawValue,
+                    "watched",
+                    watched
+                ),
                 // Show
                 // watched == true && lastSeasonWatched != nil
                 NSPredicate(
@@ -183,20 +254,5 @@ public class FilterSetting: NSManagedObject {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-    }
-    
-    func reset() {
-        self.isAdult = nil
-        self.mediaType = nil
-        self.genres = []
-        self.rating = nil
-        self.year = nil
-        self.statuses = []
-        self.showTypes = []
-        self.numberOfSeasons = nil
-        self.watched = nil
-        self.watchAgain = nil
-        self.tags = []
-        assert(self.isReset, "FilterSetting is not in reset state after calling reset()")
     }
 }

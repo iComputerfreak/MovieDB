@@ -11,8 +11,8 @@ import Combine
 
 struct LibraryHome: View {
     @ObservedObject private var library = MediaLibrary.shared
-    // The filter setting
-    @ObservedObject private var filterSetting = FilterSetting.shared
+    // The filter setting (non-persistent)
+    @State private var filterSetting = FilterSetting()
     
     @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -63,7 +63,7 @@ struct LibraryHome: View {
                         AddMediaView()
                             .environment(\.managedObjectContext, managedObjectContext)
                     case .filter:
-                        FilterView()
+                        FilterView(filterSetting: $filterSetting)
                             .environment(\.managedObjectContext, managedObjectContext)
                         // FUTURE: Open new item in editing mode
 //                        .sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))

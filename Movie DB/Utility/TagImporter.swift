@@ -39,6 +39,7 @@ actor TagImporter {
                 _ = Tag(name: name, context: context)
             }
         }
+        // TODO: Make async?
         PersistenceController.saveContext(context)
     }
     

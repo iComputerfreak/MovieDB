@@ -8,7 +8,7 @@
 
 import XCTest
 
-// swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language
+// swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language function_body_length
 class Movie_DBUITests: XCTestCase {
     var app: XCUIApplication! = nil
     

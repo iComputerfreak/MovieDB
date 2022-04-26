@@ -15,7 +15,6 @@ extension Tag {
     @NSManaged public var id: UUID
     /// The name of the tag
     @NSManaged public var name: String
-    @NSManaged public var filterSettings: Set<FilterSetting>
     
     /// All media objects tagged with this tag
     @NSManaged public var medias: Set<Media>

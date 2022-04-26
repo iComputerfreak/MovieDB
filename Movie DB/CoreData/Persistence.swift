@@ -88,7 +88,6 @@ struct PersistenceController {
     /// Saves the given context if it has been modified since the last save
     /// Performs the save operation synchronous and returns when it was completed.
     /// - Parameter context: The `NSManagedObjectContext` to save
-    @available(*, deprecated, renamed: "saveContext(_:file:line:)")
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
         print("Trying to save context \(context.description) from \(file):\(line). " +
               "Parent: \(context.parent?.description ?? "nil")")

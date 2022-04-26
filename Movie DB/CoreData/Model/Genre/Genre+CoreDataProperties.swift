@@ -19,7 +19,6 @@ extension Genre {
     /// The name of the genre
     @NSManaged public var name: String
     @NSManaged public var medias: Set<Media>
-    @NSManaged public var filterSettings: Set<FilterSetting>
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Genre> { NSFetchRequest<Genre>(entityName: "Genre") }
