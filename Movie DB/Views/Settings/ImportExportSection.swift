@@ -172,7 +172,6 @@ struct ImportExportSection: View {
     
     // Does not save the imported changes!
     func `import`(_ handler: @escaping (NSManagedObjectContext, URL) throws -> Void) {
-        // TODO: Replace DocumentPicker with some async version
         // Use iOS file picker
         self.documentPicker = DocumentPicker(onSelect: { url in
             print("Importing \(url.lastPathComponent).")
@@ -183,7 +182,6 @@ struct ImportExportSection: View {
             // Perform the import into a separate context on a background thread
             PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
                 // Set the merge policy to not override existing data
-                // TODO: Maybe we should?
                 importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
                 importContext.name = "\(url.lastPathComponent) Import Context"
                 // Initialize the logger

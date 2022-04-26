@@ -35,31 +35,7 @@ public class MediaLibrary: NSManagedObject {
         return newLibrary
     }
     
-    /// Fixes all duplicates IDs by assigning new IDs to the media objects
-    @objc
-    static func fixDuplicates(notification: Notification) {
-        // TODO: Fix duplicate TMDB IDs
-        // New data has just been merged from iCloud. Check for duplicate Media IDs
-        // TODO: Does passing the context like this work?
-        // swiftlint:disable:next force_cast
-        let context = notification.object as! NSManagedObjectContext
-        let allMedia = Utils.allMedias(context: context)
-        let grouped = Dictionary(grouping: allMedia, by: \.id)
-        for group in grouped.values {
-            // If there is only one item in the group, there are no duplicates
-            guard group.count > 1 else {
-                continue
-            }
-            // If the group has multiple entries, there are multiple media objects with the same ID
-            // For all media objects, except the first
-            for i in 1..<group.count {
-                let media = group[i]
-                // Assign a new, free ID
-                media.id = UUID()
-            }
-        }
-    }
-    
+    /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
         assert(managedObjectContext != nil)
         var problems: [Problem] = []
@@ -73,6 +49,11 @@ public class MediaLibrary: NSManagedObject {
         return problems
     }
     
+    /// Checks whether a media object matching the given tmdbID already exists in the given context
+    /// - Parameters:
+    ///   - tmdbID: The tmdbID of the media
+    ///   - context: The context to check in
+    /// - Returns: Whether the media already exists
     func mediaExists(_ tmdbID: Int, in context: NSManagedObjectContext) -> Bool {
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         existingFetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", tmdbID)
@@ -87,6 +68,12 @@ public class MediaLibrary: NSManagedObject {
         return existingObjects > 0
     }
     
+    /// Creates a new media object with the given data
+    /// - Parameters:
+    ///   - result: The search result including the tmdbID and mediaType
+    ///   - isLoading: A binding that is updated while the function is loading the new object
+    ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
+    // TODO: Replace second binding with custom error (noPro)
     func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>, isShowingProPopup: Binding<Bool>) async throws {
         assert(self.managedObjectContext != nil)
         // There should be no media objects with this tmdbID in the library

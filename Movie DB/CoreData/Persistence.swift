@@ -56,13 +56,6 @@ struct PersistenceController {
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(MediaLibrary.fixDuplicates(notification:)),
-            name: .NSPersistentStoreRemoteChange,
-            object: container.viewContext
-        )
     }
     
     /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
