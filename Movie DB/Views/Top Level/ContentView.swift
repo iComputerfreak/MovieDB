@@ -12,6 +12,8 @@ struct ContentView: View {
     @ObservedObject private var config = JFConfig.shared
     @StateObject private var storeManager = StoreManager.shared
     
+    @State private var problems = MediaLibrary.shared.problems()
+    
     var body: some View {
         TabView {
             LibraryHome()
@@ -39,6 +41,10 @@ struct ContentView: View {
         }
         .fullScreenCover(isPresented: .init(get: { self.config.language.isEmpty }, set: { _ in })) {
             LanguageChooser()
+        }
+        .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {
+            ResolveProblemsView(problems: $problems)
+                .environment(\.managedObjectContext, PersistenceController.viewContext)
         }
     }
 }

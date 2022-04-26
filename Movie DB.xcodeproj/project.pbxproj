@@ -112,6 +112,8 @@
 		ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */; };
 		ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647D28183177001A1F7C /* LookupTitleView.swift */; };
 		ABD864802818319B001A1F7C /* PosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647F2818319B001A1F7C /* PosterView.swift */; };
+		ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */; };
+		ABD8648428183E2B001A1F7C /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648328183E2B001A1F7C /* Problem.swift */; };
 		ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */; };
 		ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */; };
 		ABE70015239D7EA100DD672B /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE70014239D7EA100DD672B /* APITests.swift */; };
@@ -262,6 +264,8 @@
 		ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLookupDetail.swift; sourceTree = "<group>"; };
 		ABD8647D28183177001A1F7C /* LookupTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTitleView.swift; sourceTree = "<group>"; };
 		ABD8647F2818319B001A1F7C /* PosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterView.swift; sourceTree = "<group>"; };
+		ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveProblemsView.swift; sourceTree = "<group>"; };
+		ABD8648328183E2B001A1F7C /* Problem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
 		ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABE70014239D7EA100DD672B /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
@@ -365,6 +369,7 @@
 				AB1434C525CEE9E600AA304F /* Show */,
 				AB1434C825CEE9EB00AA304F /* Movie */,
 				ABEEB0DE2815941400230F0B /* SerializableColor.swift */,
+				ABD8648328183E2B001A1F7C /* Problem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -764,6 +769,7 @@
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */,
 				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
+				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
 			);
 			path = "Top Level";
 			sourceTree = "<group>";
@@ -1030,6 +1036,7 @@
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
+				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
 				ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
@@ -1066,6 +1073,7 @@
 				ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */,
 				ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */,
 				AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */,
+				ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */,
 				AB1434D625CF282B00AA304F /* MediaLibrary+CoreDataClass.swift in Sources */,
 				ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */,
 				AB6718F622C113F800F429E4 /* Utils.swift in Sources */,

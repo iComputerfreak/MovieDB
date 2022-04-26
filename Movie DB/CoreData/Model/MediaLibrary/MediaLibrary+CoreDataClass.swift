@@ -60,6 +60,19 @@ public class MediaLibrary: NSManagedObject {
         }
     }
     
+    func problems() -> [Problem] {
+        assert(managedObjectContext != nil)
+        var problems: [Problem] = []
+        let allMedia = Utils.allMedias(context: managedObjectContext!)
+        Dictionary(grouping: allMedia, by: \.tmdbID)
+            .values
+            // Only keep duplicates
+            .filter { $0.count > 1 }
+            // Create a problem for each duplicate
+            .forEach { problems.append(.init(type: .duplicateMedia, associatedMedias: $0)) }
+        return problems
+    }
+    
     func mediaExists(_ tmdbID: Int, in context: NSManagedObjectContext) -> Bool {
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         existingFetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", tmdbID)
