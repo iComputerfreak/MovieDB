@@ -12,20 +12,49 @@ import SwiftUI
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewConfig
     @EnvironmentObject var preferences: JFConfig
-    @EnvironmentObject var library: MediaLibrary
+    @State private var library: MediaLibrary = .shared
     let reloadHandler: () -> Void
     
     var body: some View {
-        Section(footer: FooterView(updateInProgress: $config.updateInProgress)) {
+        Section(footer: FooterView(showingProgress: $config.showingProgress, progressText: config.progressText)) {
             Button("Reload Media", action: self.reloadHandler)
             Button("Update Media", action: self.updateMedia)
-                .disabled(self.config.updateInProgress)
             Button("Reset Library", action: self.resetLibrary)
+        }
+        .disabled(self.config.showingProgress)
+    }
+    
+    // swiftlint:disable:next type_contents_order
+    struct FooterView: View {
+        @Binding var showingProgress: Bool
+        let progressText: LocalizedStringKey
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                VStack(alignment: .center) {
+                    ZStack {
+                        // Update Progress
+                        AnyView(
+                            HStack(spacing: 5) {
+                                ProgressView()
+                                Text(progressText)
+                            }
+                        )
+                        .hidden(condition: !showingProgress)
+                    }
+                    .frame(height: showingProgress ? nil : 0)
+                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                    Text("Version \(appVersion ?? "unknown")")
+                }
+                Spacer()
+            }
         }
     }
     
     func updateMedia() {
-        self.config.updateInProgress = true
+        self.config.showingProgress = true
+        self.config.progressText = "Updating media objects..."
         // Execute the update in the background
         Task {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
@@ -37,7 +66,7 @@ struct LibraryActionsSection: View {
                 
                 // Report back the result to the user on the main thread
                 await MainActor.run {
-                    self.config.updateInProgress = false
+                    self.config.showingProgress = false
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Update Completed"),
@@ -52,7 +81,7 @@ struct LibraryActionsSection: View {
                         title: NSLocalizedString("Update Error"),
                         message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)")
                     )
-                    self.config.updateInProgress = false
+                    self.config.showingProgress = false
                 }
             }
         }
@@ -82,32 +111,6 @@ struct LibraryActionsSection: View {
             }
         })
         AlertHandler.presentAlert(alert: controller)
-    }
-    
-    struct FooterView: View {
-        @Binding var updateInProgress: Bool
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                VStack(alignment: .center) {
-                    ZStack {
-                        // Update Progress
-                        AnyView(
-                            HStack {
-                                ProgressView()
-                                Text("Updating media library...")
-                            }
-                        )
-                        .hidden(condition: !updateInProgress)
-                    }
-                    .frame(height: updateInProgress ? nil : 0)
-                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                    Text("Version \(appVersion ?? "unknown")")
-                }
-                Spacer()
-            }
-        }
     }
 }
 

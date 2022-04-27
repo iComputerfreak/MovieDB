@@ -20,12 +20,12 @@ class JFConfig: ObservableObject {
         }
     }
     /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
-    @ConfigValue(.language, defaultValue: "") var language: String {
+    @ConfigValue(.language, defaultValue: Locale.current.languageCode ?? "") var language: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
-    @ConfigValue(.region, defaultValue: "") var region: String {
+    @ConfigValue(.region, defaultValue: Locale.current.regionCode ?? "") var region: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }

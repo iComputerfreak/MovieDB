@@ -1,45 +1,25 @@
 //
-//  MediaLibrary+CoreDataClass.swift
+//  MediaLibrary.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 06.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+//  Created by Jonas Frey on 27.04.22.
+//  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
 import Foundation
 import CoreData
 import SwiftUI
 
-/// Represents a wrapper for the Media array conforming to `ObservableObject` and adding a few convenience functions
-@objc(MediaLibrary)
-public class MediaLibrary: NSManagedObject {
-    // We only store a single MediaLibrary in the container, therefore we just use the first result
-    static let shared = MediaLibrary.getInstance()
+struct MediaLibrary {
+    static let shared = MediaLibrary(context: PersistenceController.viewContext)
     
-    // Don't use a stored property to prevent accessing the viewContext from a background thread (during NSManagedObject creation)
-    var libraryContext: NSManagedObjectContext {
-        assert(managedObjectContext != nil)
-        return self.managedObjectContext ?? PersistenceController.viewContext
-    }
-    
-    private static func getInstance() -> MediaLibrary {
-        let results = try? PersistenceController.viewContext.fetch(Self.fetchRequest())
-        if let storedLibrary = results?.first as? MediaLibrary {
-            return storedLibrary
-        }
-        // If there is no library stored, we create a new one
-        let newLibrary = MediaLibrary(context: PersistenceController.viewContext)
-        PersistenceController.saveContext()
-        
-        return newLibrary
-    }
+    let context: NSManagedObjectContext
+    @AppStorage("lastLibraryUpdate") var lastUpdated: Date = .now
     
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
-        assert(managedObjectContext != nil)
         var problems: [Problem] = []
-        let allMedia = Utils.allMedias(context: managedObjectContext!)
+        let allMedia = Utils.allMedias(context: context)
         Dictionary(grouping: allMedia, by: \.tmdbID)
             .values
             // Only keep duplicates
@@ -75,9 +55,8 @@ public class MediaLibrary: NSManagedObject {
     ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
     // TODO: Replace second binding with custom error (noPro)
     func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>, isShowingProPopup: Binding<Bool>) async throws {
-        assert(self.managedObjectContext != nil)
         // There should be no media objects with this tmdbID in the library
-        guard !self.mediaExists(result.id, in: managedObjectContext!) else {
+        guard !self.mediaExists(result.id, in: context) else {
             // Already added
             AlertHandler.showSimpleAlert(
                 title: NSLocalizedString("Already Added"),
@@ -105,12 +84,12 @@ public class MediaLibrary: NSManagedObject {
         let media = try await TMDBAPI.shared.fetchMedia(
             for: result.id,
             type: result.mediaType,
-            context: managedObjectContext!
+            context: context
         )
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
         await MainActor.run {
-            if let mainMedia = self.managedObjectContext?.object(with: media.objectID) as? Media {
+            if let mainMedia = self.context.object(with: media.objectID) as? Media {
                 // We don't need to wait for the thumbnail to finish loading
                 Task {
                     // Call it on the media object in the viewContext, not on the mediaObject in the background context
@@ -129,12 +108,12 @@ public class MediaLibrary: NSManagedObject {
         let changedIDs = try await TMDBAPI.shared.fetchChangedIDs(from: lastUpdated, to: Date())
         
         // Create a child context to update the media objects in
-        let updateContext = self.libraryContext.newBackgroundContext()
+        let updateContext = self.context.newBackgroundContext()
         updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
         
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
-        let medias = try self.libraryContext.fetch(fetchRequest)
+        let medias = try self.context.fetch(fetchRequest)
         print("Updating \(medias.count) media objects.")
         
         // Update the media objects using a task group
@@ -163,9 +142,8 @@ public class MediaLibrary: NSManagedObject {
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
     func reloadAll() async throws {
-        assert(self.managedObjectContext != nil)
         // Create a new child context to perform the reload in
-        let reloadContext = self.libraryContext.newBackgroundContext()
+        let reloadContext = self.context.newBackgroundContext()
         reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
         
         // Fetch all media objects from the store (using the reload context)
@@ -187,8 +165,8 @@ public class MediaLibrary: NSManagedObject {
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    let mainMedia = await self.libraryContext.perform {
-                        self.libraryContext.object(with: media.objectID) as? Media
+                    let mainMedia = await self.context.perform {
+                        self.context.object(with: media.objectID) as? Media
                     }
                     try Task.checkCancellation()
                     await mainMedia?.loadThumbnail(force: true)
@@ -202,18 +180,35 @@ public class MediaLibrary: NSManagedObject {
     func reset() throws {
         // Delete all Medias from the context
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        let allMedias = (try? libraryContext.fetch(fetchRequest)) ?? []
+        let allMedias = (try? context.fetch(fetchRequest)) ?? []
         for media in allMedias {
-            libraryContext.delete(media)
+            context.delete(media)
             // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
         }
         // Reset the ID counter for the media objects
         // TODO: Make async
-        PersistenceController.saveContext(libraryContext)
+        PersistenceController.saveContext(context)
     }
     
     func mediaCount() -> Int? {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        return try? self.managedObjectContext?.count(for: fetchRequest)
+        return try? self.context.count(for: fetchRequest)
+    }
+}
+
+extension Date: RawRepresentable {
+    public typealias RawValue = String
+    
+    private static let formatter = ISO8601DateFormatter()
+    
+    public var rawValue: String {
+        Self.formatter.string(from: self)
+    }
+    
+    public init?(rawValue: String) {
+        if let date = Self.formatter.date(from: rawValue) {
+            self = date
+        }
+        return nil
     }
 }

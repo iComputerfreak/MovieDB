@@ -12,7 +12,6 @@ import SwiftUI
 
 struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @ObservedObject private var library = MediaLibrary.shared
     
     private let sortingOrder: SortingOrder
     private let sortingDirection: SortingDirection

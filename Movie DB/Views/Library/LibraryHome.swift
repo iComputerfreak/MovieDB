@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct LibraryHome: View {
-    @ObservedObject private var library = MediaLibrary.shared
     // The filter setting (non-persistent)
     @State private var filterSetting = FilterSetting()
     

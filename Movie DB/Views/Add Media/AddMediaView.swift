@@ -13,7 +13,7 @@ import Combine
 import struct JFSwiftUI.LoadingView
 
 struct AddMediaView: View {
-    @ObservedObject private var library = MediaLibrary.shared
+    @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
     @State private var isLoading = false
     

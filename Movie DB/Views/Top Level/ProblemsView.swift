@@ -10,26 +10,40 @@ import SwiftUI
 import CoreData
 
 struct ProblemsView: View {
-    @ObservedObject private var library = MediaLibrary.shared
-    
     @FetchRequest(
         entity: Media.entity(),
         sortDescriptors: [],
         // Filter out all media objects that don't have missing information
-        predicate: NSCompoundPredicate(orPredicateWithSubpredicates: [
-            // Personal Rating missing
-            NSPredicate(format: "personalRating = nil"),
-            // WatchAgain missing
-            NSPredicate(format: "watchAgain = nil"),
-            // Tags missing
-            NSPredicate(format: "tags.@count = 0"),
-            // Watched missing (Movie)
-            NSPredicate(format: "type = %@ AND watched = nil", MediaType.movie.rawValue),
-            // LastWatched missing (Show)
-            NSPredicate(
-                format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
-                MediaType.show.rawValue
-            )
+        predicate:NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSCompoundPredicate(orPredicateWithSubpredicates: [
+                NSPredicate(
+                    format: "type = %@ AND watched = TRUE",
+                    MediaType.movie.rawValue
+                ),
+                NSPredicate(
+                    format: "type = %@ AND watched = nil",
+                    MediaType.movie.rawValue
+                ),
+                NSPredicate(
+                    format: "type = %@ AND lastSeasonWatched != nil",
+                    MediaType.show.rawValue
+                )
+            ]),
+            NSCompoundPredicate(orPredicateWithSubpredicates: [
+                // Personal Rating missing
+                NSPredicate(format: "personalRating = nil"),
+                // WatchAgain missing
+                NSPredicate(format: "watchAgain = nil"),
+                // Tags missing
+                NSPredicate(format: "tags.@count = 0"),
+                // Watched missing (Movie)
+                NSPredicate(format: "type = %@ AND watched = nil", MediaType.movie.rawValue),
+                // LastWatched missing (Show)
+                NSPredicate(
+                    format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
+                    MediaType.show.rawValue
+                )
+            ])
         ]),
         animation: nil
     ) private var missingInfoMedia: FetchedResults<Media>

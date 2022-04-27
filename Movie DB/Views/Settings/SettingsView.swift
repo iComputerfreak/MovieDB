@@ -14,7 +14,7 @@ import CSVImporter
 struct SettingsView: View {
     // Reference to the config instance
     @ObservedObject private var preferences = JFConfig.shared
-    @ObservedObject private var library = MediaLibrary.shared
+    @State private var library: MediaLibrary = .shared
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
@@ -32,7 +32,6 @@ struct SettingsView: View {
                     LibraryActionsSection(config: $config, reloadHandler: self.reloadMedia)
                 }
                 .environmentObject(preferences)
-                .environmentObject(library)
                 .navigationTitle("Settings")
                 // TODO: Localize Legal
                 .toolbar {
@@ -45,7 +44,8 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        self.config.reloadInProgress = true
+        self.config.showingProgress = true
+        self.config.progressText = "Reloading media objects..."
         
         // Perform the reload in the background on a different thread
         Task {
@@ -54,7 +54,7 @@ struct SettingsView: View {
                 // Reload and show the result
                 try await self.library.reloadAll()
                 await MainActor.run {
-                    self.config.reloadInProgress = false
+                    self.config.showingProgress = false
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Reload Completed"),
                         message: NSLocalizedString("All media objects have been reloaded.")
@@ -63,7 +63,7 @@ struct SettingsView: View {
             } catch {
                 print("Error reloading media objects: \(error)")
                 await MainActor.run {
-                    self.config.reloadInProgress = false
+                    self.config.showingProgress = false
                     AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
                 }
             }
@@ -78,8 +78,8 @@ struct SettingsView_Previews: PreviewProvider {
 }
 
 struct SettingsViewConfig {
-    var updateInProgress = false
-    var reloadInProgress = false
+    var showingProgress = false
+    var progressText: LocalizedStringKey = ""
     var isLoading = false
     var loadingText: String?
     var languageChanged = false

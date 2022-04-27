@@ -11,7 +11,6 @@ import SwiftUI
 
 struct PreferencesSection: View {
     @EnvironmentObject var preferences: JFConfig
-    @EnvironmentObject var library: MediaLibrary
     @Binding var config: SettingsViewConfig
     // We need to know how to reload the library if the language changes
     let reloadHandler: () -> Void

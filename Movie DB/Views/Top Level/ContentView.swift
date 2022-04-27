@@ -39,9 +39,6 @@ struct ContentView: View {
                     Text("Settings")
                 }
         }
-        .fullScreenCover(isPresented: .init(get: { self.config.language.isEmpty }, set: { _ in })) {
-            LanguageChooser()
-        }
         .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {
             ResolveProblemsView(problems: $problems)
                 .environment(\.managedObjectContext, PersistenceController.viewContext)
