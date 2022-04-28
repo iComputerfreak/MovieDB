@@ -9,6 +9,7 @@
 import SwiftUI
 import JFSwiftUI
 import Combine
+import CoreData
 
 /// A view that allows the user to search for TMDB movies/shows
 ///
@@ -16,16 +17,16 @@ import Combine
 struct SearchResultsView<RowContent: View>: View {
     @State private var results: [TMDBSearchResult] = []
     @State private var resultsText: String = ""
-    @State private var searchText: String = ""
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
     
+    // We use an observable model to store the searchText and publisher
+    // This way, we can access the publisher of the @Published searchText property directly to
+    // perform the searches and we have a mutable place to store the publisher of type AnyCancellable?
+    @StateObject private var model: SearchResultsModel = .init()
+    
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @State private var cancellable: AnyCancellable?
-    // The subject used to fire the searchText changed events
-    private let searchTextChangedSubject = PassthroughSubject<String, Never>()
-
     /// The action to execute when one of the results is pressed
     let content: (TMDBSearchResult) -> RowContent
     
@@ -62,18 +63,14 @@ struct SearchResultsView<RowContent: View>: View {
                 }
             }
         }
-        .onAppear(perform: didAppear)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: self.searchText) { newValue in
-            // If the user enters a search text, perform the search after a delay
-            searchTextChangedSubject.send(newValue)
-        }
+        .onAppear(perform: onAppear)
+        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always))
     }
     
-    func didAppear() {
-        // Register for search text updates
-        // We have to assign the publisher to a variable to it does not get deallocated and can be called with future changes
-        self.cancellable = searchTextChangedSubject
+    func onAppear() {
+        // Register the publisher for the search results
+        self.model.publisher = model.$searchText
+            .receive(on: RunLoop.main)
             .print()
             // Wait 500 ms before actually searching for the text
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -99,7 +96,7 @@ struct SearchResultsView<RowContent: View>: View {
     
     func searchMedia(_ searchText: String) {
         print("Search: \(searchText)")
-        self.searchText = searchText
+        self.model.searchText = searchText
         self.results = []
         self.pagesLoaded = 0
         guard !searchText.isEmpty else {
@@ -112,14 +109,14 @@ struct SearchResultsView<RowContent: View>: View {
     
     func loadNextPage() {
         // We cannot load results for an empty text
-        guard !self.searchText.isEmpty else {
+        guard !self.model.searchText.isEmpty else {
             return
         }
         // Fetch the additional search results async
         Task {
             do {
                 let (results, totalPages) = try await TMDBAPI.shared.searchMedia(
-                    searchText,
+                    model.searchText,
                     includeAdult: JFConfig.shared.showAdults,
                     fromPage: self.pagesLoaded + 1,
                     toPage: self.pagesLoaded + 2
@@ -163,7 +160,7 @@ struct SearchResultsView<RowContent: View>: View {
                     self.allPagesLoaded = true
                 }
             } catch {
-                print("Error searching for media with searchText '\(searchText)': \(error)")
+                print("Error searching for media with searchText '\(model.searchText)': \(error)")
                 await MainActor.run {
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Error searching"),
@@ -190,6 +187,12 @@ struct SearchResultsView<RowContent: View>: View {
         
         return nil
     }
+}
+
+// The model that stores the publisher-related properties for the search
+class SearchResultsModel: ObservableObject {
+    @Published var searchText: String = ""
+    var publisher: AnyCancellable?
 }
 
 struct SearchResultsView_Previews: PreviewProvider {

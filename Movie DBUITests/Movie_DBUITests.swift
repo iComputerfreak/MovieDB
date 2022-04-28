@@ -12,15 +12,11 @@ import XCTest
 class Movie_DBUITests: XCTestCase {
     var app: XCUIApplication! = nil
     
-    var navBar: XCUIElement {
-        app.navigationBars.element
-    }
-    
     var libraryNavBar: XCUIElement {
-        navBar
+        app.navigationBars["Library"]
     }
     var addMediaNavBar: XCUIElement {
-        navBar
+        app.navigationBars["Add Media"]
     }
     var addMediaButton: XCUIElement {
         libraryNavBar.buttons["add-media"]
@@ -168,6 +164,7 @@ class Movie_DBUITests: XCTestCase {
             .tap()
         // Create tags
         func addTag(_ name: String) {
+            let navBar = app.navigationBars["Tags"]
             navBar.buttons["Add"].tap()
             app.textFields.element.typeText(name)
             app.alerts.buttons["Add"].tap()
@@ -229,10 +226,22 @@ class Movie_DBUITests: XCTestCase {
     
     func testSearch() {
         app.launch()
+        
         addMatrix()
+        XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
+        
+        // We need to scroll a bit to fix the add button not being hittable
+        app.swipeUp()
+        XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
+        
         addBlacklist()
-        navBar.searchFields.element.wait().tap()
-        navBar.searchFields.element.typeText("Blacklist")
+        XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].waitForExistence(timeout: 10))
+        
+        // Search for 'Blacklist'
+        libraryNavBar.searchFields.element.wait().tap()
+        libraryNavBar.searchFields.element.typeText("Blacklist")
+        
+        // Check results
         XCTAssertEqual(app.tables.cells.count, 1)
         XCTAssertEqual(app.tables.cells.element.label, "The Blacklist, 2013")
     }
@@ -254,12 +263,7 @@ class Movie_DBUITests: XCTestCase {
     func addMedia(_ query: String, name: String) {
         addMediaButton.tap()
         addMediaSearch.tap()
-        // TODO: UI Test not working
-        for char in query {
-            app.keys[String(char)].tap()
-        }
-//        addMediaSearch.typeText("\(query)")
-        addMediaSearch.typeText("\n")
+        addMediaSearch.typeText("\(query)\n")
         XCTAssertTrue(app.tables.cells[name].waitForExistence(timeout: 10))
         app.tables.cells[name].tap()
     }
