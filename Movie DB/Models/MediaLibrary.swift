@@ -176,18 +176,27 @@ struct MediaLibrary {
         }
     }
     
-    /// Resets the library, deleting all media objects and resetting the nextID property
+    /// Resets the library, deleting all media objects, keeping the tags
     func reset() throws {
         // Delete all Medias from the context
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        let allMedias = (try? context.fetch(fetchRequest)) ?? []
-        for media in allMedias {
-            context.delete(media)
-            // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Media.fetchRequest()
+        let batchRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        // Delete all media objects
+        try context.execute(batchRequest)
+        // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
+        Task {
+            await PersistenceController.saveContext(context)
         }
-        // Reset the ID counter for the media objects
-        // TODO: Make async
-        PersistenceController.saveContext(context)
+    }
+    
+    /// Resets all available tags and their relation to the media objects
+    func resetTags() throws {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Tag.fetchRequest()
+        let batchRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        try context.execute(batchRequest)
+        Task {
+            await PersistenceController.saveContext(context)
+        }
     }
     
     func mediaCount() -> Int? {

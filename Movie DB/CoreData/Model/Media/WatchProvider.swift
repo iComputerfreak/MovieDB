@@ -51,6 +51,16 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
         case buy
         
         var capitalized: String { rawValue.capitalized }
+        var priority: Int {
+            switch self {
+            case .flatrate:
+                return 10
+            case .ads:
+                return 5
+            case .buy:
+                return 0
+            }
+        }
     }
 }
 

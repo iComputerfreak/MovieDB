@@ -14,7 +14,8 @@ struct WatchProvidersInfo: View {
     var providers: [WatchProvider] {
         mediaObject.watchProviders
             .filter { $0.type != .buy }
-            .sorted(by: [\.type.rawValue, \.priority.description])
+            .sorted(by: [\.type.priority, \.priority])
+            .reversed()
     }
     
     var body: some View {
@@ -22,12 +23,16 @@ struct WatchProvidersInfo: View {
             EmptyView()
         } else {
             Section(header: HStack { Image(systemName: "tv"); Text("Watch Providers") }) {
-                HStack {
-                    ForEach(providers, id: \.id) { provider in
-                        ProviderView(provider: provider)
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(providers, id: \.id) { provider in
+                            ProviderView(provider: provider)
+                        }
                     }
                 }
                 .padding(.vertical)
+                Text("Powered by [JustWatch.com](https://www.justwatch.com)")
+                    .font(.footnote)
             }
         }
     }
@@ -59,7 +64,7 @@ struct WatchProvidersInfo_Previews: PreviewProvider {
     static var previews: some View {
         List {
             WatchProvidersInfo()
-                .environmentObject(PlaceholderData.movie)
+                .environmentObject(PlaceholderData.movie as Media)
         }
     }
 }

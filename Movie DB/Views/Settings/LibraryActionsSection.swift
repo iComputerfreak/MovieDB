@@ -20,6 +20,7 @@ struct LibraryActionsSection: View {
             Button("Reload Media", action: self.reloadHandler)
             Button("Update Media", action: self.updateMedia)
             Button("Reset Library", action: self.resetLibrary)
+            Button("Reset Tags", action: self.resetTags)
         }
         .disabled(self.config.showingProgress)
     }
@@ -106,6 +107,32 @@ struct LibraryActionsSection: View {
                 print(e)
                 AlertHandler.showSimpleAlert(
                     title: NSLocalizedString("Error resetting library"),
+                    message: e.localizedDescription
+                )
+            }
+        })
+        AlertHandler.presentAlert(alert: controller)
+    }
+    
+    func resetTags() {
+        let controller = UIAlertController(
+            title: NSLocalizedString("Reset Tags"),
+            message: NSLocalizedString("This will delete all tags in your library. Do you want to continue?"),
+            preferredStyle: .alert
+        )
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
+        controller.addAction(UIAlertAction(
+            title: NSLocalizedString("Delete"),
+            style: .destructive
+        ) { _ in
+            do {
+                try self.library.resetTags()
+                
+            } catch let e {
+                print("Error resetting tags")
+                print(e)
+                AlertHandler.showSimpleAlert(
+                    title: NSLocalizedString("Error resetting tags"),
                     message: e.localizedDescription
                 )
             }

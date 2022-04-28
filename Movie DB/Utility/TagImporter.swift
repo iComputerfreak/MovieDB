@@ -29,10 +29,8 @@ actor TagImporter {
         // Fetch all existing tags from storage
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         let fetchedTags = try context.fetch(fetchRequest)
-        for name in tags.components(separatedBy: .newlines) {
-            if name.isEmpty {
-                continue
-            }
+        let tagNames = tags.components(separatedBy: .newlines)
+        for name in tagNames where !name.isEmpty {
             // Create all tags, that don't already exist (this includes duplicate lines in the import string)
             if !fetchedTags.contains(where: { $0.name == name }) {
                 // Create the tag in the context

@@ -62,11 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             var newDenyList: [String] = []
-            for line in text.components(separatedBy: .newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
-                // Skip empty lines and comments
-                if line.isEmpty || line.starts(with: "#") {
-                    continue
-                }
+            let denyListLines = text.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespaces) }
+            // Skip empty lines and comments
+            for line in denyListLines where !line.isEmpty && !line.starts(with: "#") {
                 if !line.starts(with: "/") {
                     print("Invalid line: '\(line)'. Lines must begin with a '/'. Skipping...")
                     continue
