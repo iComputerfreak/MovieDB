@@ -254,7 +254,12 @@ class Movie_DBUITests: XCTestCase {
     func addMedia(_ query: String, name: String) {
         addMediaButton.tap()
         addMediaSearch.tap()
-        addMediaSearch.typeText("\(query)\n")
+        // TODO: UI Test not working
+        for char in query {
+            app.keys[String(char)].tap()
+        }
+//        addMediaSearch.typeText("\(query)")
+        addMediaSearch.typeText("\n")
         XCTAssertTrue(app.tables.cells[name].waitForExistence(timeout: 10))
         app.tables.cells[name].tap()
     }

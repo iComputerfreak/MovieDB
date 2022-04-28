@@ -20,10 +20,6 @@ struct AddMediaView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) private var presentationMode
     
-    @State private var cancellable: AnyCancellable?
-    // The subject used to fire the searchText changed events
-    private let searchTextChangedSubject = PassthroughSubject<String, Never>()
-    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {

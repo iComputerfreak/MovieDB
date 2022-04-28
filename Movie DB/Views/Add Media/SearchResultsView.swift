@@ -62,13 +62,12 @@ struct SearchResultsView<RowContent: View>: View {
                 }
             }
         }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: self.searchText) { _ in
-            // If the user enters a search text, perform the search after a delay
-            searchTextChangedSubject.send(self.searchText)
-        }
-        
         .onAppear(perform: didAppear)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .onChange(of: self.searchText) { newValue in
+            // If the user enters a search text, perform the search after a delay
+            searchTextChangedSubject.send(newValue)
+        }
     }
     
     func didAppear() {
