@@ -54,8 +54,7 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        self.config.showingProgress = true
-        self.config.progressText = "Updating media objects..."
+        self.config.showProgress("Updating media objects...")
         // Execute the update in the background
         Task {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
@@ -67,7 +66,7 @@ struct LibraryActionsSection: View {
                 
                 // Report back the result to the user on the main thread
                 await MainActor.run {
-                    self.config.showingProgress = false
+                    self.config.hideProgress()
                     let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Update Completed"),
@@ -82,7 +81,7 @@ struct LibraryActionsSection: View {
                         title: NSLocalizedString("Update Error"),
                         message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)")
                     )
-                    self.config.showingProgress = false
+                    self.config.hideProgress()
                 }
             }
         }
@@ -99,16 +98,23 @@ struct LibraryActionsSection: View {
             title: NSLocalizedString("Delete"),
             style: .destructive
         ) { _ in
-            // Don't reset the tags, only the media objects
-            do {
-                try self.library.reset()
-            } catch let e {
-                print("Error resetting media library")
-                print(e)
-                AlertHandler.showSimpleAlert(
-                    title: NSLocalizedString("Error resetting library"),
-                    message: e.localizedDescription
-                )
+            Task(priority: .userInitiated) {
+                await MainActor.run {
+                    self.config.showProgress("Resetting Library...")
+                }
+                do {
+                    try await self.library.reset()
+                } catch {
+                    print("Error resetting library")
+                    print(error)
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Error resetting library"),
+                        message: error.localizedDescription
+                    )
+                }
+                await MainActor.run {
+                    self.config.hideProgress()
+                }
             }
         })
         AlertHandler.presentAlert(alert: controller)
@@ -125,16 +131,23 @@ struct LibraryActionsSection: View {
             title: NSLocalizedString("Delete"),
             style: .destructive
         ) { _ in
-            do {
-                try self.library.resetTags()
-                
-            } catch let e {
-                print("Error resetting tags")
-                print(e)
-                AlertHandler.showSimpleAlert(
-                    title: NSLocalizedString("Error resetting tags"),
-                    message: e.localizedDescription
-                )
+            Task(priority: .userInitiated) {
+                await MainActor.run {
+                    self.config.showProgress("Resetting Tags...")
+                }
+                do {
+                    try await self.library.resetTags()
+                } catch {
+                    print("Error resetting tags")
+                    print(error)
+                    AlertHandler.showSimpleAlert(
+                        title: NSLocalizedString("Error resetting tags"),
+                        message: error.localizedDescription
+                    )
+                }
+                await MainActor.run {
+                    self.config.hideProgress()
+                }
             }
         })
         AlertHandler.presentAlert(alert: controller)

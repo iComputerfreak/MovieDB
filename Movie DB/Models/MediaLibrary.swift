@@ -177,26 +177,26 @@ struct MediaLibrary {
     }
     
     /// Resets the library, deleting all media objects, keeping the tags
-    func reset() throws {
+    func reset() async throws {
         // Delete all Medias from the context
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Media.fetchRequest()
         let batchRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         // Delete all media objects
-        try context.execute(batchRequest)
-        // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
-        Task {
-            await PersistenceController.saveContext(context)
+        _ = try await context.perform {
+            try context.execute(batchRequest)
         }
+        // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
+        await PersistenceController.saveContext(context)
     }
     
     /// Resets all available tags and their relation to the media objects
-    func resetTags() throws {
+    func resetTags() async throws {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Tag.fetchRequest()
         let batchRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        try context.execute(batchRequest)
-        Task {
-            await PersistenceController.saveContext(context)
+        _ = try await context.perform {
+            try context.execute(batchRequest)
         }
+        await PersistenceController.saveContext(context)
     }
     
     func mediaCount() -> Int? {

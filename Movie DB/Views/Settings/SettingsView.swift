@@ -44,8 +44,7 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        self.config.showingProgress = true
-        self.config.progressText = "Reloading media objects..."
+        self.config.showProgress("Reloading media objects...")
         
         // Perform the reload in the background on a different thread
         Task {
@@ -54,7 +53,7 @@ struct SettingsView: View {
                 // Reload and show the result
                 try await self.library.reloadAll()
                 await MainActor.run {
-                    self.config.showingProgress = false
+                    self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
                         title: NSLocalizedString("Reload Completed"),
                         message: NSLocalizedString("All media objects have been reloaded.")
@@ -63,7 +62,7 @@ struct SettingsView: View {
             } catch {
                 print("Error reloading media objects: \(error)")
                 await MainActor.run {
-                    self.config.showingProgress = false
+                    self.config.hideProgress()
                     AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
                 }
             }
@@ -79,10 +78,20 @@ struct SettingsView_Previews: PreviewProvider {
 
 struct SettingsViewConfig {
     var showingProgress = false
-    var progressText: LocalizedStringKey = ""
+    private(set) var progressText: LocalizedStringKey = ""
     var isLoading = false
     var loadingText: String?
     var languageChanged = false
     var regionChanged = false
     var isShowingProInfo = false
+    
+    mutating func showProgress(_ text: LocalizedStringKey) {
+        self.showingProgress = true
+        self.progressText = text
+    }
+    
+    mutating func hideProgress() {
+        self.showingProgress = false
+        self.progressText = ""
+    }
 }
