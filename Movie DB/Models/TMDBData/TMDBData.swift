@@ -36,6 +36,7 @@ struct TMDBData: Decodable {
     var translations: [String]
     var videos: [Video]
     var parentalRating: ParentalRating?
+    var watchProviders: [WatchProvider]
     
     var movieData: MovieData?
     var showData: ShowData?
@@ -60,6 +61,8 @@ struct TMDBData: Decodable {
         self.popularity = try container.decode(Float.self, forKey: .popularity)
         self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
         self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+        
+        // MARK: Additional data
         
         // Load credits.cast as self.cast
         let creditsContainer: KeyedDecodingContainer<CreditsCodingKeys>
@@ -92,8 +95,21 @@ struct TMDBData: Decodable {
         self.translations = translations.map(\.language)
         
         // Load videos.results as self.videos
-        let videosContainer = try container.nestedContainer(keyedBy: VideosCodingKeys.self, forKey: .videos)
+        let videosContainer = try container.nestedContainer(keyedBy: GenericResultsCodingKeys.self, forKey: .videos)
         self.videos = try videosContainer.decode([Video].self, forKey: .results)
+        
+        // Load the watch providers
+        let watchProvidersContainer = try container.nestedContainer(
+            keyedBy: GenericResultsCodingKeys.self,
+            forKey: .watchProviders
+        )
+        // TODO: Continue
+        let results = try watchProvidersContainer.decode([String: WatchProviderResult].self, forKey: .results)
+        // Get the correct providers for the configured region
+        let result = results[JFConfig.shared.region]
+        self.watchProviders = result?.providers ?? []
+        
+        // MARK: Movie/Show specific
         
         func decodeMovieRating() throws -> ParentalRating? {
             let releaseDates = try container.decode([String: [ReleaseDatesCountry]].self, forKey: .releaseDates)
@@ -175,13 +191,14 @@ struct TMDBData: Decodable {
         case videos
         case releaseDates = "release_dates"
         case contentCertifications = "content_ratings"
+        case watchProviders = "watch/providers"
     }
     
     enum TMDBDataError: Error {
         case noDecodingContext
     }
     
-    private enum VideosCodingKeys: String, CodingKey {
+    private enum GenericResultsCodingKeys: String, CodingKey {
         case results
     }
     

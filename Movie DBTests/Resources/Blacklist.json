@@ -29338,5 +29338,1531 @@
                 "rating": "16"
             }
         ]
+    },
+    "watch/providers": {
+        "results": {
+            "AE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=AE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "AG": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=AG",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "AR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=AR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "AT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=AT",
+                "buy": [
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/mT9kIe6JVz72ikWJ58x0q8ckUW3.jpg",
+                        "provider_id": 40,
+                        "provider_name": "Chili"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 41,
+                        "logo_path": "/5OtaT8STJ8ZMkKt994C5XxrEAaP.jpg",
+                        "provider_id": 622,
+                        "provider_name": "UPC TV"
+                    }
+                ]
+            },
+            "AU": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=AU",
+                "ads": [
+                    {
+                        "display_priority": 18,
+                        "logo_path": "/dSAEkpy0IhZpTLixrMq9z24oEPC.jpg",
+                        "provider_id": 246,
+                        "provider_name": "7plus"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/bKy2YjC0QxViRnd8ayd2pv2ugJZ.jpg",
+                        "provider_id": 436,
+                        "provider_name": "Fetch TV"
+                    },
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/6HtR4lwikdriuJi86cZa3nXjB3d.jpg",
+                        "provider_id": 24,
+                        "provider_name": "Quickflix Store"
+                    },
+                    {
+                        "display_priority": 31,
+                        "logo_path": "/zXDDsD9M5vO7lqoqlBQCOcZtKBS.jpg",
+                        "provider_id": 429,
+                        "provider_name": "Telstra TV"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BB": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BB",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BG": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BG",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BH": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BH",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "BR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/oBoWstXQFHAlPApyxIQ31CIbNQk.jpg",
+                        "provider_id": 307,
+                        "provider_name": "Globoplay"
+                    }
+                ]
+            },
+            "BS": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=BS",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "CA": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CA",
+                "buy": [
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 53,
+                        "logo_path": "/6FWwq6rayak6g6rvzVVP1NnX9gf.jpg",
+                        "provider_id": 469,
+                        "provider_name": "Club Illico"
+                    },
+                    {
+                        "display_priority": 57,
+                        "logo_path": "/pGk6V35szQnJVq2OoJLnRpjifb3.jpg",
+                        "provider_id": 492,
+                        "provider_name": "ILLICO"
+                    },
+                    {
+                        "display_priority": 82,
+                        "logo_path": "/h8sud4kBfHnTni7G7pTnOGcArco.jpg",
+                        "provider_id": 606,
+                        "provider_name": "StackTV Amazon Channel"
+                    }
+                ]
+            },
+            "CH": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CH",
+                "buy": [
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/jmyYN1124dDIzqMysLekixy3AzF.jpg",
+                        "provider_id": 164,
+                        "provider_name": "Hollystar"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+                        "provider_id": 130,
+                        "provider_name": "Sky Store"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/2LS6g6iE5DiAIDiZTAK8mbQQTuE.jpg",
+                        "provider_id": 150,
+                        "provider_name": "SwissCom"
+                    },
+                    {
+                        "display_priority": 41,
+                        "logo_path": "/5OtaT8STJ8ZMkKt994C5XxrEAaP.jpg",
+                        "provider_id": 622,
+                        "provider_name": "UPC TV"
+                    }
+                ]
+            },
+            "CL": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CL",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "CO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "CR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "CZ": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=CZ",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "DE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=DE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 28,
+                        "logo_path": "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+                        "provider_id": 178,
+                        "provider_name": "MagentaTV"
+                    }
+                ],
+                "ads": [
+                    {
+                        "display_priority": 13,
+                        "logo_path": "/3hI22hp7YDZXyrmXVqDGnVivNTI.jpg",
+                        "provider_id": 298,
+                        "provider_name": "RTL+"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/mT9kIe6JVz72ikWJ58x0q8ckUW3.jpg",
+                        "provider_id": 40,
+                        "provider_name": "Chili"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    },
+                    {
+                        "display_priority": 28,
+                        "logo_path": "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+                        "provider_id": 178,
+                        "provider_name": "MagentaTV"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ]
+            },
+            "DK": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=DK",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 25,
+                        "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+                        "provider_id": 76,
+                        "provider_name": "Viaplay"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 21,
+                        "logo_path": "/3QsJbibv5dFW2IYuXbTjxDmGGRZ.jpg",
+                        "provider_id": 423,
+                        "provider_name": "Blockbuster"
+                    }
+                ]
+            },
+            "DO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=DO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "DZ": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=DZ",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "EC": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=EC",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "EE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=EE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "EG": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=EG",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "ES": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=ES",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 5,
+                        "logo_path": "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
+                        "provider_id": 257,
+                        "provider_name": "fuboTV"
+                    },
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/gZTgebCNny3MHvUxFde7gueVgT1.jpg",
+                        "provider_id": 149,
+                        "provider_name": "Movistar Plus"
+                    }
+                ]
+            },
+            "FI": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=FI",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 25,
+                        "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+                        "provider_id": 76,
+                        "provider_name": "Viaplay"
+                    }
+                ]
+            },
+            "FR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=FR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ],
+                "rent": [
+                    {
+                        "display_priority": 19,
+                        "logo_path": "/ulTa4e9ysKwMwNpg7EfhYnvAj8q.jpg",
+                        "provider_id": 59,
+                        "provider_name": "Bbox VOD"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+                        "provider_id": 35,
+                        "provider_name": "Rakuten TV"
+                    },
+                    {
+                        "display_priority": 18,
+                        "logo_path": "/knpqBvBQjyHnFrYPJ9bbtUCv6uo.jpg",
+                        "provider_id": 58,
+                        "provider_name": "Canal VOD"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ]
+            },
+            "GB": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=GB",
+                "buy": [
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+                        "provider_id": 35,
+                        "provider_name": "Rakuten TV"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+                        "provider_id": 130,
+                        "provider_name": "Sky Store"
+                    },
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/mT9kIe6JVz72ikWJ58x0q8ckUW3.jpg",
+                        "provider_id": 40,
+                        "provider_name": "Chili"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 9,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/fBHHXKC34ffxAsQvDe0ZJbvmTEQ.jpg",
+                        "provider_id": 29,
+                        "provider_name": "Sky Go"
+                    },
+                    {
+                        "display_priority": 9,
+                        "logo_path": "/rsXaDmBzlHgYrtv1o2NsRFctM5t.jpg",
+                        "provider_id": 39,
+                        "provider_name": "Now TV"
+                    },
+                    {
+                        "display_priority": 63,
+                        "logo_path": "/o6li3XZrBKXSqyNRS39UQEfPTCH.jpg",
+                        "provider_id": 594,
+                        "provider_name": "Virgin TV Go"
+                    }
+                ]
+            },
+            "GF": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=GF",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "GI": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=GI",
+                "flatrate": [
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    }
+                ]
+            },
+            "GR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=GR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "GT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=GT",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "HK": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=HK",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "HN": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=HN",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "HU": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=HU",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "ID": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=ID",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "IE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=IE",
+                "flatrate": [
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/fBHHXKC34ffxAsQvDe0ZJbvmTEQ.jpg",
+                        "provider_id": 29,
+                        "provider_name": "Sky Go"
+                    },
+                    {
+                        "display_priority": 9,
+                        "logo_path": "/rsXaDmBzlHgYrtv1o2NsRFctM5t.jpg",
+                        "provider_id": 39,
+                        "provider_name": "Now TV"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+                        "provider_id": 130,
+                        "provider_name": "Sky Store"
+                    }
+                ]
+            },
+            "IN": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=IN",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "IS": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=IS",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "IT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=IT",
+                "flatrate": [
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/fBHHXKC34ffxAsQvDe0ZJbvmTEQ.jpg",
+                        "provider_id": 29,
+                        "provider_name": "Sky Go"
+                    },
+                    {
+                        "display_priority": 9,
+                        "logo_path": "/rsXaDmBzlHgYrtv1o2NsRFctM5t.jpg",
+                        "provider_id": 39,
+                        "provider_name": "Now TV"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 8,
+                        "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+                        "provider_id": 35,
+                        "provider_name": "Rakuten TV"
+                    },
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/mT9kIe6JVz72ikWJ58x0q8ckUW3.jpg",
+                        "provider_id": 40,
+                        "provider_name": "Chili"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    }
+                ]
+            },
+            "JM": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=JM",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "JO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=JO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "JP": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=JP",
+                "rent": [
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "KR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=KR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/2ioan5BX5L9tz4fIGU93blTeFhv.jpg",
+                        "provider_id": 356,
+                        "provider_name": "wavve"
+                    }
+                ],
+                "rent": [
+                    {
+                        "display_priority": 6,
+                        "logo_path": "/a4ciTQc27FsgdUp7PCrToHPygcw.jpg",
+                        "provider_id": 96,
+                        "provider_name": "Naver Store"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 6,
+                        "logo_path": "/a4ciTQc27FsgdUp7PCrToHPygcw.jpg",
+                        "provider_id": 96,
+                        "provider_name": "Naver Store"
+                    }
+                ]
+            },
+            "KW": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=KW",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "LC": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=LC",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "LI": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=LI",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "LT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=LT",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "LV": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=LV",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "LY": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=LY",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "MA": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=MA",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "MC": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=MC",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "MD": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=MD",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "MX": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=MX",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "NL": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=NL",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 6,
+                        "logo_path": "/7Jn4Vx4tbSnMQwQXuJFPwV0P5n1.jpg",
+                        "provider_id": 72,
+                        "provider_name": "Videoland"
+                    }
+                ]
+            },
+            "NO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=NO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 25,
+                        "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+                        "provider_id": 76,
+                        "provider_name": "Viaplay"
+                    }
+                ]
+            },
+            "NZ": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=NZ",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/6HtR4lwikdriuJi86cZa3nXjB3d.jpg",
+                        "provider_id": 24,
+                        "provider_name": "Quickflix Store"
+                    }
+                ]
+            },
+            "OM": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=OM",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PF": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PF",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PH": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PH",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PK": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PK",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PL": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PL",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/l5Wxbsgral716BOtZsGyPVNn8GC.jpg",
+                        "provider_id": 250,
+                        "provider_name": "Horizon"
+                    }
+                ]
+            },
+            "PT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PT",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "PY": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=PY",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "QA": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=QA",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "RO": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=RO",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/l5Wxbsgral716BOtZsGyPVNn8GC.jpg",
+                        "provider_id": 250,
+                        "provider_name": "Horizon"
+                    }
+                ]
+            },
+            "RU": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=RU",
+                "buy": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/w1T8s7FqakcfucR8cgOvbe6UeXN.jpg",
+                        "provider_id": 115,
+                        "provider_name": "Okko"
+                    },
+                    {
+                        "display_priority": 5,
+                        "logo_path": "/o9ExgOSLF3OTwR6T3DJOuwOKJgq.jpg",
+                        "provider_id": 113,
+                        "provider_name": "Ivi"
+                    }
+                ],
+                "free": [
+                    {
+                        "display_priority": 22,
+                        "logo_path": "/dUGPd8eg651seqculYtaM3AE9O9.jpg",
+                        "provider_id": 570,
+                        "provider_name": "Premier"
+                    }
+                ]
+            },
+            "SA": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SA",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "SE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    },
+                    {
+                        "display_priority": 25,
+                        "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+                        "provider_id": 76,
+                        "provider_name": "Viaplay"
+                    },
+                    {
+                        "display_priority": 27,
+                        "logo_path": "/vuAxCPW4tlZ7Dg9EshAdPoHZFBo.jpg",
+                        "provider_id": 497,
+                        "provider_name": "Comhem Play"
+                    }
+                ]
+            },
+            "SG": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SG",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "SK": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SK",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "SM": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SM",
+                "flatrate": [
+                    {
+                        "display_priority": 1,
+                        "logo_path": "/emthp39XA2YScoYL1p0sdbAH2WA.jpg",
+                        "provider_id": 119,
+                        "provider_name": "Amazon Prime Video"
+                    }
+                ]
+            },
+            "SV": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=SV",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TC": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TC",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TH": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TH",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TN": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TN",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TR": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TR",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TT": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TT",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "TW": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=TW",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "US": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=US",
+                "ads": [
+                    {
+                        "display_priority": 9,
+                        "logo_path": "/8VCV78prwd9QzZnEm0ReO6bERDa.jpg",
+                        "provider_id": 386,
+                        "provider_name": "Peacock"
+                    },
+                    {
+                        "display_priority": 10,
+                        "logo_path": "/xTHltMrZPAJFLQ6qyCBjAnXSmZt.jpg",
+                        "provider_id": 387,
+                        "provider_name": "Peacock Premium"
+                    }
+                ],
+                "buy": [
+                    {
+                        "display_priority": 2,
+                        "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                        "provider_id": 2,
+                        "provider_name": "Apple iTunes"
+                    },
+                    {
+                        "display_priority": 3,
+                        "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+                        "provider_id": 3,
+                        "provider_name": "Google Play Movies"
+                    },
+                    {
+                        "display_priority": 11,
+                        "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                        "provider_id": 10,
+                        "provider_name": "Amazon Video"
+                    },
+                    {
+                        "display_priority": 36,
+                        "logo_path": "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+                        "provider_id": 7,
+                        "provider_name": "Vudu"
+                    },
+                    {
+                        "display_priority": 47,
+                        "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+                        "provider_id": 68,
+                        "provider_name": "Microsoft Store"
+                    },
+                    {
+                        "display_priority": 49,
+                        "logo_path": "/gbyLHzl4eYP0oP9oJZ2oKbpkhND.jpg",
+                        "provider_id": 279,
+                        "provider_name": "Redbox"
+                    }
+                ],
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    },
+                    {
+                        "display_priority": 5,
+                        "logo_path": "/jPXksae158ukMLFhhlNvzsvaEyt.jpg",
+                        "provider_id": 257,
+                        "provider_name": "fuboTV"
+                    },
+                    {
+                        "display_priority": 53,
+                        "logo_path": "/xL9SUR63qrEjFZAhtsipskeAMR7.jpg",
+                        "provider_id": 358,
+                        "provider_name": "DIRECTV"
+                    },
+                    {
+                        "display_priority": 167,
+                        "logo_path": "/79mRAYq40lcYiXkQm6N7YErSSHd.jpg",
+                        "provider_id": 486,
+                        "provider_name": "Spectrum On Demand"
+                    }
+                ]
+            },
+            "UY": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=UY",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "VE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=VE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "YE": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=YE",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            },
+            "ZA": {
+                "link": "https://www.themoviedb.org/tv/46952-the-blacklist/watch?locale=ZA",
+                "flatrate": [
+                    {
+                        "display_priority": 0,
+                        "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                        "provider_id": 8,
+                        "provider_name": "Netflix"
+                    }
+                ]
+            }
+        }
     }
 }

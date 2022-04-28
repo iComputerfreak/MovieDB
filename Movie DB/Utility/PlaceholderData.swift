@@ -23,6 +23,57 @@ enum PlaceholderData {
         m.watched = true
         m.watchAgain = false
         m.parentalRating = .fskAgeTwelve
+        m.watchProviders = [
+            .init(
+                id: 0,
+                type: .flatrate,
+                name: "Netflix",
+                imagePath: "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+                priority: 100
+            ),
+            .init(
+                id: 1,
+                type: .ads,
+                name: "RTL+",
+                imagePath: "/3hI22hp7YDZXyrmXVqDGnVivNTI.jpg",
+                priority: 5
+            ),
+            .init(
+                id: 2,
+                type: .flatrate,
+                name: "Spectrum on Demand",
+                imagePath: "/79mRAYq40lcYiXkQm6N7YErSSHd.jpg",
+                priority: 20
+            ),
+            .init(
+                id: 3,
+                type: .buy,
+                name: "Apple iTunes",
+                imagePath: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+                priority: 30
+            ),
+            .init(
+                id: 4,
+                type: .ads,
+                name: "Peacock",
+                imagePath: "/8VCV78prwd9QzZnEm0ReO6bERDa.jpg",
+                priority: 9
+            ),
+            .init(
+                id: 5,
+                type: .flatrate,
+                name: "Amazon Prime Video",
+                imagePath: "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+                priority: 30
+            ),
+            .init(
+                id: 6,
+                type: .flatrate,
+                name: "Peacock Premium",
+                imagePath: "/xTHltMrZPAJFLQ6qyCBjAnXSmZt.jpg",
+                priority: 40
+            )
+        ]
         return m
     }()
     static let show: Show = {

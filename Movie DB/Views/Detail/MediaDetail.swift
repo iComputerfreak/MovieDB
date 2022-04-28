@@ -21,6 +21,7 @@ struct MediaDetail: View {
                 TitleView(media: mediaObject)
                 UserData()
                 BasicInfo()
+                WatchProvidersInfo()
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())

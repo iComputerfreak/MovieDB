@@ -279,7 +279,7 @@ extension Utils {
     
     @discardableResult
     static func updateTMDBLanguages() async throws -> [String] {
-        let codes = try await TMDBAPI.shared.getTMDBLanguageCodes()
+        let codes = try await TMDBAPI.shared.tmdbLanguageCodes()
         // Sort the codes by the actual string that will be displayed, not the code itself
         let sortedCodes = codes.sorted { code1, code2 in
             guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {

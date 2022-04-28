@@ -56,6 +56,7 @@ public class Media: NSManagedObject {
             self.translations = tmdbData.translations
             self.videos = Set(self.transferIntoContext(tmdbData.videos))
             self.parentalRating = tmdbData.parentalRating
+            self.watchProviders = tmdbData.watchProviders
         }
     }
     
@@ -69,6 +70,7 @@ public class Media: NSManagedObject {
         super.awakeFromInsert()
         self.castMembersSortOrder = []
         self.tags = []
+        self.watchProviders = []
         self.creationDate = Date()
         self.modificationDate = Date()
     }

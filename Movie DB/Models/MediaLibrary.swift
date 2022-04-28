@@ -81,7 +81,7 @@ struct MediaLibrary {
         // Run async
         // Try fetching the media object
         // Will be called on a background thread automatically, because TMDBAPI is an actor
-        let media = try await TMDBAPI.shared.fetchMedia(
+        let media = try await TMDBAPI.shared.media(
             for: result.id,
             type: result.mediaType,
             context: context
@@ -105,7 +105,7 @@ struct MediaLibrary {
     /// Updates the media library by updaing every media object with API calls again.
     func update() async throws -> Int {
         // Fetch the tmdbIDs of the media objects that changed
-        let changedIDs = try await TMDBAPI.shared.fetchChangedIDs(from: lastUpdated, to: Date())
+        let changedIDs = try await TMDBAPI.shared.changedIDs(from: lastUpdated, to: Date())
         
         // Create a child context to update the media objects in
         let updateContext = self.context.newBackgroundContext()

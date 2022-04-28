@@ -100,6 +100,10 @@ extension Media {
     @NSManaged private var parentalRatingColor: SerializableColor?
     /// The parental rating certification of the media
     @NSManaged private var parentalRatingLabel: String?
+    /// The streaming sites where is media is available to watch
+    @NSManaged public var watchProviders: [WatchProvider]
+    
+    // MARK: - Computed Properties
     
     /// The parental rating of this media (e.g. FSK 16)
     var parentalRating: ParentalRating? {
@@ -119,8 +123,6 @@ extension Media {
             }
         }
     }
-    
-    // MARK: - Computed Properties
     
     /// Whether the result is a movie and is for adults only
     var isAdultMovie: Bool? {
