@@ -6,6 +6,6 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-struct APIKeys {
+enum APIKeys {
     static let tmdbAPIKey: String = "<INSERT YOUR API KEY HERE>"
 }
