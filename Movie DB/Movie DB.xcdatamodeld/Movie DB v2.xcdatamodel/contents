@@ -37,7 +37,7 @@
         <attribute name="voteAverage" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="watchProviders" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[WatchProvider]"/>
+        <attribute name="watchProviders" optional="YES" attributeType="Transformable" valueTransformerName="WatchProviderTransformer" customClassName="[WatchProvider]"/>
         <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="medias" inverseEntity="CastMember"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>

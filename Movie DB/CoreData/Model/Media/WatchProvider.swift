@@ -53,3 +53,30 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
         var capitalized: String { rawValue.capitalized }
     }
 }
+
+@objc(WatchProviderTransformer)
+class WatchProviderTransformer: NSSecureUnarchiveFromDataTransformer {
+    override class var allowedTopLevelClasses: [AnyClass] {
+        super.allowedTopLevelClasses + [WatchProvider.self]
+    }
+    
+    override class func allowsReverseTransformation() -> Bool {
+        true
+    }
+    
+    override func transformedValue(_ value: Any?) -> Any? {
+        guard let data = value as? Data else {
+            return nil
+        }
+        // swiftlint:disable:next force_try
+        return try! NSKeyedUnarchiver.unarchivedArrayOfObjects(ofClass: WatchProvider.self, from: data)
+    }
+    
+    override func reverseTransformedValue(_ value: Any?) -> Any? {
+        guard let provider = value as? [WatchProvider] else {
+            return nil
+        }
+        // swiftlint:disable:next force_try
+        return try! NSKeyedArchiver.archivedData(withRootObject: provider, requiringSecureCoding: true)
+    }
+}
