@@ -55,7 +55,7 @@ class APITests: XCTestCase {
     
     func disabled_testFetchTMDBData() async throws {
         // TODO: See testAPISuccess
-        let result = try await api.fetchMedia(for: 603, type: .movie, context: testContext)
+        let result = try await api.media(for: 603, type: .movie, context: testContext)
         print(result)
     }
     
@@ -69,7 +69,7 @@ class APITests: XCTestCase {
         
         for dummy in mediaObjects {
             // TODO: context.save() does not return!
-            let result = try await api.fetchMedia(for: dummy.tmdbID, type: dummy.type, context: testContext)
+            let result = try await api.media(for: dummy.tmdbID, type: dummy.type, context: testContext)
             assertMediaMatches(result, dummy)
             
             // Modify the title to check, if the update function correctly restores it

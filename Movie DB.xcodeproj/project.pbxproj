@@ -112,6 +112,8 @@
 		ABD8648428183E2B001A1F7C /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648328183E2B001A1F7C /* Problem.swift */; };
 		ABD8648628184569001A1F7C /* FilterSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648528184569001A1F7C /* FilterSetting.swift */; };
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
+		ABD8648A281940E3001A1F7C /* WatchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86489281940E3001A1F7C /* WatchProvider.swift */; };
+		ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */; };
 		ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */; };
 		ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */; };
 		ABE70015239D7EA100DD672B /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE70014239D7EA100DD672B /* APITests.swift */; };
@@ -134,7 +136,7 @@
 		ABEEB0D42814324700230F0B /* LanguagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D32814324700230F0B /* LanguagePickerView.swift */; };
 		ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D5281434E600230F0B /* ProSection.swift */; };
 		ABEEB0D82814356F00230F0B /* ImportLogViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D72814356F00230F0B /* ImportLogViewer.swift */; };
-		ABEEB0DA281455AB00230F0B /* ReleaseDatesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D9281455AB00230F0B /* ReleaseDatesHelper.swift */; };
+		ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D9281455AB00230F0B /* DecodingHelper.swift */; };
 		ABEEB0DF2815941400230F0B /* SerializableColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0DE2815941400230F0B /* SerializableColor.swift */; };
 		ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */; };
 		ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FCC022CAB52F00611036 /* LibraryRow.swift */; };
@@ -263,6 +265,8 @@
 		ABD8648528184569001A1F7C /* FilterSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSetting.swift; sourceTree = "<group>"; };
 		ABD86487281933BC001A1F7C /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v2.xcdatamodel"; sourceTree = "<group>"; };
+		ABD86489281940E3001A1F7C /* WatchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvider.swift; sourceTree = "<group>"; };
+		ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvidersInfo.swift; sourceTree = "<group>"; };
 		ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABE70014239D7EA100DD672B /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
@@ -294,7 +298,7 @@
 		ABEEB0D32814324700230F0B /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		ABEEB0D5281434E600230F0B /* ProSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProSection.swift; sourceTree = "<group>"; };
 		ABEEB0D72814356F00230F0B /* ImportLogViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLogViewer.swift; sourceTree = "<group>"; };
-		ABEEB0D9281455AB00230F0B /* ReleaseDatesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseDatesHelper.swift; sourceTree = "<group>"; };
+		ABEEB0D9281455AB00230F0B /* DecodingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingHelper.swift; sourceTree = "<group>"; };
 		ABEEB0DE2815941400230F0B /* SerializableColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerializableColor.swift; sourceTree = "<group>"; };
 		ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPickerView.swift; sourceTree = "<group>"; };
 		ABF8FCC022CAB52F00611036 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
@@ -364,7 +368,6 @@
 				AB1434C525CEE9E600AA304F /* Show */,
 				AB1434C825CEE9EB00AA304F /* Movie */,
 				ABEEB0DE2815941400230F0B /* SerializableColor.swift */,
-				ABD8648328183E2B001A1F7C /* Problem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				AB1433F725CDB6F600AA304F /* Media+CoreDataProperties.swift */,
 				ABA0399224D4990200DBF71F /* MediaStatus.swift */,
 				AB14341125CDDB6600AA304F /* MediaType.swift */,
+				ABD86489281940E3001A1F7C /* WatchProvider.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -593,6 +597,7 @@
 		AB6718E222C0314100F429E4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				ABD8648328183E2B001A1F7C /* Problem.swift */,
 				ABD86487281933BC001A1F7C /* MediaLibrary.swift */,
 				ABD8648528184569001A1F7C /* FilterSetting.swift */,
 				ABED3B03239324E000F4C327 /* TMDBData */,
@@ -665,7 +670,7 @@
 			isa = PBXGroup;
 			children = (
 				AB6718EF22C037E300F429E4 /* TMDBData.swift */,
-				ABEEB0D9281455AB00230F0B /* ReleaseDatesHelper.swift */,
+				ABEEB0D9281455AB00230F0B /* DecodingHelper.swift */,
 			);
 			path = TMDBData;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				ABD8647D28183177001A1F7C /* LookupTitleView.swift */,
 				ABCEA48F238D1FCD00D92B95 /* UserData.swift */,
 				ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */,
+				ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */,
 				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
 				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
 				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
@@ -986,6 +992,7 @@
 				ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */,
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,
 				ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */,
+				ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */,
 				AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */,
 				ABED3B072393263E00F4C327 /* ShowType.swift in Sources */,
 				ABD8648628184569001A1F7C /* FilterSetting.swift in Sources */,
@@ -1013,6 +1020,7 @@
 				AB14349C25CEE0E000AA304F /* CastMember+CoreDataClass.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,
+				ABD8648A281940E3001A1F7C /* WatchProvider.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
 				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
 				ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */,
@@ -1045,7 +1053,7 @@
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
-				ABEEB0DA281455AB00230F0B /* ReleaseDatesHelper.swift in Sources */,
+				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */,
 				AB4085482663B325008C559B /* ProInfoView.swift in Sources */,
 				ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */,

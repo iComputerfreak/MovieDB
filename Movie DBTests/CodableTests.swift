@@ -10,6 +10,8 @@ import XCTest
 @testable import Movie_DB
 import CoreData
 
+// TODO: Assertions for watch providers
+
 // swiftlint:disable line_length
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length

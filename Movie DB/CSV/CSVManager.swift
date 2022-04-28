@@ -93,7 +93,7 @@ struct CSVManager {
         }
         
         // Create the media
-        let media = try await TMDBAPI.shared.fetchMedia(for: tmdbID, type: mediaType, context: context)
+        let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
         
         // Setting values with PartialKeyPaths is not possible, so we have to do it manually
         // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then

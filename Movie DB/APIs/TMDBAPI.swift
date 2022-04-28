@@ -21,7 +21,6 @@ actor TMDBAPI {
     
     var disposableContext: NSManagedObjectContext { PersistenceController.createDisposableContext() }
     
-    // TODO: Allow different instances?
     // This is a singleton
     private init() {}
     
@@ -33,7 +32,7 @@ actor TMDBAPI {
     ///   - type: The type of media
     ///   - context: The context to insert the new media object into
     /// - Returns: The decoded media object
-    func fetchMedia(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
+    func media(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
         // Create a child context to make the changes in, before merging them with the actual context given
         let childContext = context.newBackgroundContext()
         // Get the TMDB Data using the child context
@@ -87,7 +86,7 @@ actor TMDBAPI {
     ///   - startDate: The start of the timespan
     ///   - endDate: The end of the timespan
     /// - Returns: All TMDB IDs that changed during the given timespan
-    func fetchChangedIDs(from startDate: Date?, to endDate: Date) async throws -> [Int] {
+    func changedIDs(from startDate: Date?, to endDate: Date) async throws -> [Int] {
         // Construct the request parameters for the date range
         let dateRangeParameters: [String: String?] = {
             var dict: [String: String?] = ["end_date": Utils.tmdbDateFormatter.string(from: endDate)]
@@ -153,7 +152,7 @@ actor TMDBAPI {
     }
     
     /// Returns all language codes available in the TMDB API
-    func getTMDBLanguageCodes() async throws -> [String] {
+    func tmdbLanguageCodes() async throws -> [String] {
         try await self.decodeAPIURL(
             path: "/configuration/primary_translations",
             as: [String].self,
@@ -254,7 +253,7 @@ actor TMDBAPI {
         let parameters = [
             // release_dates only for movies
             // content_ratings only for tv
-            "append_to_response": "keywords,translations,videos,credits,aggregate_credits" +
+            "append_to_response": "keywords,translations,videos,credits,aggregate_credits,watch/providers" +
             (type == .movie ? ",release_dates" : ",content_ratings")
         ]
         return try await decodeAPIURL(

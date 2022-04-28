@@ -103,6 +103,8 @@ public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
 // MARK: Transformer Class
 // For CoreData compatibility.
 
+// TODO: Make Generic or create separate version for WatchProvider and test it
+
 @objc(SerializableColorTransformer)
 class SerializableColorTransformer: NSSecureUnarchiveFromDataTransformer {
     override class var allowedTopLevelClasses: [AnyClass] {
