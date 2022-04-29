@@ -50,6 +50,9 @@ struct AddMediaView: View {
         // Add the media object to the library
         do {
             try await library.addMedia(result, isLoading: $isLoading, isShowingProPopup: $isShowingProPopup)
+        } catch UserError.noPro {
+            // If the user tried to add media without having bought Pro, show the popup
+            self.isShowingProPopup = true
         } catch {
             print("Error loading media: \(error)")
             await MainActor.run {

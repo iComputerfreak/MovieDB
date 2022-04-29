@@ -25,7 +25,7 @@ actor TagImporter {
     
     /// Imports the newline separated tag names and creates new tags, if they don't exist yet
     /// - Parameter tags: The newline separated list of tags
-    static func `import`(_ tags: String, into context: NSManagedObjectContext) throws {
+    static func `import`(_ tags: String, into context: NSManagedObjectContext) async throws {
         // Fetch all existing tags from storage
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         let fetchedTags = try context.fetch(fetchRequest)
@@ -37,8 +37,7 @@ actor TagImporter {
                 _ = Tag(name: name, context: context)
             }
         }
-        // TODO: Make async?
-        PersistenceController.saveContext(context)
+        await PersistenceController.saveContext(context)
     }
     
     class BasicLogger: Identifiable {

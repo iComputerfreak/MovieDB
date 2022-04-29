@@ -13,7 +13,6 @@ enum SortingOrder: String, Equatable, CaseIterable {
     case created = "Created"
     case releaseDate = "Release Date"
     case rating = "Rating"
-    // TODO: More sorting options
     
     /// The default sorting order
     static var `default`: Self { .created }

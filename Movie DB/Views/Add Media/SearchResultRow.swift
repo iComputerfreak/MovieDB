@@ -28,6 +28,9 @@ struct SearchResultRow: View {
                     }
                     Text(result.mediaType == .movie ? NSLocalizedString("Movie") : NSLocalizedString("Series"))
                         .italic()
+                    if let date = self.yearFromMediaResult(result) {
+                        Text("(\(date, format: .dateTime.year()))")
+                    }
                     // Make sure the content is left-aligned
                     Spacer()
                 }
@@ -57,6 +60,20 @@ struct SearchResultRow: View {
             print(error)
             // If we failed to load the search result image, we just silently fail
         }
+    }
+    
+    func yearFromMediaResult(_ result: TMDBSearchResult) -> Date? {
+        if result.mediaType == .movie {
+            if let date = (result as? TMDBMovieSearchResult)?.releaseDate {
+                return date
+            }
+        } else {
+            if let date = (result as? TMDBShowSearchResult)?.firstAirDate {
+                return date
+            }
+        }
+        
+        return nil
     }
 }
 

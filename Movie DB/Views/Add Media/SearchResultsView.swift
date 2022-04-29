@@ -118,8 +118,8 @@ struct SearchResultsView<RowContent: View>: View {
                 let (results, totalPages) = try await TMDBAPI.shared.searchMedia(
                     model.searchText,
                     includeAdult: JFConfig.shared.showAdults,
-                    fromPage: self.pagesLoaded + 1,
-                    toPage: self.pagesLoaded + 2
+                    from: self.pagesLoaded + 1,
+                    to: self.pagesLoaded + 2
                 )
                 
                 // Clear "Loading..." from the first search
@@ -172,27 +172,6 @@ struct SearchResultsView<RowContent: View>: View {
             }
         }
     }
-    
-    // TODO: Unused. Remove or find alternative way to get the correct year
-    func yearFromMediaResult(_ result: TMDBSearchResult) -> Int? {
-        if result.mediaType == .movie {
-            if let date = (result as? TMDBMovieSearchResult)?.releaseDate {
-                return Calendar.current.component(.year, from: date)
-            }
-        } else {
-            if let date = (result as? TMDBShowSearchResult)?.firstAirDate {
-                return Calendar.current.component(.year, from: date)
-            }
-        }
-        
-        return nil
-    }
-}
-
-// The model that stores the publisher-related properties for the search
-class SearchResultsModel: ObservableObject {
-    @Published var searchText: String = ""
-    var publisher: AnyCancellable?
 }
 
 struct SearchResultsView_Previews: PreviewProvider {
@@ -204,4 +183,10 @@ struct SearchResultsView_Previews: PreviewProvider {
             .navigationTitle("Add Media")
         }
     }
+}
+
+// The model that stores the publisher-related properties for the search
+class SearchResultsModel: ObservableObject {
+    @Published var searchText: String = ""
+    var publisher: AnyCancellable?
 }

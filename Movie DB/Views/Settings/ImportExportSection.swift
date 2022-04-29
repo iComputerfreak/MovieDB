@@ -71,7 +71,6 @@ struct ImportExportSection: View {
                     // Presenting will change UI
                     Task {
                         await MainActor.run {
-                            // TODO: Tell the user how many duplicates were not added
                             let format = NSLocalizedString("Imported %lld media objects.", tableName: "Plurals")
                             let controller = UIAlertController(
                                 title: NSLocalizedString("Import"),
@@ -143,10 +142,8 @@ struct ImportExportSection: View {
                             // TODO: Duplicate error handling. Would prefer to rethrow the error, but we are in a Task
                             // Use the background context for importing the tags
                             do {
-                                try TagImporter.import(importData, into: importContext)
-                                Task {
-                                    await PersistenceController.saveContext(importContext)
-                                }
+                                try await TagImporter.import(importData, into: importContext)
+                                await PersistenceController.saveContext(importContext)
                             } catch {
                                 print(error)
                                 AlertHandler.showSimpleAlert(

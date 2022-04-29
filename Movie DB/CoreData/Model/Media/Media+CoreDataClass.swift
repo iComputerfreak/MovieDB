@@ -85,7 +85,6 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    // TODO: Loading is not happening on background thread, but async. Problem?
     func loadThumbnail(force: Bool = false) async {
         guard thumbnail == nil || force else {
             // Thumbnail already present, don't download again, unless force parameter is given
@@ -109,13 +108,36 @@ public class Media: NSManagedObject {
         }
         print("[\(self.title)] Loading thumbnail...")
         
-        // Fail silently and just now show the image
-        // Only update, if the loaded image is not nil, dont delete existing images
-        if let image = try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize) {
-            assert(self.managedObjectContext != nil)
-            await MainActor.run {
-                let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: image.pngData())
-                self.thumbnail = thumbnail
+        // Load the thumbnail
+        Task {
+            // We try to load the image, but fail silently if we don't succeed.
+            // No need to spam the user with error messages, he will see that the images did not load
+            // and no need to delete any existing images on failure.
+            do {
+                let url = Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
+                let (data, response) = try await URLSession.shared.data(from: url)
+                // Only continue if we got a valid response
+                guard
+                    let httpResponse = response as? HTTPURLResponse,
+                    200...299 ~= httpResponse.statusCode
+                else {
+                    return
+                }
+                guard let imageData = UIImage(data: data)?.pngData() else {
+                    // Unable to construct image
+                    return
+                }
+                // Create the Thumbnail object on the correct thread
+                await self.managedObjectContext!.perform {
+                    let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: imageData)
+                    // We don't need to set this on the main actor, since we could be on a background thread loading some disposable data.
+                    // We just use the MOC thread, which will be the main thread anyways, in case we are dealing with models diesplayed in the view
+                    self.thumbnail = thumbnail
+                }
+            } catch {
+                print("Error loading thumbnail: \(error)")
+                // Fail silently
+                return
             }
         }
     }

@@ -53,7 +53,6 @@ struct MediaLibrary {
     ///   - result: The search result including the tmdbID and mediaType
     ///   - isLoading: A binding that is updated while the function is loading the new object
     ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
-    // TODO: Replace second binding with custom error (noPro)
     func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>, isShowingProPopup: Binding<Bool>) async throws {
         // There should be no media objects with this tmdbID in the library
         guard !self.mediaExists(result.id, in: context) else {
@@ -66,11 +65,7 @@ struct MediaLibrary {
         }
         // Pro limitations
         guard Utils.purchasedPro() || (self.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
-            // Show the Pro popup
-            await MainActor.run {
-                isShowingProPopup.wrappedValue = true
-            }
-            return
+            throw UserError.noPro
         }
         
         // Otherwise we can begin to load
@@ -121,9 +116,7 @@ struct MediaLibrary {
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    // Update the media inside the update context
-                    // TODO: Regularly update all thumbnails in the library
-                    // TODO: Updating should invalidate the thumbnail (has to be loaded on the main view context again)
+                    // Update the media inside the update context (including the thumbnail)
                     try await TMDBAPI.shared.updateMedia(media, context: updateContext)
                 }
             }

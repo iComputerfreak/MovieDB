@@ -292,7 +292,7 @@ extension Utils {
             return displayString1.lexicographicallyPrecedes(displayString2)
         }
         // TODO: Executed on correct thread?
-        // TODO: Make JFConfig an actor
+        // TODO: Make JFConfig an actor?
         JFConfig.shared.availableLanguages = sortedCodes
         return sortedCodes
     }
@@ -303,6 +303,10 @@ extension Utils {
     static func loadImage(with imagePath: String, size: Int?) async throws -> UIImage {
         try await loadImage(from: Self.getTMDBImageURL(path: imagePath, size: size))
     }
+}
+
+enum UserError: Error {
+    case noPro
 }
 
 enum HTTPError: Error {

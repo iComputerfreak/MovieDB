@@ -66,21 +66,22 @@ actor TMDBAPI {
         let childContext = context.newBackgroundContext()
         // Fetch the TMDBData into the child context
         let tmdbData = try await self.tmdbData(for: media.tmdbID, type: media.type, context: childContext)
+        // Get the media of the child context and modify it there.
+        // Otherwise, the view context will be in an inconsistent state
+        guard let bgMedia = childContext.object(with: media.objectID) as? Media else {
+            throw APIError.updateError(reason: "Unable to copy the media object into the child context")
+        }
         // Update the media in the thread of the child context
-        try await childContext.perform {
-            // Copy the media into the child context and modify it there.
-            // Otherwise, the view context will be in an inconsistent state
-            guard let bgMedia = childContext.object(with: media.objectID) as? Media else {
-                throw APIError.updateError(reason: "Unable to copy the media object into the child context")
-            }
+        await childContext.perform {
             // Update the media object and thumbnail
             bgMedia.update(tmdbData: tmdbData)
         }
+        // Update the thumbnail (overwriting the existing image)
+        await bgMedia.loadThumbnail(force: true)
         // Save the changes to the parent context
         await PersistenceController.saveContext(childContext)
     }
     
-    // TODO: Use range?
     /// Loads the TMDB IDs of all media objects changed in the given timeframe
     /// - Parameters:
     ///   - startDate: The start of the timespan
@@ -129,14 +130,14 @@ actor TMDBAPI {
     /// - Parameters:
     ///   - query: The query to search for
     ///   - includeAdult: Whether to include adult media
-    ///   - fromPage: The first page to load results from
-    ///   - toPage: The last page to load results from
+    ///   - from: The first page to load results from
+    ///   - to: The last page to load results from (included)
     /// - Returns: The search results and the total amount of pages available for that search term
     func searchMedia(
         _ query: String,
         includeAdult: Bool = false,
-        fromPage: Int = 1,
-        toPage: Int = JFLiterals.maxSearchPages
+        from firstPage: Int = 1,
+        to lastPage: Int = JFLiterals.maxSearchPages
     ) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
         try await self.multiPageRequest(
             path: "/search/multi",
@@ -144,8 +145,8 @@ actor TMDBAPI {
                 "query": query,
                 "include_adult": String(includeAdult)
             ],
-            fromPage: fromPage,
-            toPage: toPage,
+            from: firstPage,
+            to: lastPage,
             pageWrapper: SearchResultsPageWrapper.self,
             context: self.disposableContext
         )
@@ -162,26 +163,24 @@ actor TMDBAPI {
     
     // MARK: - Private functions
     
-    // TODO: Use range?
     /// Loads multiple pages of results by making multiple API calls and returns the accumulated data
     /// - Parameters:
     ///   - path: The API URL path to request the data from, including a `/`-prefix
     ///   - additionalParameters: Additional parameters for the API call
-    ///   - fromPage: The page to start fetching data from
-    ///   - toPage: The last page to fetch data from before returning
+    ///   - from: The page to start fetching data from
+    ///   - to: The last page to fetch data from before returning (included)
     ///   - pageWrapper: The type used for decoding a page
     ///   - context: The context to decode the results into
     /// - Returns: The accumulated results of the given pages and the total number of pages available for the given request
     private func multiPageRequest<PageWrapper: PageWrapperProtocol>(
         path: String,
         additionalParameters: [String: String?] = [:],
-        fromPage: Int = 1,
-        toPage: Int = .max,
+        from firstPage: Int = 1,
+        to lastPage: Int = .max,
         pageWrapper: PageWrapper.Type,
         context: NSManagedObjectContext
     ) async throws -> (results: [PageWrapper.ObjectWrapper], totalPages: Int) {
-        // TODO: Use ClosedRange instead
-        guard fromPage <= toPage else {
+        guard firstPage <= lastPage else {
             throw APIError.invalidPageRange
         }
         // Create a child context to make the changes in, before merging them with the actual context given
@@ -191,7 +190,7 @@ actor TMDBAPI {
         // Fetch the JSON in the background
         let data = try await self.request(
             path: path,
-            additionalParameters: additionalParameters.merging(["page": String(fromPage)])
+            additionalParameters: additionalParameters.merging(["page": String(firstPage)])
         )
         // Decode on the child context thread
         let wrapper = try await childContext.perform {
@@ -201,10 +200,10 @@ actor TMDBAPI {
         if wrapper.totalPages == 0 {
             // No results
             return ([], 0)
-        } else if wrapper.totalPages < fromPage {
+        } else if wrapper.totalPages < firstPage {
             // If the page we were requested to load was out of bounds
             throw APIError.pageOutOfBounds(wrapper.totalPages)
-        } else if wrapper.totalPages == fromPage {
+        } else if wrapper.totalPages == firstPage {
             // If we only had to load 1 page in total, we can complete now
             return (wrapper.results, wrapper.totalPages)
         }
@@ -214,7 +213,7 @@ actor TMDBAPI {
             of: [PageWrapper.ObjectWrapper].self
         ) { group in
             // Fetch the pages concurrently
-            for page in (fromPage + 1) ... min(wrapper.totalPages, toPage) {
+            for page in (firstPage + 1) ... min(wrapper.totalPages, lastPage) {
                 // Fetch the page
                 _ = group.addTaskUnlessCancelled {
                     let newParameters = additionalParameters.merging(["page": String(page)])
