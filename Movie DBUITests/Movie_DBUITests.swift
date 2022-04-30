@@ -162,17 +162,11 @@ class Movie_DBUITests: XCTestCase {
             .staticTexts
             .element(boundBy: 1)
             .tap()
-        // Create tags
-        func addTag(_ name: String) {
-            let navBar = app.navigationBars["Tags"]
-            navBar.buttons["Add"].tap()
-            app.textFields.element.typeText(name)
-            app.alerts.buttons["Add"].tap()
-        }
         
-        addTag("Tag1!")
-        addTag("Tag 2")
-        addTag("Tag~3.test")
+        // Create tags
+        addTag("Tag1!", app)
+        addTag("Tag 2", app)
+        addTag("Tag~3.test", app)
         
         app.tables.cells.first(hasPrefix: "Tag1!").tap()
         app.tables.cells.first(hasPrefix: "Tag~3.test").tap()
@@ -248,17 +242,64 @@ class Movie_DBUITests: XCTestCase {
         // Alert should have popped up
         app.alerts.firstMatch.buttons["Delete"].wait().tap()
         
-        // TODO: Crash when performing reset (EXC_BREAKPOINT)
-        
         tabBar["Library"].tap()
         
-        wait(5)
+        // Give the app a few seconds to reset the data
+        // Alternatively: Wait in Settings screen until the ProgressView disappears
+        wait(2)
         
         // Should be empty
         XCTAssertEqual(app.tables.cells.count, 0)
     }
     
-    // TODO: UI Tests for settings
+    func testResetTags() {
+        app.launch()
+        
+        addMatrix()
+        
+        // Add a few tags
+        app.cells.first(hasPrefix: "The Matrix").tap()
+        app.navigationBars["The Matrix"].buttons["Edit"].tap()
+        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+        addTag("Action", app)
+        addTag("Adventure", app)
+        addTag("Horror", app)
+        addTag("Comedy", app)
+        goBack()
+        // No need to press the done button
+        goBack()
+        
+        // Go into settings and reset the tags
+        tabBar["Settings"].tap()
+        app.tables.cells["Reset Tags"].tap()
+        // Alert should have popped up
+        app.alerts.firstMatch.buttons["Delete"].wait().tap()
+        
+        tabBar["Library"].tap()
+        
+        // Give the app a few seconds to reset the data
+        // Alternatively: Wait in Settings screen until the ProgressView disappears
+        wait(2)
+        
+        app.cells.first(hasPrefix: "The Matrix").tap()
+        
+        // There should be no tags listed in the preview anymore
+        XCTAssertTrue(app.tables.cells["Tags, None"].exists)
+        
+        app.navigationBars["The Matrix"].buttons["Edit"].tap()
+        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+        
+        wait(1)
+        
+        XCTAssertEqual(app.tables.cells.count, 0)
+    }
+    
+    func addTag(_ name: String, _ app: XCUIApplication) {
+        let navBar = app.navigationBars["Tags"]
+        navBar.buttons["Add"].tap()
+        app.textFields.element.typeText(name)
+        app.alerts.buttons["Add"].tap()
+    }
     
     func goBack() {
         app.navigationBars.element.buttons.firstMatch.tap()
@@ -274,14 +315,10 @@ class Movie_DBUITests: XCTestCase {
     
     func addMatrixAndBlacklist() {
         addMatrix()
-        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Matrix").waitForExistence(timeout: 10))
-        
         // We need to scroll a bit to fix the add button not being hittable
         app.swipeUp()
         XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
-        
         addBlacklist()
-        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Blacklist").waitForExistence(timeout: 10))
     }
     
     func addMedia(_ query: String, name: String) {
@@ -290,6 +327,7 @@ class Movie_DBUITests: XCTestCase {
         addMediaSearch.typeText("\(query)\n")
         XCTAssertTrue(app.tables.cells.first(hasPrefix: name).waitForExistence(timeout: 10))
         app.tables.cells.first(hasPrefix: name).tap()
+        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Matrix").waitForExistence(timeout: 10))
     }
     
     func wait(_ timeout: TimeInterval = 1) {
