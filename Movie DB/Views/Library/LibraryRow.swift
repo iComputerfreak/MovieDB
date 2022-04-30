@@ -38,6 +38,7 @@ struct LibraryRow: View {
                             // MARK: FSK Rating
                             if let rating = mediaObject.parentalRating {
                                 rating.symbol
+                                    .font(.caption2)
                             }
                             // MARK: Year
                             if mediaObject.year != nil {
