@@ -37,8 +37,7 @@ struct LibraryRow: View {
                             }
                             // MARK: FSK Rating
                             if let rating = mediaObject.parentalRating {
-                                Image(systemName: "\(rating.label).square")
-                                    .foregroundColor(rating.color ?? .primary)
+                                rating.symbol
                             }
                             // MARK: Year
                             if mediaObject.year != nil {

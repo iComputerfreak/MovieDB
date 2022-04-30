@@ -30,7 +30,8 @@ struct WatchProvidersInfo: View {
                         }
                     }
                 }
-                .padding(.vertical)
+                .padding(.top, 8)
+                .padding(.bottom, 3)
                 Text("Powered by [JustWatch.com](https://www.justwatch.com)")
                     .font(.footnote)
             }

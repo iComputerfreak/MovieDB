@@ -22,11 +22,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             PersistenceController.prepareForUITesting()
         }
         #endif
-        // Register color transformer
-        ValueTransformer.setValueTransformer(
-            SerializableColorTransformer(),
-            forName: NSValueTransformerName(rawValue: "SerializableColorTransformer")
-        )
+        // Register transformers
+        SerializableColorTransformer.register()
+        WatchProviderTransformer.register()
         
         // MARK: Update Poster Deny List
         Task {
@@ -88,4 +86,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
+    
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = SceneDelegate.self
+        return sceneConfig
+      }
 }

@@ -61,7 +61,7 @@ struct ImportExportSection: View {
                 importContext: importContext,
                 onProgress: { progress in
                     // Update the loading view
-                    self.config.loadingText = "Loading \(progress) media objects..."
+                    self.config.loadingText = "Loading\n\(progress)\nmedia objects..."
                 }, onFail: { log in
                     importLogger?.log(contentsOf: log, level: .info)
                     importLogger?.critical("Importing failed!")

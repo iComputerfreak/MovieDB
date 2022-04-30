@@ -26,7 +26,6 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
     }
     
     public required init?(coder: NSCoder) {
-        print("Decoding WatchProvider...")
         id = coder.decodeInteger(forKey: CodingKeys.id.stringValue)
         // swiftlint:disable:next force_cast
         let typeString = coder.decodeObject(forKey: CodingKeys.type.stringValue) as! String
@@ -79,14 +78,17 @@ class WatchProviderTransformer: NSSecureUnarchiveFromDataTransformer {
             return nil
         }
         // swiftlint:disable:next force_try
-        return try! NSKeyedUnarchiver.unarchivedArrayOfObjects(ofClass: WatchProvider.self, from: data)
+        return try! NSKeyedUnarchiver.unarchivedArrayOfObjects(
+            ofClasses: [WatchProvider.self, NSString.self],
+            from: data
+        )
     }
     
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let provider = value as? [WatchProvider] else {
+        guard let providers = value as? [WatchProvider] else {
             return nil
         }
         // swiftlint:disable:next force_try
-        return try! NSKeyedArchiver.archivedData(withRootObject: provider, requiringSecureCoding: true)
+        return try! NSKeyedArchiver.archivedData(withRootObject: providers, requiringSecureCoding: true)
     }
 }

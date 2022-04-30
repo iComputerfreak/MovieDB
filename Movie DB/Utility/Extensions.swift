@@ -84,3 +84,14 @@ extension CharacterSet {
 extension Color {
     static let systemBackground = Color(UIColor.systemBackground)
 }
+
+extension NSSecureUnarchiveFromDataTransformer {
+    static var name: NSValueTransformerName { .init(rawValue: String(describing: Self.self)) }
+    
+    static func register() {
+        ValueTransformer.setValueTransformer(
+            Self(),
+            forName: Self.name
+        )
+    }
+}

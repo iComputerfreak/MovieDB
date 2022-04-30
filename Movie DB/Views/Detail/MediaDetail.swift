@@ -21,7 +21,9 @@ struct MediaDetail: View {
                 TitleView(media: mediaObject)
                 UserData()
                 BasicInfo()
-                WatchProvidersInfo()
+                if !mediaObject.watchProviders.isEmpty {
+                    WatchProvidersInfo()
+                }
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())

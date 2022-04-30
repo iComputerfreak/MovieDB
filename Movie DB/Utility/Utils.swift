@@ -321,6 +321,11 @@ public struct ParentalRating {
     var color: Color?
     var label: String
     
+    var symbol: some View {
+        Image(systemName: "\(label).square")
+            .foregroundColor(color ?? .primary)
+    }
+    
     init(_ label: String, color: Color? = nil) {
         self.label = label
         self.color = color
