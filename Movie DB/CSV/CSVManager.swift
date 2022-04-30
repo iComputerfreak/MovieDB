@@ -43,7 +43,7 @@ struct CSVManager {
         .notes: (\Media.notes, nil),
         .creationDate: (\Media.creationDate, { dateFormatter.string(from: $0 as! Date) }),
         
-        .id: (\Media.id as KeyPath<Media, UUID>, { ($0 as! UUID).uuidString }),
+        .id: (\Media.id as KeyPath<Media, UUID?>, { ($0 as! UUID).uuidString }),
         .title: (\Media.title, nil),
         .originalTitle: (\Media.originalTitle, nil),
         .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: arraySeparator) }),

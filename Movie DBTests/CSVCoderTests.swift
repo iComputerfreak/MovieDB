@@ -168,7 +168,7 @@ class CSVCoderTests: XCTestCase {
     private func testEncodedMedia(_ data: [CSVManager.CSVKey: String], encodedMedia media: Media) throws {
         // data[key] never returns nil, since every value is read from CSV and nil-values in CSV are empty strings
         // If data[key] returns nil, that means, that the CSV value was never read/written and therefore is a bug in the CSVCoder!
-        XCTAssertEqual(data[.id], media.id.description)
+        XCTAssertEqual(data[.id], media.id?.uuidString)
         XCTAssertEqual(data[.mediaType], media.type.rawValue)
         XCTAssertEqual(data[.personalRating], media.personalRating.rawValue.description)
         let tagNames = media.tags.map(\.name)
@@ -234,6 +234,6 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
         XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:")
-        XCTAssertEqual(lines[2], ";,\";true;;\(media.id);The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;\(CSVManager.dateFormatter.string(from: media.creationDate))")
+        XCTAssertEqual(lines[2], ";,\";true;;\(media.id?.uuidString ?? "");The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;\(CSVManager.dateFormatter.string(from: media.creationDate))")
     }
 }

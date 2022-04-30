@@ -127,11 +127,13 @@ public class Media: NSManagedObject {
                     // Unable to construct image
                     return
                 }
+                try Task.checkCancellation()
                 // Create the Thumbnail object on the correct thread
-                await self.managedObjectContext!.perform {
+                try await self.managedObjectContext!.perform {
                     let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: imageData)
                     // We don't need to set this on the main actor, since we could be on a background thread loading some disposable data.
                     // We just use the MOC thread, which will be the main thread anyways, in case we are dealing with models diesplayed in the view
+                    try Task.checkCancellation()
                     self.thumbnail = thumbnail
                 }
             } catch {

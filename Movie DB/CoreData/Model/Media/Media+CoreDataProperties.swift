@@ -14,7 +14,7 @@ import SwiftUI
 
 extension Media {
     /// The internal library id
-    @NSManaged public var id: UUID
+    @NSManaged public var id: UUID?
     /// The type of media
     public var type: MediaType {
         get { getEnum(forKey: "type", defaultValue: .movie) }

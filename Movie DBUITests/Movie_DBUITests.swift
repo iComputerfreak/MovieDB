@@ -15,14 +15,21 @@ class Movie_DBUITests: XCTestCase {
     var libraryNavBar: XCUIElement {
         app.navigationBars["Library"]
     }
+    
     var addMediaNavBar: XCUIElement {
         app.navigationBars["Add Media"]
     }
+    
     var addMediaButton: XCUIElement {
         libraryNavBar.buttons["add-media"]
     }
+    
     var addMediaSearch: XCUIElement {
         addMediaNavBar.searchFields.firstMatch
+    }
+    
+    var tabBar: XCUIElementQuery {
+        app.tabBars.element.buttons
     }
 
     override func setUpWithError() throws {
@@ -53,14 +60,7 @@ class Movie_DBUITests: XCTestCase {
     
     func testAddTwice() {
         app.launch()
-        addMedia("Matrix", name: "The Matrix, Movie")
-        // Wait until the first movie has been added
-        XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
-        // We need to scroll a bit to fix the add button not being hittable
-        app.swipeUp()
-        XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
-        // Add it again
-        addMedia("Matrix", name: "The Matrix, Movie")
+        addMatrixAndBlacklist()
         // Now we should have been displayed the error
         XCTAssertEqual(app.alerts.element.label, "Already Added")
     }
@@ -227,15 +227,7 @@ class Movie_DBUITests: XCTestCase {
     func testSearch() {
         app.launch()
         
-        addMatrix()
-        XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
-        
-        // We need to scroll a bit to fix the add button not being hittable
-        app.swipeUp()
-        XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
-        
-        addBlacklist()
-        XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].waitForExistence(timeout: 10))
+        addMatrixAndBlacklist()
         
         // Search for 'Blacklist'
         libraryNavBar.searchFields.element.wait().tap()
@@ -244,6 +236,26 @@ class Movie_DBUITests: XCTestCase {
         // Check results
         XCTAssertEqual(app.tables.cells.count, 1)
         XCTAssertEqual(app.tables.cells.element.label, "The Blacklist, 2013")
+    }
+    
+    func testResetMedia() {
+        app.launch()
+        
+        addMatrixAndBlacklist()
+        
+        tabBar["Settings"].tap()
+        app.tables.cells["Reset Library"].tap()
+        // Alert should have popped up
+        app.alerts.firstMatch.buttons["Delete"].wait().tap()
+        
+        // TODO: Crash when performing reset (EXC_BREAKPOINT)
+        
+        tabBar["Library"].tap()
+        
+        wait(5)
+        
+        // Should be empty
+        XCTAssertEqual(app.tables.cells.count, 0)
     }
     
     // TODO: UI Tests for settings
@@ -260,12 +272,24 @@ class Movie_DBUITests: XCTestCase {
         addMedia("Blacklist", name: "The Blacklist, Series")
     }
     
+    func addMatrixAndBlacklist() {
+        addMatrix()
+        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Matrix").waitForExistence(timeout: 10))
+        
+        // We need to scroll a bit to fix the add button not being hittable
+        app.swipeUp()
+        XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
+        
+        addBlacklist()
+        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Blacklist").waitForExistence(timeout: 10))
+    }
+    
     func addMedia(_ query: String, name: String) {
         addMediaButton.tap()
         addMediaSearch.tap()
         addMediaSearch.typeText("\(query)\n")
-        XCTAssertTrue(app.tables.cells[name].waitForExistence(timeout: 10))
-        app.tables.cells[name].tap()
+        XCTAssertTrue(app.tables.cells.first(hasPrefix: name).waitForExistence(timeout: 10))
+        app.tables.cells.first(hasPrefix: name).tap()
     }
     
     func wait(_ timeout: TimeInterval = 1) {
