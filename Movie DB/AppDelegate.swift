@@ -26,6 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Register transformers
         SerializableColorTransformer.register()
         WatchProviderTransformer.register()
+        EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
         Task {
@@ -38,9 +39,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Only update once every 24h
             guard diff >= 24 * 60 * 60 else {
                 let durationString = (diff / Double(60 * 60)).formatted(.number.precision(.fractionLength(2)))
-                let diffString = diff.formatted(.number.precision(.fractionLength(2)))
-                print("Last deny list update was \(durationString) hours ago. " +
-                      "Not updating deny list. (\(diffString) < \((24 * 60 * 60).formatted(.number))")
+                print("Last deny list update was \(durationString) hours ago. Not updating deny list. (< 24h)")
                 return
             }
             print("Updating deny list...")

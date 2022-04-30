@@ -16,12 +16,12 @@ struct ExtendedInfo: View {
             EmptyView()
         } else {
             Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
+                if let tagline = mediaObject.tagline, !tagline.isEmpty {
+                    Text(tagline)
+                        .headline("Tagline")
+                }
                 // Movie exclusive data
                 if let movie = mediaObject as? Movie {
-                    if let tagline = movie.tagline, !tagline.isEmpty {
-                        Text(tagline)
-                            .headline("Tagline")
-                    }
                     if movie.budget > 0 {
                         Text(Utils.moneyFormatter.string(from: movie.budget)!)
                             .headline("Budget")
@@ -54,6 +54,21 @@ struct ExtendedInfo: View {
                     if !show.networks.isEmpty {
                         Text(show.networks.map(\.name).joined(separator: ", "))
                             .headline("Networks")
+                    }
+                    if !show.createdBy.isEmpty {
+                        Text(show.createdBy.sorted(by: { name1, name2 in
+                            let lastName1 = name1.components(separatedBy: .whitespaces).last
+                            let lastName2 = name2.components(separatedBy: .whitespaces).last
+                            // Check against empty and nil strings
+                            if lastName1?.isEmpty ?? true {
+                                return true
+                            } else if lastName2?.isEmpty ?? true {
+                                return false
+                            }
+                            // Sort by last name
+                            return lastName1!.lexicographicallyPrecedes(lastName2!)
+                        }).joined(separator: ", ")) // swiftlint:disable:this multiline_function_chains
+                            .headline("Created by")
                     }
                 }
                 // TMDB Data

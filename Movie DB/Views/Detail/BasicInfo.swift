@@ -101,8 +101,36 @@ struct BasicInfo: View {
                     }
                     .fixHighlighting()
                 }
+                if mediaObject.type == .show, let show = mediaObject as? Show {
+                    // MARK: Last Episode
+                    if let lastEpisode = show.lastEpisodeToAir {
+                        Text(episodeAirDateString(lastEpisode))
+                            .headline("Last Episode")
+                    }
+                    // MARK: Next Episode
+                    if let nextEpisode = show.nextEpisodeToAir {
+                        Text(episodeAirDateString(nextEpisode))
+                            .headline("Next Episode")
+                    }
+                }
             }
         }
+    }
+    
+    /// Creates a representation for a given Episode with an airDate
+    ///
+    /// Example:
+    /// `S8E11 (15.12.2022)`
+    ///
+    /// - Parameter episode: The Episode to represent
+    /// - Returns: The string describing the episode and its air date
+    func episodeAirDateString(_ episode: Episode) -> String {
+        var result = "S\(episode.seasonNumber)E\(episode.episodeNumber)"
+        if let airDate = episode.airDate {
+            let formattedDate = airDate.formatted(date: .numeric, time: .omitted)
+            result += " (\(formattedDate))"
+        }
+        return result
     }
 }
 

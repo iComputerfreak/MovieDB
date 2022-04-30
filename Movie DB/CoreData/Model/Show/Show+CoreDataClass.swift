@@ -53,6 +53,8 @@ public class Show: Media {
             self.showType = showData.showType
             self.networks = Set(self.transferIntoContext(showData.networks))
             self.createdBy = showData.createdBy
+            self.nextEpisodeToAir = showData.nextEpisodeToAir
+            self.lastEpisodeToAir = showData.lastEpisodeToAir
         }
     }
     

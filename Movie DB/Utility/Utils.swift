@@ -253,12 +253,12 @@ extension Utils {
     static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
     
     /// The `DateFormatter` for translating to and from TMDB date representation
-    static var tmdbDateFormatter: DateFormatter {
+    static var tmdbDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = .utc
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
-    }
+    }()
     
     /// Builds the URL for an TMDB image
     /// - Parameters:
