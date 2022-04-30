@@ -46,21 +46,26 @@ class Movie_DBUITests: XCTestCase {
     
     func testAddMovie() {
         app.launch()
-        addMedia("Matrix", name: "The Matrix, Movie")
+        addMedia("Matrix", name: "The Matrix", type: .movie)
         // Matrix should be in the library now
         XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
     }
     
     func testAddShow() {
         app.launch()
-        addMedia("Blacklist", name: "The Blacklist, Series")
+        addMedia("Blacklist", name: "The Blacklist", type: .show)
         // Matrix should be in the library now
         XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].waitForExistence(timeout: 10))
     }
     
     func testAddTwice() {
         app.launch()
-        addMatrixAndBlacklist()
+        addMatrix()
+        // We need to scroll a bit to fix the add button not being hittable
+        app.swipeUp()
+        XCTAssertTrue(addMediaButton.waitForHittable(app).isHittable)
+        // Add it again
+        addMatrix(checkAdded: false)
         // Now we should have been displayed the error
         XCTAssertEqual(app.alerts.element.label, "Already Added")
     }
@@ -305,12 +310,12 @@ class Movie_DBUITests: XCTestCase {
         app.navigationBars.element.buttons.firstMatch.tap()
     }
     
-    func addMatrix() {
-        addMedia("Matrix", name: "The Matrix, Movie")
+    func addMatrix(checkAdded: Bool = true) {
+        addMedia("Matrix", name: "The Matrix", type: .movie, checkAdded: checkAdded)
     }
     
-    func addBlacklist() {
-        addMedia("Blacklist", name: "The Blacklist, Series")
+    func addBlacklist(checkAdded: Bool = true) {
+        addMedia("Blacklist", name: "The Blacklist", type: .show, checkAdded: checkAdded)
     }
     
     func addMatrixAndBlacklist() {
@@ -321,18 +326,28 @@ class Movie_DBUITests: XCTestCase {
         addBlacklist()
     }
     
-    func addMedia(_ query: String, name: String) {
+    func addMedia(_ query: String, name: String, type: MediaType, checkAdded: Bool = true) {
         addMediaButton.tap()
         addMediaSearch.tap()
         addMediaSearch.typeText("\(query)\n")
-        XCTAssertTrue(app.tables.cells.first(hasPrefix: name).waitForExistence(timeout: 10))
-        app.tables.cells.first(hasPrefix: name).tap()
-        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Matrix").waitForExistence(timeout: 10))
+        app.tables.cells
+            .first(hasPrefix: "\(name), \(type == .movie ? "Movie" : "Series")")
+            .wait()
+            .tap()
+        if checkAdded {
+            XCTAssertTrue(app.tables.cells
+                .first(hasPrefix: name)
+                .waitForExistence(timeout: 10))
+        }
     }
     
     func wait(_ timeout: TimeInterval = 1) {
         XCTAssertFalse(app.wait(for: .runningBackground, timeout: timeout))
     }
+}
+
+enum MediaType {
+    case movie, show
 }
 
 extension XCUIElementQuery {

@@ -91,6 +91,8 @@ struct TagListView: View {
                                     )
                                     alert.addTextField { textField in
                                         textField.autocapitalizationType = .words
+                                        // Fill in the current name
+                                        textField.text = tag.name
                                     }
                                     alert.addAction(UIAlertAction(
                                         title: NSLocalizedString("Cancel"),
