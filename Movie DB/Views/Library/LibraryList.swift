@@ -90,12 +90,27 @@ struct LibraryList: View {
                     LibraryRow()
                         .environmentObject(mediaObject)
                         .fixHighlighting()
-                }
-                .onDelete { indexSet in
-                    for offset in indexSet {
-                        let media = self.filteredMedia[offset]
-                        self.managedObjectContext.delete(media)
-                    }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button("Delete", role: .destructive) {
+                                print("Deleting \(mediaObject.title)")
+                                self.managedObjectContext.delete(mediaObject)
+                            }
+                            Button("Reload") {
+                                Task(priority: .userInitiated) {
+                                    do {
+                                    try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
+                                    } catch {
+                                        print("Error updating \(mediaObject.title): \(error)")
+                                        AlertHandler.showSimpleAlert(
+                                            title: "Error updating",
+                                            message: "Error updating \(mediaObject.title): " +
+                                            error.localizedDescription
+                                        )
+                                    }
+                                }
+                            }
+                            .tint(.blue)
+                        }
                 }
             }
         }
@@ -117,5 +132,12 @@ struct LibraryList: View {
             footerString += NSLocalizedString(" total")
         }
         return Text(footerString)
+    }
+}
+
+struct LibraryList_Previews: PreviewProvider {
+    static var previews: some View {
+        LibraryList(searchText: "", filterSetting: .init(), sortingOrder: .created, sortingDirection: .ascending)
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }
