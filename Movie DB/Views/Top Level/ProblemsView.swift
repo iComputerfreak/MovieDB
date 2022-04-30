@@ -60,6 +60,7 @@ struct ProblemsView: View {
                     ForEach(missingInfoMedia) { mediaObject in
                         let missing = mediaObject.missingInformation()
                             .map(\.rawValue)
+                            .map { NSLocalizedString($0) }
                             .sorted()
                             .joined(separator: ", ")
                         ProblemsLibraryRow(content: Text("Missing: \(missing)").italic())

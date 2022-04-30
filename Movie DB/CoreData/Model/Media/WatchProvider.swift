@@ -49,7 +49,7 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
         case ads
         case buy
         
-        var capitalized: String { rawValue.capitalized }
+        var capitalized: String { NSLocalizedString(rawValue.capitalized, comment: "A type of watch provider") }
         var priority: Int {
             switch self {
             case .flatrate:
