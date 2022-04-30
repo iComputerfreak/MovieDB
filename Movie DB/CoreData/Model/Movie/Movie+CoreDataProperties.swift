@@ -40,8 +40,6 @@ extension Movie {
         get { getInt(forKey: "revenue") }
         set { setInt(newValue, forKey: "revenue") }
     }
-    /// The tagline of the movie
-    @NSManaged public var tagline: String?
     /// Whether the movie is an adult movie
     @NSManaged public var isAdult: Bool
     /// The id of the media on IMDB.com

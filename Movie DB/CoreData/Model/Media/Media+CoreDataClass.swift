@@ -44,6 +44,7 @@ public class Media: NSManagedObject {
             self.imagePath = tmdbData.imagePath
             self.genres = Set(self.transferIntoContext(tmdbData.genres))
             self.overview = tmdbData.overview
+            self.tagline = tmdbData.tagline
             self.status = tmdbData.status
             self.originalLanguage = tmdbData.originalLanguage
             self.productionCompanies = Set(self.transferIntoContext(tmdbData.productionCompanies))
@@ -70,7 +71,6 @@ public class Media: NSManagedObject {
         super.awakeFromInsert()
         self.castMembersSortOrder = []
         self.tags = []
-        self.watchProviders = []
         self.creationDate = Date()
         self.modificationDate = Date()
     }
@@ -78,7 +78,7 @@ public class Media: NSManagedObject {
     override public func willSave() {
         // Changing properties in this function will invoke willSave again.
         // We need to make sure we don't result in a infinite loop
-        if modificationDate.timeIntervalSince(Date()) > 10.0 {
+        if (modificationDate?.timeIntervalSince(Date()) ?? 100.0) > 10.0 {
             self.modificationDate = Date()
         }
     }

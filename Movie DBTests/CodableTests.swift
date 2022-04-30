@@ -51,6 +51,7 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movie.imagePath, "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg")
         assertEqual(movie.genres, [Genre.create(context: testContext, id: 28, name: "Action"), Genre.create(context: testContext, id: 878, name: "Science Fiction")])
         XCTAssertEqual(movie.overview, "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.")
+        XCTAssertEqual(movie.tagline, "Welcome to the Real World.")
         XCTAssertEqual(movie.status, .released)
         XCTAssertEqual(movie.originalLanguage, "en")
         
@@ -69,7 +70,6 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movieData.runtime, 136)
         XCTAssertEqual(movieData.budget, 63000000)
         XCTAssertEqual(movieData.revenue, 463517383)
-        XCTAssertEqual(movieData.tagline, "Welcome to the Real World.")
         XCTAssertEqual(movieData.isAdult, false)
         
         // Translations, Keywords, Videos and Cast
@@ -113,6 +113,7 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movie.imagePath, "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg")
         assertEqual(movie.genres, [Genre.create(context: testContext, id: 18, name: "Drama")])
         XCTAssertEqual(movie.overview, "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.")
+        XCTAssertEqual(movie.tagline, "Mischief. Mayhem. Soap.")
         XCTAssertEqual(movie.status, .released)
         XCTAssertEqual(movie.originalLanguage, "en")
         
@@ -131,7 +132,6 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movieData.runtime, 139)
         XCTAssertEqual(movieData.budget, 63000000)
         XCTAssertEqual(movieData.revenue, 100853753)
-        XCTAssertEqual(movieData.tagline, "Mischief. Mayhem. Soap.")
         XCTAssertEqual(movieData.isAdult, false)
         
         // Translations, Keywords, Videos and Cast

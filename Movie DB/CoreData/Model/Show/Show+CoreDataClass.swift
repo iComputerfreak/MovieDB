@@ -52,6 +52,7 @@ public class Show: Media {
             self.seasons = Set(self.transferIntoContext(showData.seasons))
             self.showType = showData.showType
             self.networks = Set(self.transferIntoContext(showData.networks))
+            self.createdBy = showData.createdBy
         }
     }
     

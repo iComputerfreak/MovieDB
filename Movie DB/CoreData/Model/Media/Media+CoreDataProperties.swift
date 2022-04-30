@@ -53,6 +53,8 @@ extension Media {
     @NSManaged public var genres: Set<Genre>
     /// A short media description
     @NSManaged public var overview: String?
+    /// The tagline of the media
+    @NSManaged public var tagline: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
     public var status: MediaStatus {
         get { getEnum(forKey: "status", defaultValue: .planned) }
@@ -93,7 +95,7 @@ extension Media {
     /// The date the media object was created
     @NSManaged public var creationDate: Date
     /// The date the media object was last modified
-    @NSManaged public var modificationDate: Date
+    @NSManaged public var modificationDate: Date?
     /// The date the media object was released or first aired
     @NSManaged public var releaseDateOrFirstAired: Date?
     /// The color of the parental rating label

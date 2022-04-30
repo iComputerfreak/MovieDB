@@ -8,7 +8,7 @@
 
 import XCTest
 
-// swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language function_body_length type_body_length
+// swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language function_body_length type_body_length file_length
 class Movie_DBUITests: XCTestCase {
     var app: XCUIApplication! = nil
     
@@ -263,9 +263,7 @@ class Movie_DBUITests: XCTestCase {
         addMatrix()
         
         // Add a few tags
-        app.cells.first(hasPrefix: "The Matrix").tap()
-        app.navigationBars["The Matrix"].buttons["Edit"].tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+        goToTags(mediaName: "The Matrix", app: app)
         addTag("Action", app)
         addTag("Adventure", app)
         addTag("Horror", app)
@@ -299,11 +297,39 @@ class Movie_DBUITests: XCTestCase {
         XCTAssertEqual(app.tables.cells.count, 0)
     }
     
+    func testRenameTag() {
+        let oldName = "Old Tag Name"
+        let newName = "New Tag"
+        
+        app.launch()
+        addMatrix()
+        goToTags(mediaName: "The Matrix", app: app)
+        addTag(oldName, app)
+        // Rename it
+        app.tables.cells[oldName].buttons["Edit"].tap()
+        let textField = app.alerts.firstMatch.textFields.firstMatch
+        textField.tap()
+        // Delete the old name
+        textField.typeText(Array(repeating: XCUIKeyboardKey.delete.rawValue, count: oldName.count).joined())
+        textField.typeText(newName)
+        app.alerts.firstMatch.buttons["Rename"].tap()
+        // Check if it worked
+        XCTAssertTrue(app.tables.cells[newName].wait().exists)
+    }
+    
+    func goToTags(mediaName: String, app: XCUIApplication) {
+        app.cells.first(hasPrefix: mediaName).tap()
+        app.navigationBars[mediaName].buttons["Edit"].tap()
+        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+    }
+    
     func addTag(_ name: String, _ app: XCUIApplication) {
         let navBar = app.navigationBars["Tags"]
         navBar.buttons["Add"].tap()
         app.textFields.element.typeText(name)
         app.alerts.buttons["Add"].tap()
+        // Check if it worked
+        XCTAssertTrue(app.tables.cells[name].wait().exists)
     }
     
     func goBack() {

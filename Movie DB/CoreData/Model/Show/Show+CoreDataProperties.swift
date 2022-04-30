@@ -55,6 +55,8 @@ extension Show {
     @NSManaged public var seasons: Set<Season>
     /// The list of networks that publish the show
     @NSManaged public var networks: Set<ProductionCompany>
+    /// The list of names of the people who created this show
+    @NSManaged public var createdBy: [String]
     
     public var lastWatched: EpisodeNumber? {
         get {

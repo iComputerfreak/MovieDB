@@ -18,6 +18,7 @@ struct TMDBData: Decodable {
     var originalTitle: String
     var imagePath: String?
     var genres: [Genre]
+    var tagline: String?
     var overview: String?
     var status: MediaStatus
     var originalLanguage: String
@@ -54,6 +55,7 @@ struct TMDBData: Decodable {
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
         self.genres = try container.decode([Genre].self, forKey: .genres)
         self.overview = try container.decode(String?.self, forKey: .overview)
+        self.tagline = try container.decode(String?.self, forKey: .tagline)
         self.status = try container.decode(MediaStatus.self, forKey: .status)
         self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
         self.productionCompanies = try container.decode([ProductionCompany].self, forKey: .productionCompanies)
@@ -176,6 +178,7 @@ struct TMDBData: Decodable {
         case imagePath = "poster_path"
         case genres = "genres"
         case overview
+        case tagline
         case status
         case originalLanguage = "original_language"
         case productionCompanies = "production_companies"
@@ -244,7 +247,6 @@ struct TMDBData: Decodable {
         var runtime: Int?
         var budget: Int
         var revenue: Int
-        var tagline: String?
         var isAdult: Bool
         var imdbID: String?
         
@@ -254,7 +256,6 @@ struct TMDBData: Decodable {
             case runtime
             case budget
             case revenue
-            case tagline
             case isAdult = "adult"
             case imdbID = "imdb_id"
         }
@@ -269,6 +270,8 @@ struct TMDBData: Decodable {
         var lastAirDate: Date? {
             Utils.tmdbDateFormatter.date(from: rawLastAirDate)
         }
+//        var lastEpisodeToAir: Episode?
+//        var nextEpisodeToAir: Episode?
         var numberOfSeasons: Int?
         var numberOfEpisodes: Int
         var episodeRuntime: [Int]
@@ -276,6 +279,23 @@ struct TMDBData: Decodable {
         var seasons: [Season]
         var showType: ShowType?
         var networks: [ProductionCompany]
+        var createdBy: [String]
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.rawFirstAirDate = try container.decode(String.self, forKey: .rawFirstAirDate)
+            self.rawLastAirDate = try container.decode(String.self, forKey: .rawLastAirDate)
+            self.numberOfSeasons = try container.decode(Int?.self, forKey: .numberOfSeasons)
+            self.numberOfEpisodes = try container.decode(Int.self, forKey: .numberOfEpisodes)
+            self.episodeRuntime = try container.decode([Int].self, forKey: .episodeRuntime)
+            self.isInProduction = try container.decode(Bool.self, forKey: .isInProduction)
+            self.seasons = try container.decode([Season].self, forKey: .seasons)
+            self.showType = try container.decode(ShowType?.self, forKey: .showType)
+            self.networks = try container.decode([ProductionCompany].self, forKey: .networks)
+            // created_by
+            let creators = try container.decode([Creator].self, forKey: .createdBy)
+            self.createdBy = creators.map(\.name)
+        }
         
         // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
@@ -288,6 +308,23 @@ struct TMDBData: Decodable {
             case seasons
             case showType = "type"
             case networks
+            case createdBy = "created_by"
         }
+    }
+}
+
+private struct Creator: Decodable {
+    let id: Int?
+    let creditID: String?
+    let name: String
+    let gender: Int?
+    let profilePath: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case creditID = "credit_id"
+        case name
+        case gender
+        case profilePath = "profile_path"
     }
 }

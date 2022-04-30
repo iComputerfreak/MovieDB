@@ -232,6 +232,7 @@
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
+		AB711FB4281D8974003ED045 /* Movie DB v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v3.xcdatamodel"; sourceTree = "<group>"; };
 		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -1488,10 +1489,11 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB711FB4281D8974003ED045 /* Movie DB v3.xcdatamodel */,
 				ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */,
 				AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */,
 			);
-			currentVersion = ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */;
+			currentVersion = AB711FB4281D8974003ED045 /* Movie DB v3.xcdatamodel */;
 			path = "Movie DB.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
