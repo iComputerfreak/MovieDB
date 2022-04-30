@@ -38,6 +38,9 @@ struct MediaLookupDetail: View {
             List {
                 LookupTitleView(media: mediaObject)
                 BasicInfo()
+                if !mediaObject.watchProviders.isEmpty {
+                    WatchProvidersInfo()
+                }
                 ExtendedInfo()
             }
             .listStyle(GroupedListStyle())

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import StoreKit
+import Foundation
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
@@ -29,17 +30,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: Update Poster Deny List
         Task {
             // Only update once per day
-            let lastUpdated = UserDefaults.standard.integer(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
+            let lastUpdated = UserDefaults.standard.double(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
             // Convert to full seconds
-            let time = Int(Date().timeIntervalSince1970)
+            let time = Date().timeIntervalSince1970
             let diff = time - lastUpdated
             
             // Only update once every 24h
-            guard diff <= 24 * 60 * 60 else {
-                print("Last deny list update was \(Double(diff) / (60 * 60 * 1000)) hours ago. " +
-                      "Not updating deny list. (\(diff) < \(24 * 60 * 60))")
+            guard diff >= 24 * 60 * 60 else {
+                let durationString = (diff / Double(60 * 60)).formatted(.number.precision(.fractionLength(2)))
+                let diffString = diff.formatted(.number.precision(.fractionLength(2)))
+                print("Last deny list update was \(durationString) hours ago. " +
+                      "Not updating deny list. (\(diffString) < \((24 * 60 * 60).formatted(.number))")
                 return
             }
+            print("Updating deny list...")
             
             // Load the deny list
             let denyListURL = URL(string: "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt")!
