@@ -22,10 +22,6 @@ struct ImportExportSection: View {
         Section {
             // MARK: - Import Button
             Button("Import Media", action: self.importMedia)
-                #if !targetEnvironment(macCatalyst)
-                // swiftlint:disable:next anonymous_argument_in_multiline_closure
-                .popover(item: self.$documentPicker, content: { $0 })
-                #endif
             
             // MARK: - Export Button
             Button(action: self.exportMedia) {
@@ -215,10 +211,6 @@ struct ImportExportSection: View {
             print("Canceling...")
             self.documentPicker = nil
         })
-        #if targetEnvironment(macCatalyst)
-        // On macOS present the file picker manually
-        UIApplication.shared.windows[0].rootViewController!.present(self.documentPicker!.viewController, animated: true)
-        #endif
     }
     
     func export(filename: String, content: @escaping (NSManagedObjectContext) throws -> String) {
@@ -235,6 +227,7 @@ struct ImportExportSection: View {
                     // Save as a file to share it
                     url = Utils.documentsPath.appendingPathComponent(filename)
                     try exportData.write(to: url!, atomically: true, encoding: .utf8)
+                    Utils.share(items: [url!])
                 } catch {
                     print("Error writing Export file")
                     print(error)
@@ -246,37 +239,6 @@ struct ImportExportSection: View {
                     }
                     return
                 }
-                #if targetEnvironment(macCatalyst)
-                // Show save file dialog
-                self.documentPicker = DocumentPicker(urlToExport: url) { url in
-                    print("Exporting \(url.lastPathComponent).")
-                    // Document picker finished. Invalidate it.
-                    Task {
-                        await MainActor.run {
-                            self.documentPicker = nil
-                        }
-                    }
-                    do {
-                        // Export the csv to the file
-                        try exportData.write(to: url, atomically: true, encoding: .utf8)
-                    } catch {
-                        print("Error exporting Export file:")
-                        print(error)
-                    }
-                } onCancel: {
-                    print("Canceling...")
-                    Task {
-                        await MainActor.run {
-                            self.documentPicker = nil
-                        }
-                    }
-                }
-                // On macOS present the file picker manually
-                UIApplication.shared.windows[0].rootViewController!
-                    .present(self.documentPicker!.viewController, animated: true)
-                #else
-                Utils.share(items: [url!])
-                #endif
                 Task {
                     await MainActor.run {
                         self.config.isLoading = false
