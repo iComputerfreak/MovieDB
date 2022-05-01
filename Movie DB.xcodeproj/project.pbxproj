@@ -80,6 +80,7 @@
 		AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FBB281D8ECF003ED045 /* TMDBDataHelpers.swift */; };
 		AB711FBE281D8F7D003ED045 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FBD281D8F7D003ED045 /* Episode.swift */; };
 		AB711FC0281DCC93003ED045 /* ParentalRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FBF281DCC93003ED045 /* ParentalRating.swift */; };
+		AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FC1281EB02F003ED045 /* MetadataInfo.swift */; };
 		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
 		AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB79E99D25C9F1850050BD8D /* CloudKit.framework */; };
@@ -243,6 +244,7 @@
 		AB711FBB281D8ECF003ED045 /* TMDBDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBDataHelpers.swift; sourceTree = "<group>"; };
 		AB711FBD281D8F7D003ED045 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		AB711FBF281DCC93003ED045 /* ParentalRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRating.swift; sourceTree = "<group>"; };
+		AB711FC1281EB02F003ED045 /* MetadataInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInfo.swift; sourceTree = "<group>"; };
 		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -761,6 +763,7 @@
 				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
 				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
 				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
+				AB711FC1281EB02F003ED045 /* MetadataInfo.swift */,
 				ABD864752817478A001A1F7C /* Components */,
 			);
 			path = Detail;
@@ -1093,6 +1096,7 @@
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */,
+				AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,7 @@ struct MediaDetail: View {
                     WatchProvidersInfo()
                 }
                 ExtendedInfo()
+                MetadataInfo()
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)

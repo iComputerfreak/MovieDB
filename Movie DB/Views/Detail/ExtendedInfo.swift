@@ -15,7 +15,7 @@ struct ExtendedInfo: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(header: HStack { Image(systemName: "ellipsis.circle.fill"); Text("Extended Information") }) {
+            Section(header: HStack { Image(systemName: "ellipsis.circle"); Text("Extended Information") }) {
                 if let tagline = mediaObject.tagline, !tagline.isEmpty {
                     Text(tagline)
                         .headline("Tagline")
@@ -23,11 +23,11 @@ struct ExtendedInfo: View {
                 // Movie exclusive data
                 if let movie = mediaObject as? Movie {
                     if movie.budget > 0 {
-                        Text(Utils.moneyFormatter.string(from: movie.budget)!)
+                        Text(movie.budget.formatted(.currency(code: "USD")))
                             .headline("Budget")
                     }
                     if movie.revenue > 0 {
-                        Text(Utils.moneyFormatter.string(from: movie.revenue)!)
+                        Text(movie.revenue.formatted(.currency(code: "USD")))
                             .headline("Revenue")
                     }
                     if let imdbID = movie.imdbID {
@@ -35,10 +35,10 @@ struct ExtendedInfo: View {
                             .headline("IMDB ID")
                     }
                 }
-                
+                let tmdbID = String(mediaObject.tmdbID)
                 LinkView(
-                    text: String(mediaObject.tmdbID),
-                    link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)"
+                    text: tmdbID,
+                    link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(tmdbID)"
                 )
                 .headline("TMDB ID")
                 if let homepageURL = mediaObject.homepageURL, !homepageURL.isEmpty {
@@ -46,16 +46,17 @@ struct ExtendedInfo: View {
                         .headline("Homepage")
                 }
                 if !mediaObject.productionCompanies.isEmpty {
-                    Text(String(mediaObject.productionCompanies.map(\.name).joined(separator: ", ")))
+                    Text(String(mediaObject.productionCompanies.map(\.name).sorted().joined(separator: ", ")))
                         .headline("Production Companies")
                 }
                 // Show exclusive data
                 if let show = mediaObject as? Show {
                     if !show.networks.isEmpty {
-                        Text(show.networks.map(\.name).joined(separator: ", "))
+                        Text(show.networks.map(\.name).sorted().joined(separator: ", "))
                             .headline("Networks")
                     }
                     if !show.createdBy.isEmpty {
+                        // Sort by last name
                         Text(show.createdBy.sorted(by: { name1, name2 in
                             let lastName1 = name1.components(separatedBy: .whitespaces).last
                             let lastName2 = name2.components(separatedBy: .whitespaces).last
@@ -72,9 +73,13 @@ struct ExtendedInfo: View {
                     }
                 }
                 // TMDB Data
-                Text(String.localizedStringWithFormat("%.2f", mediaObject.popularity))
+                let format: FloatingPointFormatStyle<Float> = .number.precision(.fractionLength(2))
+                Text(mediaObject.popularity.formatted(format))
                     .headline("Popularity")
-                Text("\(mediaObject.voteAverage)/10.0 points from \(mediaObject.voteCount) votes")
+                let avg = mediaObject.voteAverage.formatted(format)
+                let max = 10.formatted(.number.precision(.fractionLength(0)))
+                let count = mediaObject.voteCount.formatted()
+                Text("\(avg)/\(max) points from \(count) votes")
                     .headline("Scoring")
             }
         }
@@ -83,6 +88,13 @@ struct ExtendedInfo: View {
 
 struct ExtendedInfo_Previews: PreviewProvider {
     static var previews: some View {
-        ExtendedInfo()
+        List {
+            ExtendedInfo()
+        }
+        .environmentObject(PlaceholderData.movie as Media)
+        List {
+            ExtendedInfo()
+        }
+        .environmentObject(PlaceholderData.show as Media)
     }
 }

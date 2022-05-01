@@ -30,23 +30,6 @@ struct Utils {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
     
-    /// Returns a date formatter to display `Date` values.
-    static var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeZone = .utc
-        formatter.dateFormat = "dd.MM.yyyy"
-        return formatter
-    }
-    
-    /// Returns a number formatter to display money values
-    static var moneyFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "en_US")
-        formatter.usesGroupingSeparator = true
-        return formatter
-    }
-    
     private init() {}
     
     /// Executes an HTTP request with the given URL

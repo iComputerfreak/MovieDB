@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct SeasonsInfo: View {
     @EnvironmentObject private var mediaObject: Media
@@ -92,18 +93,13 @@ struct SeasonInfo: View {
             Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
             VStack(alignment: .leading) {
-                // Row 1
-                HStack {
-                    Text(season.name)
-                        .bold()
+                Text(season.name)
+                    .bold()
+                if season.airDate != nil {
+                    let date = season.airDate!.formatted(date: .numeric, time: .omitted)
+                    Text(date).italic()
                 }
-                // Row 2
-                HStack {
-                    if season.airDate != nil {
-                        Text(Utils.dateFormatter.string(from: season.airDate!))
-                    }
-                    Text("\(season.episodeCount) Episodes", tableName: "Plurals")
-                }
+                Text("\(season.episodeCount) Episodes", tableName: "Plurals")
             }
             .padding(.vertical)
         }
@@ -113,6 +109,6 @@ struct SeasonInfo: View {
 struct SeasonsInfo_Previews: PreviewProvider {
     static var previews: some View {
         SeasonsInfo()
-            .environmentObject(PlaceholderData.movie)
+            .environmentObject(PlaceholderData.show as Media)
     }
 }

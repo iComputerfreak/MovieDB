@@ -78,7 +78,7 @@ public class Media: NSManagedObject {
     override public func willSave() {
         // Changing properties in this function will invoke willSave again.
         // We need to make sure we don't result in a infinite loop
-        if (modificationDate?.timeIntervalSince(Date()) ?? 100.0) > 10.0 {
+        if (modificationDate?.distance(to: .now) ?? 100.0) > 10.0 {
             self.modificationDate = Date()
         }
     }
