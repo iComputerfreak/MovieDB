@@ -47,15 +47,11 @@ class Movie_DBUITests: XCTestCase {
     func testAddMovie() {
         app.launch()
         addMedia("Matrix", name: "The Matrix", type: .movie)
-        // Matrix should be in the library now
-        XCTAssertTrue(app.tables.cells["The Matrix, 1999"].waitForExistence(timeout: 10))
     }
     
     func testAddShow() {
         app.launch()
         addMedia("Blacklist", name: "The Blacklist", type: .show)
-        // Matrix should be in the library now
-        XCTAssertTrue(app.tables.cells["The Blacklist, 2013"].waitForExistence(timeout: 10))
     }
     
     func testAddTwice() {
@@ -73,25 +69,24 @@ class Movie_DBUITests: XCTestCase {
     func testAddAndRemove() {
         app.launch()
         addMatrix()
-        XCTAssertTrue(app.tables.cells["The Matrix, 1999"].wait().exists)
         // Delete the new movie
-        app.tables.cells["The Matrix, 1999"]
+        app.tables.cells.first(hasPrefix: "The Matrix,")
             .swipeLeft()
-        app.tables.cells["The Matrix, 1999"].buttons["Delete"]
+        app.tables.cells.first(hasPrefix: "The Matrix,").buttons["Delete"]
             .wait()
             .tap()
         // Should not exist anymore
-        XCTAssertFalse(app.tables.cells["The Matrix, 1999"].exists)
+        XCTAssertFalse(app.tables.cells.first(hasPrefix: "The Matrix,").exists)
     }
     
     func testShowMovieDetail() {
         app.launch()
         addMatrix()
-        app.tables.cells["The Matrix, 1999"]
+        app.tables.cells.first(hasPrefix: "The Matrix,")
             .wait()
             .tap()
         // Title cell
-        app.tables.cells["The Matrix, 1999"].tap()
+        app.tables.cells.first(hasPrefix: "The Matrix,").tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
         detailBackButton.tap()
         app.tables.cells
@@ -107,11 +102,11 @@ class Movie_DBUITests: XCTestCase {
     func testShowShowDetail() {
         app.launch()
         addBlacklist()
-        app.tables.cells["The Blacklist, 2013"]
+        app.tables.cells.first(hasPrefix: "The Blacklist,")
             .wait()
             .tap()
         // Title cell
-        app.tables.cells["The Blacklist, 2013"].tap()
+        app.tables.cells.first(hasPrefix: "The Blacklist,").tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
         detailBackButton.tap()
         app.tables.cells
@@ -133,7 +128,7 @@ class Movie_DBUITests: XCTestCase {
     func testEditShowDetail() {
         app.launch()
         addBlacklist()
-        app.tables.cells["The Blacklist, 2013"]
+        app.tables.cells.first(hasPrefix: "The Blacklist,")
             .wait()
             .tap()
         // Go into edit mode
@@ -234,7 +229,7 @@ class Movie_DBUITests: XCTestCase {
         
         // Check results
         XCTAssertEqual(app.tables.cells.count, 1)
-        XCTAssertEqual(app.tables.cells.element.label, "The Blacklist, 2013")
+        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Blacklist,").exists)
     }
     
     func testResetMedia() {
@@ -362,7 +357,7 @@ class Movie_DBUITests: XCTestCase {
             .tap()
         if checkAdded {
             XCTAssertTrue(app.tables.cells
-                .first(hasPrefix: name)
+                .first(hasPrefix: "\(name),")
                 .waitForExistence(timeout: 10))
         }
     }

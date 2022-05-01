@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TitleView: View {
-    let media: Media
+    @ObservedObject var media: Media
     
     var body: some View {
         Group {

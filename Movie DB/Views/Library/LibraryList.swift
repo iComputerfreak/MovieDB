@@ -110,6 +110,11 @@ struct LibraryList: View {
                                 }
                             }
                             .tint(.blue)
+                            #if DEBUG
+                            Button("Debug") {
+                                mediaObject.thumbnail = nil
+                            }
+                            #endif
                         }
                 }
             }
