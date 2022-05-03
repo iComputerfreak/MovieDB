@@ -290,6 +290,7 @@ extension Utils {
 
 enum UserError: Error {
     case noPro
+    case mediaAlreadyAdded
 }
 
 enum HTTPError: Error {

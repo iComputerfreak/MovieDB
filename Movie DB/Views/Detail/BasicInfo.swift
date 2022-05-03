@@ -34,7 +34,7 @@ struct BasicInfo: View {
             Section(header: HStack { Image(systemName: "info.circle"); Text("Basic Information") }) {
                 // MARK: Genres
                 if !mediaObject.genres.isEmpty {
-                    Text(mediaObject.genres.map(\.name).joined(separator: ", "))
+                    Text(mediaObject.genres.map(\.name).sorted().joined(separator: ", "))
                         .headline("Genres")
                 }
                 // MARK: Overview

@@ -18,7 +18,7 @@ struct AddMediaView: View {
     @State private var isLoading = false
     
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         LoadingView(isShowing: $isLoading) {
@@ -36,8 +36,8 @@ struct AddMediaView: View {
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }, label: { Text("Cancel") }))
+                    self.dismiss()
+                }, label: { Text("Close") }))
             }
         }
         .popover(isPresented: $isShowingProPopup) {
@@ -49,7 +49,14 @@ struct AddMediaView: View {
         print("Selected \(result.title)")
         // Add the media object to the library
         do {
-            try await library.addMedia(result, isLoading: $isLoading, isShowingProPopup: $isShowingProPopup)
+            try await library.addMedia(result, isLoading: $isLoading)
+        } catch UserError.mediaAlreadyAdded {
+            await MainActor.run {
+                AlertHandler.showSimpleAlert(
+                    title: NSLocalizedString("Already Added"),
+                    message: NSLocalizedString("You already have '\(result.title)' in your library.")
+                )
+            }
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             self.isShowingProPopup = true
@@ -64,7 +71,7 @@ struct AddMediaView: View {
             }
         }
         // Dismiss the AddMediaView
-        self.presentationMode.wrappedValue.dismiss()
+        self.dismiss()
     }
 }
 

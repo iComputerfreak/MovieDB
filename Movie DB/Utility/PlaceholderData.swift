@@ -88,6 +88,15 @@ enum PlaceholderData {
         s.parentalRating = .fskAgeSixteen
         return s
     }()
+    // A media with some missing information
+    static let problemShow: Show = {
+        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
+        let s = Show(context: context, tmdbData: tmdbData)
+        s.notes = "A masterpiece!"
+        s.lastWatched = .init(season: 7, episode: nil)
+        s.parentalRating = .fskAgeSixteen
+        return s
+    }()
     
     static let allTags: [Tag] = [
         Tag(name: "Future", context: context),

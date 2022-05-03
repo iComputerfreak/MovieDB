@@ -14,7 +14,7 @@ struct ProblemsView: View {
         entity: Media.entity(),
         sortDescriptors: [],
         // Filter out all media objects that don't have missing information
-        predicate:NSCompoundPredicate(andPredicateWithSubpredicates: [
+        predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
             NSCompoundPredicate(orPredicateWithSubpredicates: [
                 NSPredicate(
                     format: "type = %@ AND watched = TRUE",
@@ -45,29 +45,63 @@ struct ProblemsView: View {
                 )
             ])
         ]),
-        animation: nil
+        animation: .default
     ) private var missingInfoMedia: FetchedResults<Media>
     
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
     @State private var problems: [Media: Set<Media.MediaInformation>] = [:]
-        
+    @State private var presentedMedia = PresentedMedia()
+    
     var body: some View {
         NavigationView {
-            if missingInfoMedia.isEmpty {
-                Text("There are no problems in your library.")
-                    .navigationBarTitle("Problems")
-            } else {
+            ZStack {
+                // We maintain an invisible list in the background to be able to permanently keep a NavigationLink
+                // "visible" that can be triggered programmatically. This way, we can keep the selected media active,
+                // even after the below if-else-code evaluates to the true branch and hides the list of medias.
                 List {
-                    ForEach(missingInfoMedia) { mediaObject in
-                        let missing = mediaObject.missingInformation()
-                            .map(\.rawValue)
-                            .map { NSLocalizedString($0) }
-                            .sorted()
-                            .joined(separator: ", ")
-                        ProblemsLibraryRow(content: Text("Missing: \(missing)").italic())
-                            .environmentObject(mediaObject)
+                    NavigationLink(isActive: $presentedMedia.isPresenting) {
+                        if let mediaObject = presentedMedia.media {
+                            MediaDetail()
+                                .environmentObject(mediaObject)
+                        } else {
+                            Text("Error")
+                        }
+                    } label: {
+                        EmptyView()
                     }
+                    .hidden()
+                    .frame(height: 0)
                 }
-                .navigationBarTitle("Problems")
+                .disabled(true)
+                .opacity(0)
+                
+                if missingInfoMedia.isEmpty {
+                    Text("There are no problems in your library.")
+                        .navigationBarTitle("Problems")
+                } else {
+                    List {
+                        ForEach(missingInfoMedia) { mediaObject in
+                            Button {
+                                self.presentedMedia.media = mediaObject
+                            } label: {
+                                ZStack(alignment: .leading) {
+                                    // NavigationLink used to display the chevron (cannot be activated)
+                                    NavigationLink(
+                                        isActive: .constant(false),
+                                        destination: { EmptyView() },
+                                        label: { EmptyView() }
+                                    )
+                                    ProblemsLibraryRow()
+                                        .environmentObject(mediaObject)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .navigationBarTitle("Problems")
+                    }
+                    .listStyle(GroupedListStyle())
+                }
             }
         }
     }
@@ -76,5 +110,13 @@ struct ProblemsView: View {
 struct ProblemsView_Previews: PreviewProvider {
     static var previews: some View {
         ProblemsView()
+    }
+}
+
+struct PresentedMedia {
+    var media: Media?
+    var isPresenting: Bool {
+        get { media != nil }
+        set { media = newValue ? media : nil }
     }
 }

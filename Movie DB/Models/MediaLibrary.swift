@@ -53,15 +53,10 @@ struct MediaLibrary {
     ///   - result: The search result including the tmdbID and mediaType
     ///   - isLoading: A binding that is updated while the function is loading the new object
     ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
-    func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>, isShowingProPopup: Binding<Bool>) async throws {
+    func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>) async throws {
         // There should be no media objects with this tmdbID in the library
         guard !self.mediaExists(result.id, in: context) else {
-            // Already added
-            AlertHandler.showSimpleAlert(
-                title: NSLocalizedString("Already Added"),
-                message: NSLocalizedString("You already have '\(result.title)' in your library.")
-            )
-            return
+            throw UserError.mediaAlreadyAdded
         }
         // Pro limitations
         guard Utils.purchasedPro() || (self.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
