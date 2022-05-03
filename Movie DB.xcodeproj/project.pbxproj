@@ -84,6 +84,9 @@
 		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
 		AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB79E99D25C9F1850050BD8D /* CloudKit.framework */; };
+		AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */; };
+		AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */; };
+		AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
 		AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA37264D770F0048B8CC /* LanguageChooser.swift */; };
@@ -248,6 +251,9 @@
 		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUserDataSection.swift; sourceTree = "<group>"; };
+		AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInformationSection.swift; sourceTree = "<group>"; };
+		AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShowSpecificSection.swift; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
 		AB98EA37264D770F0048B8CC /* LanguageChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooser.swift; sourceTree = "<group>"; };
@@ -509,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				ABEEB0DD2815825100230F0B /* Top Level */,
+				AB7DE5DD28217F94007B59A2 /* Filter */,
 				ABEEB0DB2815823C00230F0B /* Library */,
 				ABD86476281747AA001A1F7C /* Add Media */,
 				ABEEB0DC2815824300230F0B /* Detail */,
@@ -644,6 +651,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AB7DE5DD28217F94007B59A2 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
+				AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */,
+				AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */,
+				AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		ABB65ED025D01C65009378EC /* Tag */ = {
 			isa = PBXGroup;
 			children = (
@@ -775,7 +793,6 @@
 				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */,
-				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
 				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
 			);
 			path = "Top Level";
@@ -1039,6 +1056,7 @@
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
 				AB6478DA22C7B8E800F3E14E /* TMDBSearchResult.swift in Sources */,
 				AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */,
+				AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */,
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
 				AB14349D25CEE0E000AA304F /* CastMember+CoreDataProperties.swift in Sources */,
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
@@ -1056,12 +1074,14 @@
 				AB6718EE22C032AA00F429E4 /* Media+CoreDataClass.swift in Sources */,
 				AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */,
 				ABEEB0D42814324700230F0B /* LanguagePickerView.swift in Sources */,
+				AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */,
 				ABEBA2CB23959D77003BF187 /* MultiPicker.swift in Sources */,
 				AB5493DC25FBDD990072745B /* Persistence.swift in Sources */,
 				AB14349A25CEE0E000AA304F /* Genre+CoreDataClass.swift in Sources */,
 				AB1434CD25CEF2DD00AA304F /* EpisodeNumber.swift in Sources */,
 				AB1433FB25CDB6F600AA304F /* Movie+CoreDataProperties.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
+				AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */,
 				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
