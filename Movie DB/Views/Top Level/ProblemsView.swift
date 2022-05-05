@@ -92,7 +92,7 @@ struct ProblemsView: View {
                                     NavigationLinkChevron()
                                 }
                             }
-                            .buttonStyle(.plain)
+                            .foregroundColor(.primary)
                         }
                         .navigationBarTitle("Problems")
                     }

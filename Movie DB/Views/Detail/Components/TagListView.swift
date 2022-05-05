@@ -74,48 +74,9 @@ struct TagListView: View {
                                 self.tags.insert(tag)
                             }
                         } label: {
-                            // TODO: Extract into separate view
-                            HStack {
-                                Image(systemName: "checkmark")
-                                    .hidden(condition: !self.tags.contains(tag))
-                                Text(tag.name)
-                                Spacer()
-                                Button {
-                                    // Rename
-                                    let alert = UIAlertController(
-                                        title: NSLocalizedString("Rename Tag"),
-                                        message: NSLocalizedString("Enter a new name for the tag."),
-                                        preferredStyle: .alert
-                                    )
-                                    alert.addTextField { textField in
-                                        textField.autocapitalizationType = .words
-                                        // Fill in the current name
-                                        textField.text = tag.name
-                                    }
-                                    alert.addAction(UIAlertAction(
-                                        title: NSLocalizedString("Cancel"),
-                                        style: .cancel,
-                                        handler: { _ in }
-                                    ))
-                                    alert.addAction(UIAlertAction(
-                                        title: NSLocalizedString("Rename"),
-                                        style: .default
-                                    ) { _ in
-                                        guard let textField = alert.textFields?.first else {
-                                            return
-                                        }
-                                        guard let text = textField.text, !text.isEmpty else {
-                                            return
-                                        }
-                                        tag.name = text
-                                    })
-                                    AlertHandler.presentAlert(alert: alert)
-                                } label: {
-                                    Image(systemName: "pencil")
-                                }
-                                .foregroundColor(.blue)
-                            }
-                        }.foregroundColor(.primary)
+                            TagEditRow(tag: tag, tags: $tags)
+                        }
+                        .foregroundColor(.primary)
                     }
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
@@ -132,31 +93,39 @@ struct TagListView: View {
             }
             .listStyle(.grouped)
             .navigationBarTitle(Text("Tags"))
-            // TODO: Extract into function
-            .navigationBarItems(trailing: Button(action: {
-                let alert = UIAlertController(
-                    title: NSLocalizedString("New Tag"),
-                    message: NSLocalizedString("Enter a name for the new tag."),
-                    preferredStyle: .alert
-                )
-                alert.addTextField { textField in
-                    // Change textField properties
-                    textField.autocapitalizationType = .words
-                }
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { _ in })
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { _ in
-                    guard let textField = alert.textFields?.first else {
-                        return
-                    }
-                    guard let text = textField.text, !text.isEmpty else {
-                        return
-                    }
-                    _ = Tag(name: text, context: self.managedObjectContext)
-                })
-                AlertHandler.presentAlert(alert: alert)
-            }, label: {
+            .navigationBarItems(trailing: Button(action: addTag) {
                 Image(systemName: "plus")
-            }))
+            })
+        }
+        
+        func addTag() {
+            let alert = UIAlertController(
+                title: NSLocalizedString("New Tag"),
+                message: NSLocalizedString("Enter a name for the new tag."),
+                preferredStyle: .alert
+            )
+            alert.addTextField { textField in
+                // Change textField properties
+                textField.autocapitalizationType = .words
+            }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { _ in })
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { _ in
+                guard let textField = alert.textFields?.first else {
+                    return
+                }
+                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else {
+                    return
+                }
+                guard !self.tags.contains(where: { $0.name == text }) else {
+                    AlertHandler.showSimpleAlert(
+                        title: "Error adding Tag",
+                        message: "There is already a tag with that name."
+                    )
+                    return
+                }
+                _ = Tag(name: text, context: self.managedObjectContext)
+            })
+            AlertHandler.presentAlert(alert: alert)
         }
     }
 }
