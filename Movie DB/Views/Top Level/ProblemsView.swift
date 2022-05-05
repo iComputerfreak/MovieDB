@@ -12,7 +12,9 @@ import CoreData
 struct ProblemsView: View {
     @FetchRequest(
         entity: Media.entity(),
-        sortDescriptors: [],
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Media.creationDate, ascending: false)
+        ],
         // Filter out all media objects that don't have missing information
         predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
             NSCompoundPredicate(orPredicateWithSubpredicates: [
@@ -24,8 +26,9 @@ struct ProblemsView: View {
                     format: "type = %@ AND watched = nil",
                     MediaType.movie.rawValue
                 ),
+                // We include all shows since the default value for lastSeasonWatched is already "No"
                 NSPredicate(
-                    format: "type = %@ AND lastSeasonWatched != nil",
+                    format: "type = %@",
                     MediaType.show.rawValue
                 )
             ]),
