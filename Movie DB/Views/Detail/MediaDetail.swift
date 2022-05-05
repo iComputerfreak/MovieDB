@@ -27,7 +27,7 @@ struct MediaDetail: View {
                 ExtendedInfo()
                 MetadataInfo()
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(.grouped)
             .navigationBarTitle(Text(mediaObject.title), displayMode: .inline)
             .navigationBarItems(trailing: EditButton())
             .task {

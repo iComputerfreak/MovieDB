@@ -21,19 +21,17 @@ struct TagListView: View {
     }
     
     var body: some View {
-        Group {
-            if editMode?.wrappedValue.isEditing ?? false {
-                NavigationLink(destination: EditView(tags: self.$tags), isActive: $editingTags) {
-                    self.label
-                }
-                .onTapGesture {
-                    // Activate the navigation link manually
-                    // FUTURE: Still neccessary?
-                    self.editingTags = true
-                }
-            } else {
+        if editMode?.wrappedValue.isEditing ?? false {
+            NavigationLink(destination: EditView(tags: self.$tags), isActive: $editingTags) {
                 self.label
             }
+            .onTapGesture {
+                // Activate the navigation link manually, because we are in edit mode and cannot activate NavLinks
+                // FUTURE: Still neccessary?
+                self.editingTags = true
+            }
+        } else {
+            self.label
         }
     }
     
@@ -44,6 +42,7 @@ struct TagListView: View {
         return Text(tags.map(\.name).sorted().joined(separator: ", "))
     }
     
+    // TODO: Move into its own file
     private struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
@@ -54,9 +53,7 @@ struct TagListView: View {
         @Binding var tags: Set<Tag>
         
         // Keep a local copy of the tags, sorted by name, to modify
-        private var sortedTags: [Tag] {
-            allTags.sorted { $0.name.lexicographicallyPrecedes($1.name) }
-        }
+        private var sortedTags: [Tag] { allTags.sorted(by: \.name) }
         
         var body: some View {
             List {
@@ -67,7 +64,7 @@ struct TagListView: View {
                 )
                 let footerString = String.localizedStringWithFormat(footerFormatString, allTags.count)
                 Section(header: Text("Select all tags that apply"), footer: Text(footerString)) {
-                    ForEach(self.sortedTags, id: \.id) { tag in
+                    ForEach(self.sortedTags.sorted(by: \.name), id: \.id) { tag in
                         Button {
                             if self.tags.contains(tag) {
                                 print("Removing Tag \(tag.name)")
@@ -77,6 +74,7 @@ struct TagListView: View {
                                 self.tags.insert(tag)
                             }
                         } label: {
+                            // TODO: Extract into separate view
                             HStack {
                                 Image(systemName: "checkmark")
                                     .hidden(condition: !self.tags.contains(tag))
@@ -132,8 +130,9 @@ struct TagListView: View {
                     })
                 }
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(.grouped)
             .navigationBarTitle(Text("Tags"))
+            // TODO: Extract into function
             .navigationBarItems(trailing: Button(action: {
                 let alert = UIAlertController(
                     title: NSLocalizedString("New Tag"),

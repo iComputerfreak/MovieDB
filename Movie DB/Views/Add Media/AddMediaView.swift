@@ -31,7 +31,7 @@ struct AddMediaView: View {
                     } label: {
                         SearchResultRow(result: result)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                 }
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)

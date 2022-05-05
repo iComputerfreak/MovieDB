@@ -51,6 +51,7 @@
 		AB48BD6C2816CE3C00E53135 /* Movie_DBUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6B2816CE3C00E53135 /* Movie_DBUITests.swift */; };
 		AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */; };
 		AB4CD56824D4664F005FAF20 /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD56724D4664F005FAF20 /* CodableTests.swift */; };
+		AB4CF8E02823CD1E006F2F81 /* NavigationLinkChevron.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */; };
 		AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB50944C238D63FD003A81DB /* SettingsView.swift */; };
 		AB5493D625FAB0850072745B /* LibraryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493D525FAB0850072745B /* LibraryList.swift */; };
 		AB5493DC25FBDD990072745B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493DB25FBDD990072745B /* Persistence.swift */; };
@@ -214,6 +215,7 @@
 		AB48BD6B2816CE3C00E53135 /* Movie_DBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITests.swift; sourceTree = "<group>"; };
 		AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AB4CD56724D4664F005FAF20 /* CodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableTests.swift; sourceTree = "<group>"; };
+		AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLinkChevron.swift; sourceTree = "<group>"; };
 		AB50944C238D63FD003A81DB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AB5493D525FAB0850072745B /* LibraryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryList.swift; sourceTree = "<group>"; };
 		AB5493DB25FBDD990072745B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 		AB3648BD22C3DD8B0096FE39 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AB4CF8DE2823CD11006F2F81 /* Problems */,
 				ABEEB0DD2815825100230F0B /* Top Level */,
 				AB7DE5DD28217F94007B59A2 /* Filter */,
 				ABEEB0DB2815823C00230F0B /* Library */,
@@ -542,6 +545,14 @@
 				AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */,
 			);
 			path = "Movie DBUITests";
+			sourceTree = "<group>";
+		};
+		AB4CF8DE2823CD11006F2F81 /* Problems */ = {
+			isa = PBXGroup;
+			children = (
+				AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */,
+			);
+			path = Problems;
 			sourceTree = "<group>";
 		};
 		AB6718B422C0312A00F429E4 = {
@@ -1051,6 +1062,7 @@
 				ABEEB0D82814356F00230F0B /* ImportLogViewer.swift in Sources */,
 				ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */,
 				AB711FBE281D8F7D003ED045 /* Episode.swift in Sources */,
+				AB4CF8E02823CD1E006F2F81 /* NavigationLinkChevron.swift in Sources */,
 				AB14343025CDEEB200AA304F /* ProductionCompany+CoreDataProperties.swift in Sources */,
 				ABEEB0D02814317B00230F0B /* ImportExportSection.swift in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
@@ -1354,7 +1366,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -1379,7 +1391,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;

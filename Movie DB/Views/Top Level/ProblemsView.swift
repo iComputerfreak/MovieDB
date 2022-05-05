@@ -85,22 +85,18 @@ struct ProblemsView: View {
                             Button {
                                 self.presentedMedia.media = mediaObject
                             } label: {
-                                ZStack(alignment: .leading) {
-                                    // NavigationLink used to display the chevron (cannot be activated)
-                                    NavigationLink(
-                                        isActive: .constant(false),
-                                        destination: { EmptyView() },
-                                        label: { EmptyView() }
-                                    )
+                                HStack {
                                     ProblemsLibraryRow()
                                         .environmentObject(mediaObject)
+                                    Spacer()
+                                    NavigationLinkChevron()
                                 }
                             }
                             .buttonStyle(.plain)
                         }
                         .navigationBarTitle("Problems")
                     }
-                    .listStyle(GroupedListStyle())
+                    .listStyle(.grouped)
                 }
             }
         }

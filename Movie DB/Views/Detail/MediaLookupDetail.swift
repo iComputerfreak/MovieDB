@@ -43,7 +43,7 @@ struct MediaLookupDetail: View {
                 }
                 ExtendedInfo()
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(.grouped)
             .navigationBarTitle(Text(mediaObject.title))
             .navigationBarTitleDisplayMode(.inline)
             .environmentObject(mediaObject)

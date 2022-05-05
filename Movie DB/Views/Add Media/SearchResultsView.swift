@@ -59,7 +59,7 @@ struct SearchResultsView<RowContent: View>: View {
                             Spacer()
                         }
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                 }
             }
         }

@@ -119,7 +119,7 @@ struct LibraryList: View {
                 }
             }
         }
-        .listStyle(GroupedListStyle())
+        .listStyle(.grouped)
     }
     
     var footerText: Text {
