@@ -11,11 +11,17 @@ import SwiftUI
 @main
 struct MovieDBApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @ObservedObject private var config = JFConfig.shared
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, PersistenceController.viewContext)
+            if config.language.isEmpty {
+                LanguageChooser()
+                    .environment(\.managedObjectContext, PersistenceController.viewContext)
+            } else {
+                ContentView()
+                    .environment(\.managedObjectContext, PersistenceController.viewContext)
+            }
         }
     }
 }

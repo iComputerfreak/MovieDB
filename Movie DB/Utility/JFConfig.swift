@@ -19,8 +19,8 @@ class JFConfig: ObservableObject {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
-    /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
-    @ConfigValue(.language, defaultValue: Locale.current.languageCode ?? "") var language: String {
+    /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code separated by a dash
+    @ConfigValue(.language, defaultValue: "") var language: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
