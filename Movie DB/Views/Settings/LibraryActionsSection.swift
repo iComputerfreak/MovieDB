@@ -21,17 +21,6 @@ struct LibraryActionsSection: View {
             Button("Update Media", action: self.updateMedia)
             Button("Reset Library", action: self.resetLibrary)
             Button("Reset Tags", action: self.resetTags)
-            Button("Migrate") {
-                for media in Utils.allMedias(context: PersistenceController.viewContext) {
-                    guard let movie = media as? Movie else { continue }
-                    if let watched = movie.watchedOld {
-                        movie.watched = watched ? .watched : .notWatched
-                    } else {
-                        movie.watched = nil
-                    }
-                }
-                PersistenceController.saveContext()
-            }
         }
         .disabled(self.config.showingProgress)
     }

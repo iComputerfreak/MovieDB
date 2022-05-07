@@ -51,7 +51,7 @@ struct CSVManager {
         .status: (\Media.status, { ($0 as! MediaStatus).rawValue })
     ]
     static let movieExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Movie>, Converter?)] = [
-        .watched: (\Movie.watched, nil),
+        .watched: (\Movie.watched, { ($0 as! MovieWatchState).rawValue }),
         
         .releaseDate: (\Movie.releaseDate, { dateFormatter.string(from: $0 as! Date) }),
         .runtime: (\Movie.runtime, nil),

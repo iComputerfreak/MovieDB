@@ -23,20 +23,25 @@ struct UserData: View {
                     .headline("Personal Rating")
                 // Watched field
                 if mediaObject.type == .movie {
-                    // swiftlint:disable force_cast
-//                    SimpleValueView<Bool>.createYesNo(value: .init(
-//                        get: { (self.mediaObject as! Movie).watched },
-//                        set: { (self.mediaObject as! Movie).watched = $0 }
-//                    ))
                     SimpleValueView<MovieWatchState?>(
                         values: [.watched, .notWatched, nil],
                         value: .init(
+                            // swiftlint:disable force_cast
                             get: { (self.mediaObject as! Movie).watched },
                             set: { (self.mediaObject as! Movie).watched = $0 }
+                            // swiftlint:enable force_cast
                         ),
                         // TODO: Should be a view not a string
                         label: { state in
-                            state?.rawValue ?? "-"
+                            if let state = state {
+                                switch state {
+                                case .watched:
+                                    return "Watched"
+                                case .notWatched:
+                                    return "Not Watched"
+                                }
+                            }
+                            return "-"
                         }
                     )
                     // swiftlint:enable force_cast
