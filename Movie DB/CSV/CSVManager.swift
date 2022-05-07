@@ -131,7 +131,7 @@ struct CSVManager {
         if let notes = values[.notes] {
             media.notes = notes
         }
-        if let rawWatched = values[.watched], let watched = Bool(rawWatched) {
+        if let rawWatched = values[.watched], let watched = MovieWatchState(rawValue: rawWatched) {
             if mediaType == .movie {
                 // swiftlint:disable:next force_cast
                 (media as! Movie).watched = watched

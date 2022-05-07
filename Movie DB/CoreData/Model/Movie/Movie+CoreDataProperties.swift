@@ -12,9 +12,13 @@ import CoreData
 
 extension Movie {
     /// Whether the user has watched the media (partly or fully)
-    public var watched: Bool? {
+    public var watchedOld: Bool? {
         get { getOptional(forKey: "watched") }
         set { setOptional(newValue, forKey: "watched") }
+    }
+    public var watched: MovieWatchState? {
+        get { getOptionalEnum(forKey: "watchedState") }
+        set { setOptionalEnum(newValue, forKey: "watchedState") }
     }
     /// Runtime in minutes
     public var runtime: Int? {

@@ -40,7 +40,10 @@ struct FilterShowSpecificSection: View {
                             tableName: "Plurals",
                             comment: "Season count in filter"
                         )
-                        Text(String.localizedStringWithFormat(formatString, self.filterSetting.numberOfSeasons!.lowerBound))
+                        Text(String.localizedStringWithFormat(
+                            formatString,
+                            self.filterSetting.numberOfSeasons!.lowerBound
+                        ))
                             .foregroundColor(.secondary)
                     } else {
                         let formatString = NSLocalizedString(

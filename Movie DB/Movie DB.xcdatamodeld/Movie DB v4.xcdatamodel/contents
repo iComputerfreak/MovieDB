@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CastMember" representedClassName="CastMember" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="roleName" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="cast" inverseEntity="Media"/>
+    </entity>
+    <entity name="Genre" representedClassName="Genre" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="genres" inverseEntity="Media"/>
+    </entity>
+    <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
+        <attribute name="castMembersSortOrder" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="homepageURL" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="keywords" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="modificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="originalLanguage" optional="YES" attributeType="String"/>
+        <attribute name="originalTitle" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="parentalRatingColor" optional="YES" attributeType="Transformable" valueTransformerName="SerializableColorTransformer" customClassName="SerializableColor"/>
+        <attribute name="parentalRatingLabel" optional="YES" attributeType="String"/>
+        <attribute name="personalRating" optional="YES" attributeType="Integer 64" minValueString="0" maxValueString="10" usesScalarValueType="YES"/>
+        <attribute name="popularity" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="releaseDateOrFirstAired" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="tagline" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="tmdbID" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="translations" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="type" optional="YES" attributeType="String" valueTransformerName="MediaTypeTransformer" customClassName="MediaType"/>
+        <attribute name="voteAverage" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchProviders" optional="YES" attributeType="Transformable" valueTransformerName="WatchProviderTransformer" customClassName="[WatchProvider]"/>
+        <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="medias" inverseEntity="CastMember"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
+        <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Thumbnail" inverseName="media" inverseEntity="Thumbnail"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Video" inverseName="media" inverseEntity="Video"/>
+    </entity>
+    <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
+        <attribute name="budget" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imdbID" optional="YES" attributeType="String"/>
+        <attribute name="isAdult" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="revenue" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="watched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchedState" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ProductionCompany" representedClassName="ProductionCompany" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="logoPath" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="originCountry" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="productionCompanies" inverseEntity="Media"/>
+        <relationship name="shows" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Show" inverseName="networks" inverseEntity="Show"/>
+    </entity>
+    <entity name="Season" representedClassName="Season" syncable="YES">
+        <attribute name="airDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="episodeCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="seasonNumber" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="seasons" inverseEntity="Show"/>
+    </entity>
+    <entity name="Show" representedClassName="Show" parentEntity="Media" syncable="YES">
+        <attribute name="createdBy" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="episodeRuntime" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
+        <attribute name="firstAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isInProduction" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
+        <attribute name="lastEpisodeWatched" optional="YES" attributeType="Integer 64" usesScalarValueType="YES" customClassName="EpisodeNumber"/>
+        <attribute name="lastSeasonWatched" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="nextEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
+        <attribute name="numberOfEpisodes" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="showType" optional="YES" attributeType="String"/>
+        <relationship name="networks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="shows" inverseEntity="ProductionCompany"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="show" inverseEntity="Season"/>
+    </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="tags" inverseEntity="Media"/>
+    </entity>
+    <entity name="Thumbnail" representedClassName="Thumbnail" syncable="YES">
+        <attribute name="pngData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="thumbnail" inverseEntity="Media"/>
+    </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="region" optional="YES" attributeType="String"/>
+        <attribute name="resolution" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="site" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="videos" inverseEntity="Media"/>
+    </entity>
+    <elements>
+        <element name="CastMember" positionX="-27" positionY="198" width="128" height="118"/>
+        <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="74"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="509"/>
+        <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
+        <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
+        <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
+        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="239"/>
+        <element name="Tag" positionX="-72" positionY="153" width="128" height="74"/>
+        <element name="Thumbnail" positionX="-72" positionY="153" width="128" height="59"/>
+        <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
+    </elements>
+</model>

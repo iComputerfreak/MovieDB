@@ -20,7 +20,7 @@ enum PlaceholderData {
         m.tags = Set(["Future", "Conspiracy", "Dark"]
             .map { name in allTags.first(where: { $0.name == name })! })
         m.notes = ""
-        m.watched = true
+        m.watched = .watched
         m.watchAgain = false
         m.parentalRating = .fskAgeTwelve
         m.watchProviders = [

@@ -24,10 +24,21 @@ struct UserData: View {
                 // Watched field
                 if mediaObject.type == .movie {
                     // swiftlint:disable force_cast
-                    SimpleValueView<Bool>.createYesNo(value: .init(
-                        get: { (self.mediaObject as! Movie).watched },
-                        set: { (self.mediaObject as! Movie).watched = $0 }
-                    ))
+//                    SimpleValueView<Bool>.createYesNo(value: .init(
+//                        get: { (self.mediaObject as! Movie).watched },
+//                        set: { (self.mediaObject as! Movie).watched = $0 }
+//                    ))
+                    SimpleValueView<MovieWatchState?>(
+                        values: [.watched, .notWatched, nil],
+                        value: .init(
+                            get: { (self.mediaObject as! Movie).watched },
+                            set: { (self.mediaObject as! Movie).watched = $0 }
+                        ),
+                        // TODO: Should be a view not a string
+                        label: { state in
+                            state?.rawValue ?? "-"
+                        }
+                    )
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
                     .headline("Watched?")
