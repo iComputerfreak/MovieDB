@@ -103,7 +103,10 @@ struct SearchResultsView<RowContent: View>: View {
             return
         }
         // Load the first page of results
-        self.resultsText = NSLocalizedString("Loading...")
+        self.resultsText = NSLocalizedString(
+            "Loading...",
+            comment: "Placeholder text to show while the data is loading"
+        )
         self.loadNextPage()
     }
     
@@ -151,7 +154,10 @@ struct SearchResultsView<RowContent: View>: View {
                     // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
                     self.allPagesLoaded = self.pagesLoaded >= totalPages
                     if filteredResults.isEmpty {
-                        self.resultsText = NSLocalizedString("No results")
+                        self.resultsText = NSLocalizedString(
+                            "No results",
+                            comment: "Text indicating that the search yielded no results."
+                        )
                     }
                 }
             } catch TMDBAPI.APIError.pageOutOfBounds(_) {
@@ -162,12 +168,18 @@ struct SearchResultsView<RowContent: View>: View {
             } catch {
                 print("Error searching for media with searchText '\(model.searchText)': \(error)")
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Error searching"),
-                        message: NSLocalizedString("Error performing search: \(error.localizedDescription)")
+                    AlertHandler.showError(
+                        title: NSLocalizedString(
+                            "Error Performing Search",
+                            comment: "Title of an alert reporting an error during the search of a media object"
+                        ),
+                        error: error
                     )
                     self.results = []
-                    self.resultsText = NSLocalizedString("Error loading search results")
+                    self.resultsText = NSLocalizedString(
+                        "Error loading search results",
+                        comment: "Text indicating that there was an error loading the search results"
+                    )
                 }
             }
         }

@@ -37,7 +37,10 @@ struct SimpleValueView<T: Hashable>: View {
     static func createYesNo(value: Binding<Bool?>) -> SimpleValueView<Bool?> {
         SimpleValueView<Bool?>(values: [true, false, nil], value: value) { value in
             if let value = value {
-                return value ? NSLocalizedString("Yes") : NSLocalizedString("No")
+                if value {
+                    return NSLocalizedString("Yes", comment: "An option in a picker view")
+                }
+                return NSLocalizedString("No", comment: "An option in a picker view")
             } else {
                 return "-"
             }
@@ -51,7 +54,7 @@ struct SimpleValueView_Previews: PreviewProvider {
             SimpleValueView(
                 values: [true, false],
                 value: .constant(false),
-                label: { $0 ? NSLocalizedString("Yes") : NSLocalizedString("No") }
+                label: { $0 ? NSLocalizedString("Yes", comment: "") : NSLocalizedString("No", comment: "") }
             )
             SimpleValueView<Bool>.createYesNo(value: .constant(true))
                 .environment(\.editMode, .constant(.active))

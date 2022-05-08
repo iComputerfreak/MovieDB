@@ -127,16 +127,22 @@ struct LibraryList: View {
             return Text("")
         }
         let objCount = filteredMedia.count
-        let formatString = NSLocalizedString(
-            "%lld objects",
-            tableName: "Plurals",
-            comment: "Number of media objects in the footer"
-        )
-        var footerString = String.localizedStringWithFormat(formatString, objCount)
+        
+        // Showing all media
         if objCount == self.totalMediaItems {
-            footerString += NSLocalizedString(" total")
+            return Text(String(
+                localized: "\(objCount) objects total",
+                table: "Plurals",
+                comment: "The total amount of media items in the library. Shown in the footer below the list."
+            ))
+        // Only showing a subset of the total medias
+        } else {
+            return Text(String(
+                localized: "\(objCount) objects",
+                table: "Plurals",
+                comment: "The total amount of media items currently displayed. Shown in the footer below the list."
+            ))
         }
-        return Text(footerString)
     }
 }
 

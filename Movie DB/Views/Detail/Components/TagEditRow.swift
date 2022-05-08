@@ -21,8 +21,14 @@ struct TagEditRow: View {
             Button {
                 // Rename
                 let alert = UIAlertController(
-                    title: NSLocalizedString("Rename Tag"),
-                    message: NSLocalizedString("Enter a new name for the tag."),
+                    title: NSLocalizedString(
+                        "Rename Tag",
+                        comment: "Title of the tag renaming alert"
+                    ),
+                    message: NSLocalizedString(
+                        "Enter a new name for the tag.",
+                        comment: "Message of the tag renaming alert"
+                    ),
                     preferredStyle: .alert
                 )
                 alert.addTextField { textField in
@@ -31,12 +37,12 @@ struct TagEditRow: View {
                     textField.text = tag.name
                 }
                 alert.addAction(UIAlertAction(
-                    title: NSLocalizedString("Cancel"),
+                    title: NSLocalizedString("Cancel", comment: "Cancel button to cancel an alert"),
                     style: .cancel,
                     handler: { _ in }
                 ))
                 alert.addAction(UIAlertAction(
-                    title: NSLocalizedString("Rename"),
+                    title: NSLocalizedString("Rename", comment: "Rename button to confirm renaming a tag"),
                     style: .default
                 ) { _ in
                     guard let textField = alert.textFields?.first else {

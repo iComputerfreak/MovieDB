@@ -100,16 +100,26 @@ struct TagListView: View {
         
         func addTag() {
             let alert = UIAlertController(
-                title: NSLocalizedString("New Tag"),
-                message: NSLocalizedString("Enter a name for the new tag."),
+                title: NSLocalizedString("New Tag", comment: "Title of an alert for adding a new tag"),
+                message: NSLocalizedString(
+                    "Enter a name for the new tag.",
+                    comment: "Text of an alert for adding a new tag"
+                ),
                 preferredStyle: .alert
             )
             alert.addTextField { textField in
                 // Change textField properties
                 textField.autocapitalizationType = .words
             }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { _ in })
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Add"), style: .default) { _ in
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Cancel", comment: "Button of an alert to cancel adding a new tag"),
+                style: .cancel,
+                handler: { _ in }
+            ))
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Add", comment: "Button of an alert to confirm adding a new tag"),
+                style: .default
+            ) { _ in
                 guard let textField = alert.textFields?.first else {
                     return
                 }

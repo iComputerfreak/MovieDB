@@ -335,8 +335,3 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
 extension Array: Identifiable where Element: Hashable {
     public var id: Int { self.hashValue }
 }
-
-/// Overload of the default NSLocalizedString function that uses an empty comment
-public func NSLocalizedString(_ key: String, tableName: String? = nil) -> String {
-    NSLocalizedString(key, tableName: tableName, comment: "")
-}

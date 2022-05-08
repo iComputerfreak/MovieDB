@@ -12,8 +12,11 @@ struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
     // Use the localized word for "movie" or "series" and take the first character of that
-    let movieSymbol = NSLocalizedString("Movie").first!.lowercased() + ".square"
-    let seriesSymbol = NSLocalizedString("Series").first!.lowercased() + ".square"
+    // TODO: We may not have a correct symbol for every possible language... Maybe build our own view like with ratings
+    let movieSymbol = NSLocalizedString("Movie", comment: "A type of media (Movie or TV Show/Series)")
+        .first!.lowercased() + ".square"
+    let seriesSymbol = NSLocalizedString("Show", comment: "A type of media (Movie or TV Show/Series)")
+        .first!.lowercased() + ".square"
     
     var body: some View {
         if mediaObject.isFault {
@@ -58,7 +61,13 @@ struct ProblemsLibraryRow: View {
     var missing: String {
         mediaObject.missingInformation()
             .map(\.rawValue)
-            .map { NSLocalizedString($0) }
+            .map { rawValue in
+                NSLocalizedString(
+                    rawValue,
+                    comment: "A type of missing media information, i.e. some kind of information that the user " +
+                    "did not provide."
+                )
+            }
             .sorted()
             .joined(separator: ", ")
     }

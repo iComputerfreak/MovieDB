@@ -53,8 +53,15 @@ struct AddMediaView: View {
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 AlertHandler.showSimpleAlert(
-                    title: NSLocalizedString("Already Added"),
-                    message: NSLocalizedString("You already have '\(result.title)' in your library.")
+                    title: NSLocalizedString(
+                        "Already Added",
+                        comment: "Title of an alert that informs the user that he tried to add a media object twice"
+                    ),
+                    message: NSLocalizedString(
+                        "You already have '\(result.title)' in your library.",
+                        comment: "Title of an alert that informs the user that he tried to add a media object twice. " +
+                        "The variable is the media title."
+                    )
                 )
             }
         } catch UserError.noPro {
@@ -63,9 +70,12 @@ struct AddMediaView: View {
         } catch {
             print("Error loading media: \(error)")
             await MainActor.run {
-                AlertHandler.showSimpleAlert(
-                    title: NSLocalizedString("Error"),
-                    message: NSLocalizedString("Error loading media: \(error.localizedDescription)")
+                AlertHandler.showError(
+                    title: NSLocalizedString(
+                        "Error Loading Media",
+                        comment: "Title of an alert showing an error message while loading the media"
+                    ),
+                    error: error
                 )
                 self.isLoading = false
             }

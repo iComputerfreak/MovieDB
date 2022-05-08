@@ -21,7 +21,13 @@ struct SettingsView: View {
     @State private var config = SettingsViewConfig()
     
     var body: some View {
-        LoadingView(isShowing: $config.isLoading, text: config.loadingText ?? NSLocalizedString("Loading...")) {
+        LoadingView(
+            isShowing: $config.isLoading,
+            text: config.loadingText ?? NSLocalizedString(
+                "Loading...",
+                comment: "Placeholder text to show while the data is loading"
+            )
+        ) {
             NavigationView {
                 Form {
                     PreferencesSection(config: $config, reloadHandler: self.reloadMedia)
@@ -54,15 +60,24 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Reload Completed"),
-                        message: NSLocalizedString("All media objects have been reloaded.")
+                        title: NSLocalizedString(
+                            "Reload Completed",
+                            comment: "Title of the alert informing the user that the media reload is completed"
+                        ),
+                        message: NSLocalizedString(
+                            "All media objects have been reloaded.",
+                            comment: "Message of the alert informing the user that the media reload is completed"
+                        )
                     )
                 }
             } catch {
                 print("Error reloading media objects: \(error)")
                 await MainActor.run {
                     self.config.hideProgress()
-                    AlertHandler.showError(title: NSLocalizedString("Error reloading library"), error: error)
+                    AlertHandler.showError(
+                        title: NSLocalizedString("Error reloading library", comment: "Title of an error alert"),
+                        error: error
+                    )
                 }
             }
         }

@@ -92,19 +92,24 @@ struct LibraryHome: View {
                                 }
                                 self.sortingOrder = newValue
                             }
-                            Picker(selection: sortingOrderProxy, label: Text("Sorting")) {
+                            Picker(selection: sortingOrderProxy) {
                                 ForEach(SortingOrder.allCases, id: \.rawValue) { order in
                                     if self.sortingOrder == order {
                                         Label(
-                                            NSLocalizedString(order.rawValue),
+                                            NSLocalizedString(order.rawValue, comment: "A type of sorting direction"),
                                             systemImage: sortingDirection == .ascending ? "chevron.up" : "chevron.down"
                                         )
-                                            .tag(order)
+                                        .tag(order)
                                     } else {
-                                        Text(NSLocalizedString(order.rawValue))
+                                        Text(NSLocalizedString(order.rawValue, comment: "A type of sorting direction"))
                                             .tag(order)
                                     }
                                 }
+                            } label: {
+                                Text(
+                                    "Sorting",
+                                    comment: "Heading for the sorting direction picker in the library menu"
+                                )
                             }
                         }
                     } label: {
@@ -131,21 +136,6 @@ struct LibraryHome: View {
         case filter
         
         var id: Int { hashValue }
-    }
-    
-    private struct MenuLabel: View {
-        let title: String
-        @State var image: Image?
-        
-        var body: some View {
-            HStack {
-                Text(NSLocalizedString(title))
-                Spacer()
-                if image != nil {
-                    image!
-                }
-            }
-        }
     }
 }
 

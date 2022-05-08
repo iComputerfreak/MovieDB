@@ -67,9 +67,17 @@ struct LibraryActionsSection: View {
                 // Report back the result to the user on the main thread
                 await MainActor.run {
                     self.config.hideProgress()
-                    let format = NSLocalizedString("%lld media objects have been updated.", tableName: "Plurals")
+                    let format = NSLocalizedString(
+                        "%lld media objects have been updated.",
+                        tableName: "Plurals",
+                        comment: "Message of an alert informing the user how many media objects have been updated. " +
+                        "The variable is the count of updated objects"
+                    )
                     AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Update Completed"),
+                        title: NSLocalizedString(
+                            "Update Completed",
+                            comment: "Title of an alert informing the user that the library update is completed"
+                        ),
                         message: String.localizedStringWithFormat(format, updateCount)
                     )
                 }
@@ -77,9 +85,12 @@ struct LibraryActionsSection: View {
                 print("Error updating media objects: \(error)")
                 // Update UI on the main thread
                 await MainActor.run {
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Update Error"),
-                        message: NSLocalizedString("Error updating media objects: \(error.localizedDescription)")
+                    AlertHandler.showError(
+                        title: NSLocalizedString(
+                            "Update Error",
+                            comment: "Title of an alert informing the user of an error while updating the library"
+                        ),
+                        error: error
                     )
                     self.config.hideProgress()
                 }
@@ -89,13 +100,22 @@ struct LibraryActionsSection: View {
     
     func resetLibrary() {
         let controller = UIAlertController(
-            title: NSLocalizedString("Reset Library"),
-            message: NSLocalizedString("This will delete all media objects in your library. Do you want to continue?"),
+            title: NSLocalizedString(
+                "Reset Library",
+                comment: "Title of an alert asking the user for confirmation to reset the library"
+            ),
+            message: NSLocalizedString(
+                "This will delete all media objects in your library. Do you want to continue?",
+                comment: "Message of an alert asking the user for confirmation to reset the library"
+            ),
             preferredStyle: .alert
         )
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
         controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Delete"),
+            title: NSLocalizedString("Cancel", comment: "Button to cancel the library reset alert"),
+            style: .cancel
+        ))
+        controller.addAction(UIAlertAction(
+            title: NSLocalizedString("Delete", comment: "Button to confirm the library reset"),
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
@@ -107,9 +127,12 @@ struct LibraryActionsSection: View {
                 } catch {
                     print("Error resetting library")
                     print(error)
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Error resetting library"),
-                        message: error.localizedDescription
+                    AlertHandler.showError(
+                        title: NSLocalizedString(
+                            "Error resetting library",
+                            comment: "Title of an alert informing the user of an error while resetting the library"
+                        ),
+                        error: error
                     )
                 }
                 await MainActor.run {
@@ -122,13 +145,22 @@ struct LibraryActionsSection: View {
     
     func resetTags() {
         let controller = UIAlertController(
-            title: NSLocalizedString("Reset Tags"),
-            message: NSLocalizedString("This will delete all tags in your library. Do you want to continue?"),
+            title: NSLocalizedString(
+                "Reset Tags",
+                comment: "Title of an alert asking the user to confirm resettings the tags"
+            ),
+            message: NSLocalizedString(
+                "This will delete all tags in your library. Do you want to continue?",
+                comment: "Message of an alert asking the user to confirm resetting the tags"
+            ),
             preferredStyle: .alert
         )
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel))
         controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Delete"),
+            title: NSLocalizedString("Cancel", comment: "Button of an alert, cancelling the "),
+            style: .cancel
+        ))
+        controller.addAction(UIAlertAction(
+            title: NSLocalizedString("Delete", comment: "Button of an alert, confirming the tag reset"),
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
@@ -140,9 +172,12 @@ struct LibraryActionsSection: View {
                 } catch {
                     print("Error resetting tags")
                     print(error)
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Error resetting tags"),
-                        message: error.localizedDescription
+                    AlertHandler.showError(
+                        title: NSLocalizedString(
+                            "Error resetting tags",
+                            comment: "Title of an alert informing the user of an error during tag reset"
+                        ),
+                        error: error
                     )
                 }
                 await MainActor.run {

@@ -26,8 +26,14 @@ struct SearchResultRow: View {
                     if result.isAdultMovie ?? false {
                         Image(systemName: "a.square")
                     }
-                    Text(result.mediaType == .movie ? NSLocalizedString("Movie") : NSLocalizedString("Series"))
-                        .italic()
+                    switch result.mediaType {
+                    case .movie:
+                        Text("Movie", comment: "A type of media (Movie or TV Show/Series)")
+                            .italic()
+                    case .show:
+                        Text("Show", comment: "A type of media (Movie or TV Show/Series)")
+                            .italic()
+                    }
                     if let date = self.yearFromMediaResult(result) {
                         Text("(\(date, format: .dateTime.year()))")
                     }

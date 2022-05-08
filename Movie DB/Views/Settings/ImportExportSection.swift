@@ -67,14 +67,24 @@ struct ImportExportSection: View {
                     // Presenting will change UI
                     Task {
                         await MainActor.run {
-                            let format = NSLocalizedString("Imported %lld media objects.", tableName: "Plurals")
+                            let format = NSLocalizedString(
+                                "Imported %lld media objects.",
+                                tableName: "Plurals",
+                                comment: "Message of an alert asking the user to confirm the import"
+                            )
                             let controller = UIAlertController(
-                                title: NSLocalizedString("Import"),
+                                title: NSLocalizedString(
+                                    "Import",
+                                    comment: "Title of an alert asking the user to confirm the import"
+                                ),
                                 message: String.localizedStringWithFormat(format, mediaObjects.count),
                                 preferredStyle: .alert
                             )
                             controller.addAction(UIAlertAction(
-                                title: NSLocalizedString("Undo"),
+                                title: NSLocalizedString(
+                                    "Undo",
+                                    comment: "Button to undo the finished import"
+                                ),
                                 style: .destructive
                             ) { _ in
                                 // Reset all the work we have just done
@@ -83,7 +93,7 @@ struct ImportExportSection: View {
                                 self.importLogShowing = true
                             })
                             controller.addAction(UIAlertAction(
-                                title: NSLocalizedString("Ok"),
+                                title: NSLocalizedString("Ok", comment: "Button to confirm the import"),
                                 style: .default
                             ) { _ in
                                 Task {
@@ -124,14 +134,20 @@ struct ImportExportSection: View {
             // Ask whether the user really wants to import
             Task {
                 await MainActor.run {
-                    let format = NSLocalizedString("Do you want to import %lld tags?", tableName: "Plurals")
                     let controller = UIAlertController(
-                        title: NSLocalizedString("Import"),
-                        message: String.localizedStringWithFormat(format, count),
+                        title: NSLocalizedString(
+                            "Import",
+                            comment: "Title of an alert asking the user to confirm importing the tags"
+                        ),
+                        message: String(
+                            localized: "Do you want to import \(count) tags?",
+                            table: "Plurals",
+                            comment: "Message of an alert asking the user to confirm importing the tags"
+                        ),
                         preferredStyle: .alert
                     )
                     controller.addAction(UIAlertAction(
-                        title: NSLocalizedString("Yes"),
+                        title: NSLocalizedString("Yes", comment: "Button confirming the tag import"),
                         style: .default
                     ) { _ in
                         Task {
@@ -142,14 +158,20 @@ struct ImportExportSection: View {
                                 await PersistenceController.saveContext(importContext)
                             } catch {
                                 print(error)
-                                AlertHandler.showSimpleAlert(
-                                    title: NSLocalizedString("Error Importing Tags"),
-                                    message: error.localizedDescription
+                                AlertHandler.showError(
+                                    title: NSLocalizedString(
+                                        "Error Importing Tags",
+                                        comment: "Title of an alert informing the user of an error during tag import"
+                                    ),
+                                    error: error
                                 )
                             }
                         }
                     })
-                    controller.addAction(UIAlertAction(title: NSLocalizedString("No"), style: .cancel))
+                    controller.addAction(UIAlertAction(title: NSLocalizedString(
+                        "No",
+                        comment: "Button of an alert, cancelling the tag import"
+                    ), style: .cancel))
                     AlertHandler.presentAlert(alert: controller)
                     self.config.isLoading = false
                 }
@@ -181,24 +203,14 @@ struct ImportExportSection: View {
                 self.importLogger = .init()
                 do {
                     try handler(importContext, url)
-                } catch let error as LocalizedError {
+                } catch let error {
                     print("Error importing: \(error)")
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Import Error"),
-                        message: NSLocalizedString("Error Importing: \(error.localizedDescription)")
-                    )
-                    Task {
-                        await MainActor.run {
-                            self.config.isLoading = false
-                        }
-                    }
-                } catch let otherError {
-                    print("Unknown Error: \(otherError)")
-                    assertionFailure("This error should be captured specifically to give the user a more precise " +
-                                     "error message.")
-                    AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString("Import Error"),
-                        message: NSLocalizedString("There was an unknown error during import.")
+                    AlertHandler.showError(
+                        title: NSLocalizedString(
+                            "Import Error",
+                            comment: "Title of an error informing the user about an error during import"
+                        ),
+                        error: error
                     )
                     Task {
                         await MainActor.run {
