@@ -18,7 +18,7 @@ struct AddMediaView: View {
     @State private var isLoading = false
     
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         LoadingView(isShowing: $isLoading) {
@@ -36,7 +36,8 @@ struct AddMediaView: View {
                 .navigationTitle(Text("Add Media"))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
-                    self.dismiss()
+                    print("Presented: \(self.presentationMode.wrappedValue.isPresented)")
+                    self.presentationMode.wrappedValue.dismiss()
                 }, label: { Text("Close") }))
             }
         }
@@ -50,6 +51,8 @@ struct AddMediaView: View {
         // Add the media object to the library
         do {
             try await library.addMedia(result, isLoading: $isLoading)
+            // Dismiss the AddMediaView on success
+            self.presentationMode.wrappedValue.dismiss()
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 AlertHandler.showSimpleAlert(
@@ -80,8 +83,6 @@ struct AddMediaView: View {
                 self.isLoading = false
             }
         }
-        // Dismiss the AddMediaView
-        self.dismiss()
     }
 }
 
