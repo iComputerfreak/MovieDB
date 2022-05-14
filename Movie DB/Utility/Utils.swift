@@ -26,8 +26,8 @@ func undefined<T>(_ message: String = "") -> T {
 
 struct Utils {
     /// The URL describing the documents directory of the app
-    static var documentsPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    static var documentsPath: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
     private init() {}
@@ -48,8 +48,10 @@ struct Utils {
     
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
     /// - Parameter directory: The name of the folder in the documents directory
-    static func url(for directory: String) -> URL {
-        let url = documentsPath.appendingPathComponent(directory)
+    static func url(for directory: String) -> URL? {
+        guard let url = documentsPath?.appendingPathComponent(directory) else {
+            return nil
+        }
         // Create the directory, if it not already exists
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)

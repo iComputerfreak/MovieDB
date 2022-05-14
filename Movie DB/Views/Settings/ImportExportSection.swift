@@ -16,6 +16,16 @@ struct ImportExportSection: View {
     @State private var documentPicker: DocumentPicker?
     @Binding var config: SettingsViewConfig
     
+    private var documentPickerPresented: Binding<Bool> {
+        .init {
+            documentPicker != nil
+        } set: { newState in
+            if !newState {
+                self.documentPicker = nil
+            }
+        }
+    }
+    
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
     var body: some View {
@@ -31,12 +41,17 @@ struct ImportExportSection: View {
             // MARK: - Import Tags
             Button("Import Tags", action: self.importTags)
                 // MARK: Import Log Popover
-                .popover(item: self.$importLogger) { logger in
-                    ImportLogViewer(logger: logger)
+                .popover(isPresented: $importLogShowing) {
+                    if let logger = importLogger {
+                        ImportLogViewer(logger: logger)
+                    } else {
+                        EmptyView()
+                    }
                 }
             
             // MARK: - Export Tags
             Button("Export Tags", action: self.exportTags)
+                .popover(item: self.$documentPicker, content: { $0 })
         }
     }
     
@@ -97,8 +112,10 @@ struct ImportExportSection: View {
                                 style: .default
                             ) { _ in
                                 Task {
-                                    // Make the changes to this context permanent by saving them to disk
+                                    // Make the changes to this context permanent by saving them to the
+                                    // main context and then to disk
                                     await PersistenceController.saveContext(importContext)
+                                    await PersistenceController.saveContext(PersistenceController.viewContext)
                                     await MainActor.run {
                                         // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
                                         self.importLogger?.info("Import complete.")
@@ -232,14 +249,29 @@ struct ImportExportSection: View {
         Task {
             await PersistenceController.shared.container.performBackgroundTask { context in
                 context.name = "\(filename) Export Context"
-                var url: URL?
                 do {
                     // Get the content to export
                     let exportData: String = try content(context)
                     // Save as a file to share it
-                    url = Utils.documentsPath.appendingPathComponent(filename)
-                    try exportData.write(to: url!, atomically: true, encoding: .utf8)
-                    Utils.share(items: [url!])
+                    guard let url = Utils.documentsPath?.appendingPathComponent(filename) else {
+                        Task {
+                            await MainActor.run {
+                                AlertHandler.showSimpleAlert(
+                                    title: NSLocalizedString(
+                                        "Export Error",
+                                        comment: "Title of an alert informing the user about an error during export"
+                                    ),
+                                    message: NSLocalizedString(
+                                        "There was an error creating the export file.",
+                                        comment: "Message of an alert informing the user about an error during export"
+                                    )
+                                )
+                            }
+                        }
+                        return
+                    }
+                    try exportData.write(to: url, atomically: true, encoding: .utf8)
+                    Utils.share(items: [url])
                 } catch {
                     print("Error writing Export file")
                     print(error)

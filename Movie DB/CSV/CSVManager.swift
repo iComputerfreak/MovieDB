@@ -132,15 +132,15 @@ struct CSVManager {
             media.notes = notes
         }
         if let rawWatched = values[.watched], let watched = MovieWatchState(rawValue: rawWatched) {
-            if mediaType == .movie {
-                // swiftlint:disable:next force_cast
-                (media as! Movie).watched = watched
+            assert(mediaType == .movie)
+            if let movie = media as? Movie {
+                movie.watched = watched
             }
         }
         if let rawLastWatched = values[.lastWatched], let lastWatched = EpisodeNumber(rawLastWatched) {
-            if mediaType == .show {
-                // swiftlint:disable:next force_cast
-                (media as! Show).lastWatched = lastWatched
+            assert(mediaType == .show)
+            if let show = media as? Show {
+                show.lastWatched = lastWatched
             }
         }
         if let rawCreationDate = values[.creationDate], let creationDate = dateFormatter.date(from: rawCreationDate) {
@@ -189,16 +189,19 @@ struct CSVManager {
             // Unwrap the value and converter
             var (value, converter) = tuple!
             
-            // Convert the value, if a converter was given
-            if converter != nil {
-                value = converter!(value)
+            // Convert the value, if a converter was given (and the value is not nil)
+            if converter == nil {
+                // Default converter
+                converter = { "\($0)" }
             }
             
             // Convert the value to a string (and convert nil to "")
             var stringValue: String
             switch value {
             case Optional<Any>.none:
+                // Map nil to ""
                 stringValue = ""
+            // Optional with value `some` or no Optional at all
             default:
                 // Create a mirror of the object to read the `some` property of the Optional
                 let mirror = Mirror(reflecting: value)
@@ -206,10 +209,10 @@ struct CSVManager {
                 if mirror.displayStyle == .optional {
                     // Since `value` is an Optional, it has exactly one property (`some`)
                     let unwrapped = mirror.children.first?.value
-                    stringValue = "\(unwrapped ?? "")"
+                    stringValue = converter!(unwrapped ?? "")
                 } else {
                     // If value is no Optional, we don't need to unwrap it
-                    stringValue = "\(value)"
+                    stringValue = converter!(value)
                 }
             }
             
