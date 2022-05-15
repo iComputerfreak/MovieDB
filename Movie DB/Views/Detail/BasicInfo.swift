@@ -59,11 +59,8 @@ struct BasicInfo: View {
                             Text("\(minutesString) (\(hoursString))")
                                 .headline("Runtime")
                         } else {
-                            let formatString = NSLocalizedString(
-                                "%lld Minutes",
-                                comment: "Movie Runtime"
-                            )
-                            Text(String.localizedStringWithFormat(formatString, runtime))
+                            let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
+                            Text(Self.minutesFormatter.string(from: components)!)
                                 .headline("Runtime")
                         }
                     }

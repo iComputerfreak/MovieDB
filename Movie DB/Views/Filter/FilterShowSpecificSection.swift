@@ -35,25 +35,18 @@ struct FilterShowSpecificSection: View {
                         Text("Any")
                             .foregroundColor(.secondary)
                     } else if self.filterSetting.numberOfSeasons!.count == 1 {
-                        let formatString = NSLocalizedString(
-                            "%lld seasons",
-                            comment: "Season count in filter"
+                        Text(
+                            "\(self.filterSetting.numberOfSeasons!.lowerBound) Seasons",
+                            comment: "The season count in the filter settings"
                         )
-                        Text(String.localizedStringWithFormat(
-                            formatString,
-                            self.filterSetting.numberOfSeasons!.lowerBound
-                        ))
-                            .foregroundColor(.secondary)
+                        .foregroundColor(.secondary)
                     } else {
-                        let formatString = NSLocalizedString(
-                            "%lld to %lld seasons",
-                            comment: "Season range in filter"
+                        let from = self.filterSetting.numberOfSeasons!.lowerBound
+                        let to = self.filterSetting.numberOfSeasons!.upperBound
+                        Text(
+                            "\(from) to \(to) Seasons",
+                            comment: "The range of season counts in the filter settings"
                         )
-                        Text(String.localizedStringWithFormat(
-                            formatString,
-                            self.filterSetting.numberOfSeasons!.lowerBound,
-                            self.filterSetting.numberOfSeasons!.upperBound
-                        ))
                         .foregroundColor(.secondary)
                     }
                 }

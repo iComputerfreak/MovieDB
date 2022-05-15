@@ -35,7 +35,7 @@ struct ParentalRatingView_Preview: PreviewProvider {
                 ParentalRatingView(rating: .init("R", color: .red))
             }
             HStack {
-                Text("Rating: X")
+                Text("Rating: ")
                 ParentalRatingView(rating: .init("PG-13", color: .green))
             }
             HStack {
