@@ -96,10 +96,7 @@ struct BasicInfo: View {
                 }
                 // MARK: Status
                 // swiftlint:disable:next nslocalizedstring_key
-                Text(NSLocalizedString(
-                    mediaObject.status.rawValue,
-                    comment: "A status of a media (e.g. 'In Production')"
-                ))
+                Text(mediaObject.status.localized)
                     .headline("Status")
                 // MARK: Original Title
                 Text(mediaObject.originalTitle)
@@ -139,15 +136,16 @@ struct BasicInfo: View {
         let e = String(episode.episodeNumber)
         if let airDate = episode.airDate {
             let formattedDate = airDate.formatted(date: .numeric, time: .omitted)
-            return NSLocalizedString(
-                "S\(s)E\(e) (\(formattedDate))",
-                comment: "Season/Episode abbreviation for the 'next/last episode to air' field, " +
-                "including the date in parentheses"
+            return String(
+                localized: "detail.episodeAirDate \(s) \(e) \(formattedDate)",
+                // swiftlint:disable:next line_length
+                comment: "Season/Episode abbreviation for the 'next/last episode to air' field, including the date. First argument: season number, second argument: episode number, third argument: formatted date"
             )
         }
-        return NSLocalizedString(
-            "S\(s)E\(e)",
-            comment: "Season/Episode abbreviation for the 'next/last episode to air' field"
+        return String(
+            localized: "detail.episodeAirDate \(s) \(e)",
+            // swiftlint:disable:next line_length
+            comment: "Season/Episode abbreviation for the 'next/last episode to air' field, without a date. First argument: season number, second argument: episode number"
         )
     }
 }

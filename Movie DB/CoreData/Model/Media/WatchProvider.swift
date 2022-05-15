@@ -49,7 +49,6 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
         case ads
         case buy
         
-        var capitalized: String { NSLocalizedString(rawValue.capitalized, comment: "A type of watch provider") }
         var priority: Int {
             switch self {
             case .flatrate:
@@ -58,6 +57,26 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
                 return 5
             case .buy:
                 return 0
+            }
+        }
+        
+        var localized: String {
+            switch self {
+            case .flatrate:
+                return String(
+                    localized: "detail.watchprovider.flatrate",
+                    comment: "A type of watch provider (flatrate, ads, buy)"
+                )
+            case .ads:
+                return String(
+                    localized: "detail.watchprovider.ads",
+                    comment: "A type of watch provider (flatrate, ads, buy)"
+                )
+            case .buy:
+                return String(
+                    localized: "detail.watchprovider.buy",
+                    comment: "A type of watch provider (flatrate, ads, buy)"
+                )
             }
         }
     }

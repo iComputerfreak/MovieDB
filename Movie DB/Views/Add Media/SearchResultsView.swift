@@ -103,8 +103,8 @@ struct SearchResultsView<RowContent: View>: View {
             return
         }
         // Load the first page of results
-        self.resultsText = NSLocalizedString(
-            "Loading...",
+        self.resultsText = String(
+            localized: "Loading...",
             comment: "Placeholder text to show while the data is loading"
         )
         self.loadNextPage()
@@ -154,8 +154,8 @@ struct SearchResultsView<RowContent: View>: View {
                     // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
                     self.allPagesLoaded = self.pagesLoaded >= totalPages
                     if filteredResults.isEmpty {
-                        self.resultsText = NSLocalizedString(
-                            "No results",
+                        self.resultsText = String(
+                            localized: "mediaSearch.noResults",
                             comment: "Text indicating that the search yielded no results."
                         )
                     }

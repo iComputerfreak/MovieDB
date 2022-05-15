@@ -13,10 +13,15 @@ struct LibraryRow: View {
     
     // Use the localized word for "movie" or "series" and take the first character of that
     // TODO: We may not have a correct symbol for every possible language... Maybe build our own view like with ratings
-    let movieSymbol = NSLocalizedString("Movie", comment: "A type of media (Movie or TV Show/Series)")
-        .first!.lowercased() + ".square"
-    let seriesSymbol = NSLocalizedString("Show", comment: "A type of media (Movie or TV Show/Series)")
-        .first!.lowercased() + ".square"
+    let movieSymbol = String(
+        localized: "library.list.movieSymbol",
+        comment: "A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name."
+    )
+    let seriesSymbol = String(
+        localized: "library.list.showSymbol",
+        // swiftlint:disable:next line_length
+        comment: "A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name."
+    )
     
     var body: some View {
         if mediaObject.isFault {
@@ -60,14 +65,7 @@ struct ProblemsLibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     var missing: String {
         mediaObject.missingInformation()
-            .map(\.rawValue)
-            .map { rawValue in
-                NSLocalizedString(
-                    rawValue,
-                    comment: "A type of missing media information, i.e. some kind of information that the user " +
-                    "did not provide."
-                )
-            }
+            .map(\.localized)
             .sorted()
             .joined(separator: ", ")
     }

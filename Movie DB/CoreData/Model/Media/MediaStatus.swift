@@ -23,4 +23,54 @@ public enum MediaStatus: String, Codable, CaseIterable, Hashable {
     case rumored = "Rumored"
     case postProduction = "Post Production"
     case released = "Released"
+    
+    var localized: String {
+        switch self {
+        case .planned:
+            return String(
+                localized: "mediaStatus.planned",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .inProduction:
+            return String(
+                localized: "mediaStatus.inProduction",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .canceled:
+            return String(
+                localized: "mediaStatus.cancelled",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .returning:
+            return String(
+                localized: "mediaStatus.returning",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .pilot:
+            return String(
+                localized: "mediaStatus.pilot",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .ended:
+            return String(
+                localized: "mediaStatus.ended",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .rumored:
+            return String(
+                localized: "mediaStatus.rumored",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .postProduction:
+            return String(
+                localized: "mediaStatus.postProduction",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        case .released:
+            return String(
+                localized: "mediaStatus.released",
+                comment: "The current status of a media (e.g. 'In Production')"
+            )
+        }
+    }
 }

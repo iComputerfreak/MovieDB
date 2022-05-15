@@ -98,9 +98,12 @@ struct TagListView: View {
         
         func addTag() {
             let alert = UIAlertController(
-                title: NSLocalizedString("New Tag", comment: "Title of an alert for adding a new tag"),
-                message: NSLocalizedString(
-                    "Enter a name for the new tag.",
+                title: String(
+                    localized: "alert.newTag.title",
+                    comment: "Title of an alert for adding a new tag"
+                ),
+                message: String(
+                    localized: "alert.newTag.message",
                     comment: "Text of an alert for adding a new tag"
                 ),
                 preferredStyle: .alert

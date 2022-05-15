@@ -96,12 +96,12 @@ struct LibraryHome: View {
                                 ForEach(SortingOrder.allCases, id: \.rawValue) { order in
                                     if self.sortingOrder == order {
                                         Label(
-                                            NSLocalizedString(order.rawValue, comment: "A type of sorting direction"),
+                                            order.localized,
                                             systemImage: sortingDirection == .ascending ? "chevron.up" : "chevron.down"
                                         )
                                         .tag(order)
                                     } else {
-                                        Text(NSLocalizedString(order.rawValue, comment: "A type of sorting direction"))
+                                        Text(order.localized)
                                             .tag(order)
                                     }
                                 }

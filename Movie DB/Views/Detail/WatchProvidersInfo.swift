@@ -55,7 +55,7 @@ struct ProviderView: View {
             }
             .frame(width: 50, height: 50)
             
-            Text(provider.type.capitalized)
+            Text(provider.type.localized)
                 .font(.caption)
         }
     }

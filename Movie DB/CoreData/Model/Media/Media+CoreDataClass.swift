@@ -174,6 +174,35 @@ extension Media {
         case watchAgain
         case tags
         // Notes are not required for the media object to be complete
+        
+        var localized: String {
+            switch self {
+            case .rating:
+                return String(
+                    localized: "mediaInformation.rating",
+                    // swiftlint:disable:next line_length
+                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
+                )
+            case .watched:
+                return String(
+                    localized: "mediaInformation.watched",
+                    // swiftlint:disable:next line_length
+                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
+                )
+            case .watchAgain:
+                return String(
+                    localized: "mediaInformation.watchAgain",
+                    // swiftlint:disable:next line_length
+                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
+                )
+            case .tags:
+                return String(
+                    localized: "mediaInformation.tags",
+                    // swiftlint:disable:next line_length
+                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
+                )
+            }
+        }
     }
     
     enum MediaError: Error {

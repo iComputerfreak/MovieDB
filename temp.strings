@@ -1,0 +1,60 @@
+/* 
+  temp.strings
+  Movie DB
+
+  Created by Jonas Frey on 15.05.22.
+  Copyright © 2022 Jonas Frey. All rights reserved.
+*/
+
+/////////////////////////////////////////////////////
+// Custom Values (not being able to be extracted!) //
+/////////////////////////////////////////////////////
+
+// ContentProvider types
+
+/* A type of watch provider */
+"detail.watchprovider.flatrate" = "Flatrate";
+
+/* A type of watch provider */
+"detail.watchprovider.ads" = "Ads";
+
+/* A type of watch provider */
+"detail.watchprovider.buy" = "Buy";
+
+/////////////////////////////
+// Normal Translation keys //
+/////////////////////////////
+
+"sortingOrder.name" = "Name";
+"sortingOrder.created" = "Created";
+"sortingOrder.releaseDate" = "Release Date";
+"sortingOrder.rating" = "Rating";
+
+"sortingDirection.ascending" = "Ascending";
+"sortingDirection.descending" = "Descending";
+
+"library.list.movieSymbol" = "m.square";
+"library.list.showSymbol" = "s.square";
+
+"mediaInformation.rating" = "rating";
+"mediaInformation.watched" = "watched";
+"mediaInformation.watchAgain" = "watch again";
+"mediaInformation.tags" = "tags";
+
+"mediaSearch.noResults" = "No results";
+
+"mediaStatus.planned" = "Planned";
+"mediaStatus.inProduction" = "In Production";
+"mediaStatus.cancelled" = "Cancelled";
+"mediaStatus.returning" = "Returning";
+"mediaStatus.pilot" = "Pilot";
+"mediaStatus.ended" = "Ended";
+"mediaStatus.rumored" = "Rumored";
+"mediaStatus.postProduction" = "Post Production";
+"mediaStatus.released" = "Released";
+
+"detail.episodeAirDate %lld %lld %@" = "S%lldE%lld (%@)";
+"detail.episodeAirDate %lld %lld" = "S%lldE%lld";
+
+"alert.newTag.title" = "New Tag";
+"alert.newTag.message" = "Enter a name for the new tag.";
