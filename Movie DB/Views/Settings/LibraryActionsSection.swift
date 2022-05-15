@@ -73,8 +73,8 @@ struct LibraryActionsSection: View {
                         "The variable is the count of updated objects"
                     )
                     AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString(
-                            "Update Completed",
+                        title: String(
+                            localized: "Update Completed",
                             comment: "Title of an alert informing the user that the library update is completed"
                         ),
                         message: String.localizedStringWithFormat(format, updateCount)
@@ -85,8 +85,8 @@ struct LibraryActionsSection: View {
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(
-                        title: NSLocalizedString(
-                            "Update Error",
+                        title: String(
+                            localized: "Update Error",
                             comment: "Title of an alert informing the user of an error while updating the library"
                         ),
                         error: error
@@ -127,8 +127,8 @@ struct LibraryActionsSection: View {
                     print("Error resetting library")
                     print(error)
                     AlertHandler.showError(
-                        title: NSLocalizedString(
-                            "Error resetting library",
+                        title: String(
+                            localized: "Error resetting library",
                             comment: "Title of an alert informing the user of an error while resetting the library"
                         ),
                         error: error
@@ -172,8 +172,8 @@ struct LibraryActionsSection: View {
                     print("Error resetting tags")
                     print(error)
                     AlertHandler.showError(
-                        title: NSLocalizedString(
-                            "Error resetting tags",
+                        title: String(
+                            localized: "Error resetting tags",
                             comment: "Title of an alert informing the user of an error during tag reset"
                         ),
                         error: error

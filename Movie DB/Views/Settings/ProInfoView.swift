@@ -46,15 +46,17 @@ struct ProInfoView: View {
                             product.productIdentifier == JFLiterals.inAppPurchaseIDPro
                         }) else {
                             AlertHandler.showSimpleAlert(
-                                title: NSLocalizedString(
-                                    "Unable to Purchase",
-                                    comment: "Title of an alert informing the user that there was an error with the " +
-                                    "in-app purchase"
+                                title: String(
+                                    localized: "Unable to Purchase",
+                                    // No way to split up a StaticString into multiple lines
+                                    // swiftlint:disable:next line_length
+                                    comment: "Title of an alert informing the user that there was an error with the in-app purchase"
                                 ),
-                                message: NSLocalizedString(
-                                    "The requested In-App Purchase was not found.",
-                                    comment: "Message of an alert informing the user that the purchase could not be " +
-                                    "completed because the in-app purchase could not be found / is not configured"
+                                message: String(
+                                    localized: "The requested In-App Purchase was not found.",
+                                    // No way to split up a StaticString into multiple lines
+                                    // swiftlint:disable:next line_length
+                                    comment: "Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured"
                                 )
                             )
                             return

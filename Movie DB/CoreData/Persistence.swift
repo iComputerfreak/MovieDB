@@ -29,10 +29,14 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
         container.loadPersistentStores { _, error in
+            print("Finished loading persistent stores.")
             if let error = error as NSError? {
-                AlertHandler.showSimpleAlert(
-                    title: "Error loading data",
-                    message: "There was an error while loading. \(error)"
+                AlertHandler.showError(
+                    title: String(
+                        localized: "Error Loading Data",
+                        comment: "Title of an alert informing the user about an error while loading the app's data"
+                    ),
+                    error: error
                 )
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -119,11 +123,14 @@ struct PersistenceController {
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
                     print(nserror)
-                    AlertHandler.showSimpleAlert(
-                        title: "Error saving data",
-                        message: "There was an error while saving. \(nserror), \(nserror.userInfo)"
+                    AlertHandler.showError(
+                        title: String(
+                            localized: "Error Saving Data",
+                            comment: "Title of an alert informing the user about an error during saving"
+                        ),
+                        error: nserror
                     )
-//                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {
                 print("Context has no changes.")
@@ -149,9 +156,12 @@ struct PersistenceController {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
-                    AlertHandler.showSimpleAlert(
-                        title: "Error saving data",
-                        message: "There was an error while saving. \(nserror), \(nserror.userInfo)"
+                    AlertHandler.showError(
+                        title: String(
+                            localized: "Error Saving Data",
+                            comment: "Title of an alert informing the user about an error during saving"
+                        ),
+                        error: nserror
                     )
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }

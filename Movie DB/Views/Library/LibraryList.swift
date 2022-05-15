@@ -102,9 +102,19 @@ struct LibraryList: View {
                                     } catch {
                                         print("Error updating \(mediaObject.title): \(error)")
                                         AlertHandler.showSimpleAlert(
-                                            title: "Error updating",
-                                            message: "Error updating \(mediaObject.title): " +
-                                            error.localizedDescription
+                                            title: String(
+                                                localized: "Error Updating",
+                                                // No way to split up a StaticString into multiple lines
+                                                // swiftlint:disable:next line_length
+                                                comment: "Title of an alert informing the user about an error during a media update"
+                                            ),
+                                            message: String(
+                                                // No way to split up a StaticString into multiple lines
+                                                // swiftlint:disable line_length
+                                                localized: "Error updating \(mediaObject.title): \(error.localizedDescription)",
+                                                comment: "The message of an alert informing the user about an error during a media update. The first variable is the title of the media object and the second variable is the error description."
+                                                // swiftlint:enable line_length
+                                            )
                                         )
                                     }
                                 }

@@ -67,9 +67,12 @@ struct MediaLookupDetail: View {
                         }
                     } catch {
                         print(error)
-                        AlertHandler.showSimpleAlert(
-                            title: "Error loading media",
-                            message: "There was an error loading the data: \(error.localizedDescription)"
+                        AlertHandler.showError(
+                            title: String(
+                                localized: "Error Loading Media",
+                                comment: "Title of an alert informing the user about an error while loading the media"
+                            ),
+                            error: error
                         )
                     }
                 }

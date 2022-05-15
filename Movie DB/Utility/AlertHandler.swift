@@ -19,20 +19,26 @@ struct AlertHandler {
     static func presentAlert(alert: UIAlertController) {
         if let controller = topMostViewController() {
             // UI Changes always have to be on the main thread
-            DispatchQueue.main.async {
-                controller.present(alert, animated: true)
+            Task(priority: .userInitiated) {
+                await MainActor.run {
+                    controller.present(alert, animated: true)
+                }
             }
         }
     }
+    
     /// Shows a simple alert with a title, a message and an "Ok" button
     static func showSimpleAlert(title: String?, message: String?) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        controller.addAction(UIAlertAction(title: "Ok", style: .default))
+        controller.addAction(.okayAction())
         presentAlert(alert: controller)
     }
     
     static func showError(title: String?, error: Error) {
-        self.showSimpleAlert(title: title ?? "Error", message: error.localizedDescription)
+        self.showSimpleAlert(
+            title: title ?? String(localized: "Error", comment: "Title of an alert informing the user about an error"),
+            message: error.localizedDescription
+        )
     }
     
     static func showYesNoAlert(
@@ -42,8 +48,8 @@ struct AlertHandler {
         noAction: ((UIAlertAction) -> Void)? = nil
     ) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        controller.addAction(.init(title: "Yes", style: .default, handler: yesAction))
-        controller.addAction(.init(title: "No", style: .cancel, handler: noAction))
+        controller.addAction(.yesAction(yesAction))
+        controller.addAction(.noAction(noAction))
         presentAlert(alert: controller)
     }
     
@@ -80,5 +86,44 @@ struct AlertHandler {
             return topMostViewController(for: topController)
         }
         return controller
+    }
+}
+
+// Some default alert actions
+extension UIAlertAction {
+    /// The default "Ok" button to dismiss the alert
+    static func okayAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(
+            title: String(localized: "Ok", comment: "Okay button to dismiss an alert popup"),
+            style: .default,
+            handler: handler
+        )
+    }
+    
+    /// The default "Cancel" button to deny the alert
+    static func cancelAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(
+            title: String(localized: "Cancel", comment: "Cancel button to dismiss an alert popup"),
+            style: .default,
+            handler: handler
+        )
+    }
+    
+    /// The default "Yes" button to confirm the alert
+    static func yesAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(
+            title: String(localized: "Yes", comment: "Yes button to confirm an alert popup"),
+            style: .default,
+            handler: handler
+        )
+    }
+    
+    /// The default "No" button to deny the alert
+    static func noAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(
+            title: String(localized: "Ok", comment: "Okay button to deny an alert popup"),
+            style: .default,
+            handler: handler
+        )
     }
 }

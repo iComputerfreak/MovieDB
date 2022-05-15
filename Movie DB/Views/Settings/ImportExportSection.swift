@@ -174,8 +174,8 @@ struct ImportExportSection: View {
                             } catch {
                                 print(error)
                                 AlertHandler.showError(
-                                    title: NSLocalizedString(
-                                        "Error Importing Tags",
+                                    title: String(
+                                        localized: "Error Importing Tags",
                                         comment: "Title of an alert informing the user of an error during tag import"
                                     ),
                                     error: error
@@ -221,8 +221,8 @@ struct ImportExportSection: View {
                 } catch let error {
                     print("Error importing: \(error)")
                     AlertHandler.showError(
-                        title: NSLocalizedString(
-                            "Import Error",
+                        title: String(
+                            localized: "Import Error",
                             comment: "Title of an error informing the user about an error during import"
                         ),
                         error: error
@@ -255,12 +255,12 @@ struct ImportExportSection: View {
                         Task {
                             await MainActor.run {
                                 AlertHandler.showSimpleAlert(
-                                    title: NSLocalizedString(
-                                        "Export Error",
+                                    title: String(
+                                        localized: "Export Error",
                                         comment: "Title of an alert informing the user about an error during export"
                                     ),
-                                    message: NSLocalizedString(
-                                        "There was an error creating the export file.",
+                                    message: String(
+                                        localized: "There was an error creating the export file.",
                                         comment: "Message of an alert informing the user about an error during export"
                                     )
                                 )

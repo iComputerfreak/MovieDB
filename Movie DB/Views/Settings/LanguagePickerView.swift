@@ -36,9 +36,14 @@ struct LanguagePickerView: View {
                 // We need to report the error, otherwise the user may be confused due to the loading text
                 await MainActor.run {
                     print(error)
-                    AlertHandler.showSimpleAlert(
-                        title: "Error updating languages",
-                        message: "There was an error updating the available languages."
+                    AlertHandler.showError(
+                        title: String(
+                            localized: "Error Updating Languages",
+                            // No way to split up a StaticString into multiple lines
+                            // swiftlint:disable:next line_length
+                            comment: "Title of an alert informing the user about an error while reloading the available languages"
+                        ),
+                        error: error
                     )
                 }
             }

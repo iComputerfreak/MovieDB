@@ -60,12 +60,12 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
-                        title: NSLocalizedString(
-                            "Reload Completed",
+                        title: String(
+                            localized: "Reload Completed",
                             comment: "Title of the alert informing the user that the media reload is completed"
                         ),
-                        message: NSLocalizedString(
-                            "All media objects have been reloaded.",
+                        message: String(
+                            localized: "All media objects have been reloaded.",
                             comment: "Message of the alert informing the user that the media reload is completed"
                         )
                     )
@@ -75,7 +75,10 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showError(
-                        title: NSLocalizedString("Error reloading library", comment: "Title of an error alert"),
+                        title: String(
+                            localized: "Error Reloading Library",
+                            comment: "Title of an alert informing the user about an error while reloading the library"
+                        ),
                         error: error
                     )
                 }

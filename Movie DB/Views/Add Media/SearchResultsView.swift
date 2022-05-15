@@ -169,15 +169,15 @@ struct SearchResultsView<RowContent: View>: View {
                 print("Error searching for media with searchText '\(model.searchText)': \(error)")
                 await MainActor.run {
                     AlertHandler.showError(
-                        title: NSLocalizedString(
-                            "Error Performing Search",
+                        title: String(
+                            localized: "Error Performing Search",
                             comment: "Title of an alert reporting an error during the search of a media object"
                         ),
                         error: error
                     )
                     self.results = []
-                    self.resultsText = NSLocalizedString(
-                        "Error loading search results",
+                    self.resultsText = String(
+                        localized: "Error Loading Search Results",
                         comment: "Text indicating that there was an error loading the search results"
                     )
                 }

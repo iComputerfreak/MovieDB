@@ -19,9 +19,14 @@ struct LanguageChooser: View {
                         do {
                             try await Utils.updateTMDBLanguages()
                         } catch {
-                            AlertHandler.showSimpleAlert(
-                                title: "Error loading languages",
-                                message: "Error loading the list of available languages: \(error)"
+                            AlertHandler.showError(
+                                title: String(
+                                    localized: "Error loading languages",
+                                    // No way to split up a StaticString into multiple lines
+                                    // swiftlint:disable:next line_length
+                                    comment: "Title of an alert informing the user about an error while loading the available languages"
+                                ),
+                                error: error
                             )
                         }
                     }

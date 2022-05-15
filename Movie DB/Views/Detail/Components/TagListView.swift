@@ -126,8 +126,18 @@ struct TagListView: View {
                 }
                 guard !self.tags.contains(where: { $0.name == text }) else {
                     AlertHandler.showSimpleAlert(
-                        title: "Error adding Tag",
-                        message: "There is already a tag with that name."
+                        title: String(
+                            localized: "Tag Already Exists",
+                            // No way to split up a StaticString into multiple lines
+                            // swiftlint:disable:next line_length
+                            comment: "Message of an alert informing the user that the tag they tried to create already exists"
+                        ),
+                        message: String(
+                            localized: "There is already a tag with that name.",
+                            // No way to split up a StaticString into multiple lines
+                            // swiftlint:disable:next line_length
+                            comment: "Message of an alert informing the user that the tag they tried to create already exists"
+                        )
                     )
                     return
                 }

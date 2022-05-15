@@ -32,14 +32,15 @@ struct PreferencesSection: View {
         .onDisappear {
             if self.config.languageChanged || self.config.regionChanged {
                 AlertHandler.showYesNoAlert(
-                    title: NSLocalizedString(
-                        "Reload library?",
+                    title: String(
+                        localized: "Reload library?",
                         comment: "Title of an alert asking the user for confirmation to reload the library"
                     ),
-                    message: NSLocalizedString(
-                        "Do you want to reload all media objects using the new language/region settings?",
-                        comment: "Message of an alert asking the user for confirmation to reload the library after " +
-                        "changing the language or region"
+                    message: String(
+                        localized: "Do you want to reload all media objects using the new language/region settings?",
+                        // No way to split up a StaticString into multiple lines
+                        // swiftlint:disable:next line_length
+                        comment: "Message of an alert asking the user for confirmation to reload the library after changing the language or region"
                     ),
                     yesAction: { _ in self.reloadHandler() }
                 )

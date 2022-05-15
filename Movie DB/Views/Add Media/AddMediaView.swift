@@ -56,14 +56,15 @@ struct AddMediaView: View {
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 AlertHandler.showSimpleAlert(
-                    title: NSLocalizedString(
-                        "Already Added",
+                    title: String(
+                        localized: "Already Added",
                         comment: "Title of an alert that informs the user that he tried to add a media object twice"
                     ),
-                    message: NSLocalizedString(
-                        "You already have '\(result.title)' in your library.",
-                        comment: "Title of an alert that informs the user that he tried to add a media object twice. " +
-                        "The variable is the media title."
+                    message: String(
+                        localized: "You already have '\(result.title)' in your library.",
+                        // No way to split up a StaticString into multiple lines
+                        // swiftlint:disable:next line_length
+                        comment: "Title of an alert that informs the user that he tried to add a media object twice. The variable is the media title."
                     )
                 )
             }
@@ -74,8 +75,8 @@ struct AddMediaView: View {
             print("Error loading media: \(error)")
             await MainActor.run {
                 AlertHandler.showError(
-                    title: NSLocalizedString(
-                        "Error Loading Media",
+                    title: String(
+                        localized: "Error Loading Media",
                         comment: "Title of an alert showing an error message while loading the media"
                     ),
                     error: error
