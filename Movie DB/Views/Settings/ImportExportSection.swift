@@ -84,7 +84,6 @@ struct ImportExportSection: View {
                         await MainActor.run {
                             let format = NSLocalizedString(
                                 "Imported %lld media objects.",
-                                tableName: "Plurals",
                                 comment: "Message of an alert asking the user to confirm the import"
                             )
                             let controller = UIAlertController(
@@ -158,7 +157,6 @@ struct ImportExportSection: View {
                         ),
                         message: String(
                             localized: "Do you want to import \(count) tags?",
-                            table: "Plurals",
                             comment: "Message of an alert asking the user to confirm importing the tags"
                         ),
                         preferredStyle: .alert

@@ -59,7 +59,6 @@ struct TagListView: View {
             List {
                 let footerFormatString = NSLocalizedString(
                     "%lld tags total",
-                    tableName: "Plurals",
                     comment: "Total number of tags"
                 )
                 let footerString = String.localizedStringWithFormat(footerFormatString, allTags.count)

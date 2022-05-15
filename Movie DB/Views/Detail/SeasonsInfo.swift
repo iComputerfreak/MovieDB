@@ -99,7 +99,7 @@ struct SeasonInfo: View {
                     let date = season.airDate!.formatted(date: .numeric, time: .omitted)
                     Text(date).italic()
                 }
-                Text("\(season.episodeCount) Episodes", tableName: "Plurals")
+                Text("\(season.episodeCount) Episodes")
             }
             .padding(.vertical)
         }

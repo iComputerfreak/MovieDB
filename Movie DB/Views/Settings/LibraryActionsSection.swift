@@ -69,7 +69,6 @@ struct LibraryActionsSection: View {
                     self.config.hideProgress()
                     let format = NSLocalizedString(
                         "%lld media objects have been updated.",
-                        tableName: "Plurals",
                         comment: "Message of an alert informing the user how many media objects have been updated. " +
                         "The variable is the count of updated objects"
                     )

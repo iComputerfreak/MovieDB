@@ -2,26 +2,44 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld Episodes</key>
+	<key>%lf Stars</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
+		<string>%#@stars@</string>
+		<key>stars</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
+			<string>lf</string>
 			<key>one</key>
-			<string>%lld Folge</string>
+			<string>%g Star</string>
 			<key>other</key>
-			<string>%lld Folgen</string>
+			<string>%g Stars</string>
 		</dict>
 	</dict>
-	<key>%lld Minutes</key>
+	<key>%lld media objects have been updated.</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
+		<string>%#@count@ updated.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>No media objects have been</string>
+			<key>one</key>
+			<string>%lld media object has been</string>
+			<key>other</key>
+			<string>%lld media objects have been</string>
+		</dict>
+	</dict>
+	<key>Do you want to import %lld tags?</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Do you want to import %#@count@?</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -29,9 +47,25 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Minute</string>
+			<string>%lld tag</string>
 			<key>other</key>
-			<string>%lld Minuten</string>
+			<string>%lld tags</string>
+		</dict>
+	</dict>
+	<key>Imported %lld media objects.</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Imported %#@count@.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld media object</string>
+			<key>other</key>
+			<string>%lld media objects</string>
 		</dict>
 	</dict>
 	<key>%lld Minutes (%lldh %lldm)</key>
@@ -40,48 +74,46 @@
 		<string>%#@count@ (%lldh %lldm)</string>
 		<key>count</key>
 		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
 			<key>one</key>
 			<string>%lld Minute</string>
 			<key>other</key>
-			<string>%lld Minuten</string>
+			<string>%lld Minutes</string>
 		</dict>
 	</dict>
-	<key>%lld Seasons</key>
+	<key>%lld Minutes</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
 		<key>count</key>
 		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
 			<key>one</key>
-			<string>%lld Staffel</string>
+			<string>%lld Minute</string>
 			<key>other</key>
-			<string>%lld Staffeln</string>
+			<string>%lld Minutes</string>
 		</dict>
 	</dict>
-	<key>%lld media objects have been updated.</key>
+	<key>%lld tags total</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ aktualisiert.</string>
+		<string>%#@count@ total</string>
 		<key>count</key>
 		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
 			<key>one</key>
-			<string>Es wurde %lld Medium</string>
+			<string>%lld tag</string>
 			<key>other</key>
-			<string>Es wurden %lld Medien</string>
-			<key>zero</key>
-			<string>Es wurden keine Medien</string>
+			<string>%lld tags</string>
 		</dict>
 	</dict>
 	<key>%lld objects</key>
@@ -90,14 +122,30 @@
 		<string>%#@count@</string>
 		<key>count</key>
 		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>%lld object</string>
+			<key>other</key>
+			<string>%lld objects</string>
+		</dict>
+	</dict>
+	<key>%lld to %lld seasons</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%lld to %#@count@</string>
+		<key>count</key>
+		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Objekt</string>
+			<string>%lld Season</string>
 			<key>other</key>
-			<string>%lld Objekte</string>
+			<string>%lld Seasons</string>
 		</dict>
 	</dict>
 	<key>%lld seasons</key>
@@ -111,15 +159,15 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Staffel</string>
+			<string>%lld Season</string>
 			<key>other</key>
-			<string>%lld Staffeln</string>
+			<string>%lld Seasons</string>
 		</dict>
 	</dict>
-	<key>%lld tags total</key>
+	<key>%lld Seasons</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ total</string>
+		<string>%#@count@</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -127,15 +175,15 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Schlüsselwort</string>
+			<string>%lld Season</string>
 			<key>other</key>
-			<string>%lld Schlüsselwörter</string>
+			<string>%lld Seasons</string>
 		</dict>
 	</dict>
-	<key>%lld to %lld seasons</key>
+	<key>%lld Episodes</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%lld bis %#@count@</string>
+		<string>%#@count@</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -143,41 +191,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>%lld Staffel</string>
+			<string>%lld Episode</string>
 			<key>other</key>
-			<string>%lld Staffeln</string>
-		</dict>
-	</dict>
-	<key>Do you want to import %lld tags?</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>Wollen Sie %#@count@ importieren?</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>%lld Schlüsselwort</string>
-			<key>other</key>
-			<string>%lld Schlüsselwörter</string>
-		</dict>
-	</dict>
-	<key>Imported %lld media objects.</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ importiert.</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>%lld Medium</string>
-			<key>other</key>
-			<string>%lld Medien</string>
+			<string>%lld Episodes</string>
 		</dict>
 	</dict>
 </dict>

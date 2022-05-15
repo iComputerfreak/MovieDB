@@ -37,7 +37,6 @@ struct FilterShowSpecificSection: View {
                     } else if self.filterSetting.numberOfSeasons!.count == 1 {
                         let formatString = NSLocalizedString(
                             "%lld seasons",
-                            tableName: "Plurals",
                             comment: "Season count in filter"
                         )
                         Text(String.localizedStringWithFormat(
@@ -48,7 +47,6 @@ struct FilterShowSpecificSection: View {
                     } else {
                         let formatString = NSLocalizedString(
                             "%lld to %lld seasons",
-                            tableName: "Plurals",
                             comment: "Season range in filter"
                         )
                         Text(String.localizedStringWithFormat(

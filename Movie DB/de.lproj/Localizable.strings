@@ -19,13 +19,16 @@
 /* Shows the media score on TMDB and the number of votes used to calculate that score */
 "%f/10.0 points from %lld votes" = "%1$.1f/10,0 Punkte aus %2$lld Bewertungen";
 
+/* String describing a star rating from 0 to 5 stars in 0.5 star steps */
+"%lf Stars" = "%.1lf Sterne";
+
 /* Preview showing the number of selected values e.g., in a filter */
 "%lld Values" = "%lld Werte";
 
 /* No comment provided by engineer. */
 "About me" = "Über mich";
 
-/* (No Comment) */
+/* Button of an alert to confirm adding a new tag */
 "Add" = "Hinzufügen";
 
 /* Title when adding a new media object */
@@ -40,10 +43,10 @@
 /* No comment provided by engineer. */
 "All Episodes" = "Alle Folgen";
 
-/* (No Comment) */
+/* Message of the alert informing the user that the media reload is completed */
 "All media objects have been reloaded." = "Alle Medien wurde neu geladen";
 
-/* (No Comment) */
+/* Title of an alert that informs the user that he tried to add a media object twice */
 "Already Added" = "Bereits hinzugefügt";
 
 /* No comment provided by engineer. */
@@ -70,7 +73,10 @@
 /* (No Comment) */
 "Buy Pro - $4.99" = "Pro kaufen - 5,49 €";
 
-/* (No Comment) */
+/* Button of an alert to cancel adding a new tag
+   Button of an alert, cancelling the 
+   Button to cancel the library reset alert
+   Cancel button to cancel an alert */
 "Cancel" = "Abbrechen";
 
 /* (No Comment) */
@@ -88,7 +94,8 @@
 /* (No Comment) */
 "Created" = "Erstellt";
 
-/* (No Comment) */
+/* Button of an alert, confirming the tag reset
+   Button to confirm the library reset */
 "Delete" = "Löschen";
 
 /* (No Comment) */
@@ -103,10 +110,10 @@
 /* (No Comment) */
 "Ended" = "Beendet";
 
-/* (No Comment) */
+/* Text of an alert for adding a new tag */
 "Enter a name for the new tag." = "Geben Sie einen Namen für das neue Schlüsselwort ein.";
 
-/* (No Comment) */
+/* Message of the tag renaming alert */
 "Enter a new name for the tag." = "Geben Sie einen neuen Namen für das Schlüsselwort ein.";
 
 /* Value selected for the "Last Watched" property of a media object (e.g. "Episode 10") */
@@ -118,7 +125,7 @@
 /* (No Comment) */
 "Error" = "Fehler";
 
-/* (No Comment) */
+/* Title of an alert informing the user of an error during tag import */
 "Error Importing Tags" = "Fehler beim Importieren der Schlüsselwörter";
 
 /* (No Comment) */
@@ -133,16 +140,16 @@
 /* (No Comment) */
 "Error loading media: %@" = "Fehler beim Laden: %@";
 
-/* (No Comment) */
+/* Text indicating that there was an error loading the search results */
 "Error loading search results" = "Fehler beim Laden der Ergebnisse";
 
 /* (No Comment) */
 "Error performing search: %@" = "Fehler bei der Suche: %@";
 
-/* (No Comment) */
+/* Title of an error alert */
 "Error reloading library" = "Fehler bei Aktualisieren der Mediathek";
 
-/* (No Comment) */
+/* Title of an alert informing the user of an error while resetting the library */
 "Error resetting library" = "Fehler beim zurücksetzen der Mediathek";
 
 /* (No Comment) */
@@ -193,10 +200,11 @@
 /* (No Comment) */
 "IMDB ID" = "IMDB ID";
 
-/* (No Comment) */
+/* Title of an alert asking the user to confirm importing the tags
+   Title of an alert asking the user to confirm the import */
 "Import" = "Importieren";
 
-/* (No Comment) */
+/* Title of an error informing the user about an error during import */
 "Import Error" = "Import-Fehler";
 
 /* No comment provided by engineer. */
@@ -232,7 +240,7 @@
 /* (No Comment) */
 "Loading Languages..." = "Lade Sprachen...";
 
-/* No comment provided by engineer. */
+/* Placeholder text to show while the data is loading */
 "Loading..." = "Laden...";
 
 /* No comment provided by engineer. */
@@ -259,13 +267,14 @@
 /* (No Comment) */
 "Networks" = "Netzwerke";
 
-/* (No Comment) */
+/* Title of an alert for adding a new tag */
 "New Tag" = "Neues Schlüsselwort";
 
 /* (No Comment) */
 "News" = "Nachrichten";
 
-/* No comment provided by engineer. */
+/* An option in a picker view
+   Button of an alert, cancelling the tag import */
 "No" = "Nein";
 
 /* (No Comment) */
@@ -274,7 +283,7 @@
 /* No comment provided by engineer. */
 "No Notes" = "Keine Notizen";
 
-/* (No Comment) */
+/* Text indicating that the search yielded no results. */
 "No results" = "Keine Ergebnisse";
 
 /* Text if no tags were selected for a media */
@@ -284,12 +293,12 @@
 "Not implemented" = "Nicht Implementiert";
 
 /* Text for when the user has not watched a tv show */
-"Not Watched" = "Nicht Angeschaut";
+"Not Watched" = "Nicht angeschaut";
 
 /* Personal notes about the media object */
 "Notes" = "Notizen";
 
-/* (No Comment) */
+/* Button to confirm the import */
 "Ok" = "Ok";
 
 /* (No Comment) */
@@ -340,10 +349,10 @@
 /* (No Comment) */
 "Released" = "Veröffentlicht";
 
-/* (No Comment) */
+/* Title of the alert informing the user that the media reload is completed */
 "Reload Completed" = "Aktualisierung abgeschlossen";
 
-/* (No Comment) */
+/* Title of an alert asking the user for confirmation to reload the library */
 "Reload library?" = "Mediathek neu laden?";
 
 /* (No Comment) */
@@ -355,19 +364,19 @@
 /* (No Comment) */
 "Remove the limit of %lld objects by buying the Pro version of the app." = "Entfernen Sie das Limit von %lld Objekten durch den Kauf der Pro Version.";
 
-/* (No Comment) */
+/* Rename button to confirm renaming a tag */
 "Rename" = "Umbenennen";
 
-/* (No Comment) */
+/* Title of the tag renaming alert */
 "Rename Tag" = "Schlüsselwort umbenennen";
 
 /* Filter reset button */
 "Reset" = "Zurücksetzen";
 
-/* (No Comment) */
+/* Title of an alert asking the user for confirmation to reset the library */
 "Reset Library" = "Mediathek zurücksetzen";
 
-/* No comment provided by engineer. */
+/* Title of an alert asking the user to confirm resettings the tags */
 "Reset Tags" = "Schlüsselwörter zurücksetzen";
 
 /* No comment provided by engineer. */
@@ -433,7 +442,7 @@
 /* A type of show (e.g., scripted, documentary, ...) */
 "Show Type" = "Showtyp";
 
-/* No comment provided by engineer. */
+/* Heading for the sorting direction picker in the library menu */
 "Sorting" = "Sortierung";
 
 /* Media status (e.g., planned, released, ...) */
@@ -451,7 +460,7 @@
 /* No comment provided by engineer. */
 "Test" = "Test";
 
-/* (No Comment) */
+/* Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured */
 "The requested In-App Purchase was not found." = "Der Kauf konnte nicht abgeschlossen werden, da das Produkt nicht gefunden wurde.";
 
 /* No comment provided by engineer. */
@@ -466,7 +475,7 @@
 /* No comment provided by engineer. */
 "This app uses data from The Movie Database.\nThis product uses the TMDb API but is not endorsed or certified by TMDb." = "This app uses data from The Movie Database.\nThis product uses the TMDb API but is not endorsed or certified by TMDb.";
 
-/* (No Comment) */
+/* Message of an alert asking the user for confirmation to reset the library */
 "This will delete all media objects in your library. Do you want to continue?" = "Diese Aktion löscht alle Medien in Ihrer Mediathek. Wollen Sie fortfahren?";
 
 /* Media name/title */
@@ -484,16 +493,16 @@
 /* A tv show/series */
 "TV Show" = "Serie";
 
-/* (No Comment) */
+/* Title of an alert informing the user that there was an error with the in-app purchase */
 "Unable to Purchase" = "Kauf fehlgeschlagen";
 
-/* (No Comment) */
+/* Button to undo the finished import */
 "Undo" = "Rückgängig";
 
 /* Heading for the "Last Watched" field for shows */
 "Up to which Episode did you watch?" = "Bis zu welcher Folge haben Sie geschaut?";
 
-/* (No Comment) */
+/* Title of an alert informing the user that the library update is completed */
 "Update Completed" = "Aktualisierung vollständig";
 
 /* MARK: - Alerts */
@@ -529,20 +538,10 @@
 /* E.g., the year a media object came out */
 "Year" = "Jahr";
 
-/* No comment provided by engineer. */
+/* An option in a picker view
+   Button confirming the tag import */
 "Yes" = "Ja";
 
 /* (No Comment) */
 "You already have '%@' in your library." = "Sie haben '%@' bereits Ihrer Mediathek hinzugefügt.";
 
-"Flatrate" = "Flatrate";
-"Ads" = "Werbung";
-"Buy" = "Kaufen";
-
-"tags" = "Schlüsselwörter";
-"watchAgain" = "Nochmal anschauen";
-"watched" = "Angeschaut";
-"rating" = "Bewertung";
-
-"Watched" = "Angeschaut";
-"Not Watched" = "Nicht angeschaut";

@@ -132,14 +132,12 @@ struct LibraryList: View {
         if objCount == self.totalMediaItems {
             return Text(String(
                 localized: "\(objCount) objects total",
-                table: "Plurals",
                 comment: "The total amount of media items in the library. Shown in the footer below the list."
             ))
         // Only showing a subset of the total medias
         } else {
             return Text(String(
                 localized: "\(objCount) objects",
-                table: "Plurals",
                 comment: "The total amount of media items currently displayed. Shown in the footer below the list."
             ))
         }

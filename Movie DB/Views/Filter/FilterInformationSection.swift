@@ -63,32 +63,21 @@ struct FilterInformationSection: View {
                         Text("Any")
                             .foregroundColor(.secondary)
                     } else if self.filterSetting.rating!.count == 1 {
-                        // We have to manage plurals on our own here, since the starAmount is a string and we cannot use the Plurals table
-                        let amount = self.filterSetting.rating!.lowerBound.starAmount
-                        if amount == "1" {
-                            Text(String.localizedStringWithFormat("%@ Star", amount))
-                                .foregroundColor(.secondary)
-                        } else {
-                            Text(String.localizedStringWithFormat("%@ Stars", amount))
-                                .foregroundColor(.secondary)
-                        }
+                        // Formatting of the double is done in the localization
+                        let amount = self.filterSetting.rating!.lowerBound.doubleRepresentation
+                        Text(
+                            "\(amount) Stars",
+                            comment: "A star rating from 0 to 5 stars in 0.5 star steps"
+                        )
+                        .foregroundColor(.secondary)
                     } else {
-                        // We have to manage plurals on our own here, since the starAmount is a string and we cannot use the Plurals table
-                        if self.filterSetting.rating!.upperBound.starAmount == "1" {
-                            Text(String.localizedStringWithFormat(
-                                "%@ to %@ Star",
-                                self.filterSetting.rating!.lowerBound.starAmount,
-                                self.filterSetting.rating!.upperBound.starAmount
-                            ))
-                            .foregroundColor(.secondary)
-                        } else {
-                            Text(String.localizedStringWithFormat(
-                                "%@ to %@ Stars",
-                                self.filterSetting.rating!.lowerBound.starAmount,
-                                self.filterSetting.rating!.upperBound.starAmount
-                            ))
-                            .foregroundColor(.secondary)
-                        }
+                        let from = self.filterSetting.rating!.lowerBound.doubleRepresentation
+                        let to = self.filterSetting.rating!.upperBound.doubleRepresentation
+                        Text(
+                            "\(from) to \(to) Stars",
+                            comment: "A range of star ratings, both ranging from 0 to 5 stars in 0.5 star steps"
+                        )
+                        .foregroundColor(.secondary)
                     }
                 }
             }

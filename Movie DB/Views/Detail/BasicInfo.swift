@@ -61,7 +61,6 @@ struct BasicInfo: View {
                         } else {
                             let formatString = NSLocalizedString(
                                 "%lld Minutes",
-                                tableName: "Plurals",
                                 comment: "Movie Runtime"
                             )
                             Text(String.localizedStringWithFormat(formatString, runtime))
@@ -115,7 +114,7 @@ struct BasicInfo: View {
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
-                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons", tableName: "Plurals")
+                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
                             .headline("Seasons")
                     }
                     .fixHighlighting()
