@@ -31,7 +31,15 @@ struct BasicInfo: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(header: HStack { Image(systemName: "info.circle"); Text("Basic Information") }) {
+            Section(
+                header: HStack {
+                    Image(systemName: "info.circle")
+                    Text(
+                        "detail.basicInfo.header",
+                        comment: "The section header for the basic information section in the detail view"
+                    )
+                }
+            ) {
                 // MARK: Genres
                 if !mediaObject.genres.isEmpty {
                     Text(mediaObject.genres.map(\.name).sorted().joined(separator: ", "))
@@ -56,7 +64,11 @@ struct BasicInfo: View {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
                             let minutesString = Self.minutesFormatter.string(from: components)!
                             let hoursString = Self.hoursFormatter.string(from: components)!
-                            Text("\(minutesString) (\(hoursString))")
+                            Text(
+                                "detail.basicInfo.runtime.minutesAndHours \(minutesString) \(hoursString)",
+                                // swiftlint:disable:next line_length
+                                comment: "A string that displays a formatted duration in minutes and hours/minutes. E.g. '90 minutes (1h 30m)'. The first parameter is the formatted duration string in minutes. The second parameter is the formatted duration string in hours and minutes."
+                            )
                                 .headline("Runtime")
                         } else {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
@@ -89,13 +101,11 @@ struct BasicInfo: View {
                     }
                     // MARK: Show type (e.g. Scripted)
                     if let type = show.showType {
-                        // swiftlint:disable:next nslocalizedstring_key
-                        Text(NSLocalizedString(type.rawValue, comment: "A type of show (e.g. Scripted)"))
+                        Text(type.localized)
                             .headline("Show Type")
                     }
                 }
                 // MARK: Status
-                // swiftlint:disable:next nslocalizedstring_key
                 Text(mediaObject.status.localized)
                     .headline("Status")
                 // MARK: Original Title
@@ -108,7 +118,11 @@ struct BasicInfo: View {
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
-                        Text("\(show.seasons.map(\.seasonNumber).max() ?? 0) Seasons")
+                        let maxSeasonNumber = show.seasons.map(\.seasonNumber).max() ?? 0
+                        Text(
+                            "detail.basicInfo.seasonCount \(maxSeasonNumber)",
+                            comment: "A string that describes the number of seasons of a tv show in the media detail"
+                        )
                             .headline("Seasons")
                     }
                     .fixHighlighting()
@@ -116,7 +130,11 @@ struct BasicInfo: View {
                 // MARK: Cast
                 if !mediaObject.cast.isEmpty {
                     NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
-                        Text("Cast")
+                        Text(
+                            "detail.basicInfo.cast",
+                            // swiftlint:disable:next line_length
+                            comment: "The button label in the detail of a media object that leads to the cast information."
+                        )
                     }
                     .fixHighlighting()
                 }

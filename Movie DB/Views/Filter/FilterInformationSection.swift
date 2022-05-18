@@ -21,14 +21,27 @@ struct FilterInformationSection: View {
     }
     
     var body: some View {
-        Section(header: Text("Information")) {
+        Section(header: Text(
+            "detail.information.header",
+            comment: "The section header for the information section in the detail view"
+        )) {
             // MARK: - Media Type
             Picker("Media Type", selection: mediaTypeProxy) {
-                Text("Any")
+                Text(
+                    "library.filter.value.any",
+                    // swiftlint:disable:next line_length
+                    comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                )
                     .tag(FilterView.nilString)
-                Text("Movie")
+                Text(
+                    "global.strings.movie",
+                    comment: "A string describing a type of media"
+                )
                     .tag(MediaType.movie.rawValue)
-                Text("TV Show")
+                Text(
+                    "global.strings.show",
+                    comment: "A string describing a type of media"
+                )
                     .tag(MediaType.show.rawValue)
                 
                     .navigationTitle("Media Type")
@@ -49,7 +62,10 @@ struct FilterInformationSection: View {
             NavigationLink(
                 destination:
                     RangeEditingView(
-                        title: Text("Rating"),
+                        title: Text(
+                            "detail.information.personalRating",
+                            comment: "The personal rating one assign a media object as a value of 0 to 5 stars"
+                        ),
                         bounds: StarRating.noRating...StarRating.fiveStars,
                         setting: $filterSetting.rating,
                         style: .stepper,
@@ -57,16 +73,23 @@ struct FilterInformationSection: View {
                     )
             ) {
                 HStack {
-                    Text("Rating")
+                    Text(
+                        "detail.information.personalRating",
+                        comment: "The personal rating one assign a media object as a value of 0 to 5 stars"
+                    )
                     Spacer()
                     if self.filterSetting.rating == nil {
-                        Text("Any")
+                        Text(
+                            "library.filter.value.any",
+                            // swiftlint:disable:next line_length
+                            comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                        )
                             .foregroundColor(.secondary)
                     } else if self.filterSetting.rating!.count == 1 {
                         // Formatting of the double is done in the localization
                         let amount = self.filterSetting.rating!.lowerBound.doubleRepresentation
                         Text(
-                            "\(amount) Stars",
+                            "library.filter.information.label.rating \(amount)",
                             comment: "A star rating from 0 to 5 stars in 0.5 star steps"
                         )
                         .foregroundColor(.secondary)
@@ -74,7 +97,7 @@ struct FilterInformationSection: View {
                         let from = self.filterSetting.rating!.lowerBound.doubleRepresentation
                         let to = self.filterSetting.rating!.upperBound.doubleRepresentation
                         Text(
-                            "\(from) to \(to) Stars",
+                            "library.filter.information.label.rating.range \(from) \(to)",
                             comment: "A range of star ratings, both ranging from 0 to 5 stars in 0.5 star steps"
                         )
                         .foregroundColor(.secondary)
@@ -83,25 +106,41 @@ struct FilterInformationSection: View {
             }
             // MARK: - Year
             NavigationLink(destination: RangeEditingView(
-                title: Text("Year"),
+                title: Text(
+                    "library.filter.information.label.year",
+                    comment: "The label for the picker for selecting the release year in the library filter view"
+                ),
                 bounds: Utils.yearBounds(context: managedObjectContext),
                 setting: $filterSetting.year,
                 style: .stepper
             )) {
                 HStack {
-                    Text("Year")
+                    Text(
+                        "library.filter.information.label.year",
+                        comment: "The label for the picker for selecting the release year in the library filter view"
+                    )
                     Spacer()
                     if self.filterSetting.year == nil {
-                        Text("Any")
+                        Text(
+                            "library.filter.value.any",
+                            // swiftlint:disable:next line_length
+                            comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                        )
                             .foregroundColor(.secondary)
                     } else if self.filterSetting.year!.count == 1 {
                         // Lower and upper bound are the same
-                        Text(self.filterSetting.year!.lowerBound.description)
+                        Text(
+                            "library.filter.information.label.year \(self.filterSetting.year!.lowerBound)",
+                            comment: "Year label in the filter settings"
+                        )
                             .foregroundColor(.secondary)
                     } else {
                         let from = self.filterSetting.year!.lowerBound.description
                         let to = self.filterSetting.year!.upperBound.description
-                        Text("\(from) to \(to)")
+                        Text(
+                            "library.filter.information.label.year.range \(from) \(to)",
+                            comment: "Year range label in the filter settings"
+                        )
                             .foregroundColor(.secondary)
                     }
                 }

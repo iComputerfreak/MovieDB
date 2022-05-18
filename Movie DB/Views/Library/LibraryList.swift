@@ -103,16 +103,14 @@ struct LibraryList: View {
                                         print("Error updating \(mediaObject.title): \(error)")
                                         AlertHandler.showSimpleAlert(
                                             title: String(
-                                                localized: "Error Updating",
-                                                // No way to split up a StaticString into multiple lines
+                                                localized: "library.alert.errorUpdating.title",
                                                 // swiftlint:disable:next line_length
                                                 comment: "Title of an alert informing the user about an error during a media update"
                                             ),
                                             message: String(
-                                                // No way to split up a StaticString into multiple lines
                                                 // swiftlint:disable line_length
-                                                localized: "Error updating \(mediaObject.title): \(error.localizedDescription)",
-                                                comment: "The message of an alert informing the user about an error during a media update. The first variable is the title of the media object and the second variable is the error description."
+                                                localized: "library.alert.errorUpdating.message \(mediaObject.title) \(error.localizedDescription)",
+                                                comment: "The message of an alert informing the user about an error during a media update. The first argument is the title of the media object and the second argument is the error description."
                                                 // swiftlint:enable line_length
                                             )
                                         )
@@ -140,16 +138,16 @@ struct LibraryList: View {
         
         // Showing all media
         if objCount == self.totalMediaItems {
-            return Text(String(
-                localized: "\(objCount) objects total",
+            return Text(
+                "library.list.footer.total \(objCount)",
                 comment: "The total amount of media items in the library. Shown in the footer below the list."
-            ))
+            )
         // Only showing a subset of the total medias
         } else {
-            return Text(String(
-                localized: "\(objCount) objects",
+            return Text(
+                "library.list.footer \(objCount)",
                 comment: "The total amount of media items currently displayed. Shown in the footer below the list."
-            ))
+            )
         }
     }
 }

@@ -44,7 +44,7 @@ struct MediaLookupDetail: View {
                 ExtendedInfo()
             }
             .listStyle(.grouped)
-            .navigationBarTitle(Text(mediaObject.title))
+            .navigationBarTitle(mediaObject.title)
             .navigationBarTitleDisplayMode(.inline)
             .environmentObject(mediaObject)
         } else {
@@ -69,7 +69,7 @@ struct MediaLookupDetail: View {
                         print(error)
                         AlertHandler.showError(
                             title: String(
-                                localized: "Error Loading Media",
+                                localized: "lookup.alert.errorLoading.title",
                                 comment: "Title of an alert informing the user about an error while loading the media"
                             ),
                             error: error

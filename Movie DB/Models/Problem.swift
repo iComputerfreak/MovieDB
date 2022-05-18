@@ -20,14 +20,20 @@ enum ProblemType {
     var description: String {
         switch self {
         case .duplicateMedia:
-            return "Duplicate Media objects"
+            return String(
+                localized: "problemType.duplicateMedia.description",
+                comment: "A type of library problem (e.g. duplicate medias)"
+            )
         }
     }
     
     var recovery: String {
         switch self {
         case .duplicateMedia:
-            return "Delete one of the following medias"
+            return String(
+                localized: "problemType.duplicateMedia.recovery",
+                comment: "A recovery suggestion to resolve a library problem (e.g. duplicate medias)"
+            )
         }
     }
 }

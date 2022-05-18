@@ -23,18 +23,21 @@ struct LegalView: View {
                 Text("""
                     This app uses data from The Movie Database.
                     This product uses the TMDb API but is not endorsed or certified by TMDb.
-                    """) // DO NOT TRANSLATE (?)
+                    """) // TODO: DO NOT TRANSLATE (?)
                 HStack {
                     tmdbLogo
                     Link("https://www.themoviedb.org/", destination: URL(string: "https://www.themoviedb.org/")!)
                 }
                 Divider()
-                Text("""
-                    All content and images are properties of their respective owners.
-                    For legal concerns, contact [legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)
-                    """)
+                Text(
+                    "legal.legalNotice \("[legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)")",
+                    comment: "The legal notice in the legal view. The parameter is the legal e-mail address."
+                )
                 Divider()
-                Text("App Icon: [https://uxwing.com](https://uxwing.com)")
+                Text(
+                    "legal.appIconAttribution \("[https://uxwing.com](https://uxwing.com)")",
+                    comment: "The attribution for the app icon. The parameter is the attribution link."
+                )
             }
         }
         .lineLimit(nil)

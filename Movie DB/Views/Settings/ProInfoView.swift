@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-// TODO: Not correctly localized
 struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     
@@ -16,30 +15,47 @@ struct ProInfoView: View {
         NavigationView {
             VStack(alignment: .center) {
                 HStack {
-                    Text("Remove the limit of \(JFLiterals.nonProMediaLimit) objects by buying the Pro version " +
-                         "of the app.")
+                    Text(
+                        "proInfo.introText \(JFLiterals.nonProMediaLimit)",
+                        // swiftlint:disable:next line_length
+                        comment: "Text in pro info view that explains the media limit which buying pro removes. The parameter is the amount of objects one can add in the free version"
+                    )
                         .padding()
                     Spacer()
                 }
                 HStack {
-                    Text("About me")
+                    Text(
+                        "proInfo.aboutMe.header",
+                        comment: "The header of the 'about me' paragraph in the pro info view"
+                    )
                         .font(.title)
                         .padding([.horizontal, .top])
                         .padding(.bottom, 2)
                     Spacer()
                 }
                 HStack {
-                    // swiftlint:disable:next line_length
-                    Text("Hi, my name is Jonas and I'm a student at the Karlsruher Institute of Technology in Karlsruhe, Germany. In my free time I make apps for fun and this app is one of those. It started as a personal project of mine in an endeavour to catalog all the movies and tv shows I ever watched, so I would be able to recommend good movies or shows to friends. The app has grown big enough and works good enough that I thought I would publish it on the App Store, so here we are.")
+                    Text(
+                        "proInfo.aboutMe.text",
+                        comment: "The 'about me' text in the pro info view"
+                    )
                         .padding(.horizontal)
                     Spacer()
                 }
                 Spacer()
                 if Utils.purchasedPro() {
-                    Text("Already Purchased")
-                        .foregroundColor(.blue)
+                    Button(String(
+                        localized: "proInfo.buyButton.label.disabled",
+                        comment: "The button label in the pro info view indicating that the user already bought pro."
+                    )) {}
+                        .buttonStyle(.borderedProminent)
+                        .disabled(true)
                 } else {
-                    Button("Buy Pro - $4.99") {
+                    // TODO: Localize price
+                    Button(String(
+                        localized: "proInfo.buyButton.label \("4,99 $")",
+                        // swiftlint:disable:next line_length
+                        comment: "The button label in the pro info view displaying the price to buy the pro version of the app. The parameter is the localized and formatted price."
+                    )) {
                         print("Buying Pro")
                         let manager = StoreManager.shared
                         guard let product = manager.products.first(where: { product in
@@ -47,14 +63,12 @@ struct ProInfoView: View {
                         }) else {
                             AlertHandler.showSimpleAlert(
                                 title: String(
-                                    localized: "Unable to Purchase",
-                                    // No way to split up a StaticString into multiple lines
+                                    localized: "settings.alert.errorBuyingPro.title",
                                     // swiftlint:disable:next line_length
                                     comment: "Title of an alert informing the user that there was an error with the in-app purchase"
                                 ),
                                 message: String(
-                                    localized: "The requested In-App Purchase was not found.",
-                                    // No way to split up a StaticString into multiple lines
+                                    localized: "settings.alert.errorBuyingPro.message",
                                     // swiftlint:disable:next line_length
                                     comment: "Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured"
                                 )

@@ -28,10 +28,16 @@ struct SearchResultRow: View {
                     }
                     switch result.mediaType {
                     case .movie:
-                        Text("Movie", comment: "A type of media (Movie or TV Show/Series)")
+                        Text(
+                            "global.strings.movie",
+                            comment: "A string describing a type of media"
+                        )
                             .italic()
                     case .show:
-                        Text("Show", comment: "A type of media (Movie or TV Show/Series)")
+                        Text(
+                            "global.strings.show",
+                            comment: "A string describing a type of media"
+                        )
                             .italic()
                     }
                     if let date = self.yearFromMediaResult(result) {

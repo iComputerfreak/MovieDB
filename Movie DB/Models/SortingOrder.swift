@@ -60,15 +60,6 @@ enum SortingDirection: String, Equatable {
     case ascending
     case descending
     
-    mutating func toggle() {
-        switch self {
-        case .ascending:
-            self = .descending
-        case .descending:
-            self = .ascending
-        }
-    }
-    
     var localized: String {
         switch self {
         case .ascending:
@@ -81,6 +72,15 @@ enum SortingDirection: String, Equatable {
                 localized: "sortingDirection.descending",
                 comment: "A type of sorting direction (ascending or descending)"
             )
+        }
+    }
+    
+    mutating func toggle() {
+        switch self {
+        case .ascending:
+            self = .descending
+        case .descending:
+            self = .ascending
         }
     }
 }

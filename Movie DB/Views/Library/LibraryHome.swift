@@ -122,7 +122,10 @@ struct LibraryHome: View {
                     }
                         .accessibilityIdentifier("add-media")
                 )
-                .navigationBarTitle(Text("Library"))
+                .navigationBarTitle(String(
+                    localized: "tabView.library.label",
+                    comment: "The label of the library tab of the main TabView"
+                ))
             }
         }
     }

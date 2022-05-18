@@ -16,7 +16,15 @@ struct UserData: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(header: HStack { Image(systemName: "person.fill"); Text("User Data") }) {
+            Section(
+                header: HStack {
+                    Image(systemName: "person.fill")
+                    Text(
+                        "detail.userData.header",
+                        comment: "The section header for the user data section in the detail view"
+                    )
+                }
+            ) {
                 // Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)

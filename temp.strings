@@ -1,4 +1,4 @@
-/* 
+/*
   temp.strings
   Movie DB
 
@@ -6,24 +6,9 @@
   Copyright © 2022 Jonas Frey. All rights reserved.
 */
 
-/////////////////////////////////////////////////////
-// Custom Values (not being able to be extracted!) //
-/////////////////////////////////////////////////////
-
-// ContentProvider types
-
-/* A type of watch provider */
 "detail.watchprovider.flatrate" = "Flatrate";
-
-/* A type of watch provider */
 "detail.watchprovider.ads" = "Ads";
-
-/* A type of watch provider */
 "detail.watchprovider.buy" = "Buy";
-
-/////////////////////////////
-// Normal Translation keys //
-/////////////////////////////
 
 "sortingOrder.name" = "Name";
 "sortingOrder.created" = "Created";
@@ -42,6 +27,10 @@
 "mediaInformation.tags" = "tags";
 
 "mediaSearch.noResults" = "No results";
+"mediaSearch.loading" = "Loading...";
+"mediaSearch.loadMore" = "Load more results...";
+"mediaSearch.alert.error.title" = "Error Performing Search";
+"mediaSearch.alert.error.message" = "Error Loading Search Results";
 
 "mediaStatus.planned" = "Planned";
 "mediaStatus.inProduction" = "In Production";
@@ -56,5 +45,206 @@
 "detail.episodeAirDate %lld %lld %@" = "S%lldE%lld (%@)";
 "detail.episodeAirDate %lld %lld" = "S%lldE%lld";
 
-"alert.newTag.title" = "New Tag";
-"alert.newTag.message" = "Enter a name for the new tag.";
+"detail.alert.newTag.title" = "New Tag";
+"detail.alert.newTag.message" = "Enter a name for the new tag.";
+"detail.alert.newTag.button.add" = "Add";
+
+"detail.alert.tagAlreadyExists.title" = "Tag Already Exists";
+"detail.alert.tagAlreadyExists.message" = "There is already a tag with that name.";
+
+"showType.documentary" = "Documentary";
+"showType.news" = "News";
+"showType.miniseries" = "Miniseries";
+"showType.reality" = "Reality";
+"showType.scripted" = "Scripted";
+"showType.talkShow" = "Talk Show";
+"showType.video" = "Video";
+
+"detail.alert.renameTag.title" = "Rename Tag";
+"detail.alert.renameTag.message" = "Enter a new name for the tag.";
+"detail.alert.renameTag.button.rename" = "Rename";
+
+"settings.placeholder.loading" = "Loading...";
+
+"settings.alert.importMedia.title" = "Import";
+"settings.alert.importMedia.message %lld" = "Imported %lld media objects.";
+"settings.alert.importMedia.button.undo" = "Undo";
+
+"settings.alert.importTags.title" = "Import";
+"settings.alert.importTags.message %lld" = "Do you want to import %lld tags?";
+
+"settings.alert.updateMediaComplete.title" = "Update Completed";
+"settings.alert.updateMediaComplete.message %lld" = "%lld media objects have been updated.";
+
+"settings.alert.resetLibrary.title" = "Reset Library";
+"settings.alert.resetLibrary.message" = "This will delete all media objects in your library. Do you want to continue?";
+"settings.alert.resetLibrary.button.delete" = "Delete";
+
+"settings.alert.resetLibraryError.title" = "Error resetting library";
+
+"settings.alert.resetTagsError.title" = "Error resetting tags";
+
+"settings.alert.resetTags.title" = "Reset Tags";
+"settings.alert.resetTags.message" = "This will delete all tags in your library. Do you want to continue?";
+"settings.alert.resetTags.button.delete" = "Delete";
+
+"generic.picker.value.yes" = "Yes";
+"generic.picker.value.no" = "No";
+
+"generic.alert.title.error" = "Error";
+"generic.alert.button.okay" = "Ok";
+"generic.alert.button.cancel" = "Cancel";
+"generic.alert.button.yes" = "Yes";
+"generic.alert.button.no" = "No";
+
+"global.alert.errorLoadingCoreData.title" = "Error Loading Data";
+"global.alert.errorSavingCoreData.title" = "Error Saving Data";
+
+"languageChooser.alert.errorLoading.title" = "Error loading languages";
+"languageChooser.loadingText" = "Loading Languages...";
+
+"library.alert.errorUpdating.title" = "Error Updating";
+"library.alert.errorUpdating.message %@ %@" = "Error Updating %@: %@";
+
+"library.list.footer %lld" = "%lld objects";
+"library.list.footer.total %lld" = "%lld objects total";
+
+"addMedia.alert.alreadyAdded.title" = "Already Added";
+"addMedia.alert.alreadyAdded.message %@" = "You already have '%@' in your library.";
+
+"addMedia.alert.errorLoading.title" = "Error Loading Media";
+"addMedia.navBar.title" = "Add Media";
+"addMedia.navBar.button.close" = "Close";
+
+"lookup.alert.errorLoading.title" = "Error Loading Media";
+
+"detail.tags.header" = "Select all tags that apply";
+"detail.tags.footer %lld" = "%lld tags total";
+
+"settings.alert.reloadCompleted.title" = "Reload Completed";
+"settings.alert.reloadCompleted.message" = "All media objects have been reloaded.";
+
+"settings.alert.errorReloadingLibrary.title" = "Error Reloading Library";
+
+"settings.alert.reloadLibrary.title" = "Reload library?";
+"settings.alert.reloadLibrary.message" = "Do you want to reload all media objects using the new language/region settings?";
+
+"settings.languagePicker.loadingText" = "Loading...";
+"settings.languagePicker.alert.errorLoading.title" = "Error Updating Languages";
+
+"settings.alert.errorBuyingPro.title" = "Unable to Purchase";
+"settings.alert.errorBuyingPro.message" = "The requested In-App Purchase was not found.";
+
+"settings.alert.tagImportError.title" = "Error Importing Tags";
+
+"settings.alert.genericImportError.title" = "Import Error";
+"settings.alert.genericExportError.title" = "Export Error";
+"settings.alert.genericExportError.message" = "There was an error creating the export file.";
+
+"settings.alert.libraryUpdateError.title" = "Update Error";
+
+"tabView.library.label" = "Library";
+"tabView.lookup.label" = "Lookup";
+"tabView.problems.label" = "Problems";
+"tabView.settings.label" = "Settings";
+
+"generic.errorText" = "Error";
+
+"problems.noProblemsText" = "There are no problems in your library.";
+
+"problemType.duplicateMedia.description" = "Duplicate Media Objects";
+"problemType.duplicateMedia.recovery" = "Delete one of the following medias";
+
+"global.strings.movie" = "Movie";
+"global.strings.show" = "TV Show";
+
+"library.filter.button.reset" = "Reset";
+"library.filter.button.apply" = "Apply";
+
+// Filter labels
+"detail.userData.watched" = "Watched?";
+"detail.information.personalRating" = "Personal Rating";
+"library.filter.information.label.year" = "Year";
+
+// Filter values
+"library.filter.value.any" = "Any";
+
+// Headers
+"detail.userData.header" = "User Data";
+"detail.information.header" = "Information";
+
+"detail.userData.header" = "User Data";
+"detail.basicInfo.header" = "Basic Information";
+"detail.extendedInfo.header" = "Extended Information";
+"detail.metadata.header" = "Metadata";
+
+"library.filter.showSpecific.header" = "Show Specific";
+"library.filter.showSpecific.label.seasons" = "Seasons";
+"library.filter.showSpecific.label.seasonCount.range %lld %lld" = "%lld to %lld Seasons";
+"library.filter.showSpecific.label.seasonCount %lld" = "%lld Seasons";
+
+"problems.list.missingList %@" = "Missing: %@";
+"detail.errorLoadingText" = "Error loading media";
+"detail.basicInfo.runtime.minutesAndHours %@ %@" = "%@ (%@)";
+
+"detail.basicInfo.seasonCount %lld" = "%lld  Seasons";
+"detail.basicInfo.cast" = "Cast";
+
+"detail.watchProviders.label" = "Watch Providers";
+"detail.watchProviders.attribution" = "Powered by [JustWatch.com](https://www.justwatch.com)";
+
+"detail.extendedInfo.scoring %lf %lf %lld" = "%.2f/%.2f points from %lld votes";
+"detail.extendedInfo.seasons.episodeCount %lld" = "%lld Episodes";
+"detail.userData.watchedShow.label.no" = "No";
+"detail.userData.watchedShow.label.season %lld" = "Season %lld";
+"detail.userData.watchedShow.label.seasonAndEpisode %lld %lld" = "Season %lld, Episode %lld";
+"detail.userData.watchedShow.header" = "Up to which Episode did you watch?";
+"detail.userData.watchedShow.label.seasonNumber" = "Season %lld";
+"detail.userData.watchedShow.label.notWatched" = "Not Watched";
+"detail.userData.watchedShow.label.allEpisodes" = "All Episodes";
+"detail.userData.watchedShow.label.episodeNumber %lld" = "Episode %lld";
+
+"detail.userData.noNotes" = "No Notes";
+"detail.userData.tags.none" = "None";
+
+"proInfo.introText %lld" = "Remove the limit of %lld objects by buying the Pro version of the app.";
+"proInfo.aboutMe.header" = "About me";
+"proInfo.aboutMe.text" = "Hi, my name is Jonas and I'm a student at the Karlsruher Institute of Technology in Karlsruhe, Germany. In my free time I make apps for fun and this app is one of those. It started as a personal project of mine in an endeavour to catalog all the movies and tv shows I ever watched, so I would be able to recommend good movies or shows to friends. The app has grown big enough and works good enough that I thought I would publish it on the App Store, so here we are.";
+"proInfo.buyButton.label.disabled" = "Already Purchased";
+"proInfo.buyButton.label %@" = "Buy Pro - %@";
+"settings.footer.version %@" = "Version %@";
+"legal.appIconAttribution %@" = "App Icon: %@";
+"legal.legalNotice %@" = "All content and images are properties of their respective owners.\nFor legal concerns, contact %@.";
+"generic.picker.multipleValues %lld" = "%lld Values";
+"generic.picker.noValues" = "No entries";
+"generic.picker.navBar.button.reset" = "Reset";
+"generic.picker.range.from" = "From";
+"generic.picker.range.to" = "To";
+"generic.picker.range.from.value %@" = "From %@";
+"generic.picker.range.to.value %@" = "To %@";
+
+
+// TODO: .navigationBarTitle
+// TODO: var description: String
+// TODO: Explicit titleKey:
+// TODO: FilterMultiPicker and other custom views
+// TODO: Strings with spaces in between (single line)
+// TODO: Strings that do not contain a dot
+// TODO: resultsText in SearchResultsView
+// TODO: .headline
+// TODO: Picker.init
+// TODO: progressText in LibraryActionsSection.FooterView aka config.showProgress(_:)
+// TODO: Which ones should be in a stringsdict? Search for %
+"library.filter.information.label.rating %lf" = "%g Stars";
+"library.filter.information.label.rating.range %lf %lf" = "%g to %g Stars";
+"library.filter.information.label.year %lld" = "%lld";
+"library.filter.information.label.year.range %lld %lld" = "%lld to %lld";
+
+/*
+ 
+ (header: Text(
+     "detail.userData.header",
+     comment: "The section header for the user data section in the filter view"
+ ))
+ 
+ */

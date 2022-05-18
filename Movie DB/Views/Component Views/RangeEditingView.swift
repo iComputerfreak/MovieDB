@@ -34,9 +34,13 @@ where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLab
                 self.setting = nil
             }
         }
-        .navigationBarItems(trailing: Button(action: {
+        .navigationBarItems(trailing: Button(String(
+            localized: "generic.picker.navBar.button.reset",
+            // swiftlint:disable:next line_length
+            comment: "The navigation bar button label for the button that resets the currently visible range editing view"
+        )) {
             self.setting = nil
-        }, label: { Text("Reset") }))
+        })
     }
     
     func makeStepperBody() -> some View {
@@ -73,13 +77,21 @@ extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueL
             style: style,
             fromLabel: { value in
                 HStack {
-                    Text("From")
+                    Text(
+                        "generic.picker.range.from",
+                        // swiftlint:disable:next line_length
+                        comment: "A range editing label that prefixes the actual value that is currently selected for the lower bound of the range."
+                    )
                     Spacer()
                     valueLabel(value)
                 }
             }, toLabel: { value in
                 HStack {
-                    Text("To")
+                    Text(
+                        "generic.picker.range.to",
+                        // swiftlint:disable:next line_length
+                        comment: "A range editing label that prefixes the actual value that is currently selected for the upper bound of the range."
+                    )
                     Spacer()
                     valueLabel(value)
                 }
@@ -98,8 +110,20 @@ extension RangeEditingView where Label == Text, ValueLabel == Text, T: CustomStr
             bounds: bounds,
             setting: setting,
             style: style,
-            fromLabel: { Text("From \($0.description)") },
-            toLabel: { Text("To \($0.description)") },
+            fromLabel: { value in
+                Text(
+                    "generic.picker.range.from.value \(value.description)",
+                    // swiftlint:disable:next line_length
+                    comment: "A range editing label that describes the actual value that is currently selected for the lower bound of the range. The parameter is the value."
+                )
+            },
+            toLabel: { value in
+                Text(
+                    "generic.picker.range.to.value \(value.description)",
+                    // swiftlint:disable:next line_length
+                    comment: "A range editing label that describes the actual value that is currently selected for the upper bound of the range. The parameter is the value."
+                )
+            },
             valueLabel: { Text($0.description) }
         )
     }

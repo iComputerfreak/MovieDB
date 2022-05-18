@@ -46,7 +46,10 @@ struct LibraryActionsSection: View {
                     }
                     .frame(height: showingProgress ? nil : 0)
                     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                    Text("Version \(appVersion ?? "unknown")")
+                    Text(
+                        "settings.footer.version \(appVersion ?? "unknown")",
+                        comment: "The version information at the bottom of the settings page"
+                    )
                 }
                 Spacer()
             }
@@ -67,17 +70,16 @@ struct LibraryActionsSection: View {
                 // Report back the result to the user on the main thread
                 await MainActor.run {
                     self.config.hideProgress()
-                    let format = NSLocalizedString(
-                        "%lld media objects have been updated.",
-                        comment: "Message of an alert informing the user how many media objects have been updated. " +
-                        "The variable is the count of updated objects"
-                    )
                     AlertHandler.showSimpleAlert(
                         title: String(
-                            localized: "Update Completed",
+                            localized: "settings.alert.updateMediaComplete.title",
                             comment: "Title of an alert informing the user that the library update is completed"
                         ),
-                        message: String.localizedStringWithFormat(format, updateCount)
+                        message: String(
+                            localized: "settings.alert.updateMediaComplete.message \(updateCount)",
+                            // swiftlint:disable:next line_length
+                            comment: "Message of an alert informing the user how many media objects have been updated. The argument is the count of updated objects"
+                        )
                     )
                 }
             } catch {
@@ -86,7 +88,7 @@ struct LibraryActionsSection: View {
                 await MainActor.run {
                     AlertHandler.showError(
                         title: String(
-                            localized: "Update Error",
+                            localized: "settings.alert.libraryUpdateError.title",
                             comment: "Title of an alert informing the user of an error while updating the library"
                         ),
                         error: error
@@ -99,22 +101,22 @@ struct LibraryActionsSection: View {
     
     func resetLibrary() {
         let controller = UIAlertController(
-            title: NSLocalizedString(
-                "Reset Library",
+            title: String(
+                localized: "settings.alert.resetLibrary.title",
                 comment: "Title of an alert asking the user for confirmation to reset the library"
             ),
-            message: NSLocalizedString(
-                "This will delete all media objects in your library. Do you want to continue?",
+            message: String(
+                localized: "settings.alert.resetLibrary.message",
                 comment: "Message of an alert asking the user for confirmation to reset the library"
             ),
             preferredStyle: .alert
         )
+        controller.addAction(.cancelAction())
         controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Cancel", comment: "Button to cancel the library reset alert"),
-            style: .cancel
-        ))
-        controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Delete", comment: "Button to confirm the library reset"),
+            title: String(
+                localized: "settings.alert.resetLibrary.button.delete",
+                comment: "Button to confirm the library reset"
+            ),
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
@@ -128,7 +130,7 @@ struct LibraryActionsSection: View {
                     print(error)
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error resetting library",
+                            localized: "settings.alert.resetLibraryError.title",
                             comment: "Title of an alert informing the user of an error while resetting the library"
                         ),
                         error: error
@@ -144,22 +146,22 @@ struct LibraryActionsSection: View {
     
     func resetTags() {
         let controller = UIAlertController(
-            title: NSLocalizedString(
-                "Reset Tags",
+            title: String(
+                localized: "settings.alert.resetTags.title",
                 comment: "Title of an alert asking the user to confirm resettings the tags"
             ),
-            message: NSLocalizedString(
-                "This will delete all tags in your library. Do you want to continue?",
+            message: String(
+                localized: "settings.alert.resetTags.message",
                 comment: "Message of an alert asking the user to confirm resetting the tags"
             ),
             preferredStyle: .alert
         )
+        controller.addAction(.cancelAction())
         controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Cancel", comment: "Button of an alert, cancelling the "),
-            style: .cancel
-        ))
-        controller.addAction(UIAlertAction(
-            title: NSLocalizedString("Delete", comment: "Button of an alert, confirming the tag reset"),
+            title: String(
+                localized: "settings.alert.resetTags.button.delete",
+                comment: "Button of an alert, confirming the tag reset"
+            ),
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
@@ -173,7 +175,7 @@ struct LibraryActionsSection: View {
                     print(error)
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error resetting tags",
+                            localized: "settings.alert.resetTagsError.title",
                             comment: "Title of an alert informing the user of an error during tag reset"
                         ),
                         error: error

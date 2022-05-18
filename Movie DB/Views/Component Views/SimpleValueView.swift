@@ -19,7 +19,7 @@ struct SimpleValueView<T: Hashable>: View {
     var body: some View {
         Group {
             if editMode?.wrappedValue.isEditing ?? false {
-                Picker(selection: $value, label: Text("")) {
+                Picker(selection: $value, label: EmptyView()) {
                     ForEach(values, id: \.self) { value in
                         Text(self.label(value))
                             .tag(value)
@@ -38,9 +38,15 @@ struct SimpleValueView<T: Hashable>: View {
         SimpleValueView<Bool?>(values: [true, false, nil], value: value) { value in
             if let value = value {
                 if value {
-                    return NSLocalizedString("Yes", comment: "An option in a picker view")
+                    return String(
+                        localized: "generic.picker.value.yes",
+                        comment: "An option in a picker view"
+                    )
                 }
-                return NSLocalizedString("No", comment: "An option in a picker view")
+                return String(
+                    localized: "generic.picker.value.no",
+                    comment: "An option in a picker view"
+                )
             } else {
                 return "-"
             }
@@ -54,7 +60,7 @@ struct SimpleValueView_Previews: PreviewProvider {
             SimpleValueView(
                 values: [true, false],
                 value: .constant(false),
-                label: { $0 ? NSLocalizedString("Yes", comment: "") : NSLocalizedString("No", comment: "") }
+                label: { $0 ? "Yes" : "No" }
             )
             SimpleValueView<Bool>.createYesNo(value: .constant(true))
                 .environment(\.editMode, .constant(.active))

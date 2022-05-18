@@ -33,7 +33,7 @@ struct PersistenceController {
             if let error = error as NSError? {
                 AlertHandler.showError(
                     title: String(
-                        localized: "Error Loading Data",
+                        localized: "global.alert.errorLoadingCoreData.title",
                         comment: "Title of an alert informing the user about an error while loading the app's data"
                     ),
                     error: error
@@ -125,7 +125,7 @@ struct PersistenceController {
                     print(nserror)
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error Saving Data",
+                            localized: "global.alert.errorSavingCoreData.title",
                             comment: "Title of an alert informing the user about an error during saving"
                         ),
                         error: nserror
@@ -158,7 +158,7 @@ struct PersistenceController {
                     let nserror = error as NSError
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error Saving Data",
+                            localized: "global.alert.errorSavingCoreData.title",
                             comment: "Title of an alert informing the user about an error during saving"
                         ),
                         error: nserror

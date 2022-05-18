@@ -34,9 +34,7 @@ struct ImportExportSection: View {
             Button("Import Media", action: self.importMedia)
             
             // MARK: - Export Button
-            Button(action: self.exportMedia) {
-                Text("Export Media")
-            }
+            Button("Export Media", action: self.exportMedia)
             
             // MARK: - Import Tags
             Button("Import Tags", action: self.importTags)
@@ -82,22 +80,22 @@ struct ImportExportSection: View {
                     // Presenting will change UI
                     Task {
                         await MainActor.run {
-                            let format = NSLocalizedString(
-                                "Imported %lld media objects.",
-                                comment: "Message of an alert asking the user to confirm the import"
-                            )
                             let controller = UIAlertController(
-                                title: NSLocalizedString(
-                                    "Import",
+                                title: String(
+                                    localized: "settings.alert.importMedia.title",
                                     comment: "Title of an alert asking the user to confirm the import"
                                 ),
-                                message: String.localizedStringWithFormat(format, mediaObjects.count),
+                                message: String(
+                                    localized: "settings.alert.importMedia.message \(mediaObjects.count)",
+                                    // swiftlint:disable:next line_length
+                                    comment: "Message of an alert asking the user to confirm the import. The argument is the count of media objects to import."
+                                ),
                                 preferredStyle: .alert
                             )
                             controller.addAction(UIAlertAction(
-                                title: NSLocalizedString(
-                                    "Undo",
-                                    comment: "Button to undo the finished import"
+                                title: String(
+                                    localized: "settings.alert.importMedia.button.undo",
+                                    comment: "Button to undo the media import"
                                 ),
                                 style: .destructive
                             ) { _ in
@@ -106,10 +104,7 @@ struct ImportExportSection: View {
                                 importLogger?.info("Undoing import. All imported objects removed.")
                                 self.importLogShowing = true
                             })
-                            controller.addAction(UIAlertAction(
-                                title: NSLocalizedString("Ok", comment: "Button to confirm the import"),
-                                style: .default
-                            ) { _ in
+                            controller.addAction(.okayAction { _ in
                                 Task {
                                     // Make the changes to this context permanent by saving them to the
                                     // main context and then to disk
@@ -151,20 +146,18 @@ struct ImportExportSection: View {
             Task {
                 await MainActor.run {
                     let controller = UIAlertController(
-                        title: NSLocalizedString(
-                            "Import",
+                        title: String(
+                            localized: "settings.alert.importTags.title",
                             comment: "Title of an alert asking the user to confirm importing the tags"
                         ),
                         message: String(
-                            localized: "Do you want to import \(count) tags?",
-                            comment: "Message of an alert asking the user to confirm importing the tags"
+                            localized: "settings.alert.importTags.message \(count)",
+                            // swiftlint:disable:next line_length
+                            comment: "Message of an alert asking the user to confirm importing the tags. The argument is the count of tags to import."
                         ),
                         preferredStyle: .alert
                     )
-                    controller.addAction(UIAlertAction(
-                        title: NSLocalizedString("Yes", comment: "Button confirming the tag import"),
-                        style: .default
-                    ) { _ in
+                    controller.addAction(.yesAction { _ in
                         Task {
                             // TODO: Duplicate error handling. Would prefer to rethrow the error, but we are in a Task
                             // Use the background context for importing the tags
@@ -175,7 +168,7 @@ struct ImportExportSection: View {
                                 print(error)
                                 AlertHandler.showError(
                                     title: String(
-                                        localized: "Error Importing Tags",
+                                        localized: "settings.alert.tagImportError.title",
                                         comment: "Title of an alert informing the user of an error during tag import"
                                     ),
                                     error: error
@@ -183,10 +176,7 @@ struct ImportExportSection: View {
                             }
                         }
                     })
-                    controller.addAction(UIAlertAction(title: NSLocalizedString(
-                        "No",
-                        comment: "Button of an alert, cancelling the tag import"
-                    ), style: .cancel))
+                    controller.addAction(.noAction())
                     AlertHandler.presentAlert(alert: controller)
                     self.config.isLoading = false
                 }
@@ -222,7 +212,7 @@ struct ImportExportSection: View {
                     print("Error importing: \(error)")
                     AlertHandler.showError(
                         title: String(
-                            localized: "Import Error",
+                            localized: "settings.alert.genericImportError.title",
                             comment: "Title of an error informing the user about an error during import"
                         ),
                         error: error
@@ -256,11 +246,11 @@ struct ImportExportSection: View {
                             await MainActor.run {
                                 AlertHandler.showSimpleAlert(
                                     title: String(
-                                        localized: "Export Error",
+                                        localized: "settings.alert.genericExportError.title",
                                         comment: "Title of an alert informing the user about an error during export"
                                     ),
                                     message: String(
-                                        localized: "There was an error creating the export file.",
+                                        localized: "settings.alert.genericExportError.message",
                                         comment: "Message of an alert informing the user about an error during export"
                                     )
                                 )

@@ -32,7 +32,10 @@ struct LookupView: View {
                         SearchResultRow(result: result)
                     }
                 }
-                .navigationTitle(Text("Lookup"))
+                .navigationTitle(String(
+                    localized: "tabView.lookup.label",
+                    comment: "The label of the lookup tab of the main TabView"
+                ))
             }
         }
         .popover(isPresented: $isShowingProPopup) {

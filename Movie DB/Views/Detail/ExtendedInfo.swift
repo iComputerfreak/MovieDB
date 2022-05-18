@@ -15,7 +15,15 @@ struct ExtendedInfo: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(header: HStack { Image(systemName: "ellipsis.circle"); Text("Extended Information") }) {
+            Section(
+                header: HStack {
+                    Image(systemName: "ellipsis.circle")
+                    Text(
+                        "detail.extendedInfo.header",
+                        comment: "The section header for the extended information section in the detail view"
+                    )
+                }
+            ) {
                 if let tagline = mediaObject.tagline, !tagline.isEmpty {
                     Text(tagline)
                         .headline("Tagline")
@@ -30,10 +38,6 @@ struct ExtendedInfo: View {
                         Text(movie.revenue.formatted(.currency(code: "USD")))
                             .headline("Revenue")
                     }
-                    if let imdbID = movie.imdbID {
-                        LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
-                            .headline("IMDB ID")
-                    }
                 }
                 let tmdbID = String(mediaObject.tmdbID)
                 LinkView(
@@ -41,12 +45,19 @@ struct ExtendedInfo: View {
                     link: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(tmdbID)"
                 )
                 .headline("TMDB ID")
+                if
+                    let movie = mediaObject as? Movie,
+                    let imdbID = movie.imdbID
+                {
+                    LinkView(text: imdbID, link: "https://www.imdb.com/title/\(imdbID)")
+                        .headline("IMDB ID")
+                }
                 if let homepageURL = mediaObject.homepageURL, !homepageURL.isEmpty {
                     LinkView(text: homepageURL, link: homepageURL)
                         .headline("Homepage")
                 }
                 if !mediaObject.productionCompanies.isEmpty {
-                    Text(String(mediaObject.productionCompanies.map(\.name).sorted().joined(separator: ", ")))
+                    Text(mediaObject.productionCompanies.map(\.name).sorted().joined(separator: ", "))
                         .headline("Production Companies")
                 }
                 // Show exclusive data
@@ -57,6 +68,7 @@ struct ExtendedInfo: View {
                     }
                     if !show.createdBy.isEmpty {
                         // Sort by last name
+                        // TODO: Extract into extension .sortedByLastName
                         Text(show.createdBy.sorted(by: { name1, name2 in
                             let lastName1 = name1.components(separatedBy: .whitespaces).last
                             let lastName2 = name2.components(separatedBy: .whitespaces).last
@@ -76,10 +88,14 @@ struct ExtendedInfo: View {
                 let format: FloatingPointFormatStyle<Float> = .number.precision(.fractionLength(2))
                 Text(mediaObject.popularity.formatted(format))
                     .headline("Popularity")
-                let avg = mediaObject.voteAverage.formatted(format)
-                let max = 10.formatted(.number.precision(.fractionLength(0)))
-                let count = mediaObject.voteCount.formatted()
-                Text("\(avg)/\(max) points from \(count) votes")
+                let avg = Double(mediaObject.voteAverage)
+                let max: Double = 10
+                let count = mediaObject.voteCount
+                Text(
+                    "detail.extendedInfo.scoring \(avg) \(max) \(count)",
+                    // swiftlint:disable:next line_length
+                    comment: "A string describing the average rating of a media object on TMDb. The first parameter is the average score/rating (0-10) as a decimal number. The second parameter is the maximum score a media object can achieve (10) as a decimal number. The third argument is the number of votes that resulted in this score."
+                )
                     .headline("Scoring")
             }
         }

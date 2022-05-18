@@ -14,15 +14,18 @@ struct LanguageChooser: View {
     var body: some View {
         NavigationView {
             if config.availableLanguages.isEmpty {
-                Text("Loading Languages...")
+                Text(
+                    "languageChooser.loadingText",
+                    // swiftlint:disable:next line_length
+                    comment: "Placeholder text to display while loading the available languages in the language chooser onboarding screen"
+                )
                     .task {
                         do {
                             try await Utils.updateTMDBLanguages()
                         } catch {
                             AlertHandler.showError(
                                 title: String(
-                                    localized: "Error loading languages",
-                                    // No way to split up a StaticString into multiple lines
+                                    localized: "languageChooser.alert.errorLoading.title",
                                     // swiftlint:disable:next line_length
                                     comment: "Title of an alert informing the user about an error while loading the available languages"
                                 ),

@@ -21,10 +21,11 @@ struct SettingsView: View {
     @State private var config = SettingsViewConfig()
     
     var body: some View {
+        // TODO: Should settings really use a loading screen?
         LoadingView(
             isShowing: $config.isLoading,
-            text: config.loadingText ?? NSLocalizedString(
-                "Loading...",
+            text: config.loadingText ?? String(
+                localized: "settings.placeholder.loading",
                 comment: "Placeholder text to show while the data is loading"
             )
         ) {
@@ -61,11 +62,11 @@ struct SettingsView: View {
                     self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
                         title: String(
-                            localized: "Reload Completed",
+                            localized: "settings.alert.reloadCompleted.title",
                             comment: "Title of the alert informing the user that the media reload is completed"
                         ),
                         message: String(
-                            localized: "All media objects have been reloaded.",
+                            localized: "settings.alert.reloadCompleted.message",
                             comment: "Message of the alert informing the user that the media reload is completed"
                         )
                     )
@@ -76,7 +77,7 @@ struct SettingsView: View {
                     self.config.hideProgress()
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error Reloading Library",
+                            localized: "settings.alert.errorReloadingLibrary.title",
                             comment: "Title of an alert informing the user about an error while reloading the library"
                         ),
                         error: error

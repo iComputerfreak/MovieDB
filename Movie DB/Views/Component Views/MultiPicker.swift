@@ -40,13 +40,21 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                 self.title
                 Spacer()
                 if self.selection.isEmpty {
-                    Text("Any")
+                    Text(
+                        "library.filter.value.any",
+                        // swiftlint:disable:next line_length
+                        comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                    )
                         .foregroundColor(Color.secondary)
                 } else if self.selection.count == 1 {
                     Text("\(label(self.selection.first!))")
                         .foregroundColor(Color.secondary)
                 } else {
-                    Text("\(self.selection.count) Values")
+                    Text(
+                        "generic.picker.multipleValues \(self.selection.count)",
+                        // swiftlint:disable:next line_length
+                        comment: "A picker label that indicates that there are currently multiple values selected. The parameter is the count of selected values."
+                    )
                         .foregroundColor(Color.secondary)
                 }
             }
@@ -86,7 +94,10 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                 if self.values.isEmpty {
                     HStack {
                         Spacer()
-                        Text("No entries")
+                        Text(
+                            "generic.picker.noValues",
+                            comment: "The label displayed by a picker when there are no possible values to pick from"
+                        )
                             .italic()
                         Spacer()
                     }

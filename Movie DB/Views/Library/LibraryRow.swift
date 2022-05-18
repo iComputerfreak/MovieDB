@@ -26,7 +26,7 @@ struct LibraryRow: View {
     var body: some View {
         if mediaObject.isFault {
             // This will be displayed while the object is being deleted
-            Text("")
+            EmptyView()
         } else {
             NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
                 HStack {
@@ -50,7 +50,7 @@ struct LibraryRow: View {
                             }
                             // MARK: Year
                             if mediaObject.year != nil {
-                                Text(mediaObject.year!.description)
+                                Text("\(mediaObject.year!)")
                             }
                         }
                     }
@@ -63,6 +63,7 @@ struct LibraryRow: View {
 // swiftlint:disable:next file_types_order
 struct ProblemsLibraryRow: View {
     @EnvironmentObject var mediaObject: Media
+    
     var missing: String {
         mediaObject.missingInformation()
             .map(\.localized)
@@ -79,7 +80,11 @@ struct ProblemsLibraryRow: View {
                     .lineLimit(2)
                 // Under the title
                 HStack {
-                    Text("Missing: \(missing)")
+                    Text(
+                        "problems.list.missingList \(missing)",
+                        // swiftlint:disable:next line_length
+                        comment: "List of missing information on a media. Shown in the problems view. The argument is the formatted list."
+                    )
                         .font(.caption)
                         .italic()
                 }

@@ -37,7 +37,12 @@ struct TagListView: View {
     
     private var label: some View {
         if tags.isEmpty {
-            return Text("None").italic()
+            return Text(
+                "detail.userData.tags.none",
+                // swiftlint:disable:next line_length
+                comment: "The label of the tag list in the user data section of the detail view specifying that there are no tags for this media."
+            )
+            .italic()
         }
         return Text(tags.map(\.name).sorted().joined(separator: ", "))
     }
@@ -57,11 +62,16 @@ struct TagListView: View {
         
         var body: some View {
             List {
-                let footerText = String(
-                    localized: "\(allTags.count) tags total",
-                    comment: "The total number of tags, displayed as a footer beneath the list"
-                )
-                Section(header: Text("Select all tags that apply"), footer: Text(footerText)) {
+                Section(
+                    header: Text(
+                        "detail.tags.header",
+                        comment: "The header for the tag list view where the user selects tags for the media"
+                    ),
+                    footer: Text(
+                        "detail.tags.footer \(allTags.count)",
+                        comment: "The total number of tags, displayed as a footer beneath the list"
+                    )
+                ) {
                     ForEach(self.sortedTags.sorted(by: \.name), id: \.id) { tag in
                         Button {
                             if self.tags.contains(tag) {
@@ -90,7 +100,7 @@ struct TagListView: View {
                 }
             }
             .listStyle(.grouped)
-            .navigationBarTitle(Text("Tags"))
+            .navigationBarTitle("Tags")
             .navigationBarItems(trailing: Button(action: addTag) {
                 Image(systemName: "plus")
             })
@@ -99,11 +109,11 @@ struct TagListView: View {
         func addTag() {
             let alert = UIAlertController(
                 title: String(
-                    localized: "alert.newTag.title",
+                    localized: "detail.alert.newTag.title",
                     comment: "Title of an alert for adding a new tag"
                 ),
                 message: String(
-                    localized: "alert.newTag.message",
+                    localized: "detail.alert.newTag.message",
                     comment: "Text of an alert for adding a new tag"
                 ),
                 preferredStyle: .alert
@@ -112,13 +122,12 @@ struct TagListView: View {
                 // Change textField properties
                 textField.autocapitalizationType = .words
             }
+            alert.addAction(.cancelAction())
             alert.addAction(UIAlertAction(
-                title: NSLocalizedString("Cancel", comment: "Button of an alert to cancel adding a new tag"),
-                style: .cancel,
-                handler: { _ in }
-            ))
-            alert.addAction(UIAlertAction(
-                title: NSLocalizedString("Add", comment: "Button of an alert to confirm adding a new tag"),
+                title: String(
+                    localized: "detail.alert.newTag.button.add",
+                    comment: "Button of an alert to confirm adding a new tag"
+                ),
                 style: .default
             ) { _ in
                 guard let textField = alert.textFields?.first else {
@@ -130,14 +139,12 @@ struct TagListView: View {
                 guard !self.tags.contains(where: { $0.name == text }) else {
                     AlertHandler.showSimpleAlert(
                         title: String(
-                            localized: "Tag Already Exists",
-                            // No way to split up a StaticString into multiple lines
+                            localized: "detail.alert.tagAlreadyExists.title",
                             // swiftlint:disable:next line_length
                             comment: "Message of an alert informing the user that the tag they tried to create already exists"
                         ),
                         message: String(
-                            localized: "There is already a tag with that name.",
-                            // No way to split up a StaticString into multiple lines
+                            localized: "detail.alert.tagAlreadyExists.message",
                             // swiftlint:disable:next line_length
                             comment: "Message of an alert informing the user that the tag they tried to create already exists"
                         )

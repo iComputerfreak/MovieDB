@@ -68,7 +68,10 @@ struct ProblemsView: View {
                             MediaDetail()
                                 .environmentObject(mediaObject)
                         } else {
-                            Text("Error")
+                            Text(
+                                "generic.errorText",
+                                comment: "Generic error text to display when a view failed to load"
+                            )
                         }
                     } label: {
                         EmptyView()
@@ -80,7 +83,10 @@ struct ProblemsView: View {
                 .opacity(0)
                 
                 if missingInfoMedia.isEmpty {
-                    Text("There are no problems in your library.")
+                    Text(
+                        "",
+                        comment: "problems.noProblemsText"
+                    )
                         .navigationBarTitle("Problems")
                 } else {
                     List {

@@ -31,14 +31,20 @@ struct FilterView: View {
                         self.filterSetting.reset()
                         self.dismiss()
                     } label: {
-                        Text("Reset")
+                        Text(
+                            "library.filter.button.reset",
+                            comment: "Button label for the reset button in the filter view"
+                        )
                     }
                 }
                 ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
                     Button {
                         self.dismiss()
                     } label: {
-                        Text("Apply")
+                        Text(
+                            "library.filter.button.apply",
+                            comment: "Button label for the apply button in the filter view"
+                        )
                     }
                 }
             }

@@ -15,8 +15,11 @@ struct LanguagePickerView: View {
     var body: some View {
         Picker("Language", selection: $preferences.language) {
             if preferences.availableLanguages.isEmpty {
-                Text("Loading...")
-                    .task { await self.updateLanguages() }
+                Text(
+                    "settings.languagePicker.loadingText",
+                    comment: "Placeholder text to display while loading the available languages in the settings"
+                )
+                .task(priority: .userInitiated) { await self.updateLanguages() }
             } else {
                 ForEach(preferences.availableLanguages, id: \.self) { code in
                     let languageName = Locale.current.localizedString(forIdentifier: code) ?? code
@@ -38,7 +41,7 @@ struct LanguagePickerView: View {
                     print(error)
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error Updating Languages",
+                            localized: "settings.languagePicker.alert.errorLoading.title",
                             // No way to split up a StaticString into multiple lines
                             // swiftlint:disable:next line_length
                             comment: "Title of an alert informing the user about an error while reloading the available languages"

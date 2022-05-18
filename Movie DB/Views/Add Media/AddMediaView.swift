@@ -33,12 +33,19 @@ struct AddMediaView: View {
                     }
                     .foregroundColor(.primary)
                 }
-                .navigationTitle(Text("Add Media"))
+                .navigationTitle(String(
+                    localized: "addMedia.navBar.title",
+                    comment: "Navigation bar title of the 'add media' sheet"
+                ))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
-                    print("Presented: \(self.presentationMode.wrappedValue.isPresented)")
                     self.presentationMode.wrappedValue.dismiss()
-                }, label: { Text("Close") }))
+                }, label: {
+                    Text(
+                        "addMedia.navBar.button.close",
+                        comment: "The label of the button to dismiss the 'add media' sheet"
+                    )
+                }))
             }
         }
         .popover(isPresented: $isShowingProPopup) {
@@ -57,12 +64,11 @@ struct AddMediaView: View {
             await MainActor.run {
                 AlertHandler.showSimpleAlert(
                     title: String(
-                        localized: "Already Added",
+                        localized: "addMedia.alert.alreadyAdded.title",
                         comment: "Title of an alert that informs the user that he tried to add a media object twice"
                     ),
                     message: String(
-                        localized: "You already have '\(result.title)' in your library.",
-                        // No way to split up a StaticString into multiple lines
+                        localized: "addMedia.alert.alreadyAdded.message \(result.title)",
                         // swiftlint:disable:next line_length
                         comment: "Title of an alert that informs the user that he tried to add a media object twice. The variable is the media title."
                     )
@@ -76,7 +82,7 @@ struct AddMediaView: View {
             await MainActor.run {
                 AlertHandler.showError(
                     title: String(
-                        localized: "Error Loading Media",
+                        localized: "addMedia.alert.errorLoading.title",
                         comment: "Title of an alert showing an error message while loading the media"
                     ),
                     error: error

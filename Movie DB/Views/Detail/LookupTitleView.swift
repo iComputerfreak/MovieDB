@@ -51,7 +51,7 @@ struct LookupTitleView: View {
                     .lineLimit(3)
                     .padding([.bottom], 5.0)
                 if media.year != nil {
-                    Text(String(media.year!))
+                    Text("\(media.year!)")
                         .padding(4.0)
                         .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 2))
                 }

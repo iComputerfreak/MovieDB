@@ -99,7 +99,10 @@ struct SeasonInfo: View {
                     let date = season.airDate!.formatted(date: .numeric, time: .omitted)
                     Text(date).italic()
                 }
-                Text("\(season.episodeCount) Episodes")
+                Text(
+                    "detail.extendedInfo.seasons.episodeCount \(season.episodeCount)",
+                    comment: "A string describing how many episodes a season has"
+                )
             }
             .padding(.vertical)
         }

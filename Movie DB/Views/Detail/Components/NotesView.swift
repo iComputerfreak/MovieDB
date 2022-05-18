@@ -24,7 +24,11 @@ struct NotesView: View {
             if editMode?.wrappedValue.isEditing ?? false {
                 NavigationLink(destination: EditView(notes: self.$notes), isActive: $editingNotes) {
                     if notes.isEmpty {
-                        Text("No Notes")
+                        Text(
+                            "detail.userData.noNotes",
+                            // swiftlint:disable:next line_length
+                            comment: "Label in the detail view of a media object that describes the absence of any user-provided notes."
+                        )
                             .italic()
                     } else {
                         self.label
@@ -66,7 +70,7 @@ struct NotesView: View {
             )
             .padding(5)
             .padding(.bottom, responder.height)
-            .navigationBarTitle(Text("Notes"))
+            .navigationBarTitle("Notes")
         }
     }
 }

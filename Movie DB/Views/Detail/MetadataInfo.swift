@@ -15,7 +15,15 @@ struct MetadataInfo: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(header: HStack { Image(systemName: "paperclip"); Text("Metadata") }) {
+            Section(
+                header: HStack {
+                    Image(systemName: "paperclip")
+                    Text(
+                        "detail.metadata.header",
+                        comment: "The section header for the metadata section in the detail view"
+                    )
+                }
+            ) {
                 if let id = mediaObject.id {
                     Text(id.uuidString)
                         .headline("Internal ID")

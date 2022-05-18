@@ -33,25 +33,52 @@ struct FilterUserDataSection: View {
     ) var allTags: FetchedResults<Tag>
     
     var body: some View {
-        Section(header: Text("User Data")) {
+        Section(header: Text(
+            "detail.userData.header",
+            comment: "The section header for the user data section in the detail view"
+        )) {
             // MARK: - Watched?
-            Picker("Watched?", selection: watchedProxy) {
-                Text("Any")
+            Picker(String(
+                localized: "detail.userData.watched",
+                // swiftlint:disable:next line_length
+                comment: "The label of the picker in the filter view to select whether the media should be marked as watched or not"
+            ), selection: watchedProxy) {
+                Text(
+                    "library.filter.value.any",
+                    // swiftlint:disable:next line_length
+                    comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                )
                     .tag(FilterView.nilString)
-                Text("Yes")
+                Text(
+                    "generic.picker.value.yes",
+                    comment: "An option in a picker view"
+                )
                     .tag(true.description)
-                Text("No")
+                Text(
+                    "generic.picker.value.no",
+                    comment: "An option in a picker view"
+                )
                     .tag(false.description)
                 
                     .navigationTitle("Watched?")
             }
             // MARK: - Watch Again?
             Picker("Watch again?", selection: watchAgainProxy) {
-                Text("Any")
+                Text(
+                    "library.filter.value.any",
+                    // swiftlint:disable:next line_length
+                    comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
+                )
                     .tag(FilterView.nilString)
-                Text("Yes")
+                Text(
+                    "generic.picker.value.yes",
+                    comment: "An option in a picker view"
+                )
                     .tag(true.description)
-                Text("No")
+                Text(
+                    "generic.picker.value.no",
+                    comment: "An option in a picker view"
+                )
                     .tag(false.description)
                 
                     .navigationTitle("Watch again?")

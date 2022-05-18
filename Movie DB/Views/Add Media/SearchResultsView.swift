@@ -54,7 +54,10 @@ struct SearchResultsView<RowContent: View>: View {
                     } label: {
                         HStack {
                             Spacer()
-                            Text("Load more results...")
+                            Text(
+                                "mediaSearch.loadMore",
+                                comment: "The button label to load more search results"
+                            )
                                 .italic()
                             Spacer()
                         }
@@ -104,7 +107,7 @@ struct SearchResultsView<RowContent: View>: View {
         }
         // Load the first page of results
         self.resultsText = String(
-            localized: "Loading...",
+            localized: "mediaSearch.loading",
             comment: "Placeholder text to show while the data is loading"
         )
         self.loadNextPage()
@@ -170,14 +173,14 @@ struct SearchResultsView<RowContent: View>: View {
                 await MainActor.run {
                     AlertHandler.showError(
                         title: String(
-                            localized: "Error Performing Search",
+                            localized: "mediaSearch.alert.error.title",
                             comment: "Title of an alert reporting an error during the search of a media object"
                         ),
                         error: error
                     )
                     self.results = []
                     self.resultsText = String(
-                        localized: "Error Loading Search Results",
+                        localized: "mediaSearch.alert.error.message",
                         comment: "Text indicating that there was an error loading the search results"
                     )
                 }
