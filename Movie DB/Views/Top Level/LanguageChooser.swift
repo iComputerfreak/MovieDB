@@ -33,7 +33,10 @@ struct LanguageChooser: View {
                             )
                         }
                     }
-                    .navigationTitle("Select Language")
+                    .navigationTitle(String(
+                        localized: "languageChooser.navBar.title",
+                        comment: "The navigation bar title for the language chooser view"
+                    ))
             } else {
                 let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
                 List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in
@@ -44,7 +47,10 @@ struct LanguageChooser: View {
                 .onChange(of: config.language) { _ in
                     print("Language changed to \(config.language)")
                 }
-                .navigationTitle("Select Language")
+                .navigationTitle(String(
+                    localized: "languageChooser.navBar.title",
+                    comment: "The navigation bar title for the language chooser view"
+                ))
             }
         }
     }

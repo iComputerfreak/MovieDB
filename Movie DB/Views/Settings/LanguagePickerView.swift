@@ -13,7 +13,10 @@ struct LanguagePickerView: View {
     @EnvironmentObject var preferences: JFConfig
     
     var body: some View {
-        Picker("Language", selection: $preferences.language) {
+        Picker(String(
+            localized: "settings.language.navBar.title",
+            comment: "The navigation bar title for the language picker in the settings"
+        ), selection: $preferences.language) {
             if preferences.availableLanguages.isEmpty {
                 Text(
                     "settings.languagePicker.loadingText",

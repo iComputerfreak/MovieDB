@@ -17,7 +17,7 @@ struct Problem: Identifiable {
 enum ProblemType {
     case duplicateMedia
     
-    var description: String {
+    var localized: String {
         switch self {
         case .duplicateMedia:
             return String(

@@ -39,10 +39,20 @@ struct SettingsView: View {
                     LibraryActionsSection(config: $config, reloadHandler: self.reloadMedia)
                 }
                 .environmentObject(preferences)
-                .navigationTitle("Settings")
+                .navigationTitle(String(
+                    localized: "tabView.settings.label",
+                    comment: "The label of the settings tab of the main TabView"
+                ))
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        NavigationLink("Legal", destination: LegalView())
+                        NavigationLink(
+                            String(
+                                localized: "settings.navBar.button.legal",
+                                // swiftlint:disable:next line_length
+                                comment: "The 'Legal' button that leads to the legal view in the settings' navigation bar"
+                            ),
+                            destination: LegalView()
+                        )
                     }
                 }
             }
@@ -96,14 +106,14 @@ struct SettingsView_Previews: PreviewProvider {
 
 struct SettingsViewConfig {
     var showingProgress = false
-    private(set) var progressText: LocalizedStringKey = ""
+    private(set) var progressText: String = ""
     var isLoading = false
     var loadingText: String?
     var languageChanged = false
     var regionChanged = false
     var isShowingProInfo = false
     
-    mutating func showProgress(_ text: LocalizedStringKey) {
+    mutating func showProgress(_ text: String) {
         self.showingProgress = true
         self.progressText = text
     }

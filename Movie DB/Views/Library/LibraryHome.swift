@@ -75,7 +75,15 @@ struct LibraryHome: View {
                             let filterImageReset = "line.horizontal.3.decrease.circle"
                             let filterImageSet = "line.horizontal.3.decrease.circle.fill"
                             let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
-                            Button(action: showFilter, label: { Label("Filter", systemImage: filterImage) })
+                            Button(action: showFilter) {
+                                Label(
+                                    String(
+                                        localized: "library.navBar.button.filter",
+                                        comment: "The label of the filter button in the navigation bar's menu"
+                                    ),
+                                    systemImage: filterImage
+                                )
+                            }
                         }
                         // MARK: Sorting Options
                         Section {
@@ -107,7 +115,7 @@ struct LibraryHome: View {
                                 }
                             } label: {
                                 Text(
-                                    "Sorting",
+                                    "library.navBar.header.sorting",
                                     comment: "Heading for the sorting direction picker in the library menu"
                                 )
                             }
@@ -122,7 +130,7 @@ struct LibraryHome: View {
                     }
                         .accessibilityIdentifier("add-media")
                 )
-                .navigationBarTitle(String(
+                .navigationTitle(String(
                     localized: "tabView.library.label",
                     comment: "The label of the library tab of the main TabView"
                 ))

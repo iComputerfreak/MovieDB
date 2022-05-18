@@ -21,7 +21,10 @@ struct RegionPickerView: View {
     }
     
     var body: some View {
-        Picker("Region", selection: $preferences.region) {
+        Picker(String(
+            localized: "settings.region.navBar.title",
+            comment: "The navigation bar title for the region picker in the settings"
+        ), selection: $preferences.region) {
             // Instead of loading the countries from TMDB, we just use all available regions
             ForEach(sortedRegionCodes, id: \.self) { code in
                 let regionName = Locale.current.localizedString(forRegionCode: code) ?? code

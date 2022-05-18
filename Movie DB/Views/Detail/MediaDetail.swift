@@ -18,7 +18,10 @@ struct MediaDetail: View {
                 "detail.errorLoadingText",
                 comment: "The text displayed in the detail view when the media object to display could not be loaded"
             )
-                .navigationTitle("Error")
+            .navigationTitle(String(
+                localized: "detail.navBar.errorTitle",
+                comment: "The navigation bar title for the detail view when an error occured during loading"
+            ))
         } else {
             List {
                 TitleView(media: mediaObject)
@@ -31,7 +34,8 @@ struct MediaDetail: View {
                 MetadataInfo()
             }
             .listStyle(.grouped)
-            .navigationBarTitle(mediaObject.title, displayMode: .inline)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(mediaObject.title)
             .navigationBarItems(trailing: EditButton())
             .task {
                 // If there is no thumbnail, try to download it again

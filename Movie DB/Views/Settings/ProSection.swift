@@ -14,10 +14,13 @@ struct ProSection: View {
     
     var body: some View {
         Section {
-            Button("Buy Pro", action: { self.config.isShowingProInfo = true })
-                .popover(isPresented: $config.isShowingProInfo) {
-                    ProInfoView()
-                }
+            Button(String(
+                localized: "settings.actions.buyPro.label",
+                comment: "The label for the button in the settings to buy the pro version of the app"
+            ), action: { self.config.isShowingProInfo = true })
+            .popover(isPresented: $config.isShowingProInfo) {
+                ProInfoView()
+            }
         }
     }
 }

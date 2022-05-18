@@ -16,11 +16,26 @@ struct LibraryActionsSection: View {
     let reloadHandler: () -> Void
     
     var body: some View {
-        Section(footer: FooterView(showingProgress: $config.showingProgress, progressText: config.progressText)) {
-            Button("Reload Media", action: self.reloadHandler)
-            Button("Update Media", action: self.updateMedia)
-            Button("Reset Library", action: self.resetLibrary)
-            Button("Reset Tags", action: self.resetTags)
+        Section(footer: FooterView(
+            showingProgress: $config.showingProgress,
+            progressText: config.progressText
+        )) {
+            Button(String(
+                localized: "settings.actions.reloadMedia.label",
+                comment: "The label for the 'reload media' action in the settings view"
+            ), action: self.reloadHandler)
+            Button(String(
+                localized: "settings.actions.updateMedia.label",
+                comment: "The label for the 'update media' action in the settings view"
+            ), action: self.updateMedia)
+            Button(String(
+                localized: "settings.actions.resetLibrary.label",
+                comment: "The label for the 'reset library' action in the settings view"
+            ), action: self.resetLibrary)
+            Button(String(
+                localized: "settings.actions.resetTags.label",
+                comment: "The label for the 'reset tags' action in the settings view"
+            ), action: self.resetTags)
         }
         .disabled(self.config.showingProgress)
     }
@@ -28,7 +43,7 @@ struct LibraryActionsSection: View {
     // swiftlint:disable:next type_contents_order
     struct FooterView: View {
         @Binding var showingProgress: Bool
-        let progressText: LocalizedStringKey
+        let progressText: String
         
         var body: some View {
             HStack {
@@ -57,7 +72,10 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        self.config.showProgress("Updating media objects...")
+        self.config.showProgress(String(
+            localized: "settings.progressText.updatingMediaObjects",
+            comment: "The label for the progress view, displayed while updating the media objects"
+        ))
         // Execute the update in the background
         Task {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
@@ -121,7 +139,10 @@ struct LibraryActionsSection: View {
         ) { _ in
             Task(priority: .userInitiated) {
                 await MainActor.run {
-                    self.config.showProgress("Resetting Library...")
+                    self.config.showProgress(String(
+                        localized: "settings.progressText.resetLibrary",
+                        comment: "The label for the progress view, displayed while resetting the library"
+                    ))
                 }
                 do {
                     try await self.library.reset()
@@ -166,7 +187,10 @@ struct LibraryActionsSection: View {
         ) { _ in
             Task(priority: .userInitiated) {
                 await MainActor.run {
-                    self.config.showProgress("Resetting Tags...")
+                    self.config.showProgress(String(
+                        localized: "settings.progressText.resetTags",
+                        comment: "The label for the progress view, displayed while resetting the tags"
+                    ))
                 }
                 do {
                     try await self.library.resetTags()

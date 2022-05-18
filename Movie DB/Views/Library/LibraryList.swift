@@ -91,11 +91,17 @@ struct LibraryList: View {
                         .environmentObject(mediaObject)
                         .fixHighlighting()
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button("Delete", role: .destructive) {
+                            Button(String(
+                                localized: "library.list.swipe.delete",
+                                comment: "The label for the delete swipe action in the library list"
+                            ), role: .destructive) {
                                 print("Deleting \(mediaObject.title)")
                                 self.managedObjectContext.delete(mediaObject)
                             }
-                            Button("Reload") {
+                            Button(String(
+                                localized: "library.list.swipe.reload",
+                                comment: "The label for the reload swipe action in the library list"
+                            )) {
                                 Task(priority: .userInitiated) {
                                     do {
                                     try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)

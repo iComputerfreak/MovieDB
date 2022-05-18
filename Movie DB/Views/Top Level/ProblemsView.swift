@@ -87,7 +87,10 @@ struct ProblemsView: View {
                         "",
                         comment: "problems.noProblemsText"
                     )
-                        .navigationBarTitle("Problems")
+                        .navigationTitle(String(
+                            localized: "problems.navBar.title",
+                            comment: "The navigation bar title for the problems view"
+                        ))
                 } else {
                     List {
                         ForEach(missingInfoMedia) { mediaObject in
@@ -103,7 +106,10 @@ struct ProblemsView: View {
                             }
                             .foregroundColor(.primary)
                         }
-                        .navigationBarTitle("Problems")
+                        .navigationTitle(String(
+                            localized: "problems.navBar.title",
+                            comment: "The navigation bar title for the problems view"
+                        ))
                     }
                     .listStyle(.grouped)
                 }

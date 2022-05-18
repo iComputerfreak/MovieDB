@@ -100,7 +100,10 @@ struct TagListView: View {
                 }
             }
             .listStyle(.grouped)
-            .navigationBarTitle("Tags")
+            .navigationTitle(String(
+                localized: "detail.tags.navBar.title",
+                comment: "The navigation bar title for the tags in the detail view"
+            ))
             .navigationBarItems(trailing: Button(action: addTag) {
                 Image(systemName: "plus")
             })

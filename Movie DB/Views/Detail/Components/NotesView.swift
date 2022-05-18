@@ -70,7 +70,10 @@ struct NotesView: View {
             )
             .padding(5)
             .padding(.bottom, responder.height)
-            .navigationBarTitle("Notes")
+            .navigationTitle(String(
+                localized: "detail.notes.navBar.title",
+                comment: "The navigation bar title for the notes in the detail view"
+            ))
         }
     }
 }

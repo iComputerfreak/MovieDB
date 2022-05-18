@@ -81,16 +81,25 @@ struct ProInfoView: View {
                     .buttonStyle(.borderedProminent)
                 }
             }
-            .navigationTitle("Movie DB Pro")
+            .navigationTitle(String(
+                localized: "proInfo.navBar.title",
+                comment: "The navigation bar title for the pro info view"
+            ))
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button("Restore") {
+                    Button(String(
+                        localized: "proInfo.button.restore",
+                        comment: "The label for the restore button in the pro info view"
+                    )) {
                         print("Restoring Purchases")
                         StoreManager.shared.restorePurchases()
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button(String(
+                        localized: "proInfo.button.cancel",
+                        comment: "The label for the cancel button in the navigation bar of the pro info view"
+                    )) {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }

@@ -65,16 +65,13 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
         selection: Binding<[SelectionValue]>,
         label: @escaping (SelectionValue) -> String,
         values: [SelectionValue],
-        titleKey: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
+        title: Text
     ) {
         self._selectionBinding = selection
         self._selection = State(wrappedValue: selection.wrappedValue)
         self.label = label
         self._values = State(wrappedValue: values)
-        self.title = Text(titleKey, tableName: tableName, bundle: bundle, comment: comment)
+        self.title = title
     }
     
     struct EditView: View {
@@ -135,7 +132,7 @@ struct FilterMultiPicker_Previews: PreviewProvider {
                 selection: Self.$selection,
                 label: { $0 },
                 values: ["Value 1", "Value 2", "Value 3", "Value 4"],
-                titleKey: "Title"
+                title: Text("Title")
             )
         }
     }

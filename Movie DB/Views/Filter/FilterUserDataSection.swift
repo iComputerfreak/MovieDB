@@ -39,7 +39,7 @@ struct FilterUserDataSection: View {
         )) {
             // MARK: - Watched?
             Picker(String(
-                localized: "detail.userData.watched",
+                localized: "library.filter.userData.label.watched",
                 // swiftlint:disable:next line_length
                 comment: "The label of the picker in the filter view to select whether the media should be marked as watched or not"
             ), selection: watchedProxy) {
@@ -60,10 +60,16 @@ struct FilterUserDataSection: View {
                 )
                     .tag(false.description)
                 
-                    .navigationTitle("Watched?")
+                    .navigationTitle(String(
+                        localized: "library.filter.watched.navBar.title",
+                        comment: "The navigation bar title for the watched? field in the library's filter view"
+                    ))
             }
             // MARK: - Watch Again?
-            Picker("Watch again?", selection: watchAgainProxy) {
+            Picker(String(
+                localized: "library.filter.userData.label.watchAgain",
+                comment: "The label for the 'watch again' picker in the library's filter view"
+            ), selection: watchAgainProxy) {
                 Text(
                     "library.filter.value.any",
                     // swiftlint:disable:next line_length
@@ -81,7 +87,10 @@ struct FilterUserDataSection: View {
                 )
                     .tag(false.description)
                 
-                    .navigationTitle("Watch again?")
+                    .navigationTitle(String(
+                        localized: "library.filter.watchAgain.navBar.title",
+                        comment: "The navigation bar title for the watchAgain? field in the library's filter view"
+                    ))
             }
             // MARK: - Tags
             FilterMultiPicker(
@@ -91,7 +100,10 @@ struct FilterUserDataSection: View {
                 ),
                 label: { (tag: Tag) in tag.name },
                 values: Array(allTags),
-                titleKey: "Tags"
+                title: Text(
+                    "library.filter.userData.label.tags",
+                    comment: "The label for the tags picker in the library's filter view"
+                )
             )
         }
     }

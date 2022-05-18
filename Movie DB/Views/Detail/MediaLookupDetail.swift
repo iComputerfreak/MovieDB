@@ -44,12 +44,15 @@ struct MediaLookupDetail: View {
                 ExtendedInfo()
             }
             .listStyle(.grouped)
-            .navigationBarTitle(mediaObject.title)
+            .navigationTitle(mediaObject.title)
             .navigationBarTitleDisplayMode(.inline)
             .environmentObject(mediaObject)
         } else {
             ProgressView()
-                .navigationTitle("Loading")
+                .navigationTitle(String(
+                    localized: "generic.navBar.loadingTitle",
+                    comment: "The navigation bar title for a view that is still loading"
+                ))
                 .navigationBarTitleDisplayMode(.inline)
                 .task(priority: .userInitiated) {
                     // Load the media

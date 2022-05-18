@@ -16,7 +16,7 @@ struct ResolveProblemsView: View {
         NavigationView {
             List {
                 ForEach(problems) { problem in
-                    Section(problem.type.description) {
+                    Section(problem.type.localized) {
                         Text(problem.type.recovery)
                         ForEach(problem.associatedMedias) { media in
                             LibraryRow()
@@ -33,7 +33,10 @@ struct ResolveProblemsView: View {
                     }
                 }
             }
-            .navigationTitle("Problems")
+            .navigationTitle(String(
+                localized: "resolveProblems.navBar.title",
+                comment: "The navigation bar title for the language chooser view"
+            ))
         }
     }
 }

@@ -28,9 +28,9 @@ extension Image {
 extension View {
     /// Adds a headline view above this view with the given title
     /// - Parameter headlineKey: The title to use for the headline
-    func headline(_ headlineKey: LocalizedStringKey) -> some View {
+    func headline(_ headlineKey: LocalizedStringKey, comment: StaticString = "") -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(headlineKey)
+            Text(headlineKey, comment: comment)
                 .font(.caption)
                 .foregroundColor(.primary)
             self

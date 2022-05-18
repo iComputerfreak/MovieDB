@@ -24,7 +24,10 @@ struct FilterView: View {
                 FilterInformationSection(filterSetting: $filterSetting)
                 FilterShowSpecificSection(filterSetting: $filterSetting)
             }
-            .navigationBarTitle("Filter Options")
+            .navigationTitle(String(
+                localized: "library.filter.navBar.title",
+                comment: "The navigation bar title for the library's filter view"
+            ))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

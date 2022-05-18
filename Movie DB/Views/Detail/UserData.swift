@@ -28,7 +28,10 @@ struct UserData: View {
                 // Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
-                    .headline("Personal Rating")
+                    .headline(
+                        "detail.userData.headline.personalRating",
+                        comment: "The headline for the 'personal rating' property in the detail view"
+                    )
                 // Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
@@ -54,7 +57,10 @@ struct UserData: View {
                     )
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline("Watched?")
+                    .headline(
+                        "detail.userData.headline.watched",
+                        comment: "The headline for the 'watched' property in the detail view"
+                    )
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
@@ -64,21 +70,33 @@ struct UserData: View {
                     ))
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline("Watched?")
+                    .headline(
+                        "detail.userData.headline.watched",
+                        comment: "The headline for the 'watched' property in the detail view"
+                    )
                 }
                 // Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
-                    .headline("Watch again?")
+                    .headline(
+                        "detail.userData.headline.watchAgain",
+                        comment: "The headline for the 'watch again' property in the detail view"
+                    )
                 // Taglist
                 TagListView($mediaObject.tags)
                     .environment(\.editMode, editMode)
-                    .headline("Tags")
+                    .headline(
+                        "detail.userData.headline.tags",
+                        comment: "The headline for the 'tags' property in the detail view"
+                    )
                 // Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
                         .environment(\.editMode, editMode)
-                        .headline("Notes")
+                        .headline(
+                            "detail.userData.headline.notes",
+                            comment: "The headline for the 'notes' property in the detail view"
+                        )
                 }
             }
         }

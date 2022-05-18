@@ -28,7 +28,7 @@ struct SeasonsInfo: View {
                         NavigationLink(destination: ScrollView {
                             Text(season.overview!)
                                 .padding()
-                                .navigationBarTitle(season.name)
+                                .navigationTitle(season.name)
                         }) {
                             SeasonInfo(season: season, thumbnail: $seasonThumbnails[season.id])
                         }
@@ -37,7 +37,10 @@ struct SeasonsInfo: View {
                     }
                 }
             }
-            .navigationBarTitle("Seasons")
+            .navigationTitle(String(
+                localized: "detail.seasonsInfo.navBar.title",
+                comment: "The navigation bar title for the seasons info in the detail view"
+            ))
             .task {
                 await self.loadSeasonThumbnails()
             }

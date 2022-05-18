@@ -42,7 +42,10 @@ struct LegalView: View {
         }
         .lineLimit(nil)
         .padding()
-        .navigationTitle("Legal")
+        .navigationTitle(String(
+            localized: "legal.navBar.title",
+            comment: "The navigation bar title for the legal view"
+        ))
     }
 }
 

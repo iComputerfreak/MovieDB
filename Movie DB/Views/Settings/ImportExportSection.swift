@@ -31,13 +31,22 @@ struct ImportExportSection: View {
     var body: some View {
         Section {
             // MARK: - Import Button
-            Button("Import Media", action: self.importMedia)
+            Button(String(
+                localized: "settings.actions.importMedia.label",
+                comment: "The label for the 'import media' action in the settings view"
+            ), action: self.importMedia)
             
             // MARK: - Export Button
-            Button("Export Media", action: self.exportMedia)
+            Button(String(
+                localized: "settings.actions.exportMedia.label",
+                comment: "The label for the 'export media' action in the settings view"
+            ), action: self.exportMedia)
             
             // MARK: - Import Tags
-            Button("Import Tags", action: self.importTags)
+            Button(String(
+                localized: "settings.actions.importTags.label",
+                comment: "The label for the 'import tags' action in the settings view"
+            ), action: self.importTags)
                 // MARK: Import Log Popover
                 .popover(isPresented: $importLogShowing) {
                     if let logger = importLogger {
@@ -48,7 +57,10 @@ struct ImportExportSection: View {
                 }
             
             // MARK: - Export Tags
-            Button("Export Tags", action: self.exportTags)
+            Button(String(
+                localized: "settings.actions.exportTags.label",
+                comment: "The label for the 'export tags' action in the settings view"
+            ), action: self.exportTags)
                 .popover(item: self.$documentPicker, content: { $0 })
         }
     }

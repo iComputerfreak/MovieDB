@@ -161,15 +161,12 @@
 "library.filter.button.reset" = "Reset";
 "library.filter.button.apply" = "Apply";
 
-// Filter labels
-"detail.userData.watched" = "Watched?";
-"detail.information.personalRating" = "Personal Rating";
+"library.filter.userData.label.watched" = "Watched?";
+"library.filter.information.label.personalRating" = "Personal Rating";
 "library.filter.information.label.year" = "Year";
 
-// Filter values
 "library.filter.value.any" = "Any";
 
-// Headers
 "detail.userData.header" = "User Data";
 "detail.information.header" = "Information";
 
@@ -222,18 +219,92 @@
 "generic.picker.range.to" = "To";
 "generic.picker.range.from.value %@" = "From %@";
 "generic.picker.range.to.value %@" = "To %@";
+"problems.navBar.title" = "Problems";
+"library.filter.navBar.title" = "Filter Options";
+"generic.navBar.loadingTitle" = "Loading";
+"detail.seasonsInfo.navBar.title" = "Seasons";
+"detail.notes.navBar.title" = "Notes";
+"detail.tags.navBar.title" = "Tags";
+"languageChooser.navBar.title" = "Select Language";
+"resolveProblems.navBar.title" = "Problems";
+"library.filter.watched.navBar.title" = "Watched?";
+"library.filter.watchAgain.navBar.title" = "Watch Again?";
+"library.filter.mediaType.navBar.title" = "Media Type";
+"detail.navBar.errorTitle" = "Error";
+"proInfo.navBar.title" = "Movie DB Pro";
+"settings.importLog.navBar.title" = "Import Log";
+"legal.navBar.title" = "Legal";
+"library.filter.information.label.genres" = "Genres";
+"library.filter.userData.label.tags" = "Tags";
+"library.filter.information.label.mediaType" = "Media Type";
+"library.filter.userData.label.watchAgain" = "Watch again?";
+"library.filter.showSpecific.label.showType" = "Show Type";
+"library.filter.information.label.status" = "Status";
+"settings.progressText.updatingMediaObjects" = "Updating media objects...";
+"settings.progressText.resetLibrary" = "Resetting Library...";
+"settings.progressText.resetTags" = "Resetting Tags...";
+"settings.navBar.button.legal" = "Legal";
+"library.navBar.button.filter" = "Filter";
+"library.list.swipe.delete" = "Delete";
+"library.list.swipe.reload" = "Reload";
+"proInfo.button.restore" = "Restore";
+"proInfo.navBar.button.cancel" = "Cancel";
 
+"settings.actions.buyPro.label" = "Buy Pro";
+"settings.actions.importMedia.label" = "Import Media";
+"settings.actions.exportMedia.label" = "Export Media";
+"settings.actions.importTags.label" = "Import Tags";
+"settings.actions.exportTags.label" = "Export Tags";
 
-// TODO: .navigationBarTitle
-// TODO: var description: String
-// TODO: Explicit titleKey:
-// TODO: FilterMultiPicker and other custom views
+"settings.importLog.navBar.button.close" = "Close";
+"settings.importLog.navBar.button.copy" = "Copy";
+
+"settings.actions.reloadMedia.label" = "Reload Media";
+"settings.actions.updateMedia.label" = "Update Media";
+"settings.actions.resetLibrary.label" = "Reset Library";
+"settings.actions.resetTags.label" = "Reset Tags";
+"library.navBar.header.sorting" = "Sorting";
+"settings.language.navBar.title" = "Language";
+"settings.region.navBar.title" = "Region";
+
+"detail.userData.headline.personalRating" = "Personal Rating";
+"detail.userData.headline.watched" = "Watched?";
+"detail.userData.headline.watchAgain" = "Watch again?";
+"detail.userData.headline.tags" = "Tags";
+"detail.userData.headline.notes" = "Notes";
+
+"detail.basicInfo.headline.genres" = "Genres";
+"detail.basicInfo.headline.description" = "Description";
+"detail.basicInfo.headline.releaseDate" = "Release Date";
+"detail.basicInfo.headline.runtime" = "Runtime";
+"detail.basicInfo.headline.firstAired" = "First Aired";
+"detail.basicInfo.headline.lastEpisode" = "Last Episode";
+"detail.basicInfo.headline.lastAired" = "Last Aired";
+"detail.basicInfo.headline.nextEpisode" = "Next Episode";
+"detail.basicInfo.headline.showType" = "Show Type";
+"detail.basicInfo.headline.status" = "Status";
+"detail.basicInfo.headline.originalTitle" = "Original Title";
+"detail.basicInfo.headline.originalLanguage" = "Original Language";
+"detail.basicInfo.headline.seasons" = "Seasons";
+
+"detail.extendedInfo.headline.tagline" = "Tagline";
+"detail.extendedInfo.headline.budget" = "Budget";
+"detail.extendedInfo.headline.revenue" = "Revenue";
+"detail.extendedInfo.headline.tmdbID" = "TMDb ID";
+"detail.extendedInfo.headline.imdbID" = "IMDB ID";
+"detail.extendedInfo.headline.homepage" = "Homepage";
+"detail.extendedInfo.headline.productionCompanies" = "Production Companies";
+"detail.extendedInfo.headline.networks" = "Networks";
+"detail.extendedInfo.headline.createdBy" = "Created by";
+"detail.extendedInfo.headline.popularity" = "Popularity";
+"detail.extendedInfo.headline.scoring" = "Scoring";
+
+"detail.metadata.headline.internalID" = "Internal ID";
+"detail.metadata.headline.created" = "Created";
+"detail.metadata.headline.lastModified" = "Last Modified";
+
 // TODO: Strings with spaces in between (single line)
 // TODO: Strings that do not contain a dot
-// TODO: resultsText in SearchResultsView
-// TODO: .headline
-// TODO: Picker.init
-// TODO: progressText in LibraryActionsSection.FooterView aka config.showProgress(_:)
 // TODO: Which ones should be in a stringsdict? Search for %
 "library.filter.information.label.rating %lf" = "%g Stars";
 "library.filter.information.label.rating.range %lf %lf" = "%g to %g Stars";

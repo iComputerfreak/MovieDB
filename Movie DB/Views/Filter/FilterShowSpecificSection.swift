@@ -22,7 +22,10 @@ struct FilterShowSpecificSection: View {
                 selection: $filterSetting.showTypes,
                 label: { $0.rawValue },
                 values: ShowType.allCases.sorted(by: \.rawValue),
-                titleKey: "Show Type"
+                title: Text(
+                    "library.filter.showSpecific.label.showType",
+                    comment: "The label for the show type picker in the library's filter view"
+                )
             )
             // MARK: - Number of Seasons
             NavigationLink(destination: RangeEditingView(

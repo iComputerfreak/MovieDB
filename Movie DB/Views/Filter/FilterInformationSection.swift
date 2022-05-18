@@ -26,7 +26,10 @@ struct FilterInformationSection: View {
             comment: "The section header for the information section in the detail view"
         )) {
             // MARK: - Media Type
-            Picker("Media Type", selection: mediaTypeProxy) {
+            Picker(String(
+                localized: "library.filter.information.label.mediaType",
+                comment: "The label for the 'media type' picker in the library's filter view"
+            ), selection: mediaTypeProxy) {
                 Text(
                     "library.filter.value.any",
                     // swiftlint:disable:next line_length
@@ -44,7 +47,10 @@ struct FilterInformationSection: View {
                 )
                     .tag(MediaType.show.rawValue)
                 
-                    .navigationTitle("Media Type")
+                    .navigationTitle(String(
+                        localized: "library.filter.mediaType.navBar.title",
+                        comment: "The navigation bar title for the media type field in the library's filter view"
+                    ))
             }
             // MARK: - Genres
             let genresProxy = Binding<[Genre]> {
@@ -56,14 +62,17 @@ struct FilterInformationSection: View {
                 selection: genresProxy,
                 label: { $0.name },
                 values: Utils.allGenres(context: self.managedObjectContext),
-                titleKey: "Genres"
+                title: Text(
+                    "library.filter.information.label.genres",
+                    comment: "The label of the genres picker in the library's filter view"
+                )
             )
             // MARK: - Rating
             NavigationLink(
                 destination:
                     RangeEditingView(
                         title: Text(
-                            "detail.information.personalRating",
+                            "library.filter.information.label.personalRating",
                             comment: "The personal rating one assign a media object as a value of 0 to 5 stars"
                         ),
                         bounds: StarRating.noRating...StarRating.fiveStars,
@@ -121,6 +130,7 @@ struct FilterInformationSection: View {
                     )
                     Spacer()
                     if self.filterSetting.year == nil {
+                        Text("Any")
                         Text(
                             "library.filter.value.any",
                             // swiftlint:disable:next line_length
@@ -150,7 +160,10 @@ struct FilterInformationSection: View {
                 selection: $filterSetting.statuses,
                 label: { $0.rawValue },
                 values: MediaStatus.allCases.sorted(by: \.rawValue),
-                titleKey: "Status"
+                title: Text(
+                    "library.filter.information.label.status",
+                    comment: "The label for the status picker in the library's filter view"
+                )
             )
         }
     }

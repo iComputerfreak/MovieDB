@@ -26,15 +26,24 @@ struct ImportLogViewer: View {
                 }
                 Spacer()
             }
-            .navigationTitle("Import Log")
+            .navigationTitle(String(
+                localized: "settings.importLog.navBar.title",
+                comment: "The navigation bar title for the import log that is being shown after importing media"
+            ))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Close") {
+                    Button(String(
+                        localized: "settings.importLog.navBar.button.close",
+                        comment: "The label for the close button in the navigation bar of the settings' import log"
+                    )) {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Copy") {
+                    Button(String(
+                        localized: "settings.importLog.navBar.button.copy",
+                        comment: "The label for the copy button in the navigation bar of the settings' import log"
+                    )) {
                         UIPasteboard.general.string = logger.log
                     }
                 }

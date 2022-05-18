@@ -27,7 +27,7 @@ struct LongTextView: View {
                 .padding()
             Spacer()
         }
-        .navigationBarTitle(headline)
+        .navigationTitle(headline)
     }
     
     /// Creates a new view that displays a preview of the given text (3 lines).
