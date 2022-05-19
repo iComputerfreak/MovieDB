@@ -69,7 +69,7 @@ actor TMDBAPI {
         // Get the media of the child context and modify it there.
         // Otherwise, the view context will be in an inconsistent state
         guard let bgMedia = childContext.object(with: media.objectID) as? Media else {
-            throw APIError.updateError(reason: "Unable to copy the media object into the child context")
+            throw APIError.updateError
         }
         // Update the media in the thread of the child context
         await childContext.perform {
@@ -362,7 +362,7 @@ actor TMDBAPI {
         case invalidResponse(URLResponse)
         case invalidPageRange
         case pageOutOfBounds(Int)
-        case updateError(reason: String)
+        case updateError
         case statusNotOk(HTTPURLResponse)
         case unknown(Int)
     }

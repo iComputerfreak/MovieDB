@@ -17,7 +17,10 @@ struct PreferencesSection: View {
     
     var body: some View {
         Section {
-            Toggle("Show Adult Content", isOn: $preferences.showAdults)
+            Toggle(String(
+                localized: "settings.toggle.showAdultContent.label",
+                comment: "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content"
+            ), isOn: $preferences.showAdults)
             LanguagePickerView()
                 .onChange(of: preferences.language) { languageCode in
                     print("Language changed to \(languageCode)")

@@ -67,14 +67,11 @@
 "settings.placeholder.loading" = "Loading...";
 
 "settings.alert.importMedia.title" = "Import";
-"settings.alert.importMedia.message %lld" = "Imported %lld media objects.";
 "settings.alert.importMedia.button.undo" = "Undo";
 
 "settings.alert.importTags.title" = "Import";
-"settings.alert.importTags.message %lld" = "Do you want to import %lld tags?";
 
 "settings.alert.updateMediaComplete.title" = "Update Completed";
-"settings.alert.updateMediaComplete.message %lld" = "%lld media objects have been updated.";
 
 "settings.alert.resetLibrary.title" = "Reset Library";
 "settings.alert.resetLibrary.message" = "This will delete all media objects in your library. Do you want to continue?";
@@ -106,9 +103,6 @@
 "library.alert.errorUpdating.title" = "Error Updating";
 "library.alert.errorUpdating.message %@ %@" = "Error Updating %@: %@";
 
-"library.list.footer %lld" = "%lld objects";
-"library.list.footer.total %lld" = "%lld objects total";
-
 "addMedia.alert.alreadyAdded.title" = "Already Added";
 "addMedia.alert.alreadyAdded.message %@" = "You already have '%@' in your library.";
 
@@ -119,7 +113,6 @@
 "lookup.alert.errorLoading.title" = "Error Loading Media";
 
 "detail.tags.header" = "Select all tags that apply";
-"detail.tags.footer %lld" = "%lld tags total";
 
 "settings.alert.reloadCompleted.title" = "Reload Completed";
 "settings.alert.reloadCompleted.message" = "All media objects have been reloaded.";
@@ -177,21 +170,16 @@
 
 "library.filter.showSpecific.header" = "Show Specific";
 "library.filter.showSpecific.label.seasons" = "Seasons";
-"library.filter.showSpecific.label.seasonCount.range %lld %lld" = "%lld to %lld Seasons";
-"library.filter.showSpecific.label.seasonCount %lld" = "%lld Seasons";
 
 "problems.list.missingList %@" = "Missing: %@";
 "detail.errorLoadingText" = "Error loading media";
 "detail.basicInfo.runtime.minutesAndHours %@ %@" = "%@ (%@)";
 
-"detail.basicInfo.seasonCount %lld" = "%lld  Seasons";
 "detail.basicInfo.cast" = "Cast";
 
 "detail.watchProviders.label" = "Watch Providers";
 "detail.watchProviders.attribution" = "Powered by [JustWatch.com](https://www.justwatch.com)";
 
-"detail.extendedInfo.scoring %lf %lf %lld" = "%.2f/%.2f points from %lld votes";
-"detail.extendedInfo.seasons.episodeCount %lld" = "%lld Episodes";
 "detail.userData.watchedShow.label.no" = "No";
 "detail.userData.watchedShow.label.season %lld" = "Season %lld";
 "detail.userData.watchedShow.label.seasonAndEpisode %lld %lld" = "Season %lld, Episode %lld";
@@ -204,7 +192,6 @@
 "detail.userData.noNotes" = "No Notes";
 "detail.userData.tags.none" = "None";
 
-"proInfo.introText %lld" = "Remove the limit of %lld objects by buying the Pro version of the app.";
 "proInfo.aboutMe.header" = "About me";
 "proInfo.aboutMe.text" = "Hi, my name is Jonas and I'm a student at the Karlsruher Institute of Technology in Karlsruhe, Germany. In my free time I make apps for fun and this app is one of those. It started as a personal project of mine in an endeavour to catalog all the movies and tv shows I ever watched, so I would be able to recommend good movies or shows to friends. The app has grown big enough and works good enough that I thought I would publish it on the App Store, so here we are.";
 "proInfo.buyButton.label.disabled" = "Already Purchased";
@@ -212,7 +199,6 @@
 "settings.footer.version %@" = "Version %@";
 "legal.appIconAttribution %@" = "App Icon: %@";
 "legal.legalNotice %@" = "All content and images are properties of their respective owners.\nFor legal concerns, contact %@.";
-"generic.picker.multipleValues %lld" = "%lld Values";
 "generic.picker.noValues" = "No entries";
 "generic.picker.navBar.button.reset" = "Reset";
 "generic.picker.range.from" = "From";
@@ -303,19 +289,19 @@
 "detail.metadata.headline.created" = "Created";
 "detail.metadata.headline.lastModified" = "Last Modified";
 
-// TODO: Strings with spaces in between (single line)
-// TODO: Strings that do not contain a dot
-// TODO: Which ones should be in a stringsdict? Search for %
-"library.filter.information.label.rating %lf" = "%g Stars";
-"library.filter.information.label.rating.range %lf %lf" = "%g to %g Stars";
+"apiError.invalidResponse.description" = "The request returned invalid data.";
+"apiError.unauthorized.description" = "API call unauthorized. Invalid API key.";
+"apiError.invalidPageRange.description" = "Invalid range of pages. Please specify a valid range.";
+"apiError.pageOutOfBounds.description" = "Requested page is out of bounds";
+"apiError.unknown.description %lld %@" = "HTTP Error %lld: %@";
+"apiError.updateError.description" = "Error updating the media.";
+"apiError.statusNotOk.description %lld" = "Error executing request. HTTP Reponse code %lld.";
+
+"settings.progressText.reloadLibrary" = "Reloading media objects...";
+"settings.toggle.showAdultContent.label" = "Show Adult Content";
+
+"detail.userData.watched.picker.watched" = "Watched";
+"detail.userData.watched.picker.notWatched" = "Not Watched";
+
 "library.filter.information.label.year %lld" = "%lld";
 "library.filter.information.label.year.range %lld %lld" = "%lld to %lld";
-
-/*
- 
- (header: Text(
-     "detail.userData.header",
-     comment: "The section header for the user data section in the filter view"
- ))
- 
- */

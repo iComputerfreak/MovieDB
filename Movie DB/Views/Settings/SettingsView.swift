@@ -60,7 +60,10 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        self.config.showProgress("Reloading media objects...")
+        self.config.showProgress(String(
+            localized: "settings.progressText.reloadLibrary",
+            comment: "The label of the progress indicator that is shown in the settings when the library is reloading all media objects"
+        ))
         
         // Perform the reload in the background on a different thread
         Task {

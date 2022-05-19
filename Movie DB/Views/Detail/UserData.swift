@@ -47,9 +47,15 @@ struct UserData: View {
                             if let state = state {
                                 switch state {
                                 case .watched:
-                                    return "Watched"
+                                    return String(
+                                        localized: "detail.userData.watched.picker.watched",
+                                        comment: "The picker value of the detail view's user data section which the user chooses if they watched the media object"
+                                    )
                                 case .notWatched:
-                                    return "Not Watched"
+                                    return String(
+                                        localized: "detail.userData.notWatched.picker.watched",
+                                        comment: "The picker value of the detail view's user data section which the user chooses if they did not watch the media object"
+                                    )
                                 }
                             }
                             return "-"

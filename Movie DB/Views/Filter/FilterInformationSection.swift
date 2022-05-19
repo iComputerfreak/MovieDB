@@ -130,7 +130,6 @@ struct FilterInformationSection: View {
                     )
                     Spacer()
                     if self.filterSetting.year == nil {
-                        Text("Any")
                         Text(
                             "library.filter.value.any",
                             // swiftlint:disable:next line_length

@@ -12,19 +12,40 @@ extension TMDBAPI.APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
-            return "The request returned invalid data."
+            return String(
+                localized: "apiError.invalidResponse.description",
+                comment: "Description of the TMDb API error that occurs when the server returns an invalid response"
+            )
         case .unauthorized:
-            return "API call unauthorized. Invalid API key."
+            return String(
+                localized: "apiError.unauthorized.description",
+                comment: "Description of the TMDb API error that occurs when the API request is unauthorized due to a misconfigured API key"
+            )
         case .invalidPageRange:
-            return "Invalid range of pages. Please specify a valid range."
+            return String(
+                localized: "apiError.invalidPageRange.description",
+                comment: "Description of the TMDb API error that occurs when the app tries to get search results for an invalid range of pages"
+            )
         case .pageOutOfBounds:
-            return "Requested page is out of bounds"
+            return String(
+                localized: "apiError.pageOutOfBounds.description",
+                comment: "Description of the TMDb API error that occurs when the app tries to get search results for a page that does not exist"
+            )
         case .unknown(let code):
-            return "HTTP Error \(code): \(HTTPURLResponse.localizedString(forStatusCode: code))"
-        case .updateError(reason: let reason):
-            return "Error updating the media. \(reason)"
+            return String(
+                localized: "apiError.unknown.description \(code) \(HTTPURLResponse.localizedString(forStatusCode: code))",
+                comment: "Description of the TMDb API error that occurs when the server returns an unknown response. The first parameter is the status code. The second parameter is the localized response"
+            )
+        case .updateError:
+            return String(
+                localized: "apiError.updateError.description",
+                comment: "Description of the TMDb API error that occurs during updating of the media objects"
+            )
         case .statusNotOk(let response):
-            return "Error executing request. HTTP Reponse code \(response.statusCode)."
+            return String(
+                localized: "apiError.statusNotOk.description \(response.statusCode)",
+                comment: "Description of the TMDb API error that occurs when the server returns an unexpected status code. The parameter is the status code"
+            )
         }
     }
 }

@@ -82,7 +82,10 @@ struct ImportExportSection: View {
                 importContext: importContext,
                 onProgress: { progress in
                     // Update the loading view
-                    self.config.loadingText = "Loading\n\(progress)\nmedia objects..."
+                    self.config.loadingText = String(
+                        localized: "settings.import.progressText \(progress)",
+                        comment: "The label of the overlay progress view that shows the user how many media objects have been imported already"
+                    )
                 }, onFail: { log in
                     importLogger?.log(contentsOf: log, level: .info)
                     importLogger?.critical("Importing failed!")
