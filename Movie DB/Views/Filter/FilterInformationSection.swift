@@ -83,7 +83,7 @@ struct FilterInformationSection: View {
             ) {
                 HStack {
                     Text(
-                        "detail.information.personalRating",
+                        "library.filter.information.label.personalRating",
                         comment: "The personal rating one assign a media object as a value of 0 to 5 stars"
                     )
                     Spacer()

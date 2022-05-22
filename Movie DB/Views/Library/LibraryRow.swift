@@ -50,7 +50,7 @@ struct LibraryRow: View {
                             }
                             // MARK: Year
                             if mediaObject.year != nil {
-                                Text("\(mediaObject.year!)")
+                                Text(mediaObject.year!.description)
                             }
                         }
                     }

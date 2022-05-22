@@ -176,9 +176,9 @@ extension FilterSetting {
             let formatter = DateFormatter()
             // We don't care about the time, since all media objects only have a date set and the time is always zero.
             formatter.dateFormat = "yyyy-MM-dd"
-            let lowerDate = formatter.date(from: "\(year.lowerBound)-01-01")! as NSDate
+            let lowerDate = formatter.date(from: "\(year.lowerBound.description)-01-01")! as NSDate
             // Our upper exclusive bound is the first day in the next year
-            let upperDate = formatter.date(from: "\(year.upperBound + 1)-01-01")! as NSDate
+            let upperDate = formatter.date(from: "\((year.upperBound + 1).description)-01-01")! as NSDate
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
                 NSPredicate(format: "%K <= %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),

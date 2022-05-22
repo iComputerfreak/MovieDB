@@ -48,7 +48,7 @@ struct ExtendedInfo: View {
                             )
                     }
                 }
-                let tmdbID = String(mediaObject.tmdbID)
+                let tmdbID = mediaObject.tmdbID.description
                 if let url = URL(string: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(tmdbID)") {
                     Link("\(tmdbID)", destination: url)
                         .headline(
@@ -69,8 +69,8 @@ struct ExtendedInfo: View {
                 }
                 if
                     let address = mediaObject.homepageURL,
-                        !address.isEmpty,
-                        let homepageURL = URL(string: address)
+                    !address.isEmpty,
+                    let homepageURL = URL(string: address)
                 {
                     Link(address, destination: homepageURL)
                         .headline(
@@ -130,10 +130,10 @@ struct ExtendedInfo: View {
                     // swiftlint:disable:next line_length
                     comment: "A string describing the average rating of a media object on TMDb. The first parameter is the average score/rating (0-10) as a decimal number. The second parameter is the maximum score a media object can achieve (10) as a decimal number. The third argument is the number of votes that resulted in this score."
                 )
-                .headline(
-                    "detail.extendedInfo.headline.scoring",
-                    comment: "The headline for the 'scoring' property in the detail view"
-                )
+//                .headline(
+//                    "detail.extendedInfo.headline.scoring",
+//                    comment: "The headline for the 'scoring' property in the detail view"
+//                )
             }
         }
     }
