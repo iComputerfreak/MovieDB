@@ -2,6 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>library.filter.information.label.rating.range %lf %lf</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@lowerBound@ to %2$#@upperBound@</string>
+		<key>lowerBound</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lf</string>
+			<key>other</key>
+			<string>%g</string>
+		</dict>
+		<key>upperBound</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lf</string>
+			<key>one</key>
+			<string>%g Star</string>
+			<key>other</key>
+			<string>%g Stars</string>
+		</dict>
+	</dict>
 	<key>library.filter.information.label.rating %lf</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
