@@ -26,35 +26,35 @@ struct ExtendedInfo: View {
             ) {
                 if let tagline = mediaObject.tagline, !tagline.isEmpty {
                     Text(tagline)
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.tagline",
                             comment: "The headline for the 'tagline' property in the detail view"
-                        )
+                        ))
                 }
                 // Movie exclusive data
                 if let movie = mediaObject as? Movie {
                     if movie.budget > 0 {
                         Text(movie.budget.formatted(.currency(code: "USD")))
-                            .headline(
+                            .headline(Text(
                                 "detail.extendedInfo.headline.budget",
                                 comment: "The headline for the 'budget' property in the detail view"
-                            )
+                            ))
                     }
                     if movie.revenue > 0 {
                         Text(movie.revenue.formatted(.currency(code: "USD")))
-                            .headline(
+                            .headline(Text(
                                 "detail.extendedInfo.headline.revenue",
                                 comment: "The headline for the 'revenue' property in the detail view"
-                            )
+                            ))
                     }
                 }
                 let tmdbID = mediaObject.tmdbID.description
                 if let url = URL(string: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(tmdbID)") {
                     Link("\(tmdbID)", destination: url)
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.tmdbID",
                             comment: "The headline for the 'tmdb id' property in the detail view"
-                        )
+                        ))
                 }
                 if
                     let movie = mediaObject as? Movie,
@@ -62,10 +62,10 @@ struct ExtendedInfo: View {
                     let url = URL(string: "https://www.imdb.com/title/\(imdbID)")
                 {
                     Link(imdbID, destination: url)
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.imdbID",
                             comment: "The headline for the 'imdb id' property in the detail view"
-                        )
+                        ))
                 }
                 if
                     let address = mediaObject.homepageURL,
@@ -73,26 +73,26 @@ struct ExtendedInfo: View {
                     let homepageURL = URL(string: address)
                 {
                     Link(address, destination: homepageURL)
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.homepage",
                             comment: "The headline for the 'homepage' property in the detail view"
-                        )
+                        ))
                 }
                 if !mediaObject.productionCompanies.isEmpty {
                     Text(mediaObject.productionCompanies.map(\.name).sorted().joined(separator: ", "))
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.productionCompanies",
                             comment: "The headline for the 'production companies' property in the detail view"
-                        )
+                        ))
                 }
                 // Show exclusive data
                 if let show = mediaObject as? Show {
                     if !show.networks.isEmpty {
                         Text(show.networks.map(\.name).sorted().joined(separator: ", "))
-                            .headline(
+                            .headline(Text(
                                 "detail.extendedInfo.headline.networks",
                                 comment: "The headline for the 'networks' property in the detail view"
-                            )
+                            ))
                     }
                     if !show.createdBy.isEmpty {
                         // Sort by last name
@@ -109,19 +109,19 @@ struct ExtendedInfo: View {
                             // Sort by last name
                             return lastName1!.lexicographicallyPrecedes(lastName2!)
                         }).joined(separator: ", ")) // swiftlint:disable:this multiline_function_chains
-                        .headline(
+                        .headline(Text(
                             "detail.extendedInfo.headline.createdBy",
                             comment: "The headline for the 'created by' property in the detail view"
-                        )
+                        ))
                     }
                 }
                 // TMDB Data
                 let format: FloatingPointFormatStyle<Float> = .number.precision(.fractionLength(2))
                 Text(mediaObject.popularity.formatted(format))
-                    .headline(
+                    .headline(Text(
                         "detail.extendedInfo.headline.popularity",
                         comment: "The headline for the 'popularity' property in the detail view"
-                    )
+                    ))
                 let avg = Double(mediaObject.voteAverage)
                 let max: Double = 10
                 let count = mediaObject.voteCount
@@ -130,10 +130,10 @@ struct ExtendedInfo: View {
                     // swiftlint:disable:next line_length
                     comment: "A string describing the average rating of a media object on TMDb. The first parameter is the average score/rating (0-10) as a decimal number. The second parameter is the maximum score a media object can achieve (10) as a decimal number. The third argument is the number of votes that resulted in this score."
                 )
-//                .headline(
-//                    "detail.extendedInfo.headline.scoring",
-//                    comment: "The headline for the 'scoring' property in the detail view"
-//                )
+                .headline(Text(
+                    "detail.extendedInfo.headline.scoring",
+                    comment: "The headline for the 'scoring' property in the detail view"
+                ))
             }
         }
     }

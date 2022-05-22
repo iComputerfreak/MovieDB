@@ -79,7 +79,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.isAdult, false)
         XCTAssertEqual(media.isAdultMovie, false)
         
-        XCTAssertEqual(media.watched, true)
+        XCTAssertEqual(media.watched, .watched)
         XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
     }
     
@@ -125,7 +125,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.isAdult, false)
         XCTAssertEqual(media.isAdultMovie, false)
         
-        XCTAssertEqual(media.watched, true)
+        XCTAssertEqual(media.watched, .watched)
         XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>([.rating, .tags]))
     }
     
@@ -191,7 +191,7 @@ class CSVCoderTests: XCTestCase {
         
         if let movie = media as? Movie {
             // Movie exclusive
-            XCTAssertEqual(data[.watched], movie.watched?.description ?? "")
+            XCTAssertEqual(data[.watched], movie.watched?.rawValue ?? "")
             if let releaseDate = movie.releaseDate {
                 XCTAssertEqual(data[.releaseDate], CSVManager.dateFormatter.string(from: releaseDate))
             } else {

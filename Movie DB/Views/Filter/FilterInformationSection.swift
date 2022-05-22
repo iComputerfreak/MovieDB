@@ -144,11 +144,12 @@ struct FilterInformationSection: View {
                         )
                             .foregroundColor(.secondary)
                     } else {
-                        let from = self.filterSetting.year!.lowerBound.description
-                        let to = self.filterSetting.year!.upperBound.description
+                        let from = self.filterSetting.year!.lowerBound
+                        let to = self.filterSetting.year!.upperBound
                         Text(
                             "library.filter.information.label.year.range \(from) \(to)",
-                            comment: "Year range label in the filter settings"
+                            // swiftlint:disable:next line_length
+                            comment: "Year range label in the filter settings. The first parameter is the lower bound of the range. The second parameter is the upper bound of the range (inclusive)"
                         )
                             .foregroundColor(.secondary)
                     }

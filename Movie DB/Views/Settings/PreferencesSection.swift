@@ -19,6 +19,7 @@ struct PreferencesSection: View {
         Section {
             Toggle(String(
                 localized: "settings.toggle.showAdultContent.label",
+                // swiftlint:disable:next line_length
                 comment: "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content"
             ), isOn: $preferences.showAdults)
             LanguagePickerView()

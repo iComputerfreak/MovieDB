@@ -62,6 +62,7 @@ struct SettingsView: View {
     func reloadMedia() {
         self.config.showProgress(String(
             localized: "settings.progressText.reloadLibrary",
+            // swiftlint:disable:next line_length
             comment: "The label of the progress indicator that is shown in the settings when the library is reloading all media objects"
         ))
         

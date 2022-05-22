@@ -44,7 +44,7 @@ struct TestingUtils {
             m.personalRating = .twoAndAHalfStars
             m.tags = TestingUtils.getPreviewTags(["Future", "Conspiracy", "Dark"], of: previewTags)
             m.notes = ""
-            m.watched = true
+            m.watched = .watched
             m.watchAgain = false
             return m
         }()
@@ -54,7 +54,7 @@ struct TestingUtils {
             m.personalRating = .noRating
             m.tags = TestingUtils.getPreviewTags(["Dark", "Violent"], of: previewTags)
             m.notes = "Never watched it..."
-            m.watched = false
+            m.watched = .notWatched
             m.watchAgain = nil
             return m
         }()

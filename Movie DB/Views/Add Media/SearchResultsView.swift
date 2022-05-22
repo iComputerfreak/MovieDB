@@ -195,7 +195,7 @@ struct SearchResultsView_Previews: PreviewProvider {
             SearchResultsView { result in
                 SearchResultRow(result: result)
             }
-            .navigationTitle("Add Media")
+            .navigationTitle(Text(verbatim: "Add Media"))
         }
     }
 }

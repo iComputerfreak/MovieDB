@@ -28,10 +28,10 @@ struct UserData: View {
                 // Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
-                    .headline(
+                    .headline(Text(
                         "detail.userData.headline.personalRating",
                         comment: "The headline for the 'personal rating' property in the detail view"
-                    )
+                    ))
                 // Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
@@ -49,11 +49,13 @@ struct UserData: View {
                                 case .watched:
                                     return String(
                                         localized: "detail.userData.watched.picker.watched",
+                                        // swiftlint:disable:next line_length
                                         comment: "The picker value of the detail view's user data section which the user chooses if they watched the media object"
                                     )
                                 case .notWatched:
                                     return String(
-                                        localized: "detail.userData.notWatched.picker.watched",
+                                        localized: "detail.userData.watched.picker.notWatched",
+                                        // swiftlint:disable:next line_length
                                         comment: "The picker value of the detail view's user data section which the user chooses if they did not watch the media object"
                                     )
                                 }
@@ -63,10 +65,10 @@ struct UserData: View {
                     )
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(
+                    .headline(Text(
                         "detail.userData.headline.watched",
                         comment: "The headline for the 'watched' property in the detail view"
-                    )
+                    ))
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
@@ -76,33 +78,33 @@ struct UserData: View {
                     ))
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(
+                    .headline(Text(
                         "detail.userData.headline.watched",
                         comment: "The headline for the 'watched' property in the detail view"
-                    )
+                    ))
                 }
                 // Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
-                    .headline(
+                    .headline(Text(
                         "detail.userData.headline.watchAgain",
                         comment: "The headline for the 'watch again' property in the detail view"
-                    )
+                    ))
                 // Taglist
                 TagListView($mediaObject.tags)
                     .environment(\.editMode, editMode)
-                    .headline(
+                    .headline(Text(
                         "detail.userData.headline.tags",
                         comment: "The headline for the 'tags' property in the detail view"
-                    )
+                    ))
                 // Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
                         .environment(\.editMode, editMode)
-                        .headline(
+                        .headline(Text(
                             "detail.userData.headline.notes",
                             comment: "The headline for the 'notes' property in the detail view"
-                        )
+                        ))
                 }
             }
         }

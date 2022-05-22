@@ -83,12 +83,12 @@ struct NotesView_Previews: PreviewProvider {
         Group {
             List {
                 NotesView(.constant("This is a simple test note.\nIt has four\nlines\nin total"))
-                    .headline("Notes")
+                    .headline(Text(verbatim: "Notes"))
                 NotesView(.constant("This one has only one."))
-                    .headline("Notes")
+                    .headline(Text(verbatim: "Notes"))
                 NotesView(.constant(""))
-                    .headline("Notes")
-                    .navigationTitle("Test")
+                    .headline(Text(verbatim: "Notes"))
+                    .navigationTitle(Text(verbatim: "Test"))
             }
         }
         Group {

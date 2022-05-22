@@ -97,7 +97,7 @@ struct ProInfoView: View {
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(
-                        localized: "proInfo.button.cancel",
+                        localized: "proInfo.navBar.button.cancel",
                         comment: "The label for the cancel button in the navigation bar of the pro info view"
                     )) {
                         self.presentationMode.wrappedValue.dismiss()

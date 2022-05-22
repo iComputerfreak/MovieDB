@@ -20,13 +20,17 @@ struct LegalView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text("""
+                Text(verbatim: """
                     This app uses data from The Movie Database.
                     This product uses the TMDb API but is not endorsed or certified by TMDb.
-                    """) // TODO: DO NOT TRANSLATE (?)
+                    """)
                 HStack {
                     tmdbLogo
-                    Link("https://www.themoviedb.org/", destination: URL(string: "https://www.themoviedb.org/")!)
+                    Link(
+                        // Cast to String to prevent localization
+                        "https://www.themoviedb.org/" as String,
+                        destination: URL(string: "https://www.themoviedb.org/")!
+                    )
                 }
                 Divider()
                 Text(

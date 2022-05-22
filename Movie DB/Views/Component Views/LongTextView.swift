@@ -37,18 +37,15 @@ struct LongTextView: View {
     ///   - text: The full text
     init(
         _ text: String,
-        headlineKey: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
+        headline: Text
     ) {
-        self.headline = Text(headlineKey, tableName: tableName, bundle: bundle, comment: comment)
+        self.headline = headline
         self.text = text
     }
 }
 
 struct LongTextView_Previews: PreviewProvider {
     static var previews: some View {
-        LongTextView("A very long text", headlineKey: "Description")
+        LongTextView("A very long text", headline: Text(verbatim: "Description"))
     }
 }

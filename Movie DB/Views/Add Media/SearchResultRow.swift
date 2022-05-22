@@ -20,7 +20,7 @@ struct SearchResultRow: View {
             Image(uiImage: image, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
             VStack(alignment: .leading) {
-                Text("\(result.title)")
+                Text(verbatim: "\(result.title)")
                     .bold()
                 HStack {
                     if result.isAdultMovie ?? false {
@@ -41,7 +41,7 @@ struct SearchResultRow: View {
                             .italic()
                     }
                     if let date = self.yearFromMediaResult(result) {
-                        Text("(\(date, format: .dateTime.year()))")
+                        Text(verbatim: "(\(date.formatted(.dateTime.year())))")
                     }
                     // Make sure the content is left-aligned
                     Spacer()
@@ -112,7 +112,7 @@ struct SearchResultView_Previews: PreviewProvider {
                         .background(Color.red)
                     }
                 }
-                .navigationTitle("Search Results")
+                .navigationTitle(Text(verbatim: "Search Results"))
             }
             
             SearchResultRow(result: TMDBMovieSearchResult(

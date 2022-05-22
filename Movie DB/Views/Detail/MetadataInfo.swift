@@ -26,22 +26,22 @@ struct MetadataInfo: View {
             ) {
                 if let id = mediaObject.id {
                     Text(id.uuidString)
-                        .headline(
+                        .headline(Text(
                             "detail.metadata.headline.internalID",
                             comment: "The headline for the 'internal id' property in the detail view"
-                        )
+                        ))
                 }
                 Text(mediaObject.creationDate.formatted(date: .abbreviated, time: .shortened))
-                    .headline(
+                    .headline(Text(
                         "detail.metadata.headline.created",
                         comment: "The headline for the 'creation date' property in the detail view"
-                    )
+                    ))
                 if let modificationDate = mediaObject.modificationDate {
                     Text(modificationDate.formatted(date: .abbreviated, time: .shortened))
-                        .headline(
+                        .headline(Text(
                             "detail.metadata.headline.lastModified",
                             comment: "The headline for the 'last modified' property in the detail view"
-                        )
+                        ))
                 }
             }
         }

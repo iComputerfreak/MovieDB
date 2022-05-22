@@ -84,8 +84,8 @@ struct ProblemsView: View {
                 
                 if missingInfoMedia.isEmpty {
                     Text(
-                        "",
-                        comment: "problems.noProblemsText"
+                        "problems.noProblemsText",
+                        comment: "The text displayed in the problems view when there are no problematic media objects"
                     )
                         .navigationTitle(String(
                             localized: "problems.navBar.title",

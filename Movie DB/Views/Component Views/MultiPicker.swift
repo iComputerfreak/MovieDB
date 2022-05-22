@@ -47,7 +47,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                     )
                         .foregroundColor(Color.secondary)
                 } else if self.selection.count == 1 {
-                    Text("\(label(self.selection.first!))")
+                    Text(verbatim: "\(label(self.selection.first!))")
                         .foregroundColor(Color.secondary)
                 } else {
                     Text(
@@ -132,7 +132,7 @@ struct FilterMultiPicker_Previews: PreviewProvider {
                 selection: Self.$selection,
                 label: { $0 },
                 values: ["Value 1", "Value 2", "Value 3", "Value 4"],
-                title: Text("Title")
+                title: Text(verbatim: "Title")
             )
         }
     }

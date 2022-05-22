@@ -31,15 +31,15 @@ struct ParentalRatingView_Preview: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                Text("Rating: ")
+                Text(verbatim: "Rating: ")
                 ParentalRatingView(rating: .init("R", color: .red))
             }
             HStack {
-                Text("Rating: ")
+                Text(verbatim: "Rating: ")
                 ParentalRatingView(rating: .init("PG-13", color: .green))
             }
             HStack {
-                Text("Rating: ")
+                Text(verbatim: "Rating: ")
                 ParentalRatingView(rating: .fskAgeSixteen)
             }
         }

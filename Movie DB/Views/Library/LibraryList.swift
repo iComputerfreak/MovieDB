@@ -125,8 +125,10 @@ struct LibraryList: View {
                             }
                             .tint(.blue)
                             #if DEBUG
-                            Button("Debug") {
+                            Button {
                                 mediaObject.thumbnail = nil
+                            } label: {
+                                Text(verbatim: "Debug")
                             }
                             #endif
                         }

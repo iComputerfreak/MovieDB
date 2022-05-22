@@ -84,6 +84,7 @@ struct ImportExportSection: View {
                     // Update the loading view
                     self.config.loadingText = String(
                         localized: "settings.import.progressText \(progress)",
+                        // swiftlint:disable:next line_length
                         comment: "The label of the overlay progress view that shows the user how many media objects have been imported already"
                     )
                 }, onFail: { log in
