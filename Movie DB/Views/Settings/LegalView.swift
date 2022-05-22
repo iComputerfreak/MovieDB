@@ -33,13 +33,17 @@ struct LegalView: View {
                     )
                 }
                 Divider()
+                // swiftlint:disable:next force_try
+                let mail = try! AttributedString(markdown: "[legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)")
                 Text(
-                    "legal.legalNotice \("[legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)")",
+                    "legal.legalNotice \(mail)",
                     comment: "The legal notice in the legal view. The parameter is the legal e-mail address."
                 )
                 Divider()
+                // swiftlint:disable:next force_try
+                let link = try! AttributedString(markdown: "[https://uxwing.com](https://uxwing.com)")
                 Text(
-                    "legal.appIconAttribution \("[https://uxwing.com](https://uxwing.com)")",
+                    "legal.appIconAttribution \(link)",
                     comment: "The attribution for the app icon. The parameter is the attribution link."
                 )
             }

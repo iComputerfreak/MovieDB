@@ -347,7 +347,7 @@
 "library.filter.information.label.mediaType" = "Medien-Typ";
 
 /* The personal rating one assign a media object as a value of 0 to 5 stars */
-"library.filter.information.label.personalRating" = "Persönliche Bewertung";
+"library.filter.information.label.personalRating" = "Bewertung";
 
 /* The label for the status picker in the library's filter view */
 "library.filter.information.label.status" = "Status";
