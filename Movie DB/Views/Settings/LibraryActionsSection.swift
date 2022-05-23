@@ -77,7 +77,7 @@ struct LibraryActionsSection: View {
             comment: "The label for the progress view, displayed while updating the media objects"
         ))
         // Execute the update in the background
-        Task {
+        Task(priority: .userInitiated) {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
             do {
                 // Update the available TMDB Languages

@@ -41,7 +41,7 @@ struct SeasonsInfo: View {
                 localized: "detail.seasonsInfo.navBar.title",
                 comment: "The navigation bar title for the seasons info in the detail view"
             ))
-            .task {
+            .task(priority: .userInitiated) {
                 await self.loadSeasonThumbnails()
             }
         }

@@ -94,7 +94,7 @@ struct ImportExportSection: View {
                 }, onFinish: { mediaObjects, log in
                     importLogger?.log(contentsOf: log, level: .info)
                     // Presenting will change UI
-                    Task {
+                    Task(priority: .userInitiated) {
                         await MainActor.run {
                             let controller = UIAlertController(
                                 title: String(
@@ -121,7 +121,7 @@ struct ImportExportSection: View {
                                 self.importLogShowing = true
                             })
                             controller.addAction(.okayAction { _ in
-                                Task {
+                                Task(priority: .userInitiated) {
                                     // Make the changes to this context permanent by saving them to the
                                     // main context and then to disk
                                     await PersistenceController.saveContext(importContext)
@@ -159,7 +159,7 @@ struct ImportExportSection: View {
             let count = importData.components(separatedBy: "\n").filter({ !$0.isEmpty }).count
             
             // Ask whether the user really wants to import
-            Task {
+            Task(priority: .userInitiated) {
                 await MainActor.run {
                     let controller = UIAlertController(
                         title: String(
@@ -174,7 +174,7 @@ struct ImportExportSection: View {
                         preferredStyle: .alert
                     )
                     controller.addAction(.yesAction { _ in
-                        Task {
+                        Task(priority: .userInitiated) {
                             // TODO: Duplicate error handling. Would prefer to rethrow the error, but we are in a Task
                             // Use the background context for importing the tags
                             do {
@@ -233,7 +233,7 @@ struct ImportExportSection: View {
                         ),
                         error: error
                     )
-                    Task {
+                    Task(priority: .userInitiated) {
                         await MainActor.run {
                             self.config.isLoading = false
                         }
@@ -250,7 +250,7 @@ struct ImportExportSection: View {
         print("Exporting \(filename)...")
         self.config.isLoading = true
         
-        Task {
+        Task(priority: .userInitiated) {
             await PersistenceController.shared.container.performBackgroundTask { context in
                 context.name = "\(filename) Export Context"
                 do {
@@ -258,7 +258,7 @@ struct ImportExportSection: View {
                     let exportData: String = try content(context)
                     // Save as a file to share it
                     guard let url = Utils.documentsPath?.appendingPathComponent(filename) else {
-                        Task {
+                        Task(priority: .userInitiated) {
                             await MainActor.run {
                                 AlertHandler.showSimpleAlert(
                                     title: String(
@@ -280,14 +280,14 @@ struct ImportExportSection: View {
                     print("Error writing Export file")
                     print(error)
                     // Stop the loading animation
-                    Task {
+                    Task(priority: .userInitiated) {
                         await MainActor.run {
                             self.config.isLoading = false
                         }
                     }
                     return
                 }
-                Task {
+                Task(priority: .userInitiated) {
                     await MainActor.run {
                         self.config.isLoading = false
                     }

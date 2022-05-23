@@ -67,7 +67,7 @@ struct SettingsView: View {
         ))
         
         // Perform the reload in the background on a different thread
-        Task {
+        Task(priority: .userInitiated) {
             print("Starting reload...")
             do {
                 // Reload and show the result

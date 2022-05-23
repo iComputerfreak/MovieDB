@@ -22,30 +22,32 @@ struct WatchProvidersInfo: View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            Section(
-                header: HStack {
-                    Image(systemName: "tv")
-                    Text(
-                        "detail.watchProviders.label",
-                        comment: "The label/heading of the watch providers panel in the media detail"
-                    )
-                }
-            ) {
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(providers, id: \.id) { provider in
-                            ProviderView(provider: provider)
+            if !providers.isEmpty {
+                Section(
+                    header: HStack {
+                        Image(systemName: "tv")
+                        Text(
+                            "detail.watchProviders.label",
+                            comment: "The label/heading of the watch providers panel in the media detail"
+                        )
+                    }
+                ) {
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(providers, id: \.id) { provider in
+                                ProviderView(provider: provider)
+                            }
                         }
                     }
-                }
-                .padding(.top, 8)
-                .padding(.bottom, 3)
-                Text(
-                    "detail.watchProviders.attribution",
-                    // swiftlint:disable:next line_length
-                    comment: "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com"
-                )
+                    .padding(.top, 8)
+                    .padding(.bottom, 3)
+                    Text(
+                        "detail.watchProviders.attribution",
+                        // swiftlint:disable:next line_length
+                        comment: "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com"
+                    )
                     .font(.footnote)
+                }
             }
         }
     }

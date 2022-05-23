@@ -31,7 +31,7 @@ struct CastInfo: View {
                     }
                 }
             }
-            .task {
+            .task(priority: .userInitiated) {
                 await self.loadPersonThumbnails()
             }
         }

@@ -119,7 +119,7 @@ struct SearchResultsView<RowContent: View>: View {
             return
         }
         // Fetch the additional search results async
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let (results, totalPages) = try await TMDBAPI.shared.searchMedia(
                     model.searchText,

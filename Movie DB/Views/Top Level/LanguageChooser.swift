@@ -19,24 +19,24 @@ struct LanguageChooser: View {
                     // swiftlint:disable:next line_length
                     comment: "Placeholder text to display while loading the available languages in the language chooser onboarding screen"
                 )
-                    .task {
-                        do {
-                            try await Utils.updateTMDBLanguages()
-                        } catch {
-                            AlertHandler.showError(
-                                title: String(
-                                    localized: "languageChooser.alert.errorLoading.title",
-                                    // swiftlint:disable:next line_length
-                                    comment: "Title of an alert informing the user about an error while loading the available languages"
-                                ),
-                                error: error
-                            )
-                        }
+                .task(priority: .userInitiated) {
+                    do {
+                        try await Utils.updateTMDBLanguages()
+                    } catch {
+                        AlertHandler.showError(
+                            title: String(
+                                localized: "languageChooser.alert.errorLoading.title",
+                                // swiftlint:disable:next line_length
+                                comment: "Title of an alert informing the user about an error while loading the available languages"
+                            ),
+                            error: error
+                        )
                     }
-                    .navigationTitle(String(
-                        localized: "languageChooser.navBar.title",
-                        comment: "The navigation bar title for the language chooser view"
-                    ))
+                }
+                .navigationTitle(String(
+                    localized: "languageChooser.navBar.title",
+                    comment: "The navigation bar title for the language chooser view"
+                ))
             } else {
                 let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
                 List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in

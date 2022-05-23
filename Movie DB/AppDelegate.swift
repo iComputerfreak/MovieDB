@@ -29,7 +29,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
-        Task {
+        Task(priority: .background) {
             // Only update once per day
             let lastUpdated = UserDefaults.standard.double(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
             // Convert to full seconds

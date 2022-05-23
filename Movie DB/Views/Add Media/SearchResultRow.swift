@@ -50,7 +50,7 @@ struct SearchResultRow: View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .task({ await loadImage() })
+        .task(priority: .userInitiated) { await loadImage() }
     }
     
     func loadImage() async {
