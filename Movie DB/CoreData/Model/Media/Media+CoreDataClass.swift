@@ -49,6 +49,7 @@ public class Media: NSManagedObject {
             self.originalLanguage = tmdbData.originalLanguage
             self.productionCompanies = Set(self.transferIntoContext(tmdbData.productionCompanies))
             self.homepageURL = tmdbData.homepageURL
+            self.productionCountries = tmdbData.productionCountries
             self.popularity = tmdbData.popularity
             self.voteAverage = tmdbData.voteAverage
             self.voteCount = tmdbData.voteCount

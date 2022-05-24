@@ -66,4 +66,15 @@ extension TMDBData {
             case profilePath = "profile_path"
         }
     }
+    
+    struct ProductionCountry: Decodable {
+        let iso3166: String
+        let name: String?
+        
+        // swiftlint:disable:next nesting
+        enum CodingKeys: String, CodingKey {
+            case iso3166 = "iso_3166_1"
+            case name
+        }
+    }
 }

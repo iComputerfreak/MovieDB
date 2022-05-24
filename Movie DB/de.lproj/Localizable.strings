@@ -703,3 +703,8 @@
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Einstellungen";
 
+/* The headline for the 'production countries' property in the detail view */
+"detail.basicInfo.headline.productionCountries" = "Produktionsländer";
+
+/* A generic string describing that a value or some property is unknown */
+"generic.unknown" = "Unbekannt";

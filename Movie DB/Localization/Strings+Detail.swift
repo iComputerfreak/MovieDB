@@ -184,6 +184,10 @@ extension Strings {
             localized: "detail.basicInfo.headline.originalLanguage",
             comment: "The headline for the 'original language' property in the detail view"
         )
+        static let productionCountriesHeadline = String(
+            localized: "detail.basicInfo.headline.productionCountries",
+            comment: "The headline for the 'production countries' property in the detail view"
+        )
         static let seasonsHeadline = String(
             localized: "detail.basicInfo.headline.seasons",
             comment: "The headline for the 'seasons' property in the detail view"

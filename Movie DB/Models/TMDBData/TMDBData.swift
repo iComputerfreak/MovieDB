@@ -26,6 +26,7 @@ struct TMDBData: Decodable {
     // Extended Data
     var productionCompanies: [ProductionCompany]
     var homepageURL: String?
+    var productionCountries: [String]
     
     // TMDB Scoring
     var popularity: Float
@@ -60,6 +61,9 @@ struct TMDBData: Decodable {
         self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
         self.productionCompanies = try container.decode([ProductionCompany].self, forKey: .productionCompanies)
         self.homepageURL = try container.decode(String?.self, forKey: .homepageURL)
+        self.productionCountries = try container
+            .decode([ProductionCountry].self, forKey: .productionCountries)
+            .map(\.iso3166) // Store the iso country codes
         self.popularity = try container.decode(Float.self, forKey: .popularity)
         self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
         self.voteCount = try container.decode(Int.self, forKey: .voteCount)
@@ -183,6 +187,7 @@ struct TMDBData: Decodable {
         case originalLanguage = "original_language"
         case productionCompanies = "production_companies"
         case homepageURL = "homepage"
+        case productionCountries = "production_countries"
         case popularity
         case voteAverage = "vote_average"
         case voteCount = "vote_count"

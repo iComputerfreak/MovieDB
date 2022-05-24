@@ -68,6 +68,8 @@ extension Media {
     @NSManaged public var productionCompanies: Set<ProductionCompany>
     /// The url to the homepage of the media
     @NSManaged public var homepageURL: String?
+    /// The ISO 3166 country codes where the media was produced
+    @NSManaged public var productionCountries: [String]
     
     // TMDB Scoring
     /// The popularity of the media on TMDB

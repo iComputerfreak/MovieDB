@@ -80,5 +80,9 @@ extension Strings {
             localized: "generic.errorText",
             comment: "Generic error text to display when a view failed to load"
         )
+        static let unknown = String(
+            localized: "generic.unknown",
+            comment: "A generic string describing that a value or some property is unknown"
+        )
     }
 }

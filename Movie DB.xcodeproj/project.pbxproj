@@ -297,6 +297,7 @@
 		AB6D9CA0283D1A0D00AF655C /* Strings+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Settings.swift"; sourceTree = "<group>"; };
 		AB6D9CA2283D1CC700AF655C /* Strings+ProInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+ProInfo.swift"; sourceTree = "<group>"; };
 		AB6D9CA4283D2C2A00AF655C /* Strings+Legal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Legal.swift"; sourceTree = "<group>"; };
+		AB6D9CA6283D513F00AF655C /* Movie DB v5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v5.xcdatamodel"; sourceTree = "<group>"; };
 		AB711FB4281D8974003ED045 /* Movie DB v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v3.xcdatamodel"; sourceTree = "<group>"; };
 		AB711FB7281D8EA6003ED045 /* MovieData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieData.swift; sourceTree = "<group>"; };
 		AB711FB9281D8EAB003ED045 /* ShowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowData.swift; sourceTree = "<group>"; };
@@ -1666,12 +1667,13 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB6D9CA6283D513F00AF655C /* Movie DB v5.xcdatamodel */,
 				AB11008B2826C0CE001507B5 /* Movie DB v4.xcdatamodel */,
 				AB711FB4281D8974003ED045 /* Movie DB v3.xcdatamodel */,
 				ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */,
 				AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */,
 			);
-			currentVersion = AB11008B2826C0CE001507B5 /* Movie DB v4.xcdatamodel */;
+			currentVersion = AB6D9CA6283D513F00AF655C /* Movie DB v5.xcdatamodel */;
 			path = "Movie DB.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -110,6 +110,15 @@ struct BasicInfo: View {
                 // MARK: Original Language
                 Text(Utils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
                     .headline(Text(Strings.Detail.originalLanguageHeadline))
+                // MARK: Production Countries
+                Text(
+                    mediaObject.productionCountries
+                        .map { code in
+                            Locale.current.localizedString(forRegionCode: code) ?? Strings.Generic.unknown
+                        }
+                        .joined(separator: ", ")
+                )
+                .headline(Text(Strings.Detail.productionCountriesHeadline))
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
