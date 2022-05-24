@@ -68,10 +68,7 @@ struct ProblemsView: View {
                             MediaDetail()
                                 .environmentObject(mediaObject)
                         } else {
-                            Text(
-                                "generic.errorText",
-                                comment: "Generic error text to display when a view failed to load"
-                            )
+                            Text(Strings.Generic.errorText)
                         }
                     } label: {
                         EmptyView()
@@ -83,14 +80,8 @@ struct ProblemsView: View {
                 .opacity(0)
                 
                 if missingInfoMedia.isEmpty {
-                    Text(
-                        "problems.noProblemsText",
-                        comment: "The text displayed in the problems view when there are no problematic media objects"
-                    )
-                        .navigationTitle(String(
-                            localized: "problems.navBar.title",
-                            comment: "The navigation bar title for the problems view"
-                        ))
+                    Text(Strings.Problems.noProblemsText)
+                    .navigationTitle(Strings.Problems.navBarTitle)
                 } else {
                     List {
                         ForEach(missingInfoMedia) { mediaObject in
@@ -106,10 +97,7 @@ struct ProblemsView: View {
                             }
                             .foregroundColor(.primary)
                         }
-                        .navigationTitle(String(
-                            localized: "problems.navBar.title",
-                            comment: "The navigation bar title for the problems view"
-                        ))
+                        .navigationTitle(Strings.Problems.navBarTitle)
                     }
                     .listStyle(.grouped)
                 }

@@ -19,19 +19,13 @@ struct UserData: View {
             Section(
                 header: HStack {
                     Image(systemName: "person.fill")
-                    Text(
-                        "detail.userData.header",
-                        comment: "The section header for the user data section in the detail view"
-                    )
+                    Text(Strings.Detail.userDataSectionHeader)
                 }
             ) {
                 // Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
-                    .headline(Text(
-                        "detail.userData.headline.personalRating",
-                        comment: "The headline for the 'personal rating' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.personalRatingHeadline))
                 // Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
@@ -47,17 +41,9 @@ struct UserData: View {
                             if let state = state {
                                 switch state {
                                 case .watched:
-                                    return String(
-                                        localized: "detail.userData.watched.picker.watched",
-                                        // swiftlint:disable:next line_length
-                                        comment: "The picker value of the detail view's user data section which the user chooses if they watched the media object"
-                                    )
+                                    return Strings.Detail.watchedPickerValueYes
                                 case .notWatched:
-                                    return String(
-                                        localized: "detail.userData.watched.picker.notWatched",
-                                        // swiftlint:disable:next line_length
-                                        comment: "The picker value of the detail view's user data section which the user chooses if they did not watch the media object"
-                                    )
+                                    return Strings.Detail.watchedPickerValueNo
                                 }
                             }
                             return "-"
@@ -65,10 +51,7 @@ struct UserData: View {
                     )
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(Text(
-                        "detail.userData.headline.watched",
-                        comment: "The headline for the 'watched' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.watchedHeadline))
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
@@ -78,33 +61,21 @@ struct UserData: View {
                     ))
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(Text(
-                        "detail.userData.headline.watched",
-                        comment: "The headline for the 'watched' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.watchedHeadline))
                 }
                 // Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
-                    .headline(Text(
-                        "detail.userData.headline.watchAgain",
-                        comment: "The headline for the 'watch again' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.watchAgainHeadline))
                 // Taglist
                 TagListView($mediaObject.tags)
                     .environment(\.editMode, editMode)
-                    .headline(Text(
-                        "detail.userData.headline.tags",
-                        comment: "The headline for the 'tags' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.tagsHeadline))
                 // Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
                         .environment(\.editMode, editMode)
-                        .headline(Text(
-                            "detail.userData.headline.notes",
-                            comment: "The headline for the 'notes' property in the detail view"
-                        ))
+                        .headline(Text(Strings.Detail.notesHeadline))
                 }
             }
         }

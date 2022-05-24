@@ -38,15 +38,9 @@ struct SimpleValueView<T: Hashable>: View {
         SimpleValueView<Bool?>(values: [true, false, nil], value: value) { value in
             if let value = value {
                 if value {
-                    return String(
-                        localized: "generic.picker.value.yes",
-                        comment: "An option in a picker view"
-                    )
+                    return Strings.Generic.pickerValueYes
                 }
-                return String(
-                    localized: "generic.picker.value.no",
-                    comment: "An option in a picker view"
-                )
+                return Strings.Generic.pickerValueNo
             } else {
                 return "-"
             }

@@ -36,10 +36,7 @@ struct AlertHandler {
     
     static func showError(title: String?, error: Error) {
         self.showSimpleAlert(
-            title: title ?? String(
-                localized: "generic.alert.title.error",
-                comment: "Title of an alert informing the user about an error"
-            ),
+            title: title ?? Strings.Generic.alertErrorTitle,
             message: error.localizedDescription
         )
     }
@@ -97,7 +94,7 @@ extension UIAlertAction {
     /// The default "Ok" button to dismiss the alert
     static func okayAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
         UIAlertAction(
-            title: String(localized: "generic.alert.button.okay", comment: "Okay button to dismiss an alert popup"),
+            title: Strings.Generic.alertButtonOk,
             style: .default,
             handler: handler
         )
@@ -106,7 +103,7 @@ extension UIAlertAction {
     /// The default "Cancel" button to deny the alert
     static func cancelAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
         UIAlertAction(
-            title: String(localized: "generic.alert.button.cancel", comment: "Cancel button to dismiss an alert popup"),
+            title: Strings.Generic.alertButtonCancel,
             style: .cancel,
             handler: handler
         )
@@ -115,7 +112,7 @@ extension UIAlertAction {
     /// The default "Yes" button to confirm the alert
     static func yesAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
         UIAlertAction(
-            title: String(localized: "generic.alert.button.yes", comment: "Yes button to confirm an alert popup"),
+            title: Strings.Generic.alertButtonYes,
             style: .default,
             handler: handler
         )
@@ -124,7 +121,7 @@ extension UIAlertAction {
     /// The default "No" button to deny the alert
     static func noAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
         UIAlertAction(
-            title: String(localized: "generic.alert.button.no", comment: "Okay button to deny an alert popup"),
+            title: Strings.Generic.alertButtonNo,
             style: .cancel,
             handler: handler
         )

@@ -37,11 +37,7 @@ struct TagListView: View {
     
     private var label: some View {
         if tags.isEmpty {
-            return Text(
-                "detail.userData.tags.none",
-                // swiftlint:disable:next line_length
-                comment: "The label of the tag list in the user data section of the detail view specifying that there are no tags for this media."
-            )
+            return Text(Strings.Detail.noTagsLabel)
             .italic()
         }
         return Text(tags.map(\.name).sorted().joined(separator: ", "))
@@ -63,14 +59,8 @@ struct TagListView: View {
         var body: some View {
             List {
                 Section(
-                    header: Text(
-                        "detail.tags.header",
-                        comment: "The header for the tag list view where the user selects tags for the media"
-                    ),
-                    footer: Text(
-                        "detail.tags.footer \(allTags.count)",
-                        comment: "The total number of tags, displayed as a footer beneath the list"
-                    )
+                    header: Text(Strings.Detail.tagsHeadline),
+                    footer: Text(Strings.Detail.tagsFooter(allTags.count))
                 ) {
                     ForEach(self.sortedTags.sorted(by: \.name), id: \.id) { tag in
                         Button {
@@ -100,10 +90,7 @@ struct TagListView: View {
                 }
             }
             .listStyle(.grouped)
-            .navigationTitle(String(
-                localized: "detail.tags.navBar.title",
-                comment: "The navigation bar title for the tags in the detail view"
-            ))
+            .navigationTitle(Strings.Detail.tagsNavBarTitle)
             .navigationBarItems(trailing: Button(action: addTag) {
                 Image(systemName: "plus")
             })
@@ -111,14 +98,8 @@ struct TagListView: View {
         
         func addTag() {
             let alert = UIAlertController(
-                title: String(
-                    localized: "detail.alert.newTag.title",
-                    comment: "Title of an alert for adding a new tag"
-                ),
-                message: String(
-                    localized: "detail.alert.newTag.message",
-                    comment: "Text of an alert for adding a new tag"
-                ),
+                title: Strings.Detail.Alert.newTagTitle,
+                message: Strings.Detail.Alert.newTagMessage,
                 preferredStyle: .alert
             )
             alert.addTextField { textField in
@@ -127,10 +108,7 @@ struct TagListView: View {
             }
             alert.addAction(.cancelAction())
             alert.addAction(UIAlertAction(
-                title: String(
-                    localized: "detail.alert.newTag.button.add",
-                    comment: "Button of an alert to confirm adding a new tag"
-                ),
+                title: Strings.Detail.Alert.newTagButtonAdd,
                 style: .default
             ) { _ in
                 guard let textField = alert.textFields?.first else {
@@ -141,16 +119,8 @@ struct TagListView: View {
                 }
                 guard !self.tags.contains(where: { $0.name == text }) else {
                     AlertHandler.showSimpleAlert(
-                        title: String(
-                            localized: "detail.alert.tagAlreadyExists.title",
-                            // swiftlint:disable:next line_length
-                            comment: "Message of an alert informing the user that the tag they tried to create already exists"
-                        ),
-                        message: String(
-                            localized: "detail.alert.tagAlreadyExists.message",
-                            // swiftlint:disable:next line_length
-                            comment: "Message of an alert informing the user that the tag they tried to create already exists"
-                        )
+                        title: Strings.Detail.Alert.tagAlreadyExistsTitle,
+                        message: Strings.Detail.Alert.tagAlreadyExistsMessage
                     )
                     return
                 }

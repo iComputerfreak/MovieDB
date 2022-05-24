@@ -12,46 +12,19 @@ extension TMDBAPI.APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
-            return String(
-                localized: "apiError.invalidResponse.description",
-                comment: "Description of the TMDb API error that occurs when the server returns an invalid response"
-            )
+            return Strings.APIError.invalidResponse
         case .unauthorized:
-            return String(
-                localized: "apiError.unauthorized.description",
-                // swiftlint:disable:next line_length
-                comment: "Description of the TMDb API error that occurs when the API request is unauthorized due to a misconfigured API key"
-            )
+            return Strings.APIError.unauthorized
         case .invalidPageRange:
-            return String(
-                localized: "apiError.invalidPageRange.description",
-                // swiftlint:disable:next line_length
-                comment: "Description of the TMDb API error that occurs when the app tries to get search results for an invalid range of pages"
-            )
+            return Strings.APIError.invalidPageRange
         case .pageOutOfBounds:
-            return String(
-                localized: "apiError.pageOutOfBounds.description",
-                // swiftlint:disable:next line_length
-                comment: "Description of the TMDb API error that occurs when the app tries to get search results for a page that does not exist"
-            )
+            return Strings.APIError.pageOutOfBounds
         case .unknown(let code):
-            return String(
-                // swiftlint:disable line_length
-                localized: "apiError.unknown.description \(code) \(HTTPURLResponse.localizedString(forStatusCode: code))",
-                comment: "Description of the TMDb API error that occurs when the server returns an unknown response. The first parameter is the status code. The second parameter is the localized response"
-                // swiftlint:enable line_length
-            )
+            return Strings.APIError.unknown(code)
         case .updateError:
-            return String(
-                localized: "apiError.updateError.description",
-                comment: "Description of the TMDb API error that occurs during updating of the media objects"
-            )
+            return Strings.APIError.updateError
         case .statusNotOk(let response):
-            return String(
-                localized: "apiError.statusNotOk.description \(response.statusCode)",
-                // swiftlint:disable:next line_length
-                comment: "Description of the TMDb API error that occurs when the server returns an unexpected status code. The parameter is the status code"
-            )
+            return Strings.APIError.statusNotOk(response)
         }
     }
 }

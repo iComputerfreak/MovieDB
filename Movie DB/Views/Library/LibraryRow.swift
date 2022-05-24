@@ -11,17 +11,8 @@ import SwiftUI
 struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
-    // Use the localized word for "movie" or "series" and take the first character of that
-    // TODO: We may not have a correct symbol for every possible language... Maybe build our own view like with ratings
-    let movieSymbol = String(
-        localized: "library.list.movieSymbol",
-        comment: "A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name."
-    )
-    let seriesSymbol = String(
-        localized: "library.list.showSymbol",
-        // swiftlint:disable:next line_length
-        comment: "A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name."
-    )
+    let movieSymbol = Strings.Library.movieSymbolName
+    let seriesSymbol = Strings.Library.showSymbolName
     
     var body: some View {
         if mediaObject.isFault {
@@ -80,11 +71,7 @@ struct ProblemsLibraryRow: View {
                     .lineLimit(2)
                 // Under the title
                 HStack {
-                    Text(
-                        "problems.list.missingList \(missing)",
-                        // swiftlint:disable:next line_length
-                        comment: "List of missing information on a media. Shown in the problems view. The argument is the formatted list."
-                    )
+                    Text(Strings.Problems.missingList(missing))
                         .font(.caption)
                         .italic()
                 }

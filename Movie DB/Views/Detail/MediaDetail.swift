@@ -14,14 +14,8 @@ struct MediaDetail: View {
     
     var body: some View {
         if mediaObject.isFault {
-            Text(
-                "detail.errorLoadingText",
-                comment: "The text displayed in the detail view when the media object to display could not be loaded"
-            )
-            .navigationTitle(String(
-                localized: "detail.navBar.errorTitle",
-                comment: "The navigation bar title for the detail view when an error occured during loading"
-            ))
+            Text(Strings.Detail.errorLoadingText)
+            .navigationTitle(Strings.Detail.navBarErrorTitle)
         } else {
             List {
                 TitleView(media: mediaObject)

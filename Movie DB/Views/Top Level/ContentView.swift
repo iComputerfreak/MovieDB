@@ -19,36 +19,24 @@ struct ContentView: View {
             LibraryHome()
                 .tabItem {
                     Image(systemName: "film")
-                    Text(
-                        "tabView.library.label",
-                        comment: "The label of the library tab of the main TabView"
-                    )
+                    Text(Strings.TabView.libraryLabel)
                 }
             LookupView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
-                    Text(
-                        "tabView.lookup.label",
-                        comment: "The label of the lookup tab of the main TabView"
-                    )
+                    Text(Strings.TabView.lookupLabel)
                 }
             
             ProblemsView()
                 .tabItem {
                     Image(systemName: "exclamationmark.triangle")
-                    Text(
-                        "tabView.problems.label",
-                        comment: "The label of the problems tab of the main TabView"
-                    )
+                    Text(Strings.TabView.problemsLabel)
                 }
             
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
-                    Text(
-                        "tabView.settings.label",
-                        comment: "The label of the settings tab of the main TabView"
-                    )
+                    Text(Strings.TabView.settingsLabel)
                 }
         }
         .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {

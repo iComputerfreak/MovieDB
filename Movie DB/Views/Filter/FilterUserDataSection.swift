@@ -33,64 +33,28 @@ struct FilterUserDataSection: View {
     ) var allTags: FetchedResults<Tag>
     
     var body: some View {
-        Section(header: Text(
-            "detail.userData.header",
-            comment: "The section header for the user data section in the detail view"
-        )) {
+        Section(header: Text(Strings.Library.Filter.userDataSectionHeader)) {
             // MARK: - Watched?
-            Picker(String(
-                localized: "library.filter.userData.label.watched",
-                // swiftlint:disable:next line_length
-                comment: "The label of the picker in the filter view to select whether the media should be marked as watched or not"
-            ), selection: watchedProxy) {
-                Text(
-                    "library.filter.value.any",
-                    // swiftlint:disable:next line_length
-                    comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
-                )
+            Picker(Strings.Library.Filter.watchedLabel, selection: watchedProxy) {
+                Text(Strings.Library.Filter.valueAny)
                     .tag(FilterView.nilString)
-                Text(
-                    "generic.picker.value.yes",
-                    comment: "An option in a picker view"
-                )
+                Text(Strings.Generic.pickerValueYes)
                     .tag(true.description)
-                Text(
-                    "generic.picker.value.no",
-                    comment: "An option in a picker view"
-                )
+                Text(Strings.Generic.pickerValueNo)
                     .tag(false.description)
                 
-                    .navigationTitle(String(
-                        localized: "library.filter.watched.navBar.title",
-                        comment: "The navigation bar title for the watched? field in the library's filter view"
-                    ))
+                    .navigationTitle(Strings.Library.Filter.watchedNavBarTitle)
             }
             // MARK: - Watch Again?
-            Picker(String(
-                localized: "library.filter.userData.label.watchAgain",
-                comment: "The label for the 'watch again' picker in the library's filter view"
-            ), selection: watchAgainProxy) {
-                Text(
-                    "library.filter.value.any",
-                    // swiftlint:disable:next line_length
-                    comment: "A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value."
-                )
+            Picker(Strings.Library.Filter.watchAgainLabel, selection: watchAgainProxy) {
+                Text(Strings.Library.Filter.valueAny)
                     .tag(FilterView.nilString)
-                Text(
-                    "generic.picker.value.yes",
-                    comment: "An option in a picker view"
-                )
+                Text(Strings.Generic.pickerValueYes)
                     .tag(true.description)
-                Text(
-                    "generic.picker.value.no",
-                    comment: "An option in a picker view"
-                )
+                Text(Strings.Generic.pickerValueNo)
                     .tag(false.description)
                 
-                    .navigationTitle(String(
-                        localized: "library.filter.watchAgain.navBar.title",
-                        comment: "The navigation bar title for the watchAgain? field in the library's filter view"
-                    ))
+                    .navigationTitle(Strings.Library.Filter.watchAgainNavBarTitle)
             }
             // MARK: - Tags
             FilterMultiPicker(
@@ -100,10 +64,7 @@ struct FilterUserDataSection: View {
                 ),
                 label: { (tag: Tag) in tag.name },
                 values: Array(allTags),
-                title: Text(
-                    "library.filter.userData.label.tags",
-                    comment: "The label for the tags picker in the library's filter view"
-                )
+                title: Text(Strings.Library.Filter.tagsLabel)
             )
         }
     }

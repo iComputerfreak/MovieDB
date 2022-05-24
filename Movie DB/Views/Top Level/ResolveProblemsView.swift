@@ -33,10 +33,7 @@ struct ResolveProblemsView: View {
                     }
                 }
             }
-            .navigationTitle(String(
-                localized: "resolveProblems.navBar.title",
-                comment: "The navigation bar title for the language chooser view"
-            ))
+            .navigationTitle(Strings.ResolveProblems.navBarTitle)
         }
     }
 }

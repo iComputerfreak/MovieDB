@@ -91,34 +91,19 @@ struct LibraryList: View {
                         .environmentObject(mediaObject)
                         .fixHighlighting()
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(String(
-                                localized: "library.list.swipe.delete",
-                                comment: "The label for the delete swipe action in the library list"
-                            ), role: .destructive) {
+                            Button(Strings.Library.swipeActionDelete, role: .destructive) {
                                 print("Deleting \(mediaObject.title)")
                                 self.managedObjectContext.delete(mediaObject)
                             }
-                            Button(String(
-                                localized: "library.list.swipe.reload",
-                                comment: "The label for the reload swipe action in the library list"
-                            )) {
+                            Button(Strings.Library.swipeActionReload) {
                                 Task(priority: .userInitiated) {
                                     do {
                                     try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
                                     } catch {
                                         print("Error updating \(mediaObject.title): \(error)")
                                         AlertHandler.showSimpleAlert(
-                                            title: String(
-                                                localized: "library.alert.errorUpdating.title",
-                                                // swiftlint:disable:next line_length
-                                                comment: "Title of an alert informing the user about an error during a media update"
-                                            ),
-                                            message: String(
-                                                // swiftlint:disable line_length
-                                                localized: "library.alert.errorUpdating.message \(mediaObject.title) \(error.localizedDescription)",
-                                                comment: "The message of an alert informing the user about an error during a media update. The first argument is the title of the media object and the second argument is the error description."
-                                                // swiftlint:enable line_length
-                                            )
+                                            title: Strings.Library.Alert.updateErrorTitle,
+                                            message: Strings.Library.Alert.updateErrorMessage(mediaObject.title, error.localizedDescription)
                                         )
                                     }
                                 }
@@ -146,16 +131,10 @@ struct LibraryList: View {
         
         // Showing all media
         if objCount == self.totalMediaItems {
-            return Text(
-                "library.list.footer.total \(objCount)",
-                comment: "The total amount of media items in the library. Shown in the footer below the list."
-            )
+            return Text(Strings.Library.footerTotal(objCount))
         // Only showing a subset of the total medias
         } else {
-            return Text(
-                "library.list.footer \(objCount)",
-                comment: "The total amount of media items currently displayed. Shown in the footer below the list."
-            )
+            return Text(Strings.Library.footer(objCount))
         }
     }
 }

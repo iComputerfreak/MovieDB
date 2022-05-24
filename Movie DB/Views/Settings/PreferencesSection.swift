@@ -17,11 +17,7 @@ struct PreferencesSection: View {
     
     var body: some View {
         Section {
-            Toggle(String(
-                localized: "settings.toggle.showAdultContent.label",
-                // swiftlint:disable:next line_length
-                comment: "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content"
-            ), isOn: $preferences.showAdults)
+            Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
             LanguagePickerView()
                 .onChange(of: preferences.language) { languageCode in
                     print("Language changed to \(languageCode)")
@@ -36,16 +32,8 @@ struct PreferencesSection: View {
         .onDisappear {
             if self.config.languageChanged || self.config.regionChanged {
                 AlertHandler.showYesNoAlert(
-                    title: String(
-                        localized: "settings.alert.reloadLibrary.title",
-                        comment: "Title of an alert asking the user for confirmation to reload the library"
-                    ),
-                    message: String(
-                        localized: "settings.alert.reloadLibrary.message",
-                        // No way to split up a StaticString into multiple lines
-                        // swiftlint:disable:next line_length
-                        comment: "Message of an alert asking the user for confirmation to reload the library after changing the language or region"
-                    ),
+                    title: Strings.Settings.Alert.reloadLibraryTitle,
+                    message: Strings.Settings.Alert.reloadLibraryMessage,
                     yesAction: { _ in self.reloadHandler() }
                 )
                 self.config.languageChanged = false

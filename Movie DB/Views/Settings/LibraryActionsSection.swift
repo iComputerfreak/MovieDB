@@ -20,22 +20,10 @@ struct LibraryActionsSection: View {
             showingProgress: $config.showingProgress,
             progressText: config.progressText
         )) {
-            Button(String(
-                localized: "settings.actions.reloadMedia.label",
-                comment: "The label for the 'reload media' action in the settings view"
-            ), action: self.reloadHandler)
-            Button(String(
-                localized: "settings.actions.updateMedia.label",
-                comment: "The label for the 'update media' action in the settings view"
-            ), action: self.updateMedia)
-            Button(String(
-                localized: "settings.actions.resetLibrary.label",
-                comment: "The label for the 'reset library' action in the settings view"
-            ), action: self.resetLibrary)
-            Button(String(
-                localized: "settings.actions.resetTags.label",
-                comment: "The label for the 'reset tags' action in the settings view"
-            ), action: self.resetTags)
+            Button(Strings.Settings.reloadMediaLabel, action: self.reloadHandler)
+            Button(Strings.Settings.updateMediaLabel, action: self.updateMedia)
+            Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
+            Button(Strings.Settings.resetTagsLabel, action: self.resetTags)
         }
         .disabled(self.config.showingProgress)
     }
@@ -60,11 +48,9 @@ struct LibraryActionsSection: View {
                         .hidden(condition: !showingProgress)
                     }
                     .frame(height: showingProgress ? nil : 0)
-                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                    Text(
-                        "settings.footer.version \(appVersion ?? "unknown")",
-                        comment: "The version information at the bottom of the settings page"
-                    )
+                    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                        Text(Strings.Settings.versionFooter(appVersion))
+                    }
                 }
                 Spacer()
             }
@@ -72,10 +58,7 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        self.config.showProgress(String(
-            localized: "settings.progressText.updatingMediaObjects",
-            comment: "The label for the progress view, displayed while updating the media objects"
-        ))
+        self.config.showProgress(Strings.Settings.ProgressView.updateMedia)
         // Execute the update in the background
         Task(priority: .userInitiated) {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
@@ -89,15 +72,8 @@ struct LibraryActionsSection: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
-                        title: String(
-                            localized: "settings.alert.updateMediaComplete.title",
-                            comment: "Title of an alert informing the user that the library update is completed"
-                        ),
-                        message: String(
-                            localized: "settings.alert.updateMediaComplete.message \(updateCount)",
-                            // swiftlint:disable:next line_length
-                            comment: "Message of an alert informing the user how many media objects have been updated. The argument is the count of updated objects"
-                        )
+                        title: Strings.Settings.Alert.updateMediaTitle,
+                        message: Strings.Settings.Alert.updateMediaMessage(updateCount)
                     )
                 }
             } catch {
@@ -105,10 +81,7 @@ struct LibraryActionsSection: View {
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.alert.libraryUpdateError.title",
-                            comment: "Title of an alert informing the user of an error while updating the library"
-                        ),
+                        title: Strings.Settings.Alert.libraryUpdateErrorTitle,
                         error: error
                     )
                     self.config.hideProgress()
@@ -119,30 +92,18 @@ struct LibraryActionsSection: View {
     
     func resetLibrary() {
         let controller = UIAlertController(
-            title: String(
-                localized: "settings.alert.resetLibrary.title",
-                comment: "Title of an alert asking the user for confirmation to reset the library"
-            ),
-            message: String(
-                localized: "settings.alert.resetLibrary.message",
-                comment: "Message of an alert asking the user for confirmation to reset the library"
-            ),
+            title: Strings.Settings.Alert.resetLibraryConfirmTitle,
+            message: Strings.Settings.Alert.resetLibraryConfirmMessage,
             preferredStyle: .alert
         )
         controller.addAction(.cancelAction())
         controller.addAction(UIAlertAction(
-            title: String(
-                localized: "settings.alert.resetLibrary.button.delete",
-                comment: "Button to confirm the library reset"
-            ),
+            title: Strings.Settings.Alert.resetLibraryConfirmButtonDelete,
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
                 await MainActor.run {
-                    self.config.showProgress(String(
-                        localized: "settings.progressText.resetLibrary",
-                        comment: "The label for the progress view, displayed while resetting the library"
-                    ))
+                    self.config.showProgress(Strings.Settings.ProgressView.resetLibrary)
                 }
                 do {
                     try await self.library.reset()
@@ -150,10 +111,7 @@ struct LibraryActionsSection: View {
                     print("Error resetting library")
                     print(error)
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.alert.resetLibraryError.title",
-                            comment: "Title of an alert informing the user of an error while resetting the library"
-                        ),
+                        title: Strings.Settings.Alert.resetLibraryErrorTitle,
                         error: error
                     )
                 }
@@ -167,30 +125,18 @@ struct LibraryActionsSection: View {
     
     func resetTags() {
         let controller = UIAlertController(
-            title: String(
-                localized: "settings.alert.resetTags.title",
-                comment: "Title of an alert asking the user to confirm resettings the tags"
-            ),
-            message: String(
-                localized: "settings.alert.resetTags.message",
-                comment: "Message of an alert asking the user to confirm resetting the tags"
-            ),
+            title: Strings.Settings.Alert.resetTagsConfirmTitle,
+            message: Strings.Settings.Alert.resetTagsConfirmMessage,
             preferredStyle: .alert
         )
         controller.addAction(.cancelAction())
         controller.addAction(UIAlertAction(
-            title: String(
-                localized: "settings.alert.resetTags.button.delete",
-                comment: "Button of an alert, confirming the tag reset"
-            ),
+            title: Strings.Settings.Alert.resetTagsConfirmButtonDelete,
             style: .destructive
         ) { _ in
             Task(priority: .userInitiated) {
                 await MainActor.run {
-                    self.config.showProgress(String(
-                        localized: "settings.progressText.resetTags",
-                        comment: "The label for the progress view, displayed while resetting the tags"
-                    ))
+                    self.config.showProgress(Strings.Settings.ProgressView.resetTags)
                 }
                 do {
                     try await self.library.resetTags()
@@ -198,10 +144,7 @@ struct LibraryActionsSection: View {
                     print("Error resetting tags")
                     print(error)
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.alert.resetTagsError.title",
-                            comment: "Title of an alert informing the user of an error during tag reset"
-                        ),
+                        title: Strings.Settings.Alert.resetTagsErrorTitle,
                         error: error
                     )
                 }

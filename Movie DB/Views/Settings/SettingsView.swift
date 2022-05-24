@@ -24,10 +24,7 @@ struct SettingsView: View {
         // TODO: Should settings really use a loading screen?
         LoadingView(
             isShowing: $config.isLoading,
-            text: config.loadingText ?? String(
-                localized: "settings.placeholder.loading",
-                comment: "Placeholder text to show while the data is loading"
-            )
+            text: config.loadingText ?? Strings.Settings.loadingPlaceholder
         ) {
             NavigationView {
                 Form {
@@ -39,18 +36,11 @@ struct SettingsView: View {
                     LibraryActionsSection(config: $config, reloadHandler: self.reloadMedia)
                 }
                 .environmentObject(preferences)
-                .navigationTitle(String(
-                    localized: "tabView.settings.label",
-                    comment: "The label of the settings tab of the main TabView"
-                ))
+                .navigationTitle(Strings.TabView.settingsLabel)
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         NavigationLink(
-                            String(
-                                localized: "settings.navBar.button.legal",
-                                // swiftlint:disable:next line_length
-                                comment: "The 'Legal' button that leads to the legal view in the settings' navigation bar"
-                            ),
+                            Strings.Settings.navBarButtonLegal,
                             destination: LegalView()
                         )
                     }
@@ -60,11 +50,7 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        self.config.showProgress(String(
-            localized: "settings.progressText.reloadLibrary",
-            // swiftlint:disable:next line_length
-            comment: "The label of the progress indicator that is shown in the settings when the library is reloading all media objects"
-        ))
+        self.config.showProgress(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
@@ -75,14 +61,8 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showSimpleAlert(
-                        title: String(
-                            localized: "settings.alert.reloadCompleted.title",
-                            comment: "Title of the alert informing the user that the media reload is completed"
-                        ),
-                        message: String(
-                            localized: "settings.alert.reloadCompleted.message",
-                            comment: "Message of the alert informing the user that the media reload is completed"
-                        )
+                        title: Strings.Settings.Alert.reloadCompleteTitle,
+                        message: Strings.Settings.Alert.reloadCompleteMessage
                     )
                 }
             } catch {
@@ -90,10 +70,7 @@ struct SettingsView: View {
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.alert.errorReloadingLibrary.title",
-                            comment: "Title of an alert informing the user about an error while reloading the library"
-                        ),
+                        title: Strings.Settings.Alert.reloadErrorTitle,
                         error: error
                     )
                 }

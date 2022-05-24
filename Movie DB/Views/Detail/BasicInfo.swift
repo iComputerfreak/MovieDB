@@ -34,33 +34,21 @@ struct BasicInfo: View {
             Section(
                 header: HStack {
                     Image(systemName: "info.circle")
-                    Text(
-                        "detail.basicInfo.header",
-                        comment: "The section header for the basic information section in the detail view"
-                    )
+                    Text(Strings.Detail.basicInfoSectionHeader)
                 }
             ) {
                 // MARK: Genres
                 if !mediaObject.genres.isEmpty {
                     Text(mediaObject.genres.map(\.name).sorted().joined(separator: ", "))
-                        .headline(Text(
-                            "detail.basicInfo.headline.genres",
-                            comment: "The headline for the 'genres' property in the detail view"
-                        ))
+                        .headline(Text(Strings.Detail.genresHeadline))
                 }
                 // MARK: Overview
                 if let overview = mediaObject.overview, !overview.isEmpty {
                     LongTextView(
                         overview,
-                        headline: Text(
-                            "detail.basicInfo.headline.description",
-                            comment: "The headline for the 'description' property in the detail view"
-                        )
+                        headline: Text(Strings.Detail.descriptionHeadline)
                     )
-                    .headline(Text(
-                        "detail.basicInfo.headline.description",
-                        comment: "The headline for the 'description' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.descriptionHeadline))
                     .fixHighlighting()
                 }
                 // Movie exclusive data
@@ -68,10 +56,7 @@ struct BasicInfo: View {
                     // MARK: Release Date
                     if let releaseDate = movie.releaseDate {
                         Text(releaseDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(
-                                "detail.basicInfo.headline.releaseDate",
-                                comment: "The headline for the 'release date' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.releaseDateHeadline))
                     }
                     // MARK: Runtime
                     if let runtime = movie.runtime {
@@ -79,22 +64,12 @@ struct BasicInfo: View {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
                             let minutesString = Self.minutesFormatter.string(from: components)!
                             let hoursString = Self.hoursFormatter.string(from: components)!
-                            Text(
-                                "detail.basicInfo.runtime.minutesAndHours \(minutesString) \(hoursString)",
-                                // swiftlint:disable:next line_length
-                                comment: "A string that displays a formatted duration in minutes and hours/minutes. E.g. '90 minutes (1h 30m)'. The first parameter is the formatted duration string in minutes. The second parameter is the formatted duration string in hours and minutes."
-                            )
-                            .headline(Text(
-                                "detail.basicInfo.headline.runtime",
-                                comment: "The headline for the 'runtime' property in the detail view"
-                            ))
+                            Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
+                            .headline(Text(Strings.Detail.runtimeHeadline))
                         } else {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
                             Text(Self.minutesFormatter.string(from: components)!)
-                                .headline(Text(
-                                    "detail.basicInfo.headline.runtime",
-                                    comment: "The headline for the 'runtime' property in the detail view"
-                                ))
+                                .headline(Text(Strings.Detail.runtimeHeadline))
                         }
                     }
                 }
@@ -103,86 +78,52 @@ struct BasicInfo: View {
                     // MARK: Air date
                     if let firstAirDate = show.firstAirDate {
                         Text(firstAirDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(
-                                "detail.basicInfo.headline.firstAired",
-                                comment: "The headline for the 'first aired' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.firstAiredHeadline))
                     }
                     // MARK: Last Episode / Last Aired
                     // We try to show the last episode (includes the air date)
                     if let lastEpisode = show.lastEpisodeToAir {
                         Text(episodeAirDateString(lastEpisode))
-                            .headline(Text(
-                                "detail.basicInfo.headline.lastEpisode",
-                                comment: "The headline for the 'last episode' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.lastEpisodeHeadline))
                     // If there is no last episode available, we show the last air date, if possible
                     } else if let lastAirDate = show.lastAirDate {
                         Text(lastAirDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(
-                                "detail.basicInfo.headline.lastAired",
-                                comment: "The headline for the 'last aired' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.lastAiredHeadline))
                     }
                     // MARK: Next Episode
                     if let nextEpisode = show.nextEpisodeToAir {
                         Text(episodeAirDateString(nextEpisode))
-                            .headline(Text(
-                                "detail.basicInfo.headline.nextEpisode",
-                                comment: "The headline for the 'next episode' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.nextEpisodeHeadline))
                     }
                     // MARK: Show type (e.g. Scripted)
                     if let type = show.showType {
                         Text(type.localized)
-                            .headline(Text(
-                                "detail.basicInfo.headline.showType",
-                                comment: "The headline for the 'show type' property in the detail view"
-                            ))
+                            .headline(Text(Strings.Detail.showTypeHeadline))
                     }
                 }
                 // MARK: Status
                 Text(mediaObject.status.localized)
-                    .headline(Text(
-                        "detail.basicInfo.headline.status",
-                        comment: "The headline for the 'status' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.mediaStatusHeadline))
                 // MARK: Original Title
                 Text(mediaObject.originalTitle)
-                    .headline(Text(
-                        "detail.basicInfo.headline.originalTitle",
-                        comment: "The headline for the 'original title' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.originalTitleHeadline))
                 // MARK: Original Language
                 Text(Utils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
-                    .headline(Text(
-                        "detail.basicInfo.headline.originalLanguage",
-                        comment: "The headline for the 'original language' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.originalLanguageHeadline))
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
                         let maxSeasonNumber = show.seasons.map(\.seasonNumber).max() ?? 0
-                        Text(
-                            "detail.basicInfo.seasonCount \(maxSeasonNumber)",
-                            comment: "A string that describes the number of seasons of a tv show in the media detail"
-                        )
-                        .headline(Text(
-                            "detail.basicInfo.headline.seasons",
-                            comment: "The headline for the 'seasons' property in the detail view"
-                        ))
+                        Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
+                            .headline(Text(Strings.Detail.seasonsHeadline))
                     }
                     .fixHighlighting()
                 }
                 // MARK: Cast
                 if !mediaObject.cast.isEmpty {
                     NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
-                        Text(
-                            "detail.basicInfo.cast",
-                            // swiftlint:disable:next line_length
-                            comment: "The button label in the detail of a media object that leads to the cast information."
-                        )
+                        Text(Strings.Detail.castLabel)
                     }
                     .fixHighlighting()
                 }
@@ -202,17 +143,9 @@ struct BasicInfo: View {
         let e = episode.episodeNumber
         if let airDate = episode.airDate {
             let formattedDate = airDate.formatted(date: .numeric, time: .omitted)
-            return String(
-                localized: "detail.episodeAirDate \(s) \(e) \(formattedDate)",
-                // swiftlint:disable:next line_length
-                comment: "Season/Episode abbreviation for the 'next/last episode to air' field, including the date. First argument: season number, second argument: episode number, third argument: formatted date"
-            )
+            return Strings.Detail.episodeAirDateWithDate(s, e, formattedDate)
         }
-        return String(
-            localized: "detail.episodeAirDate \(s) \(e)",
-            // swiftlint:disable:next line_length
-            comment: "Season/Episode abbreviation for the 'next/last episode to air' field, without a date. First argument: season number, second argument: episode number"
-        )
+        return Strings.Detail.episodeAirDate(s, e)
     }
 }
 

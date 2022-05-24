@@ -21,14 +21,8 @@ struct TagEditRow: View {
             Button {
                 // Rename
                 let alert = UIAlertController(
-                    title: String(
-                        localized: "detail.alert.renameTag.title",
-                        comment: "Title of the tag renaming alert"
-                    ),
-                    message: String(
-                        localized: "detail.alert.renameTag.message",
-                        comment: "Message of the tag renaming alert"
-                    ),
+                    title: Strings.Detail.Alert.renameTagTitle,
+                    message: Strings.Detail.Alert.renameTagMessage,
                     preferredStyle: .alert
                 )
                 alert.addTextField { textField in
@@ -38,10 +32,7 @@ struct TagEditRow: View {
                 }
                 alert.addAction(.cancelAction())
                 alert.addAction(UIAlertAction(
-                    title: String(
-                        localized: "detail.alert.renameTag.button.rename",
-                        comment: "Rename button to confirm renaming a tag"
-                    ),
+                    title: Strings.Detail.Alert.renameTagButtonRename,
                     style: .default
                 ) { _ in
                     guard let textField = alert.textFields?.first else {
@@ -52,17 +43,8 @@ struct TagEditRow: View {
                     }
                     guard !self.tags.contains(where: { $0.name == text }) else {
                         AlertHandler.showSimpleAlert(
-                            title: String(
-                                localized: "detail.alert.tagAlreadyExists.title",
-                                // swiftlint:disable:next line_length
-                                comment: "Message of an alert informing the user that the tag they tried to create already exists"
-                            ),
-                            message: String(
-                                localized: "detail.alert.tagAlreadyExists.message",
-                                // No way to split up a StaticString into multiple lines
-                                // swiftlint:disable:next line_length
-                                comment: "Message of an alert informing the user that the tag they tried to create already exists"
-                            )
+                            title: Strings.Detail.Alert.tagAlreadyExistsTitle,
+                            message: Strings.Detail.Alert.tagAlreadyExistsMessage
                         )
                         return
                     }

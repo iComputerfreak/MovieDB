@@ -13,15 +13,9 @@ struct LanguagePickerView: View {
     @EnvironmentObject var preferences: JFConfig
     
     var body: some View {
-        Picker(String(
-            localized: "settings.language.navBar.title",
-            comment: "The navigation bar title for the language picker in the settings"
-        ), selection: $preferences.language) {
+        Picker(Strings.Settings.languageNavBarTitle, selection: $preferences.language) {
             if preferences.availableLanguages.isEmpty {
-                Text(
-                    "settings.languagePicker.loadingText",
-                    comment: "Placeholder text to display while loading the available languages in the settings"
-                )
+                Text(Strings.Settings.languagePickerLoadingText)
                 .task(priority: .userInitiated) { await self.updateLanguages() }
             } else {
                 ForEach(preferences.availableLanguages, id: \.self) { code in
@@ -43,12 +37,7 @@ struct LanguagePickerView: View {
                 await MainActor.run {
                     print(error)
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.languagePicker.alert.errorLoading.title",
-                            // No way to split up a StaticString into multiple lines
-                            // swiftlint:disable:next line_length
-                            comment: "Title of an alert informing the user about an error while reloading the available languages"
-                        ),
+                        title: Strings.Settings.Alert.errorLoadingLanguagesTitle,
                         error: error
                     )
                 }

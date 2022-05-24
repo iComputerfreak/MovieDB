@@ -20,40 +20,19 @@ public enum ShowType: String, Codable, CaseIterable {
     var localized: String {
         switch self {
         case .documentary:
-            return String(
-                localized: "showType.documentary",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.documentary
         case .news:
-            return String(
-                localized: "showType.news",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.news
         case .miniseries:
-            return String(
-                localized: "showType.miniseries",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.miniseries
         case .reality:
-            return String(
-                localized: "showType.reality",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.reality
         case .scripted:
-            return String(
-                localized: "showType.scripted",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.scripted
         case .talkShow:
-            return String(
-                localized: "showType.talkShow",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.talkShow
         case .video:
-            return String(
-                localized: "showType.video",
-                comment: "A type of show (e.g. documentary, talk show, scripted)"
-            )
+            return Strings.ShowType.video
         }
     }
 }

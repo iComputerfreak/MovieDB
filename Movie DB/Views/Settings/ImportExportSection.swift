@@ -31,22 +31,13 @@ struct ImportExportSection: View {
     var body: some View {
         Section {
             // MARK: - Import Button
-            Button(String(
-                localized: "settings.actions.importMedia.label",
-                comment: "The label for the 'import media' action in the settings view"
-            ), action: self.importMedia)
+            Button(Strings.Settings.importMediaLabel, action: self.importMedia)
             
             // MARK: - Export Button
-            Button(String(
-                localized: "settings.actions.exportMedia.label",
-                comment: "The label for the 'export media' action in the settings view"
-            ), action: self.exportMedia)
+            Button(Strings.Settings.exportMediaLabel, action: self.exportMedia)
             
             // MARK: - Import Tags
-            Button(String(
-                localized: "settings.actions.importTags.label",
-                comment: "The label for the 'import tags' action in the settings view"
-            ), action: self.importTags)
+            Button(Strings.Settings.importTagsLabel, action: self.importTags)
                 // MARK: Import Log Popover
                 .popover(isPresented: $importLogShowing) {
                     if let logger = importLogger {
@@ -57,10 +48,7 @@ struct ImportExportSection: View {
                 }
             
             // MARK: - Export Tags
-            Button(String(
-                localized: "settings.actions.exportTags.label",
-                comment: "The label for the 'export tags' action in the settings view"
-            ), action: self.exportTags)
+            Button(Strings.Settings.exportTagsLabel, action: self.exportTags)
                 .popover(item: self.$documentPicker, content: { $0 })
         }
     }
@@ -82,11 +70,7 @@ struct ImportExportSection: View {
                 importContext: importContext,
                 onProgress: { progress in
                     // Update the loading view
-                    self.config.loadingText = String(
-                        localized: "settings.import.progressText \(progress)",
-                        // swiftlint:disable:next line_length
-                        comment: "The label of the overlay progress view that shows the user how many media objects have been imported already"
-                    )
+                    self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress)
                 }, onFail: { log in
                     importLogger?.log(contentsOf: log, level: .info)
                     importLogger?.critical("Importing failed!")
@@ -97,22 +81,12 @@ struct ImportExportSection: View {
                     Task(priority: .userInitiated) {
                         await MainActor.run {
                             let controller = UIAlertController(
-                                title: String(
-                                    localized: "settings.alert.importMedia.title",
-                                    comment: "Title of an alert asking the user to confirm the import"
-                                ),
-                                message: String(
-                                    localized: "settings.alert.importMedia.message \(mediaObjects.count)",
-                                    // swiftlint:disable:next line_length
-                                    comment: "Message of an alert asking the user to confirm the import. The argument is the count of media objects to import."
-                                ),
+                                title: Strings.Settings.Alert.importMediaConfirmTitle,
+                                message: Strings.Settings.Alert.importMediaConfirmMessage(mediaObjects.count),
                                 preferredStyle: .alert
                             )
                             controller.addAction(UIAlertAction(
-                                title: String(
-                                    localized: "settings.alert.importMedia.button.undo",
-                                    comment: "Button to undo the media import"
-                                ),
+                                title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
                                 style: .destructive
                             ) { _ in
                                 // Reset all the work we have just done
@@ -162,15 +136,8 @@ struct ImportExportSection: View {
             Task(priority: .userInitiated) {
                 await MainActor.run {
                     let controller = UIAlertController(
-                        title: String(
-                            localized: "settings.alert.importTags.title",
-                            comment: "Title of an alert asking the user to confirm importing the tags"
-                        ),
-                        message: String(
-                            localized: "settings.alert.importTags.message \(count)",
-                            // swiftlint:disable:next line_length
-                            comment: "Message of an alert asking the user to confirm importing the tags. The argument is the count of tags to import."
-                        ),
+                        title: Strings.Settings.Alert.importTagsConfirmTitle,
+                        message: Strings.Settings.Alert.importTagsConfirmMessage,
                         preferredStyle: .alert
                     )
                     controller.addAction(.yesAction { _ in
@@ -183,10 +150,7 @@ struct ImportExportSection: View {
                             } catch {
                                 print(error)
                                 AlertHandler.showError(
-                                    title: String(
-                                        localized: "settings.alert.tagImportError.title",
-                                        comment: "Title of an alert informing the user of an error during tag import"
-                                    ),
+                                    title: Strings.Settings.Alert.importTagsErrorTitle,
                                     error: error
                                 )
                             }
@@ -227,10 +191,7 @@ struct ImportExportSection: View {
                 } catch let error {
                     print("Error importing: \(error)")
                     AlertHandler.showError(
-                        title: String(
-                            localized: "settings.alert.genericImportError.title",
-                            comment: "Title of an error informing the user about an error during import"
-                        ),
+                        title: Strings.Settings.Alert.genericImportErrorTitle,
                         error: error
                     )
                     Task(priority: .userInitiated) {
@@ -261,14 +222,8 @@ struct ImportExportSection: View {
                         Task(priority: .userInitiated) {
                             await MainActor.run {
                                 AlertHandler.showSimpleAlert(
-                                    title: String(
-                                        localized: "settings.alert.genericExportError.title",
-                                        comment: "Title of an alert informing the user about an error during export"
-                                    ),
-                                    message: String(
-                                        localized: "settings.alert.genericExportError.message",
-                                        comment: "Message of an alert informing the user about an error during export"
-                                    )
+                                    title: Strings.Settings.Alert.genericExportErrorTitle,
+                                    message: Strings.Settings.Alert.genericExportErrorMessage
                                 )
                             }
                         }

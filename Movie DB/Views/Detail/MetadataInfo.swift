@@ -18,30 +18,18 @@ struct MetadataInfo: View {
             Section(
                 header: HStack {
                     Image(systemName: "paperclip")
-                    Text(
-                        "detail.metadata.header",
-                        comment: "The section header for the metadata section in the detail view"
-                    )
+                    Text(Strings.Detail.metadataSectionHeader)
                 }
             ) {
                 if let id = mediaObject.id {
                     Text(id.uuidString)
-                        .headline(Text(
-                            "detail.metadata.headline.internalID",
-                            comment: "The headline for the 'internal id' property in the detail view"
-                        ))
+                        .headline(Text(Strings.Detail.internalIDHeadline))
                 }
                 Text(mediaObject.creationDate.formatted(date: .abbreviated, time: .shortened))
-                    .headline(Text(
-                        "detail.metadata.headline.created",
-                        comment: "The headline for the 'creation date' property in the detail view"
-                    ))
+                    .headline(Text(Strings.Detail.createdHeadline))
                 if let modificationDate = mediaObject.modificationDate {
                     Text(modificationDate.formatted(date: .abbreviated, time: .shortened))
-                        .headline(Text(
-                            "detail.metadata.headline.lastModified",
-                            comment: "The headline for the 'last modified' property in the detail view"
-                        ))
+                        .headline(Text(Strings.Detail.lastModifiedHeadline))
                 }
             }
         }

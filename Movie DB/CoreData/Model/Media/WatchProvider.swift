@@ -63,20 +63,11 @@ public class WatchProvider: NSObject, NSCoding, NSSecureCoding, Decodable {
         var localized: String {
             switch self {
             case .flatrate:
-                return String(
-                    localized: "detail.watchprovider.flatrate",
-                    comment: "A type of watch provider (flatrate, ads, buy)"
-                )
+                return Strings.WatchProvider.flatrate
             case .ads:
-                return String(
-                    localized: "detail.watchprovider.ads",
-                    comment: "A type of watch provider (flatrate, ads, buy)"
-                )
+                return Strings.WatchProvider.ads
             case .buy:
-                return String(
-                    localized: "detail.watchprovider.buy",
-                    comment: "A type of watch provider (flatrate, ads, buy)"
-                )
+                return Strings.WatchProvider.buy
             }
         }
     }

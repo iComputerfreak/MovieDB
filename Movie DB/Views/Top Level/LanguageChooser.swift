@@ -14,29 +14,18 @@ struct LanguageChooser: View {
     var body: some View {
         NavigationView {
             if config.availableLanguages.isEmpty {
-                Text(
-                    "languageChooser.loadingText",
-                    // swiftlint:disable:next line_length
-                    comment: "Placeholder text to display while loading the available languages in the language chooser onboarding screen"
-                )
+                Text(Strings.LanguageChooser.loadingText)
                 .task(priority: .userInitiated) {
                     do {
                         try await Utils.updateTMDBLanguages()
                     } catch {
                         AlertHandler.showError(
-                            title: String(
-                                localized: "languageChooser.alert.errorLoading.title",
-                                // swiftlint:disable:next line_length
-                                comment: "Title of an alert informing the user about an error while loading the available languages"
-                            ),
+                            title: Strings.LanguageChooser.Alert.errorLoadingTitle,
                             error: error
                         )
                     }
                 }
-                .navigationTitle(String(
-                    localized: "languageChooser.navBar.title",
-                    comment: "The navigation bar title for the language chooser view"
-                ))
+                .navigationTitle(Strings.LanguageChooser.navBarTitle)
             } else {
                 let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
                 List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in
@@ -47,10 +36,7 @@ struct LanguageChooser: View {
                 .onChange(of: config.language) { _ in
                     print("Language changed to \(config.language)")
                 }
-                .navigationTitle(String(
-                    localized: "languageChooser.navBar.title",
-                    comment: "The navigation bar title for the language chooser view"
-                ))
+                .navigationTitle(Strings.LanguageChooser.navBarTitle)
             }
         }
     }

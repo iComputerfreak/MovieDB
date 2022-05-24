@@ -14,10 +14,7 @@ struct ProSection: View {
     
     var body: some View {
         Section {
-            Button(String(
-                localized: "settings.actions.buyPro.label",
-                comment: "The label for the button in the settings to buy the pro version of the app"
-            ), action: { self.config.isShowingProInfo = true })
+            Button(Strings.Settings.buyProLabel, action: { self.config.isShowingProInfo = true })
             .popover(isPresented: $config.isShowingProInfo) {
                 ProInfoView()
             }

@@ -428,7 +428,7 @@
 "mediaInformation.watched" = "Angeschaut";
 
 /* Text indicating that there was an error loading the search results */
-"mediaSearch.alert.error.message" = "Fehler beim Laden der Suchergebnisse";
+"mediaSearch.errorText" = "Fehler beim Laden der Suchergebnisse";
 
 /* Title of an alert reporting an error during the search of a media object */
 "mediaSearch.alert.error.title" = "Fehler beim Suchen";

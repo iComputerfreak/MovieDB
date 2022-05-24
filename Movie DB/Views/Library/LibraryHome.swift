@@ -77,10 +77,7 @@ struct LibraryHome: View {
                             let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
                             Button(action: showFilter) {
                                 Label(
-                                    String(
-                                        localized: "library.navBar.button.filter",
-                                        comment: "The label of the filter button in the navigation bar's menu"
-                                    ),
+                                    Strings.Library.menuButtonFilter,
                                     systemImage: filterImage
                                 )
                             }
@@ -114,10 +111,7 @@ struct LibraryHome: View {
                                     }
                                 }
                             } label: {
-                                Text(
-                                    "library.navBar.header.sorting",
-                                    comment: "Heading for the sorting direction picker in the library menu"
-                                )
+                                Text(Strings.Library.menuSortingHeader)
                             }
                         }
                     } label: {
@@ -130,10 +124,7 @@ struct LibraryHome: View {
                     }
                         .accessibilityIdentifier("add-media")
                 )
-                .navigationTitle(String(
-                    localized: "tabView.library.label",
-                    comment: "The label of the library tab of the main TabView"
-                ))
+                .navigationTitle(Strings.TabView.libraryLabel)
             }
         }
     }

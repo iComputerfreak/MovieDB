@@ -49,10 +49,7 @@ struct MediaLookupDetail: View {
             .environmentObject(mediaObject)
         } else {
             ProgressView()
-                .navigationTitle(String(
-                    localized: "generic.navBar.loadingTitle",
-                    comment: "The navigation bar title for a view that is still loading"
-                ))
+                .navigationTitle(Strings.Generic.navBarLoadingTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .task(priority: .userInitiated) {
                     // Load the media
@@ -71,10 +68,7 @@ struct MediaLookupDetail: View {
                     } catch {
                         print(error)
                         AlertHandler.showError(
-                            title: String(
-                                localized: "lookup.alert.errorLoading.title",
-                                comment: "Title of an alert informing the user about an error while loading the media"
-                            ),
+                            title: Strings.Lookup.Alert.errorLoadingTitle,
                             error: error
                         )
                     }

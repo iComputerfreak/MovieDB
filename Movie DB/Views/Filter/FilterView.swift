@@ -24,30 +24,21 @@ struct FilterView: View {
                 FilterInformationSection(filterSetting: $filterSetting)
                 FilterShowSpecificSection(filterSetting: $filterSetting)
             }
-            .navigationTitle(String(
-                localized: "library.filter.navBar.title",
-                comment: "The navigation bar title for the library's filter view"
-            ))
+            .navigationTitle(Strings.Library.Filter.navBarTitle)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         self.filterSetting.reset()
                         self.dismiss()
                     } label: {
-                        Text(
-                            "library.filter.button.reset",
-                            comment: "Button label for the reset button in the filter view"
-                        )
+                        Text(Strings.Library.Filter.navBarButtonReset)
                     }
                 }
                 ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
                     Button {
                         self.dismiss()
                     } label: {
-                        Text(
-                            "library.filter.button.apply",
-                            comment: "Button label for the apply button in the filter view"
-                        )
+                        Text(Strings.Library.Filter.navBarButtonApply)
                     }
                 }
             }

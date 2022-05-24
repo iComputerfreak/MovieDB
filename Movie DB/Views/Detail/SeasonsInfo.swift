@@ -37,10 +37,7 @@ struct SeasonsInfo: View {
                     }
                 }
             }
-            .navigationTitle(String(
-                localized: "detail.seasonsInfo.navBar.title",
-                comment: "The navigation bar title for the seasons info in the detail view"
-            ))
+            .navigationTitle(Strings.Detail.seasonsInfoNavBarTitle)
             .task(priority: .userInitiated) {
                 await self.loadSeasonThumbnails()
             }
@@ -102,10 +99,7 @@ struct SeasonInfo: View {
                     let date = season.airDate!.formatted(date: .numeric, time: .omitted)
                     Text(date).italic()
                 }
-                Text(
-                    "detail.extendedInfo.seasons.episodeCount \(season.episodeCount)",
-                    comment: "A string describing how many episodes a season has"
-                )
+                Text(Strings.Detail.seasonsInfoEpisodeCount(season.episodeCount))
             }
             .padding(.vertical)
         }

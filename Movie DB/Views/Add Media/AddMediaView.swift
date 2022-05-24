@@ -33,18 +33,12 @@ struct AddMediaView: View {
                     }
                     .foregroundColor(.primary)
                 }
-                .navigationTitle(String(
-                    localized: "addMedia.navBar.title",
-                    comment: "Navigation bar title of the 'add media' sheet"
-                ))
+                .navigationTitle(Strings.AddMedia.navBarTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(trailing: Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Text(
-                        "addMedia.navBar.button.close",
-                        comment: "The label of the button to dismiss the 'add media' sheet"
-                    )
+                    Text(Strings.AddMedia.navBarButtonClose)
                 }))
             }
         }
@@ -63,15 +57,8 @@ struct AddMediaView: View {
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 AlertHandler.showSimpleAlert(
-                    title: String(
-                        localized: "addMedia.alert.alreadyAdded.title",
-                        comment: "Title of an alert that informs the user that he tried to add a media object twice"
-                    ),
-                    message: String(
-                        localized: "addMedia.alert.alreadyAdded.message \(result.title)",
-                        // swiftlint:disable:next line_length
-                        comment: "Title of an alert that informs the user that he tried to add a media object twice. The variable is the media title."
-                    )
+                    title: Strings.AddMedia.Alert.alreadyAddedTitle,
+                    message: Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
                 )
             }
         } catch UserError.noPro {
@@ -81,10 +68,7 @@ struct AddMediaView: View {
             print("Error loading media: \(error)")
             await MainActor.run {
                 AlertHandler.showError(
-                    title: String(
-                        localized: "addMedia.alert.errorLoading.title",
-                        comment: "Title of an alert showing an error message while loading the media"
-                    ),
+                    title: Strings.AddMedia.Alert.errorLoadingTitle,
                     error: error
                 )
                 self.isLoading = false

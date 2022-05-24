@@ -16,23 +16,12 @@ struct WatchedShowView: View {
     
     private var episodeString: String {
         guard let watched = lastWatched else {
-            return String(
-                localized: "detail.userData.watchedShow.label.no",
-                comment: "The label in the detail view describing that the user has not watched the show"
-            )
+            return Strings.Detail.watchedShowLabelNo
         }
         if watched.episode == nil {
-            return String(
-                localized: "detail.userData.watchedShow.label.season \(watched.season)",
-                // swiftlint:disable:next line_length
-                comment: "The label in the detail view describing that the user has watched up to a specific season of the show. The parameter is the season number."
-            )
+            return Strings.Detail.watchedShowLabelSeason(watched.season)
         } else {
-            return String(
-                localized: "detail.userData.watchedShow.label.seasonAndEpisode \(watched.season) \(watched.episode!)",
-                // swiftlint:disable:next line_length
-                comment: "The label in the detail view describing that the user has watched up to a specific episode of a season of the show. The first parameter is the season number. The second parameter is the episode number."
-            )
+            return Strings.Detail.watchedShowLabelSeasonEpisode(watched.season, watched.episode!)
         }
     }
     
@@ -89,43 +78,23 @@ struct WatchedShowView: View {
         var body: some View {
             Form {
                 Section(
-                    header: Text(
-                        "detail.userData.watchedShow.header",
-                        // swiftlint:disable:next line_length
-                        comment: "The header in the editing view where the user specifies up to which season/episode they watched."
-                    )
+                    header: Text(Strings.Detail.watchedShowEditingHeader)
                 ) {
                     // FUTURE: Clamp to the actual amount of seasons/episodes?
                     // May not be a good idea if the TMDB data is outdated
                     Stepper(value: seasonWrapper, in: 0...1000) {
                         if self.season > 0 {
-                            Text(
-                                "detail.userData.watchedShow.label.seasonNumber \(self.season)",
-                                // swiftlint:disable:next line_length
-                                comment: "The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies the season number. The parameter is the season number."
-                            )
+                            Text(Strings.Detail.watchedShowLabelSeason(self.season))
                         } else {
-                            Text(
-                                "detail.userData.watchedShow.label.notWatched",
-                                // swiftlint:disable:next line_length
-                                comment: "The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show."
-                            )
+                            Text(Strings.Detail.watchedShowEditingLabelNotWatched)
                         }
                     }
                     if season > 0 {
                         Stepper(value: episodeWrapper, in: 0...1000) {
                             if self.episode > 0 {
-                                Text(
-                                    "detail.userData.watchedShow.label.episodeNumber \(self.episode)",
-                                    // swiftlint:disable:next line_length
-                                    comment: "The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies the episode number. The parameter is the episode number."
-                                )
+                                Text(Strings.Detail.watchedShowEditingLabelEpisode(self.episode))
                             } else {
-                                Text(
-                                    "detail.userData.watchedShow.label.allEpisodes",
-                                    // swiftlint:disable:next line_length
-                                    comment: "The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the user watched all episodes of the season."
-                                )
+                                Text(Strings.Detail.watchedShowEditingLabelAllEpisodes)
                             }
                         }
                     }

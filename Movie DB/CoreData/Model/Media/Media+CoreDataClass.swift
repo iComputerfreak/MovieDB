@@ -178,29 +178,13 @@ extension Media {
         var localized: String {
             switch self {
             case .rating:
-                return String(
-                    localized: "mediaInformation.rating",
-                    // swiftlint:disable:next line_length
-                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
-                )
+                return Strings.MediaInformation.rating
             case .watched:
-                return String(
-                    localized: "mediaInformation.watched",
-                    // swiftlint:disable:next line_length
-                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
-                )
+                return Strings.MediaInformation.watched
             case .watchAgain:
-                return String(
-                    localized: "mediaInformation.watchAgain",
-                    // swiftlint:disable:next line_length
-                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
-                )
+                return Strings.MediaInformation.watchAgain
             case .tags:
-                return String(
-                    localized: "mediaInformation.tags",
-                    // swiftlint:disable:next line_length
-                    comment: "A type of missing media information, i.e. some kind of information that the user did not provide."
-                )
+                return Strings.MediaInformation.tags
             }
         }
     }

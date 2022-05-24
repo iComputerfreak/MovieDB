@@ -26,10 +26,7 @@ struct WatchProvidersInfo: View {
                 Section(
                     header: HStack {
                         Image(systemName: "tv")
-                        Text(
-                            "detail.watchProviders.label",
-                            comment: "The label/heading of the watch providers panel in the media detail"
-                        )
+                        Text(Strings.Detail.watchProvidersSectionHeader)
                     }
                 ) {
                     ScrollView(.horizontal) {
@@ -41,12 +38,8 @@ struct WatchProvidersInfo: View {
                     }
                     .padding(.top, 8)
                     .padding(.bottom, 3)
-                    Text(
-                        "detail.watchProviders.attribution",
-                        // swiftlint:disable:next line_length
-                        comment: "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com"
-                    )
-                    .font(.footnote)
+                    Text(Strings.Detail.watchProvidersAttribution)
+                        .font(.footnote)
                 }
             }
         }

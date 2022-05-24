@@ -54,10 +54,7 @@ struct SearchResultsView<RowContent: View>: View {
                     } label: {
                         HStack {
                             Spacer()
-                            Text(
-                                "mediaSearch.loadMore",
-                                comment: "The button label to load more search results"
-                            )
+                            Text(Strings.MediaSearch.loadMore)
                                 .italic()
                             Spacer()
                         }
@@ -106,10 +103,7 @@ struct SearchResultsView<RowContent: View>: View {
             return
         }
         // Load the first page of results
-        self.resultsText = String(
-            localized: "mediaSearch.loading",
-            comment: "Placeholder text to show while the data is loading"
-        )
+        self.resultsText = Strings.MediaSearch.loading
         self.loadNextPage()
     }
     
@@ -157,10 +151,7 @@ struct SearchResultsView<RowContent: View>: View {
                     // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
                     self.allPagesLoaded = self.pagesLoaded >= totalPages
                     if filteredResults.isEmpty {
-                        self.resultsText = String(
-                            localized: "mediaSearch.noResults",
-                            comment: "Text indicating that the search yielded no results."
-                        )
+                        self.resultsText = Strings.MediaSearch.noResults
                     }
                 }
             } catch TMDBAPI.APIError.pageOutOfBounds(_) {
@@ -172,17 +163,11 @@ struct SearchResultsView<RowContent: View>: View {
                 print("Error searching for media with searchText '\(model.searchText)': \(error)")
                 await MainActor.run {
                     AlertHandler.showError(
-                        title: String(
-                            localized: "mediaSearch.alert.error.title",
-                            comment: "Title of an alert reporting an error during the search of a media object"
-                        ),
+                        title: Strings.MediaSearch.Alert.errorSearchingTitle,
                         error: error
                     )
                     self.results = []
-                    self.resultsText = String(
-                        localized: "mediaSearch.alert.error.message",
-                        comment: "Text indicating that there was an error loading the search results"
-                    )
+                    self.resultsText = Strings.MediaSearch.errorText
                 }
             }
         }
