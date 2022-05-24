@@ -23,23 +23,23 @@ struct ExtendedInfo: View {
             ) {
                 if let tagline = mediaObject.tagline, !tagline.isEmpty {
                     Text(tagline)
-                        .headline(Text(Strings.Detail.taglineHeadline))
+                        .headline(Strings.Detail.taglineHeadline)
                 }
                 // Movie exclusive data
                 if let movie = mediaObject as? Movie {
                     if movie.budget > 0 {
                         Text(movie.budget.formatted(.currency(code: "USD")))
-                            .headline(Text(Strings.Detail.budgetHeadline))
+                            .headline(Strings.Detail.budgetHeadline)
                     }
                     if movie.revenue > 0 {
                         Text(movie.revenue.formatted(.currency(code: "USD")))
-                            .headline(Text(Strings.Detail.revenueHeadline))
+                            .headline(Strings.Detail.revenueHeadline)
                     }
                 }
                 let tmdbID = mediaObject.tmdbID.description
                 if let url = URL(string: "https://www.themoviedb.org/\(mediaObject.type.rawValue)/\(tmdbID)") {
                     Link("\(tmdbID)", destination: url)
-                        .headline(Text(Strings.Detail.tmdbIDHeadline))
+                        .headline(Strings.Detail.tmdbIDHeadline)
                 }
                 if
                     let movie = mediaObject as? Movie,
@@ -47,7 +47,7 @@ struct ExtendedInfo: View {
                     let url = URL(string: "https://www.imdb.com/title/\(imdbID)")
                 {
                     Link(imdbID, destination: url)
-                        .headline(Text(Strings.Detail.imdbIDHeadline))
+                        .headline(Strings.Detail.imdbIDHeadline)
                 }
                 if
                     let address = mediaObject.homepageURL,
@@ -55,17 +55,17 @@ struct ExtendedInfo: View {
                     let homepageURL = URL(string: address)
                 {
                     Link(address, destination: homepageURL)
-                        .headline(Text(Strings.Detail.homepageHeadline))
+                        .headline(Strings.Detail.homepageHeadline)
                 }
                 if !mediaObject.productionCompanies.isEmpty {
                     Text(mediaObject.productionCompanies.map(\.name).sorted().joined(separator: ", "))
-                        .headline(Text(Strings.Detail.productionCompaniesHeadline))
+                        .headline(Strings.Detail.productionCompaniesHeadline)
                 }
                 // Show exclusive data
                 if let show = mediaObject as? Show {
                     if !show.networks.isEmpty {
                         Text(show.networks.map(\.name).sorted().joined(separator: ", "))
-                            .headline(Text(Strings.Detail.networksHeadline))
+                            .headline(Strings.Detail.networksHeadline)
                     }
                     if !show.createdBy.isEmpty {
                         // Sort by last name
@@ -82,18 +82,18 @@ struct ExtendedInfo: View {
                             // Sort by last name
                             return lastName1!.lexicographicallyPrecedes(lastName2!)
                         }).joined(separator: ", ")) // swiftlint:disable:this multiline_function_chains
-                        .headline(Text(Strings.Detail.createdByHeadline))
+                        .headline(Strings.Detail.createdByHeadline)
                     }
                 }
                 // TMDB Data
                 let format: FloatingPointFormatStyle<Float> = .number.precision(.fractionLength(2))
                 Text(mediaObject.popularity.formatted(format))
-                    .headline(Text(Strings.Detail.popularityHeadline))
+                    .headline(Strings.Detail.popularityHeadline)
                 let avg = Double(mediaObject.voteAverage)
                 let max: Double = 10
                 let count = mediaObject.voteCount
                 Text(Strings.Detail.scoringValueLabel(avg, max, count))
-                    .headline(Text(Strings.Detail.scoringHeadline))
+                    .headline(Strings.Detail.scoringHeadline)
             }
         }
     }

@@ -25,7 +25,7 @@ struct UserData: View {
                 // Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
-                    .headline(Text(Strings.Detail.personalRatingHeadline))
+                    .headline(Strings.Detail.personalRatingHeadline)
                 // Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
@@ -51,7 +51,7 @@ struct UserData: View {
                     )
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(Text(Strings.Detail.watchedHeadline))
+                    .headline(Strings.Detail.watchedHeadline)
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
@@ -61,21 +61,21 @@ struct UserData: View {
                     ))
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)
-                    .headline(Text(Strings.Detail.watchedHeadline))
+                    .headline(Strings.Detail.watchedHeadline)
                 }
                 // Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
-                    .headline(Text(Strings.Detail.watchAgainHeadline))
+                    .headline(Strings.Detail.watchAgainHeadline)
                 // Taglist
                 TagListView($mediaObject.tags)
                     .environment(\.editMode, editMode)
-                    .headline(Text(Strings.Detail.tagsHeadline))
+                    .headline(Strings.Detail.tagsHeadline)
                 // Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
                         .environment(\.editMode, editMode)
-                        .headline(Text(Strings.Detail.notesHeadline))
+                        .headline(Strings.Detail.notesHeadline)
                 }
             }
         }

@@ -40,7 +40,7 @@ struct BasicInfo: View {
                 // MARK: Genres
                 if !mediaObject.genres.isEmpty {
                     Text(mediaObject.genres.map(\.name).sorted().joined(separator: ", "))
-                        .headline(Text(Strings.Detail.genresHeadline))
+                        .headline(Strings.Detail.genresHeadline)
                 }
                 // MARK: Overview
                 if let overview = mediaObject.overview, !overview.isEmpty {
@@ -48,7 +48,7 @@ struct BasicInfo: View {
                         overview,
                         headline: Text(Strings.Detail.descriptionHeadline)
                     )
-                    .headline(Text(Strings.Detail.descriptionHeadline))
+                    .headline(Strings.Detail.descriptionHeadline)
                     .fixHighlighting()
                 }
                 // Movie exclusive data
@@ -56,7 +56,7 @@ struct BasicInfo: View {
                     // MARK: Release Date
                     if let releaseDate = movie.releaseDate {
                         Text(releaseDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(Strings.Detail.releaseDateHeadline))
+                            .headline(Strings.Detail.releaseDateHeadline)
                     }
                     // MARK: Runtime
                     if let runtime = movie.runtime {
@@ -65,11 +65,11 @@ struct BasicInfo: View {
                             let minutesString = Self.minutesFormatter.string(from: components)!
                             let hoursString = Self.hoursFormatter.string(from: components)!
                             Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
-                            .headline(Text(Strings.Detail.runtimeHeadline))
+                            .headline(Strings.Detail.runtimeHeadline)
                         } else {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
                             Text(Self.minutesFormatter.string(from: components)!)
-                                .headline(Text(Strings.Detail.runtimeHeadline))
+                                .headline(Strings.Detail.runtimeHeadline)
                         }
                     }
                 }
@@ -78,38 +78,38 @@ struct BasicInfo: View {
                     // MARK: Air date
                     if let firstAirDate = show.firstAirDate {
                         Text(firstAirDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(Strings.Detail.firstAiredHeadline))
+                            .headline(Strings.Detail.firstAiredHeadline)
                     }
                     // MARK: Last Episode / Last Aired
                     // We try to show the last episode (includes the air date)
                     if let lastEpisode = show.lastEpisodeToAir {
                         Text(episodeAirDateString(lastEpisode))
-                            .headline(Text(Strings.Detail.lastEpisodeHeadline))
+                            .headline(Strings.Detail.lastEpisodeHeadline)
                     // If there is no last episode available, we show the last air date, if possible
                     } else if let lastAirDate = show.lastAirDate {
                         Text(lastAirDate.formatted(date: .numeric, time: .omitted))
-                            .headline(Text(Strings.Detail.lastAiredHeadline))
+                            .headline(Strings.Detail.lastAiredHeadline)
                     }
                     // MARK: Next Episode
                     if let nextEpisode = show.nextEpisodeToAir {
                         Text(episodeAirDateString(nextEpisode))
-                            .headline(Text(Strings.Detail.nextEpisodeHeadline))
+                            .headline(Strings.Detail.nextEpisodeHeadline)
                     }
                     // MARK: Show type (e.g. Scripted)
                     if let type = show.showType {
                         Text(type.localized)
-                            .headline(Text(Strings.Detail.showTypeHeadline))
+                            .headline(Strings.Detail.showTypeHeadline)
                     }
                 }
                 // MARK: Status
                 Text(mediaObject.status.localized)
-                    .headline(Text(Strings.Detail.mediaStatusHeadline))
+                    .headline(Strings.Detail.mediaStatusHeadline)
                 // MARK: Original Title
                 Text(mediaObject.originalTitle)
-                    .headline(Text(Strings.Detail.originalTitleHeadline))
+                    .headline(Strings.Detail.originalTitleHeadline)
                 // MARK: Original Language
                 Text(Utils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
-                    .headline(Text(Strings.Detail.originalLanguageHeadline))
+                    .headline(Strings.Detail.originalLanguageHeadline)
                 // MARK: Production Countries
                 Text(
                     mediaObject.productionCountries
@@ -118,14 +118,14 @@ struct BasicInfo: View {
                         }
                         .joined(separator: ", ")
                 )
-                .headline(Text(Strings.Detail.productionCountriesHeadline))
+                .headline(Strings.Detail.productionCountriesHeadline)
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
                         let maxSeasonNumber = show.seasons.map(\.seasonNumber).max() ?? 0
                         Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
-                            .headline(Text(Strings.Detail.seasonsHeadline))
+                            .headline(Strings.Detail.seasonsHeadline)
                     }
                     .fixHighlighting()
                 }

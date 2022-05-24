@@ -23,13 +23,13 @@ struct MetadataInfo: View {
             ) {
                 if let id = mediaObject.id {
                     Text(id.uuidString)
-                        .headline(Text(Strings.Detail.internalIDHeadline))
+                        .headline(Strings.Detail.internalIDHeadline)
                 }
                 Text(mediaObject.creationDate.formatted(date: .abbreviated, time: .shortened))
-                    .headline(Text(Strings.Detail.createdHeadline))
+                    .headline(Strings.Detail.createdHeadline)
                 if let modificationDate = mediaObject.modificationDate {
                     Text(modificationDate.formatted(date: .abbreviated, time: .shortened))
-                        .headline(Text(Strings.Detail.lastModifiedHeadline))
+                        .headline(Strings.Detail.lastModifiedHeadline)
                 }
             }
         }
