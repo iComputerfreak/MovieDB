@@ -20,4 +20,3 @@ extension Strings {
         )
     }
 }
-

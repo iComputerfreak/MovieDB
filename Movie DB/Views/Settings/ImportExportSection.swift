@@ -137,7 +137,7 @@ struct ImportExportSection: View {
                 await MainActor.run {
                     let controller = UIAlertController(
                         title: Strings.Settings.Alert.importTagsConfirmTitle,
-                        message: Strings.Settings.Alert.importTagsConfirmMessage,
+                        message: Strings.Settings.Alert.importTagsConfirmMessage(count),
                         preferredStyle: .alert
                     )
                     controller.addAction(.yesAction { _ in

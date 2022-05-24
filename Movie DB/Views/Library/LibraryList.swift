@@ -103,7 +103,10 @@ struct LibraryList: View {
                                         print("Error updating \(mediaObject.title): \(error)")
                                         AlertHandler.showSimpleAlert(
                                             title: Strings.Library.Alert.updateErrorTitle,
-                                            message: Strings.Library.Alert.updateErrorMessage(mediaObject.title, error.localizedDescription)
+                                            message: Strings.Library.Alert.updateErrorMessage(
+                                                mediaObject.title,
+                                                error.localizedDescription
+                                            )
                                         )
                                     }
                                 }
