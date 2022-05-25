@@ -13,7 +13,7 @@ struct TitleView: View {
     
     var body: some View {
         Group {
-            if media.thumbnail?.image == nil {
+            if media.thumbnail == nil {
                 self.titleView
             } else {
                 NavigationLink(destination: PosterView(imagePath: media.imagePath)) {
@@ -25,7 +25,7 @@ struct TitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            Image(uiImage: media.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+            Image(uiImage: media.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
                 .padding([.vertical, .trailing])
             // Title and year

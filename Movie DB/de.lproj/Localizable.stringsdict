@@ -295,7 +295,8 @@
 	<key>settings.import.progressText %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>Lade\n%#@count@...</string>
+		<string>Lade
+%#@count@...</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -303,9 +304,11 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>1\nMedium</string>
+			<string>1
+Medium</string>
 			<key>other</key>
-			<string>%lld\nMedien</string>
+			<string>%lld
+Medien</string>
 		</dict>
 	</dict>
 </dict>

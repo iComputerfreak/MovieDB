@@ -15,6 +15,8 @@ struct PreferencesSection: View {
     // We need to know how to reload the library if the language changes
     let reloadHandler: () -> Void
     
+    @State private var reloadLibraryAlertShowing = false
+    
     var body: some View {
         Section {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
@@ -29,13 +31,22 @@ struct PreferencesSection: View {
                     self.config.regionChanged = true
                 }
         }
+        .alert(
+            Text(Strings.Settings.Alert.reloadLibraryTitle),
+            isPresented: $reloadLibraryAlertShowing,
+            actions: {
+                Button(Strings.Generic.alertButtonNo) {}
+                Button(Strings.Generic.alertButtonYes) {
+                    self.reloadHandler()
+                }
+            },
+            message: {
+                Text(Strings.Settings.Alert.reloadLibraryMessage)
+            }
+        )
         .onDisappear {
             if self.config.languageChanged || self.config.regionChanged {
-                AlertHandler.showYesNoAlert(
-                    title: Strings.Settings.Alert.reloadLibraryTitle,
-                    message: Strings.Settings.Alert.reloadLibraryMessage,
-                    yesAction: { _ in self.reloadHandler() }
-                )
+                self.reloadLibraryAlertShowing = true
                 self.config.languageChanged = false
                 self.config.regionChanged = false
             }

@@ -21,7 +21,7 @@ struct LibraryRow: View {
         } else {
             NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
                 HStack {
-                    Image(uiImage: mediaObject.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+                    Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()
                     VStack(alignment: .leading) {
                         Text(mediaObject.title)
@@ -64,7 +64,7 @@ struct ProblemsLibraryRow: View {
     
     var body: some View {
         HStack {
-            Image(uiImage: mediaObject.thumbnail?.image, defaultImage: JFLiterals.posterPlaceholderName)
+            Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
             VStack(alignment: .leading) {
                 Text(mediaObject.title)

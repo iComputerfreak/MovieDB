@@ -71,7 +71,8 @@ struct MediaLibrary {
         // Run async
         // Try fetching the media object
         // Will be called on a background thread automatically, because TMDBAPI is an actor
-        let media = try await TMDBAPI.shared.media(
+        // We don't need to store the result. Creating it is enough for Core Data
+        _ = try await TMDBAPI.shared.media(
             for: result.id,
             type: result.mediaType,
             context: context
@@ -79,15 +80,16 @@ struct MediaLibrary {
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
         await MainActor.run {
-            if let mainMedia = self.context.object(with: media.objectID) as? Media {
-                // We don't need to wait for the thumbnail to finish loading
-                Task {
-                    // Call it on the media object in the viewContext, not on the mediaObject in the background context
-                    await mainMedia.loadThumbnail()
-                }
-            } else {
-                assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
-            }
+            // TODO: Remove? Maybe the initial loadThumbnail call from above did not finish when we transferred the object
+//            if let mainMedia = self.context.object(with: media.objectID) as? Media {
+//                // We don't need to wait for the thumbnail to finish loading
+//                Task {
+//                    // Call it on the media object in the viewContext, not on the mediaObject in the background context
+//                    await mainMedia.loadThumbnail()
+//                }
+//            } else {
+//                assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
+//            }
             isLoading.wrappedValue = false
         }
     }
@@ -157,7 +159,9 @@ struct MediaLibrary {
                         self.context.object(with: media.objectID) as? Media
                     }
                     try Task.checkCancellation()
-                    await mainMedia?.loadThumbnail(force: true)
+                    await MainActor.run {
+                        mainMedia?.loadThumbnail(force: true)
+                    }
                 }
             }
             // We don't need to wait for all the thumbnails to finish loading, we can just exit here

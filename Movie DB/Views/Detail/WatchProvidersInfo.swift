@@ -38,7 +38,8 @@ struct WatchProvidersInfo: View {
                     }
                     .padding(.top, 8)
                     .padding(.bottom, 3)
-                    Text(Strings.Detail.watchProvidersAttribution)
+                    let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
+                    Text(attribution ?? "Powered by JustWatch.com")
                         .font(.footnote)
                 }
             }

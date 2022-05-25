@@ -61,6 +61,11 @@ struct Utils {
         return url
     }
     
+    static func imageFileURL(path imagePath: String) -> URL? {
+        // The image path already contains the jpg extension
+        url(for: "images")?.appendingPathComponent(imagePath)
+    }
+    
     /// Returns either black or white, depending on the color scheme
     /// - Parameter colorScheme: The current color scheme environment variable
     static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {

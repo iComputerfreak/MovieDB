@@ -2,32 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>library.filter.information.label.rating.range %lf %lf</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%1$#@lowerBound@ to %2$#@upperBound@</string>
-		<key>lowerBound</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lf</string>
-			<key>other</key>
-			<string>%g</string>
-		</dict>
-		<key>upperBound</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lf</string>
-			<key>one</key>
-			<string>%g Star</string>
-			<key>other</key>
-			<string>%g Stars</string>
-		</dict>
-	</dict>
-	<key>library.filter.information.label.rating %lf</key>
+	<key>detail.basicInfo.seasonCount %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -36,17 +11,57 @@
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>lf</string>
+			<string>lld</string>
 			<key>one</key>
-			<string>%g Star</string>
+			<string>1 Season</string>
 			<key>other</key>
-			<string>%g Stars</string>
+			<string>%lld Seasons</string>
+			<key>zero</key>
+			<string>No Seasons</string>
 		</dict>
 	</dict>
-	<key>settings.import.progressText %lld</key>
+	<key>detail.extendedInfo.scoring %lf %lf %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>Loading\n%#@count@...</string>
+		<string>%#@points@/%#@max@ from %#@voteCount@</string>
+		<key>max</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lf</string>
+			<key>one</key>
+			<string>%g point</string>
+			<key>other</key>
+			<string>%g points</string>
+		</dict>
+		<key>points</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lf</string>
+			<key>one</key>
+			<string>%g</string>
+			<key>other</key>
+			<string>%g</string>
+		</dict>
+		<key>voteCount</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>1 vote</string>
+			<key>other</key>
+			<string>%lld votes</string>
+		</dict>
+	</dict>
+	<key>detail.extendedInfo.seasons.episodeCount %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -54,9 +69,27 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>1\nmedia object</string>
+			<string>1 Episode</string>
 			<key>other</key>
-			<string>%lld\nmedia objects</string>
+			<string>%lld Episodes</string>
+			<key>zero</key>
+			<string>No Episodes</string>
+		</dict>
+	</dict>
+	<key>detail.tags.footer %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@ total</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>1 tag</string>
+			<key>other</key>
+			<string>%lld tags</string>
 		</dict>
 	</dict>
 	<key>generic.picker.multipleValues %lld</key>
@@ -75,23 +108,7 @@
 			<string>%lld Values</string>
 		</dict>
 	</dict>
-	<key>proInfo.introText %lld</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>Remove the limit of %#@count@ by buying the Pro version of the app.</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>1 object</string>
-			<key>other</key>
-			<string>%lld objects</string>
-		</dict>
-	</dict>
-	<key>detail.extendedInfo.seasons.episodeCount %lld</key>
+	<key>library.filter.information.label.rating %lf</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@count@</string>
@@ -100,67 +117,38 @@
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>zero</key>
-			<string>No Episodes</string>
+			<string>lf</string>
 			<key>one</key>
-			<string>1 Episode</string>
+			<string>%g Star</string>
 			<key>other</key>
-			<string>%lld Episodes</string>
+			<string>%g Stars</string>
 		</dict>
 	</dict>
-	<key>detail.extendedInfo.scoring %lf %lf %lld</key>
+	<key>library.filter.information.label.rating.range %lf %lf</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@points@/%#@max@ from %#@voteCount@</string>
-		<key>points</key>
+		<string>%1$#@lowerBound@ to %2$#@upperBound@</string>
+		<key>lowerBound</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lf</string>
+			<key>one</key>
+			<string>%g</string>
 			<key>other</key>
 			<string>%g</string>
 		</dict>
-		<key>max</key>
+		<key>upperBound</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lf</string>
 			<key>one</key>
-			<string>%g point</string>
+			<string>%g Star</string>
 			<key>other</key>
-			<string>%g points</string>
-		</dict>
-		<key>voteCount</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>1 vote</string>
-			<key>other</key>
-			<string>%lld votes</string>
-		</dict>
-	</dict>
-	<key>detail.basicInfo.seasonCount %lld</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>zero</key>
-			<string>No Seasons</string>
-			<key>one</key>
-			<string>1 Season</string>
-			<key>other</key>
-			<string>%lld Seasons</string>
+			<string>%g Stars</string>
 		</dict>
 	</dict>
 	<key>library.filter.showSpecific.label.seasonCount %lld</key>
@@ -189,6 +177,8 @@
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
+			<key>one</key>
+			<string>%lld</string>
 			<key>other</key>
 			<string>%lld</string>
 		</dict>
@@ -202,38 +192,6 @@
 			<string>%lld Season</string>
 			<key>other</key>
 			<string>%lld Seasons</string>
-		</dict>
-	</dict>
-	<key>detail.tags.footer %lld</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ total</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>1 tag</string>
-			<key>other</key>
-			<string>%lld tags</string>
-		</dict>
-	</dict>
-	<key>library.list.footer.total %lld</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ total</string>
-		<key>count</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>one</key>
-			<string>1 object</string>
-			<key>other</key>
-			<string>%lld objects</string>
 		</dict>
 	</dict>
 	<key>library.list.footer %lld</key>
@@ -252,10 +210,10 @@
 			<string>%lld objects</string>
 		</dict>
 	</dict>
-	<key>settings.alert.updateMediaComplete.message %lld</key>
+	<key>library.list.footer.total %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@count@ been updated.</string>
+		<string>%#@count@ total</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -263,9 +221,43 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>one</key>
-			<string>1 media object has</string>
+			<string>1 object</string>
 			<key>other</key>
-			<string>%lld media objects have</string>
+			<string>%lld objects</string>
+		</dict>
+	</dict>
+	<key>proInfo.introText %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Remove the limit of %#@count@ by buying the Pro version of the app.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>1 object</string>
+			<key>other</key>
+			<string>%lld objects</string>
+		</dict>
+	</dict>
+	<key>settings.alert.importMedia.message %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Imported %#@count@.</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>1 media object</string>
+			<key>other</key>
+			<string>%lld media objects</string>
+			<key>zero</key>
+			<string>no media objects</string>
 		</dict>
 	</dict>
 	<key>settings.alert.importTags.message %lld</key>
@@ -284,22 +276,39 @@
 			<string>%lld tags</string>
 		</dict>
 	</dict>
-	<key>settings.alert.importMedia.message %lld</key>
+	<key>settings.alert.updateMediaComplete.message %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>Imported %#@count@.</string>
+		<string>%#@count@ been updated.</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
-			<key>zero</key>
-			<string>no media objects</string>
 			<key>one</key>
-			<string>1 media object</string>
+			<string>1 media object has</string>
 			<key>other</key>
-			<string>%lld media objects</string>
+			<string>%lld media objects have</string>
+		</dict>
+	</dict>
+	<key>settings.import.progressText %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Loading
+%#@count@...</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>1
+media object</string>
+			<key>other</key>
+			<string>%lld
+media objects</string>
 		</dict>
 	</dict>
 </dict>

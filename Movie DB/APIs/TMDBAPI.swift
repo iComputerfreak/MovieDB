@@ -77,7 +77,7 @@ actor TMDBAPI {
             bgMedia.update(tmdbData: tmdbData)
         }
         // Update the thumbnail (overwriting the existing image)
-        await bgMedia.loadThumbnail(force: true)
+        bgMedia.loadThumbnail(force: true)
         // Save the changes to the parent context
         await PersistenceController.saveContext(childContext)
     }

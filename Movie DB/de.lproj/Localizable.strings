@@ -91,6 +91,9 @@
 /* The headline for the 'original title' property in the detail view */
 "detail.basicInfo.headline.originalTitle" = "Original-Titel";
 
+/* The headline for the 'production countries' property in the detail view */
+"detail.basicInfo.headline.productionCountries" = "Produktionsländer";
+
 /* The headline for the 'release date' property in the detail view */
 "detail.basicInfo.headline.releaseDate" = "Veröffentlichungsdatum";
 
@@ -178,7 +181,7 @@
 /* The navigation bar title for the seasons info in the detail view */
 "detail.seasonsInfo.navBar.title" = "Staffeln";
 
-/* The header for the tag list view where the user selects tags for the media */
+/* (No Comment) */
 "detail.tags.header" = "Wählen Sie alle Schlüsselwörter aus, die zutreffen";
 
 /* The navigation bar title for the tags in the detail view */
@@ -297,6 +300,9 @@
 
 /* An option in a picker view */
 "generic.picker.value.yes" = "Ja";
+
+/* A generic string describing that a value or some property is unknown */
+"generic.unknown" = "Unbekannt";
 
 /* Title of an alert informing the user about an error while loading the app's data */
 "global.alert.errorLoadingCoreData.title" = "Fehler beim Laden der Daten";
@@ -427,11 +433,11 @@
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
 "mediaInformation.watched" = "Angeschaut";
 
-/* Text indicating that there was an error loading the search results */
-"mediaSearch.errorText" = "Fehler beim Laden der Suchergebnisse";
-
 /* Title of an alert reporting an error during the search of a media object */
 "mediaSearch.alert.error.title" = "Fehler beim Suchen";
+
+/* Text indicating that there was an error loading the search results */
+"mediaSearch.errorText" = "Fehler beim Laden der Suchergebnisse";
 
 /* Placeholder text to show while the data is loading */
 "mediaSearch.loading" = "Laden...";
@@ -703,8 +709,3 @@
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Einstellungen";
 
-/* The headline for the 'production countries' property in the detail view */
-"detail.basicInfo.headline.productionCountries" = "Produktionsländer";
-
-/* A generic string describing that a value or some property is unknown */
-"generic.unknown" = "Unbekannt";

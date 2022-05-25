@@ -17,11 +17,45 @@ import CoreData
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
+    private var _thumbnail: UIImage?
+    // The thumbnail will be loaded from disk only when it is first accessed
+    var thumbnail: UIImage? {
+        get {
+            if _thumbnail == nil {
+                self._thumbnail = loadThumbnailFromDisk()
+            }
+            return self._thumbnail
+        }
+        set {
+            self._thumbnail = newValue
+        }
+    }
+    
+    override public func awakeFromFetch() {
+        print("\(self.title) awaking from fetch")
+    }
+    
+    override public func prepareForDeletion() {
+        print("Preparing \(self.title) for deletion")
+        if
+            let imagePath = self.imagePath,
+            let imageURL = Utils.imageFileURL(path: imagePath),
+            FileManager.default.fileExists(atPath: imageURL.path)
+        {
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+            } catch {
+                print("Error deleting thumbnail on NSManagedObject deletion: \(error)")
+            }
+        }
+    }
+    
     // MARK: - Missing Information
     
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
+        print("calling initMedia")
         self.personalRating = .noRating
         self.tags = []
         
@@ -30,6 +64,9 @@ public class Media: NSManagedObject {
         self.type = type
         
         setTMDBData(tmdbData)
+        
+        // Load the thumbnail from disk or network
+        loadThumbnail()
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
@@ -86,9 +123,45 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    func loadThumbnail(force: Bool = false) async {
+    private func loadThumbnailFromDisk() -> UIImage? {
+        guard
+            let imagePath = imagePath,
+            let fileURL = Utils.imageFileURL(path: imagePath),
+            FileManager.default.fileExists(atPath: fileURL.path)
+        else {
+            return nil
+        }
+        return UIImage(contentsOfFile: fileURL.path)
+    }
+    
+    private func downloadThumbnail() async -> UIImage? {
+        guard let imagePath = imagePath else {
+            return nil
+        }
+        // We try to load the image, but fail silently if we don't succeed.
+        // No need to spam the user with error messages, he will see that the images did not load
+        // and no need to delete any existing images on failure.
+        do {
+            let url = Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
+            let (data, response) = try await URLSession.shared.data(from: url)
+            // Only continue if we got a valid response
+            guard
+                let httpResponse = response as? HTTPURLResponse,
+                200...299 ~= httpResponse.statusCode
+            else {
+                return nil
+            }
+            return UIImage(data: data)
+        } catch {
+            print("Error loading thumbnail: \(error)")
+            // Fail silently
+            return nil
+        }
+    }
+    
+    func loadThumbnail(force: Bool = false) {
         guard thumbnail == nil || force else {
-            // Thumbnail already present, don't download again, unless force parameter is given
+            // Thumbnail already present, don't load/download again, unless force parameter is given
             return
         }
         guard let imagePath = imagePath, !imagePath.isEmpty else {
@@ -97,50 +170,42 @@ public class Media: NSManagedObject {
         }
         // If the image is on deny list, delete it and don't reload
         guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(self.title)] Thumbnail is on deny list. Will not load.")
-            // Use the placeholder image instead
-            await MainActor.run {
-                self.thumbnail = Thumbnail(
-                    context: self.managedObjectContext!,
-                    pngData: UIImage(named: "PosterPlaceholder")?.pngData()
-                )
+            print("[\(self.title)] Thumbnail is on deny list. Purging now.")
+            if let imageFile = Utils.imageFileURL(path: imagePath) {
+                try? FileManager.default.removeItem(at: imageFile)
             }
+            self.thumbnail = nil
             return
         }
-        print("[\(self.title)] Loading thumbnail...")
         
-        // Load the thumbnail
-        Task {
-            // We try to load the image, but fail silently if we don't succeed.
-            // No need to spam the user with error messages, he will see that the images did not load
-            // and no need to delete any existing images on failure.
-            do {
-                let url = Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
-                let (data, response) = try await URLSession.shared.data(from: url)
-                // Only continue if we got a valid response
-                guard
-                    let httpResponse = response as? HTTPURLResponse,
-                    200...299 ~= httpResponse.statusCode
-                else {
-                    return
+        // If the image exists on disk (and the force parameter is false), use the cached version
+        if
+            let fileURL = Utils.imageFileURL(path: imagePath),
+            FileManager.default.fileExists(atPath: fileURL.path),
+            !force,
+            // If the thumbnail cannot be loaded (e.g. corrupt file), download again too
+            let loadedFromDisk = loadThumbnailFromDisk()
+        {
+            // Load from disk
+            self.thumbnail = loadedFromDisk
+        } else {
+            // If the image does not exist, is corrupted or the force parameter is given, download it
+            print("[\(self.title)] Loading thumbnail...")
+            Task {
+                let image = await downloadThumbnail()
+                await MainActor.run {
+                    self.thumbnail = image
                 }
-                guard let imageData = UIImage(data: data)?.pngData() else {
-                    // Unable to construct image
-                    return
+                if let fileURL = Utils.imageFileURL(path: imagePath) {
+                    Task {
+                        let data = image?.jpegData(compressionQuality: 0.8)
+                        do {
+                            try data?.write(to: fileURL)
+                        } catch {
+                            print("Error saving downloaded thumbnail to disk: \(error)")
+                        }
+                    }
                 }
-                try Task.checkCancellation()
-                // Create the Thumbnail object on the correct thread
-                try await self.managedObjectContext!.perform {
-                    let thumbnail = Thumbnail(context: self.managedObjectContext!, pngData: imageData)
-                    // We don't need to set this on the main actor, since we could be on a background thread loading some disposable data.
-                    // We just use the MOC thread, which will be the main thread anyways, in case we are dealing with models diesplayed in the view
-                    try Task.checkCancellation()
-                    self.thumbnail = thumbnail
-                }
-            } catch {
-                print("Error loading thumbnail: \(error)")
-                // Fail silently
-                return
             }
         }
     }

@@ -32,8 +32,6 @@ extension Media {
     }
     /// Personal notes on the media
     @NSManaged public var notes: String
-    /// The thumbnail image
-    @NSManaged public var thumbnail: Thumbnail?
     
     // MARK: - TMDB Data
     
