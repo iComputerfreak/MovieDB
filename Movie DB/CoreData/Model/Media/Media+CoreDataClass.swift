@@ -31,10 +31,6 @@ public class Media: NSManagedObject {
         }
     }
     
-    override public func awakeFromFetch() {
-        print("\(self.title) awaking from fetch")
-    }
-    
     override public func prepareForDeletion() {
         print("Preparing \(self.title) for deletion")
         if
