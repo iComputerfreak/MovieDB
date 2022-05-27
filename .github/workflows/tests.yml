@@ -1,0 +1,21 @@
+name: iOS Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build and test using xcodebuild
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: xcodebuild clean build -scheme "Movie DB" -project "Movie DB.xcodeproj" | xcpretty && exit ${PIPESTATUS[0]}
+      - name: Test
+        run: xcodebuild test -project "Movie DB.xcodeproj" -scheme "Movie DB" -destination 'platform=iOS Simulator,name=iPhone 13' | xcpretty && exit ${PIPESTATUS[0]}
+    
