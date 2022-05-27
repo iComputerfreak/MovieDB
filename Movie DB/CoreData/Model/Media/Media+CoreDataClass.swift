@@ -101,8 +101,14 @@ public class Media: NSManagedObject {
         return objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
     }
     
+    override public func awakeFromFetch() {
+        print("[\(self.title)] Awaking from fetch")
+        self.loadThumbnail()
+    }
+    
     override public func awakeFromInsert() {
         super.awakeFromInsert()
+        print("[\(self.title)] Awaking from insert")
         self.castMembersSortOrder = []
         self.tags = []
         self.creationDate = Date()
