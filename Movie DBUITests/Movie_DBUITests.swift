@@ -352,7 +352,7 @@ class Movie_DBUITests: XCTestCase {
         addMediaSearch.tap()
         addMediaSearch.typeText("\(query)\n")
         app.tables.cells
-            .first(hasPrefix: "\(name), \(type == .movie ? "Movie" : "Show")")
+            .first(hasPrefix: "\(name), \(type == .movie ? "Movie" : "TV Show")")
             .wait()
             .tap()
         if checkAdded {

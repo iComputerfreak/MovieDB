@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TagEditRow: View {
-    let tag: Tag
+    @ObservedObject var tag: Tag
     @Binding var tags: Set<Tag>
     
     var body: some View {

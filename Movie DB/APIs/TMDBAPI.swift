@@ -33,26 +33,21 @@ actor TMDBAPI {
     ///   - context: The context to insert the new media object into
     /// - Returns: The decoded media object
     func media(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
-        // Create a child context to make the changes in, before merging them with the actual context given
-        let childContext = context.newBackgroundContext()
-        // Get the TMDB Data using the child context
-        let tmdbData = try await self.tmdbData(for: id, type: type, context: childContext)
-        let childMedia: Media = await childContext.perform {
-            // Create the media in the child context
+        // Get the TMDB Data
+        let tmdbData = try await self.tmdbData(for: id, type: type, context: context)
+        let media: Media = await context.perform {
+            // Create the media
             let media: Media
             switch type {
             case .movie:
-                media = Movie(context: childContext, tmdbData: tmdbData)
+                media = Movie(context: context, tmdbData: tmdbData)
             case .show:
-                media = Show(context: childContext, tmdbData: tmdbData)
+                media = Show(context: context, tmdbData: tmdbData)
             }
             return media
         }
-        // Save the changes (the new media object) into the parent context (synchronous)
-        await PersistenceController.saveContext(childContext)
-        // Return the object inside the parent context as the result
-        // swiftlint:disable:next force_cast
-        return context.object(with: childMedia.objectID) as! Media
+        media.loadThumbnail()
+        return media
     }
     
     /// Updates the given media object by re-loading and replacing the TMDB data
@@ -62,24 +57,17 @@ actor TMDBAPI {
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
         assert(media.managedObjectContext == context)
-        // Create a child context to make the changes in, before merging them with the actual context given
-        let childContext = context.newBackgroundContext()
-        // Fetch the TMDBData into the child context
-        let tmdbData = try await self.tmdbData(for: media.tmdbID, type: media.type, context: childContext)
-        // Get the media of the child context and modify it there.
-        // Otherwise, the view context will be in an inconsistent state
-        guard let bgMedia = childContext.object(with: media.objectID) as? Media else {
-            throw APIError.updateError
-        }
-        // Update the media in the thread of the child context
-        await childContext.perform {
+        let oldImagePath = media.imagePath
+        let tmdbData = try await self.tmdbData(for: media.tmdbID, type: media.type, context: context)
+        // Update the media in the correct thread
+        await context.perform {
             // Update the media object and thumbnail
-            bgMedia.update(tmdbData: tmdbData)
+            media.update(tmdbData: tmdbData)
         }
-        // Update the thumbnail (overwriting the existing image)
-        bgMedia.loadThumbnail(force: true)
-        // Save the changes to the parent context
-        await PersistenceController.saveContext(childContext)
+        // If the thumbnail image changed, reload it
+        if tmdbData.imagePath != oldImagePath {
+            media.loadThumbnail(force: true)
+        }
     }
     
     /// Loads the TMDB IDs of all media objects changed in the given timeframe
@@ -183,17 +171,15 @@ actor TMDBAPI {
         guard firstPage <= lastPage else {
             throw APIError.invalidPageRange
         }
-        // Create a child context to make the changes in, before merging them with the actual context given
-        let childContext = context.newBackgroundContext()
-        let decoder = self.decoder(context: childContext)
+        let decoder = self.decoder(context: context)
         
         // Fetch the JSON in the background
         let data = try await self.request(
             path: path,
             additionalParameters: additionalParameters.merging(["page": String(firstPage)])
         )
-        // Decode on the child context thread
-        let wrapper = try await childContext.perform {
+        // Decode on the correct thread
+        let wrapper = try await context.perform {
             return try decoder.decode(PageWrapper.self, from: data) // swiftlint:disable:this implicit_return
         }
         
@@ -236,8 +222,6 @@ actor TMDBAPI {
             return allResults
         }
         
-        // Save the changes to the parent context
-        await PersistenceController.saveContext(childContext)
         // Return the results from page 1 + the additional results loaded from the other pages
         return (wrapper.results + additionalResults, wrapper.totalPages)
     }
