@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "8243A311-025A-4B9D-863B-C0B4406C8BA4",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "en",
+    "region" : "DE",
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Movie DB.xcodeproj",
+        "identifier" : "AB6718D222C0312B00F429E4",
+        "name" : "Movie DBTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "Movie_DBUITests\/testConfigureApp()"
+      ],
+      "target" : {
+        "containerPath" : "container:Movie DB.xcodeproj",
+        "identifier" : "AB48BD682816CE3C00E53135",
+        "name" : "Movie DBUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

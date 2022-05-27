@@ -10,6 +10,8 @@ import XCTest
 
 // swiftlint:disable implicitly_unwrapped_optional multiline_function_chains inclusive_language function_body_length type_body_length
 class Movie_DBUITests: XCTestCase {
+    var isSetup = false
+    
     var app: XCUIApplication! = nil
     
     var libraryNavBar: XCUIElement {
@@ -37,6 +39,17 @@ class Movie_DBUITests: XCTestCase {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
+        
+        if !isSetup {
+            app.launch()
+            if app.navigationBars.firstMatch.staticTexts.firstMatch.label == "Select Language" {
+                app.cells["English (United States)"].tap()
+                app.buttons["Settings"].tap()
+                app.cells.first(hasPrefix: "Region").tap()
+                app.cells["Germany"].tap()
+            }
+            isSetup = true
+        }
     }
 
     override func tearDownWithError() throws {
