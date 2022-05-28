@@ -32,15 +32,17 @@ actor TMDBAPI {
         case .movie:
             cast = try await decodeAPIURL(
                 path: "/\(type.rawValue)/\(id)/credits",
-                as: [CastMemberDummy].self,
+                as: CreditsWrapper.self,
                 userInfo: [.mediaType: type]
             )
+            .cast
         case .show:
             cast = try await decodeAPIURL(
                 path: "/\(type.rawValue)/\(id)/credits",
-                as: [AggregateCastMember].self,
+                as: AggregateCreditsWrapper.self,
                 userInfo: [.mediaType: type]
             )
+            .cast
             .map { $0.createCastMember() }
         }
         return cast

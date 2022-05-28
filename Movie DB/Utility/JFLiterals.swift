@@ -18,6 +18,8 @@ enum JFLiterals {
     /// The size of thumbnails to load from the TMDB API
     // Thumbnails are 53 pixels wide (@2x in the detail view)
     static let thumbnailTMDBSize: Int = 185
+    /// The size of the cast pictures in the detail view, loaded from the TMDB API
+    static let castImageSize: Int = 185
     /// The name of the poster placeholder image
     static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos

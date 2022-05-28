@@ -5,7 +5,6 @@
         <attribute name="imagePath" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="roleName" optional="YES" attributeType="String"/>
-        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="cast" inverseEntity="Media"/>
     </entity>
     <entity name="Genre" representedClassName="Genre" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
@@ -13,7 +12,6 @@
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="genres" inverseEntity="Media"/>
     </entity>
     <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
-        <attribute name="castMembersSortOrder" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="homepageURL" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -40,7 +38,6 @@
         <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="watchProviders" optional="YES" attributeType="Transformable" valueTransformerName="WatchProviderTransformer" customClassName="[WatchProvider]"/>
-        <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="medias" inverseEntity="CastMember"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
@@ -106,9 +103,9 @@
         <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="videos" inverseEntity="Media"/>
     </entity>
     <elements>
-        <element name="CastMember" positionX="-27" positionY="198" width="128" height="118"/>
+        <element name="CastMember" positionX="-27" positionY="198" width="128" height="89"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="74"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="509"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="479"/>
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>

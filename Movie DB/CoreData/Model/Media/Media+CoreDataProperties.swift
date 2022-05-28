@@ -190,19 +190,4 @@ extension Media {
     @NSManaged public func removeFromProductionCompanies(_ values: NSSet)
 }
 
-// MARK: Generated accessors for cast
-extension Media {
-    @objc(addCastObject:)
-    @NSManaged public func addToCast(_ value: CastMember)
-    
-    @objc(removeCastObject:)
-    @NSManaged public func removeFromCast(_ value: CastMember)
-    
-    @objc(addCast:)
-    @NSManaged public func addToCast(_ values: NSSet)
-    
-    @objc(removeCast:)
-    @NSManaged public func removeFromCast(_ values: NSSet)
-}
-
 extension Media: Identifiable {}

@@ -29,6 +29,28 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
+        loadDenyList()
+        
+        // MARK: Set up In App Purchases
+        setupIAP()
+        
+        // MARK: - Delete all Cast Members from CoreData. They are not used anymore
+        deleteCastMembers()
+        
+        return true
+    }
+    
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = SceneDelegate.self
+        return sceneConfig
+    }
+    
+    private func loadDenyList() {
         Task(priority: .background) {
             // Only update once per day
             let lastUpdated = UserDefaults.standard.double(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
@@ -80,23 +102,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Save the deny list
             UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
         }
-        
-        // MARK: Set up In App Purchases
+    }
+    
+    private func setupIAP() {
         // Load available products
         StoreManager.shared.getProducts(productIDs: JFLiterals.inAppPurchaseIDs)
         // Add store manager as observer for changes
         SKPaymentQueue.default().add(StoreManager.shared)
-        
-        return true
     }
     
-    func application(
-        _ application: UIApplication,
-        configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
-    ) -> UISceneConfiguration {
-        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = SceneDelegate.self
-        return sceneConfig
-      }
+    private func deleteCastMembers() {
+        let castMembersDeletedKey = "castMembersDeleted"
+        if !UserDefaults.standard.bool(forKey: castMembersDeletedKey) {
+            do {
+                let batchDelete = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: "CastMember"))
+                try PersistenceController.viewContext.execute(batchDelete)
+                UserDefaults.standard.set(true, forKey: castMembersDeletedKey)
+            } catch {
+                print(error)
+            }
+        }
+    }
 }

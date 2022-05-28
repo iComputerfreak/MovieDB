@@ -15,75 +15,49 @@ struct CastInfo: View {
     @State private var cast: [CastMemberDummy] = []
     
     var body: some View {
-        if self.mediaObject.isFault {
-            EmptyView()
-        } else if cast.isEmpty {
-            HStack {
-                ProgressView()
-                Text(Strings.Generic.loadingText)
-            }
-            .task(priority: .userInitiated) {
-                print("Loading cast for \(mediaObject.title)")
-                do {
-                self.cast = try await TMDBAPI.shared.cast(for: mediaObject.tmdbID, type: mediaObject.type)
-                } catch {
-                    AlertHandler.showError(
-                        title: Strings.Detail.Alert.errorLoadingCastTitle,
-                        error: error
-                    )
+        Group {
+            if self.mediaObject.isFault {
+                EmptyView()
+            } else if cast.isEmpty {
+                HStack {
+                    ProgressView()
+                    Text(Strings.Generic.loadingText)
                 }
-            }
-        } else {
-            List {
-                ForEach(cast) { member in
-                    HStack {
-                        Image(
-                            // swiftlint:disable:next redundant_nil_coalescing
-                            uiImage: self.personThumbnails[member.id] ?? nil,
-                            defaultImage: JFLiterals.posterPlaceholderName
+                .task(priority: .userInitiated) {
+                    print("Loading cast for \(mediaObject.title)")
+                    do {
+                        self.cast = try await TMDBAPI.shared.cast(for: mediaObject.tmdbID, type: mediaObject.type)
+                    } catch {
+                        print(error)
+                        AlertHandler.showError(
+                            title: Strings.Detail.Alert.errorLoadingCastTitle,
+                            error: error
                         )
-                        .thumbnail()
-                        Text(member.name)
-                            .headline(verbatim: member.roleName)
+                    }
+                }
+            } else {
+                List {
+                    ForEach(cast) { member in
+                        HStack {
+                            AsyncImage(
+                                url: member.imagePath.map { imagePath in
+                                    Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
+                                }) { image in
+                                    image
+                                        .thumbnail()
+                                } placeholder: {
+                                    Image(JFLiterals.posterPlaceholderName)
+                                        .thumbnail()
+                                }
+                            Text(member.name)
+                                .headline(verbatim: member.roleName)
+                        }
                     }
                 }
             }
-            // TODO: Use AsyncImage
-            .task(priority: .userInitiated) {
-                await self.loadPersonThumbnails()
-            }
         }
-    }
-    
-    func loadPersonThumbnails() async {
-        print("Loading person thumbnails for \(mediaObject.title)")
-        
-        // We don't use a throwing task group, since we want to fail silently.
-        // Unavailable images should just not be loaded instead of showing an error message
-        let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
-            for member in cast {
-                _ = group.addTaskUnlessCancelled {
-                    guard let imagePath = member.imagePath else {
-                        // Fail silently
-                        return (0, nil)
-                    }
-                    return (member.id, try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize))
-                }
-            }
-            
-            // Accumulate results
-            var results: [Int: UIImage] = [:]
-            for await (memberID, image) in group {
-                guard let image = image else { continue }
-                results[memberID] = image
-            }
-            
-            return results
-        }
-        // Update the thumbnails
-        await MainActor.run {
-            self.personThumbnails = images
-        }
+        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle(Strings.Detail.castLabel)
     }
 }
 

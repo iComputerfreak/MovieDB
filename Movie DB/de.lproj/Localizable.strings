@@ -710,7 +710,7 @@
 "tabView.settings.label" = "Einstellungen";
 
 /* A generic 'Loading...' string, displayed with a progress view */
-"generic.loadingText" = "Ladem...";
+"generic.loadingText" = "Laden...";
 
 /* The title of an alert informing the user about an error while loading the cast information */
 "detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
