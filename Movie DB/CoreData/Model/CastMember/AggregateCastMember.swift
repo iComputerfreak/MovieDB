@@ -19,7 +19,7 @@ struct AggregateCastMember: Decodable {
     /// The path to an image of the actor on TMDB
     var imagePath: String?
     
-    func createCastMember(_ context: NSManagedObjectContext) -> CastMemberDummy {
+    func createCastMember() -> CastMemberDummy {
         // List all role names, separated by comma
         let roleName = roles.map(\.characterName).joined(separator: ", ")
         return CastMemberDummy(id: id, name: name, roleName: roleName, imagePath: imagePath)

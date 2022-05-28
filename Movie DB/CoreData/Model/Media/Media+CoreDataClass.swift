@@ -75,9 +75,6 @@ public class Media: NSManagedObject {
         }
         
         managedObjectContext.performAndWait {
-            // The castMembersSortOrder array contains the sorted CastMember IDs
-            self.castMembersSortOrder = tmdbData.cast.map(\.id)
-            
             // Set all properties from the tmdbData object
             self.tmdbID = tmdbData.id
             self.title = tmdbData.title
@@ -94,7 +91,6 @@ public class Media: NSManagedObject {
             self.popularity = tmdbData.popularity
             self.voteAverage = tmdbData.voteAverage
             self.voteCount = tmdbData.voteCount
-            self.cast = Set(managedObjectContext.importDummies(tmdbData.cast))
             self.keywords = tmdbData.keywords
             self.translations = tmdbData.translations
             self.videos = Set(managedObjectContext.importDummies(tmdbData.videos))
@@ -119,7 +115,6 @@ public class Media: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         print("[\(self.title)] Awaking from insert")
-        self.castMembersSortOrder = []
         self.tags = []
         self.creationDate = Date()
         self.modificationDate = Date()

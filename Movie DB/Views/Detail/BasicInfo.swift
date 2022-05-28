@@ -130,12 +130,10 @@ struct BasicInfo: View {
                     .fixHighlighting()
                 }
                 // MARK: Cast
-                if !mediaObject.cast.isEmpty {
-                    NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
-                        Text(Strings.Detail.castLabel)
-                    }
-                    .fixHighlighting()
+                NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
+                    Text(Strings.Detail.castLabel)
                 }
+                .fixHighlighting()
             }
         }
     }

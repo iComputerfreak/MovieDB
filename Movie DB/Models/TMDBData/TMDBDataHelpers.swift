@@ -17,10 +17,6 @@ extension TMDBData {
         case results
     }
     
-    enum CreditsCodingKeys: String, CodingKey {
-        case cast
-    }
-    
     enum KeywordsCodingKeys: String, CodingKey {
         case keywords
         case showKeywords = "results"

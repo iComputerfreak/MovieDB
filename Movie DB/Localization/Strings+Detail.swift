@@ -332,6 +332,10 @@ extension Strings {
                 localized: "detail.alert.renameTag.button.rename",
                 comment: "Rename button to confirm renaming a tag"
             )
+            static let errorLoadingCastTitle = String(
+                localized: "detail.alert.errorLoadingCastTitle",
+                comment: "The title of an alert informing the user about an error while loading the cast information"
+            )
         }
     }
 }

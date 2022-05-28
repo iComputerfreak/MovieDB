@@ -26,6 +26,26 @@ actor TMDBAPI {
     
     // MARK: - Public functions
     
+    func cast(for id: Int, type: MediaType) async throws -> [CastMemberDummy] {
+        let cast: [CastMemberDummy]
+        switch type {
+        case .movie:
+            cast = try await decodeAPIURL(
+                path: "/\(type.rawValue)/\(id)/credits",
+                as: [CastMemberDummy].self,
+                userInfo: [.mediaType: type]
+            )
+        case .show:
+            cast = try await decodeAPIURL(
+                path: "/\(type.rawValue)/\(id)/credits",
+                as: [AggregateCastMember].self,
+                userInfo: [.mediaType: type]
+            )
+            .map { $0.createCastMember() }
+        }
+        return cast
+    }
+    
     /// Loads and decodes a media object from the TMDB API
     /// - Parameters:
     ///   - id: The TMDB ID of the media object
@@ -236,7 +256,7 @@ actor TMDBAPI {
         let parameters = [
             // release_dates only for movies
             // content_ratings only for tv
-            "append_to_response": "keywords,translations,videos,credits,aggregate_credits,watch/providers" +
+            "append_to_response": "keywords,translations,videos,watch/providers" +
             (type == .movie ? ",release_dates" : ",content_ratings")
         ]
         return try await decodeAPIURL(
@@ -261,17 +281,21 @@ actor TMDBAPI {
         path: String,
         additionalParameters: [String: String?] = [:],
         as type: T.Type,
-        context: NSManagedObjectContext,
+        context: NSManagedObjectContext? = nil,
         userInfo: [CodingUserInfoKey: Any] = [:]
     ) async throws -> T {
         // Load the JSON on a background thread
         let data = try await self.request(path: path, additionalParameters: additionalParameters)
         // Decode on the thread of the context (hopefully a background thread)
-        let decoder = self.decoder(context: context)
+        let decoder = context == nil ? JSONDecoder() : self.decoder(context: context)
         // Merge the userInfo dicts, preferring the new, user-supplied values
         decoder.userInfo.merge(userInfo)
-        return try await context.perform {
-            return try decoder.decode(T.self, from: data) // swiftlint:disable:this implicit_return
+        if context != nil {
+            return try await context!.perform {
+                return try decoder.decode(T.self, from: data) // swiftlint:disable:this implicit_return
+            }
+        } else {
+            return try decoder.decode(T.self, from: data)
         }
     }
     

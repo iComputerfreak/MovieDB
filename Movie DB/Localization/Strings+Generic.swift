@@ -84,5 +84,9 @@ extension Strings {
             localized: "generic.unknown",
             comment: "A generic string describing that a value or some property is unknown"
         )
+        static let loadingText = String(
+            localized: "generic.loadingText",
+            comment: "A generic 'Loading...' string, displayed with a progress view"
+        )
     }
 }

@@ -12,13 +12,30 @@ struct CastInfo: View {
     @EnvironmentObject private var mediaObject: Media
     @State private var personThumbnails: [Int: UIImage?] = [:]
     
+    @State private var cast: [CastMemberDummy] = []
+    
     var body: some View {
         if self.mediaObject.isFault {
             EmptyView()
+        } else if cast.isEmpty {
+            HStack {
+                ProgressView()
+                Text(Strings.Generic.loadingText)
+            }
+            .task(priority: .userInitiated) {
+                print("Loading cast for \(mediaObject.title)")
+                do {
+                self.cast = try await TMDBAPI.shared.cast(for: mediaObject.tmdbID, type: mediaObject.type)
+                } catch {
+                    AlertHandler.showError(
+                        title: Strings.Detail.Alert.errorLoadingCastTitle,
+                        error: error
+                    )
+                }
+            }
         } else {
             List {
-                ForEach(mediaObject.castMembersSortOrder, id: \.self) { (memberID: Int) in
-                    let member: CastMember = mediaObject.cast.first(where: { $0.id == memberID })!
+                ForEach(cast) { member in
                     HStack {
                         Image(
                             // swiftlint:disable:next redundant_nil_coalescing
@@ -31,6 +48,7 @@ struct CastInfo: View {
                     }
                 }
             }
+            // TODO: Use AsyncImage
             .task(priority: .userInitiated) {
                 await self.loadPersonThumbnails()
             }
@@ -43,7 +61,7 @@ struct CastInfo: View {
         // We don't use a throwing task group, since we want to fail silently.
         // Unavailable images should just not be loaded instead of showing an error message
         let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
-            for member in mediaObject.cast {
+            for member in cast {
                 _ = group.addTaskUnlessCancelled {
                     guard let imagePath = member.imagePath else {
                         // Fail silently

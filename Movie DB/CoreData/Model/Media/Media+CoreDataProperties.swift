@@ -80,10 +80,6 @@ extension Media {
         set { setInt(newValue, forKey: "voteCount") }
     }
     
-    /// The list of cast members, that starred in the media
-    @NSManaged public var cast: Set<CastMember>
-    /// The sorted list of CastMember IDs for this media
-    @NSManaged public var castMembersSortOrder: [Int]
     /// The list of keywords on TheMovieDB.org
     @NSManaged public var keywords: [String]
     /// The list of translations available for the media

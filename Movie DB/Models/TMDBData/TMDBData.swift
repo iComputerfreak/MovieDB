@@ -33,7 +33,6 @@ struct TMDBData: Decodable {
     var voteAverage: Float
     var voteCount: Int
     
-    var cast: [CastMemberDummy]
     var keywords: [String]
     var translations: [String]
     var videos: [VideoDummy]
@@ -45,10 +44,6 @@ struct TMDBData: Decodable {
     
     // swiftlint:disable:next function_body_length
     init(from decoder: Decoder) throws {
-        guard let decodingContext = decoder.userInfo[.managedObjectContext] as? NSManagedObjectContext else {
-            throw TMDBDataError.noDecodingContext
-        }
-        
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
@@ -69,21 +64,6 @@ struct TMDBData: Decodable {
         self.voteCount = try container.decode(Int.self, forKey: .voteCount)
         
         // MARK: Additional data
-        
-        // Load credits.cast as self.cast
-        let creditsContainer: KeyedDecodingContainer<CreditsCodingKeys>
-        let cast: [CastMemberDummy]
-        // If the aggregate_credits key exists, this is a show and we have received the cast for all seasons
-        if container.contains(.aggregateCredits) {
-            creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .aggregateCredits)
-            let aggregateCast = try creditsContainer.decode([AggregateCastMember].self, forKey: .cast)
-            cast = aggregateCast.map { $0.createCastMember(decodingContext) }
-        } else {
-            // If this is a normal movie or we did not receive the aggregate credits for some other reason, we use the normal credits
-            creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
-            cast = try creditsContainer.decode([CastMemberDummy].self, forKey: .cast)
-        }
-        self.cast = cast
         
         // Load keywords.keywords as self.keywords
         let keywordsContainer = try container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
@@ -191,8 +171,6 @@ struct TMDBData: Decodable {
         case popularity
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-        case cast = "credits"
-        case aggregateCredits = "aggregate_credits"
         case keywords
         case translations
         case videos

@@ -55,11 +55,18 @@ struct ProductionCompanyDummy: CoreDataDummy {
     }
 }
 
-struct CastMemberDummy: CoreDataDummy {
+struct CastMemberDummy: Decodable, Identifiable {
     let id: Int
     let name: String
     let roleName: String
     let imagePath: String?
+    
+    init(id: Int, name: String, roleName: String, imagePath: String?) {
+        self.id = id
+        self.name = name
+        self.roleName = roleName
+        self.imagePath = imagePath
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -68,13 +75,8 @@ struct CastMemberDummy: CoreDataDummy {
         case imagePath = "profile_path"
     }
     
-    func transferInto(context: NSManagedObjectContext) -> CastMember {
-        let cast = CastMember(context: context)
-        cast.id = self.id
-        cast.name = self.name
-        cast.roleName = self.roleName
-        cast.imagePath = self.imagePath
-        return cast
+    enum CreditsCodingKeys: String, CodingKey {
+        case cast
     }
 }
 
@@ -155,11 +157,13 @@ struct SeasonDummy: CoreDataDummy {
 }
 
 extension NSManagedObjectContext {
+    // INFO: This will fail for more than
     func importDummies<Entity, Dummy>(
         _ dummies: [Dummy],
         predicate: (Dummy) -> NSPredicate,
         isEqual: (Dummy, Entity) -> Bool
     ) -> [Entity] where Dummy: CoreDataDummy, Dummy.Entity == Entity {
+        assert(dummies.count < 1000, "The NSFetchRequest below will fail for predicates with more than 1000 elements")
         // Fetch all matching objects at once
         let fetchRequest: NSFetchRequest<Entity> = NSFetchRequest(entityName: Entity.entity().name!)
         let predicates = dummies.map(predicate)
@@ -195,15 +199,7 @@ extension NSManagedObjectContext {
             dummy.id == entity.id
         }
     }
-    
-    func importDummies(_ dummies: [CastMemberDummy]) -> [CastMember] {
-        importDummies(dummies) { dummy in
-            NSPredicate(format: "%K = %d", "id", dummy.id)
-        } isEqual: { dummy, entity in
-            dummy.id == entity.id
-        }
-    }
-    
+        
     func importDummies(_ dummies: [VideoDummy]) -> [Video] {
         importDummies(dummies) { dummy in
             NSPredicate(format: "%K = %d", "key", dummy.key)
