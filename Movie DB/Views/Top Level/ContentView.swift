@@ -33,6 +33,14 @@ struct ContentView: View {
                     Text(Strings.TabView.problemsLabel)
                 }
             
+            #if DEBUG
+            DebugView()
+                .tabItem {
+                    Image(systemName: "ladybug")
+                    Text("Debug")
+                }
+            #endif
+            
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")

@@ -39,8 +39,11 @@ public class Show: Media {
     }
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
-        print("[JF] Setting TMDBShowData in MOC \(managedObjectContext?.name ?? "nil")")
-        managedObjectContext!.performAndWait {
+        guard let managedObjectContext = managedObjectContext else {
+            assertionFailure()
+            return
+        }
+        managedObjectContext.performAndWait {
             // This is a show, therefore the TMDBData needs to have show specific data
             let showData = tmdbData.showData!
             self.firstAirDate = showData.firstAirDate
@@ -49,9 +52,9 @@ public class Show: Media {
             self.numberOfEpisodes = showData.numberOfEpisodes
             self.episodeRuntime = showData.episodeRuntime
             self.isInProduction = showData.isInProduction
-            self.seasons = Set(self.transferIntoContext(showData.seasons))
+            self.seasons = Set(managedObjectContext.importDummies(showData.seasons))
             self.showType = showData.showType
-            self.networks = Set(self.transferIntoContext(showData.networks))
+            self.networks = Set(managedObjectContext.importDummies(showData.networks))
             self.createdBy = showData.createdBy
             self.nextEpisodeToAir = showData.nextEpisodeToAir
             self.lastEpisodeToAir = showData.lastEpisodeToAir

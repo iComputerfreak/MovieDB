@@ -17,14 +17,14 @@ struct TMDBData: Decodable {
     var title: String
     var originalTitle: String
     var imagePath: String?
-    var genres: [Genre]
+    var genres: [GenreDummy]
     var tagline: String?
     var overview: String?
     var status: MediaStatus
     var originalLanguage: String
     
     // Extended Data
-    var productionCompanies: [ProductionCompany]
+    var productionCompanies: [ProductionCompanyDummy]
     var homepageURL: String?
     var productionCountries: [String]
     
@@ -33,10 +33,10 @@ struct TMDBData: Decodable {
     var voteAverage: Float
     var voteCount: Int
     
-    var cast: [CastMember]
+    var cast: [CastMemberDummy]
     var keywords: [String]
     var translations: [String]
-    var videos: [Video]
+    var videos: [VideoDummy]
     var parentalRating: ParentalRating?
     var watchProviders: [WatchProvider]
     
@@ -54,12 +54,12 @@ struct TMDBData: Decodable {
         self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
         self.originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
-        self.genres = try container.decode([Genre].self, forKey: .genres)
+        self.genres = try container.decode([GenreDummy].self, forKey: .genres)
         self.overview = try container.decode(String?.self, forKey: .overview)
         self.tagline = try container.decode(String?.self, forKey: .tagline)
         self.status = try container.decode(MediaStatus.self, forKey: .status)
         self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
-        self.productionCompanies = try container.decode([ProductionCompany].self, forKey: .productionCompanies)
+        self.productionCompanies = try container.decode([ProductionCompanyDummy].self, forKey: .productionCompanies)
         self.homepageURL = try container.decode(String?.self, forKey: .homepageURL)
         self.productionCountries = try container
             .decode([ProductionCountry].self, forKey: .productionCountries)
@@ -72,7 +72,7 @@ struct TMDBData: Decodable {
         
         // Load credits.cast as self.cast
         let creditsContainer: KeyedDecodingContainer<CreditsCodingKeys>
-        let cast: [CastMember]
+        let cast: [CastMemberDummy]
         // If the aggregate_credits key exists, this is a show and we have received the cast for all seasons
         if container.contains(.aggregateCredits) {
             creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .aggregateCredits)
@@ -81,7 +81,7 @@ struct TMDBData: Decodable {
         } else {
             // If this is a normal movie or we did not receive the aggregate credits for some other reason, we use the normal credits
             creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .cast)
-            cast = try creditsContainer.decode([CastMember].self, forKey: .cast)
+            cast = try creditsContainer.decode([CastMemberDummy].self, forKey: .cast)
         }
         self.cast = cast
         
@@ -102,7 +102,7 @@ struct TMDBData: Decodable {
         
         // Load videos.results as self.videos
         let videosContainer = try container.nestedContainer(keyedBy: GenericResultsCodingKeys.self, forKey: .videos)
-        self.videos = try videosContainer.decode([Video].self, forKey: .results)
+        self.videos = try videosContainer.decode([VideoDummy].self, forKey: .results)
         
         // Load the watch providers
         let watchProvidersContainer = try container.nestedContainer(

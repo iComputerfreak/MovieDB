@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct FilterSetting: Identifiable, Codable {
+struct FilterSetting: Identifiable {
     var id = UUID()
     
     var isAdult: Bool?

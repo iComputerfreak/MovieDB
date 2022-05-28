@@ -12,7 +12,7 @@ import CoreData
 
 /// Represents a user specified tag
 @objc(Tag)
-public class Tag: NSManagedObject, Codable {
+public class Tag: NSManagedObject {
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             throw DecoderConfigurationError.missingManagedObjectContext

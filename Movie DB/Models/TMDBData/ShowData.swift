@@ -24,9 +24,9 @@ extension TMDBData {
         var numberOfEpisodes: Int
         var episodeRuntime: [Int]
         var isInProduction: Bool
-        var seasons: [Season]
+        var seasons: [SeasonDummy]
         var showType: ShowType?
-        var networks: [ProductionCompany]
+        var networks: [ProductionCompanyDummy]
         var createdBy: [String]
         
         init(from decoder: Decoder) throws {
@@ -37,9 +37,9 @@ extension TMDBData {
             self.numberOfEpisodes = try container.decode(Int.self, forKey: .numberOfEpisodes)
             self.episodeRuntime = try container.decode([Int].self, forKey: .episodeRuntime)
             self.isInProduction = try container.decode(Bool.self, forKey: .isInProduction)
-            self.seasons = try container.decode([Season].self, forKey: .seasons)
+            self.seasons = try container.decode([SeasonDummy].self, forKey: .seasons)
             self.showType = try container.decode(ShowType?.self, forKey: .showType)
-            self.networks = try container.decode([ProductionCompany].self, forKey: .networks)
+            self.networks = try container.decode([ProductionCompanyDummy].self, forKey: .networks)
             // created_by
             let creators = try container.decode([Creator].self, forKey: .createdBy)
             self.createdBy = creators.map(\.name)

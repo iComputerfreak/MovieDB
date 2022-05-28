@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewConfig
@@ -24,6 +25,16 @@ struct LibraryActionsSection: View {
             Button(Strings.Settings.updateMediaLabel, action: self.updateMedia)
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
             Button(Strings.Settings.resetTagsLabel, action: self.resetTags)
+            #if DEBUG
+            Button("Debug") {
+                let genresFetch: NSFetchRequest<Genre> = Genre.fetchRequest()
+                genresFetch.predicate = NSPredicate(
+                    format: "medias.@count > 0"
+                )
+                let results = try! PersistenceController.viewContext.fetch(genresFetch)
+                print(results.map { "\($0.id), \($0.name)" }.sorted().joined(separator: "\n"))
+            }
+            #endif
         }
         .disabled(self.config.showingProgress)
     }

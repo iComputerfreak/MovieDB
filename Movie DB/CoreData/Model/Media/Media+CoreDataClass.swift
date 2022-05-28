@@ -69,7 +69,12 @@ public class Media: NSManagedObject {
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
-        managedObjectContext!.performAndWait {
+        guard let managedObjectContext = self.managedObjectContext else {
+            assertionFailure()
+            return
+        }
+        
+        managedObjectContext.performAndWait {
             // The castMembersSortOrder array contains the sorted CastMember IDs
             self.castMembersSortOrder = tmdbData.cast.map(\.id)
             
@@ -78,21 +83,21 @@ public class Media: NSManagedObject {
             self.title = tmdbData.title
             self.originalTitle = tmdbData.originalTitle
             self.imagePath = tmdbData.imagePath
-            self.genres = Set(self.transferIntoContext(tmdbData.genres))
+            self.genres = Set(managedObjectContext.importDummies(tmdbData.genres))
             self.overview = tmdbData.overview
             self.tagline = tmdbData.tagline
             self.status = tmdbData.status
             self.originalLanguage = tmdbData.originalLanguage
-            self.productionCompanies = Set(self.transferIntoContext(tmdbData.productionCompanies))
+            self.productionCompanies = Set(managedObjectContext.importDummies(tmdbData.productionCompanies))
             self.homepageURL = tmdbData.homepageURL
             self.productionCountries = tmdbData.productionCountries
             self.popularity = tmdbData.popularity
             self.voteAverage = tmdbData.voteAverage
             self.voteCount = tmdbData.voteCount
-            self.cast = Set(self.transferIntoContext(tmdbData.cast))
+            self.cast = Set(managedObjectContext.importDummies(tmdbData.cast))
             self.keywords = tmdbData.keywords
             self.translations = tmdbData.translations
-            self.videos = Set(self.transferIntoContext(tmdbData.videos))
+            self.videos = Set(managedObjectContext.importDummies(tmdbData.videos))
             self.parentalRating = tmdbData.parentalRating
             self.watchProviders = tmdbData.watchProviders
         }

@@ -12,7 +12,7 @@ import CoreData
 
 /// Represents an actor starring in a specific movie
 @objc(CastMember)
-public class CastMember: NSManagedObject, Decodable {
+public class CastMember: NSManagedObject {
     // MARK: - Initializers
     
     public convenience init(
@@ -27,27 +27,5 @@ public class CastMember: NSManagedObject, Decodable {
         self.name = name
         self.roleName = roleName
         self.imagePath = imagePath
-    }
-    
-    // MARK: - Decodable Conformance
-    
-    public required convenience init(from decoder: Decoder) throws {
-        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
-            throw DecoderConfigurationError.missingManagedObjectContext
-        }
-        self.init(context: context)
-        
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.roleName = try container.decode(String.self, forKey: .roleName)
-        self.imagePath = try container.decode(String?.self, forKey: .imagePath)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case roleName = "character"
-        case imagePath = "profile_path"
     }
 }
