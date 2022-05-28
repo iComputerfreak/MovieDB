@@ -17,7 +17,7 @@ import CoreData
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    private var _thumbnail: UIImage?
+    @Published private var _thumbnail: UIImage?
     // The thumbnail will be loaded from disk only when it is first accessed
     var thumbnail: UIImage? {
         get {
@@ -27,6 +27,7 @@ public class Media: NSManagedObject {
             return self._thumbnail
         }
         set {
+            self.objectWillChange.send()
             self._thumbnail = newValue
         }
     }
@@ -62,7 +63,9 @@ public class Media: NSManagedObject {
         setTMDBData(tmdbData)
         
         // Load the thumbnail from disk or network
-        loadThumbnail()
+        Task {
+            await loadThumbnail()
+        }
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
@@ -103,7 +106,9 @@ public class Media: NSManagedObject {
     
     override public func awakeFromFetch() {
         print("[\(self.title)] Awaking from fetch")
-        self.loadThumbnail()
+        Task {
+            await self.loadThumbnail()
+        }
     }
     
     override public func awakeFromInsert() {
@@ -161,7 +166,7 @@ public class Media: NSManagedObject {
         }
     }
     
-    func loadThumbnail(force: Bool = false) {
+    func loadThumbnail(force: Bool = false) async {
         guard thumbnail == nil || force else {
             // Thumbnail already present, don't load/download again, unless force parameter is given
             return
@@ -176,7 +181,9 @@ public class Media: NSManagedObject {
             if let imageFile = Utils.imageFileURL(path: imagePath) {
                 try? FileManager.default.removeItem(at: imageFile)
             }
-            self.thumbnail = nil
+            await MainActor.run {
+                self.thumbnail = nil
+            }
             return
         }
         
@@ -189,10 +196,12 @@ public class Media: NSManagedObject {
             let loadedFromDisk = loadThumbnailFromDisk()
         {
             // Load from disk
-            self.thumbnail = loadedFromDisk
+            await MainActor.run {
+                self.thumbnail = loadedFromDisk
+            }
         } else {
             // If the image does not exist, is corrupted or the force parameter is given, download it
-            print("[\(self.title)] Loading thumbnail...")
+            print("[\(self.title)] Downloading thumbnail...")
             Task {
                 let image = await downloadThumbnail()
                 await MainActor.run {

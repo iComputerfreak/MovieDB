@@ -46,7 +46,7 @@ actor TMDBAPI {
             }
             return media
         }
-        media.loadThumbnail()
+        await media.loadThumbnail()
         return media
     }
     
@@ -66,7 +66,7 @@ actor TMDBAPI {
         }
         // If the thumbnail image changed, reload it
         if tmdbData.imagePath != oldImagePath {
-            media.loadThumbnail(force: true)
+            await media.loadThumbnail(force: true)
         }
     }
     

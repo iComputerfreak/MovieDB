@@ -28,6 +28,10 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        container.persistentStoreDescriptions.first!.setOption(
+            true as NSNumber,
+            forKey: "NSPersistentStoreRemoteChangeNotificationOptionKey"
+        )
         container.loadPersistentStores { _, error in
             print("Finished loading persistent stores.")
             if let error = error as NSError? {
@@ -57,6 +61,28 @@ struct PersistenceController {
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         container.viewContext.name = "View Context"
+        
+        NotificationCenter.default.addObserver(
+            forName: .NSPersistentStoreRemoteChange,
+            object: nil,
+            queue: .main) { notification in
+                print("REMOTE CHANGE (\(notification))")
+                
+            }
+        
+        NotificationCenter.default.addObserver(
+            forName: .NSPersistentStoreCoordinatorStoresDidChange,
+            object: nil,
+            queue: .main) { notification in
+                print("DID CHANGE (\(notification))")
+            }
+        
+//        NotificationCenter.default.addObserver(
+//            forName: .NSPersistentStoreCoordinatorStoresWillChange,
+//            object: nil,
+//            queue: .main) { notification in
+//                print("WILL CHANGE (\(notification))")
+//            }
         
         // Only initialize the schema when building the app with the
         // Debug build configuration.

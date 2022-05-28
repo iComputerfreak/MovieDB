@@ -159,9 +159,7 @@ struct MediaLibrary {
                         self.context.object(with: media.objectID) as? Media
                     }
                     try Task.checkCancellation()
-                    await MainActor.run {
-                        mainMedia?.loadThumbnail(force: true)
-                    }
+                    await mainMedia?.loadThumbnail(force: true)
                 }
             }
             // We don't need to wait for all the thumbnails to finish loading, we can just exit here
