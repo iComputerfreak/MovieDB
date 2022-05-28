@@ -67,7 +67,6 @@ struct PersistenceController {
             object: nil,
             queue: .main) { notification in
                 print("REMOTE CHANGE (\(notification))")
-                
             }
         
         NotificationCenter.default.addObserver(
