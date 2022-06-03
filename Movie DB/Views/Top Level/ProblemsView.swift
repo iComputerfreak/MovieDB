@@ -18,13 +18,11 @@ struct ProblemsView: View {
         // Filter out all media objects that don't have missing information
         predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
             NSCompoundPredicate(orPredicateWithSubpredicates: [
+                // We don't include
                 NSPredicate(
-                    format: "type = %@ AND watched = TRUE",
-                    MediaType.movie.rawValue
-                ),
-                NSPredicate(
-                    format: "type = %@ AND watched = nil",
-                    MediaType.movie.rawValue
+                    format: "type = %@ AND watchedState != %@",
+                    MediaType.movie.rawValue,
+                    MovieWatchState.notWatched.rawValue
                 ),
                 // We include all shows since the default value for lastSeasonWatched is already "No"
                 NSPredicate(
@@ -40,7 +38,7 @@ struct ProblemsView: View {
                 // Tags missing
                 NSPredicate(format: "tags.@count = 0"),
                 // Watched missing (Movie)
-                NSPredicate(format: "type = %@ AND watched = nil", MediaType.movie.rawValue),
+                NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
                 // LastWatched missing (Show)
                 NSPredicate(
                     format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
