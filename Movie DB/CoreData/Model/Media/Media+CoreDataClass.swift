@@ -182,7 +182,7 @@ public class Media: NSManagedObject {
                 try? FileManager.default.removeItem(at: imageFile)
             }
             await MainActor.run {
-                self.loadedThumbnail = nil
+                self.thumbnail = nil
             }
             return
         }
@@ -197,7 +197,7 @@ public class Media: NSManagedObject {
         {
             // Load from disk
             await MainActor.run {
-                self.loadedThumbnail = loadedFromDisk
+                self.thumbnail = loadedFromDisk
             }
         } else {
             // If the image does not exist, is corrupted or the force parameter is given, download it
@@ -205,7 +205,8 @@ public class Media: NSManagedObject {
             Task {
                 let image = await downloadThumbnail()
                 await MainActor.run {
-                    self.loadedThumbnail = image
+                    // Use the custom property to invoke the objectWillChange.send()
+                    self.thumbnail = image
                 }
                 // Save the downloaded file
                 if let fileURL = Utils.imageFileURL(path: imagePath) {

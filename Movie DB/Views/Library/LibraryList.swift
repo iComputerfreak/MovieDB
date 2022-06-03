@@ -93,18 +93,8 @@ struct LibraryList: View {
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(Strings.Library.swipeActionDelete, role: .destructive) {
                                 print("Deleting \(mediaObject.title)")
+                                // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                 self.managedObjectContext.delete(mediaObject)
-                                if
-                                    let imagePath = mediaObject.imagePath,
-                                    let fileURL = Utils.imageFileURL(path: imagePath)
-                                {
-                                    // Delete the thumbnail on disk
-                                    do {
-                                        try FileManager.default.removeItem(at: fileURL)
-                                    } catch {
-                                        print(error)
-                                    }
-                                }
                             }
                             Button(Strings.Library.swipeActionReload) {
                                 Task(priority: .userInitiated) {

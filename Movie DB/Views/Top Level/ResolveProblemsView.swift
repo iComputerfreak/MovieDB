@@ -20,8 +20,8 @@ struct ResolveProblemsView: View {
                         Text(problem.type.recovery)
                         ForEach(problem.associatedMedias) { media in
                             LibraryRow()
-                            .environmentObject(media)
-                            .fixHighlighting()
+                                .environmentObject(media)
+                                .fixHighlighting()
                         }
                         .onDelete { indexSet in
                             for offset in indexSet {
