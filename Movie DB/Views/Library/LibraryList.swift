@@ -12,19 +12,11 @@ import SwiftUI
 
 struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
-    private let sortingOrder: SortingOrder
-    private let sortingDirection: SortingDirection
-    
-    private let fetchRequest: FetchRequest<Media>
+    @FetchRequest var filteredMedia: FetchedResults<Media>
     
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
-    }
-    
-    private var filteredMedia: FetchedResults<Media> {
-        fetchRequest.wrappedValue
     }
     
     // swiftlint:disable:next type_contents_order
@@ -73,14 +65,12 @@ struct LibraryList: View {
         // Append the name sort descriptor as a second alternative
         sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: sortingDirection == .ascending))
         
-        self.fetchRequest = FetchRequest(
+        self._filteredMedia = FetchRequest<Media>(
             entity: Media.entity(),
             sortDescriptors: sortDescriptors,
             predicate: compoundPredicate,
             animation: .default
         )
-        self.sortingOrder = sortingOrder
-        self.sortingDirection = sortingDirection
     }
     
     var body: some View {
@@ -130,6 +120,7 @@ struct LibraryList: View {
             if JFConfig.shared.libraryWasReset {
                 print("Library was reset. Refreshing...")
                 // TODO: self.fetchRequest.update() somehow
+//                self._filteredMedia.update()
                 JFConfig.shared.libraryWasReset = false
             }
         }
