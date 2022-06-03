@@ -117,6 +117,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             do {
                 let batchDelete = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: "CastMember"))
                 try PersistenceController.viewContext.execute(batchDelete)
+                PersistenceController.saveContext()
                 UserDefaults.standard.set(true, forKey: castMembersDeletedKey)
             } catch {
                 print(error)

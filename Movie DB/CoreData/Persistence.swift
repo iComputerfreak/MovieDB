@@ -65,8 +65,8 @@ struct PersistenceController {
         NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreRemoteChange,
             object: nil,
-            queue: .main) { notification in
-                print("REMOTE CHANGE (\(notification))")
+            queue: .main) { _ in
+//                print("REMOTE CHANGE (\(notification))")
             }
         
         NotificationCenter.default.addObserver(
@@ -200,6 +200,20 @@ struct PersistenceController {
             print("========================")
             await Self.saveContext(container.viewContext)
         }
+    }
+    
+    func reset() throws {
+        // TODO: ProgressView while resetting
+        // TODO: LibraryList is not refreshing after batch deletes
+        // Reset all entities
+        let entities = container.managedObjectModel.entities.compactMap(\.name)
+        
+        for entity in entities {
+            let request = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: entity))
+            try self.container.viewContext.execute(request)
+        }
+        
+        self.saveContext()
     }
     
     /// Creates a new, empty container to be used for testing

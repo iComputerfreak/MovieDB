@@ -69,19 +69,9 @@ struct ExtendedInfo: View {
                     }
                     if !show.createdBy.isEmpty {
                         // Sort by last name
-                        // TODO: Extract into extension .sortedByLastName
-                        Text(show.createdBy.sorted(by: { name1, name2 in
-                            let lastName1 = name1.components(separatedBy: .whitespaces).last
-                            let lastName2 = name2.components(separatedBy: .whitespaces).last
-                            // Check against empty and nil strings
-                            if lastName1?.isEmpty ?? true {
-                                return true
-                            } else if lastName2?.isEmpty ?? true {
-                                return false
-                            }
-                            // Sort by last name
-                            return lastName1!.lexicographicallyPrecedes(lastName2!)
-                        }).joined(separator: ", ")) // swiftlint:disable:this multiline_function_chains
+                        Text(show.createdBy
+                            .sorted(using: LastNameComparator(order: .forward))
+                            .joined(separator: ", "))
                         .headline(Strings.Detail.createdByHeadline)
                     }
                 }

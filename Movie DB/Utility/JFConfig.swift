@@ -36,6 +36,8 @@ class JFConfig: ObservableObject {
         }
     }
     
+    var libraryWasReset = false
+    
     private init() {}
     
     enum ConfigKey: String {

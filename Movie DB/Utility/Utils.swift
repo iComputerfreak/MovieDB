@@ -61,9 +61,13 @@ struct Utils {
         return url
     }
     
+    static func imagesDirectory() -> URL? {
+        url(for: "images")
+    }
+    
     static func imageFileURL(path imagePath: String) -> URL? {
         // The image path already contains the jpg extension
-        url(for: "images")?.appendingPathComponent(imagePath)
+        imagesDirectory()?.appendingPathComponent(imagePath)
     }
     
     /// Returns either black or white, depending on the color scheme

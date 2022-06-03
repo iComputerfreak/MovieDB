@@ -17,18 +17,18 @@ import CoreData
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    @Published private var _thumbnail: UIImage?
+    @Published private var loadedThumbnail: UIImage?
     // The thumbnail will be loaded from disk only when it is first accessed
     var thumbnail: UIImage? {
         get {
-            if _thumbnail == nil {
-                self._thumbnail = loadThumbnailFromDisk()
+            if loadedThumbnail == nil {
+                self.loadedThumbnail = loadThumbnailFromDisk()
             }
-            return self._thumbnail
+            return self.loadedThumbnail
         }
         set {
             self.objectWillChange.send()
-            self._thumbnail = newValue
+            self.loadedThumbnail = newValue
         }
     }
     
@@ -167,7 +167,7 @@ public class Media: NSManagedObject {
     }
     
     func loadThumbnail(force: Bool = false) async {
-        guard thumbnail == nil || force else {
+        guard loadedThumbnail == nil || force else {
             // Thumbnail already present, don't load/download again, unless force parameter is given
             return
         }
@@ -182,7 +182,7 @@ public class Media: NSManagedObject {
                 try? FileManager.default.removeItem(at: imageFile)
             }
             await MainActor.run {
-                self.thumbnail = nil
+                self.loadedThumbnail = nil
             }
             return
         }
@@ -197,7 +197,7 @@ public class Media: NSManagedObject {
         {
             // Load from disk
             await MainActor.run {
-                self.thumbnail = loadedFromDisk
+                self.loadedThumbnail = loadedFromDisk
             }
         } else {
             // If the image does not exist, is corrupted or the force parameter is given, download it
@@ -205,8 +205,9 @@ public class Media: NSManagedObject {
             Task {
                 let image = await downloadThumbnail()
                 await MainActor.run {
-                    self.thumbnail = image
+                    self.loadedThumbnail = image
                 }
+                // Save the downloaded file
                 if let fileURL = Utils.imageFileURL(path: imagePath) {
                     Task {
                         let data = image?.jpegData(compressionQuality: 0.8)

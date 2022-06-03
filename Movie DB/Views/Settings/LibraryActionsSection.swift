@@ -24,13 +24,13 @@ struct LibraryActionsSection: View {
             Button(Strings.Settings.reloadMediaLabel, action: self.reloadHandler)
             Button(Strings.Settings.updateMediaLabel, action: self.updateMedia)
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
-            Button(Strings.Settings.resetTagsLabel, action: self.resetTags)
             #if DEBUG
             Button("Debug") {
                 let genresFetch: NSFetchRequest<Genre> = Genre.fetchRequest()
                 genresFetch.predicate = NSPredicate(
                     format: "medias.@count > 0"
                 )
+                // swiftlint:disable:next force_try
                 let results = try! PersistenceController.viewContext.fetch(genresFetch)
                 print(results.map { "\($0.id), \($0.name)" }.sorted().joined(separator: "\n"))
             }
@@ -117,45 +117,14 @@ struct LibraryActionsSection: View {
                     self.config.showProgress(Strings.Settings.ProgressView.resetLibrary)
                 }
                 do {
-                    try await self.library.reset()
+                    print("Resetting Library...")
+                    try self.library.reset()
+                    JFConfig.shared.libraryWasReset = true
                 } catch {
                     print("Error resetting library")
                     print(error)
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.resetLibraryErrorTitle,
-                        error: error
-                    )
-                }
-                await MainActor.run {
-                    self.config.hideProgress()
-                }
-            }
-        })
-        AlertHandler.presentAlert(alert: controller)
-    }
-    
-    func resetTags() {
-        let controller = UIAlertController(
-            title: Strings.Settings.Alert.resetTagsConfirmTitle,
-            message: Strings.Settings.Alert.resetTagsConfirmMessage,
-            preferredStyle: .alert
-        )
-        controller.addAction(.cancelAction())
-        controller.addAction(UIAlertAction(
-            title: Strings.Settings.Alert.resetTagsConfirmButtonDelete,
-            style: .destructive
-        ) { _ in
-            Task(priority: .userInitiated) {
-                await MainActor.run {
-                    self.config.showProgress(Strings.Settings.ProgressView.resetTags)
-                }
-                do {
-                    try await self.library.resetTags()
-                } catch {
-                    print("Error resetting tags")
-                    print(error)
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.resetTagsErrorTitle,
                         error: error
                     )
                 }

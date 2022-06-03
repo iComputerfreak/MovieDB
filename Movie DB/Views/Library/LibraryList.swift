@@ -94,11 +94,22 @@ struct LibraryList: View {
                             Button(Strings.Library.swipeActionDelete, role: .destructive) {
                                 print("Deleting \(mediaObject.title)")
                                 self.managedObjectContext.delete(mediaObject)
+                                if
+                                    let imagePath = mediaObject.imagePath,
+                                    let fileURL = Utils.imageFileURL(path: imagePath)
+                                {
+                                    // Delete the thumbnail on disk
+                                    do {
+                                        try FileManager.default.removeItem(at: fileURL)
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
                             }
                             Button(Strings.Library.swipeActionReload) {
                                 Task(priority: .userInitiated) {
                                     do {
-                                    try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
+                                        try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
                                     } catch {
                                         print("Error updating \(mediaObject.title): \(error)")
                                         AlertHandler.showSimpleAlert(
@@ -124,6 +135,14 @@ struct LibraryList: View {
             }
         }
         .listStyle(.grouped)
+        .onAppear {
+            // If the library was just reset, we need to refresh the view
+            if JFConfig.shared.libraryWasReset {
+                print("Library was reset. Refreshing...")
+                // TODO: self.fetchRequest.update() somehow
+                JFConfig.shared.libraryWasReset = false
+            }
+        }
     }
     
     var footerText: Text {

@@ -9,6 +9,8 @@
 import Foundation
 import SwiftUI
 
+// swiftlint:disable file_types_order
+
 extension KeyedDecodingContainer {
     /// Tries to decode a value with any of the given keys
     ///
@@ -93,5 +95,30 @@ extension NSSecureUnarchiveFromDataTransformer {
             Self(),
             forName: Self.name
         )
+    }
+}
+
+struct LastNameComparator: SortComparator {
+    typealias Compared = String
+    
+    var order: SortOrder
+    
+    func compare(_ lhs: String, _ rhs: String) -> ComparisonResult {
+        let lhsLastName = lhs.components(separatedBy: .whitespaces).last
+        let rhsLastName = rhs.components(separatedBy: .whitespaces).last
+        
+        guard lhsLastName != rhsLastName else {
+            return .orderedSame
+        }
+        
+        guard let lhsLastName = lhsLastName, !lhsLastName.isEmpty else {
+            return .orderedDescending
+        }
+        guard let rhsLastName = rhsLastName, !rhsLastName.isEmpty else {
+            return .orderedAscending
+        }
+        
+        // Sort by last name
+        return lhsLastName.compare(rhsLastName)
     }
 }

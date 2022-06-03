@@ -77,6 +77,7 @@ struct MediaLibrary {
             type: result.mediaType,
             context: context
         )
+        await PersistenceController.saveContext(context)
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
         await MainActor.run {
@@ -166,19 +167,13 @@ struct MediaLibrary {
         }
     }
     
-    /// Resets the library, deleting all media objects, keeping the tags
-    func reset() async throws {
-        // Perform the delete on a background thread and merge the changes into the library context
-        let childContext = context.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        await childContext.perform {
-            let allMedias = (try? childContext.fetch(fetchRequest)) ?? []
-            for media in allMedias {
-                // Thumbnail and Video objects will be automatically deleted by the cascading delete rule
-                childContext.delete(media)
-            }
+    /// Resets the library, deleting everything!
+    func reset() throws {
+        try PersistenceController.shared.reset()
+        // Delete images
+        if let imagesDirectory = Utils.imagesDirectory() {
+            try FileManager.default.removeItem(at: imagesDirectory)
         }
-        await PersistenceController.saveContext(childContext)
     }
     
     /// Resets all available tags and their relation to the media objects

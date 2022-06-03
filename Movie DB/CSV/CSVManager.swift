@@ -23,11 +23,17 @@ struct CSVManager {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+    /// The `ISO8601DateFormatter` used for de- and encoding date-times
+    static let dateTimeFormatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.timeZone = .utc
+        return f
+    }()
     
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     // swiftlint:disable multiline_literal_brackets
     static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched,
-                                               .creationDate]
+                                               .creationDate, .modificationDate]
     // swiftlint:enable multiline_literal_brackets
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
@@ -41,14 +47,16 @@ struct CSVManager {
         .watchAgain: (\Media.watchAgain, nil),
         .tags: (\Media.tags, { ($0 as! Set<Tag>).map(\.name).sorted().joined(separator: arraySeparator) }),
         .notes: (\Media.notes, nil),
-        .creationDate: (\Media.creationDate, { dateFormatter.string(from: $0 as! Date) }),
+        .creationDate: (\Media.creationDate, { dateTimeFormatter.string(from: $0 as! Date) }),
+        .modificationDate: (\Media.modificationDate, { dateTimeFormatter.string(from: $0 as! Date) }),
         
         .id: (\Media.id as KeyPath<Media, UUID?>, { ($0 as! UUID).uuidString }),
         .title: (\Media.title, nil),
         .originalTitle: (\Media.originalTitle, nil),
         .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: arraySeparator) }),
         .overview: (\Media.overview, nil),
-        .status: (\Media.status, { ($0 as! MediaStatus).rawValue })
+        .status: (\Media.status, { ($0 as! MediaStatus).rawValue }),
+        .tagline: (\Media.tagline, nil)
     ]
     static let movieExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Movie>, Converter?)] = [
         .watched: (\Movie.watched, { ($0 as! MovieWatchState).rawValue }),
@@ -66,7 +74,8 @@ struct CSVManager {
         .lastAirDate: (\Show.lastAirDate, { dateFormatter.string(from: $0 as! Date) }),
         .numberOfSeasons: (\Show.numberOfSeasons, nil),
         .isInProduction: (\Show.isInProduction, nil),
-        .showType: (\Show.showType, { ($0 as! ShowType).rawValue })
+        .showType: (\Show.showType, { ($0 as! ShowType).rawValue }),
+        .createdBy: (\Show.createdBy, { ($0 as! [String]).sorted().joined(separator: arraySeparator) })
     ]
     // swiftlint:enable force_cast
     
@@ -145,6 +154,12 @@ struct CSVManager {
         }
         if let rawCreationDate = values[.creationDate], let creationDate = dateFormatter.date(from: rawCreationDate) {
             media.creationDate = creationDate
+        }
+        if
+            let rawModificationDate = values[.modificationDate],
+            let modificationDate = dateFormatter.date(from: rawModificationDate)
+        {
+            media.modificationDate = modificationDate
         }
         
         await media.loadThumbnail()
@@ -262,6 +277,7 @@ struct CSVManager {
         
         // Export only
         case id
+        case tagline
         case title
         case originalTitle = "original_title"
         case genres
@@ -277,8 +293,10 @@ struct CSVManager {
         case numberOfSeasons = "number_of_seasons"
         case isInProduction = "is_in_production"
         case showType = "show_type"
+        case createdBy = "created_by"
         
         case creationDate = "creation_date"
+        case modificationDate = "modification_date"
     }
     
     enum CSVError: Error {
