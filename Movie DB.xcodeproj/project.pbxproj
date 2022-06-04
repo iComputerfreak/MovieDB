@@ -14,6 +14,14 @@
 		AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E32842A28800041E0B /* CoreDataDummies.swift */; };
 		AB0318E62842AA3800041E0B /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E52842AA3800041E0B /* DebugView.swift */; };
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
+		AB097F57284A96C700E559E7 /* UserListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F56284A96C700E559E7 /* UserListsView.swift */; };
+		AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F58284A974500E559E7 /* FilteredMediaList.swift */; };
+		AB097F5D284A996300E559E7 /* MediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */; };
+		AB097F5E284A996300E559E7 /* MediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */; };
+		AB097F61284BA46400E559E7 /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F60284BA46400E559E7 /* UserListRow.swift */; };
+		AB097F63284BA73700E559E7 /* UserListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* UserListEditingView.swift */; };
+		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
+		AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */; };
 		AB0DA979283A705B0038E4B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0DA977283A705B0038E4B9 /* InfoPlist.strings */; };
 		AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0DA97A283BA75D0038E4B9 /* Strings.swift */; };
 		AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1100892826BFB5001507B5 /* MovieWatchState.swift */; };
@@ -210,6 +218,14 @@
 		AB0318E52842AA3800041E0B /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v6.xcdatamodel"; sourceTree = "<group>"; };
 		AB0318E92842BF4500041E0B /* CreditsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsHelpers.swift; sourceTree = "<group>"; };
+		AB097F56284A96C700E559E7 /* UserListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListsView.swift; sourceTree = "<group>"; };
+		AB097F58284A974500E559E7 /* FilteredMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredMediaList.swift; sourceTree = "<group>"; };
+		AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB097F60284BA46400E559E7 /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
+		AB097F62284BA73700E559E7 /* UserListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListEditingView.swift; sourceTree = "<group>"; };
+		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
+		AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolPicker.swift; sourceTree = "<group>"; };
 		AB0DA978283A705B0038E4B9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AB0DA97A283BA75D0038E4B9 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		AB1100892826BFB5001507B5 /* MovieWatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieWatchState.swift; sourceTree = "<group>"; };
@@ -439,9 +455,31 @@
 			path = CSV;
 			sourceTree = "<group>";
 		};
+		AB097F5A284A994000E559E7 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */,
+				AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		AB097F5F284BA44000E559E7 /* UserLists */ = {
+			isa = PBXGroup;
+			children = (
+				AB097F56284A96C700E559E7 /* UserListsView.swift */,
+				AB097F60284BA46400E559E7 /* UserListRow.swift */,
+				AB097F62284BA73700E559E7 /* UserListEditingView.swift */,
+				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
+				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
+			);
+			path = UserLists;
+			sourceTree = "<group>";
+		};
 		AB1433CC25CDA3A100AA304F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AB097F5A284A994000E559E7 /* List */,
 				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
 				AB1434BE25CEE9BB00AA304F /* Season */,
@@ -560,6 +598,7 @@
 				ABA13D5A2382D29E00E885DD /* Extensions.swift */,
 				AB5493E325FBE4CB0072745B /* PlaceholderData.swift */,
 				AB2D07EE267F83AA005D6353 /* StoreManager.swift */,
+				AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -584,6 +623,7 @@
 				ABEEB0DB2815823C00230F0B /* Library */,
 				ABD86476281747AA001A1F7C /* Add Media */,
 				ABEEB0DC2815824300230F0B /* Detail */,
+				AB097F5F284BA44000E559E7 /* UserLists */,
 				ABEEB0CC2814314400230F0B /* Settings */,
 				AB25099F238B2ACB00F7A411 /* Component Views */,
 				AB3648C022C3FAEE0096FE39 /* Support Views */,
@@ -1132,6 +1172,7 @@
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
 				AB14349B25CEE0E000AA304F /* Genre+CoreDataProperties.swift in Sources */,
 				AB14341225CDDB6600AA304F /* MediaType.swift in Sources */,
+				AB097F63284BA73700E559E7 /* UserListEditingView.swift in Sources */,
 				AB25099E238B1EED00F7A411 /* KeyboardResponder.swift in Sources */,
 				ABD8647A2818141B001A1F7C /* SearchResultsView.swift in Sources */,
 				ABD864802818319B001A1F7C /* PosterView.swift in Sources */,
@@ -1164,6 +1205,7 @@
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
+				AB097F61284BA46400E559E7 /* UserListRow.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
 				AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */,
 				ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */,
@@ -1213,6 +1255,7 @@
 				AB14349A25CEE0E000AA304F /* Genre+CoreDataClass.swift in Sources */,
 				AB1434CD25CEF2DD00AA304F /* EpisodeNumber.swift in Sources */,
 				AB1433FB25CDB6F600AA304F /* Movie+CoreDataProperties.swift in Sources */,
+				AB097F5E284A996300E559E7 /* MediaList+CoreDataProperties.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
 				AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */,
 				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
@@ -1223,6 +1266,7 @@
 				AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */,
 				ABEEB0CE2814316E00230F0B /* PreferencesSection.swift in Sources */,
 				AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */,
+				AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
@@ -1232,6 +1276,7 @@
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
 				AB6D9C85283BC17C00AF655C /* Strings+Generic.swift in Sources */,
+				AB097F5D284A996300E559E7 /* MediaList+CoreDataClass.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
@@ -1244,9 +1289,11 @@
 				ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */,
 				AB711FC0281DCC93003ED045 /* ParentalRating.swift in Sources */,
 				AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */,
+				AB097F57284A96C700E559E7 /* UserListsView.swift in Sources */,
 				ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */,
 				ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */,
 				AB6718F622C113F800F429E4 /* Utils.swift in Sources */,
+				AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */,
 				AB5F7E41238AF0AC0007A3FE /* JFLiterals.swift in Sources */,
 				AB3434DF281D475400459673 /* MovieDBApp.swift in Sources */,
 				AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */,
@@ -1255,6 +1302,7 @@
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
 				AB0318E62842AA3800041E0B /* DebugView.swift in Sources */,
+				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */,
 				AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */,

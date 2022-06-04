@@ -21,6 +21,13 @@ struct ContentView: View {
                     Image(systemName: "film")
                     Text(Strings.TabView.libraryLabel)
                 }
+            
+            UserListsView()
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text(Strings.TabView.listsLabel)
+                }
+            
             LookupView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
@@ -34,11 +41,11 @@ struct ContentView: View {
                 }
             
 //            #if DEBUG
-            DebugView()
-                .tabItem {
-                    Image(systemName: "ladybug")
-                    Text("Debug")
-                }
+//            DebugView()
+//                .tabItem {
+//                    Image(systemName: "ladybug")
+//                    Text("Debug")
+//                }
 //            #endif
             
             SettingsView()

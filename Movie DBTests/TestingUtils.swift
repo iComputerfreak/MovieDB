@@ -10,8 +10,6 @@ import XCTest
 import CoreData
 @testable import Movie_DB
 
-// swiftlint:disable private_over_fileprivate
-// swiftlint:disable function_parameter_count
 // swiftlint:disable prefer_self_in_static_references
 
 struct TestingUtils {
@@ -148,118 +146,6 @@ func assertEqual(_ date: Date?, _ year: Int, _ month: Int, _ day: Int) {
     XCTAssertEqual(cal.component(.day, from: date!), day)
 }
 
-// MARK: assertEqual() overloads for specific NSManagedObjects
-
-fileprivate struct ProductionCompanyDummy: Equatable {
-    let id: Int
-    let name: String
-    let logoPath: String?
-    let originCountry: String
-    
-    init(_ pc: ProductionCompany) {
-        self.id = pc.id
-        self.name = pc.name
-        self.logoPath = pc.logoPath
-        self.originCountry = pc.originCountry
-    }
-}
-
-func assertEqual(_ value1: [ProductionCompany], _ value2: [ProductionCompany]) {
-    let pc1 = value1.map(ProductionCompanyDummy.init)
-    let pc2 = value2.map(ProductionCompanyDummy.init)
-    assertEqual(pc1, pc2)
-}
-
-fileprivate struct GenreDummy: Equatable {
-    let id: Int
-    let name: String
-    
-    init(_ genre: Genre) {
-        self.id = genre.id
-        self.name = genre.name
-    }
-}
-
-func assertEqual(_ value1: [Genre], _ value2: [Genre]) {
-    let genre1 = value1.map(GenreDummy.init)
-    let genre2 = value2.map(GenreDummy.init)
-    assertEqual(genre1, genre2)
-}
-
-fileprivate struct VideoDummy: Equatable {
-    let key: String
-    let name: String
-    let site: String
-    let type: String
-    let resolution: Int
-    let language: String
-    let region: String
-    
-    init(_ video: Video) {
-        self.key = video.key
-        self.name = video.name
-        self.site = video.site
-        self.type = video.type
-        self.resolution = video.resolution
-        self.language = video.language
-        self.region = video.region
-    }
-}
-
-func assertEqual(_ value1: [Video], _ value2: [Video]) {
-    let video1 = value1.map(VideoDummy.init)
-    let video2 = value2.map(VideoDummy.init)
-    assertEqual(video1, video2)
-}
-
-fileprivate struct CastMemberDummy: Equatable {
-    let id: Int
-    let name: String
-    let roleName: String
-    let imagePath: String?
-    
-    init(_ cm: CastMember) {
-        self.id = cm.id
-        self.name = cm.name
-        self.roleName = cm.roleName
-        self.imagePath = cm.imagePath
-    }
-}
-
-func assertEqual(_ value1: [CastMember], _ value2: [CastMember]) {
-    let cm1 = value1.map(CastMemberDummy.init)
-    let cm2 = value2.map(CastMemberDummy.init)
-    assertEqual(cm1, cm2)
-}
-
-fileprivate struct SeasonDummy: Equatable {
-    let id: Int
-    let seasonNumber: Int
-    let episodeCount: Int
-    let name: String
-    let overview: String?
-    let imagePath: String?
-    let airDate: Date?
-    let show: Show?
-    
-    init(_ season: Season) {
-        self.id = season.id
-        self.seasonNumber = season.seasonNumber
-        self.episodeCount = season.episodeCount
-        self.name = season.name
-        self.overview = season.overview
-        self.imagePath = season.imagePath
-        self.airDate = season.airDate
-        self.show = season.show
-    }
-}
-
-func assertEqual(_ value1: [Season], _ value2: [Season]) {
-    let season1 = value1.map(SeasonDummy.init)
-    let season2 = value2.map(SeasonDummy.init)
-    assertEqual(season1, season2)
-}
-
 /// Tests, if the first array is completely part of the other array
 func assertContains<T>(_ value: [T], in other: [T]) where T: Equatable {
     XCTAssertLessThanOrEqual(value.count, other.count)
@@ -268,97 +154,26 @@ func assertContains<T>(_ value: [T], in other: [T]) where T: Equatable {
     }
 }
 
-func assertContains(_ value: [CastMember], in other: [CastMember]) {
-    assertContains(value.map(CastMemberDummy.init), in: other.map(CastMemberDummy.init))
-}
-
-// MARK: - Testing Initializers
-
-extension ProductionCompany {
-    static func create(
-        context: NSManagedObjectContext,
-        id: Int,
-        name: String,
-        logoPath: String?,
-        originCountry: String
-    ) -> ProductionCompany {
-        let c = ProductionCompany(context: context)
-        c.id = id
-        c.name = name
-        c.logoPath = logoPath
-        c.originCountry = originCountry
-        return c
-    }
-}
-
-extension Genre {
-    static func create(context: NSManagedObjectContext, id: Int, name: String) -> Genre {
-        let g = Genre(context: context)
-        g.id = id
-        g.name = name
-        return g
-    }
-}
-
-extension Video {
-    static func create(
-        context: NSManagedObjectContext,
-        key: String,
-        name: String,
-        site: String,
-        type: String,
-        resolution: Int,
-        language: String,
-        region: String
-    ) -> Video {
-        let v = Video(context: context)
-        v.key = key
-        v.name = name
-        v.site = site
-        v.type = type
-        v.resolution = resolution
-        v.language = language
-        v.region = region
-        return v
-    }
-}
-
-extension CastMember {
-    static func create(
-        context: NSManagedObjectContext,
-        id: Int,
-        name: String,
-        roleName: String,
-        imagePath: String?
-    ) -> CastMember {
-        let c = CastMember(context: context)
-        c.id = id
-        c.name = name
-        c.roleName = roleName
-        c.imagePath = imagePath
-        return c
-    }
-}
-
-extension Season {
-    static func create(
-        context: NSManagedObjectContext,
+extension SeasonDummy {
+    init(
         id: Int,
         seasonNumber: Int,
         episodeCount: Int,
         name: String,
         overview: String?,
         imagePath: String?,
-        rawAirDate: String
-    ) -> Season {
-        let s = Season(context: context)
-        s.id = id
-        s.seasonNumber = seasonNumber
-        s.episodeCount = episodeCount
-        s.name = name
-        s.overview = overview
-        s.imagePath = imagePath
-        s.airDate = Utils.tmdbDateFormatter.date(from: rawAirDate)!
-        return s
+        rawAirDate: String?
+    ) {
+        let airDate = rawAirDate.map { Utils.tmdbDateFormatter.date(from: $0) }
+        self.init(
+            id: id,
+            seasonNumber: seasonNumber,
+            episodeCount: episodeCount,
+            name: name,
+            overview: overview,
+            imagePath: imagePath,
+            // swiftlint:disable:next redundant_nil_coalescing
+            airDate: airDate ?? nil
+        )
     }
 }

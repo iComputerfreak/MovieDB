@@ -104,6 +104,8 @@ struct PersistenceController {
     static func createDisposableContext() -> NSManagedObjectContext {
         // The disposable context is a new empty context without any data in it
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        let model = shared.container.persistentStoreCoordinator.managedObjectModel
+        context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         context.name = "Disposable Context (\(Date()))"
         return context
     }

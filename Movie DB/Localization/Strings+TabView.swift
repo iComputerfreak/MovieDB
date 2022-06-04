@@ -14,6 +14,10 @@ extension Strings {
             localized: "tabView.library.label",
             comment: "The label of the library tab of the main TabView"
         )
+        static let listsLabel = String(
+            localized: "tabView.lists.label",
+            comment: "The label of the lists tab of the main TabView"
+        )
         static let lookupLabel = String(
             localized: "tabView.lookup.label",
             comment: "The label of the lookup tab of the main TabView"

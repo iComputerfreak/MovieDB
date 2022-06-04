@@ -255,17 +255,17 @@ class Movie_DBUITests: XCTestCase {
         // Alert should have popped up
         app.alerts.firstMatch.buttons["Delete"].wait().tap()
         
-        tabBar["Library"].tap()
-        
         // Give the app a few seconds to reset the data
         // Alternatively: Wait in Settings screen until the ProgressView disappears
         wait(2)
+        
+        tabBar["Library"].tap()
         
         // Should be empty
         XCTAssertEqual(app.tables.cells.count, 0)
     }
     
-    func testResetTags() {
+    func disabled_testResetTags() {
         app.launch()
         
         addMatrix()

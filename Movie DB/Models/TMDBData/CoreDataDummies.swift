@@ -121,6 +121,24 @@ struct SeasonDummy: CoreDataDummy {
     let imagePath: String?
     let airDate: Date?
     
+    init(
+        id: Int,
+        seasonNumber: Int,
+        episodeCount: Int,
+        name: String,
+        overview: String?,
+        imagePath: String?,
+        airDate: Date?
+    ) {
+        self.id = id
+        self.seasonNumber = seasonNumber
+        self.episodeCount = episodeCount
+        self.name = name
+        self.overview = overview
+        self.imagePath = imagePath
+        self.airDate = airDate
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
@@ -157,7 +175,6 @@ struct SeasonDummy: CoreDataDummy {
 }
 
 extension NSManagedObjectContext {
-    // INFO: This will fail for more than
     func importDummies<Entity, Dummy>(
         _ dummies: [Dummy],
         predicate: (Dummy) -> NSPredicate,

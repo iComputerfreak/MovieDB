@@ -100,6 +100,8 @@ extension Media {
     @NSManaged private var parentalRatingLabel: String?
     /// The streaming sites where is media is available to watch
     @NSManaged public var watchProviders: [WatchProvider]
+    /// The lists this media is associated with
+    @NSManaged public var lists: Set<MediaList>
     
     // MARK: - Computed Properties
     
@@ -143,51 +145,6 @@ extension Media {
     public class func fetchRequest() -> NSFetchRequest<Media> {
         NSFetchRequest<Media>(entityName: "Media")
     }
-}
-
-// MARK: Generated accessors for genres
-extension Media {
-    @objc(addGenresObject:)
-    @NSManaged public func addToGenres(_ value: Genre)
-    
-    @objc(removeGenresObject:)
-    @NSManaged public func removeFromGenres(_ value: Genre)
-    
-    @objc(addGenres:)
-    @NSManaged public func addToGenres(_ values: NSSet)
-    
-    @objc(removeGenres:)
-    @NSManaged public func removeFromGenres(_ values: NSSet)
-}
-
-// MARK: Generated accessors for videos
-extension Media {
-    @objc(addVideosObject:)
-    @NSManaged public func addToVideos(_ value: Video)
-    
-    @objc(removeVideosObject:)
-    @NSManaged public func removeFromVideos(_ value: Video)
-    
-    @objc(addVideos:)
-    @NSManaged public func addToVideos(_ values: NSSet)
-    
-    @objc(removeVideos:)
-    @NSManaged public func removeFromVideos(_ values: NSSet)
-}
-
-// MARK: Generated accessors for productionCompanies
-extension Media {
-    @objc(addProductionCompaniesObject:)
-    @NSManaged public func addToProductionCompanies(_ value: ProductionCompany)
-    
-    @objc(removeProductionCompaniesObject:)
-    @NSManaged public func removeFromProductionCompanies(_ value: ProductionCompany)
-    
-    @objc(addProductionCompanies:)
-    @NSManaged public func addToProductionCompanies(_ values: NSSet)
-    
-    @objc(removeProductionCompanies:)
-    @NSManaged public func removeFromProductionCompanies(_ values: NSSet)
 }
 
 extension Media: Identifiable {}
