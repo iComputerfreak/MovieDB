@@ -16,10 +16,7 @@ struct UserListEditingView: View {
     var body: some View {
         Form {
             Section("List Information") {
-                HStack {
-                    Text("Name:")
-                    TextField("Name", text: $list.name)
-                }
+                TextField("Name", text: $list.name)
                 NavigationLink {
                     SFSymbolPicker(symbol: $list.iconName)
                 } label: {
@@ -31,10 +28,8 @@ struct UserListEditingView: View {
                     }
                 }
             }
-            Section("Filter Settings") {
-                // TODO: Store filter setting on list
-                FilterUserDataSection(filterSetting: .constant(FilterSetting()))
-            }
+            // TODO: Store filter setting on list
+            FilterUserDataSection(filterSetting: .constant(FilterSetting()))
         }
         .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.inline)

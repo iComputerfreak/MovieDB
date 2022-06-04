@@ -9,14 +9,32 @@
 import SwiftUI
 
 struct UserListRow: View {
+    @Environment(\.editMode) private var editMode
     let list: MediaList
+    @State private var editingViewActive = false
     
     var body: some View {
-        NavigationLink {
-            UserListEditingView(list: list)
-        } label: {
-            Label(list.name, systemImage: list.iconName)
-                .symbolRenderingMode(.multicolor)
+        ZStack {
+            NavigationLink(isActive: $editingViewActive) {
+                UserListEditingView(list: list)
+            } label: {
+                EmptyView()
+            }
+            .hidden()
+            
+            NavigationLink {
+                Text(list.name)
+            } label: {
+                Label(list.name, systemImage: list.iconName)
+                    .symbolRenderingMode(.multicolor)
+            }
+            .gesture((editMode?.wrappedValue.isEditing ?? false) ? tapGesture : nil)
+        }
+    }
+    
+    var tapGesture: some Gesture {
+        TapGesture().onEnded {
+            self.editingViewActive = true
         }
     }
 }

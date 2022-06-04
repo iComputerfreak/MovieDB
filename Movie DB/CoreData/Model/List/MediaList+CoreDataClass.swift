@@ -11,4 +11,9 @@ import Foundation
 import CoreData
 
 @objc(MediaList)
-public class MediaList: NSManagedObject {}
+public class MediaList: NSManagedObject, MediaListProtocol {
+    func buildPredicate() -> NSPredicate {
+        // TODO: Replace with predicate from filter settings
+        return NSPredicate()
+    }
+}

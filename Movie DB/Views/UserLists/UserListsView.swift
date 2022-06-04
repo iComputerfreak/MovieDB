@@ -10,47 +10,28 @@ import SwiftUI
 import CoreData
 
 struct UserListsView: View {
-    static let defaultListsNames: [(icon: String, name: String)] = [
-        ("star.fill", "Favorites"),
-        ("checklist", "Watchlist"),
-        ("exclamationmark.triangle.fill", "Problems")
-    ]
-    
     @Environment(\.managedObjectContext) private var managedObjectContext
     @FetchRequest(entity: MediaList.entity(), sortDescriptors: [])
     private var lists: FetchedResults<MediaList>
     
     @State private var addListAlertShowing = false
-    
-    var defaultLists: [MediaList] {
-        lists
-            .filter { list in
-                Self.defaultListsNames.contains(where: { $0.name == list.name })
-            }
-            .sorted(using: MediaListComparator(order: .forward))
-    }
-    
+        
     var userLists: [MediaList] {
-        lists
-            .filter { list in
-                !Self.defaultListsNames.contains(where: { $0.name == list.name })
-            }
-            .sorted(using: MediaListComparator(order: .forward))
+        lists.sorted(by: \.name)
     }
     
     var body: some View {
         NavigationView {
         List {
             Section("Default Lists") {
-                ForEach(defaultLists) { list in
-                    UserListRow(list: list)
-                }
+                DefaultListRow(list: DefaultMediaList.favorites)
+                DefaultListRow(list: DefaultMediaList.watchlist)
+                DefaultListRow(list: DefaultMediaList.problems)
             }
             if !userLists.isEmpty {
                 Section("User Lists") {
                     ForEach(userLists) { list in
                         UserListRow(list: list)
-                            .deleteDisabled(Self.defaultListsNames.contains(where: { $0.name == list.name }))
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in
@@ -60,10 +41,6 @@ struct UserListsView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            self.populateDefaultLists()
-            PersistenceController.saveContext(self.managedObjectContext)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -107,13 +84,7 @@ struct UserListsView: View {
             Image(systemName: "plus")
         }
     }
-    
-    func populateDefaultLists() {
-        for (icon, name) in Self.defaultListsNames {
-            createDefaultList(name: name, iconName: icon)
-        }
-    }
-    
+        
     private func createDefaultList(name: String, iconName: String) {
         if !lists.contains(where: { $0.name == name }) {
             // Create List
@@ -128,24 +99,5 @@ struct UserListsViews_Previews: PreviewProvider {
     static var previews: some View {
         UserListsView()
             .environment(\.managedObjectContext, PersistenceController.previewContext)
-    }
-}
-
-struct MediaListComparator: SortComparator {
-    typealias Compared = MediaList
-    
-    var order: SortOrder
-    
-    func compare(_ lhs: MediaList, _ rhs: MediaList) -> ComparisonResult {
-        let lhsIndex = UserListsView.defaultListsNames
-            .firstIndex(where: { $0.name == lhs.name }) ?? UserListsView.defaultListsNames.count
-        let rhsIndex = UserListsView.defaultListsNames
-            .firstIndex(where: { $0.name == rhs.name }) ?? UserListsView.defaultListsNames.count
-        
-        if lhsIndex == rhsIndex {
-            return lhs.name.compare(rhs.name)
-        } else {
-            return lhsIndex < rhsIndex ? .orderedAscending : .orderedDescending
-        }
     }
 }
