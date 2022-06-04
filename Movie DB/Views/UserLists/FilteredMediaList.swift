@@ -9,13 +9,38 @@
 import SwiftUI
 
 struct FilteredMediaList: View {
+    let title: String
+    let predicate: NSPredicate
+    
+    @FetchRequest
+    private var medias: FetchedResults<Media>
+    
+    // swiftlint:disable:next type_contents_order
+    init(list: MediaListProtocol) {
+        self.title = list.name
+        self.predicate = list.buildPredicate()
+        self._medias = FetchRequest(
+            entity: Media.entity(),
+            // TODO: Support sorting
+            sortDescriptors: [],
+            predicate: predicate,
+            animation: .default
+        )
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(medias) { media in
+                LibraryRow()
+                    .environmentObject(media)
+            }
+        }
+        .navigationTitle(title)
     }
 }
 
 struct FilteredMediaList_Previews: PreviewProvider {
     static var previews: some View {
-        FilteredMediaList()
+        FilteredMediaList(list: DefaultMediaList.favorites)
     }
 }

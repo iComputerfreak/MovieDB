@@ -13,7 +13,7 @@ struct DefaultListRow: View {
     
     var body: some View {
         NavigationLink {
-            Text(list.name)
+            FilteredMediaList(list: list)
         } label: {
             Label(list.name, systemImage: list.iconName)
                 .symbolRenderingMode(.multicolor)

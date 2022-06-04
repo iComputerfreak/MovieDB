@@ -463,7 +463,7 @@
 			path = CSV;
 			sourceTree = "<group>";
 		};
-		AB097F5A284A994000E559E7 /* List */ = {
+		AB097F5A284A994000E559E7 /* MediaList */ = {
 			isa = PBXGroup;
 			children = (
 				AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */,
@@ -471,7 +471,7 @@
 				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
 				AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */,
 			);
-			path = List;
+			path = MediaList;
 			sourceTree = "<group>";
 		};
 		AB097F5F284BA44000E559E7 /* UserLists */ = {
@@ -500,7 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				AB097F70284BF64300E559E7 /* FilterSetting */,
-				AB097F5A284A994000E559E7 /* List */,
+				AB097F5A284A994000E559E7 /* MediaList */,
 				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
 				AB1434BE25CEE9BB00AA304F /* Season */,
