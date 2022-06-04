@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FilterShowSpecificSection: View {
-    @Binding var filterSetting: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
@@ -52,6 +52,8 @@ struct FilterShowSpecificSection: View {
 
 struct FilterShowSpecificSection_Previews: PreviewProvider {
     static var previews: some View {
-        FilterShowSpecificSection(filterSetting: .constant(FilterSetting()))
+        FilterShowSpecificSection(
+            filterSetting: FilterSetting(context: PersistenceController.createDisposableContext())
+        )
     }
 }

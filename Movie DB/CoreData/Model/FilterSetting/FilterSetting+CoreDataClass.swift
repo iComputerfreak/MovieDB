@@ -1,75 +1,18 @@
 //
-//  FilterSetting.swift
+//  FilterSetting+CoreDataClass.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 26.04.22.
+//  Created by Jonas Frey on 04.06.22.
 //  Copyright © 2022 Jonas Frey. All rights reserved.
+//
 //
 
 import Foundation
+import CoreData
 import SwiftUI
 
-struct FilterSetting: Identifiable {
-    var id = UUID()
-    
-    var isAdult: Bool?
-    var mediaType: MediaType?
-    var minRating: Int?
-    var maxRating: Int?
-    var minYear: Int?
-    var maxYear: Int?
-    var statuses: [MediaStatus] = []
-    var showTypes: [ShowType] = []
-    var minNumberOfSeasons: Int?
-    var maxNumberOfSeasons: Int?
-    var watched: Bool?
-    var watchAgain: Bool?
-    var genres: Set<Genre> = []
-    var tags: Set<Tag> = []
-    
-    var rating: ClosedRange<StarRating>? {
-        get {
-            guard let rawMinRating = self.minRating, let minRating = StarRating(rawValue: rawMinRating),
-                  let rawMaxRating = self.maxRating, let maxRating = StarRating(rawValue: rawMaxRating) else {
-                return nil
-            }
-            return minRating ... maxRating
-        }
-        set {
-            self.minRating = newValue?.lowerBound.rawValue
-            self.maxRating = newValue?.upperBound.rawValue
-        }
-    }
-    
-    var year: ClosedRange<Int>? {
-        get {
-            guard let minYear = self.minYear, let maxYear = self.maxYear else {
-                return nil
-            }
-            return minYear ... maxYear
-        }
-        set {
-            self.minYear = newValue?.lowerBound
-            self.maxYear = newValue?.upperBound
-        }
-    }
-    
-    var numberOfSeasons: ClosedRange<Int>? {
-        get {
-            guard
-                let minNumberOfSeasons = self.minNumberOfSeasons,
-                let maxNumberOfSeasons = self.maxNumberOfSeasons
-            else {
-                return nil
-            }
-            return minNumberOfSeasons ... maxNumberOfSeasons
-        }
-        set {
-            self.minNumberOfSeasons = newValue?.lowerBound
-            self.maxNumberOfSeasons = newValue?.upperBound
-        }
-    }
-    
+@objc(FilterSetting)
+public class FilterSetting: NSManagedObject {
     var isReset: Bool {
         self.isAdult == nil &&
         self.mediaType == nil &&
@@ -84,7 +27,7 @@ struct FilterSetting: Identifiable {
         self.tags.isEmpty
     }
     
-    mutating func reset() {
+    func reset() {
         self.isAdult = nil
         self.mediaType = nil
         self.genres = []
@@ -122,6 +65,7 @@ extension FilterSetting {
                     lower = upper
                 }
                 // Update the binding in the main thread (may be bound to UI)
+                // TODO: Should not be our problem. Caller has to update the binding on the main thread. Check and remove
                 DispatchQueue.main.async {
                     setting.wrappedValue = lower ... upper
                 }
@@ -151,7 +95,7 @@ extension FilterSetting {
     /// Builds a predicate that represents the current filter configuration
     /// - Returns: The `NSCompoundPredicate` representing the current filter configuration
     // swiftlint:disable:next function_body_length
-    func predicate() -> NSPredicate {
+    func buildPredicate() -> NSPredicate {
         var predicates: [NSPredicate] = []
         if let isAdult = self.isAdult as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "isAdult", isAdult))

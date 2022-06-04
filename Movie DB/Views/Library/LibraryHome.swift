@@ -11,7 +11,7 @@ import Combine
 
 struct LibraryHome: View {
     // The filter setting (non-persistent)
-    @State private var filterSetting = FilterSetting()
+    @StateObject private var filterSetting = FilterSetting(context: PersistenceController.createDisposableContext())
     
     @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -75,7 +75,7 @@ struct LibraryHome: View {
                         AddMediaView()
                             .environment(\.managedObjectContext, managedObjectContext)
                     case .filter:
-                        FilterView(filterSetting: $filterSetting)
+                        FilterView(filterSetting: filterSetting)
                             .environment(\.managedObjectContext, managedObjectContext)
                         // FUTURE: Open new item in editing mode
 //                        .sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))

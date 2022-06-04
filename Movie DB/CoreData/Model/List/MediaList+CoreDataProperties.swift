@@ -15,7 +15,8 @@ extension MediaList {
     @NSManaged public var name: String
     /// The name of the SF Symbol to use as an icon for this list
     @NSManaged public var iconName: String
-    @NSManaged public var medias: Set<Media>
+    /// The filter setting of this media list
+    @NSManaged public var filterSetting: FilterSetting?
 
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<MediaList> {

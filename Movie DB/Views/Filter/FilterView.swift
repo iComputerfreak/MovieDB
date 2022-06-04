@@ -12,7 +12,7 @@ import CoreData
 struct FilterView: View {
     static let nilString = "any"
     
-    @Binding var filterSetting: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -20,9 +20,9 @@ struct FilterView: View {
     var body: some View {
         NavigationView {
             Form {
-                FilterUserDataSection(filterSetting: $filterSetting)
-                FilterInformationSection(filterSetting: $filterSetting)
-                FilterShowSpecificSection(filterSetting: $filterSetting)
+                FilterUserDataSection(filterSetting: filterSetting)
+                FilterInformationSection(filterSetting: filterSetting)
+                FilterShowSpecificSection(filterSetting: filterSetting)
             }
             .navigationTitle(Strings.Library.Filter.navBarTitle)
             .toolbar {
@@ -48,6 +48,6 @@ struct FilterView: View {
 
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterView(filterSetting: .constant(FilterSetting()))
+        FilterView(filterSetting: FilterSetting(context: PersistenceController.createDisposableContext()))
     }
 }

@@ -18,6 +18,8 @@ extension Tag {
     
     /// All media objects tagged with this tag
     @NSManaged public var medias: Set<Media>
+    /// All ``FilterSetting``s that reference this tag
+    @NSManaged public var filterSettings: Set<FilterSetting>
     
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Tag> {

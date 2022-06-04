@@ -37,7 +37,7 @@ struct LibraryList: View {
             ))
         }
         if true { // TODO: Only if filter is active (currently no on/off switch available to toggle that)
-            predicates.append(filterSetting.predicate())
+            predicates.append(filterSetting.buildPredicate())
         }
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         

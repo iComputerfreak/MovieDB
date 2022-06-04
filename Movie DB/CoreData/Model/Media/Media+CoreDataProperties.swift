@@ -100,6 +100,10 @@ extension Media {
     @NSManaged private var parentalRatingLabel: String?
     /// The streaming sites where is media is available to watch
     @NSManaged public var watchProviders: [WatchProvider]
+    /// Whether this media has been marked as a favorite
+    @NSManaged public var isFavorite: Bool
+    /// Whether this media has been added to the watchlist
+    @NSManaged public var isOnWatchlist: Bool
     /// The lists this media is associated with
     @NSManaged public var lists: Set<MediaList>
     

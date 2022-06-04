@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FilterUserDataSection: View {
-    @Binding var filterSetting: FilterSetting
+    @ObservedObject var filterSetting: FilterSetting
     
     private var watchedProxy: Binding<String> {
         .init(get: {
@@ -72,6 +72,6 @@ struct FilterUserDataSection: View {
 
 struct FilterUserDataSection_Previews: PreviewProvider {
     static var previews: some View {
-        FilterUserDataSection(filterSetting: .constant(FilterSetting()))
+        FilterUserDataSection(filterSetting: FilterSetting(context: PersistenceController.createDisposableContext()))
     }
 }
