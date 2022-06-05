@@ -7,13 +7,19 @@
 //
 
 import Foundation
+import CoreData
 
 struct DefaultMediaList: MediaListProtocol {
     let name: String
     let iconName: String
     let predicate: NSPredicate
     
-    func buildPredicate() -> NSPredicate { predicate }
+    func buildFetchRequest() -> NSFetchRequest<Media> {
+        let fetch = Media.fetchRequest()
+        fetch.predicate = predicate
+        fetch.sortDescriptors = []
+        return fetch
+    }
 }
 
 extension DefaultMediaList {

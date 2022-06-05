@@ -117,5 +117,18 @@ file_types_order:
     - extension
 multiline_arguments:
   only_enforce_after_first_closure_on_first_line: true
+modifier_order:
+  preferred_modifier_order:
+    - acl
+    - override
+    - setterACL
+    - dynamic
+    - mutators
+    - lazy
+    - final
+    - required
+    - convenience
+    - typeMethods
+    - owned
 
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

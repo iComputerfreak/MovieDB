@@ -8,40 +8,38 @@
 
 import SwiftUI
 
-struct FilteredMediaList: View {
+struct FilteredMediaList<RowContent: View>: View {
     let title: String
-    let predicate: NSPredicate
+    let rowContent: (Media) -> RowContent
     
     @FetchRequest
     private var medias: FetchedResults<Media>
     
     // swiftlint:disable:next type_contents_order
-    init(list: MediaListProtocol) {
+    init(list: MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
         self.title = list.name
-        self.predicate = list.buildPredicate()
-        self._medias = FetchRequest(
-            entity: Media.entity(),
-            // TODO: Support sorting
-            sortDescriptors: [],
-            predicate: predicate,
-            animation: .default
-        )
+        self.rowContent = rowContent
+        self._medias = FetchRequest(fetchRequest: list.buildFetchRequest(), animation: .default)
     }
     
     var body: some View {
         // TODO: Show text when no entries
+        // TODO: Show different text when filter is reset ("please configure filter")
         List {
             ForEach(medias) { media in
-                LibraryRow()
-                    .environmentObject(media)
+                self.rowContent(media)
             }
         }
+        .listStyle(.plain)
         .navigationTitle(title)
     }
 }
 
 struct FilteredMediaList_Previews: PreviewProvider {
     static var previews: some View {
-        FilteredMediaList(list: DefaultMediaList.favorites)
+        FilteredMediaList(list: DefaultMediaList.favorites) { media in
+            LibraryRow()
+                .environmentObject(media)
+        }
     }
 }

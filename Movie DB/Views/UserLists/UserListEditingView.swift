@@ -29,9 +29,9 @@ struct UserListEditingView: View {
                 }
             }
             // TODO: Store filter setting on list
-            FilterUserDataSection(
-                filterSetting: FilterSetting(context: PersistenceController.createDisposableContext())
-            )
+            FilterUserDataSection(filterSetting: list.filterSetting!)
+            FilterInformationSection(filterSetting: list.filterSetting!)
+            FilterShowSpecificSection(filterSetting: list.filterSetting!)
         }
         .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.inline)

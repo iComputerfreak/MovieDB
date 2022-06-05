@@ -22,9 +22,19 @@ struct UserListsView: View {
         NavigationView {
         List {
             Section("Default Lists") {
-                DefaultListRow(list: DefaultMediaList.favorites)
-                DefaultListRow(list: DefaultMediaList.watchlist)
-                DefaultListRow(list: DefaultMediaList.problems)
+                DefaultListRow(list: DefaultMediaList.favorites) { media in
+                    LibraryRow()
+                        .environmentObject(media)
+                }
+                DefaultListRow(list: DefaultMediaList.watchlist) { media in
+                    LibraryRow()
+                        .environmentObject(media)
+                }
+                // For the problems list, show the ProblemsView instead of the normal list rows
+                DefaultListRow(list: DefaultMediaList.problems) { media in
+                    ProblemsLibraryRow()
+                        .environmentObject(media)
+                }
             }
             if !userLists.isEmpty {
                 Section("User Lists") {

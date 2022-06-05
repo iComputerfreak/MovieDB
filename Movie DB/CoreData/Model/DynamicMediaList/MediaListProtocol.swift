@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import CoreData
 
 protocol MediaListProtocol {
     var name: String { get }
     var iconName: String { get }
-    func buildPredicate() -> NSPredicate
+    func buildFetchRequest() -> NSFetchRequest<Media>
 }

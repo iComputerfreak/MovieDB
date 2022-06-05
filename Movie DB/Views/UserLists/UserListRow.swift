@@ -23,7 +23,10 @@ struct UserListRow: View {
             .hidden()
             
             NavigationLink {
-                FilteredMediaList(list: list)
+                FilteredMediaList(list: list) { media in
+                    LibraryRow()
+                        .environmentObject(media)
+                }
             } label: {
                 Label(list.name, systemImage: list.iconName)
                     .symbolRenderingMode(.multicolor)

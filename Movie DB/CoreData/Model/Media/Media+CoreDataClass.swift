@@ -32,7 +32,7 @@ public class Media: NSManagedObject {
         }
     }
     
-    override public func prepareForDeletion() {
+    public override func prepareForDeletion() {
         print("Preparing \(self.title) for deletion")
         if
             let imagePath = self.imagePath,
@@ -105,14 +105,14 @@ public class Media: NSManagedObject {
         return objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
     }
     
-    override public func awakeFromFetch() {
+    public override func awakeFromFetch() {
         print("[\(self.title)] Awaking from fetch")
         Task {
             await self.loadThumbnail()
         }
     }
     
-    override public func awakeFromInsert() {
+    public override func awakeFromInsert() {
         super.awakeFromInsert()
         print("[\(self.title)] Awaking from insert")
         self.tags = []
@@ -120,7 +120,7 @@ public class Media: NSManagedObject {
         self.modificationDate = Date()
     }
     
-    override public func willSave() {
+    public override func willSave() {
         // Changing properties in this function will invoke willSave again.
         // We need to make sure we don't result in a infinite loop
         if (modificationDate?.distance(to: .now) ?? 100.0) > 10.0 {

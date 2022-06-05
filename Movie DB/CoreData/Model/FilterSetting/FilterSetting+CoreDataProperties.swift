@@ -21,19 +21,47 @@ extension FilterSetting {
         set { setOptionalEnum(newValue, forKey: "mediaType") }
     }
     public var minRating: Int? {
-        get { getOptionalInt(forKey: "minRating") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "minRating"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "minRating") }
     }
     public var maxRating: Int? {
-        get { getOptionalInt(forKey: "maxRating") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "maxRating"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "maxRating") }
     }
     public var minYear: Int? {
-        get { getOptionalInt(forKey: "minYear") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "minYear"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "minYear") }
     }
     public var maxYear: Int? {
-        get { getOptionalInt(forKey: "maxYear") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "maxYear"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "maxYear") }
     }
     public var statuses: [MediaStatus] {
@@ -45,11 +73,25 @@ extension FilterSetting {
         set { setEnumArray(newValue, forKey: "showType") }
     }
     public var minNumberOfSeasons: Int? {
-        get { getOptionalInt(forKey: "minNumberOfSeasons") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "minNumberOfSeasons"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "minNumberOfSeasons") }
     }
     public var maxNumberOfSeasons: Int? {
-        get { getOptionalInt(forKey: "maxNumberOfSeasons") }
+        // We return nil for negative numbers, since this property does not make sense for negative numbers
+        // and we use -1 as an initial value when the entity is first created
+        get {
+            guard let value = getOptionalInt(forKey: "maxNumberOfSeasons"), value >= 0 else {
+                return nil
+            }
+            return value
+        }
         set { setOptionalInt(newValue, forKey: "maxNumberOfSeasons") }
     }
     public var watched: Bool? {

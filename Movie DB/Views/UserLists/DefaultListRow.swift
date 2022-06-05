@@ -8,12 +8,13 @@
 
 import SwiftUI
 
-struct DefaultListRow: View {
+struct DefaultListRow<RowContent: View>: View {
     let list: DefaultMediaList
+    let rowContent: (Media) -> RowContent
     
     var body: some View {
         NavigationLink {
-            FilteredMediaList(list: list)
+            FilteredMediaList(list: list, rowContent: rowContent)
         } label: {
             Label(list.name, systemImage: list.iconName)
                 .symbolRenderingMode(.multicolor)
@@ -23,6 +24,9 @@ struct DefaultListRow: View {
 
 struct DefaultListRow_Previews: PreviewProvider {
     static var previews: some View {
-        DefaultListRow(list: .favorites)
+        DefaultListRow(list: .favorites) { media in
+            LibraryRow()
+                .environmentObject(media)
+        }
     }
 }
