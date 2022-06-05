@@ -10,15 +10,9 @@ import SwiftUI
 import Combine
 import JFSwiftUI
 
-// TODO: Localize
 struct LookupView: View {
-    @State private var searchText: String = ""
     @State private var isLoading = false
     @State private var isShowingProPopup = false
-    @State private var cancellable: AnyCancellable?
-    @State private var displayedMedia: Media?
-    // The subject used to fire the searchText changed events
-    private let searchTextChangedSubject = PassthroughSubject<String, Never>()
     
     @Environment(\.managedObjectContext) private var managedObjectContext
         

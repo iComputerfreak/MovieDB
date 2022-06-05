@@ -11,12 +11,10 @@ import CoreData
 
 struct UserListsView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @FetchRequest(entity: MediaList.entity(), sortDescriptors: [])
-    private var lists: FetchedResults<MediaList>
-    
-    @State private var addListAlertShowing = false
-        
-    var userLists: [MediaList] {
+    @FetchRequest(entity: DynamicMediaList.entity(), sortDescriptors: [])
+    private var lists: FetchedResults<DynamicMediaList>
+            
+    var userLists: [DynamicMediaList] {
         lists.sorted(by: \.name)
     }
     
@@ -76,21 +74,12 @@ struct UserListsView: View {
                     AlertHandler.showSimpleAlert(title: "List already exists", message: "List already exists")
                     return
                 }
-                let list = MediaList(context: managedObjectContext)
+                let list = DynamicMediaList(context: managedObjectContext)
                 list.name = text
             }))
             AlertHandler.presentAlert(alert: alert)
         } label: {
             Image(systemName: "plus")
-        }
-    }
-        
-    private func createDefaultList(name: String, iconName: String) {
-        if !lists.contains(where: { $0.name == name }) {
-            // Create List
-            let list = MediaList(context: managedObjectContext)
-            list.name = name
-            list.iconName = iconName
         }
     }
 }

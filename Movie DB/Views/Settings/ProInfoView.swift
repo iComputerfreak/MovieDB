@@ -75,8 +75,6 @@ struct ProInfoView: View {
 }
 
 struct ProInfoView_Previews: PreviewProvider {
-    @State private static var isShowing = true
-    
     static var previews: some View {
         ProInfoView()
     }

@@ -51,7 +51,6 @@ struct ProblemsView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @State private var problems: [Media: Set<Media.MediaInformation>] = [:]
     @State private var presentedMedia = PresentedMedia()
     
     var body: some View {

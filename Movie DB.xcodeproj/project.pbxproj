@@ -16,8 +16,8 @@
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
 		AB097F57284A96C700E559E7 /* UserListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F56284A96C700E559E7 /* UserListsView.swift */; };
 		AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F58284A974500E559E7 /* FilteredMediaList.swift */; };
-		AB097F5D284A996300E559E7 /* MediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */; };
-		AB097F5E284A996300E559E7 /* MediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */; };
+		AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */; };
+		AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */; };
 		AB097F61284BA46400E559E7 /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F60284BA46400E559E7 /* UserListRow.swift */; };
 		AB097F63284BA73700E559E7 /* UserListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* UserListEditingView.swift */; };
 		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
@@ -224,8 +224,8 @@
 		AB0318E92842BF4500041E0B /* CreditsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsHelpers.swift; sourceTree = "<group>"; };
 		AB097F56284A96C700E559E7 /* UserListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListsView.swift; sourceTree = "<group>"; };
 		AB097F58284A974500E559E7 /* FilteredMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredMediaList.swift; sourceTree = "<group>"; };
-		AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
-		AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB097F60284BA46400E559E7 /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
 		AB097F62284BA73700E559E7 /* UserListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListEditingView.swift; sourceTree = "<group>"; };
 		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
@@ -463,15 +463,15 @@
 			path = CSV;
 			sourceTree = "<group>";
 		};
-		AB097F5A284A994000E559E7 /* MediaList */ = {
+		AB097F5A284A994000E559E7 /* DynamicMediaList */ = {
 			isa = PBXGroup;
 			children = (
-				AB097F5B284A996300E559E7 /* MediaList+CoreDataClass.swift */,
-				AB097F5C284A996300E559E7 /* MediaList+CoreDataProperties.swift */,
+				AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */,
+				AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */,
 				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
 				AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */,
 			);
-			path = MediaList;
+			path = DynamicMediaList;
 			sourceTree = "<group>";
 		};
 		AB097F5F284BA44000E559E7 /* UserLists */ = {
@@ -500,7 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				AB097F70284BF64300E559E7 /* FilterSetting */,
-				AB097F5A284A994000E559E7 /* MediaList */,
+				AB097F5A284A994000E559E7 /* DynamicMediaList */,
 				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
 				AB1434BE25CEE9BB00AA304F /* Season */,
@@ -1278,7 +1278,7 @@
 				AB14349A25CEE0E000AA304F /* Genre+CoreDataClass.swift in Sources */,
 				AB1434CD25CEF2DD00AA304F /* EpisodeNumber.swift in Sources */,
 				AB1433FB25CDB6F600AA304F /* Movie+CoreDataProperties.swift in Sources */,
-				AB097F5E284A996300E559E7 /* MediaList+CoreDataProperties.swift in Sources */,
+				AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
 				AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */,
 				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
@@ -1300,7 +1300,7 @@
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
 				AB6D9C85283BC17C00AF655C /* Strings+Generic.swift in Sources */,
-				AB097F5D284A996300E559E7 /* MediaList+CoreDataClass.swift in Sources */,
+				AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
@@ -1571,6 +1571,7 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1596,6 +1597,7 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (

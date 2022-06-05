@@ -10,8 +10,8 @@
 import Foundation
 import CoreData
 
-@objc(MediaList)
-public class MediaList: NSManagedObject, MediaListProtocol {
+@objc(DynamicMediaList)
+public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     func buildPredicate() -> NSPredicate {
         filterSetting?.buildPredicate() ?? NSPredicate(value: true)
     }

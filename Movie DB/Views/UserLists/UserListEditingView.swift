@@ -11,7 +11,7 @@ import SwiftUI
 struct UserListEditingView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @ObservedObject var list: MediaList
+    @ObservedObject var list: DynamicMediaList
     
     var body: some View {
         Form {
@@ -39,8 +39,8 @@ struct UserListEditingView: View {
 }
 
 struct UserListEditingView_Previews: PreviewProvider {
-    static let previewList: MediaList = {
-        let list = MediaList(context: PersistenceController.previewContext)
+    static let previewList: DynamicMediaList = {
+        let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         return list

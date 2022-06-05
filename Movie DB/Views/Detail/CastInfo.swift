@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CastInfo: View {
     @EnvironmentObject private var mediaObject: Media
-    @State private var personThumbnails: [Int: UIImage?] = [:]
     
     @State private var cast: [CastMemberDummy] = []
     

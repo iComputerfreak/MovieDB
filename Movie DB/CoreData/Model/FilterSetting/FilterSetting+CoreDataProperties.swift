@@ -65,7 +65,7 @@ extension FilterSetting {
     /// The tags that are referenced by this filter setting
     @NSManaged public var tags: Set<Tag>
     /// The media list that uses this filter setting
-    @NSManaged public var mediaList: MediaList?
+    @NSManaged public var mediaList: DynamicMediaList?
     
     var rating: ClosedRange<StarRating>? {
         get {

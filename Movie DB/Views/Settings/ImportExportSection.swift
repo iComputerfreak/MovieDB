@@ -15,17 +15,7 @@ struct ImportExportSection: View {
     @State private var importLogShowing = false
     @State private var documentPicker: DocumentPicker?
     @Binding var config: SettingsViewConfig
-    
-    private var documentPickerPresented: Binding<Bool> {
-        .init {
-            documentPicker != nil
-        } set: { newState in
-            if !newState {
-                self.documentPicker = nil
-            }
-        }
-    }
-    
+        
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
     var body: some View {

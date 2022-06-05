@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-extension MediaList {
+extension DynamicMediaList {
     /// The name of the list
     @NSManaged public var name: String
     /// The name of the SF Symbol to use as an icon for this list
@@ -19,9 +19,9 @@ extension MediaList {
     @NSManaged public var filterSetting: FilterSetting?
 
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<MediaList> {
-        NSFetchRequest<MediaList>(entityName: "List")
+    public class func fetchRequest() -> NSFetchRequest<DynamicMediaList> {
+        NSFetchRequest<DynamicMediaList>(entityName: "DynamicMediaList")
     }
 }
 
-extension MediaList: Identifiable {}
+extension DynamicMediaList: Identifiable {}

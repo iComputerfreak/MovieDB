@@ -29,6 +29,7 @@ struct FilteredMediaList: View {
     }
     
     var body: some View {
+        // TODO: Show text when no entries
         List {
             ForEach(medias) { media in
                 LibraryRow()

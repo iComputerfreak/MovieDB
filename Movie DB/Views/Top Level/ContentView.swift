@@ -9,9 +9,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var config = JFConfig.shared
-    @StateObject private var storeManager = StoreManager.shared
-    
     @State private var problems = MediaLibrary.shared.problems()
     
     var body: some View {

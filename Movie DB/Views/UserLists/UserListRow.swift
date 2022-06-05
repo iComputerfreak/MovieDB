@@ -10,7 +10,7 @@ import SwiftUI
 
 struct UserListRow: View {
     @Environment(\.editMode) private var editMode
-    let list: MediaList
+    let list: DynamicMediaList
     @State private var editingViewActive = false
     
     var body: some View {
@@ -37,11 +37,15 @@ struct UserListRow: View {
             self.editingViewActive = true
         }
     }
+    
+    func testasdf() {
+        print("Test")
+    }
 }
 
 struct UserListRow_Previews: PreviewProvider {
-    static let previewList: MediaList = {
-        let list = MediaList(context: PersistenceController.previewContext)
+    static let previewList: DynamicMediaList = {
+        let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         return list
