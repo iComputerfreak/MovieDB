@@ -14,7 +14,7 @@ struct LibraryActionsSection: View {
     @Binding var config: SettingsViewConfig
     @EnvironmentObject var preferences: JFConfig
     @State private var library: MediaLibrary = .shared
-    let reloadHandler: () -> Void
+    let reloadHandler: @MainActor () -> Void
     
     var body: some View {
         Section(footer: FooterView(

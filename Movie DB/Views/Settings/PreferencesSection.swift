@@ -13,7 +13,7 @@ struct PreferencesSection: View {
     @EnvironmentObject var preferences: JFConfig
     @Binding var config: SettingsViewConfig
     // We need to know how to reload the library if the language changes
-    let reloadHandler: () -> Void
+    let reloadHandler: @MainActor () -> Void
     
     @State private var reloadLibraryAlertShowing = false
     

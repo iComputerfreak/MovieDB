@@ -127,7 +127,6 @@
 		AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FC1281EB02F003ED045 /* MetadataInfo.swift */; };
 		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
-		AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB79E99D25C9F1850050BD8D /* CloudKit.framework */; };
 		AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */; };
 		AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */; };
 		AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */; };
@@ -166,6 +165,8 @@
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
 		ABD8648A281940E3001A1F7C /* WatchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86489281940E3001A1F7C /* WatchProvider.swift */; };
 		ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */; };
+		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
+		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */; };
 		ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */; };
 		ABE70015239D7EA100DD672B /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE70014239D7EA100DD672B /* APITests.swift */; };
@@ -376,6 +377,8 @@
 		ABD86489281940E3001A1F7C /* WatchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvider.swift; sourceTree = "<group>"; };
 		ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvidersInfo.swift; sourceTree = "<group>"; };
 		ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v2.xcdatamodel"; sourceTree = "<group>"; };
+		ABE17B68284FA05600879C30 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCloudKit.tbd; path = usr/lib/swift/libswiftCloudKit.tbd; sourceTree = SDKROOT; };
 		ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABE6721425E017D100CAF7C3 /* Thumbnail+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABE70014239D7EA100DD672B /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
@@ -426,8 +429,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
+				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */,
-				AB79E99E25C9F1850050BD8D /* CloudKit.framework in Frameworks */,
 				AB54940125FD41930072745B /* CSVImporter in Frameworks */,
 				AB25099B238B18AF00F7A411 /* TextView in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
@@ -814,6 +818,8 @@
 		AB79E99C25C9F1850050BD8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */,
+				ABE17B68284FA05600879C30 /* CloudKit.framework */,
 				AB79E99D25C9F1850050BD8D /* CloudKit.framework */,
 			);
 			name = Frameworks;
@@ -1010,6 +1016,7 @@
 				AB25099A238B18AF00F7A411 /* TextView */,
 				AB54940025FD41930072745B /* CSVImporter */,
 				AB3FA4FD280B035900FA3C75 /* JFUtils */,
+				ABE17B6C284FA4A100879C30 /* Algorithms */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -1071,6 +1078,7 @@
 				AB250999238B18AF00F7A411 /* XCRemoteSwiftPackageReference "TextView" */,
 				AB5493FF25FD41930072745B /* XCRemoteSwiftPackageReference "CSVImporter" */,
 				ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */,
+				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -1578,10 +1586,17 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1604,10 +1619,17 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1721,6 +1743,14 @@
 				minimumVersion = 1.0.6;
 			};
 		};
+		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFUtils";
@@ -1751,6 +1781,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
+		};
+		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 

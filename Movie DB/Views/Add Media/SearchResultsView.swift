@@ -142,7 +142,7 @@ struct SearchResultsView<RowContent: View>: View {
                         return !movieResult.isAdult
                     }
                     // Remove search results with the same TMDB ID
-                    .removingDuplicates(key: \.id)
+                    .uniqued(on: \.id)
                 
                 // Add the results to the list
                 await MainActor.run {

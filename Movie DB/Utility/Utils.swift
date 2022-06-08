@@ -12,6 +12,7 @@ import SwiftUI
 import CoreData
 import StoreKit
 import JFUtils
+import Algorithms
 
 /// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
 ///
@@ -131,14 +132,16 @@ struct Utils {
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: "Genre", context: context)
-            .removingDuplicates { $0.id == $1.id && $0.name == $1.name }
+            // TODO: Test if .uniqued works as expected
+            //.removingDuplicates { $0.id == $1.id && $0.name == $1.name }
+            .uniqued(on: \.id)
             .sorted(by: \.name)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
         allObjects(entityName: "Media", context: context)
-            .removingDuplicates(key: \.id)
+            .uniqued(on: \.id)
             .sorted(by: \.id)
     }
     
