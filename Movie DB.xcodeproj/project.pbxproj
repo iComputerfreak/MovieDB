@@ -54,7 +54,7 @@
 		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
-		AB48BD6C2816CE3C00E53135 /* Movie_DBUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6B2816CE3C00E53135 /* Movie_DBUITests.swift */; };
+		AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */; };
 		AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */; };
 		AB4CD56824D4664F005FAF20 /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD56724D4664F005FAF20 /* CodableTests.swift */; };
 		AB4CF8E02823CD1E006F2F81 /* NavigationLinkChevron.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */; };
@@ -122,6 +122,11 @@
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
 		AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA37264D770F0048B8CC /* LanguageChooser.swift */; };
 		AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */; };
+		AB9956092850F1D300C3D063 /* DetailUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9956082850F1D300C3D063 /* DetailUITests.swift */; };
+		AB99560B2850F1DA00C3D063 /* SettingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB99560A2850F1DA00C3D063 /* SettingsUITests.swift */; };
+		AB99560D2850F1F200C3D063 /* UITestingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB99560C2850F1F200C3D063 /* UITestingHelper.swift */; };
+		AB99560F2850F52E00C3D063 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AB99560E2850F52E00C3D063 /* .swiftlint.yml */; };
+		AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB99561128511FEB00C3D063 /* FilterUITests.swift */; };
 		ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* MediaStatus.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
@@ -250,7 +255,7 @@
 		AB4085412663A7BA008C559B /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
 		AB4085472663B325008C559B /* ProInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProInfoView.swift; sourceTree = "<group>"; };
 		AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB48BD6B2816CE3C00E53135 /* Movie_DBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITests.swift; sourceTree = "<group>"; };
+		AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryUITests.swift; sourceTree = "<group>"; };
 		AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AB4CD56724D4664F005FAF20 /* CodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableTests.swift; sourceTree = "<group>"; };
 		AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLinkChevron.swift; sourceTree = "<group>"; };
@@ -323,6 +328,12 @@
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
 		AB98EA37264D770F0048B8CC /* LanguageChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooser.swift; sourceTree = "<group>"; };
 		AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateCastMember.swift; sourceTree = "<group>"; };
+		AB9956082850F1D300C3D063 /* DetailUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUITests.swift; sourceTree = "<group>"; };
+		AB99560A2850F1DA00C3D063 /* SettingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITests.swift; sourceTree = "<group>"; };
+		AB99560C2850F1F200C3D063 /* UITestingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingHelper.swift; sourceTree = "<group>"; };
+		AB99560E2850F52E00C3D063 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		AB9956102850F82200C3D063 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		AB99561128511FEB00C3D063 /* FilterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUITests.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -603,8 +614,13 @@
 		AB48BD6A2816CE3C00E53135 /* Movie DBUITests */ = {
 			isa = PBXGroup;
 			children = (
-				AB48BD6B2816CE3C00E53135 /* Movie_DBUITests.swift */,
+				AB99560C2850F1F200C3D063 /* UITestingHelper.swift */,
+				AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */,
+				AB99561128511FEB00C3D063 /* FilterUITests.swift */,
+				AB9956082850F1D300C3D063 /* DetailUITests.swift */,
+				AB99560A2850F1DA00C3D063 /* SettingsUITests.swift */,
 				AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */,
+				AB99560E2850F52E00C3D063 /* .swiftlint.yml */,
 			);
 			path = "Movie DBUITests";
 			sourceTree = "<group>";
@@ -681,6 +697,7 @@
 		AB6718D622C0312B00F429E4 /* Movie DBTests */ = {
 			isa = PBXGroup;
 			children = (
+				AB9956102850F82200C3D063 /* .swiftlint.yml */,
 				ABEEB0B22813078900230F0B /* Resources */,
 				AB6478DF22C7C91700F3E14E /* TestingUtils.swift */,
 				AB4CD56724D4664F005FAF20 /* CodableTests.swift */,
@@ -1028,6 +1045,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB99560F2850F52E00C3D063 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,7 +1127,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */,
-				AB48BD6C2816CE3C00E53135 /* Movie_DBUITests.swift in Sources */,
+				AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */,
+				AB99560B2850F1DA00C3D063 /* SettingsUITests.swift in Sources */,
+				AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */,
+				AB99560D2850F1F200C3D063 /* UITestingHelper.swift in Sources */,
+				AB9956092850F1D300C3D063 /* DetailUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,92 @@
+# By default, SwiftLint uses a set of sensible default rules you can adjust:
+disabled_rules:
+  - inclusive_language
+  - identifier_name
+  - todo
+  - type_name
+  - cyclomatic_complexity
+  - function_body_length
+  - type_body_length
+  - line_length
+  - implicitly_unwrapped_optional
+  - multiline_function_chains
+  - file_types_order
+  - prefer_self_in_static_references
+opt_in_rules:
+  - anonymous_argument_in_multiline_closure
+  - array_init
+  - attributes
+  - balanced_xctest_lifecycle
+  - collection_alignment
+  - conditional_returns_on_newline
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
+  - convenience_type
+  - discouraged_assert
+  - discouraged_none_name
+  - discouraged_object_literal
+#  - discouraged_optional_boolean
+#  - discouraged_optional_collection
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - enum_case_associated_values_count
+  - explicit_init
+  - explicit_self
+  - fallthrough
+  - fatal_error_message
+  - file_name_no_space
+  - first_where
+  - flatmap_over_map_reduce
+#  - force_unwrapping
+  - implicit_return
+  - joined_default_parameter
+  - last_where
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+#  - missing_docs
+  - modifier_order
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+#  - nslocalizedstring_key
+  - operator_usage_whitespace
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - private_subject
+  - prohibited_super_call
+  - reduce_into
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - required_enum_case
+  - sorted_first_last
+  - static_operator
+  - switch_case_on_newline
+  - toggle_bool
+  - type_contents_order
+  - unneeded_parentheses_in_closure_argument
+  - unavailable_function
+  - unused_declaration
+  - unused_import
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - yoda_condition
+
+trailing_whitespace:
+  ignores_empty_lines: true
+
+unused_declaration:
+  include_public_and_open: true
+
+multiline_arguments:
+  only_enforce_after_first_closure_on_first_line: true
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

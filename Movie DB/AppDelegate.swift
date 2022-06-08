@@ -21,6 +21,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         if CommandLine.arguments.contains("--uitesting") {
             // Prepare a fresh container to do the UI testing in
             PersistenceController.prepareForUITesting()
+            JFConfig.shared.region = "DE"
+            JFConfig.shared.language = "en-US"
         }
         #endif
         // Register transformers

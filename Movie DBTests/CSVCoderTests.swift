@@ -73,7 +73,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.title, "Momentum")
         XCTAssertEqual(media.personalRating, .fourStars)
         XCTAssertEqual(media.watchAgain, true)
-        XCTAssertEqual(media.tags.map(\.name), ["Female Lead", "Gangsters", "Kidnapping", "Revenge"])
+        XCTAssertEqual(media.tags.map(\.name).sorted(), ["Female Lead", "Gangsters", "Kidnapping", "Revenge"].sorted())
         XCTAssertEqual(media.notes, "")
         XCTAssertEqual(media.originalTitle, "Momentum")
         XCTAssertEqual(media.isAdult, false)
@@ -104,7 +104,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.title, "Another Life")
         XCTAssertEqual(media.personalRating, .halfStar)
         XCTAssertEqual(media.watchAgain, false)
-        XCTAssertEqual(media.tags.map(\.name), ["Artificial Intelligence", "Aliens", "Female Lead", "Haunted", "Future", "Horror", "Space", "Extinction Level Event"])
+        XCTAssertEqual(media.tags.map(\.name), ["Artificial Intelligence", "Aliens", "Female Lead", "Haunted", "Future", "Horror", "Space", "Extinction Level Event"].sorted())
         XCTAssertEqual(media.notes, "")
         XCTAssertEqual(media.originalTitle, "Another Life")
         XCTAssertEqual(media.showType, .scripted)
@@ -234,6 +234,6 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
         XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:")
-        XCTAssertEqual(lines[2], ";,\";watched;;\(media.id?.uuidString ?? "");The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;\(CSVManager.dateFormatter.string(from: media.creationDate))")
+        XCTAssertEqual(lines[2], ";,\";watched;;\(media.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media.creationDate));\(CSVManager.dateTimeFormatter.string(from: media.modificationDate ?? .now))")
     }
 }
