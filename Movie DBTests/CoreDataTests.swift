@@ -13,7 +13,6 @@ import XCTest
 import CoreData
 
 class CoreDataTests: XCTestCase {
-    // swiftlint:disable implicitly_unwrapped_optional
     var testingUtils: TestingUtils!
     var testContext: NSManagedObjectContext {
         testingUtils.context

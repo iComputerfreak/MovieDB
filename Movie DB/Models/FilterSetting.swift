@@ -251,7 +251,7 @@ extension FilterSetting {
             predicates.append(NSPredicate(format: "%K == %@", "watchAgain", watchAgain))
         }
         if !self.tags.isEmpty {
-            predicates.append(NSPredicate(format: "ALL %K IN %@", "tags", tags))
+            predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }

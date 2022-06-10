@@ -42,6 +42,54 @@ struct TMDBData: Decodable {
     var movieData: MovieData?
     var showData: ShowData?
     
+    init(
+        id: Int,
+        title: String,
+        originalTitle: String,
+        imagePath: String? = nil,
+        genres: [GenreDummy],
+        tagline: String? = nil,
+        overview: String? = nil,
+        status: MediaStatus,
+        originalLanguage: String,
+        productionCompanies: [ProductionCompanyDummy],
+        homepageURL: String? = nil,
+        productionCountries: [String],
+        popularity: Float,
+        voteAverage: Float,
+        voteCount: Int,
+        keywords: [String],
+        translations: [String],
+        videos: [VideoDummy],
+        parentalRating: ParentalRating? = nil,
+        watchProviders: [WatchProvider],
+        movieData: TMDBData.MovieData? = nil,
+        showData: TMDBData.ShowData? = nil
+    ) {
+        self.id = id
+        self.title = title
+        self.originalTitle = originalTitle
+        self.imagePath = imagePath
+        self.genres = genres
+        self.tagline = tagline
+        self.overview = overview
+        self.status = status
+        self.originalLanguage = originalLanguage
+        self.productionCompanies = productionCompanies
+        self.homepageURL = homepageURL
+        self.productionCountries = productionCountries
+        self.popularity = popularity
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+        self.keywords = keywords
+        self.translations = translations
+        self.videos = videos
+        self.parentalRating = parentalRating
+        self.watchProviders = watchProviders
+        self.movieData = movieData
+        self.showData = showData
+    }
+    
     // swiftlint:disable:next function_body_length
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
