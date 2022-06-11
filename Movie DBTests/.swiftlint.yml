@@ -13,6 +13,9 @@ disabled_rules:
   - file_types_order
   - prefer_self_in_static_references
   - function_parameter_count
+  - force_try
+  - multiline_arguments
+  - multiline_arguments_brackets
 opt_in_rules:
   - anonymous_argument_in_multiline_closure
   - array_init
@@ -49,8 +52,6 @@ opt_in_rules:
   - lower_acl_than_parent
 #  - missing_docs
   - modifier_order
-  - multiline_arguments
-  - multiline_arguments_brackets
   - multiline_literal_brackets
   - multiline_parameters
   - multiline_parameters_brackets

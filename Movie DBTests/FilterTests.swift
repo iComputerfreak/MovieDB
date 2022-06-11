@@ -23,7 +23,7 @@ class FilterTests: XCTestCase {
         super.setUp()
         testingUtils = TestingUtils()
         // Remove default medias and tags
-        testingUtils.context.reset()
+        testContext.reset()
         self.tags = [
             Tag(name: "Action", context: testContext),
             Tag(name: "Adventure", context: testContext),
@@ -32,7 +32,9 @@ class FilterTests: XCTestCase {
             Tag(name: "Comedy", context: testContext)
         ]
         // Add sample medias to filter
+        XCTAssertEqual(try testContext.fetch(Genre.fetchRequest()).count, 0)
         addSampleMedias()
+        XCTAssertEqual(try testContext.fetch(Genre.fetchRequest()).count, 6)
     }
     
     private func getTags(_ names: [String]) -> Set<Tag> {
@@ -43,13 +45,12 @@ class FilterTests: XCTestCase {
         let fetch = Genre.fetchRequest()
         fetch.predicate = NSPredicate(format: "%K IN %@", "name", names)
         let existing = try testContext.fetch(fetch)
-        // TODO: Why are genres added multiple times? In production too?
         XCTAssertEqual(names.count, existing.count, "Tried fetching genres \(names.joined(separator: ", ")), but received only \(existing.count) results: \(existing.map(\.name).joined(separator: ", "))")
         return Set(existing)
     }
     
-    private func createMovie(title: String, watched: MovieWatchState, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [String], rating: StarRating, year: Int, status: MediaStatus) {
-        let movie = Movie(context: testContext, tmdbData: createTMDBData(type: .movie, title: title, genres: genres, year: year, status: status))
+    private func createMovie(title: String, watched: MovieWatchState, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus) {
+        let movie = Movie(context: testContext, title: title, originalTitle: title, genres: genres, status: status, movieData: .init(rawReleaseDate: "\(year.formatted(.number.grouping(.never)))-01-01", budget: 0, revenue: 0, isAdult: false))
         movie.watched = watched
         movie.watchAgain = watchAgain
         movie.personalRating = rating
@@ -57,8 +58,8 @@ class FilterTests: XCTestCase {
         movie.notes = notes ?? ""
     }
     
-    private func createShow(title: String, watched: EpisodeNumber?, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [String], rating: StarRating, year: Int, status: MediaStatus, showType: ShowType, seasonCount: Int) {
-        let show = Show(context: testContext, tmdbData: createTMDBData(type: .show, title: title, genres: genres, year: year, status: status, seasonCount: seasonCount))
+    private func createShow(title: String, watched: EpisodeNumber?, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus, showType: ShowType, seasonCount: Int) {
+        let show = Show(context: testContext, title: title, originalTitle: title, genres: genres, status: status, showData: .init(rawFirstAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", rawLastAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: Array(repeating: .init(id: 0, seasonNumber: 0, episodeCount: 0, name: "", overview: nil, imagePath: nil, airDate: nil), count: seasonCount), networks: [], createdBy: []))
         show.lastWatched = watched
         show.watchAgain = watchAgain
         show.personalRating = rating
@@ -66,37 +67,31 @@ class FilterTests: XCTestCase {
         show.notes = notes ?? ""
     }
     
-    private func createTMDBData(type: MediaType, title: String, genres: [String], year: Int, status: MediaStatus, seasonCount: Int = 1) -> TMDBData {
-        let date = "\(year.formatted(.number.grouping(.never)))-01-01"
-        let seasons: [SeasonDummy] = (1...seasonCount).map { SeasonDummy(id: $0, seasonNumber: $0, episodeCount: 0, name: "Season \($0)", overview: nil, imagePath: nil, airDate: nil) }
-        return TMDBData(
-            id: Int.random(in: 1...Int.max),
-            title: title,
-            originalTitle: title,
-            genres: genres.map { GenreDummy(id: Int.random(in: 1...Int.max), name: $0) },
-            status: status,
-            originalLanguage: "English",
-            productionCompanies: [],
-            productionCountries: [],
-            popularity: 0,
-            voteAverage: 0,
-            voteCount: 0,
-            keywords: [],
-            translations: [],
-            videos: [],
-            watchProviders: [],
-            movieData: type == .movie ? .init(rawReleaseDate: date, budget: 0, revenue: 0, isAdult: false) : nil,
-            showData: type == .show ? .init(rawFirstAirDate: date, rawLastAirDate: date, numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: seasons, networks: [], createdBy: []) : nil
-        )
-    }
-    
     private func addSampleMedias() {
-        createMovie(title: "Good Movie", watched: .watched, watchAgain: true, tags: ["Action", "Adventure"], genres: ["Action", "Adventure"], rating: .fiveStars, year: 2012, status: .released)
-        createMovie(title: "Bad Movie", watched: .watched, watchAgain: false, tags: ["Comedy"], genres: ["Drama"], rating: .oneAndAHalfStars, year: 1997, status: .released)
-        createMovie(title: "Unwatched Movie", watched: .notWatched, watchAgain: nil, tags: ["Future", "Horror"], genres: ["Horror", "Drama", "Sci-Fi"], rating: .noRating, year: 2023, status: .inProduction)
-        createShow(title: "Good Show", watched: .init(season: 5), watchAgain: true, tags: ["Comedy"], genres: ["Comedy", "Drama"], rating: .fourAndAHalfStars, year: 2015, status: .released, showType: .documentary, seasonCount: 10)
-        createShow(title: "Bad Show", watched: .init(season: 1, episode: 1), watchAgain: false, tags: ["Future", "Adventure"], genres: ["Sci-Fi"], rating: .twoStars, year: 1990, status: .released, showType: .scripted, seasonCount: 3)
-        createShow(title: "Unwatched Show", watched: nil, watchAgain: nil, tags: ["Future", "Horror"], genres: ["Drama"], rating: .noRating, year: 2024, status: .planned, showType: .scripted, seasonCount: 1)
+        createMovie(title: "Good Movie", watched: .watched, watchAgain: true,
+                    tags: ["Action", "Adventure"],
+                    genres: [.init(id: 1, name: "Action"), .init(id: 2, name: "Adventure")],
+                    rating: .fiveStars, year: 2012, status: .released)
+        createMovie(title: "Bad Movie", watched: .watched, watchAgain: false,
+                    tags: ["Comedy"],
+                    genres: [.init(id: 3, name: "Drama")],
+                    rating: .oneAndAHalfStars, year: 1997, status: .released)
+        createMovie(title: "Unwatched Movie", watched: .notWatched, watchAgain: nil,
+                    tags: ["Future", "Horror"],
+                    genres: [.init(id: 4, name: "Horror"), .init(id: 3, name: "Drama"), .init(id: 5, name: "Sci-Fi")],
+                    rating: .noRating, year: 2023, status: .inProduction)
+        createShow(title: "Good Show", watched: .init(season: 5), watchAgain: true,
+                   tags: ["Comedy"],
+                   genres: [.init(id: 6, name: "Comedy"), .init(id: 3, name: "Drama")],
+                   rating: .fourAndAHalfStars, year: 2015, status: .released, showType: .documentary, seasonCount: 10)
+        createShow(title: "Bad Show", watched: .init(season: 1, episode: 1), watchAgain: false,
+                   tags: ["Future", "Adventure"],
+                   genres: [.init(id: 5, name: "Sci-Fi")],
+                   rating: .twoStars, year: 1990, status: .released, showType: .scripted, seasonCount: 3)
+        createShow(title: "Unwatched Show", watched: nil, watchAgain: nil,
+                   tags: ["Future", "Horror"],
+                   genres: [.init(id: 3, name: "Drama")],
+                   rating: .noRating, year: 2024, status: .planned, showType: .scripted, seasonCount: 1)
     }
         
     override func tearDown() {
