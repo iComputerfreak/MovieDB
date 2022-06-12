@@ -900,6 +900,7 @@
 		ABEEB0DC2815824300230F0B /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				ABD864752817478A001A1F7C /* Components */,
 				ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */,
 				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
 				ABD7CB5A2375D6BB0049E236 /* TitleView.swift */,
@@ -912,7 +913,6 @@
 				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
 				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
 				AB711FC1281EB02F003ED045 /* MetadataInfo.swift */,
-				ABD864752817478A001A1F7C /* Components */,
 			);
 			path = Detail;
 			sourceTree = "<group>";

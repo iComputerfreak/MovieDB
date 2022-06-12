@@ -41,7 +41,7 @@ struct FilterInformationSection: View {
             }
             FilterMultiPicker(
                 selection: genresProxy,
-                label: { $0.name },
+                label: { Text($0.name) },
                 values: Utils.allGenres(context: self.managedObjectContext),
                 title: Text(Strings.Library.Filter.genresLabel)
             )
@@ -103,7 +103,7 @@ struct FilterInformationSection: View {
             // MARK: - Media Status
             FilterMultiPicker(
                 selection: $filterSetting.statuses,
-                label: { $0.rawValue },
+                label: { Text($0.rawValue) },
                 values: MediaStatus.allCases.sorted(by: \.rawValue),
                 title: Text(Strings.Library.Filter.mediaStatusLabel)
             )
