@@ -136,6 +136,37 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(try fetch(.init(genres: getGenres([]))), .allMedias)
     }
     
+    func testFilterPersonalRating() throws {
+        XCTAssertEqual(try fetch(.init(rating: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(rating: .noRating ... .noRating)), ["Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(rating: .noRating ... .fiveStars)), .allMedias)
+        XCTAssertEqual(try fetch(.init(rating: .threeStars ... .fiveStars)), ["Good Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(rating: .halfStar ... .twoAndAHalfStars)), ["Bad Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(rating: .fourAndAHalfStars ... .fourAndAHalfStars)), ["Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(rating: .twoStars ... .twoStars)), ["Bad Show"].sorted())
+    }
+    
+    func testFilterYear() throws {
+        XCTAssertEqual(try fetch(.init(year: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(year: 1 ... 5000)), .allMedias)
+        XCTAssertEqual(try fetch(.init(year: 2000 ... 3000)), ["Good Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(year: 1 ... 2)), [])
+        XCTAssertEqual(try fetch(.init(year: 1997 ... 1997)), ["Bad Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(year: 2022 ... 2023)), ["Unwatched Movie"].sorted())
+    }
+    
+    func testFilterStatus() throws {
+        // TODO: Implement
+    }
+    
+    func testFilterShowType() throws {
+        // TODO: Implement
+    }
+    
+    func testFilterSeasons() throws {
+        // TODO: Implement
+    }
+    
     private func fetch(_ filter: FilterSetting) throws -> [String] {
         let fetch = Media.fetchRequest()
         fetch.predicate = filter.predicate()

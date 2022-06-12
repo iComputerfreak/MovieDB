@@ -14,14 +14,20 @@ struct FilterSetting: Identifiable {
     
     var isAdult: Bool?
     var mediaType: MediaType?
-    var minRating: Int?
-    var maxRating: Int?
-    var minYear: Int?
-    var maxYear: Int?
+    /// Use computed property ``rating`` instead
+    private var minRating: Int?
+    /// Use computed property ``rating`` instead
+    private var maxRating: Int?
+    /// Use computed property ``year`` instead
+    private var minYear: Int?
+    /// Use computed property ``year`` instead
+    private var maxYear: Int?
     var statuses: [MediaStatus] = []
     var showTypes: [ShowType] = []
-    var minNumberOfSeasons: Int?
-    var maxNumberOfSeasons: Int?
+    /// Use computed property ``numberOfSeasons`` instead
+    private var minNumberOfSeasons: Int?
+    /// Use computed property ``numberOfSeasons`` instead
+    private var maxNumberOfSeasons: Int?
     var watched: Bool?
     var watchAgain: Bool?
     var genres: Set<Genre> = []
@@ -181,9 +187,25 @@ extension FilterSetting {
             let upperDate = formatter.date(from: "\((year.upperBound + 1).description)-01-01")! as NSDate
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
-                NSPredicate(format: "%K <= %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),
+                NSPredicate(
+                    format: "%K = %@ AND %K <= %@ AND %K => %@",
+                    "type",
+                    MediaType.movie.rawValue,
+                    "releaseDate",
+                    upperDate,
+                    "releaseDate",
+                    lowerDate
+                ),
                 // Show
-                NSPredicate(format: "%K <= %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate)
+                NSPredicate(
+                    format: "%K = %@ AND %K <= %@ AND %K => %@",
+                    "type",
+                    MediaType.show.rawValue,
+                    "firstAirDate",
+                    upperDate,
+                    "firstAirDate",
+                    lowerDate
+                )
             ]))
         }
         if !self.statuses.isEmpty {
@@ -254,5 +276,40 @@ extension FilterSetting {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    }
+}
+
+extension FilterSetting {
+    init(
+        id: UUID = UUID(),
+        isAdult: Bool? = nil,
+        mediaType: MediaType? = nil,
+        rating: ClosedRange<StarRating>? = nil,
+        year: ClosedRange<Int>? = nil,
+        statuses: [MediaStatus] = [],
+        showTypes: [ShowType] = [],
+        numberOfSeasons: ClosedRange<Int>? = nil,
+        watched: Bool? = nil,
+        watchAgain: Bool? = nil,
+        genres: Set<Genre> = [],
+        tags: Set<Tag> = []
+    ) {
+        self.init(
+            id: id,
+            isAdult: isAdult,
+            mediaType: mediaType,
+            minRating: rating?.lowerBound.rawValue,
+            maxRating: rating?.upperBound.rawValue,
+            minYear: year?.lowerBound,
+            maxYear: year?.upperBound,
+            statuses: statuses,
+            showTypes: showTypes,
+            minNumberOfSeasons: numberOfSeasons?.lowerBound,
+            maxNumberOfSeasons: numberOfSeasons?.upperBound,
+            watched: watched,
+            watchAgain: watchAgain,
+            genres: genres,
+            tags: tags
+        )
     }
 }
