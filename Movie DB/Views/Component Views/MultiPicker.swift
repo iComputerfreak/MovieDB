@@ -43,7 +43,7 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
                     Text(Strings.Library.Filter.valueAny)
                         .foregroundColor(Color.secondary)
                 } else if self.selection.count == 1 {
-                    Text(verbatim: "\(label(self.selection.first!))")
+                    label(self.selection.first!)
                         .foregroundColor(Color.secondary)
                 } else {
                     Text(Strings.Generic.pickerMultipleValuesLabel(self.selection.count))

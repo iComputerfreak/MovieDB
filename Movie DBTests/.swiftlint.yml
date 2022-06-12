@@ -88,7 +88,4 @@ trailing_whitespace:
 unused_declaration:
   include_public_and_open: true
 
-multiline_arguments:
-  only_enforce_after_first_closure_on_first_line: true
-
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

@@ -33,6 +33,7 @@ struct SettingsView: View {
                         ProSection(config: $config)
                     }
                     ImportExportSection(config: $config)
+                    ContactSection(config: $config)
                     LibraryActionsSection(config: $config, reloadHandler: self.reloadMedia)
                 }
                 .environmentObject(preferences)

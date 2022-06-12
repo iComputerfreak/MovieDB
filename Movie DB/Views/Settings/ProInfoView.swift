@@ -37,8 +37,12 @@ struct ProInfoView: View {
                         .buttonStyle(.borderedProminent)
                         .disabled(true)
                 } else {
-                    // TODO: Localize price
-                    Button(Strings.ProInfo.buyButtonLabel) {
+                    let manager = StoreManager.shared
+                    let product = manager.products.first { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }
+                    let price = Double(truncating: product?.price ?? 0)
+                    let priceLocale = product?.priceLocale ?? .current
+                    let priceString = price > 0 ? price.formatted(.currency(code: priceLocale.identifier)) : ""
+                    Button(Strings.ProInfo.buyButtonLabel(priceString)) {
                         print("Buying Pro")
                         let manager = StoreManager.shared
                         guard let product = manager.products.first(where: { product in

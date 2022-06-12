@@ -714,3 +714,6 @@
 
 /* The title of an alert informing the user about an error while loading the cast information */
 "detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
+
+/* The feedback button in the settings that opens a new e-mail */
+"settings.feedback.label" = "Feedback";

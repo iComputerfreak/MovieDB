@@ -128,6 +128,7 @@
 		AB99560F2850F52E00C3D063 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AB99560E2850F52E00C3D063 /* .swiftlint.yml */; };
 		AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB99561128511FEB00C3D063 /* FilterUITests.swift */; };
 		AB9956142851280700C3D063 /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9956132851280700C3D063 /* FilterTests.swift */; };
+		AB995616285638E300C3D063 /* ContactSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB995615285638E300C3D063 /* ContactSection.swift */; };
 		ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* MediaStatus.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
@@ -336,6 +337,7 @@
 		AB9956102850F82200C3D063 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		AB99561128511FEB00C3D063 /* FilterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUITests.swift; sourceTree = "<group>"; };
 		AB9956132851280700C3D063 /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
+		AB995615285638E300C3D063 /* ContactSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSection.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -877,6 +879,7 @@
 				ABEEB0CD2814316E00230F0B /* PreferencesSection.swift */,
 				ABEEB0D32814324700230F0B /* LanguagePickerView.swift */,
 				ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */,
+				AB995615285638E300C3D063 /* ContactSection.swift */,
 				ABEEB0D5281434E600230F0B /* ProSection.swift */,
 				AB4085472663B325008C559B /* ProInfoView.swift */,
 				ABEEB0CF2814317B00230F0B /* ImportExportSection.swift */,
@@ -1218,6 +1221,7 @@
 				AB6D9C87283BC1C400AF655C /* Strings+WatchProvider.swift in Sources */,
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
 				ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */,
+				AB995616285638E300C3D063 /* ContactSection.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
