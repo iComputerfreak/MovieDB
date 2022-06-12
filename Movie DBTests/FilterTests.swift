@@ -59,7 +59,7 @@ class FilterTests: XCTestCase {
     }
     
     private func createShow(title: String, watched: EpisodeNumber?, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus, showType: ShowType, seasonCount: Int) {
-        let show = Show(context: testContext, title: title, originalTitle: title, genres: genres, status: status, showData: .init(rawFirstAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", rawLastAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: Array(repeating: .init(id: 0, seasonNumber: 0, episodeCount: 0, name: "", overview: nil, imagePath: nil, airDate: nil), count: seasonCount), networks: [], createdBy: []))
+        let show = Show(context: testContext, title: title, originalTitle: title, genres: genres, status: status, showData: .init(rawFirstAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", rawLastAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", numberOfSeasons: seasonCount, numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: Array(repeating: .init(id: 0, seasonNumber: 0, episodeCount: 0, name: "", overview: nil, imagePath: nil, airDate: nil), count: seasonCount), showType: showType, networks: [], createdBy: []))
         show.lastWatched = watched
         show.watchAgain = watchAgain
         show.personalRating = rating
@@ -71,7 +71,7 @@ class FilterTests: XCTestCase {
         createMovie(title: "Good Movie", watched: .watched, watchAgain: true,
                     tags: ["Action", "Adventure"],
                     genres: [.init(id: 1, name: "Action"), .init(id: 2, name: "Adventure")],
-                    rating: .fiveStars, year: 2012, status: .released)
+                    rating: .fiveStars, year: 2012, status: .ended)
         createMovie(title: "Bad Movie", watched: .watched, watchAgain: false,
                     tags: ["Comedy"],
                     genres: [.init(id: 3, name: "Drama")],
@@ -87,7 +87,7 @@ class FilterTests: XCTestCase {
         createShow(title: "Bad Show", watched: .init(season: 1, episode: 1), watchAgain: false,
                    tags: ["Future", "Adventure"],
                    genres: [.init(id: 5, name: "Sci-Fi")],
-                   rating: .twoStars, year: 1990, status: .released, showType: .scripted, seasonCount: 3)
+                   rating: .twoStars, year: 1990, status: .canceled, showType: .scripted, seasonCount: 3)
         createShow(title: "Unwatched Show", watched: nil, watchAgain: nil,
                    tags: ["Future", "Horror"],
                    genres: [.init(id: 3, name: "Drama")],
@@ -156,15 +156,25 @@ class FilterTests: XCTestCase {
     }
     
     func testFilterStatus() throws {
-        // TODO: Implement
+        XCTAssertEqual(try fetch(.init(statuses: [])), .allMedias)
+        XCTAssertEqual(try fetch(.init(statuses: [.released, .ended, .canceled, .planned, .inProduction])), .allMedias)
+        XCTAssertEqual(try fetch(.init(statuses: [.released])), ["Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(statuses: [.canceled])), ["Bad Show"])
+        XCTAssertEqual(try fetch(.init(statuses: [.ended, .planned])), ["Good Movie", "Unwatched Show"].sorted())
     }
     
     func testFilterShowType() throws {
-        // TODO: Implement
+        XCTAssertEqual(try fetch(.init(showTypes: [])), .allMedias)
+        XCTAssertEqual(try fetch(.init(showTypes: [.scripted, .documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(showTypes: [.scripted])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(showTypes: [.documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
     }
     
     func testFilterSeasons() throws {
-        // TODO: Implement
+        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 100)), .allMedias)
+        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 1)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 3)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(numberOfSeasons: 5 ... 10)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
     }
     
     private func fetch(_ filter: FilterSetting) throws -> [String] {

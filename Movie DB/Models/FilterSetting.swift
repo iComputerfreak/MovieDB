@@ -229,14 +229,16 @@ extension FilterSetting {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
-                    format: "%K == %@ AND %K < %d AND %K > %d",
+                    format: "%K == %@ AND %K <= %d AND %K >= %d",
                     "type",
                     MediaType.show.rawValue,
                     "numberOfSeasons",
                     numberOfSeasons.upperBound,
                     "numberOfSeasons",
                     numberOfSeasons.lowerBound
-                )
+                ),
+                // Movie
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
