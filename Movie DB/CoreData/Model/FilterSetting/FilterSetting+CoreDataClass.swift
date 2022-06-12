@@ -125,9 +125,25 @@ extension FilterSetting {
             let upperDate = formatter.date(from: "\((year.upperBound + 1).description)-01-01")! as NSDate
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
-                NSPredicate(format: "%K <= %@ AND %K => %@", "releaseDate", upperDate, "releaseDate", lowerDate),
+                NSPredicate(
+                    format: "%K = %@ AND %K <= %@ AND %K => %@",
+                    "type",
+                    MediaType.movie.rawValue,
+                    "releaseDate",
+                    upperDate,
+                    "releaseDate",
+                    lowerDate
+                ),
                 // Show
-                NSPredicate(format: "%K <= %@ AND %K => %@", "firstAirDate", upperDate, "firstAirDate", lowerDate)
+                NSPredicate(
+                    format: "%K = %@ AND %K <= %@ AND %K => %@",
+                    "type",
+                    MediaType.show.rawValue,
+                    "firstAirDate",
+                    upperDate,
+                    "firstAirDate",
+                    lowerDate
+                )
             ]))
         }
         if !self.statuses.isEmpty {
