@@ -38,7 +38,7 @@ actor TMDBAPI {
             .cast
         case .show:
             cast = try await decodeAPIURL(
-                path: "/\(type.rawValue)/\(id)/credits",
+                path: "/\(type.rawValue)/\(id)/aggregate_credits",
                 as: AggregateCreditsWrapper.self,
                 userInfo: [.mediaType: type]
             )

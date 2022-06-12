@@ -43,7 +43,7 @@ class FilterUITests: XCTestCase {
         app.buttons["Apply"].tap()
     }
     
-    func testFilterMeidaType() {
+    func testFilterMediaType() {
         app.launch()
         
         addSampleMedias()

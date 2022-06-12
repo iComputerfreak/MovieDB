@@ -50,11 +50,14 @@ class DetailUITests: XCTestCase {
             .wait()
             .tap()
         // Title cell
-        app.tables.cells.first(hasPrefix: "The Blacklist,").tap()
+        app.tables.cells.first(hasPrefix: "The Blacklist,")
+            .wait()
+            .tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
         detailBackButton.tap()
         app.tables.cells
             .first(hasPrefix: "Description")
+            .wait()
             .tap()
         detailBackButton.tap()
         app.tables.cells
@@ -184,8 +187,8 @@ class DetailUITests: XCTestCase {
     
     func goToTags(mediaName: String, app: XCUIApplication) {
         app.cells.first(hasPrefix: mediaName).tap()
-        app.navigationBars[mediaName].buttons["Edit"].tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+        app.navigationBars[mediaName].buttons["Edit"].wait().tap()
+        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.wait().tap()
     }
     
     func addTag(_ name: String, _ app: XCUIApplication) {
