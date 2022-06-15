@@ -56,6 +56,10 @@ extension Strings {
             localized: "detail.userData.headline.notes",
             comment: "The headline for the 'notes' property in the detail view"
         )
+        static let watchedShowLabelUnknown = String(
+            localized: "detail.userData.watchedShow.label.unknown",
+            comment: "The label in the detail view describing that it is unknown whether the user has watched the show"
+        )
         static let watchedShowLabelNo = String(
             localized: "detail.userData.watchedShow.label.no",
             comment: "The label in the detail view describing that the user has not watched the show"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21223.11" systemVersion="22A5266r" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -84,6 +84,7 @@
         <attribute name="numberOfEpisodes" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="showType" optional="YES" attributeType="String"/>
+        <attribute name="showWatchState" optional="YES" attributeType="String"/>
         <relationship name="networks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="shows" inverseEntity="ProductionCompany"/>
         <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="show" inverseEntity="Season"/>
     </entity>
@@ -109,7 +110,7 @@
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
-        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="239"/>
+        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="254"/>
         <element name="Tag" positionX="-72" positionY="153" width="128" height="74"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
     </elements>

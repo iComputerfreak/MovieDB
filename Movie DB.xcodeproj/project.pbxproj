@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0DA97A283BA75D0038E4B9 /* Strings.swift */; };
 		AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1100892826BFB5001507B5 /* MovieWatchState.swift */; };
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
+		AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */; };
 		AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */; };
 		AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */; };
 		AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */; };
@@ -222,6 +223,7 @@
 		AB1100892826BFB5001507B5 /* MovieWatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieWatchState.swift; sourceTree = "<group>"; };
 		AB11008B2826C0CE001507B5 /* Movie DB v4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v4.xcdatamodel"; sourceTree = "<group>"; };
 		AB11C30B22CA3E1A0057105A /* LibraryHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryHome.swift; sourceTree = "<group>"; };
+		AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowWatchState.swift; sourceTree = "<group>"; };
 		AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB.xcdatamodel"; sourceTree = "<group>"; };
 		AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 				AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */,
 				AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */,
 				ABED3B062393263E00F4C327 /* ShowType.swift */,
+				AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */,
 				AB1434CC25CEF2DD00AA304F /* EpisodeNumber.swift */,
 				AB711FBD281D8F7D003ED045 /* Episode.swift */,
 			);
@@ -1093,6 +1096,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		ABD4C8422648734C00BEB3A6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1110,6 +1114,7 @@
 		};
 		ABEEB07C28104BE100230F0B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1182,6 +1187,7 @@
 				ABED3B072393263E00F4C327 /* ShowType.swift in Sources */,
 				ABD8648628184569001A1F7C /* FilterSetting.swift in Sources */,
 				AB6D9C99283BC21E00AF655C /* Strings+MediaInformation.swift in Sources */,
+				AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */,
 				ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultRow.swift in Sources */,
 				AB6D9C8D283BC1E800AF655C /* Strings+ShowType.swift in Sources */,

@@ -11,6 +11,10 @@ import CoreData
 import StoreKit
 import Foundation
 
+fileprivate enum MigrationKeys: String, CaseIterable {
+    case showLastWatched
+}
+
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
@@ -38,6 +42,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // MARK: - Delete all Cast Members from CoreData. They are not used anymore
         deleteCastMembers()
+        
+        // MARK: Migrations
+        runMigrations()
         
         return true
     }
@@ -124,6 +131,42 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             } catch {
                 print(error)
             }
+        }
+    }
+    
+    private func runMigrations() {
+        // Use a for loop with a switch to force this function to be exhaustive
+        for migration in MigrationKeys.allCases {
+            let alreadyDone = UserDefaults.standard.bool(forKey: migration.rawValue)
+            guard !alreadyDone else {
+                print("Skipping migration \(migration.rawValue)")
+                continue
+            }
+            print("Executing migration \(migration.rawValue)...")
+            // Execute the correct migration
+            switch migration {
+            case .showLastWatched:
+                migrateShowWatchedState()
+            }
+        }
+        print("All migrations done.")
+    }
+    
+    private func migrateShowWatchedState() {
+        do {
+            let shows = try PersistenceController.viewContext.fetch(Show.fetchRequest())
+            for show in shows {
+                if let lastWatched = show.lastWatched2 {
+                    // Migrate
+                    let season = lastWatched.season
+                    let episode = lastWatched.episode
+                    show.watched = .init(season: season, episode: episode)
+                }
+            }
+            PersistenceController.saveContext()
+        } catch {
+            print(error)
+            assertionFailure("Error migrating show watch states")
         }
     }
 }

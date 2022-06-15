@@ -203,7 +203,7 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(data[.isAdult], movie.isAdult.description)
         } else if let show = media as? Show {
             // Show exclusive
-            XCTAssertEqual(data[.lastWatched], show.lastWatched?.description ?? "")
+            XCTAssertEqual(data[.watched], show.lastWatched?.description ?? "")
             if let firstAirDate = show.firstAirDate {
                 XCTAssertEqual(data[.firstAirDate], CSVManager.dateFormatter.string(from: firstAirDate))
             } else {

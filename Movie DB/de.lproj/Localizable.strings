@@ -221,13 +221,16 @@
 "detail.userData.watchedShow.header" = "Bis zu welcher Episode haben Sie geschaut?";
 
 /* The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the user watched all episodes of the season. */
-"detail.userData.watchedShow.label.allEpisodes" = "Alle Staffeln";
+"detail.userData.watchedShow.label.allEpisodes" = "Alle Episoden";
 
 /* The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies the episode number. The parameter is the episode number. */
 "detail.userData.watchedShow.label.episodeNumber %lld" = "Episode %lld";
 
 /* The label in the detail view describing that the user has not watched the show */
 "detail.userData.watchedShow.label.no" = "Nein";
+
+/* The label in the detail view describing that it is unknown whether the user has watched the show */
+"detail.userData.watchedShow.label.unknown" = "Unbekannt";
 
 /* The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show. */
 "detail.userData.watchedShow.label.notWatched" = "Nicht Angeschaut";
