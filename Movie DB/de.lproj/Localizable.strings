@@ -212,10 +212,10 @@
 "detail.userData.tags.none" = "Keine";
 
 /* The picker value of the detail view's user data section which the user chooses if they did not watch the media object */
-"detail.userData.watched.picker.notWatched" = "Nicht Angeschaut";
+"detail.userData.watched.picker.notWatched" = "Nein";
 
 /* The picker value of the detail view's user data section which the user chooses if they watched the media object */
-"detail.userData.watched.picker.watched" = "Angeschaut";
+"detail.userData.watched.picker.watched" = "Ja";
 
 /* The header in the editing view where the user specifies up to which season/episode they watched. */
 "detail.userData.watchedShow.header" = "Bis zu welcher Episode haben Sie geschaut?";
@@ -717,3 +717,6 @@
 
 /* The feedback button in the settings that opens a new e-mail */
 "settings.feedback.label" = "Feedback";
+
+/* The picker value of the detail view's user data section which the user chooses if they watched the media object partially */
+"detail.userData.watched.picker.partiallyWatched" = "Teilweise";

@@ -36,6 +36,10 @@ extension Strings {
             localized: "detail.userData.watched.picker.watched",
             comment: "The picker value of the detail view's user data section which the user chooses if they watched the media object"
         )
+        static let watchedPickerValuePartially = String(
+            localized: "detail.userData.watched.picker.partiallyWatched",
+            comment: "The picker value of the detail view's user data section which the user chooses if they watched the media object partially"
+        )
         static let watchedPickerValueNo = String(
             localized: "detail.userData.watched.picker.notWatched",
             comment: "The picker value of the detail view's user data section which the user chooses if they did not watch the media object"
