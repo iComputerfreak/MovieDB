@@ -11,10 +11,6 @@ import CoreData
 import StoreKit
 import Foundation
 
-fileprivate enum MigrationKeys: String, CaseIterable {
-    case showLastWatched
-}
-
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
@@ -169,4 +165,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             assertionFailure("Error migrating show watch states")
         }
     }
+}
+
+private enum MigrationKeys: String, CaseIterable {
+    case showLastWatched
 }

@@ -22,7 +22,7 @@ struct AddMediaView: View {
     
     var body: some View {
         LoadingView(isShowing: $isLoading) {
-            NavigationView {
+            NavigationStack {
                 SearchResultsView { result in
                     Button {
                         Task(priority: .userInitiated) {

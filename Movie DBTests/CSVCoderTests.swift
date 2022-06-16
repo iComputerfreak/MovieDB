@@ -94,7 +94,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.originalTitle, "9-1-1")
         XCTAssertEqual(media.showType, .scripted)
         
-        XCTAssertEqual(media.lastWatched, .init(season: 3))
+        XCTAssertEqual(media.watched, .season(3))
         XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
     }
     
@@ -109,7 +109,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(media.originalTitle, "Another Life")
         XCTAssertEqual(media.showType, .scripted)
         
-        XCTAssertEqual(media.lastWatched, .init(season: 3, episode: 5))
+        XCTAssertEqual(media.watched, .episode(season: 3, episode: 5))
         XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
     }
     
@@ -191,7 +191,7 @@ class CSVCoderTests: XCTestCase {
         
         if let movie = media as? Movie {
             // Movie exclusive
-            XCTAssertEqual(data[.watched], movie.watched?.rawValue ?? "")
+            XCTAssertEqual(data[.movieWatched], movie.watched?.rawValue ?? "")
             if let releaseDate = movie.releaseDate {
                 XCTAssertEqual(data[.releaseDate], CSVManager.dateFormatter.string(from: releaseDate))
             } else {
@@ -203,7 +203,7 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(data[.isAdult], movie.isAdult.description)
         } else if let show = media as? Show {
             // Show exclusive
-            XCTAssertEqual(data[.watched], show.lastWatched?.description ?? "")
+            XCTAssertEqual(data[.showWatched], show.watched?.rawValue ?? "")
             if let firstAirDate = show.firstAirDate {
                 XCTAssertEqual(data[.firstAirDate], CSVManager.dateFormatter.string(from: firstAirDate))
             } else {

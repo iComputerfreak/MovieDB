@@ -176,6 +176,32 @@ struct MediaLibrary {
         }
     }
     
+    /// Performs a cleanup of the library, deleting all entities with missing relations (e.g. unused ``Genre``s or ``ProductionCompany``s
+    func cleanup() throws {
+        try delete(
+            Genre.entity().name!,
+            predicate: NSPredicate(format: "medias.@count = 0")
+        )
+        try delete(
+            ProductionCompany.entity().name!,
+            predicate: NSPredicate(format: "medias.@count = 0 AND shows.@count = 0")
+        )
+        try delete(
+            Video.entity().name!,
+            predicate: NSPredicate(format: "media = nil")
+        )
+        try delete(
+            Season.entity().name!,
+            predicate: NSPredicate(format: "show = nil")
+        )
+    }
+    
+    private func delete(_ entityName: String, predicate: NSPredicate) throws {
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let delete = NSBatchDeleteRequest(fetchRequest: fetch)
+        try self.context.execute(delete)
+    }
+    
     /// Resets all available tags and their relation to the media objects
     func resetTags() async throws {
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()

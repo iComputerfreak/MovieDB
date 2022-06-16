@@ -8,20 +8,12 @@
 
 import Foundation
 
-public enum ShowWatchState: RawRepresentable {
-    public typealias RawValue = String
-    
+public enum ShowWatchState: RawRepresentable, Equatable {
     case season(Int)
     case episode(season: Int, episode: Int)
     case notWatched
     
-    init(season: Int, episode: Int?) {
-        guard let episode, episode > 0 else {
-            self = .season(season)
-            return
-        }
-        self = .episode(season: season, episode: episode)
-    }
+    public typealias RawValue = String
     
     public var rawValue: RawValue {
         switch self {
@@ -48,6 +40,14 @@ public enum ShowWatchState: RawRepresentable {
             return episode
         }
         return nil
+    }
+    
+    init(season: Int, episode: Int?) {
+        guard let episode, episode > 0 else {
+            self = .season(season)
+            return
+        }
+        self = .episode(season: season, episode: episode)
     }
     
     public init?(rawValue: String) {
@@ -92,6 +92,6 @@ public enum ShowWatchState: RawRepresentable {
     }
     
     private static func matchNotWatched(_ rawValue: String) -> Bool {
-        return !rawValue.matches(of: /notWatched/).isEmpty
+        !rawValue.matches(of: /notWatched/).isEmpty
     }
 }

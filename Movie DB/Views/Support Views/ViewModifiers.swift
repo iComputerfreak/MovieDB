@@ -22,6 +22,7 @@ extension Image {
                 height: JFLiterals.thumbnailSize.height * multiplier,
                 alignment: .center
             )
+            .shadow(radius: 3, y: 3.5)
     }
 }
 

@@ -60,7 +60,7 @@ struct TestingUtils {
             s.personalRating = .fiveStars
             s.tags = TestingUtils.getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"], of: previewTags)
             s.notes = "A masterpiece!"
-            s.lastWatched = .init(season: 7, episode: nil)
+            s.watched = .season(7)
             s.watchAgain = true
             return s
         }()
@@ -70,7 +70,7 @@ struct TestingUtils {
             s.personalRating = .twoAndAHalfStars
             s.tags = TestingUtils.getPreviewTags(["Past", "Fantasy"], of: previewTags)
             s.notes = "Bad ending"
-            s.lastWatched = .init(season: 8, episode: 3)
+            s.watched = .episode(season: 8, episode: 3)
             s.watchAgain = false
             return s
         }()

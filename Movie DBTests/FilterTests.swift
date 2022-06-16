@@ -58,9 +58,9 @@ class FilterTests: XCTestCase {
         movie.notes = notes ?? ""
     }
     
-    private func createShow(title: String, watched: EpisodeNumber?, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus, showType: ShowType, seasonCount: Int) {
+    private func createShow(title: String, watched: ShowWatchState?, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus, showType: ShowType, seasonCount: Int) {
         let show = Show(context: testContext, title: title, originalTitle: title, genres: genres, status: status, showData: .init(rawFirstAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", rawLastAirDate: "\(year.formatted(.number.grouping(.never)))-01-01", numberOfSeasons: seasonCount, numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: Array(repeating: .init(id: 0, seasonNumber: 0, episodeCount: 0, name: "", overview: nil, imagePath: nil, airDate: nil), count: seasonCount), showType: showType, networks: [], createdBy: []))
-        show.lastWatched = watched
+        show.watched = watched
         show.watchAgain = watchAgain
         show.personalRating = rating
         show.tags = getTags(tags)
@@ -80,11 +80,11 @@ class FilterTests: XCTestCase {
                     tags: ["Future", "Horror"],
                     genres: [.init(id: 4, name: "Horror"), .init(id: 3, name: "Drama"), .init(id: 5, name: "Sci-Fi")],
                     rating: .noRating, year: 2023, status: .inProduction)
-        createShow(title: "Good Show", watched: .init(season: 5), watchAgain: true,
+        createShow(title: "Good Show", watched: .season(5), watchAgain: true,
                    tags: ["Comedy"],
                    genres: [.init(id: 6, name: "Comedy"), .init(id: 3, name: "Drama")],
                    rating: .fourAndAHalfStars, year: 2015, status: .released, showType: .documentary, seasonCount: 10)
-        createShow(title: "Bad Show", watched: .init(season: 1, episode: 1), watchAgain: false,
+        createShow(title: "Bad Show", watched: .notWatched, watchAgain: false,
                    tags: ["Future", "Adventure"],
                    genres: [.init(id: 5, name: "Sci-Fi")],
                    rating: .twoStars, year: 1990, status: .canceled, showType: .scripted, seasonCount: 3)
@@ -100,8 +100,8 @@ class FilterTests: XCTestCase {
     }
     
     func testFilterWatched() throws {
-        XCTAssertEqual(try fetch(.init(watched: true)), ["Good Movie", "Bad Movie", "Good Show", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(watched: false)), ["Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(watched: true)), ["Good Movie", "Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(watched: false)), ["Unwatched Movie", "Bad Show"].sorted())
         XCTAssertEqual(try fetch(.init(watched: nil)), .allMedias)
     }
     
