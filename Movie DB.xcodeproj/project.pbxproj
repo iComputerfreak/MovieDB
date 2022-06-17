@@ -19,6 +19,7 @@
 		AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1100892826BFB5001507B5 /* MovieWatchState.swift */; };
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
 		AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */; };
+		AB12CA01285CD2B30073F751 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12CA00285CD2B30073F751 /* Secrets.swift */; };
 		AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */; };
 		AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */; };
 		AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */; };
@@ -148,7 +149,6 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
-		ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD4C8472648793300BEB3A6 /* APIKeys.swift */; };
 		ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5A2375D6BB0049E236 /* TitleView.swift */; };
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD8647828174801001A1F7C /* LookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647728174801001A1F7C /* LookupView.swift */; };
@@ -224,6 +224,8 @@
 		AB11008B2826C0CE001507B5 /* Movie DB v4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v4.xcdatamodel"; sourceTree = "<group>"; };
 		AB11C30B22CA3E1A0057105A /* LibraryHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryHome.swift; sourceTree = "<group>"; };
 		AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowWatchState.swift; sourceTree = "<group>"; };
+		AB12C9FE285CCCC90073F751 /* Secrets.swift.gyb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.swift.gyb; sourceTree = "<group>"; };
+		AB12CA00285CD2B30073F751 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB.xcdatamodel"; sourceTree = "<group>"; };
 		AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -354,7 +356,6 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
-		ABD4C8472648793300BEB3A6 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
@@ -686,7 +687,8 @@
 				ABEA7AB6261BB9620060B5D2 /* Localizable.stringsdict */,
 				AB6718C822C0312B00F429E4 /* Preview Content */,
 				AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */,
-				ABD4C8472648793300BEB3A6 /* APIKeys.swift */,
+				AB12C9FE285CCCC90073F751 /* Secrets.swift.gyb */,
+				AB12CA00285CD2B30073F751 /* Secrets.swift */,
 				AB6D9C79283BC0C000AF655C /* Localization */,
 			);
 			path = "Movie DB";
@@ -960,11 +962,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB6718DC22C0312B00F429E4 /* Build configuration list for PBXNativeTarget "Movie DB" */;
 			buildPhases = (
+				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
-				ABEEB07C28104BE100230F0B /* ShellScript */,
+				ABEEB07C28104BE100230F0B /* SwiftLint */,
+				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
-				ABD4C8422648734C00BEB3A6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1094,7 +1097,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ABD4C8422648734C00BEB3A6 /* ShellScript */ = {
+		AB12C9FD285CCC010073F751 /* Obfuscate API Key */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -1104,6 +1107,27 @@
 			);
 			inputPaths = (
 			);
+			name = "Obfuscate API Key";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pwd\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                               \\\n    while read file; do                                              \\\n        # gyb executable path\n        /opt/homebrew/bin/gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n";
+			showEnvVarsInLog = 0;
+		};
+		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Licenses";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -1112,7 +1136,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nif [ $CONFIGURATION = \"Debug\" ]; then\n/opt/homebrew/bin/license-plist --output-path \"$PRODUCT_NAME/Settings.bundle\"\nfi\n";
 		};
-		ABEEB07C28104BE100230F0B /* ShellScript */ = {
+		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -1122,6 +1146,7 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -1150,6 +1175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB12CA01285CD2B30073F751 /* Secrets.swift in Sources */,
 				ABD8647828174801001A1F7C /* LookupView.swift in Sources */,
 				AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */,
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
@@ -1226,7 +1252,6 @@
 				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
 				AB6D9C87283BC1C400AF655C /* Strings+WatchProvider.swift in Sources */,
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
-				ABD4C8482648793300BEB3A6 /* APIKeys.swift in Sources */,
 				AB995616285638E300C3D063 /* ContactSection.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
