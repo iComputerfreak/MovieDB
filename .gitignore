@@ -135,6 +135,8 @@ iOSInjectionProject/
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
+!*.xcodeproj/project.xcworkspace
+!*.xcodeproj/project.xcworkspace/xcshareddata/*
 
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
