@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 brew install nshipster/formulae/gyb
 which gyb
@@ -11,8 +11,6 @@ pyenv global 2.7.18
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-pyenv shell 2.7.18
-pyenv shell
 
 # Prepare .zshrc
 brew shellenv >> ~/.zshrc
