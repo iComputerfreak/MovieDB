@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 brew install nshipster/formulae/gyb
 which gyb
 pwd
