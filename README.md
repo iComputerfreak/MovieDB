@@ -24,7 +24,6 @@ An app to keep track of all the movies and shows you watched.
 ## Building
 * To build the project, you need to first install [GYB](https://github.com/apple/swift/blob/main/utils/gyb.py) (e.g. via `brew install nshipster/formulae/gyb`)
     * GYB also requires python 2.7 to be installed
-* After installing GYB, you may need to adjust your GYB executable path in the Xcode project's Build Phases under the "Obfuscate API Key" phase
 * You then need to request your own API key from [TheMovieDB](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication))
 * Finally you must provide this API key as a `TMDB_API_KEY` environment variable during build time or as a local file "TMDB_API_KEY" in your project root.
 * When you build the project, GYB will read your API key and obfuscate it into a Swift file `Secrets.swift`. You can then access your API key from code with `Secrets.tmdbAPIKey`
