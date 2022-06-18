@@ -19,7 +19,7 @@
 		AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1100892826BFB5001507B5 /* MovieWatchState.swift */; };
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
 		AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */; };
-		AB12CA01285CD2B30073F751 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12CA00285CD2B30073F751 /* Secrets.swift */; };
+		AB12CA02285DE8500073F751 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12CA00285CD2B30073F751 /* Secrets.swift */; };
 		AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */; };
 		AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */; };
 		AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */; };
@@ -1114,7 +1114,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                               \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n        echo; \\\n        ls; \\\n        echo; \\\n        ls \"${file%.gyb}\"; \\\n        echo; \\\n    done\n\necho \"Obfuscation complete.\"\necho\nls\necho\nls Movie\\ DB\necho\n";
+			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                               \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n        echo; \\\n        ls; \\\n        echo; \\\n        ls \"${file%.gyb}\"; \\\n        echo; \\\n    done\n\necho \"Obfuscation complete.\"\necho\nls\necho\nls Movie\\ DB\necho\n";
 			showEnvVarsInLog = 0;
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
@@ -1134,7 +1134,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nif [ $CONFIGURATION = \"Debug\" ]; then\n/opt/homebrew/bin/license-plist --output-path \"$PRODUCT_NAME/Settings.bundle\"\nfi\n";
+			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$PRODUCT_NAME/Settings.bundle\"\n#fi\n";
 		};
 		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1175,7 +1175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB12CA01285CD2B30073F751 /* Secrets.swift in Sources */,
+				AB12CA02285DE8500073F751 /* Secrets.swift in Sources */,
 				ABD8647828174801001A1F7C /* LookupView.swift in Sources */,
 				AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */,
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
