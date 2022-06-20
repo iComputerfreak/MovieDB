@@ -8,11 +8,7 @@
 
 import Foundation
 
-struct MigrationManager {
-    private enum MigrationKeys: String, CaseIterable {
-        case showLastWatched
-    }
-    
+enum MigrationManager {
     static func run() {
         // Use a for loop with a switch to force this function to be exhaustive
         for migration in MigrationKeys.allCases {
@@ -47,5 +43,9 @@ struct MigrationManager {
             print(error)
             assertionFailure("Error migrating show watch states")
         }
+    }
+    
+    private enum MigrationKeys: String, CaseIterable {
+        case showLastWatched
     }
 }

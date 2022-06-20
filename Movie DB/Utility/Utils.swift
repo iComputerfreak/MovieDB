@@ -132,8 +132,6 @@ struct Utils {
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: "Genre", context: context)
-            // TODO: Test if .uniqued works as expected
-            //.removingDuplicates { $0.id == $1.id && $0.name == $1.name }
             .uniqued(on: \.id)
             .sorted(by: \.name)
     }

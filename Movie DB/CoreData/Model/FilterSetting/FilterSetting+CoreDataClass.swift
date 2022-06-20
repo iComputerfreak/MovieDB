@@ -167,43 +167,48 @@ extension FilterSetting {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
-                    format: "%K == %@ AND %K < %d AND %K > %d",
+                    format: "%K == %@ AND %K <= %d AND %K >= %d",
                     "type",
                     MediaType.show.rawValue,
                     "numberOfSeasons",
                     numberOfSeasons.upperBound,
                     "numberOfSeasons",
                     numberOfSeasons.lowerBound
-                )
+                ),
+                // Movie
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
-        if let watched = self.watched as NSNumber? {
+        if let watched = self.watched {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
                 NSPredicate(
                     format: "%K == %@ AND %K == %@",
                     "type",
                     MediaType.movie.rawValue,
-                    "watched",
-                    watched
+                    "watchedState",
+                    watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
                 ),
                 // Show
-                // watched == true && lastSeasonWatched != nil
+                // watched == true && showWatchState != nil && showWatchState != 'notWatched'
                 NSPredicate(
-                    format: "%K == %@ AND %@ == TRUE AND %K != nil",
-                    "type",
+                    format: "%K == %@ AND %@ == TRUE AND %K != nil AND %K != %@",
+                    "type", // ==
                     MediaType.show.rawValue,
-                    watched,
-                    "lastSeasonWatched"
+                    watched as NSNumber, // == TRUE
+                    "showWatchState", // != nil
+                    "showWatchState", // !=
+                    ShowWatchState.notWatched.rawValue
                 ),
-                // watched == false && lastSeasonWatched == nil
+                // watched == true && showWatchState == 'notWatched'
                 NSPredicate(
-                    format: "%K == %@ AND %@ == FALSE AND %K = nil",
-                    "type",
+                    format: "%K == %@ AND %@ == FALSE AND %K = %@",
+                    "type", // ==
                     MediaType.show.rawValue,
-                    watched,
-                    "lastSeasonWatched"
+                    watched as NSNumber, // == FALSE
+                    "showWatchState",
+                    ShowWatchState.notWatched.rawValue
                 )
             ]))
         }
