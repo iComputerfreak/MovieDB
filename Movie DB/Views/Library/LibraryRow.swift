@@ -89,6 +89,7 @@ struct LibraryRow_Previews: PreviewProvider {
             List {
                 ForEach(ParentalRating.fskRatings, id: \.label) { rating in
                     let movie: Media = {
+                        // swiftlint:disable:next force_cast
                         let movie = PlaceholderData.movie.copy() as! Movie
                         movie.parentalRating = rating
                         return movie
