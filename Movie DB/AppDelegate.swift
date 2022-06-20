@@ -40,7 +40,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         deleteCastMembers()
         
         // MARK: Migrations
-        runMigrations()
+        MigrationManager.run()
+        
+        // MARK: Cleanup
+        Task(priority: .background) {
+            try MediaLibrary.shared.cleanup()
+        }
         
         return true
     }
@@ -129,44 +134,4 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
     }
-    
-    private func runMigrations() {
-        // Use a for loop with a switch to force this function to be exhaustive
-        for migration in MigrationKeys.allCases {
-            let alreadyDone = UserDefaults.standard.bool(forKey: migration.rawValue)
-            guard !alreadyDone else {
-                print("Skipping migration \(migration.rawValue)")
-                continue
-            }
-            print("Executing migration \(migration.rawValue)...")
-            // Execute the correct migration
-            switch migration {
-            case .showLastWatched:
-                migrateShowWatchedState()
-            }
-        }
-        print("All migrations done.")
-    }
-    
-    private func migrateShowWatchedState() {
-        do {
-            let shows = try PersistenceController.viewContext.fetch(Show.fetchRequest())
-            for show in shows {
-                if let lastWatched = show.lastWatched2 {
-                    // Migrate
-                    let season = lastWatched.season
-                    let episode = lastWatched.episode
-                    show.watched = .init(season: season, episode: episode)
-                }
-            }
-            PersistenceController.saveContext()
-        } catch {
-            print(error)
-            assertionFailure("Error migrating show watch states")
-        }
-    }
-}
-
-private enum MigrationKeys: String, CaseIterable {
-    case showLastWatched
 }

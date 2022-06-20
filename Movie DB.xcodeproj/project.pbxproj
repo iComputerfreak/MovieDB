@@ -20,6 +20,7 @@
 		AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11C30B22CA3E1A0057105A /* LibraryHome.swift */; };
 		AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */; };
 		AB12CA02285DE8500073F751 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12CA00285CD2B30073F751 /* Secrets.swift */; };
+		AB12CA052860E7340073F751 /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12CA042860E7340073F751 /* MigrationManager.swift */; };
 		AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */; };
 		AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */; };
 		AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */; };
@@ -226,6 +227,7 @@
 		AB12C9BD2859CACA0073F751 /* ShowWatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowWatchState.swift; sourceTree = "<group>"; };
 		AB12C9FE285CCCC90073F751 /* Secrets.swift.gyb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.swift.gyb; sourceTree = "<group>"; };
 		AB12CA00285CD2B30073F751 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		AB12CA042860E7340073F751 /* MigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationManager.swift; sourceTree = "<group>"; };
 		AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB.xcdatamodel"; sourceTree = "<group>"; };
 		AB1433F225CDB6F600AA304F /* Show+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB1433F325CDB6F600AA304F /* Show+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				AB61CA2A24142E6B008BD8C8 /* Movie DB.entitlements */,
 				AB25099C238B1EE000F7A411 /* Utility */,
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
+				AB12CA042860E7340073F751 /* MigrationManager.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
 				AB6718F222C110F500F429E4 /* APIs */,
@@ -1245,6 +1248,7 @@
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
 				AB14349C25CEE0E000AA304F /* CastMember+CoreDataClass.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
+				AB12CA052860E7340073F751 /* MigrationManager.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,
 				ABD8648A281940E3001A1F7C /* WatchProvider.swift in Sources */,
 				AB6D9C8F283BC1EE00AF655C /* Strings+ResolveProblems.swift in Sources */,
