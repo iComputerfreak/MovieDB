@@ -38,7 +38,7 @@ class FilterUITests: XCTestCase {
         app.buttons["More"].tap()
         app.buttons["Filter"].tap()
         // Change the desired filter setting
-        app.cells[key].tap()
+        app.cells.staticTexts[key].tap()
         configureValue()
         app.buttons["Apply"].tap()
     }
@@ -49,20 +49,18 @@ class FilterUITests: XCTestCase {
         addSampleMedias()
         
         configureFilter("Media Type") {
-            app.cells["Movie"].tap()
-            app.goBack()
+            app.buttons["Movie"].tap()
         }
         
         app.wait(1)
         
-        XCTAssertEqual(app.cells.count, 2)
-        XCTAssert(app.cells.first(hasPrefix: "Fight Club").exists)
-        XCTAssert(app.cells.first(hasPrefix: "The Matrix").exists)
+        XCTAssert(app.cells.staticTexts["Fight Club"].exists)
+        XCTAssert(app.cells.staticTexts["The Matrix"].exists)
         XCTAssert(app.staticTexts["2 objects"].exists)
     }
         
     func goToTags(mediaName: String, app: XCUIApplication) {
-        app.cells.first(hasPrefix: mediaName).tap()
+        app.cells.staticTexts[mediaName].tap()
         app.navigationBars[mediaName].buttons["Edit"].wait().tap()
         app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.wait().tap()
     }
@@ -73,6 +71,6 @@ class FilterUITests: XCTestCase {
         app.textFields.element.typeText(name)
         app.alerts.buttons["Add"].tap()
         // Check if it worked
-        XCTAssertTrue(app.tables.cells[name].wait().exists)
+        XCTAssertTrue(app.cells.staticTexts[name].wait().exists)
     }
 }

@@ -49,13 +49,13 @@ class LibraryUITests: XCTestCase {
         app.launch()
         app.addMatrix()
         // Delete the new movie
-        app.tables.cells.first(hasPrefix: "The Matrix,")
+        app.cells.staticTexts["The Matrix"]
             .swipeLeft()
-        app.tables.cells.first(hasPrefix: "The Matrix,").buttons["Delete"]
+        app.buttons["Delete"]
             .wait()
             .tap()
         // Should not exist anymore
-        XCTAssertFalse(app.tables.cells.first(hasPrefix: "The Matrix,").exists)
+        XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
     }
     
     func disabled_testFilter() {
@@ -75,7 +75,7 @@ class LibraryUITests: XCTestCase {
         app.libraryNavBar.searchFields.element.typeText("Blacklist")
         
         // Check results
-        XCTAssertEqual(app.tables.cells.count, 1)
-        XCTAssertTrue(app.tables.cells.first(hasPrefix: "The Blacklist,").exists)
+        XCTAssertTrue(app.cells.staticTexts["The Blacklist"].exists)
+        XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
     }
 }

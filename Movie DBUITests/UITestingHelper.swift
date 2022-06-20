@@ -19,13 +19,13 @@ extension XCUIApplication {
         addMediaButton.tap()
         addMediaSearch.tap()
         addMediaSearch.typeText("\(query)\n")
-        tables.cells
-            .first(hasPrefix: "\(name), \(type == .movie ? "Movie" : "TV Show")")
+        cells.staticTexts[name]
+            .firstMatch
             .wait()
             .tap()
         if checkAdded {
-            XCTAssertTrue(tables.cells
-                .first(hasPrefix: "\(name),")
+            XCTAssertTrue(cells.staticTexts[name]
+                .firstMatch
                 .waitForExistence(timeout: 10))
         }
     }
@@ -58,7 +58,9 @@ extension XCUIApplication {
 extension XCUIElement {
     @discardableResult
     func wait() -> XCUIElement {
-        XCTAssertTrue(self.waitForExistence(timeout: 5))
+        if !self.exists {
+            XCTAssertTrue(self.waitForExistence(timeout: 5))
+        }
         return self
     }
     

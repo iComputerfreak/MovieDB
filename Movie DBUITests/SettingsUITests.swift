@@ -36,8 +36,8 @@ class SettingsUITests: XCTestCase {
         addTag("Comedy", app)
         
         // Select some
-        app.cells["Action"].tap()
-        app.cells["Horror"].tap()
+        app.cells.staticTexts["Action"].tap()
+        app.cells.staticTexts["Horror"].tap()
         
         app.goBack()
         // No need to press the done button
@@ -46,7 +46,7 @@ class SettingsUITests: XCTestCase {
         // MARK: Reset the library
         
         app.tabBar["Settings"].tap()
-        app.tables.cells["Reset Library"].tap()
+        app.buttons["Reset Library"].tap()
         // Alert should have popped up
         app.alerts.firstMatch.buttons["Delete"].wait().tap()
         
@@ -59,32 +59,36 @@ class SettingsUITests: XCTestCase {
         // TODO: Remove when fixed
         // Workaround for refreshing the library
         XCUIDevice.shared.press(XCUIDevice.Button.home)
-        app.wait(1)
+        XCTAssertFalse(app.wait(for: .unknown, timeout: 1))
         app.launch()
         
         // Should be empty
-        XCTAssertEqual(app.tables.cells.count, 0)
+        XCTAssertFalse(app.cells.staticTexts["The Blacklist"].exists)
+        XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
         
         // Check if tags were deleted
         app.addMatrix()
         
-        app.cells.first(hasPrefix: "The Matrix").tap()
+        app.cells.staticTexts["The Matrix"].tap()
         
         // There should be no tags listed in the preview anymore
-        XCTAssertTrue(app.tables.cells["Tags, None"].exists)
+        XCTAssertTrue(app.cells.containing(.staticText, identifier: "Tags").staticTexts["None"].exists)
         
         app.navigationBars["The Matrix"].buttons["Edit"].tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.tap()
+        app.cells.staticTexts["Tags"].tap()
         
         app.wait(1)
         
-        XCTAssertEqual(app.tables.cells.count, 0)
+        XCTAssertFalse(app.cells.staticTexts["Action"].exists)
+        XCTAssertFalse(app.cells.staticTexts["Adventure"].exists)
+        XCTAssertFalse(app.cells.staticTexts["Horror"].exists)
+        XCTAssertFalse(app.cells.staticTexts["Comedy"].exists)
     }
     
     func goToTags(mediaName: String, app: XCUIApplication) {
-        app.cells.first(hasPrefix: mediaName).tap()
+        app.cells.staticTexts.first(hasPrefix: mediaName).tap()
         app.navigationBars[mediaName].buttons["Edit"].wait().tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.wait().tap()
+        app.cells.staticTexts["Tags"].wait().tap()
     }
     
     func addTag(_ name: String, _ app: XCUIApplication) {
@@ -93,6 +97,6 @@ class SettingsUITests: XCTestCase {
         app.textFields.element.typeText(name)
         app.alerts.buttons["Add"].tap()
         // Check if it worked
-        XCTAssertTrue(app.tables.cells[name].wait().exists)
+        XCTAssertTrue(app.cells.staticTexts[name].wait().exists)
     }
 }

@@ -26,47 +26,46 @@ class DetailUITests: XCTestCase {
     func testShowMovieDetail() {
         app.launch()
         app.addMatrix()
-        app.tables.cells.first(hasPrefix: "The Matrix,")
+        app.cells.staticTexts["The Matrix"]
             .wait()
             .tap()
         // Title cell
-        app.tables.cells.first(hasPrefix: "The Matrix,").tap()
+        app.cells.staticTexts["The Matrix"].firstMatch.tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
         detailBackButton.tap()
-        app.tables.cells
-            .first(hasPrefix: "Description")
-            .tap()
+        app.cells.staticTexts["Description"].tap()
         detailBackButton.tap()
-        app.tables.cells["Cast"].tap()
-        // Give the cast page a bit of time to load
-        app.wait()
+        app.swipeUp()
+        app.cells.staticTexts["Cast"].tap()
+        app.cells.staticTexts["Keanu Reeves"]
+            .wait()
         detailBackButton.tap()
     }
     
     func testShowShowDetail() {
         app.launch()
         app.addBlacklist()
-        app.tables.cells.first(hasPrefix: "The Blacklist,")
+        app.cells.staticTexts["The Blacklist"]
             .wait()
             .tap()
         // Title cell
-        app.tables.cells.first(hasPrefix: "The Blacklist,")
+        app.cells.staticTexts["The Blacklist"]
             .wait()
             .tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
         detailBackButton.tap()
-        app.tables.cells
-            .first(hasPrefix: "Description")
+        app.cells.staticTexts["Description"]
             .wait()
             .tap()
         detailBackButton.tap()
-        app.tables.cells
-            .first(hasPrefix: "Seasons")
+        app.swipeUp()
+        app.cells.staticTexts["Seasons"]
+            .wait()
             .tap()
         app.wait()
         detailBackButton.tap()
         
-        app.tables.cells["Cast"].tap()
+        app.cells.staticTexts["Cast"].tap()
         // Give the cast page a bit of time to load
         app.wait()
         detailBackButton.tap()
@@ -75,39 +74,36 @@ class DetailUITests: XCTestCase {
     func testEditShowDetail() {
         app.launch()
         app.addBlacklist()
-        app.tables.cells.first(hasPrefix: "The Blacklist,")
+        app.cells.staticTexts["The Blacklist"]
             .wait()
             .tap()
         // Go into edit mode
         app.navigationBars.element.buttons["Edit"].tap()
         
-        app.tables.cells
-            .first(hasPrefix: "Personal Rating")
+        app.cells.containing(.staticText, identifier: "Personal Rating")
             .buttons["Increment"]
             .tap(withNumberOfTaps: 7, numberOfTouches: 1)
         
-        app.tables.cells
-            .first(hasPrefix: "Watched?")
-            .staticTexts
-            .element(boundBy: 1)
+        app.cells.staticTexts["Watched?"]
+            .wait()
             .tap()
-        app.steppers.element.buttons["Increment"]
+        // Toggle "Unknown"
+        app.switches["Unknown"].tap()
+        // Increase season to 3
+        app.steppers.firstMatch.buttons["Increment"]
             .tap(withNumberOfTaps: 3, numberOfTouches: 1)
         app.steppers.element(boundBy: 1).buttons["Increment"]
+        // Increase episode to 15
             .tap(withNumberOfTaps: 10, numberOfTouches: 1)
         app.steppers.element(boundBy: 1).buttons["Increment"]
             .tap(withNumberOfTaps: 5, numberOfTouches: 1)
         app.goBack()
         
-        app.tables.cells
-            .first(hasPrefix: "Watch again?")
+        app.cells.containing(.staticText, identifier: "Watch again?")
             .buttons["No"]
             .tap()
         
-        app.tables.cells
-            .first(hasPrefix: "Tags")
-            .staticTexts
-            .element(boundBy: 1)
+        app.cells.staticTexts["Tags"]
             .tap()
         
         // Create tags
@@ -115,16 +111,13 @@ class DetailUITests: XCTestCase {
         addTag("Tag 2", app)
         addTag("Tag~3.test", app)
         
-        app.tables.cells.first(hasPrefix: "Tag1!").tap()
-        app.tables.cells.first(hasPrefix: "Tag~3.test").tap()
+        app.cells.staticTexts["Tag1!"].tap()
+        app.cells.staticTexts["Tag~3.test"].tap()
         
         // Modify
         app.goBack()
         
-        app.tables.cells
-            .first(hasPrefix: "Notes")
-            .staticTexts
-            .element(boundBy: 1)
+        app.cells.staticTexts["Notes"]
             .tap()
         // Modify
         app.textViews.firstMatch.tap()
@@ -135,25 +128,29 @@ class DetailUITests: XCTestCase {
         app.navigationBars.element.buttons["Done"].tap()
         
         // Assertions
+        let starImages = app.cells.containing(.staticText, identifier: "Personal Rating").images
+        let labels = ["Favorite", "Favorite", "Favorite", "Half Star", "Favorite"]
+        for i in 0..<5 {
+            XCTAssertEqual(
+                starImages.element(boundBy: i).label,
+                labels[i]
+            )
+        }
         XCTAssertEqual(
-            app.tables.cells.first(hasPrefix: "Personal Rating").label,
-            "Personal Rating, Favorite, Favorite, Favorite, Half Star, Favorite"
+            app.cells.containing(.staticText, identifier: "Watched?").staticTexts.element(boundBy: 1).label,
+            "Season 3, Episode 15"
         )
         XCTAssertEqual(
-            app.tables.cells.first(hasPrefix: "Watched?").label,
-            "Watched?, Season 3, Episode 15"
+            app.cells.containing(.staticText, identifier: "Watch again?").staticTexts.element(boundBy: 1).label,
+            "No"
         )
         XCTAssertEqual(
-            app.tables.cells.first(hasPrefix: "Watch again?").label,
-            "Watch again?, No"
+            app.cells.containing(.staticText, identifier: "Tags").staticTexts.element(boundBy: 1).label,
+            "Tag1!, Tag~3.test"
         )
         XCTAssertEqual(
-            app.tables.cells.first(hasPrefix: "Tags").label,
-            "Tags, Tag1!, Tag~3.test"
-        )
-        XCTAssertEqual(
-            app.tables.cells.first(hasPrefix: "Notes").label,
-            "Notes, This is a sample note.\nDone."
+            app.cells.containing(.staticText, identifier: "Notes").staticTexts.element(boundBy: 1).label,
+            "This is a sample note.\nDone."
         )
         app.goBack()
     }
@@ -174,7 +171,7 @@ class DetailUITests: XCTestCase {
         goToTags(mediaName: "The Matrix", app: app)
         addTag(oldName, app)
         // Rename it
-        app.tables.cells[oldName].buttons["Edit"].tap()
+        app.cells.containing(.staticText, identifier: oldName).buttons["Edit"].tap()
         let textField = app.alerts.firstMatch.textFields.firstMatch
         textField.tap()
         // Delete the old name
@@ -182,13 +179,13 @@ class DetailUITests: XCTestCase {
         textField.typeText(newName)
         app.alerts.firstMatch.buttons["Rename"].tap()
         // Check if it worked
-        XCTAssertTrue(app.tables.cells[newName].wait().exists)
+        XCTAssertTrue(app.cells.staticTexts[newName].wait().exists)
     }
     
     func goToTags(mediaName: String, app: XCUIApplication) {
-        app.cells.first(hasPrefix: mediaName).tap()
+        app.cells.staticTexts[mediaName].tap()
         app.navigationBars[mediaName].buttons["Edit"].wait().tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.wait().tap()
+        app.cells.staticTexts["Tags"].wait().tap()
     }
     
     func addTag(_ name: String, _ app: XCUIApplication) {
@@ -197,6 +194,6 @@ class DetailUITests: XCTestCase {
         app.textFields.element.typeText(name)
         app.alerts.buttons["Add"].tap()
         // Check if it worked
-        XCTAssertTrue(app.tables.cells[name].wait().exists)
+        XCTAssertTrue(app.cells.staticTexts[name].wait().exists)
     }
 }
