@@ -10,7 +10,7 @@ import SwiftUI
 import Foundation
 
 /// Represents a Picker view that lets the user pick multiple values from a list
-struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
+struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
     /// The actual binding to the original property
     @Binding var selectionBinding: [SelectionValue]
     // This property is solely used for updating the view and duplicates the above value
@@ -21,9 +21,9 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
             self.selectionBinding = self.selection
         }
     }
-    /// The label closure, mapping the values to a string for representation in the list
-    let label: (SelectionValue) -> String
-    /// The label of the Picker
+    /// The label closure, mapping the values to a view for representation in the list
+    let label: (SelectionValue) -> RowContent
+    /// The label of the Picker and the title in the editing view
     let title: Text
     /// The values to pick from
     @State var values: [SelectionValue]
@@ -43,7 +43,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                     Text(Strings.Library.Filter.valueAny)
                         .foregroundColor(Color.secondary)
                 } else if self.selection.count == 1 {
-                    Text(verbatim: "\(label(self.selection.first!))")
+                    label(self.selection.first!)
                         .foregroundColor(Color.secondary)
                 } else {
                     Text(Strings.Generic.pickerMultipleValuesLabel(self.selection.count))
@@ -55,7 +55,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
     
     init(
         selection: Binding<[SelectionValue]>,
-        label: @escaping (SelectionValue) -> String,
+        label: @escaping (SelectionValue) -> RowContent,
         values: [SelectionValue],
         title: Text
     ) {
@@ -67,7 +67,7 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
     }
     
     struct EditView: View {
-        let label: (SelectionValue) -> String
+        let label: (SelectionValue) -> RowContent
         let title: Text
         @Binding var values: [SelectionValue]
         @Binding var selectionBinding: [SelectionValue]
@@ -99,30 +99,40 @@ struct FilterMultiPicker<SelectionValue>: View where SelectionValue: Hashable {
                             }
                         } label: {
                             HStack {
-                                Text(self.label(value))
+                                Image(systemName: "checkmark")
+                                    .hidden(condition: !selection.contains(value))
+                                self.label(value)
                                 Spacer()
-                                Image(systemName: "checkmark").hidden(condition: !self.selection.contains(value))
                             }
                         }
-                        .navigationTitle(title)
+                        // Picker rows should not be blue
+                        .foregroundColor(.primary)
                     }
                 }
             }
+            .navigationTitle(title)
         }
     }
 }
 
 struct FilterMultiPicker_Previews: PreviewProvider {
-    @State private static var selection: [String] = []
+    @State private static var selection: [String] = ["Value 1"]
     
     static var previews: some View {
         Form {
             FilterMultiPicker(
                 selection: Self.$selection,
-                label: { $0 },
+                label: { Text($0) },
                 values: ["Value 1", "Value 2", "Value 3", "Value 4"],
                 title: Text(verbatim: "Title")
             )
         }
+        FilterMultiPicker.EditView(
+            label: { Text($0) },
+            title: Text("Title"),
+            values: .constant(["Value 1", "Value 2", "Value 3", "Value 4"]),
+            selectionBinding: .constant(["Value 2"]),
+            selection: .constant(["Value 2"])
+        )
     }
 }

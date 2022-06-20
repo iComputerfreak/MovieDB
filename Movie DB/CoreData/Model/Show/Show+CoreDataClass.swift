@@ -63,7 +63,7 @@ public class Show: Media {
     
     override func missingInformation() -> Set<MediaInformation> {
         var missing = super.missingInformation()
-        if lastWatched == nil {
+        if watched == nil {
             missing.insert(.watched)
         }
         return missing

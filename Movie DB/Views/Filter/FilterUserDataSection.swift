@@ -62,7 +62,7 @@ struct FilterUserDataSection: View {
                     get: { Array(filterSetting.tags).sorted(by: \.name) },
                     set: { filterSetting.tags = Set($0) }
                 ),
-                label: { (tag: Tag) in tag.name },
+                label: { Text($0.name) },
                 values: Array(allTags),
                 title: Text(Strings.Library.Filter.tagsLabel)
             )

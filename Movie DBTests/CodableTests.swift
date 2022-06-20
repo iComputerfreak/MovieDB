@@ -148,36 +148,39 @@ class CodableTests: XCTestCase {
         let networks = [
             ProductionCompanyDummy(id: 6, name: "NBC", logoPath: "/nGRVQlfmPBmfkNgCFpx5m7luTxG.png", originCountry: "US")
         ]
-        // swiftlint:disable vertical_parameter_alignment_on_call
         // swiftlint:disable multiline_arguments
         // swiftlint:disable multiline_arguments_brackets
         let seasons = [
             SeasonDummy(id: 55083, seasonNumber: 0, episodeCount: 11, name: "Specials",
-                   overview: "",
-                   imagePath: "/jPT3J4xlQ3yF5fczAopLofHBGq3.jpg", rawAirDate: "2013-09-10"),
+                        overview: "",
+                        imagePath: "/jPT3J4xlQ3yF5fczAopLofHBGq3.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2013-09-10")),
             SeasonDummy(id: 55082, seasonNumber: 1, episodeCount: 22, name: "Season 1",
-                   overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI’s Most Wanted fugitives. Brokering shadowy deals for criminals across the globe, Red was known by many as the \"Concierge of Crime.\" Now, he’s mysteriously surrendered to the FBI with an explosive offer: he will help catch the world’s most elusive criminals, under the condition that he speaks only to Elizabeth \"Liz\" Keen, an FBI profiler fresh out of Quantico. For Liz, it’s going to be one hell of a first day on the job.",
-                   imagePath: "/9oAb7SlHybGK6P7dsOfEFjPsPBM.jpg", rawAirDate: "2013-09-23"),
+                        overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI’s Most Wanted fugitives. Brokering shadowy deals for criminals across the globe, Red was known by many as the \"Concierge of Crime.\" Now, he’s mysteriously surrendered to the FBI with an explosive offer: he will help catch the world’s most elusive criminals, under the condition that he speaks only to Elizabeth \"Liz\" Keen, an FBI profiler fresh out of Quantico. For Liz, it’s going to be one hell of a first day on the job.",
+                        imagePath: "/9oAb7SlHybGK6P7dsOfEFjPsPBM.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2013-09-23")),
             SeasonDummy(id: 61357, seasonNumber: 2, episodeCount: 22, name: "Season 2",
-                   overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI's Most Wanted fugitives. He mysteriously surrendered to the FBI but now the FBI works for him as he identifies a \"blacklist\" of politicians, mobsters, spies and international terrorists. He will help catch them all... with the caveat that Elizabeth \"Liz\" Keen continues to work as his partner. Red will teach Liz to think like a criminal and \"see the bigger picture\"... whether she wants to or not.",
-                   imagePath: "/b7o8AOpZPWJO8nP4SK8RRZ2d0B0.jpg", rawAirDate: "2014-09-22"),
+                        overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI's Most Wanted fugitives. He mysteriously surrendered to the FBI but now the FBI works for him as he identifies a \"blacklist\" of politicians, mobsters, spies and international terrorists. He will help catch them all... with the caveat that Elizabeth \"Liz\" Keen continues to work as his partner. Red will teach Liz to think like a criminal and \"see the bigger picture\"... whether she wants to or not.",
+                        imagePath: "/b7o8AOpZPWJO8nP4SK8RRZ2d0B0.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2014-09-22")),
             SeasonDummy(id: 70935, seasonNumber: 3, episodeCount: 23, name: "Season 3",
-                   overview: "Now a fugitive on the run, Liz must figure out how to protect herself from the fallout of her actions in the explosive season two finale.",
-                   imagePath: "/hWN5imHrpg8wjEBsa7v80sGsS8r.jpg", rawAirDate: "2015-10-01"),
+                        overview: "Now a fugitive on the run, Liz must figure out how to protect herself from the fallout of her actions in the explosive season two finale.",
+                        imagePath: "/hWN5imHrpg8wjEBsa7v80sGsS8r.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2015-10-01")),
             SeasonDummy(id: 80082, seasonNumber: 4, episodeCount: 22, name: "Season 4",
-                   overview: "A mysterious man claiming to be Liz’s real father targets her, but first she must resolve the mystery of her lost childhood and reconcile her true identity with the elusive memories corrupted by Reddington. Without the truth, every day holds more danger for herself, her baby and her husband Tom. Meanwhile, the Task Force reels from Liz’s resurrection and friendships are fractured. Betrayed by those closest to him, Reddington’s specific moral code demands justice, all the while battling an army of new and unexpected blacklisters.",
-                   imagePath: "/d5AJOxPzGkAHiaCHcESVCim1vHu.jpg", rawAirDate: "2016-09-22"),
+                        overview: "A mysterious man claiming to be Liz’s real father targets her, but first she must resolve the mystery of her lost childhood and reconcile her true identity with the elusive memories corrupted by Reddington. Without the truth, every day holds more danger for herself, her baby and her husband Tom. Meanwhile, the Task Force reels from Liz’s resurrection and friendships are fractured. Betrayed by those closest to him, Reddington’s specific moral code demands justice, all the while battling an army of new and unexpected blacklisters.",
+                        imagePath: "/d5AJOxPzGkAHiaCHcESVCim1vHu.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2016-09-22")),
             SeasonDummy(id: 91328, seasonNumber: 5, episodeCount: 22, name: "Season 5",
-                   overview: "Feeling surprisingly unencumbered, Raymond Reddington is back, and in the process of rebuilding his criminal empire. His lust for life is ever-present as he lays the foundation for this new enterprise - one that he\'ll design with Elizabeth Keen by his side. Living with the reality that Red is her father, Liz finds herself torn between her role as an FBI agent and the temptation to act on her more criminal instincts. In a world where the search for Blacklisters has become a family trade, Red will undoubtedly reclaim his moniker as the “Concierge of Crime.”",
-                   imagePath: "/6MupSEjQbWd5t37iHoYNGV1Rp2Y.jpg", rawAirDate: "2017-09-27"),
+                        overview: "Feeling surprisingly unencumbered, Raymond Reddington is back, and in the process of rebuilding his criminal empire. His lust for life is ever-present as he lays the foundation for this new enterprise - one that he\'ll design with Elizabeth Keen by his side. Living with the reality that Red is her father, Liz finds herself torn between her role as an FBI agent and the temptation to act on her more criminal instincts. In a world where the search for Blacklisters has become a family trade, Red will undoubtedly reclaim his moniker as the “Concierge of Crime.”",
+                        imagePath: "/6MupSEjQbWd5t37iHoYNGV1Rp2Y.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2017-09-27")),
             SeasonDummy(id: 112279, seasonNumber: 6, episodeCount: 22, name: "Season 6",
-                   overview: "Following the startling revelation that Raymond \"Red\" Reddington isn\'t who he says he is, Elizabeth Keen is torn between the relationship she\'s developed with the man assumed to be her father and her desire to get to the bottom of years of secrets and lies. Meanwhile, Red leads Liz and the FBI to some of the most strange and dangerous criminals yet, growing his empire and eliminating rivals in the process. All throughout, Liz and Red engage in an uneasy cat-and-mouse game in which lines will be crossed and the truth will be revealed.",
-                   imagePath: "/f1R6R8AVS8EwaOUltlVxNjASZAs.jpg", rawAirDate: "2019-01-03"),
+                        overview: "Following the startling revelation that Raymond \"Red\" Reddington isn\'t who he says he is, Elizabeth Keen is torn between the relationship she\'s developed with the man assumed to be her father and her desire to get to the bottom of years of secrets and lies. Meanwhile, Red leads Liz and the FBI to some of the most strange and dangerous criminals yet, growing his empire and eliminating rivals in the process. All throughout, Liz and Red engage in an uneasy cat-and-mouse game in which lines will be crossed and the truth will be revealed.",
+                        imagePath: "/f1R6R8AVS8EwaOUltlVxNjASZAs.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-01-03")),
             SeasonDummy(id: 132066, seasonNumber: 7, episodeCount: 19, name: "Season 7",
-                   overview: "After being abducted by Katarina Rostova, Raymond \"Red\" Reddington finds himself alone in hostile territory, unsure of who, if anyone, he can trust. Surrounded by old enemies and new allies, Red must stay one step ahead of the Blacklist\'s most dangerous criminal, who will stop at nothing to unearth the very truth Red wants no one to know about. To find it, Katarina will insinuate herself into the life of Elizabeth Keen, who has finally reunited with her daughter Agnes. Katarina’s presence will bring danger to Liz’s doorstep and forever alter her relationship with Red.",
-                   imagePath: "/e72ZZsSeKADafuy2aPWCUp15GgE.jpg", rawAirDate: "2019-10-04"),
-            SeasonDummy(id: 165869, seasonNumber: 8, episodeCount: 22, name: "Season 8", overview: "With his back against the wall, Raymond Reddington faces his most formidable enemy yet: Elizabeth Keen. Aligned with her mother, infamous Russian spy Katarina Rostova, Liz must decide how far she is willing to go to find out why Reddington has entered her life and what his endgame really is. The fallout between Reddington and Keen will have devastating consequences for all that lie in their wake, including the Task Force they helped to create.", imagePath: "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg", rawAirDate: "2020-11-13"),
-            SeasonDummy(id: 200816, seasonNumber: 9, episodeCount: 22, name: "Season 9", overview: "In the two years following the death of Elizabeth Keen, Raymond Reddington and the members of the FBI Task Force have disbanded – their lives now changed in unexpected ways and with Reddington’s whereabouts unknown. Finding themselves each at a crossroads, a common purpose compels them to renew their original mission: to take down dangerous, vicious and eccentric Blacklisters. In the process, they begin to uncover lethal adversaries, unimaginable conspiracies and surprising betrayals that will threaten alliances and spur vengeance for the past, led by the most devious criminal of them all – Raymond Reddington.", imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", rawAirDate: "2021-10-21")
+                        overview: "After being abducted by Katarina Rostova, Raymond \"Red\" Reddington finds himself alone in hostile territory, unsure of who, if anyone, he can trust. Surrounded by old enemies and new allies, Red must stay one step ahead of the Blacklist\'s most dangerous criminal, who will stop at nothing to unearth the very truth Red wants no one to know about. To find it, Katarina will insinuate herself into the life of Elizabeth Keen, who has finally reunited with her daughter Agnes. Katarina’s presence will bring danger to Liz’s doorstep and forever alter her relationship with Red.",
+                        imagePath: "/e72ZZsSeKADafuy2aPWCUp15GgE.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-10-04")),
+            SeasonDummy(id: 165869, seasonNumber: 8, episodeCount: 22, name: "Season 8",
+                        overview: "With his back against the wall, Raymond Reddington faces his most formidable enemy yet: Elizabeth Keen. Aligned with her mother, infamous Russian spy Katarina Rostova, Liz must decide how far she is willing to go to find out why Reddington has entered her life and what his endgame really is. The fallout between Reddington and Keen will have devastating consequences for all that lie in their wake, including the Task Force they helped to create.",
+                        imagePath: "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2020-11-13")),
+            SeasonDummy(id: 200816, seasonNumber: 9, episodeCount: 22, name: "Season 9",
+                        overview: "In the two years following the death of Elizabeth Keen, Raymond Reddington and the members of the FBI Task Force have disbanded – their lives now changed in unexpected ways and with Reddington’s whereabouts unknown. Finding themselves each at a crossroads, a common purpose compels them to renew their original mission: to take down dangerous, vicious and eccentric Blacklisters. In the process, they begin to uncover lethal adversaries, unimaginable conspiracies and surprising betrayals that will threaten alliances and spur vengeance for the past, led by the most devious criminal of them all – Raymond Reddington.",
+                        imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2021-10-21"))
         ]
         // swiftlint:enable vertical_parameter_alignment_on_call
         // swiftlint:enable multiline_arguments
@@ -242,31 +245,31 @@ class CodableTests: XCTestCase {
         let seasons = [
             SeasonDummy(id: 3627, seasonNumber: 0, episodeCount: 227, name: "Specials",
                         overview: "",
-                        imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", rawAirDate: "2010-12-05"),
+                        imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2010-12-05")),
             SeasonDummy(id: 3624, seasonNumber: 1, episodeCount: 10, name: "Season 1",
                         overview: "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
-                        imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", rawAirDate: "2011-04-17"),
+                        imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2011-04-17")),
             SeasonDummy(id: 3625, seasonNumber: 2, episodeCount: 10, name: "Season 2",
                         overview: "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
-                        imagePath: "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg", rawAirDate: "2012-04-01"),
+                        imagePath: "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2012-04-01")),
             SeasonDummy(id: 3626, seasonNumber: 3, episodeCount: 10, name: "Season 3",
                         overview: "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
-                        imagePath: "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg", rawAirDate: "2013-03-31"),
+                        imagePath: "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2013-03-31")),
             SeasonDummy(id: 3628, seasonNumber: 4, episodeCount: 10, name: "Season 4",
                         overview: "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
-                        imagePath: "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg", rawAirDate: "2014-04-06"),
+                        imagePath: "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2014-04-06")),
             SeasonDummy(id: 62090, seasonNumber: 5, episodeCount: 10, name: "Season 5",
                         overview: "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
-                        imagePath: "/527sR9hNDcgVDKNUE3QYra95vP5.jpg", rawAirDate: "2015-04-12"),
+                        imagePath: "/527sR9hNDcgVDKNUE3QYra95vP5.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2015-04-12")),
             SeasonDummy(id: 71881, seasonNumber: 6, episodeCount: 10, name: "Season 6",
                         overview: "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
-                        imagePath: "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg", rawAirDate: "2016-04-24"),
+                        imagePath: "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2016-04-24")),
             SeasonDummy(id: 81266, seasonNumber: 7, episodeCount: 7, name: "Season 7",
                         overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
-                        imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", rawAirDate: "2017-07-16"),
+                        imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2017-07-16")),
             SeasonDummy(id: 107971, seasonNumber: 8, episodeCount: 6, name: "Season 8",
                         overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
-                        imagePath: "/3OcQhbrecf4F4pYss2gSirTGPvD.jpg", rawAirDate: "2019-04-14")
+                        imagePath: "/3OcQhbrecf4F4pYss2gSirTGPvD.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-04-14"))
         ]
         // swiftlint:enable multiline_arguments multiline_arguments_brackets
         

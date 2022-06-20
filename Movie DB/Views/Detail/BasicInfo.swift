@@ -116,6 +116,7 @@ struct BasicInfo: View {
                         .map { code in
                             Locale.current.localizedString(forRegionCode: code) ?? Strings.Generic.unknown
                         }
+                        .sorted()
                         .joined(separator: ", ")
                 )
                 .headline(Strings.Detail.productionCountriesHeadline)

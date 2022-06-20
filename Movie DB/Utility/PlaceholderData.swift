@@ -83,7 +83,7 @@ enum PlaceholderData {
         s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
             .map { name in allTags.first(where: { $0.name == name })! })
         s.notes = "A masterpiece!"
-        s.lastWatched = .init(season: 7, episode: nil)
+        s.watched = .season(7)
         s.watchAgain = true
         s.parentalRating = .fskAgeSixteen
         return s
@@ -93,7 +93,7 @@ enum PlaceholderData {
         let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
         let s = Show(context: context, tmdbData: tmdbData)
         s.notes = "A masterpiece!"
-        s.lastWatched = .init(season: 7, episode: nil)
+        s.watched = .season(7)
         s.parentalRating = .fskAgeSixteen
         return s
     }()

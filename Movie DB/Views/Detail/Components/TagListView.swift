@@ -43,8 +43,7 @@ struct TagListView: View {
         return Text(tags.map(\.name).sorted().joined(separator: ", "))
     }
     
-    // TODO: Move into its own file
-    private struct EditView: View {
+    struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
         @FetchRequest(

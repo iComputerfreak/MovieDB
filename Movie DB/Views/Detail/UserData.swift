@@ -29,7 +29,7 @@ struct UserData: View {
                 // Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
-                        values: [.watched, .notWatched, nil],
+                        values: MovieWatchState.allCases + [nil],
                         value: .init(
                             // swiftlint:disable force_cast
                             get: { (self.mediaObject as! Movie).watched },
@@ -42,6 +42,8 @@ struct UserData: View {
                                 switch state {
                                 case .watched:
                                     return Strings.Detail.watchedPickerValueYes
+                                case .partially:
+                                    return Strings.Detail.watchedPickerValuePartially
                                 case .notWatched:
                                     return Strings.Detail.watchedPickerValueNo
                                 }
@@ -55,9 +57,9 @@ struct UserData: View {
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
-                    WatchedShowView(lastWatched: .init(
-                        get: { (mediaObject as! Show).lastWatched },
-                        set: { (mediaObject as! Show).lastWatched = $0 }
+                    WatchedShowView(watched: .init(
+                        get: { (mediaObject as! Show).watched },
+                        set: { (mediaObject as! Show).watched = $0 }
                     ))
                     // swiftlint:enable force_cast
                     .environment(\.editMode, editMode)

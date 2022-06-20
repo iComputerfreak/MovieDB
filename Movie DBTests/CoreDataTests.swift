@@ -13,7 +13,6 @@ import XCTest
 import CoreData
 
 class CoreDataTests: XCTestCase {
-    // swiftlint:disable implicitly_unwrapped_optional
     var testingUtils: TestingUtils!
     var testContext: NSManagedObjectContext {
         testingUtils.context
@@ -68,5 +67,30 @@ class CoreDataTests: XCTestCase {
     
     func testSaveChildContext() throws {
         try testContext.newBackgroundContext().save()
+    }
+    
+    func testAutocreateGenres() throws {
+        func allGenres() -> [Genre] {
+            try! testContext.fetch(Genre.fetchRequest())
+        }
+        
+        testContext.reset()
+        // Add a movie with genres
+        _ = Movie(context: testContext, genres: [
+            GenreDummy(id: 1, name: "Genre 1"),
+            GenreDummy(id: 2, name: "Genre 2"),
+            GenreDummy(id: 3, name: "Genre 3")
+        ])
+        XCTAssertEqual(allGenres().count, 3)
+        
+        // Add another movie with overlapping genres
+        _ = Movie(context: testContext, genres: [
+                GenreDummy(id: 2, name: "Genre 2"),
+                GenreDummy(id: 3, name: "Genre 3"),
+                GenreDummy(id: 4, name: "Genre 4")
+        ])
+        
+        // We only should have one new genre (Genre 4)
+        XCTAssertEqual(allGenres().count, 4)
     }
 }

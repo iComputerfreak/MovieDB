@@ -23,8 +23,8 @@
       }
     },
     {
-      "parallelizable" : true,
       "skippedTests" : [
+        "Movie_DBUITests",
         "Movie_DBUITests\/testConfigureApp()"
       ],
       "target" : {

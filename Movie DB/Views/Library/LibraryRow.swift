@@ -23,9 +23,10 @@ struct LibraryRow: View {
                 HStack {
                     Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(mediaObject.title)
                             .lineLimit(2)
+                            .font(.headline)
                         // Under the title
                         HStack {
                             // MARK: Type
@@ -44,6 +45,7 @@ struct LibraryRow: View {
                                 Text(mediaObject.year!.description)
                             }
                         }
+                        .font(.subheadline)
                     }
                 }
             }
@@ -69,6 +71,7 @@ struct ProblemsLibraryRow: View {
             VStack(alignment: .leading) {
                 Text(mediaObject.title)
                     .lineLimit(2)
+                    .font(.headline)
                 // Under the title
                 HStack {
                     Text(Strings.Problems.missingList(missing))
@@ -82,11 +85,22 @@ struct ProblemsLibraryRow: View {
 
 struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            LibraryRow()
-                .environmentObject(PlaceholderData.movie as Media)
-            ProblemsLibraryRow()
-                .environmentObject(PlaceholderData.problemShow as Media)
+        NavigationView {
+            List {
+                ForEach(ParentalRating.fskRatings, id: \.label) { rating in
+                    let movie: Media = {
+                        // swiftlint:disable:next force_cast
+                        let movie = PlaceholderData.movie.copy() as! Movie
+                        movie.parentalRating = rating
+                        return movie
+                    }()
+                    LibraryRow()
+                        .environmentObject(movie)
+                }
+                ProblemsLibraryRow()
+                    .environmentObject(PlaceholderData.problemShow as Media)
+            }
+            .navigationTitle("Library")
         }
     }
 }

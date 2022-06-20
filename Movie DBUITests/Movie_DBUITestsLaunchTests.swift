@@ -8,6 +8,7 @@
 
 import XCTest
 
+/*
 class Movie_DBUITestsLaunchTests: XCTestCase {
     // Run with every configuration (orientation, dark mode, ...)
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
@@ -36,3 +37,4 @@ class Movie_DBUITestsLaunchTests: XCTestCase {
         add(attachment)
     }
 }
+*/

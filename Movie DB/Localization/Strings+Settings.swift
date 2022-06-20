@@ -97,6 +97,10 @@ extension Strings {
             localized: "settings.region.navBar.title",
             comment: "The navigation bar title for the region picker in the settings"
         )
+        static let feedbackLabel = String(
+            localized: "settings.feedback.label",
+            comment: "The feedback button in the settings that opens a new e-mail"
+        )
         
         enum Alert {
             static let reloadCompleteTitle = String(

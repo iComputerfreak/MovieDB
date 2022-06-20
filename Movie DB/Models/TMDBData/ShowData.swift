@@ -29,6 +29,34 @@ extension TMDBData {
         var networks: [ProductionCompanyDummy]
         var createdBy: [String]
         
+        init(
+            rawFirstAirDate: String,
+            rawLastAirDate: String,
+            lastEpisodeToAir: Episode? = nil,
+            nextEpisodeToAir: Episode? = nil,
+            numberOfSeasons: Int? = nil,
+            numberOfEpisodes: Int,
+            episodeRuntime: [Int],
+            isInProduction: Bool,
+            seasons: [SeasonDummy],
+            showType: ShowType? = nil,
+            networks: [ProductionCompanyDummy],
+            createdBy: [String]
+        ) {
+            self.rawFirstAirDate = rawFirstAirDate
+            self.rawLastAirDate = rawLastAirDate
+            self.lastEpisodeToAir = lastEpisodeToAir
+            self.nextEpisodeToAir = nextEpisodeToAir
+            self.numberOfSeasons = numberOfSeasons
+            self.numberOfEpisodes = numberOfEpisodes
+            self.episodeRuntime = episodeRuntime
+            self.isInProduction = isInProduction
+            self.seasons = seasons
+            self.showType = showType
+            self.networks = networks
+            self.createdBy = createdBy
+        }
+        
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.rawFirstAirDate = try container.decode(String.self, forKey: .rawFirstAirDate)

@@ -181,6 +181,7 @@ struct PersistenceController {
                         title: Strings.Alert.errorSavingCoreDataTitle,
                         error: nserror
                     )
+                    print(nserror)
 //                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             } else {

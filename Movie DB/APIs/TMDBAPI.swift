@@ -13,7 +13,7 @@ import UIKit
 actor TMDBAPI {
     static let shared = TMDBAPI()
     
-    private let apiKey: String = APIKeys.tmdbAPIKey
+    private let apiKey: String = Secrets.tmdbAPIKey
     /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
     var locale: String { JFConfig.shared.language }
     /// The ISO 3166-1 region code, used for displaying matching release dates
@@ -38,7 +38,7 @@ actor TMDBAPI {
             .cast
         case .show:
             cast = try await decodeAPIURL(
-                path: "/\(type.rawValue)/\(id)/credits",
+                path: "/\(type.rawValue)/\(id)/aggregate_credits",
                 as: AggregateCreditsWrapper.self,
                 userInfo: [.mediaType: type]
             )

@@ -10,25 +10,28 @@ import Foundation
 import SwiftUI
 
 struct WatchedShowView: View {
-    @Binding var lastWatched: EpisodeNumber?
+    @Binding var watched: ShowWatchState?
     @Environment(\.editMode) private var editMode
     @State private var isEditing = false
     
     private var episodeString: String {
-        guard let watched = lastWatched else {
-            return Strings.Detail.watchedShowLabelNo
+        guard let watched else {
+            return Strings.Detail.watchedShowLabelUnknown
         }
-        if watched.episode == nil {
-            return Strings.Detail.watchedShowLabelSeason(watched.season)
-        } else {
-            return Strings.Detail.watchedShowLabelSeasonEpisode(watched.season, watched.episode!)
+        switch watched {
+        case .notWatched:
+            return Strings.Detail.watchedShowLabelNo
+        case .season(let s):
+            return Strings.Detail.watchedShowLabelSeason(s)
+        case .episode(season: let s, episode: let e):
+            return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }
     
     var body: some View {
         Group {
             if editMode?.wrappedValue.isEditing ?? false {
-                NavigationLink(destination: EditView(lastWatched: $lastWatched), isActive: $isEditing) {
+                NavigationLink(destination: EditView(watched: $watched), isActive: $isEditing) {
                     Text(episodeString)
                 }
                 .onTapGesture {
@@ -41,21 +44,22 @@ struct WatchedShowView: View {
     }
     
     struct EditView: View {
-        @Binding var lastWatched: EpisodeNumber?
+        @Binding var watched: ShowWatchState?
         
         @State private var season: Int
         private var seasonWrapper: Binding<Int> {
             Binding<Int>(get: { self.season }, set: { season in
                 self.season = season
+                // Update the watched binding
                 if season == 0 {
-                    // Delete both (episode and season)
-                    self.lastWatched = nil
+                    // Set to not watched
+                    self.watched = .notWatched
                 } else {
-                    // Update the season (or create, if nil)
-                    if self.lastWatched == nil {
-                        self.lastWatched = EpisodeNumber(season: season)
+                    // Update the season
+                    if let episode = self.episode {
+                        self.watched = .episode(season: season, episode: episode)
                     } else {
-                        self.lastWatched!.season = season
+                        self.watched = .season(season)
                     }
                 }
             })
@@ -65,14 +69,39 @@ struct WatchedShowView: View {
         private var episodeWrapper: Binding<Int> {
             Binding<Int>(get: { self.episode }, set: { episode in
                 self.episode = episode
-                self.lastWatched?.episode = (episode == 0 ? nil : episode)
+                if let season = self.watched?.season {
+                    // Update the binding
+                    self.watched = episode == 0 ? .season(season) : .episode(season: season, episode: episode)
+                }
             })
         }
         
-        init(lastWatched: Binding<EpisodeNumber?>) {
-            self._lastWatched = lastWatched
-            self._season = State(wrappedValue: lastWatched.wrappedValue?.season ?? 0)
-            self._episode = State(wrappedValue: lastWatched.wrappedValue?.episode ?? 0)
+        @State private var unknown: Bool
+        private var unknownWrapper: Binding<Bool> {
+            .init {
+                self.unknown
+            } set: { newValue in
+                self.unknown = newValue
+                // If we switched to "known"
+                if newValue == false {
+                    // Initialize, if not already
+                    if self.watched == nil {
+                        // Use the values still present in the UI
+                        self.watched = .init(season: self.season, episode: self.episode)
+                    }
+                // If we switched to "unknown"
+                } else {
+                    // Deinitialize, but keep the UI values
+                    self.watched = nil
+                }
+            }
+        }
+        
+        init(watched: Binding<ShowWatchState?>) {
+            self._watched = watched
+            self._season = State(wrappedValue: watched.wrappedValue?.season ?? 0)
+            self._episode = State(wrappedValue: watched.wrappedValue?.episode ?? 0)
+            self._unknown = State(wrappedValue: watched.wrappedValue == nil)
         }
         
         var body: some View {
@@ -80,6 +109,7 @@ struct WatchedShowView: View {
                 Section(
                     header: Text(Strings.Detail.watchedShowEditingHeader)
                 ) {
+                    Toggle("Unknown", isOn: unknownWrapper)
                     // FUTURE: Clamp to the actual amount of seasons/episodes?
                     // May not be a good idea if the TMDB data is outdated
                     Stepper(value: seasonWrapper, in: 0...1000) {
@@ -89,6 +119,7 @@ struct WatchedShowView: View {
                             Text(Strings.Detail.watchedShowEditingLabelNotWatched)
                         }
                     }
+                    .disabled(unknown)
                     if season > 0 {
                         Stepper(value: episodeWrapper, in: 0...1000) {
                             if self.episode > 0 {
@@ -97,6 +128,7 @@ struct WatchedShowView: View {
                                 Text(Strings.Detail.watchedShowEditingLabelAllEpisodes)
                             }
                         }
+                        .disabled(unknown)
                     }
                 }
             }
@@ -106,6 +138,8 @@ struct WatchedShowView: View {
 
 struct WatchedShowView_Previews: PreviewProvider {
     static var previews: some View {
-        WatchedShowView(lastWatched: .constant(EpisodeNumber(season: 2, episode: 5)))
+        WatchedShowView(watched: .constant(.episode(season: 2, episode: 5)))
+        WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)))
+            .previewDisplayName("Edit View")
     }
 }

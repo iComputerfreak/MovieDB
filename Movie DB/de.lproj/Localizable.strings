@@ -212,22 +212,25 @@
 "detail.userData.tags.none" = "Keine";
 
 /* The picker value of the detail view's user data section which the user chooses if they did not watch the media object */
-"detail.userData.watched.picker.notWatched" = "Nicht Angeschaut";
+"detail.userData.watched.picker.notWatched" = "Nein";
 
 /* The picker value of the detail view's user data section which the user chooses if they watched the media object */
-"detail.userData.watched.picker.watched" = "Angeschaut";
+"detail.userData.watched.picker.watched" = "Ja";
 
 /* The header in the editing view where the user specifies up to which season/episode they watched. */
 "detail.userData.watchedShow.header" = "Bis zu welcher Episode haben Sie geschaut?";
 
 /* The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the user watched all episodes of the season. */
-"detail.userData.watchedShow.label.allEpisodes" = "Alle Staffeln";
+"detail.userData.watchedShow.label.allEpisodes" = "Alle Episoden";
 
 /* The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies the episode number. The parameter is the episode number. */
 "detail.userData.watchedShow.label.episodeNumber %lld" = "Episode %lld";
 
 /* The label in the detail view describing that the user has not watched the show */
 "detail.userData.watchedShow.label.no" = "Nein";
+
+/* The label in the detail view describing that it is unknown whether the user has watched the show */
+"detail.userData.watchedShow.label.unknown" = "Unbekannt";
 
 /* The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show. */
 "detail.userData.watchedShow.label.notWatched" = "Nicht Angeschaut";
@@ -714,6 +717,12 @@
 
 /* The title of an alert informing the user about an error while loading the cast information */
 "detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
+
+/* The feedback button in the settings that opens a new e-mail */
+"settings.feedback.label" = "Feedback";
+
+/* The picker value of the detail view's user data section which the user chooses if they watched the media object partially */
+"detail.userData.watched.picker.partiallyWatched" = "Teilweise";
 
 /* The label of the lists tab of the main TabView */
 "tabView.lists.label" = "Listen";

@@ -17,7 +17,7 @@ struct FilterShowSpecificSection: View {
             // MARK: - Show Type
             FilterMultiPicker(
                 selection: $filterSetting.showTypes,
-                label: { $0.rawValue },
+                label: { Text($0.rawValue) },
                 values: ShowType.allCases.sorted(by: \.rawValue),
                 title: Text(Strings.Library.Filter.showTypeLabel)
             )

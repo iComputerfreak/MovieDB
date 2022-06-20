@@ -20,10 +20,12 @@ extension Strings {
             localized: "proInfo.buyButton.label.disabled",
             comment: "The button label in the pro info view indicating that the user already bought pro."
         )
-        static let buyButtonLabel = String(
-            localized: "proInfo.buyButton.label \("4,99 $")",
-            comment: "The button label in the pro info view displaying the price to buy the pro version of the app. The parameter is the localized and formatted price."
-        )
+        static func buyButtonLabel(_ priceString: String) -> String {
+            String(
+                localized: "proInfo.buyButton.label \(priceString)",
+                comment: "The button label in the pro info view displaying the price to buy the pro version of the app. The parameter is the localized and formatted price."
+            )
+        }
         static let restoreButtonLabel = String(
             localized: "proInfo.button.restore",
             comment: "The label for the restore button in the pro info view"

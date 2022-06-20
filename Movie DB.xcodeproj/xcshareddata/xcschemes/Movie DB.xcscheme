@@ -5,6 +5,25 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# If the auto-generated Secrets.swift file does not exist yet, create an empty one&#10;# This is needed, so Xcode does not complain about missing input files during build.&#10;&#10;SECRETS=&quot;$PROJECT_DIR/Movie DB/Secrets.swift&quot;&#10;&#10;if [[ ! -f $SECRETS ]]; then&#10;    touch $SECRETS&#10;fi&#10;"
+               shellToInvoke = "/bin/zsh">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "AB6718BC22C0312A00F429E4"
+                     BuildableName = "Movie DB.app"
+                     BlueprintName = "Movie DB"
+                     ReferencedContainer = "container:Movie DB.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

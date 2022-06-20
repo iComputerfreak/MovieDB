@@ -10,8 +10,6 @@ import XCTest
 import CoreData
 @testable import Movie_DB
 
-// swiftlint:disable prefer_self_in_static_references
-
 struct TestingUtils {
     let context: NSManagedObjectContext
     
@@ -62,7 +60,7 @@ struct TestingUtils {
             s.personalRating = .fiveStars
             s.tags = TestingUtils.getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"], of: previewTags)
             s.notes = "A masterpiece!"
-            s.lastWatched = .init(season: 7, episode: nil)
+            s.watched = .season(7)
             s.watchAgain = true
             return s
         }()
@@ -72,7 +70,7 @@ struct TestingUtils {
             s.personalRating = .twoAndAHalfStars
             s.tags = TestingUtils.getPreviewTags(["Past", "Fantasy"], of: previewTags)
             s.notes = "Bad ending"
-            s.lastWatched = .init(season: 8, episode: 3)
+            s.watched = .episode(season: 8, episode: 3)
             s.watchAgain = false
             return s
         }()
@@ -175,5 +173,111 @@ extension SeasonDummy {
             // swiftlint:disable:next redundant_nil_coalescing
             airDate: airDate ?? nil
         )
+    }
+}
+
+extension Movie {
+    convenience init(
+        context: NSManagedObjectContext,
+        id: Int = Int.random(in: 0...Int.max),
+        title: String = "Test Media",
+        originalTitle: String = "Test Media",
+        imagePath: String? = nil,
+        genres: [GenreDummy] = [],
+        tagline: String? = nil,
+        overview: String? = nil,
+        status: MediaStatus = .released,
+        originalLanguage: String = "",
+        productionCompanies: [ProductionCompanyDummy] = [],
+        homepageURL: String? = nil,
+        productionCountries: [String] = [],
+        popularity: Float = 0,
+        voteAverage: Float = 0,
+        voteCount: Int = 0,
+        keywords: [String] = [],
+        translations: [String] = [],
+        videos: [VideoDummy] = [],
+        parentalRating: ParentalRating? = nil,
+        watchProviders: [WatchProvider] = [],
+        movieData: TMDBData.MovieData? = .init(rawReleaseDate: "2022-01-01", budget: 0, revenue: 0, isAdult: false),
+        showData: TMDBData.ShowData? = nil
+    ) {
+        self.init(context: context, tmdbData: TMDBData(
+            id: id,
+            title: title,
+            originalTitle: originalTitle,
+            imagePath: imagePath,
+            genres: genres,
+            tagline: tagline,
+            overview: overview,
+            status: status,
+            originalLanguage: originalLanguage,
+            productionCompanies: productionCompanies,
+            homepageURL: homepageURL,
+            productionCountries: productionCountries,
+            popularity: popularity,
+            voteAverage: voteAverage,
+            voteCount: voteCount,
+            keywords: keywords,
+            translations: translations,
+            videos: videos,
+            parentalRating: parentalRating,
+            watchProviders: watchProviders,
+            movieData: movieData,
+            showData: showData
+        ))
+    }
+}
+
+extension Show {
+    convenience init(
+        context: NSManagedObjectContext,
+        id: Int = Int.random(in: 0...Int.max),
+        title: String = "Test Media",
+        originalTitle: String = "Test Media",
+        imagePath: String? = nil,
+        genres: [GenreDummy] = [],
+        tagline: String? = nil,
+        overview: String? = nil,
+        status: MediaStatus = .released,
+        originalLanguage: String = "",
+        productionCompanies: [ProductionCompanyDummy] = [],
+        homepageURL: String? = nil,
+        productionCountries: [String] = [],
+        popularity: Float = 0,
+        voteAverage: Float = 0,
+        voteCount: Int = 0,
+        keywords: [String] = [],
+        translations: [String] = [],
+        videos: [VideoDummy] = [],
+        parentalRating: ParentalRating? = nil,
+        watchProviders: [WatchProvider] = [],
+        movieData: TMDBData.MovieData? = nil,
+        showData: TMDBData.ShowData? = .init(rawFirstAirDate: "2022-01-01", rawLastAirDate: "2022-01-01", numberOfEpisodes: 0, episodeRuntime: [], isInProduction: false, seasons: [], networks: [], createdBy: [])
+    ) {
+        self.init(context: context, tmdbData: TMDBData(
+            id: id,
+            title: title,
+            originalTitle: originalTitle,
+            imagePath: imagePath,
+            genres: genres,
+            tagline: tagline,
+            overview: overview,
+            status: status,
+            originalLanguage: originalLanguage,
+            productionCompanies: productionCompanies,
+            homepageURL: homepageURL,
+            productionCountries: productionCountries,
+            popularity: popularity,
+            voteAverage: voteAverage,
+            voteCount: voteCount,
+            keywords: keywords,
+            translations: translations,
+            videos: videos,
+            parentalRating: parentalRating,
+            watchProviders: watchProviders,
+            movieData: movieData,
+            showData: showData
+        ))
     }
 }

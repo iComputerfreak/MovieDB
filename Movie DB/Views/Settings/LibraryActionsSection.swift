@@ -26,13 +26,8 @@ struct LibraryActionsSection: View {
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
             #if DEBUG
             Button("Debug") {
-                let genresFetch: NSFetchRequest<Genre> = Genre.fetchRequest()
-                genresFetch.predicate = NSPredicate(
-                    format: "medias.@count > 0"
-                )
                 // swiftlint:disable:next force_try
-                let results = try! PersistenceController.viewContext.fetch(genresFetch)
-                print(results.map { "\($0.id), \($0.name)" }.sorted().joined(separator: "\n"))
+                try! MediaLibrary.shared.cleanup()
             }
             #endif
         }

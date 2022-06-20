@@ -11,18 +11,23 @@ import Foundation
 import CoreData
 
 extension Show {
+    /// Whether the user has watched the show
+    public var watched: ShowWatchState? {
+        get { getOptionalEnum(forKey: "showWatchState") }
+        set { setOptionalEnum(newValue, forKey: "showWatchState") }
+    }
     /// The type of the show (e.g. Scripted)
     public var showType: ShowType? {
         get { getOptionalEnum(forKey: "showType") }
         set { setOptionalEnum(newValue, forKey: "showType") }
     }
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
-    public var lastSeasonWatched: Int? {
+    public var lastSeasonWatched2: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }
         set { setOptionalInt(newValue, forKey: "lastSeasonWatched") }
     }
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
-    public var lastEpisodeWatched: Int? {
+    public var lastEpisodeWatched2: Int? {
         get { getOptionalInt(forKey: "lastEpisodeWatched") }
         set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
     }
@@ -60,21 +65,21 @@ extension Show {
     @NSManaged public var nextEpisodeToAir: Episode?
     @NSManaged public var lastEpisodeToAir: Episode?
     
-    public var lastWatched: EpisodeNumber? {
+    public var lastWatched2: EpisodeNumber? {
         get {
-            guard let lastSeason = self.lastSeasonWatched else {
+            guard let lastSeason = self.lastSeasonWatched2 else {
                 return nil
             }
-            return EpisodeNumber(season: lastSeason, episode: lastEpisodeWatched)
+            return EpisodeNumber(season: lastSeason, episode: lastEpisodeWatched2)
         }
         set {
             guard let episodeNumber = newValue else {
-                self.lastSeasonWatched = nil
-                self.lastEpisodeWatched = nil
+                self.lastSeasonWatched2 = nil
+                self.lastEpisodeWatched2 = nil
                 return
             }
-            self.lastSeasonWatched = episodeNumber.season
-            self.lastEpisodeWatched = episodeNumber.episode
+            self.lastSeasonWatched2 = episodeNumber.season
+            self.lastEpisodeWatched2 = episodeNumber.episode
         }
     }
     

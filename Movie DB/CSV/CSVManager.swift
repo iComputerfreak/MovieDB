@@ -32,7 +32,7 @@ struct CSVManager {
     
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     // swiftlint:disable multiline_literal_brackets
-    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .watched, .lastWatched,
+    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .movieWatched, .showWatched,
                                                .creationDate, .modificationDate]
     // swiftlint:enable multiline_literal_brackets
     static let exportKeys: [CSVKey] = CSVKey.allCases
@@ -59,7 +59,7 @@ struct CSVManager {
         .tagline: (\Media.tagline, nil)
     ]
     static let movieExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Movie>, Converter?)] = [
-        .watched: (\Movie.watched, { ($0 as! MovieWatchState).rawValue }),
+        .movieWatched: (\Movie.watched, { ($0 as! MovieWatchState).rawValue }),
         
         .releaseDate: (\Movie.releaseDate, { dateFormatter.string(from: $0 as! Date) }),
         .runtime: (\Movie.runtime, nil),
@@ -68,7 +68,7 @@ struct CSVManager {
         .isAdult: (\Movie.isAdult, nil)
     ]
     static let showExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Show>, Converter?)] = [
-        .lastWatched: (\Show.lastWatched, nil),
+        .showWatched: (\Show.watched, { ($0 as! ShowWatchState).rawValue }),
         
         .firstAirDate: (\Show.firstAirDate, { dateFormatter.string(from: $0 as! Date) }),
         .lastAirDate: (\Show.lastAirDate, { dateFormatter.string(from: $0 as! Date) }),
@@ -140,16 +140,16 @@ struct CSVManager {
         if let notes = values[.notes] {
             media.notes = notes
         }
-        if let rawWatched = values[.watched], let watched = MovieWatchState(rawValue: rawWatched) {
+        if let rawWatched = values[.movieWatched], let watched = MovieWatchState(rawValue: rawWatched) {
             assert(mediaType == .movie)
             if let movie = media as? Movie {
                 movie.watched = watched
             }
         }
-        if let rawLastWatched = values[.lastWatched], let lastWatched = EpisodeNumber(rawLastWatched) {
+        if let rawWatched = values[.showWatched], let watched = ShowWatchState(rawValue: rawWatched) {
             assert(mediaType == .show)
             if let show = media as? Show {
-                show.lastWatched = lastWatched
+                show.watched = watched
             }
         }
         if let rawCreationDate = values[.creationDate], let creationDate = dateFormatter.date(from: rawCreationDate) {
@@ -271,9 +271,9 @@ struct CSVManager {
         case tags
         case notes
         // Movie exclusive
-        case watched
+        case movieWatched = "movie_watched"
         // Show exclusive
-        case lastWatched = "last_episode_watched"
+        case showWatched = "show_watched"
         
         // Export only
         case id
