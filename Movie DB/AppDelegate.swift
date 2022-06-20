@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Prepare for UI testing
+        // MARK: Prepare for UI testing
         #if DEBUG
         if CommandLine.arguments.contains("--uitesting") {
             // Prepare a fresh container to do the UI testing in
@@ -25,7 +25,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             JFConfig.shared.language = "en-US"
         }
         #endif
-        // Register transformers
+        
+        // MARK: Register transformers
         SerializableColorTransformer.register()
         WatchProviderTransformer.register()
         EpisodeTransformer.register()
