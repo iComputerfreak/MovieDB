@@ -100,86 +100,86 @@ class FilterTests: XCTestCase {
     }
     
     func testFilterWatched() throws {
-        XCTAssertEqual(try fetch(.init(watched: true)), ["Good Movie", "Bad Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(watched: false)), ["Unwatched Movie", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(watched: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, watched: true)), ["Good Movie", "Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, watched: false)), ["Unwatched Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, watched: nil)), .allMedias)
     }
     
     func testFilterWatchAgain() throws {
-        XCTAssertEqual(try fetch(.init(watchAgain: true)), ["Good Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(watchAgain: false)), ["Bad Movie", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(watchAgain: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, watchAgain: true)), ["Good Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, watchAgain: false)), ["Bad Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, watchAgain: nil)), .allMedias)
     }
     
     func testFilterTags() throws {
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Action"]))), ["Good Movie"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Adventure"]))), ["Good Movie", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Horror"]))), ["Unwatched Movie", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Future"]))), ["Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Comedy"]))), ["Bad Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: [])), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Action"]))), ["Good Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Adventure"]))), ["Good Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Horror"]))), ["Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Future"]))), ["Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Comedy"]))), ["Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: [])), .allMedias)
         
         // Multiple tags (should return medias that contain any of the filtered tags)
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Future", "Horror"]))), ["Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(tags: getTags(["Comedy", "Action"]))), ["Good Movie", "Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Future", "Horror"]))), ["Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, tags: getTags(["Comedy", "Action"]))), ["Good Movie", "Bad Movie", "Good Show"].sorted())
     }
     
     func testFilterMediaType() throws {
-        XCTAssertEqual(try fetch(.init(mediaType: .movie)), ["Good Movie", "Bad Movie", "Unwatched Movie"].sorted())
-        XCTAssertEqual(try fetch(.init(mediaType: .show)), ["Good Show", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, mediaType: .movie)), ["Good Movie", "Bad Movie", "Unwatched Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, mediaType: .show)), ["Good Show", "Bad Show", "Unwatched Show"].sorted())
     }
     
     func testFilterGenres() throws {
-        XCTAssertEqual(try fetch(.init(genres: getGenres(["Action"]))), ["Good Movie"].sorted())
-        XCTAssertEqual(try fetch(.init(genres: getGenres(["Drama"]))), ["Bad Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(genres: getGenres(["Sci-Fi"]))), ["Unwatched Movie", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(genres: getGenres([]))), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, genres: getGenres(["Action"]))), ["Good Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, genres: getGenres(["Drama"]))), ["Bad Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, genres: getGenres(["Sci-Fi"]))), ["Unwatched Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, genres: getGenres([]))), .allMedias)
     }
     
     func testFilterPersonalRating() throws {
-        XCTAssertEqual(try fetch(.init(rating: nil)), .allMedias)
-        XCTAssertEqual(try fetch(.init(rating: .noRating ... .noRating)), ["Unwatched Movie", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(rating: .noRating ... .fiveStars)), .allMedias)
-        XCTAssertEqual(try fetch(.init(rating: .threeStars ... .fiveStars)), ["Good Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(rating: .halfStar ... .twoAndAHalfStars)), ["Bad Movie", "Bad Show"].sorted())
-        XCTAssertEqual(try fetch(.init(rating: .fourAndAHalfStars ... .fourAndAHalfStars)), ["Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(rating: .twoStars ... .twoStars)), ["Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .noRating ... .noRating)), ["Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .noRating ... .fiveStars)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .threeStars ... .fiveStars)), ["Good Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .halfStar ... .twoAndAHalfStars)), ["Bad Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .fourAndAHalfStars ... .fourAndAHalfStars)), ["Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, rating: .twoStars ... .twoStars)), ["Bad Show"].sorted())
     }
     
     func testFilterYear() throws {
-        XCTAssertEqual(try fetch(.init(year: nil)), .allMedias)
-        XCTAssertEqual(try fetch(.init(year: 1 ... 5000)), .allMedias)
-        XCTAssertEqual(try fetch(.init(year: 2000 ... 3000)), ["Good Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(year: 1 ... 2)), [])
-        XCTAssertEqual(try fetch(.init(year: 1997 ... 1997)), ["Bad Movie"].sorted())
-        XCTAssertEqual(try fetch(.init(year: 2022 ... 2023)), ["Unwatched Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: nil)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1 ... 5000)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 2000 ... 3000)), ["Good Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1 ... 2)), [])
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1997 ... 1997)), ["Bad Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 2022 ... 2023)), ["Unwatched Movie"].sorted())
     }
     
     func testFilterStatus() throws {
-        XCTAssertEqual(try fetch(.init(statuses: [])), .allMedias)
-        XCTAssertEqual(try fetch(.init(statuses: [.released, .ended, .canceled, .planned, .inProduction])), .allMedias)
-        XCTAssertEqual(try fetch(.init(statuses: [.released])), ["Bad Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(statuses: [.canceled])), ["Bad Show"])
-        XCTAssertEqual(try fetch(.init(statuses: [.ended, .planned])), ["Good Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, statuses: [])), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, statuses: [.released, .ended, .canceled, .planned, .inProduction])), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, statuses: [.released])), ["Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, statuses: [.canceled])), ["Bad Show"])
+        XCTAssertEqual(try fetch(.init(context: testContext, statuses: [.ended, .planned])), ["Good Movie", "Unwatched Show"].sorted())
     }
     
     func testFilterShowType() throws {
-        XCTAssertEqual(try fetch(.init(showTypes: [])), .allMedias)
-        XCTAssertEqual(try fetch(.init(showTypes: [.scripted, .documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(showTypes: [.scripted])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(showTypes: [.documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, showTypes: [])), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, showTypes: [.scripted, .documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, showTypes: [.scripted])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, showTypes: [.documentary])), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
     }
     
     func testFilterSeasons() throws {
-        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 100)), .allMedias)
-        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 1)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(numberOfSeasons: 0 ... 3)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(numberOfSeasons: 5 ... 10)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 100)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 1)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 3)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 5 ... 10)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
     }
     
     private func fetch(_ filter: FilterSetting) throws -> [String] {
         let fetch = Media.fetchRequest()
-        fetch.predicate = filter.predicate()
+        fetch.predicate = filter.buildPredicate()
         return try testContext.fetch(fetch).map(\.title).sorted()
     }
     

@@ -27,6 +27,39 @@ public class FilterSetting: NSManagedObject {
         self.tags.isEmpty
     }
     
+    convenience init(
+        context: NSManagedObjectContext,
+        id: UUID = UUID(),
+        isAdult: Bool? = nil,
+        mediaType: MediaType? = nil,
+        rating: ClosedRange<StarRating>? = nil,
+        year: ClosedRange<Int>? = nil,
+        statuses: [MediaStatus] = [],
+        showTypes: [ShowType] = [],
+        numberOfSeasons: ClosedRange<Int>? = nil,
+        watched: Bool? = nil,
+        watchAgain: Bool? = nil,
+        genres: Set<Genre> = [],
+        tags: Set<Tag> = []
+    ) {
+        self.init(context: context)
+        self.id = id
+        self.isAdult = isAdult
+        self.mediaType = mediaType
+        self.minRating = rating?.lowerBound.rawValue
+        self.maxRating = rating?.upperBound.rawValue
+        self.minYear = year?.lowerBound
+        self.maxYear = year?.upperBound
+        self.statuses = statuses
+        self.showTypes = showTypes
+        self.minNumberOfSeasons = numberOfSeasons?.lowerBound
+        self.maxNumberOfSeasons = numberOfSeasons?.upperBound
+        self.watched = watched
+        self.watchAgain = watchAgain
+        self.genres = genres
+        self.tags = tags
+    }
+    
     func reset() {
         self.isAdult = nil
         self.mediaType = nil
