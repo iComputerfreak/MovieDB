@@ -22,11 +22,11 @@ struct UserData: View {
                     Text(Strings.Detail.userDataSectionHeader)
                 }
             ) {
-                // Rating
+                // MARK: Rating
                 RatingView(rating: $mediaObject.personalRating)
                     .environment(\.editMode, editMode)
                     .headline(Strings.Detail.personalRatingHeadline)
-                // Watched field
+                // MARK: Watched field
                 if mediaObject.type == .movie {
                     SimpleValueView<MovieWatchState?>(
                         values: MovieWatchState.allCases + [nil],
@@ -65,15 +65,15 @@ struct UserData: View {
                     .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchedHeadline)
                 }
-                // Watch again field
+                // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchAgainHeadline)
-                // Taglist
+                // MARK: Taglist
                 TagListView($mediaObject.tags)
                     .environment(\.editMode, editMode)
                     .headline(Strings.Detail.tagsHeadline)
-                // Notes
+                // MARK: Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
                         .environment(\.editMode, editMode)

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import TextView
 
 struct NotesView: View {
     @Binding var notes: String
@@ -47,26 +46,13 @@ struct NotesView: View {
     
     fileprivate struct EditView: View {
         @Binding var notes: String
-        @State private var isEditing = true
-        @State private var responder = KeyboardResponder()
         @Environment(\.colorScheme) private var colorScheme
         
-        init(notes: Binding<String>) {
-            self._notes = notes
-        }
-        
         var body: some View {
-            TextView(
-                text: $notes,
-                isEditing: $isEditing,
-                textColor: Utils.primaryUIColor(colorScheme),
-                backgroundColor: .clear,
-                autocorrection: .default,
-                autocapitalization: .sentences
-            )
-            .padding(5)
-            .padding(.bottom, responder.height)
-            .navigationTitle(Strings.Detail.notesNavBarTitle)
+            TextEditor(text: $notes)
+                .textInputAutocapitalization(.sentences)
+                .padding(5)
+                .navigationTitle(Strings.Detail.notesNavBarTitle)
         }
     }
 }
@@ -88,6 +74,7 @@ struct NotesView_Previews: PreviewProvider {
             NavigationView {
                 NotesView.EditView(notes: .constant("This one is being edited."))
             }
+            .previewDisplayName("Editing View")
         }
     }
 }
