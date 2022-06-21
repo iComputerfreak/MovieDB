@@ -35,7 +35,8 @@ class FilterUITests: XCTestCase {
     
     func configureFilter(_ key: String, configureValue: () -> Void) {
         // We start at the library view
-        app.buttons["More"].tap()
+        let navBar = app.navigationBars["Library"]
+        navBar.buttons["More"].tap()
         app.buttons["Filter"].tap()
         // Change the desired filter setting
         app.cells.staticTexts[key].tap()

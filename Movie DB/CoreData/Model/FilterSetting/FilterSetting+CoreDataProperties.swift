@@ -69,8 +69,8 @@ extension FilterSetting {
         set { setEnumArray(newValue, forKey: "statuses") }
     }
     public var showTypes: [ShowType] {
-        get { getEnumArray(forKey: "showType") }
-        set { setEnumArray(newValue, forKey: "showType") }
+        get { getEnumArray(forKey: "showTypes") }
+        set { setEnumArray(newValue, forKey: "showTypes") }
     }
     public var minNumberOfSeasons: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers

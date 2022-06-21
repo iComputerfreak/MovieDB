@@ -111,15 +111,17 @@ struct BasicInfo: View {
                 Text(Utils.languageString(for: mediaObject.originalLanguage) ?? mediaObject.originalLanguage)
                     .headline(Strings.Detail.originalLanguageHeadline)
                 // MARK: Production Countries
-                Text(
-                    mediaObject.productionCountries
-                        .map { code in
-                            Locale.current.localizedString(forRegionCode: code) ?? Strings.Generic.unknown
-                        }
-                        .sorted()
-                        .joined(separator: ", ")
-                )
-                .headline(Strings.Detail.productionCountriesHeadline)
+                if !mediaObject.productionCountries.isEmpty {
+                    Text(
+                        mediaObject.productionCountries
+                            .map { code in
+                                Locale.current.localizedString(forRegionCode: code) ?? Strings.Generic.unknown
+                            }
+                            .sorted()
+                            .joined(separator: ", ")
+                    )
+                    .headline(Strings.Detail.productionCountriesHeadline)
+                }
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {

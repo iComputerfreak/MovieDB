@@ -31,11 +31,11 @@ struct ContentView: View {
                     Text(Strings.TabView.lookupLabel)
                 }
             
-            ProblemsView()
-                .tabItem {
-                    Image(systemName: "exclamationmark.triangle")
-                    Text(Strings.TabView.problemsLabel)
-                }
+//            ProblemsView()
+//                .tabItem {
+//                    Image(systemName: "exclamationmark.triangle")
+//                    Text(Strings.TabView.problemsLabel)
+//                }
             
             #if DEBUG
             DebugView()

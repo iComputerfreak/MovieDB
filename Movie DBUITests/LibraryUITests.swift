@@ -41,6 +41,7 @@ class LibraryUITests: XCTestCase {
         XCTAssertTrue(app.addMediaButton.waitForHittable(app).isHittable)
         // Add it again
         app.addMatrix(checkAdded: false)
+        app.wait(1)
         // Now we should have been displayed the error
         XCTAssertEqual(app.alerts.element.label, "Already Added")
     }
