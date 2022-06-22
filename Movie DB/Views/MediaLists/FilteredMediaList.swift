@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FilteredMediaList<RowContent: View>: View {
-    let title: String
+    let list: MediaListProtocol
     let rowContent: (Media) -> RowContent
     
     @FetchRequest
@@ -17,29 +17,55 @@ struct FilteredMediaList<RowContent: View>: View {
     
     // swiftlint:disable:next type_contents_order
     init(list: MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
-        self.title = list.name
+        self.list = list
         self.rowContent = rowContent
         self._medias = FetchRequest(fetchRequest: list.buildFetchRequest(), animation: .default)
     }
     
     var body: some View {
-        // TODO: Show text when no entries
-        // TODO: Show different text when filter is reset ("please configure filter")
-        List {
-            ForEach(medias) { media in
-                self.rowContent(media)
+        VStack {
+            // Show a warning when the filter is reset
+            if let dynamicList = list as? DynamicMediaList, dynamicList.filterSetting?.isReset ?? false {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .symbolRenderingMode(.multicolor)
+                    Text(Strings.Lists.filteredListResetWarning)
+                }
+            }
+            
+            if medias.isEmpty {
+                Spacer()
+                Text(Strings.Lists.filteredListEmptyMessage)
+                Spacer()
+            } else {
+                List(medias) { media in
+                    self.rowContent(media)
+                }
+                .listStyle(.plain)
+                .navigationTitle(list.name)
             }
         }
-        .listStyle(.plain)
-        .navigationTitle(title)
     }
 }
 
 struct FilteredMediaList_Previews: PreviewProvider {
+    static let dynamicList: DynamicMediaList = {
+        _ = PlaceholderData.createMovie()
+        let l = DynamicMediaList(context: PersistenceController.previewContext)
+        l.name = "Dynamic List"
+        l.iconName = "gear"
+        return l
+    }()
+    
     static var previews: some View {
-        FilteredMediaList(list: DefaultMediaList.favorites) { media in
-            LibraryRow()
-                .environmentObject(media)
+        let list = dynamicList
+        NavigationStack {
+            FilteredMediaList(list: list) { media in
+                LibraryRow()
+                    .environmentObject(media)
+            }
+            .navigationTitle(list.name)
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }
 }

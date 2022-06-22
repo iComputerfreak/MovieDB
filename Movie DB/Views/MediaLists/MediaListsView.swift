@@ -37,12 +37,12 @@ struct UserListsView: View {
         NavigationView {
             List {
                 // MARK: Default Lists
-                Section("Default Lists") {
+                Section(Strings.Lists.defaultListsHeader) {
                     DefaultListRow(list: DefaultMediaList.favorites) { media in
                         LibraryRow()
                             .environmentObject(media)
                             .swipeActions {
-                                Button("Unfavorite") {
+                                Button(Strings.Detail.menuButtonUnfavorite) {
                                     assert(media.isFavorite)
                                     media.isFavorite = false
                                 }
@@ -53,7 +53,7 @@ struct UserListsView: View {
                             .environmentObject(media)
                         // Remove from watchlist
                             .swipeActions {
-                                Button("Remove") {
+                                Button(Strings.Lists.removeMediaLabel) {
                                     media.isOnWatchlist = false
                                 }
                             }
@@ -66,7 +66,7 @@ struct UserListsView: View {
                 }
                 // MARK: Dynamic Lists
                 if !dynamicLists.isEmpty {
-                    Section("Dynamic Lists") {
+                    Section(Strings.Lists.dynamicListsHeader) {
                         ForEach(dynamicLists) { list in
                             MediaListRow(list: list) { media in
                                 LibraryRow()
@@ -84,14 +84,14 @@ struct UserListsView: View {
                 }
                 // MARK: User Lists
                 if !userLists.isEmpty {
-                    Section("User Lists") {
+                    Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in
                             MediaListRow(list: list) { media in
                                 LibraryRow()
                                     .environmentObject(media)
                                 // Media delete
                                     .swipeActions {
-                                        Button("Delete") {
+                                        Button(Strings.Lists.deleteLabel) {
                                             list.medias.remove(media)
                                             PersistenceController.saveContext()
                                         }
@@ -115,16 +115,16 @@ struct UserListsView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu("New...") {
-                        Button("Dynamic List") {
-                            let alert = buildAlert("New Dynamic List") { name in
+                    Menu(Strings.Lists.newListLabel) {
+                        Button(Strings.Lists.newDynamicListLabel) {
+                            let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
                                 let list = DynamicMediaList(context: managedObjectContext)
                                 list.name = name
                             }
                             AlertHandler.presentAlert(alert: alert)
                         }
-                        Button("Custom List") {
-                            let alert = buildAlert("New Custom List") { name in
+                        Button(Strings.Lists.newCustomListLabel) {
+                            let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
                                 let list = UserMediaList(context: managedObjectContext)
                                 list.name = name
                             }
@@ -140,22 +140,26 @@ struct UserListsView: View {
     func buildAlert(_ title: String, onSubmit: @escaping (String) -> Void) -> UIAlertController {
         let alert = UIAlertController(
             title: title,
-            message: "Enter the name for the list:",
+            message: Strings.Lists.Alert.newListMessage,
             preferredStyle: .alert
         )
         alert.addTextField { textField in
             textField.autocapitalizationType = .words
         }
         alert.addAction(.cancelAction())
-        alert.addAction(.init(title: "Add", style: .default, handler: { _ in
+        alert.addAction(.init(title: Strings.Lists.Alert.newListButtonAdd, style: .default, handler: { _ in
             guard let textField = alert.textFields?.first else {
                 return
             }
             guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else {
                 return
             }
-            guard !allLists.map(\.name).contains(text) else {
-                AlertHandler.showSimpleAlert(title: "List already exists", message: "List already exists")
+            // Check on equality, ignoring case
+            guard !allLists.map(\.name).map { $0.lowercased() }.contains(text.lowercased()) else {
+                AlertHandler.showSimpleAlert(
+                    title: Strings.Lists.Alert.alreadyExistsTitle,
+                    message: Strings.Lists.Alert.alreadyExistsMessage(text)
+                )
                 return
             }
             onSubmit(text)

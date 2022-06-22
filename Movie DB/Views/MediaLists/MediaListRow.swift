@@ -42,10 +42,6 @@ struct MediaListRow<RowContent: View>: View {
             self.editingViewActive = true
         }
     }
-    
-    func testasdf() {
-        print("Test")
-    }
 }
 
 struct MediaListRow_Previews: PreviewProvider {

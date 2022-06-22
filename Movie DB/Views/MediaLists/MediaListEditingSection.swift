@@ -13,13 +13,13 @@ struct MediaListEditingSection: View {
     @Binding var iconName: String
     
     var body: some View {
-        Section("List Information") {
-            TextField("Name", text: $name)
+        Section(Strings.Lists.editingInformationHeader) {
+            TextField(Strings.Lists.editingNameLabel, text: $name)
             NavigationLink {
                 SFSymbolPicker(symbol: $iconName)
             } label: {
                 HStack {
-                    Text("Icon")
+                    Text(Strings.Lists.editingIconLabel)
                     Spacer()
                     Image(systemName: iconName)
                         .symbolRenderingMode(.multicolor)

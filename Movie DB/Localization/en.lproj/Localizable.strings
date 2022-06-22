@@ -730,3 +730,23 @@
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Settings";
 
+"lists.editing.header.information" = "List Information";
+"lists.header.defaultLists" = "Default Lists";
+"lists.header.customLists" = "Custom Lists";
+"lists.header.dynamicLists" = "Dynamic Lists";
+"lists.alerts.newList.message" = "Enter the name for the list:";
+"lists.alerts.newList.custom.title" = "New Custom List";
+"lists.alerts.newList.dynamic.title" = "New Dynamic List";
+"lists.new.label.customList" = "Custom List";
+"lists.new.label.dynamicList" = "Dynamic List";
+"lists.label.newList" = "New...";
+"lists.label.remove" = "Remove";
+"lists.label.delete" = "Delete";
+"lists.editing.label.icon" = "Icon";
+"lists.editing.label.name" = "Name";
+
+"lists.alerts.alreadyExists.title" = "List Already Exists";
+"lists.alerts.alreadyExists.message %@" = "The list %@ already exists.";
+
+"lists.filterResetWarning" = "This list currently has no filter configured.";
+"lists.filteredListEmpty.message" = "Empty";
