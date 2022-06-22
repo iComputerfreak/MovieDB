@@ -81,62 +81,63 @@ struct LibraryHome: View {
 //                        .sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                     }
                 }
-                
-                .navigationBarItems(
-                    leading: Menu {
-                        Section {
-                            let filterImageReset = "line.horizontal.3.decrease.circle"
-                            let filterImageSet = "line.horizontal.3.decrease.circle.fill"
-                            let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
-                            Button(action: showFilter) {
-                                Label(
-                                    Strings.Library.menuButtonFilter,
-                                    systemImage: filterImage
-                                )
-                            }
-                        }
-                        // MARK: Sorting Options
-                        Section {
-                            // To allow toggling the sorting direction, we need to use a custom binding as proxy
-                            let sortingOrderProxy = Binding<SortingOrder> {
-                                self.sortingOrder
-                            } set: { newValue in
-                                if self.sortingOrder == newValue {
-                                    // Toggle the direction when tapping an already selected item
-                                    self.sortingDirection.toggle()
-                                } else {
-                                    // Otherwise, use the default direction for this sorting order
-                                    self.sortingDirection = newValue.defaultDirection
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Menu {
+                            Section {
+                                let filterImageReset = "line.horizontal.3.decrease.circle"
+                                let filterImageSet = "line.horizontal.3.decrease.circle.fill"
+                                let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
+                                Button(action: showFilter) {
+                                    Label(
+                                        Strings.Library.menuButtonFilter,
+                                        systemImage: filterImage
+                                    )
                                 }
-                                self.sortingOrder = newValue
                             }
-                            Picker(selection: sortingOrderProxy) {
-                                ForEach(SortingOrder.allCases, id: \.rawValue) { order in
-                                    if self.sortingOrder == order {
-                                        Label(
-                                            order.localized,
-                                            systemImage: sortingDirection == .ascending ? "chevron.up" : "chevron.down"
-                                        )
-                                        .tag(order)
+                            // MARK: Sorting Options
+                            Section {
+                                // To allow toggling the sorting direction, we need to use a custom binding as proxy
+                                let sortingOrderProxy = Binding<SortingOrder> {
+                                    self.sortingOrder
+                                } set: { newValue in
+                                    if self.sortingOrder == newValue {
+                                        // Toggle the direction when tapping an already selected item
+                                        self.sortingDirection.toggle()
                                     } else {
-                                        Text(order.localized)
-                                            .tag(order)
+                                        // Otherwise, use the default direction for this sorting order
+                                        self.sortingDirection = newValue.defaultDirection
                                     }
+                                    self.sortingOrder = newValue
                                 }
-                            } label: {
-                                Text(Strings.Library.menuSortingHeader)
+                                Picker(selection: sortingOrderProxy) {
+                                    ForEach(SortingOrder.allCases, id: \.rawValue) { order in
+                                        if self.sortingOrder == order {
+                                            let image = sortingDirection == .ascending ? "chevron.up" : "chevron.down"
+                                            Label(order.localized, systemImage: image)
+                                                .tag(order)
+                                        } else {
+                                            Text(order.localized)
+                                                .tag(order)
+                                        }
+                                    }
+                                } label: {
+                                    Text(Strings.Library.menuSortingHeader)
+                                }
                             }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
                         }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    },
-                    trailing: Button {
-                        self.activeSheet = .addMedia
-                    } label: {
-                        Image(systemName: "plus")
                     }
-                        .accessibilityIdentifier("add-media")
-                )
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            self.activeSheet = .addMedia
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                            .accessibilityIdentifier("add-media")
+                    }
+                }
                 .navigationTitle(Strings.TabView.libraryLabel)
             }
         }

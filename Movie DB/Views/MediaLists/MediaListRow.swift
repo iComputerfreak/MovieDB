@@ -8,25 +8,27 @@
 
 import SwiftUI
 
-struct UserListRow: View {
+struct MediaListRow<RowContent: View>: View {
     @Environment(\.editMode) private var editMode
-    let list: DynamicMediaList
+    let list: any MediaListProtocol
     @State private var editingViewActive = false
+    var rowContent: (Media) -> RowContent
     
     var body: some View {
         ZStack {
             NavigationLink(isActive: $editingViewActive) {
-                UserListEditingView(list: list)
+                if let userList = list as? UserMediaList {
+                    UserMediaListEditingView(list: userList)
+                } else if let dynamicList = list as? DynamicMediaList {
+                    DynamicMediaListEditingView(list: dynamicList)
+                }
             } label: {
                 EmptyView()
             }
             .hidden()
             
             NavigationLink {
-                FilteredMediaList(list: list) { media in
-                    LibraryRow()
-                        .environmentObject(media)
-                }
+                FilteredMediaList(list: list, rowContent: rowContent)
             } label: {
                 Label(list.name, systemImage: list.iconName)
                     .symbolRenderingMode(.multicolor)
@@ -46,7 +48,7 @@ struct UserListRow: View {
     }
 }
 
-struct UserListRow_Previews: PreviewProvider {
+struct MediaListRow_Previews: PreviewProvider {
     static let previewList: DynamicMediaList = {
         let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
@@ -55,6 +57,9 @@ struct UserListRow_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        UserListRow(list: Self.previewList)
+        MediaListRow(list: Self.previewList) { media in
+            LibraryRow()
+                .environmentObject(media)
+        }
     }
 }

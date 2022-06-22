@@ -67,6 +67,7 @@
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
+        <relationship name="userLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserMediaList" inverseName="medias" inverseEntity="UserMediaList"/>
         <relationship name="videos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Video" inverseName="media" inverseEntity="Video"/>
     </entity>
     <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
@@ -120,6 +121,11 @@
         <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="tags" inverseEntity="FilterSetting"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="tags" inverseEntity="Media"/>
     </entity>
+    <entity name="UserMediaList" representedClassName="UserMediaList" syncable="YES">
+        <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="userLists" inverseEntity="Media"/>
+    </entity>
     <entity name="Video" representedClassName="Video" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String"/>
         <attribute name="language" optional="YES" attributeType="String"/>
@@ -132,15 +138,16 @@
     </entity>
     <elements>
         <element name="CastMember" positionX="-27" positionY="198" width="128" height="89"/>
+        <element name="DynamicMediaList" positionX="-81" positionY="144" width="128" height="74"/>
         <element name="FilterSetting" positionX="-72" positionY="153" width="128" height="269"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="89"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="509"/>
-        <element name="DynamicMediaList" positionX="-81" positionY="144" width="128" height="74"/>
+        <element name="Media" positionX="-63" positionY="-18" width="128" height="524"/>
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
         <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="239"/>
         <element name="Tag" positionX="-72" positionY="153" width="128" height="89"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
+        <element name="UserMediaList" positionX="-81" positionY="144" width="128" height="74"/>
     </elements>
 </model>

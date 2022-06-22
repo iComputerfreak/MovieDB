@@ -19,6 +19,16 @@ extension Strings {
             comment: "The text displayed in the detail view when the media object to display could not be loaded"
         )
         
+        // MARK: Toolbar
+        static let menuButtonFavorite = String(
+            localized: "detail.menu.favorite",
+            comment: "The 'favorite' action in the media menu that lets the user mark a media as favorite."
+        )
+        static let menuButtonUnfavorite = String(
+            localized: "detail.menu.unfavorite",
+            comment: "The 'unfavorite' action in the media menu that lets the user mark a media as not favorite anymore."
+        )
+        
         // MARK: UserData
         static let userDataSectionHeader = String(
             localized: "detail.userData.header",

@@ -104,8 +104,8 @@ extension Media {
     @NSManaged public var isFavorite: Bool
     /// Whether this media has been added to the watchlist
     @NSManaged public var isOnWatchlist: Bool
-    /// The lists this media is associated with
-    @NSManaged public var lists: Set<DynamicMediaList>
+    /// The user lists this media is associated with
+    @NSManaged public var userLists: Set<UserMediaList>
     
     // MARK: - Computed Properties
     

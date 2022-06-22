@@ -11,6 +11,7 @@ import SwiftUI
 struct MediaDetail: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
+    @State private var showingAddToSheet = false
     
     var body: some View {
         if mediaObject.isFault {
@@ -27,15 +28,43 @@ struct MediaDetail: View {
                 ExtendedInfo()
                 MetadataInfo()
             }
+            .sheet(isPresented: $showingAddToSheet, content: {
+                SelectUserListView(mediaObject: mediaObject)
+            })
             .listStyle(.grouped)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(mediaObject.title)
-            .navigationBarItems(trailing: EditButton())
             .task(priority: .userInitiated) {
                 // If there is no thumbnail, try to download it again
                 // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
                 if mediaObject.thumbnail == nil {
                     await mediaObject.loadThumbnail()
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        EditButton()
+                        Section {
+                            Button {
+                                mediaObject.isFavorite.toggle()
+                            } label: {
+                                if mediaObject.isFavorite {
+                                    Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.fill")
+                                } else {
+                                    Label(Strings.Detail.menuButtonFavorite, systemImage: "heart")
+                                }
+                            }
+                            // Present popup that asks to which list the media should be added
+                            Button {
+                                self.showingAddToSheet = true
+                            } label: {
+                                Label("Add to List...", systemImage: "text.badge.plus")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
                 }
             }
         }

@@ -14,7 +14,7 @@ import CoreData
 public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
-        fetch.predicate = NSPredicate(value: true) // filterSetting?.buildPredicate()
+        fetch.predicate = filterSetting?.buildPredicate() ?? NSPredicate(value: true)
         // TODO: Use stored sorting direction and order
         fetch.sortDescriptors = []
         return fetch

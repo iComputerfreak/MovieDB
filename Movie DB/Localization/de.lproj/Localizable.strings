@@ -37,6 +37,9 @@
 /* Description of the TMDb API error that occurs during updating of the media objects */
 "apiError.updateError.description" = "Fehler beim aktualisieren der Medien.";
 
+/* The title of an alert informing the user about an error while loading the cast information */
+"detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
+
 /* Button of an alert to confirm adding a new tag */
 "detail.alert.newTag.button.add" = "Hinzufügen";
 
@@ -214,6 +217,9 @@
 /* The picker value of the detail view's user data section which the user chooses if they did not watch the media object */
 "detail.userData.watched.picker.notWatched" = "Nein";
 
+/* The picker value of the detail view's user data section which the user chooses if they watched the media object partially */
+"detail.userData.watched.picker.partiallyWatched" = "Teilweise";
+
 /* The picker value of the detail view's user data section which the user chooses if they watched the media object */
 "detail.userData.watched.picker.watched" = "Ja";
 
@@ -229,9 +235,6 @@
 /* The label in the detail view describing that the user has not watched the show */
 "detail.userData.watchedShow.label.no" = "Nein";
 
-/* The label in the detail view describing that it is unknown whether the user has watched the show */
-"detail.userData.watchedShow.label.unknown" = "Unbekannt";
-
 /* The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show. */
 "detail.userData.watchedShow.label.notWatched" = "Nicht Angeschaut";
 
@@ -243,6 +246,9 @@
 
 /* The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies the season number. The parameter is the season number. */
 "detail.userData.watchedShow.label.seasonNumber %lld" = "Staffel %lld";
+
+/* The label in the detail view describing that it is unknown whether the user has watched the show */
+"detail.userData.watchedShow.label.unknown" = "Unbekannt";
 
 /* A type of watch provider (flatrate, ads, buy) */
 "detail.watchprovider.ads" = "Werbung";
@@ -276,6 +282,9 @@
 
 /* Generic error text to display when a view failed to load */
 "generic.errorText" = "Fehler";
+
+/* A generic 'Loading...' string, displayed with a progress view */
+"generic.loadingText" = "Laden...";
 
 /* The navigation bar title for a view that is still loading */
 "generic.navBar.loadingTitle" = "Laden";
@@ -616,6 +625,9 @@
 /* Title of an alert informing the user that the library update is completed */
 "settings.alert.updateMediaComplete.title" = "Aktualisierung abgeschlossen";
 
+/* The feedback button in the settings that opens a new e-mail */
+"settings.feedback.label" = "Feedback";
+
 /* The version information at the bottom of the settings page */
 "settings.footer.version %@" = "Version %@";
 
@@ -703,6 +715,9 @@
 /* The label of the library tab of the main TabView */
 "tabView.library.label" = "Mediathek";
 
+/* The label of the lists tab of the main TabView */
+"tabView.lists.label" = "Listen";
+
 /* The label of the lookup tab of the main TabView */
 "tabView.lookup.label" = "Nachschlagen";
 
@@ -712,17 +727,8 @@
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Einstellungen";
 
-/* A generic 'Loading...' string, displayed with a progress view */
-"generic.loadingText" = "Laden...";
+/* The 'favorite' action in the media menu that lets the user mark a media as favorite. */
+"detail.menu.favorite" = "Favorit";
 
-/* The title of an alert informing the user about an error while loading the cast information */
-"detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
-
-/* The feedback button in the settings that opens a new e-mail */
-"settings.feedback.label" = "Feedback";
-
-/* The picker value of the detail view's user data section which the user chooses if they watched the media object partially */
-"detail.userData.watched.picker.partiallyWatched" = "Teilweise";
-
-/* The label of the lists tab of the main TabView */
-"tabView.lists.label" = "Listen";
+/* The 'unfavorite' action in the media menu that lets the user mark a media as not favorite anymore. */
+"detail.menu.unfavorite" = "Kein Favorit";

@@ -8,27 +8,14 @@
 
 import SwiftUI
 
-struct UserListEditingView: View {
+struct DynamicMediaListEditingView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     @ObservedObject var list: DynamicMediaList
     
     var body: some View {
         Form {
-            Section("List Information") {
-                TextField("Name", text: $list.name)
-                NavigationLink {
-                    SFSymbolPicker(symbol: $list.iconName)
-                } label: {
-                    HStack {
-                        Text("Icon")
-                        Spacer()
-                        Image(systemName: list.iconName)
-                            .symbolRenderingMode(.multicolor)
-                    }
-                }
-            }
-            // TODO: Store filter setting on list
+            MediaListEditingSection(name: $list.name, iconName: $list.iconName)
             FilterUserDataSection(filterSetting: list.filterSetting!)
             FilterInformationSection(filterSetting: list.filterSetting!)
             FilterShowSpecificSection(filterSetting: list.filterSetting!)
@@ -38,7 +25,7 @@ struct UserListEditingView: View {
     }
 }
 
-struct UserListEditingView_Previews: PreviewProvider {
+struct DynamicMediaListEditingView_Previews: PreviewProvider {
     static let previewList: DynamicMediaList = {
         let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
@@ -48,7 +35,7 @@ struct UserListEditingView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UserListEditingView(list: Self.previewList)
+            DynamicMediaListEditingView(list: Self.previewList)
         }
     }
 }

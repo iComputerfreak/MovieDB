@@ -14,12 +14,12 @@
 		AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E32842A28800041E0B /* CoreDataDummies.swift */; };
 		AB0318E62842AA3800041E0B /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E52842AA3800041E0B /* DebugView.swift */; };
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
-		AB097F57284A96C700E559E7 /* UserListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F56284A96C700E559E7 /* UserListsView.swift */; };
+		AB097F57284A96C700E559E7 /* MediaListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F56284A96C700E559E7 /* MediaListsView.swift */; };
 		AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F58284A974500E559E7 /* FilteredMediaList.swift */; };
 		AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */; };
 		AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */; };
-		AB097F61284BA46400E559E7 /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F60284BA46400E559E7 /* UserListRow.swift */; };
-		AB097F63284BA73700E559E7 /* UserListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* UserListEditingView.swift */; };
+		AB097F61284BA46400E559E7 /* MediaListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F60284BA46400E559E7 /* MediaListRow.swift */; };
+		AB097F63284BA73700E559E7 /* DynamicMediaListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* DynamicMediaListEditingView.swift */; };
 		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
 		AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */; };
 		AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */; };
@@ -144,6 +144,11 @@
 		AB995616285638E300C3D063 /* ContactSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB995615285638E300C3D063 /* ContactSection.swift */; };
 		ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* MediaStatus.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
+		ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E0286304F300234E62 /* SelectUserListView.swift */; };
+		ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */; };
+		ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */; };
+		ABAA99EC2863100200234E62 /* UserMediaListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EB2863100200234E62 /* UserMediaListEditingView.swift */; };
+		ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABC1E2642816C3120039CA84 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B62813078900230F0B /* FightClub.json */; };
@@ -230,12 +235,12 @@
 		AB0318E52842AA3800041E0B /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v6.xcdatamodel"; sourceTree = "<group>"; };
 		AB0318E92842BF4500041E0B /* CreditsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsHelpers.swift; sourceTree = "<group>"; };
-		AB097F56284A96C700E559E7 /* UserListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListsView.swift; sourceTree = "<group>"; };
+		AB097F56284A96C700E559E7 /* MediaListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListsView.swift; sourceTree = "<group>"; };
 		AB097F58284A974500E559E7 /* FilteredMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredMediaList.swift; sourceTree = "<group>"; };
 		AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		AB097F60284BA46400E559E7 /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
-		AB097F62284BA73700E559E7 /* UserListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListEditingView.swift; sourceTree = "<group>"; };
+		AB097F60284BA46400E559E7 /* MediaListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListRow.swift; sourceTree = "<group>"; };
+		AB097F62284BA73700E559E7 /* DynamicMediaListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListEditingView.swift; sourceTree = "<group>"; };
 		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
 		AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolPicker.swift; sourceTree = "<group>"; };
 		AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListProtocol.swift; sourceTree = "<group>"; };
@@ -370,6 +375,11 @@
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		ABAA99E0286304F300234E62 /* SelectUserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUserListView.swift; sourceTree = "<group>"; };
+		ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
+		ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		ABAA99EB2863100200234E62 /* UserMediaListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMediaListEditingView.swift; sourceTree = "<group>"; };
+		ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListEditingSection.swift; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -494,17 +504,19 @@
 			path = DynamicMediaList;
 			sourceTree = "<group>";
 		};
-		AB097F5F284BA44000E559E7 /* UserLists */ = {
+		AB097F5F284BA44000E559E7 /* MediaLists */ = {
 			isa = PBXGroup;
 			children = (
-				AB097F56284A96C700E559E7 /* UserListsView.swift */,
+				AB097F56284A96C700E559E7 /* MediaListsView.swift */,
 				AB097F6E284BEBD200E559E7 /* DefaultListRow.swift */,
-				AB097F60284BA46400E559E7 /* UserListRow.swift */,
-				AB097F62284BA73700E559E7 /* UserListEditingView.swift */,
+				AB097F60284BA46400E559E7 /* MediaListRow.swift */,
+				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
+				AB097F62284BA73700E559E7 /* DynamicMediaListEditingView.swift */,
+				ABAA99EB2863100200234E62 /* UserMediaListEditingView.swift */,
 				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
 			);
-			path = UserLists;
+			path = MediaLists;
 			sourceTree = "<group>";
 		};
 		AB097F70284BF64300E559E7 /* FilterSetting */ = {
@@ -521,6 +533,7 @@
 			children = (
 				AB097F70284BF64300E559E7 /* FilterSetting */,
 				AB097F5A284A994000E559E7 /* DynamicMediaList */,
+				ABAA99E62863059800234E62 /* UserMediaList */,
 				ABE6721A25E0183B00CAF7C3 /* Thumbnail */,
 				ABB65ED025D01C65009378EC /* Tag */,
 				AB1434BE25CEE9BB00AA304F /* Season */,
@@ -664,7 +677,7 @@
 				ABEEB0DB2815823C00230F0B /* Library */,
 				ABD86476281747AA001A1F7C /* Add Media */,
 				ABEEB0DC2815824300230F0B /* Detail */,
-				AB097F5F284BA44000E559E7 /* UserLists */,
+				AB097F5F284BA44000E559E7 /* MediaLists */,
 				ABEEB0CC2814314400230F0B /* Settings */,
 				AB25099F238B2ACB00F7A411 /* Component Views */,
 				AB3648C022C3FAEE0096FE39 /* Support Views */,
@@ -746,8 +759,6 @@
 				AB6718CB22C0312B00F429E4 /* LaunchScreen.storyboard */,
 				AB6718CE22C0312B00F429E4 /* Info.plist */,
 				AB0DA977283A705B0038E4B9 /* InfoPlist.strings */,
-				ABEA7AAC261BB8B80060B5D2 /* Localizable.strings */,
-				ABEA7AB6261BB9620060B5D2 /* Localizable.stringsdict */,
 				AB6718C822C0312B00F429E4 /* Preview Content */,
 				AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */,
 				AB12C9FE285CCCC90073F751 /* Secrets.swift.gyb */,
@@ -813,6 +824,8 @@
 		AB6D9C79283BC0C000AF655C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				ABEA7AB6261BB9620060B5D2 /* Localizable.stringsdict */,
+				ABEA7AAC261BB8B80060B5D2 /* Localizable.strings */,
 				AB0DA97A283BA75D0038E4B9 /* Strings.swift */,
 				AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */,
 				AB6D9C82283BC15B00AF655C /* Strings+APIError.swift */,
@@ -859,6 +872,15 @@
 				AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */,
 			);
 			path = Filter;
+			sourceTree = "<group>";
+		};
+		ABAA99E62863059800234E62 /* UserMediaList */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */,
+				ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */,
+			);
+			path = UserMediaList;
 			sourceTree = "<group>";
 		};
 		ABB65ED025D01C65009378EC /* Tag */ = {
@@ -975,6 +997,7 @@
 				ABD864752817478A001A1F7C /* Components */,
 				ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */,
 				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
+				ABAA99E0286304F300234E62 /* SelectUserListView.swift */,
 				ABD7CB5A2375D6BB0049E236 /* TitleView.swift */,
 				ABD8647F2818319B001A1F7C /* PosterView.swift */,
 				ABD8647D28183177001A1F7C /* LookupTitleView.swift */,
@@ -1256,12 +1279,13 @@
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
 				AB14349B25CEE0E000AA304F /* Genre+CoreDataProperties.swift in Sources */,
 				AB14341225CDDB6600AA304F /* MediaType.swift in Sources */,
-				AB097F63284BA73700E559E7 /* UserListEditingView.swift in Sources */,
+				AB097F63284BA73700E559E7 /* DynamicMediaListEditingView.swift in Sources */,
 				ABD8647A2818141B001A1F7C /* SearchResultsView.swift in Sources */,
 				ABD864802818319B001A1F7C /* PosterView.swift in Sources */,
 				AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */,
 				ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */,
 				AB1433FA25CDB6F600AA304F /* Movie+CoreDataClass.swift in Sources */,
+				ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */,
 				AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */,
 				AB54940525FD41B90072745B /* CSVManager.swift in Sources */,
 				AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */,
@@ -1290,7 +1314,7 @@
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
-				AB097F61284BA46400E559E7 /* UserListRow.swift in Sources */,
+				AB097F61284BA46400E559E7 /* MediaListRow.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
 				AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */,
 				ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */,
@@ -1336,6 +1360,7 @@
 				AB6D9CA1283D1A0D00AF655C /* Strings+Settings.swift in Sources */,
 				AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */,
 				ABEBA2CB23959D77003BF187 /* MultiPicker.swift in Sources */,
+				ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */,
 				AB6D9C97283BC21800AF655C /* Strings+MediaSearch.swift in Sources */,
 				AB5493DC25FBDD990072745B /* Persistence.swift in Sources */,
 				AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */,
@@ -1345,6 +1370,8 @@
 				AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */,
 				AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */,
 				AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */,
+				ABAA99EC2863100200234E62 /* UserMediaListEditingView.swift in Sources */,
+				ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */,
 				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
 				AB097F6F284BEBD200E559E7 /* DefaultListRow.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
@@ -1377,7 +1404,7 @@
 				ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */,
 				AB711FC0281DCC93003ED045 /* ParentalRating.swift in Sources */,
 				AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */,
-				AB097F57284A96C700E559E7 /* UserListsView.swift in Sources */,
+				AB097F57284A96C700E559E7 /* MediaListsView.swift in Sources */,
 				ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */,
 				ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */,
 				AB6718F622C113F800F429E4 /* Utils.swift in Sources */,
@@ -1392,6 +1419,7 @@
 				AB0318E62842AA3800041E0B /* DebugView.swift in Sources */,
 				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
+				ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */,
 				ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */,
 				AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */,
 			);
