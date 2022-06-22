@@ -110,6 +110,10 @@ extension Strings {
             localized: "detail.userData.watchedShow.label.allEpisodes",
             comment: "The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the user watched all episodes of the season."
         )
+        static let watchedShowEditingLabelUnknown = String(
+            localized: "detail.userData.watchedShow.label.unknown",
+            comment: "The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the watch state of the show is unknown."
+        )
         static let noTagsLabel = String(
             localized: "detail.userData.tags.none",
             comment: "The label of the tag list in the user data section of the detail view specifying that there are no tags for this media."

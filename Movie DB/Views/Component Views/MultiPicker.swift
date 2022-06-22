@@ -129,7 +129,7 @@ struct FilterMultiPicker_Previews: PreviewProvider {
         }
         FilterMultiPicker.EditView(
             label: { Text($0) },
-            title: Text("Title"),
+            title: Text(verbatim: "Title"),
             values: .constant(["Value 1", "Value 2", "Value 3", "Value 4"]),
             selectionBinding: .constant(["Value 2"]),
             selection: .constant(["Value 2"])

@@ -109,7 +109,7 @@ struct WatchedShowView: View {
                 Section(
                     header: Text(Strings.Detail.watchedShowEditingHeader)
                 ) {
-                    Toggle("Unknown", isOn: unknownWrapper)
+                    Toggle(Strings.Detail.watchedShowEditingLabelUnknown, isOn: unknownWrapper)
                     // FUTURE: Clamp to the actual amount of seasons/episodes?
                     // May not be a good idea if the TMDB data is outdated
                     Stepper(value: seasonWrapper, in: 0...1000) {

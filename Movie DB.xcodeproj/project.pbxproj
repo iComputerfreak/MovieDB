@@ -150,6 +150,7 @@
 		ABAA99EC2863100200234E62 /* UserMediaListEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EB2863100200234E62 /* UserMediaListEditingView.swift */; };
 		ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */; };
 		ABAA99F02863402A00234E62 /* Strings+Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EF2863402A00234E62 /* Strings+Lists.swift */; };
+		ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABC1E2642816C3120039CA84 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B62813078900230F0B /* FightClub.json */; };
@@ -382,6 +383,7 @@
 		ABAA99EB2863100200234E62 /* UserMediaListEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMediaListEditingView.swift; sourceTree = "<group>"; };
 		ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListEditingSection.swift; sourceTree = "<group>"; };
 		ABAA99EF2863402A00234E62 /* Strings+Lists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Lists.swift"; sourceTree = "<group>"; };
+		ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddToList.swift"; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				ABEA7AAC261BB8B80060B5D2 /* Localizable.strings */,
 				AB0DA97A283BA75D0038E4B9 /* Strings.swift */,
 				AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */,
+				ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */,
 				AB6D9C82283BC15B00AF655C /* Strings+APIError.swift */,
 				AB6D9C7A283BC0DA00AF655C /* Strings+Detail.swift */,
 				AB6D9C80283BC11900AF655C /* Strings+Filter.swift */,
@@ -1356,6 +1359,7 @@
 				ABE6721625E017D200CAF7C3 /* Thumbnail+CoreDataProperties.swift in Sources */,
 				AB6D9C8B283BC1DE00AF655C /* Strings+SortingOrder.swift in Sources */,
 				ABF8FCC122CAB52F00611036 /* LibraryRow.swift in Sources */,
+				ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */,
 				AB6718EE22C032AA00F429E4 /* Media+CoreDataClass.swift in Sources */,
 				AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */,
 				ABEEB0D42814324700230F0B /* LanguagePickerView.swift in Sources */,

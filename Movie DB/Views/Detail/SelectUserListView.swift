@@ -33,11 +33,11 @@ struct SelectUserListView: View {
                 .disabled(isDisabled)
                 .foregroundColor(isDisabled ? .gray : .primary)
             }
-            .navigationTitle("Add to...")
+            .navigationTitle(Strings.AddToList.title)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Cancel") {
+                Button(Strings.AddToList.toolbarButtonCancel) {
                     dismiss()
                 }
             }

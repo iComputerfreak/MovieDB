@@ -13,6 +13,12 @@
 /* Navigation bar title of the 'add media' sheet */
 "addMedia.navBar.title" = "Add Media";
 
+/* The title of the add to lists view, which lets the user select a list to add a media object to. */
+"addToList.title" = "Add to List...";
+
+/* The cancel button in the add to lists view that dismisses the view without choosing a list. */
+"addToList.toolbar.buttons.cancel" = "Cancel";
+
 /* Description of the TMDb API error that occurs when the app tries to get search results for an invalid range of pages */
 "apiError.invalidPageRange.description" = "Invalid range of pages. Please specify a valid range.";
 
@@ -186,9 +192,6 @@
 
 /* The navigation bar title for the seasons info in the detail view */
 "detail.seasonsInfo.navBar.title" = "Seasons";
-
-/* (No Comment) */
-"detail.tags.header" = "Select all tags that apply";
 
 /* The navigation bar title for the tags in the detail view */
 "detail.tags.navBar.title" = "Tags";
@@ -432,6 +435,60 @@
 
 /* Heading for the sorting direction picker in the library menu */
 "library.navBar.header.sorting" = "Sorting";
+
+/* The message of an alert informing the user that the name of a new media list already exists */
+"lists.alerts.alreadyExists.message %@" = "The list %@ already exists.";
+
+/* The message of an alert informing the user that the name of a new media list already exists */
+"lists.alerts.alreadyExists.title" = "List Already Exists";
+
+/* The title of an alert prompting the user for the name of a new custom list */
+"lists.alerts.newList.custom.title" = "New Custom List";
+
+/* The title of an alert prompting the user for the name of a new dynamic list */
+"lists.alerts.newList.dynamic.title" = "New Dynamic List";
+
+/* The message of an alert prompting the user for the name of a new media list */
+"lists.alerts.newList.message" = "Enter the name for the list:";
+
+/* The header for the list information (e.g. name, icon) in the editing view for the media lists */
+"lists.editing.header.information" = "List Information";
+
+/* The label for the textfield in the list editing view that describes the icon of the list */
+"lists.editing.label.icon" = "Icon";
+
+/* The label for the textfield in the list editing view that describes the name of the list */
+"lists.editing.label.name" = "Name";
+
+/* The message showed in a filtered list when the list is empty */
+"lists.filteredListEmpty.message" = "Empty";
+
+/* The warning showed in a filtered list when the filter is reset and thus the list is showing all media objects */
+"lists.filterResetWarning" = "This list currently has no filter configured.";
+
+/* The header for the section containing the custom user lists in the lists view */
+"lists.header.customLists" = "Custom Lists";
+
+/* The header for the section containing the default lists in the lists view */
+"lists.header.defaultLists" = "Default Lists";
+
+/* The header for the section containing the dynamic lists in the lists view */
+"lists.header.dynamicLists" = "Dynamic Lists";
+
+/* The label for the 'delete' swipe action, deleting a media list */
+"lists.label.delete" = "Delete";
+
+/* The label for menu button that shows a menu, prompting the user to choose a type of list to create */
+"lists.label.newList" = "New...";
+
+/* The label for the 'remove' swipe action, removing a media object from a list */
+"lists.label.remove" = "Remove";
+
+/* The label for menu button that shows an alert to create a new custom, user list */
+"lists.new.label.customList" = "Custom List";
+
+/* The label for menu button that shows an alert to create a new dynamic list */
+"lists.new.label.dynamicList" = "Dynamic List";
 
 /* Title of an alert informing the user about an error while loading the media */
 "lookup.alert.errorLoading.title" = "Error Loading Media";
@@ -729,24 +786,3 @@
 
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Settings";
-
-"lists.editing.header.information" = "List Information";
-"lists.header.defaultLists" = "Default Lists";
-"lists.header.customLists" = "Custom Lists";
-"lists.header.dynamicLists" = "Dynamic Lists";
-"lists.alerts.newList.message" = "Enter the name for the list:";
-"lists.alerts.newList.custom.title" = "New Custom List";
-"lists.alerts.newList.dynamic.title" = "New Dynamic List";
-"lists.new.label.customList" = "Custom List";
-"lists.new.label.dynamicList" = "Dynamic List";
-"lists.label.newList" = "New...";
-"lists.label.remove" = "Remove";
-"lists.label.delete" = "Delete";
-"lists.editing.label.icon" = "Icon";
-"lists.editing.label.name" = "Name";
-
-"lists.alerts.alreadyExists.title" = "List Already Exists";
-"lists.alerts.alreadyExists.message %@" = "The list %@ already exists.";
-
-"lists.filterResetWarning" = "This list currently has no filter configured.";
-"lists.filteredListEmpty.message" = "Empty";

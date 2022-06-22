@@ -100,7 +100,7 @@ struct LibraryRow_Previews: PreviewProvider {
                 ProblemsLibraryRow()
                     .environmentObject(PlaceholderData.problemShow as Media)
             }
-            .navigationTitle("Library")
+            .navigationTitle(Text(verbatim: "Library"))
         }
     }
 }

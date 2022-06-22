@@ -1,6 +1,3 @@
-/* No comment provided by engineer. */
-"%@" = "%@";
-
 /* Title of an alert that informs the user that he tried to add a media object twice. The variable is the media title. */
 "addMedia.alert.alreadyAdded.message %@" = "Sie haben '%@' bereits in Ihrer Mediathek";
 
@@ -15,6 +12,12 @@
 
 /* Navigation bar title of the 'add media' sheet */
 "addMedia.navBar.title" = "Medien hinzufügen";
+
+/* The title of the add to lists view, which lets the user select a list to add a media object to. */
+"addToList.title" = "Hinzufügen...";
+
+/* The cancel button in the add to lists view that dismisses the view without choosing a list. */
+"addToList.toolbar.buttons.cancel" = "Abbrechen";
 
 /* Description of the TMDb API error that occurs when the app tries to get search results for an invalid range of pages */
 "apiError.invalidPageRange.description" = "Invalid range of pages. Please specify a valid range.";
@@ -163,6 +166,12 @@
 /* The section header for the information section in the detail view */
 "detail.information.header" = "Informationen";
 
+/* The 'favorite' action in the media menu that lets the user mark a media as favorite. */
+"detail.menu.favorite" = "Favorit";
+
+/* The 'unfavorite' action in the media menu that lets the user mark a media as not favorite anymore. */
+"detail.menu.unfavorite" = "Kein Favorit";
+
 /* The section header for the metadata section in the detail view */
 "detail.metadata.header" = "Metadata";
 
@@ -183,9 +192,6 @@
 
 /* The navigation bar title for the seasons info in the detail view */
 "detail.seasonsInfo.navBar.title" = "Staffeln";
-
-/* (No Comment) */
-"detail.tags.header" = "Wählen Sie alle Schlüsselwörter aus, die zutreffen";
 
 /* The navigation bar title for the tags in the detail view */
 "detail.tags.navBar.title" = "Schlüsselwörter";
@@ -429,6 +435,63 @@
 
 /* Heading for the sorting direction picker in the library menu */
 "library.navBar.header.sorting" = "Sortierung";
+
+/* The message of an alert informing the user that the name of a new media list already exists */
+"lists.alerts.alreadyExists.message %@" = "Die Liste %@ existiert bereits.";
+
+/* The message of an alert informing the user that the name of a new media list already exists */
+"lists.alerts.alreadyExists.title" = "Liste Existiert";
+
+/* The confirmation button of an alert prompting the user for the name of a new media list. The button creates the new list. */
+"lists.alerts.newList.buttons.add" = "Hinzufügen";
+
+/* The title of an alert prompting the user for the name of a new custom list */
+"lists.alerts.newList.custom.title" = "Neue Eigene Liste";
+
+/* The title of an alert prompting the user for the name of a new dynamic list */
+"lists.alerts.newList.dynamic.title" = "Neue Dynamische Liste";
+
+/* The message of an alert prompting the user for the name of a new media list */
+"lists.alerts.newList.message" = "Name der neuen Liste:";
+
+/* The header for the list information (e.g. name, icon) in the editing view for the media lists */
+"lists.editing.header.information" = "Listen Informationen";
+
+/* The label for the textfield in the list editing view that describes the icon of the list */
+"lists.editing.label.icon" = "Symbol";
+
+/* The label for the textfield in the list editing view that describes the name of the list */
+"lists.editing.label.name" = "Name";
+
+/* The message showed in a filtered list when the list is empty */
+"lists.filteredListEmpty.message" = "Leer";
+
+/* The warning showed in a filtered list when the filter is reset and thus the list is showing all media objects */
+"lists.filterResetWarning" = "Die Liste hat aktuell keinen Filter konfiguriert.";
+
+/* The header for the section containing the custom user lists in the lists view */
+"lists.header.customLists" = "Eigene Liste";
+
+/* The header for the section containing the default lists in the lists view */
+"lists.header.defaultLists" = "Standard-Listen";
+
+/* The header for the section containing the dynamic lists in the lists view */
+"lists.header.dynamicLists" = "Dynamische Listen";
+
+/* The label for the 'delete' swipe action, deleting a media list */
+"lists.label.delete" = "Löschen";
+
+/* The label for menu button that shows a menu, prompting the user to choose a type of list to create */
+"lists.label.newList" = "Neu...";
+
+/* The label for the 'remove' swipe action, removing a media object from a list */
+"lists.label.remove" = "Entfernen";
+
+/* The label for menu button that shows an alert to create a new custom, user list */
+"lists.new.label.customList" = "Eigene Liste";
+
+/* The label for menu button that shows an alert to create a new dynamic list */
+"lists.new.label.dynamicList" = "Dynamische Liste";
 
 /* Title of an alert informing the user about an error while loading the media */
 "lookup.alert.errorLoading.title" = "Fehler beim Laden des Mediums";
@@ -727,8 +790,3 @@
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Einstellungen";
 
-/* The 'favorite' action in the media menu that lets the user mark a media as favorite. */
-"detail.menu.favorite" = "Favorit";
-
-/* The 'unfavorite' action in the media menu that lets the user mark a media as not favorite anymore. */
-"detail.menu.unfavorite" = "Kein Favorit";
