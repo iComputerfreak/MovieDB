@@ -28,10 +28,10 @@ struct SelectUserListView: View {
                     dismiss()
                 } label: {
                     Label(list.name, systemImage: list.iconName)
-                        .symbolRenderingMode(.multicolor)
+                        .symbolRenderingMode(isDisabled ? .monochrome : .multicolor)
                 }
                 .disabled(isDisabled)
-                .tint(isDisabled ? .gray : .primary)
+                .foregroundColor(isDisabled ? .gray : .primary)
             }
             .navigationTitle("Add to...")
         }
@@ -48,11 +48,12 @@ struct SelectUserListView: View {
 struct SelectUserListView_Previews: PreviewProvider {
     static let context: NSManagedObjectContext = {
         let context = PersistenceController.previewContext
-//        context.reset()
+        context.reset()
+        let m = PlaceholderData.createMovie()
         let l1 = UserMediaList(context: context)
         l1.iconName = "trash"
         l1.name = "Trash List"
-        l1.medias.insert(PlaceholderData.movie)
+        l1.medias.insert(m)
         let l2 = UserMediaList(context: context)
         l2.iconName = "star.fill"
         l2.name = "Star List"
@@ -60,7 +61,8 @@ struct SelectUserListView_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        SelectUserListView(mediaObject: PlaceholderData.movie)
+        // swiftlint:disable:next force_try
+        SelectUserListView(mediaObject: try! context.fetch(Media.fetchRequest()).first!)
         .environment(\.managedObjectContext, context)
     }
 }

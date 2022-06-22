@@ -14,6 +14,42 @@ enum PlaceholderData {
     
     static let allMedia: [Media] = fetchAll()
     static let movie: Movie = {
+        createMovie()
+    }()
+    static let show: Show = {
+        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
+        let s = Show(context: context, tmdbData: tmdbData)
+        s.personalRating = .fiveStars
+        s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
+            .map { name in allTags.first(where: { $0.name == name })! })
+        s.notes = "A masterpiece!"
+        s.watched = .season(7)
+        s.watchAgain = true
+        s.parentalRating = .fskAgeSixteen
+        return s
+    }()
+    // A media with some missing information
+    static let problemShow: Show = {
+        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
+        let s = Show(context: context, tmdbData: tmdbData)
+        s.notes = "A masterpiece!"
+        s.watched = .season(7)
+        s.parentalRating = .fskAgeSixteen
+        return s
+    }()
+    
+    static let allTags: [Tag] = [
+        Tag(name: "Future", context: context),
+        Tag(name: "Conspiracy", context: context),
+        Tag(name: "Dark", context: context),
+        Tag(name: "Violent", context: context),
+        Tag(name: "Gangsters", context: context),
+        Tag(name: "Terrorist", context: context),
+        Tag(name: "Past", context: context),
+        Tag(name: "Fantasy", context: context)
+    ]
+    
+    static func createMovie() -> Movie {
         let tmdbData: TMDBData = Self.load("Matrix.json", mediaType: .movie, into: context)
         let m = Movie(context: context, tmdbData: tmdbData)
         m.personalRating = .twoAndAHalfStars
@@ -75,39 +111,7 @@ enum PlaceholderData {
             )
         ]
         return m
-    }()
-    static let show: Show = {
-        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.personalRating = .fiveStars
-        s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
-            .map { name in allTags.first(where: { $0.name == name })! })
-        s.notes = "A masterpiece!"
-        s.watched = .season(7)
-        s.watchAgain = true
-        s.parentalRating = .fskAgeSixteen
-        return s
-    }()
-    // A media with some missing information
-    static let problemShow: Show = {
-        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.notes = "A masterpiece!"
-        s.watched = .season(7)
-        s.parentalRating = .fskAgeSixteen
-        return s
-    }()
-    
-    static let allTags: [Tag] = [
-        Tag(name: "Future", context: context),
-        Tag(name: "Conspiracy", context: context),
-        Tag(name: "Dark", context: context),
-        Tag(name: "Violent", context: context),
-        Tag(name: "Gangsters", context: context),
-        Tag(name: "Terrorist", context: context),
-        Tag(name: "Past", context: context),
-        Tag(name: "Fantasy", context: context)
-    ]
+    }
     
     private static func fetchFirst<T: NSManagedObject>() -> T {
         fetchAll().first!
