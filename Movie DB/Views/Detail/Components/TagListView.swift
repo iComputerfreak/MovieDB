@@ -25,9 +25,11 @@ struct TagListView: View {
                 EditView(tags: $tags)
             } label: {
                 TagListViewLabel(tags: tags)
+                    .headline(Strings.Detail.tagsHeadline)
             }
         } else {
             TagListViewLabel(tags: tags)
+                .headline(Strings.Detail.tagsHeadline)
         }
     }
     

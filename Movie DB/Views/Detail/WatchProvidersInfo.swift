@@ -56,12 +56,13 @@ struct ProviderView: View {
             AsyncImage(url: Utils.getTMDBImageURL(path: provider.imagePath!, size: nil)) { image in
                 image
                     .resizable()
-                    .frame(width: 50, height: 50)
                     .cornerRadius(10)
             } placeholder: {
                 ProgressView()
             }
             .frame(width: 50, height: 50)
+            .shadow(radius: 1, y: 1.5)
+            .padding(2)
             
             Text(provider.type.localized)
                 .font(.caption)

@@ -10,7 +10,7 @@ import SwiftUI
 
 /// Represents a view that displays a preview of a longer text with the option to show the full text in a new view
 struct LongTextView: View {
-    var headline: Text
+    var headline: String
     var text: String
     
     var body: some View {
@@ -25,6 +25,7 @@ struct LongTextView: View {
         } label: {
             Text(text)
                 .lineLimit(3)
+                .headline(headline)
         }
     }
     
@@ -35,7 +36,7 @@ struct LongTextView: View {
     ///   - text: The full text
     init(
         _ text: String,
-        headline: Text
+        headline: String
     ) {
         self.headline = headline
         self.text = text
@@ -44,6 +45,6 @@ struct LongTextView: View {
 
 struct LongTextView_Previews: PreviewProvider {
     static var previews: some View {
-        LongTextView("A very long text", headline: Text(verbatim: "Description"))
+        LongTextView("A very long text", headline: "Description")
     }
 }

@@ -39,16 +39,20 @@ struct BasicInfo: View {
             ) {
                 // MARK: Genres
                 if !mediaObject.genres.isEmpty {
-                    Text(mediaObject.genres.map(\.name).sorted().joined(separator: ", "))
-                        .headline(Strings.Detail.genresHeadline)
+                    Text(
+                        mediaObject.genres
+                            .map(\.name)
+                            .sorted()
+                            .joined(separator: ", ")
+                    )
+                    .headline(Strings.Detail.genresHeadline)
                 }
                 // MARK: Overview
                 if let overview = mediaObject.overview, !overview.isEmpty {
                     LongTextView(
                         overview,
-                        headline: Text(Strings.Detail.descriptionHeadline)
+                        headline: Strings.Detail.descriptionHeadline
                     )
-                    .headline(Strings.Detail.descriptionHeadline)
                 }
                 // Movie exclusive data
                 if mediaObject.type == .movie, let movie = mediaObject as? Movie {
@@ -64,7 +68,7 @@ struct BasicInfo: View {
                             let minutesString = Self.minutesFormatter.string(from: components)!
                             let hoursString = Self.hoursFormatter.string(from: components)!
                             Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
-                            .headline(Strings.Detail.runtimeHeadline)
+                                .headline(Strings.Detail.runtimeHeadline)
                         } else {
                             let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
                             Text(Self.minutesFormatter.string(from: components)!)

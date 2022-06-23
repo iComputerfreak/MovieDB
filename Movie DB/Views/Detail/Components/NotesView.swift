@@ -22,15 +22,19 @@ struct NotesView: View {
             NavigationLink {
                 EditView(notes: self.$notes)
             } label: {
-                if notes.isEmpty {
-                    Text(Strings.Detail.noNotesLabel)
-                        .italic()
-                } else {
-                    self.label
+                Group {
+                    if notes.isEmpty {
+                        Text(Strings.Detail.noNotesLabel)
+                            .italic()
+                    } else {
+                        self.label
+                    }
                 }
+                .headline(Strings.Detail.notesHeadline)
             }
         } else {
             self.label
+                .headline(Strings.Detail.notesHeadline)
         }
     }
     

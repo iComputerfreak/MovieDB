@@ -33,9 +33,11 @@ struct WatchedShowView: View {
                 EditView(watched: $watched)
             } label: {
                 Text(episodeString)
+                    .headline(Strings.Detail.watchedHeadline)
             }
         } else {
             Text(episodeString)
+                .headline(Strings.Detail.watchedHeadline)
         }
     }
     
