@@ -21,7 +21,6 @@ struct ResolveProblemsView: View {
                         ForEach(problem.associatedMedias) { media in
                             LibraryRow()
                                 .environmentObject(media)
-                                .fixHighlighting()
                         }
                         .onDelete { indexSet in
                             for offset in indexSet {

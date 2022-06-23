@@ -21,13 +21,13 @@ struct LookupTitleView: View {
     }
     
     var body: some View {
-        Group {
-            if url == nil {
+        if url == nil {
+            self.titleView
+        } else {
+            NavigationLink {
+                PosterView(imagePath: media.imagePath)
+            } label: {
                 self.titleView
-            } else {
-                NavigationLink(destination: PosterView(imagePath: media.imagePath)) {
-                    self.titleView
-                }
             }
         }
     }

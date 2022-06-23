@@ -12,7 +12,6 @@ import CoreData
 struct TagListView: View {
     @Binding var tags: Set<Tag>
     @Environment(\.editMode) private var editMode
-    @State private var editingTags = false
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     // swiftlint:disable:next type_contents_order
@@ -22,25 +21,31 @@ struct TagListView: View {
     
     var body: some View {
         if editMode?.wrappedValue.isEditing ?? false {
-            NavigationLink(destination: EditView(tags: self.$tags), isActive: $editingTags) {
-                self.label
-            }
-            .onTapGesture {
-                // Activate the navigation link manually, because we are in edit mode and cannot activate NavLinks
-                // FUTURE: Still neccessary?
-                self.editingTags = true
+            NavigationLink {
+                EditView(tags: $tags)
+            } label: {
+                TagListViewLabel(tags: tags)
             }
         } else {
-            self.label
+            TagListViewLabel(tags: tags)
         }
     }
     
-    private var label: some View {
-        if tags.isEmpty {
-            return Text(Strings.Detail.noTagsLabel)
-            .italic()
+    struct TagListViewLabel: View {
+        let tags: Set<Tag>
+        
+        var body: some View {
+            if tags.isEmpty {
+                return Text(Strings.Detail.noTagsLabel)
+                    .italic()
+            }
+            return Text(
+                tags
+                    .map(\.name)
+                    .sorted()
+                    .joined(separator: ", ")
+            )
         }
-        return Text(tags.map(\.name).sorted().joined(separator: ", "))
     }
     
     struct EditView: View {

@@ -14,20 +14,18 @@ struct LongTextView: View {
     var text: String
     
     var body: some View {
-            NavigationLink(destination: preview) {
+        NavigationLink {
+            VStack(alignment: .center) {
                 Text(text)
-                    .lineLimit(3)
+                    .lineLimit(nil)
+                    .padding()
+                Spacer()
             }
-    }
-    
-    private var preview: some View {
-        VStack(alignment: .center) {
+            .navigationTitle(headline)
+        } label: {
             Text(text)
-                .lineLimit(nil)
-                .padding()
-            Spacer()
+                .lineLimit(3)
         }
-        .navigationTitle(headline)
     }
     
     /// Creates a new view that displays a preview of the given text (3 lines).

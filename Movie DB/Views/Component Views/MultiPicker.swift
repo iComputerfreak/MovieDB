@@ -29,13 +29,15 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
     @State var values: [SelectionValue]
     
     var body: some View {
-        NavigationLink(destination: EditView(
-            label: label,
-            title: title,
-            values: $values,
-            selectionBinding: $selectionBinding,
-            selection: $selection
-        )) {
+        NavigationLink {
+            EditView(
+                label: label,
+                title: title,
+                values: $values,
+                selectionBinding: $selectionBinding,
+                selection: $selection
+            )
+        } label: {
             HStack {
                 self.title
                 Spacer()

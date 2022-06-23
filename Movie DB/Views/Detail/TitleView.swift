@@ -12,13 +12,13 @@ struct TitleView: View {
     @ObservedObject var media: Media
     
     var body: some View {
-        Group {
-            if media.thumbnail == nil {
+        if media.thumbnail == nil {
+            self.titleView
+        } else {
+            NavigationLink {
+                PosterView(imagePath: media.imagePath)
+            } label: {
                 self.titleView
-            } else {
-                NavigationLink(destination: PosterView(imagePath: media.imagePath)) {
-                    self.titleView
-                }
             }
         }
     }

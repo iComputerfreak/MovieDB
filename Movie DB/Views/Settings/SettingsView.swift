@@ -40,10 +40,9 @@ struct SettingsView: View {
                 .navigationTitle(Strings.TabView.settingsLabel)
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        NavigationLink(
-                            Strings.Settings.navBarButtonLegal,
-                            destination: LegalView()
-                        )
+                        NavigationLink(Strings.Settings.navBarButtonLegal) {
+                            LegalView()
+                        }
                     }
                 }
             }

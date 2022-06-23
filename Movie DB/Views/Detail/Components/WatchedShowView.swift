@@ -12,7 +12,6 @@ import SwiftUI
 struct WatchedShowView: View {
     @Binding var watched: ShowWatchState?
     @Environment(\.editMode) private var editMode
-    @State private var isEditing = false
     
     private var episodeString: String {
         guard let watched else {
@@ -29,17 +28,14 @@ struct WatchedShowView: View {
     }
     
     var body: some View {
-        Group {
-            if editMode?.wrappedValue.isEditing ?? false {
-                NavigationLink(destination: EditView(watched: $watched), isActive: $isEditing) {
-                    Text(episodeString)
-                }
-                .onTapGesture {
-                    self.isEditing = true
-                }
-            } else {
+        if editMode?.wrappedValue.isEditing ?? false {
+            NavigationLink {
+                EditView(watched: $watched)
+            } label: {
                 Text(episodeString)
             }
+        } else {
+            Text(episodeString)
         }
     }
     

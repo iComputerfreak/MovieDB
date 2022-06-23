@@ -19,7 +19,10 @@ struct LibraryRow: View {
             // This will be displayed while the object is being deleted
             EmptyView()
         } else {
-            NavigationLink(destination: MediaDetail().environmentObject(mediaObject)) {
+            NavigationLink {
+                MediaDetail()
+                    .environmentObject(mediaObject)
+            } label: {
                 HStack {
                     Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()

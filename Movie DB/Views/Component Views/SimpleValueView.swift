@@ -17,19 +17,17 @@ struct SimpleValueView<T: Hashable>: View {
     var label: ((T) -> String)
     
     var body: some View {
-        Group {
-            if editMode?.wrappedValue.isEditing ?? false {
-                Picker(selection: $value, label: EmptyView()) {
-                    ForEach(values, id: \.self) { value in
-                        Text(self.label(value))
-                            .tag(value)
-                    }
+        if editMode?.wrappedValue.isEditing ?? false {
+            Picker(selection: $value, label: EmptyView()) {
+                ForEach(values, id: \.self) { value in
+                    Text(self.label(value))
+                        .tag(value)
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .labelsHidden()
-            } else {
-                Text(label(value))
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .labelsHidden()
+        } else {
+            Text(label(value))
         }
     }
     

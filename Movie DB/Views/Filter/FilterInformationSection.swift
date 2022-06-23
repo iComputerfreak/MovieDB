@@ -46,16 +46,15 @@ struct FilterInformationSection: View {
                 title: Text(Strings.Library.Filter.genresLabel)
             )
             // MARK: - Rating
-            NavigationLink(
-                destination:
-                    RangeEditingView(
-                        title: Text(Strings.Library.Filter.ratingLabel),
-                        bounds: StarRating.noRating...StarRating.fiveStars,
-                        setting: $filterSetting.rating,
-                        style: .stepper,
-                        valueLabel: { RatingView(rating: .constant($0)) }
-                    )
-            ) {
+            NavigationLink {
+                RangeEditingView(
+                    title: Text(Strings.Library.Filter.ratingLabel),
+                    bounds: StarRating.noRating...StarRating.fiveStars,
+                    setting: $filterSetting.rating,
+                    style: .stepper,
+                    valueLabel: { RatingView(rating: .constant($0)) }
+                )
+            } label: {
                 HStack {
                     Text(Strings.Library.Filter.ratingLabel)
                     Spacer()
@@ -76,12 +75,14 @@ struct FilterInformationSection: View {
                 }
             }
             // MARK: - Year
-            NavigationLink(destination: RangeEditingView(
-                title: Text(Strings.Library.Filter.yearLabel),
-                bounds: Utils.yearBounds(context: managedObjectContext),
-                setting: $filterSetting.year,
-                style: .stepper
-            )) {
+            NavigationLink {
+                RangeEditingView(
+                    title: Text(Strings.Library.Filter.yearLabel),
+                    bounds: Utils.yearBounds(context: managedObjectContext),
+                    setting: $filterSetting.year,
+                    style: .stepper
+                )
+            } label: {
                 HStack {
                     Text(Strings.Library.Filter.yearLabel)
                     Spacer()

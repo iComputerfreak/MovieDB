@@ -22,12 +22,14 @@ struct FilterShowSpecificSection: View {
                 title: Text(Strings.Library.Filter.showTypeLabel)
             )
             // MARK: - Number of Seasons
-            NavigationLink(destination: RangeEditingView(
-                title: Text(Strings.Library.Filter.seasonsLabel),
-                bounds: Utils.numberOfSeasonsBounds(context: managedObjectContext),
-                setting: self.$filterSetting.numberOfSeasons,
-                style: .stepper
-            )) {
+            NavigationLink {
+                RangeEditingView(
+                    title: Text(Strings.Library.Filter.seasonsLabel),
+                    bounds: Utils.numberOfSeasonsBounds(context: managedObjectContext),
+                    setting: self.$filterSetting.numberOfSeasons,
+                    style: .stepper
+                )
+            } label: {
                 HStack {
                     Text(Strings.Library.Filter.seasonsLabel)
                     Spacer()

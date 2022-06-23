@@ -79,7 +79,6 @@ struct LibraryList: View {
                 ForEach(filteredMedia) { mediaObject in
                     LibraryRow()
                         .environmentObject(mediaObject)
-                        .fixHighlighting()
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(Strings.Library.swipeActionDelete, role: .destructive) {
                                 print("Deleting \(mediaObject.title)")

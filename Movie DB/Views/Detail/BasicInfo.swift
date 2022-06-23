@@ -49,7 +49,6 @@ struct BasicInfo: View {
                         headline: Text(Strings.Detail.descriptionHeadline)
                     )
                     .headline(Strings.Detail.descriptionHeadline)
-                    .fixHighlighting()
                 }
                 // Movie exclusive data
                 if mediaObject.type == .movie, let movie = mediaObject as? Movie {
@@ -124,19 +123,23 @@ struct BasicInfo: View {
                 }
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
-                    NavigationLink(destination: SeasonsInfo().environmentObject(mediaObject)) {
+                    NavigationLink {
+                        SeasonsInfo()
+                            .environmentObject(mediaObject)
+                    } label: {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
                         let maxSeasonNumber = show.seasons.map(\.seasonNumber).max() ?? 0
                         Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
                             .headline(Strings.Detail.seasonsHeadline)
                     }
-                    .fixHighlighting()
                 }
                 // MARK: Cast
-                NavigationLink(destination: CastInfo().environmentObject(mediaObject)) {
+                NavigationLink {
+                    CastInfo()
+                        .environmentObject(mediaObject)
+                } label: {
                     Text(Strings.Detail.castLabel)
                 }
-                .fixHighlighting()
             }
         }
     }

@@ -11,7 +11,6 @@ import SwiftUI
 struct NotesView: View {
     @Binding var notes: String
     @Environment(\.editMode) private var editMode
-    @State private var editingNotes = false
     
     // swiftlint:disable:next type_contents_order
     init(_ notes: Binding<String>) {
@@ -19,23 +18,19 @@ struct NotesView: View {
     }
     
     var body: some View {
-        Group {
-            if editMode?.wrappedValue.isEditing ?? false {
-                NavigationLink(destination: EditView(notes: self.$notes), isActive: $editingNotes) {
-                    if notes.isEmpty {
-                        Text(Strings.Detail.noNotesLabel)
-                            .italic()
-                    } else {
-                        self.label
-                    }
+        if editMode?.wrappedValue.isEditing ?? false {
+            NavigationLink {
+                EditView(notes: self.$notes)
+            } label: {
+                if notes.isEmpty {
+                    Text(Strings.Detail.noNotesLabel)
+                        .italic()
+                } else {
+                    self.label
                 }
-                .onTapGesture {
-                    // Activate the navigation link manually
-                    self.editingNotes = true
-                }
-            } else {
-                self.label
             }
+        } else {
+            self.label
         }
     }
     

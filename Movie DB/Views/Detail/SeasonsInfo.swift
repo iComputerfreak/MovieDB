@@ -25,11 +25,13 @@ struct SeasonsInfo: View {
             List {
                 ForEach(show.seasons.sorted(by: \.seasonNumber)) { (season: Season) in
                     if season.overview != nil && !season.overview!.isEmpty {
-                        NavigationLink(destination: ScrollView {
-                            Text(season.overview!)
-                                .padding()
-                                .navigationTitle(season.name)
-                        }) {
+                        NavigationLink {
+                            ScrollView {
+                                Text(season.overview!)
+                                    .padding()
+                                    .navigationTitle(season.name)
+                            }
+                        } label: {
                             SeasonInfo(season: season, thumbnail: $seasonThumbnails[season.id])
                         }
                     } else {

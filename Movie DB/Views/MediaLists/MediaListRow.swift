@@ -15,31 +15,21 @@ struct MediaListRow<RowContent: View>: View {
     var rowContent: (Media) -> RowContent
     
     var body: some View {
-        ZStack {
-            NavigationLink(isActive: $editingViewActive) {
+        NavigationLink {
+            if editMode?.wrappedValue.isEditing ?? false {
+                // Editing destination
                 if let userList = list as? UserMediaList {
                     UserMediaListEditingView(list: userList)
                 } else if let dynamicList = list as? DynamicMediaList {
                     DynamicMediaListEditingView(list: dynamicList)
                 }
-            } label: {
-                EmptyView()
-            }
-            .hidden()
-            
-            NavigationLink {
+            } else {
+                // Default destination
                 FilteredMediaList(list: list, rowContent: rowContent)
-            } label: {
-                Label(list.name, systemImage: list.iconName)
-                    .symbolRenderingMode(.multicolor)
             }
-            .gesture((editMode?.wrappedValue.isEditing ?? false) ? tapGesture : nil)
-        }
-    }
-    
-    var tapGesture: some Gesture {
-        TapGesture().onEnded {
-            self.editingViewActive = true
+        } label: {
+            Label(list.name, systemImage: list.iconName)
+                .symbolRenderingMode(.multicolor)
         }
     }
 }
