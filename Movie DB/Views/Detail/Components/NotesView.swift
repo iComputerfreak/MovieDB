@@ -27,20 +27,19 @@ struct NotesView: View {
                         Text(Strings.Detail.noNotesLabel)
                             .italic()
                     } else {
-                        self.label
+                        Text(notes)
+                        // Use the same line limit as the non-editing label
+                            .lineLimit(LongTextView.lineLimit)
                     }
                 }
                 .headline(Strings.Detail.notesHeadline)
             }
         } else {
-            self.label
-                .headline(Strings.Detail.notesHeadline)
+            LongTextView(
+                notes,
+                headline: Strings.Detail.notesHeadline
+            )
         }
-    }
-    
-    private var label: some View {
-        Text(notes)
-        .lineLimit(nil)
     }
     
     fileprivate struct EditView: View {

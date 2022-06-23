@@ -97,11 +97,8 @@ extension FilterSetting {
                     // Illegal range selected, set lower to lowest value possible
                     lower = upper
                 }
-                // Update the binding in the main thread (may be bound to UI)
-                // TODO: Should not be our problem. Caller has to update the binding on the main thread. Check and remove
-                DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
-                }
+                // Update the actual binding
+                setting.wrappedValue = lower ... upper
             })
         }
         
@@ -113,10 +110,8 @@ extension FilterSetting {
                     // Illegal range selected
                     upper = lower
                 }
-                // Update the binding in the main thread (may be bound to UI)
-                DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
-                }
+                // Update the actual binding
+                setting.wrappedValue = lower ... upper
             })
         }
         

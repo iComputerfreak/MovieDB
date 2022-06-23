@@ -31,7 +31,7 @@ extension DefaultMediaList {
     
     static let watchlist = DefaultMediaList(
         name: "Watchlist",
-        iconName: "checklist",
+        iconName: "bookmark.fill",
         predicate: NSPredicate(format: "isOnWatchlist = TRUE")
     )
     

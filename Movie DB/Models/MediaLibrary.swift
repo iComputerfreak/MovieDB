@@ -81,16 +81,6 @@ struct MediaLibrary {
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
         await MainActor.run {
-            // TODO: Remove? Maybe the initial loadThumbnail call from above did not finish when we transferred the object
-//            if let mainMedia = self.context.object(with: media.objectID) as? Media {
-//                // We don't need to wait for the thumbnail to finish loading
-//                Task {
-//                    // Call it on the media object in the viewContext, not on the mediaObject in the background context
-//                    await mainMedia.loadThumbnail()
-//                }
-//            } else {
-//                assertionFailure("Media object does not exist in the viewContext yet. Cannot load thumbnail.")
-//            }
             isLoading.wrappedValue = false
         }
     }

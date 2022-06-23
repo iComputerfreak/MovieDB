@@ -9,11 +9,10 @@
 import Foundation
 
 enum SortingOrder: String, Equatable, CaseIterable {
-    // TODO: Remove raw values completely? Should only ever use .localized
-    case name = "Name"
-    case created = "Created"
-    case releaseDate = "Release Date"
-    case rating = "Rating"
+    case name
+    case created
+    case releaseDate
+    case rating
     
     /// The default sorting order
     static var `default`: Self { .created }

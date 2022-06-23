@@ -10,22 +10,35 @@ import SwiftUI
 
 /// Represents a view that displays a preview of a longer text with the option to show the full text in a new view
 struct LongTextView: View {
+    static let lineLimit = 3
+    
     var headline: String
     var text: String
     
     var body: some View {
         NavigationLink {
-            VStack(alignment: .center) {
-                Text(text)
-                    .lineLimit(nil)
-                    .padding()
-                Spacer()
-            }
-            .navigationTitle(headline)
+            ContentView(text: text)
+                .navigationTitle(headline)
         } label: {
             Text(text)
-                .lineLimit(3)
+                .lineLimit(Self.lineLimit)
                 .headline(headline)
+        }
+    }
+    
+    struct ContentView: View {
+        let text: String
+        
+        var body: some View {
+            HStack {
+                VStack(alignment: .center) {
+                    Text(text)
+                        .lineLimit(nil)
+                        .padding()
+                    Spacer()
+                }
+                Spacer()
+            }
         }
     }
     

@@ -21,7 +21,6 @@ struct SettingsView: View {
     @State private var config = SettingsViewConfig()
     
     var body: some View {
-        // TODO: Should settings really use a loading screen?
         LoadingView(
             isShowing: $config.isLoading,
             text: config.loadingText ?? Strings.Settings.loadingPlaceholder

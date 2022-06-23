@@ -43,6 +43,14 @@ struct MediaDetail: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        mediaObject.isOnWatchlist.toggle()
+                    } label: {
+                        let imageName = mediaObject.isOnWatchlist ? "bookmark.fill" : "bookmark"
+                        Image(systemName: imageName)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         EditButton()
                         Section {
