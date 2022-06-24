@@ -11,8 +11,7 @@
   "defaultOptions" : {
     "language" : "en",
     "region" : "DE",
-    "testExecutionOrdering" : "random",
-    "testTimeoutsEnabled" : true
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {

@@ -747,27 +747,27 @@
 		AB6718BF22C0312B00F429E4 /* Movie DB */ = {
 			isa = PBXGroup;
 			children = (
-				ABEEB07A280F1B7300230F0B /* Settings.bundle */,
-				AB14340225CDD83E00AA304F /* CoreData */,
-				AB61CA2A24142E6B008BD8C8 /* Movie DB.entitlements */,
-				AB25099C238B1EE000F7A411 /* Utility */,
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
 				AB12CA042860E7340073F751 /* MigrationManager.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
+				AB25099C238B1EE000F7A411 /* Utility */,
 				AB6718F222C110F500F429E4 /* APIs */,
 				AB01096A24D73BDE001BEF39 /* CSV */,
+				AB14340225CDD83E00AA304F /* CoreData */,
 				AB6718E222C0314100F429E4 /* Models */,
 				AB3648BD22C3DD8B0096FE39 /* Views */,
-				AB6718C622C0312B00F429E4 /* Assets.xcassets */,
-				AB6718CB22C0312B00F429E4 /* LaunchScreen.storyboard */,
-				AB6718CE22C0312B00F429E4 /* Info.plist */,
-				AB0DA977283A705B0038E4B9 /* InfoPlist.strings */,
-				AB6718C822C0312B00F429E4 /* Preview Content */,
-				AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */,
 				AB12C9FE285CCCC90073F751 /* Secrets.swift.gyb */,
 				AB12CA00285CD2B30073F751 /* Secrets.swift */,
 				AB6D9C79283BC0C000AF655C /* Localization */,
+				AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */,
+				AB6718C622C0312B00F429E4 /* Assets.xcassets */,
+				AB6718CE22C0312B00F429E4 /* Info.plist */,
+				AB0DA977283A705B0038E4B9 /* InfoPlist.strings */,
+				AB61CA2A24142E6B008BD8C8 /* Movie DB.entitlements */,
+				AB6718CB22C0312B00F429E4 /* LaunchScreen.storyboard */,
+				ABEEB07A280F1B7300230F0B /* Settings.bundle */,
+				AB6718C822C0312B00F429E4 /* Preview Content */,
 			);
 			path = "Movie DB";
 			sourceTree = "<group>";
