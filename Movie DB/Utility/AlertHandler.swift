@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
+import UIKit
 
 /// Represents a utility struct that displays Alerts
 struct AlertHandler {

@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct SeasonsInfo: View {
     @EnvironmentObject private var mediaObject: Media

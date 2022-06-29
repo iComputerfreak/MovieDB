@@ -6,10 +6,10 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
-import JFSwiftUI
 import CoreData
 import CSVImporter
+import JFSwiftUI
+import SwiftUI
 
 struct SettingsView: View {
     // Reference to the config instance

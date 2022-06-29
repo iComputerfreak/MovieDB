@@ -6,8 +6,8 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents a `CastMember` that was decoded from the aggregate_casts key
 struct AggregateCastMember: Decodable {

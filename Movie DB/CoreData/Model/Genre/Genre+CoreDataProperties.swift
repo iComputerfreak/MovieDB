@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension Genre {
     /// The ID of the genre on TMDB

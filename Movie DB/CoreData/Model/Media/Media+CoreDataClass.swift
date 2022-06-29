@@ -6,13 +6,13 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import SwiftUI
-import Combine
-import JFSwiftUI
 import CloudKit
+import Combine
 import CoreData
+import Foundation
+import JFSwiftUI
+import SwiftUI
+import UIKit
 
 /// Represents a media object in the library
 @objc(Media)

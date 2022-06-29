@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents a user specified tag
 @objc(Tag)

@@ -8,8 +8,8 @@
 
 import Foundation
 
-import XCTest
 @testable import Movie_DB
+import XCTest
 
 class JFUtilsTests: XCTestCase {
     func testLocale() {

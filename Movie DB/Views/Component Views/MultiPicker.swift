@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 /// Represents a Picker view that lets the user pick multiple values from a list
 struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {

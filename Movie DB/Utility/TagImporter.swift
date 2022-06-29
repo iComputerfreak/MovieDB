@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents a utility struct that ex- or imports tags from and to the TagLibrary
 actor TagImporter {

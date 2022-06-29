@@ -6,9 +6,9 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import XCTest
-@testable import Movie_DB
 import CoreData
+@testable import Movie_DB
+import XCTest
 
 class TestingPlayground: XCTestCase {
     func testPlayground() async throws {

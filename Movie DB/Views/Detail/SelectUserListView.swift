@@ -6,8 +6,8 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct SelectUserListView: View {
     @Environment(\.dismiss) private var dismiss

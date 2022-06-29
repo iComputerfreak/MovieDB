@@ -6,9 +6,9 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import CoreData
 import Foundation
 import SwiftUI
-import CoreData
 
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewConfig

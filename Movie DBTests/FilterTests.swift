@@ -6,10 +6,10 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import XCTest
-@testable import Movie_DB
 import CoreData
+import Foundation
+@testable import Movie_DB
+import XCTest
 
 class FilterTests: XCTestCase {
     var testingUtils: TestingUtils!

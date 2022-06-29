@@ -6,10 +6,10 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
-import JFSwiftUI
 import Combine
 import CoreData
+import JFSwiftUI
+import SwiftUI
 
 /// A view that allows the user to search for TMDB movies/shows
 ///

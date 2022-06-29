@@ -6,12 +6,12 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import struct CoreGraphics.CGFloat
 import class CoreGraphics.CGColor
 import class CoreGraphics.CGColorSpace
-import class UIKit.UIColor
+import struct CoreGraphics.CGFloat
+import Foundation
 import struct SwiftUI.Color
+import class UIKit.UIColor
 
 public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
     public static var supportsSecureCoding = true

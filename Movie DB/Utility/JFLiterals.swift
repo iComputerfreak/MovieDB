@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
+import UIKit
 
 enum JFLiterals {
     /// The size of the thumbnail in the `LibraryHome` list

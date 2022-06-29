@@ -6,8 +6,8 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 // swiftlint:disable:next file_types_order
 public final class EnumStringTransformer<EnumType: RawRepresentable>: ValueTransformer

@@ -6,9 +6,9 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import Combine
 import JFSwiftUI
+import SwiftUI
 
 struct LookupView: View {
     @State private var isLoading = false

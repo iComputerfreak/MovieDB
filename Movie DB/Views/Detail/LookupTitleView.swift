@@ -6,8 +6,8 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import JFSwiftUI
+import SwiftUI
 
 // Does not use the media thumbnail, but instead load the thumbnail manually
 struct LookupTitleView: View {

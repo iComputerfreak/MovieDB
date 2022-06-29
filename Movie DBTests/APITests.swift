@@ -6,9 +6,9 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import XCTest
-@testable import Movie_DB
 import CoreData
+@testable import Movie_DB
+import XCTest
 
 class APITests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional

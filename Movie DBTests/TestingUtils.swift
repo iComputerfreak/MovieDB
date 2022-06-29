@@ -6,9 +6,9 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import XCTest
 import CoreData
 @testable import Movie_DB
+import XCTest
 
 struct TestingUtils {
     let context: NSManagedObjectContext

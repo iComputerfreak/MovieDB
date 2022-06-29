@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import StoreKit
+import UIKit
 
 class SceneDelegate: NSObject, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {

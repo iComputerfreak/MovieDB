@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import UIKit
 
 actor TMDBAPI {

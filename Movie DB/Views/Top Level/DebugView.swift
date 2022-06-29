@@ -6,9 +6,9 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
-import CoreData
 import CloudKit
+import CoreData
+import SwiftUI
 
 struct DebugView: View {
     let context = PersistenceController.viewContext

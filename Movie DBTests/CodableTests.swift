@@ -6,9 +6,9 @@
 //  Copyright © 2020 Jonas Frey. All rights reserved.
 //
 
-import XCTest
-@testable import Movie_DB
 import CoreData
+@testable import Movie_DB
+import XCTest
 
 // TODO: Assertions for watch providers
 

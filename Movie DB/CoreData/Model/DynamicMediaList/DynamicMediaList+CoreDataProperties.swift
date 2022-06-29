@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension DynamicMediaList {
     /// The name of the list

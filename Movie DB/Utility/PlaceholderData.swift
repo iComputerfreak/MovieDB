@@ -6,8 +6,8 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 enum PlaceholderData {
     static let context = PersistenceController.previewContext

@@ -6,8 +6,8 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension ProductionCompany {
     /// The ID of the production company on TMDB

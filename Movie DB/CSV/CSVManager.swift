@@ -6,9 +6,9 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import CSVImporter
 import CoreData
+import CSVImporter
+import Foundation
 
 struct CSVManager {
     typealias Converter = (Any) -> String

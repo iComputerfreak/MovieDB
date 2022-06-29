@@ -6,11 +6,11 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import SwiftUI
-import CoreData
 import Combine
+import CoreData
+import Foundation
 import struct JFSwiftUI.LoadingView
+import SwiftUI
 
 struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared

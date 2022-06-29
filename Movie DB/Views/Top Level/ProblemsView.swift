@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ProblemsView: View {
     @FetchRequest(

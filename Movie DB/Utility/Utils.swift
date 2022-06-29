@@ -6,13 +6,13 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import SwiftUI
-import CoreData
-import StoreKit
-import JFUtils
 import Algorithms
+import CoreData
+import Foundation
+import JFUtils
+import StoreKit
+import SwiftUI
+import UIKit
 
 /// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
 ///

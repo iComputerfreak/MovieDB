@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension FilterSetting {
     @NSManaged public var id: UUID?

@@ -6,8 +6,8 @@
 //  Copyright © 2020 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
 public enum MediaStatus: String, Codable, CaseIterable, Hashable {

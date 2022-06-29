@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents an actor starring in a specific movie
 @objc(CastMember)

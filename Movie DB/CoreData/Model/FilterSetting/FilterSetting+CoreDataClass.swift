@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import SwiftUI
 
 @objc(FilterSetting)

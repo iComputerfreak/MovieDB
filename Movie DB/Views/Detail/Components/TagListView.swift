@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct TagListView: View {
     @Binding var tags: Set<Tag>

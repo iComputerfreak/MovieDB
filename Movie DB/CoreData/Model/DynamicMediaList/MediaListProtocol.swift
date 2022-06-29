@@ -6,8 +6,8 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 protocol MediaListProtocol {
     var name: String { get }

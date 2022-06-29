@@ -6,8 +6,8 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import JFSwiftUI
+import SwiftUI
 
 struct PosterView: View {
     let imagePath: String?

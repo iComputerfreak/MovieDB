@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(UserMediaList)
 public class UserMediaList: NSManagedObject, MediaListProtocol {

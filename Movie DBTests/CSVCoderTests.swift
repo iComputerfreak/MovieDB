@@ -6,10 +6,10 @@
 //  Copyright © 2020 Jonas Frey. All rights reserved.
 //
 
-import XCTest
+import CoreData
 import JFUtils
 @testable import Movie_DB
-import CoreData
+import XCTest
 
 // swiftlint:disable line_length
 class CSVCoderTests: XCTestCase {

@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension UserMediaList {
     @NSManaged public var iconName: String

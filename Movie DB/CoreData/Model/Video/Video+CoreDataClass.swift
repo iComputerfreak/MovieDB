@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Represents a video on some external site
 @objc(Video)

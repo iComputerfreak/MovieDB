@@ -32,7 +32,7 @@
 --indentcase false
 --indentstrings false
 --lifecycle 
---lineaftermarks true
+--lineaftermarks false
 --linebreaks lf
 --markcategories true
 --markextensions always
@@ -71,4 +71,5 @@
 --wraptypealiases preserve
 --xcodeindentation disabled
 --yodaswap always
+--disable blankLinesAroundMark
 --enable isEmpty

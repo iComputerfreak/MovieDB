@@ -6,9 +6,9 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import CoreData
 import Foundation
 import UIKit
-import CoreData
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
 struct TMDBData: Decodable {

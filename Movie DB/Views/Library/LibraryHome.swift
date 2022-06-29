@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct LibraryHome: View {
     // The filter setting (non-persistent)

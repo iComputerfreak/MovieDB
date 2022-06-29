@@ -6,10 +6,10 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import UIKit
 import CoreData
-import StoreKit
 import Foundation
+import StoreKit
+import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(

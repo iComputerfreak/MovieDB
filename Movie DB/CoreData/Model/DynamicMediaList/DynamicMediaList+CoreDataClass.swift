@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(DynamicMediaList)
 public class DynamicMediaList: NSManagedObject, MediaListProtocol {

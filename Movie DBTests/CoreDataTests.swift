@@ -8,9 +8,9 @@
 
 import Foundation
 
-import XCTest
-@testable import Movie_DB
 import CoreData
+@testable import Movie_DB
+import XCTest
 
 class CoreDataTests: XCTestCase {
     var testingUtils: TestingUtils!
