@@ -66,7 +66,7 @@ struct UserData: View {
                 }
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                // TODO: Do we need the .environment() modifiers?
+                    // TODO: Do we need the .environment() modifiers?
                     .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchAgainHeadline)
                 // MARK: Taglist

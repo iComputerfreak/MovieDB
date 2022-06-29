@@ -80,12 +80,14 @@ extension Strings.Library {
                 comment: "A star rating from 0 to 5 stars in 0.5 star steps"
             )
         }
+
         static func ratingValueRangeLabel(_ from: Double, _ to: Double) -> String {
             String(
                 localized: "library.filter.information.label.rating.range \(from) \(to)",
                 comment: "A range of star ratings, both ranging from 0 to 5 stars in 0.5 star steps"
             )
         }
+
         static let yearLabel = String(
             localized: "library.filter.information.label.year",
             comment: "The label for the picker for selecting the release year in the library filter view"
@@ -96,12 +98,14 @@ extension Strings.Library {
                 comment: "Year label in the filter settings"
             )
         }
+
         static func yearValueRangeLabel(_ from: Int, _ to: Int) -> String {
             String(
                 localized: "library.filter.information.label.year.range \(from) \(to)",
                 comment: "Year range label in the filter settings. The first parameter is the lower bound of the range. The second parameter is the upper bound of the range (inclusive)"
             )
         }
+
         static let mediaStatusLabel = String(
             localized: "library.filter.information.label.status",
             comment: "The label for the status picker in the library's filter view"
@@ -126,6 +130,7 @@ extension Strings.Library {
                 comment: "The season count label in the filter settings"
             )
         }
+
         static func seasonsValueRangeLabel(_ from: Int, _ to: Int) -> String {
             String(
                 localized: "library.filter.showSpecific.label.seasonCount.range \(from) \(to)",

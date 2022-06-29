@@ -31,8 +31,7 @@
 --indent 4
 --indentcase false
 --indentstrings false
---lifecycle 
---lineaftermarks false
+--lifecycle
 --linebreaks lf
 --markcategories true
 --markextensions always
@@ -46,14 +45,14 @@
 --operatorfunc spaced
 --organizetypes actor,class,enum,struct
 --patternlet hoist
---ranges spaced
+--ranges no-space
 --redundanttype infer-locals-only
 --self remove
 --selfrequired 
 --semicolons inline
 --shortoptionals always
 --smarttabs enabled
---stripunusedargs always
+--stripunusedargs closure-only
 --structthreshold 0
 --tabwidth unspecified
 --trailingclosures 
@@ -71,5 +70,5 @@
 --wraptypealiases preserve
 --xcodeindentation disabled
 --yodaswap always
---disable blankLinesAroundMark
+--disable blankLinesAroundMark,redundantRawValues
 --enable isEmpty

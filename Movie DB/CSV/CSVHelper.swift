@@ -21,7 +21,7 @@ struct CSVHelper {
         onFinish: (([Media?], [String]) -> Void)?
     ) {
         var importLog: [String] = []
-        let importer: CSVImporter<Media?> = CSVImporter<Media?>(
+        let importer = CSVImporter<Media?>(
             contentString: csvString,
             delimiter: String(CSVManager.separator)
         )
@@ -50,7 +50,7 @@ struct CSVHelper {
                 defer { group.leave() }
                 // CSVError
                 if let error = error as? CSVManager.CSVError {
-                    let line = csvHeader.map({ values[$0] ?? "" }).joined(separator: CSVManager.separator)
+                    let line = csvHeader.map { values[$0] ?? "" }.joined(separator: CSVManager.separator)
                     switch error {
                     case .noTMDBID:
                         importLog.append("[Error] The following line is missing a TMDB ID:\n\(line)")
@@ -58,7 +58,7 @@ struct CSVHelper {
                         importLog.append("[Error] The following line is missing a media type:\n\(line)")
                     case .mediaAlreadyExists:
                         importLog.append("[Warning] The following line already exists in the library. Skipping...\n" +
-                                         "\(line)")
+                            "\(line)")
                     }
                     return
                 }

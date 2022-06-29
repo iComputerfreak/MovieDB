@@ -49,7 +49,7 @@ class TMDBShowSearchResult: TMDBSearchResult {
         
         // If the decoded raw date is nil, we use "" to produce a nil date in the line below
         let rawFirstAirDate = try container.decodeIfPresent(String.self, forKey: .rawFirstAirDate) ?? ""
-        self.firstAirDate = Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
+        firstAirDate = Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
         
         try super.init(from: decoder)
     }

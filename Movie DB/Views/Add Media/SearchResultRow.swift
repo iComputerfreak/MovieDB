@@ -124,7 +124,7 @@ struct SearchResultView_Previews: PreviewProvider {
                 releaseDate: Utils.tmdbDateFormatter.date(from: "2020-04-20")
             ))
             .background(Color.red)
-                .previewLayout(.fixed(width: 300, height: 100))
+            .previewLayout(.fixed(width: 300, height: 100))
         }
     }
 }

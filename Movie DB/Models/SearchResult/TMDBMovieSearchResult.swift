@@ -51,13 +51,13 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.isAdult = try container.decode(Bool.self, forKey: .isAdult)
+        isAdult = try container.decode(Bool.self, forKey: .isAdult)
         
         // If the decoded raw date is nil, we use "" to produce a nil date in the line below
         // We use decodeIfPresent here, because it could be possible, that the API response does not contains the key
         // (had this once)
         let rawReleaseDate = try container.decodeIfPresent(String.self, forKey: .rawReleaseDate) ?? ""
-        self.releaseDate = Utils.tmdbDateFormatter.date(from: rawReleaseDate)
+        releaseDate = Utils.tmdbDateFormatter.date(from: rawReleaseDate)
         
         try super.init(from: decoder)
     }

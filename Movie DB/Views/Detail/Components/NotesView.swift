@@ -14,7 +14,7 @@ struct NotesView: View {
     
     // swiftlint:disable:next type_contents_order
     init(_ notes: Binding<String>) {
-        self._notes = notes
+        _notes = notes
     }
     
     var body: some View {
@@ -28,7 +28,7 @@ struct NotesView: View {
                             .italic()
                     } else {
                         Text(notes)
-                        // Use the same line limit as the non-editing label
+                            // Use the same line limit as the non-editing label
                             .lineLimit(LongTextView.lineLimit)
                     }
                 }

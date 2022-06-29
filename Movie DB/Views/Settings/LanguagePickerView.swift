@@ -16,7 +16,7 @@ struct LanguagePickerView: View {
         Picker(Strings.Settings.languageNavBarTitle, selection: $preferences.language) {
             if preferences.availableLanguages.isEmpty {
                 Text(Strings.Settings.languagePickerLoadingText)
-                .task(priority: .userInitiated) { await self.updateLanguages() }
+                    .task(priority: .userInitiated) { await self.updateLanguages() }
             } else {
                 ForEach(preferences.availableLanguages, id: \.self) { code in
                     let languageName = Locale.current.localizedString(forIdentifier: code) ?? code

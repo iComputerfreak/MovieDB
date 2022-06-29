@@ -9,7 +9,7 @@
 import XCTest
 
 class DetailUITests: XCTestCase {
-    var app: XCUIApplication! = nil
+    var app: XCUIApplication!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -95,7 +95,7 @@ class DetailUITests: XCTestCase {
         app.steppers.firstMatch.buttons["Increment"]
             .tap(withNumberOfTaps: 3, numberOfTouches: 1)
         app.steppers.element(boundBy: 1).buttons["Increment"]
-        // Increase episode to 15
+            // Increase episode to 15
             .tap(withNumberOfTaps: 10, numberOfTouches: 1)
         app.steppers.element(boundBy: 1).buttons["Increment"]
             .tap(withNumberOfTaps: 5, numberOfTouches: 1)

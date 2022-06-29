@@ -14,6 +14,7 @@ extension TMDBData {
         var releaseDate: Date? {
             Utils.tmdbDateFormatter.date(from: rawReleaseDate)
         }
+
         var runtime: Int?
         var budget: Int
         var revenue: Int

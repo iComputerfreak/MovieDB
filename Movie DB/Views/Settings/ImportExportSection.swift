@@ -47,7 +47,7 @@ struct ImportExportSection: View {
         if !Utils.purchasedPro() {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
             guard mediaCount < JFLiterals.nonProMediaLimit else {
-                self.config.isShowingProInfo = true
+                config.isShowingProInfo = true
                 return
             }
         }
@@ -120,7 +120,7 @@ struct ImportExportSection: View {
             let importData = try String(contentsOf: url)
             print("Imported Tag Export file. Trying to import into library.")
             // Count the non-empty tags
-            let count = importData.components(separatedBy: "\n").filter({ !$0.isEmpty }).count
+            let count = importData.components(separatedBy: "\n").filter { !$0.isEmpty }.count
             
             // Ask whether the user really wants to import
             Task(priority: .userInitiated) {
@@ -163,7 +163,7 @@ struct ImportExportSection: View {
     // Does not save the imported changes!
     func `import`(_ handler: @escaping (NSManagedObjectContext, URL) throws -> Void) {
         // Use iOS file picker
-        self.documentPicker = DocumentPicker(onSelect: { url in
+        documentPicker = DocumentPicker(onSelect: { url in
             print("Importing \(url.lastPathComponent).")
             self.config.isLoading = true
             // Document picker finished. Invalidate it.
@@ -178,7 +178,7 @@ struct ImportExportSection: View {
                 self.importLogger = .init()
                 do {
                     try handler(importContext, url)
-                } catch let error {
+                } catch {
                     print("Error importing: \(error)")
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.genericImportErrorTitle,
@@ -199,7 +199,7 @@ struct ImportExportSection: View {
     
     func export(filename: String, content: @escaping (NSManagedObjectContext) throws -> String) {
         print("Exporting \(filename)...")
-        self.config.isLoading = true
+        config.isLoading = true
         
         Task(priority: .userInitiated) {
             await PersistenceController.shared.container.performBackgroundTask { context in

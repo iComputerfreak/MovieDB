@@ -38,11 +38,11 @@ struct ContentView: View {
 //                }
             
             #if DEBUG
-            DebugView()
-                .tabItem {
-                    Image(systemName: "ladybug")
-                    Text("Debug")
-                }
+                DebugView()
+                    .tabItem {
+                        Image(systemName: "ladybug")
+                        Text("Debug")
+                    }
             #endif
             
             SettingsView()

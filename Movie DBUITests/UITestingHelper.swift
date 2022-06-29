@@ -51,15 +51,15 @@ extension XCUIApplication {
     }
     
     func wait(_ timeout: TimeInterval = 1) {
-        XCTAssertFalse(self.wait(for: .runningBackground, timeout: timeout))
+        XCTAssertFalse(wait(for: .runningBackground, timeout: timeout))
     }
 }
 
 extension XCUIElement {
     @discardableResult
     func wait() -> XCUIElement {
-        if !self.exists {
-            XCTAssertTrue(self.waitForExistence(timeout: 5))
+        if !exists {
+            XCTAssertTrue(waitForExistence(timeout: 5))
         }
         return self
     }
@@ -84,6 +84,6 @@ enum MediaType {
 
 extension XCUIElementQuery {
     func first(where key: String = "label", hasPrefix prefix: String) -> XCUIElement {
-        self.matching(NSPredicate(format: "%K BEGINSWITH %@", key, prefix)).firstMatch
+        matching(NSPredicate(format: "%K BEGINSWITH %@", key, prefix)).firstMatch
     }
 }

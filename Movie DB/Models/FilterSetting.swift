@@ -35,74 +35,76 @@ struct FilterSetting: Identifiable {
     
     var rating: ClosedRange<StarRating>? {
         get {
-            guard let rawMinRating = self.minRating, let minRating = StarRating(rawValue: rawMinRating),
-                  let rawMaxRating = self.maxRating, let maxRating = StarRating(rawValue: rawMaxRating) else {
+            guard
+                let rawMinRating = minRating, let minRating = StarRating(rawValue: rawMinRating),
+                let rawMaxRating = maxRating, let maxRating = StarRating(rawValue: rawMaxRating)
+            else {
                 return nil
             }
-            return minRating ... maxRating
+            return minRating...maxRating
         }
         set {
-            self.minRating = newValue?.lowerBound.rawValue
-            self.maxRating = newValue?.upperBound.rawValue
+            minRating = newValue?.lowerBound.rawValue
+            maxRating = newValue?.upperBound.rawValue
         }
     }
     
     var year: ClosedRange<Int>? {
         get {
-            guard let minYear = self.minYear, let maxYear = self.maxYear else {
+            guard let minYear = minYear, let maxYear = maxYear else {
                 return nil
             }
-            return minYear ... maxYear
+            return minYear...maxYear
         }
         set {
-            self.minYear = newValue?.lowerBound
-            self.maxYear = newValue?.upperBound
+            minYear = newValue?.lowerBound
+            maxYear = newValue?.upperBound
         }
     }
     
     var numberOfSeasons: ClosedRange<Int>? {
         get {
             guard
-                let minNumberOfSeasons = self.minNumberOfSeasons,
-                let maxNumberOfSeasons = self.maxNumberOfSeasons
+                let minNumberOfSeasons = minNumberOfSeasons,
+                let maxNumberOfSeasons = maxNumberOfSeasons
             else {
                 return nil
             }
-            return minNumberOfSeasons ... maxNumberOfSeasons
+            return minNumberOfSeasons...maxNumberOfSeasons
         }
         set {
-            self.minNumberOfSeasons = newValue?.lowerBound
-            self.maxNumberOfSeasons = newValue?.upperBound
+            minNumberOfSeasons = newValue?.lowerBound
+            maxNumberOfSeasons = newValue?.upperBound
         }
     }
     
     var isReset: Bool {
         self.isAdult == nil &&
-        self.mediaType == nil &&
-        self.genres.isEmpty &&
-        self.rating == nil &&
-        self.year == nil &&
-        self.statuses.isEmpty &&
-        self.showTypes.isEmpty &&
-        self.numberOfSeasons == nil &&
-        self.watched == nil &&
-        self.watchAgain == nil &&
-        self.tags.isEmpty
+            self.mediaType == nil &&
+            self.genres.isEmpty &&
+            self.rating == nil &&
+            self.year == nil &&
+            self.statuses.isEmpty &&
+            self.showTypes.isEmpty &&
+            self.numberOfSeasons == nil &&
+            self.watched == nil &&
+            self.watchAgain == nil &&
+            self.tags.isEmpty
     }
     
     mutating func reset() {
-        self.isAdult = nil
-        self.mediaType = nil
-        self.genres = []
-        self.rating = nil
-        self.year = nil
-        self.statuses = []
-        self.showTypes = []
-        self.numberOfSeasons = nil
-        self.watched = nil
-        self.watchAgain = nil
-        self.tags = []
-        assert(self.isReset, "FilterSetting is not in reset state after calling reset()")
+        isAdult = nil
+        mediaType = nil
+        genres = []
+        rating = nil
+        year = nil
+        statuses = []
+        showTypes = []
+        numberOfSeasons = nil
+        watched = nil
+        watchAgain = nil
+        tags = []
+        assert(isReset, "FilterSetting is not in reset state after calling reset()")
     }
 }
 
@@ -129,7 +131,7 @@ extension FilterSetting {
                 }
                 // Update the binding in the main thread (may be bound to UI)
                 DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
+                    setting.wrappedValue = lower...upper
                 }
             })
         }
@@ -144,7 +146,7 @@ extension FilterSetting {
                 }
                 // Update the binding in the main thread (may be bound to UI)
                 DispatchQueue.main.async {
-                    setting.wrappedValue = lower ... upper
+                    setting.wrappedValue = lower...upper
                 }
             })
         }
@@ -159,17 +161,17 @@ extension FilterSetting {
     // swiftlint:disable:next function_body_length
     func predicate() -> NSPredicate {
         var predicates: [NSPredicate] = []
-        if let isAdult = self.isAdult as NSNumber? {
+        if let isAdult = isAdult as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "isAdult", isAdult))
         }
-        if let mediaType = self.mediaType {
+        if let mediaType = mediaType {
             predicates.append(NSPredicate(format: "%K == %@", "type", mediaType.rawValue))
         }
-        if !self.genres.isEmpty {
+        if !genres.isEmpty {
             // Any of the media's genres has to be in self.genres
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
-        if let rating = self.rating {
+        if let rating = rating {
             predicates.append(NSPredicate(
                 format: "%K <= %d AND %K => %d",
                 "personalRating",
@@ -178,7 +180,7 @@ extension FilterSetting {
                 rating.lowerBound.rawValue
             ))
         }
-        if let year = self.year {
+        if let year = year {
             let formatter = DateFormatter()
             // We don't care about the time, since all media objects only have a date set and the time is always zero.
             formatter.dateFormat = "yyyy-MM-dd"
@@ -205,13 +207,13 @@ extension FilterSetting {
                     upperDate,
                     "firstAirDate",
                     lowerDate
-                )
+                ),
             ]))
         }
-        if !self.statuses.isEmpty {
+        if !statuses.isEmpty {
             predicates.append(NSPredicate(format: "%K IN %@", "status", statuses.map(\.rawValue)))
         }
-        if !self.showTypes.isEmpty {
+        if !showTypes.isEmpty {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
@@ -222,10 +224,10 @@ extension FilterSetting {
                     showTypes.map(\.rawValue)
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
             ]))
         }
-        if let numberOfSeasons = self.numberOfSeasons {
+        if let numberOfSeasons = numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
@@ -238,11 +240,11 @@ extension FilterSetting {
                     numberOfSeasons.lowerBound
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
-        if let watched = self.watched {
+        if let watched = watched {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
                 NSPredicate(
@@ -271,13 +273,13 @@ extension FilterSetting {
                     watched as NSNumber, // == FALSE
                     "showWatchState",
                     ShowWatchState.notWatched.rawValue
-                )
+                ),
             ]))
         }
-        if let watchAgain = self.watchAgain as NSNumber? {
+        if let watchAgain = watchAgain as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "watchAgain", watchAgain))
         }
-        if !self.tags.isEmpty {
+        if !tags.isEmpty {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

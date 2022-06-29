@@ -22,20 +22,20 @@ public class Media: NSManagedObject {
     var thumbnail: UIImage? {
         get {
             if loadedThumbnail == nil {
-                self.loadedThumbnail = loadThumbnailFromDisk()
+                loadedThumbnail = loadThumbnailFromDisk()
             }
-            return self.loadedThumbnail
+            return loadedThumbnail
         }
         set {
-            self.objectWillChange.send()
-            self.loadedThumbnail = newValue
+            objectWillChange.send()
+            loadedThumbnail = newValue
         }
     }
     
-    public override func prepareForDeletion() {
-        print("Preparing \(self.title) for deletion")
+    override public func prepareForDeletion() {
+        print("Preparing \(title) for deletion")
         if
-            let imagePath = self.imagePath,
+            let imagePath = imagePath,
             let imageURL = Utils.imageFileURL(path: imagePath),
             FileManager.default.fileExists(atPath: imageURL.path)
         {
@@ -53,11 +53,11 @@ public class Media: NSManagedObject {
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         print("calling initMedia")
-        self.personalRating = .noRating
-        self.tags = []
+        personalRating = .noRating
+        tags = []
         
         // Assign a new UUID
-        self.id = UUID()
+        id = UUID()
         self.type = type
         
         setTMDBData(tmdbData)
@@ -69,7 +69,7 @@ public class Media: NSManagedObject {
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
-        guard let managedObjectContext = self.managedObjectContext else {
+        guard let managedObjectContext = managedObjectContext else {
             assertionFailure()
             return
         }
@@ -102,29 +102,29 @@ public class Media: NSManagedObject {
     func transferIntoContext<T: NSManagedObject>(_ objects: [T]) -> [T] {
         // Make sure to use the objects from the correct context
         // swiftlint:disable:next force_cast
-        return objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
+        objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
     }
     
-    public override func awakeFromFetch() {
-        print("[\(self.title)] Awaking from fetch")
+    override public func awakeFromFetch() {
+        print("[\(title)] Awaking from fetch")
         Task {
             await self.loadThumbnail()
         }
     }
     
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        print("[\(self.title)] Awaking from insert")
-        self.tags = []
-        self.creationDate = Date()
-        self.modificationDate = Date()
+        print("[\(title)] Awaking from insert")
+        tags = []
+        creationDate = Date()
+        modificationDate = Date()
     }
     
-    public override func willSave() {
+    override public func willSave() {
         // Changing properties in this function will invoke willSave again.
         // We need to make sure we don't result in a infinite loop
         if (modificationDate?.distance(to: .now) ?? 100.0) > 10.0 {
-            self.modificationDate = Date()
+            modificationDate = Date()
         }
     }
     
@@ -177,7 +177,7 @@ public class Media: NSManagedObject {
         }
         // If the image is on deny list, delete it and don't reload
         guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(self.title)] Thumbnail is on deny list. Purging now.")
+            print("[\(title)] Thumbnail is on deny list. Purging now.")
             if let imageFile = Utils.imageFileURL(path: imagePath) {
                 try? FileManager.default.removeItem(at: imageFile)
             }
@@ -201,7 +201,7 @@ public class Media: NSManagedObject {
             }
         } else {
             // If the image does not exist, is corrupted or the force parameter is given, download it
-            print("[\(self.title)] Downloading thumbnail...")
+            print("[\(title)] Downloading thumbnail...")
             Task {
                 let image = await downloadThumbnail()
                 await MainActor.run {

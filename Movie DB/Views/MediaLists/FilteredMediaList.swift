@@ -19,7 +19,7 @@ struct FilteredMediaList<RowContent: View>: View {
     init(list: MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
         self.list = list
         self.rowContent = rowContent
-        self._medias = FetchRequest(fetchRequest: list.buildFetchRequest(), animation: .default)
+        _medias = FetchRequest(fetchRequest: list.buildFetchRequest(), animation: .default)
     }
     
     var body: some View {

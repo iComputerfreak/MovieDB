@@ -63,6 +63,6 @@ struct SelectUserListView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next force_try
         SelectUserListView(mediaObject: try! context.fetch(Media.fetchRequest()).first!)
-        .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, context)
     }
 }

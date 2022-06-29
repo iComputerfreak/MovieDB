@@ -52,7 +52,7 @@ actor TagImporter {
         var log: String { _log.joined(separator: "\n") }
         
         init() {
-            self._log = []
+            _log = []
         }
         
         func debug(_ message: String) {
@@ -80,7 +80,7 @@ actor TagImporter {
         }
         
         func log(contentsOf log: [String], level: LogLevel) {
-            _log.append(contentsOf: log.map({ "[\(level.rawValue.uppercased())] \($0)" }))
+            _log.append(contentsOf: log.map { "[\(level.rawValue.uppercased())] \($0)" })
         }
     }
 }

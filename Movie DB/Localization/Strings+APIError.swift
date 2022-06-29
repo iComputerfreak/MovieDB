@@ -34,6 +34,7 @@ extension Strings {
                 comment: "Description of the TMDb API error that occurs when the server returns an unknown response. The first parameter is the status code. The second parameter is the localized response"
             )
         }
+
         static let updateError = String(
             localized: "apiError.updateError.description",
             comment: "Description of the TMDb API error that occurs during updating of the media objects"

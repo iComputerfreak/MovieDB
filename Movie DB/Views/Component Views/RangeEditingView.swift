@@ -10,7 +10,8 @@ import SwiftUI
 
 /// Represents a view in which you can choose a `ClosedRange` of values
 struct RangeEditingView<Label, ValueLabel, T>: View
-where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLabel: View {
+    where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLabel: View
+{ // swiftlint:disable:this opening_brace
     let title: Text
     let bounds: ClosedRange<T>
     @Binding var setting: ClosedRange<T>?
@@ -41,10 +42,10 @@ where T: Hashable, T: Strideable, T.Stride: SignedInteger, Label: View, ValueLab
     
     func makeStepperBody() -> some View {
         List {
-            Stepper(value: self.proxies.lower, in: self.bounds.lowerBound ... self.proxies.upper.wrappedValue) {
+            Stepper(value: self.proxies.lower, in: self.bounds.lowerBound...self.proxies.upper.wrappedValue) {
                 self.fromLabel(self.proxies.lower.wrappedValue)
             }
-            Stepper(value: self.proxies.upper, in: self.proxies.lower.wrappedValue ... self.bounds.upperBound) {
+            Stepper(value: self.proxies.upper, in: self.proxies.lower.wrappedValue...self.bounds.upperBound) {
                 self.toLabel(self.proxies.upper.wrappedValue)
             }
             .navigationTitle(title)

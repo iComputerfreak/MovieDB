@@ -56,16 +56,20 @@ public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
         
         // Transform the color into sRGB space
         if cgColor.colorSpace?.name == CGColorSpace.displayP3 {
-            if let p3components = cgColor.components?.map({ Float($0) }),
-               cgColor.numberOfComponents == 4 {
+            if
+                let p3components = cgColor.components?.map(Float.init),
+                cgColor.numberOfComponents == 4
+            {
                 colorSpace = .displayP3
                 components = p3components
             }
         } else {
-            if let sRGB = CGColorSpace(name: CGColorSpace.sRGB),
-               let sRGBColor = cgColor.converted(to: sRGB, intent: .defaultIntent, options: nil),
-               let sRGBcomponents = sRGBColor.components?.map({ Float($0) }),
-               sRGBColor.numberOfComponents == 4 {
+            if
+                let sRGB = CGColorSpace(name: CGColorSpace.sRGB),
+                let sRGBColor = cgColor.converted(to: sRGB, intent: .defaultIntent, options: nil),
+                let sRGBcomponents = sRGBColor.components?.map(Float.init),
+                sRGBColor.numberOfComponents == 4
+            {
                 components = sRGBcomponents
             }
         }

@@ -65,12 +65,12 @@ struct FilterInformationSection: View {
                         // Formatting of the double is done in the localization
                         let amount = self.filterSetting.rating!.lowerBound.doubleRepresentation
                         Text(Strings.Library.Filter.ratingValueLabel(amount))
-                        .foregroundColor(.secondary)
+                            .foregroundColor(.secondary)
                     } else {
                         let from = self.filterSetting.rating!.lowerBound.doubleRepresentation
                         let to = self.filterSetting.rating!.upperBound.doubleRepresentation
                         Text(Strings.Library.Filter.ratingValueRangeLabel(from, to))
-                        .foregroundColor(.secondary)
+                            .foregroundColor(.secondary)
                     }
                 }
             }

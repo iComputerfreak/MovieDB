@@ -49,7 +49,7 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        self.config.showProgress(Strings.Settings.ProgressView.reloadLibrary)
+        config.showProgress(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
@@ -94,12 +94,12 @@ struct SettingsViewConfig {
     var isShowingProInfo = false
     
     mutating func showProgress(_ text: String) {
-        self.showingProgress = true
-        self.progressText = text
+        showingProgress = true
+        progressText = text
     }
     
     mutating func hideProgress() {
-        self.showingProgress = false
-        self.progressText = ""
+        showingProgress = false
+        progressText = ""
     }
 }

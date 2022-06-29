@@ -15,6 +15,19 @@ struct LongTextView: View {
     var headline: String
     var text: String
     
+    /// Creates a new view that displays a preview of the given text (3 lines).
+    /// Provides the option to show the full text in a new view.
+    /// - Parameters:
+    ///   - headline: The headline of the new full text view
+    ///   - text: The full text
+    init( // swiftlint:disable:this type_contents_order
+        _ text: String,
+        headline: String
+    ) {
+        self.headline = headline
+        self.text = text
+    }
+
     var body: some View {
         NavigationLink {
             ContentView(text: text)
@@ -40,19 +53,6 @@ struct LongTextView: View {
                 Spacer()
             }
         }
-    }
-    
-    /// Creates a new view that displays a preview of the given text (3 lines).
-    /// Provides the option to show the full text in a new view.
-    /// - Parameters:
-    ///   - headline: The headline of the new full text view
-    ///   - text: The full text
-    init(
-        _ text: String,
-        headline: String
-    ) {
-        self.headline = headline
-        self.text = text
     }
 }
 

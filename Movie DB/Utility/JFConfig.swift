@@ -19,17 +19,20 @@ class JFConfig: ObservableObject {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
+
     /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code separated by a dash
     @ConfigValue(.language, defaultValue: "") var language: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
+
     @ConfigValue(.region, defaultValue: Locale.current.regionCode ?? "") var region: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
+
     @ConfigValue(.availableLanguages, defaultValue: []) var availableLanguages: [String] {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
@@ -63,13 +66,14 @@ class JFConfig: ObservableObject {
                 }
             }
         }
+
         /// Whether to automatically save the config value after it has been changed
         var autoSave: Bool
         
         init(_ key: ConfigKey, defaultValue: Value, autoSave: Bool = true) {
             self.key = key
             self.autoSave = autoSave
-            self.wrappedValue = userDefaults.object(forKey: key.rawValue) as? Value ?? defaultValue
+            wrappedValue = userDefaults.object(forKey: key.rawValue) as? Value ?? defaultValue
         }
         
         func save() {

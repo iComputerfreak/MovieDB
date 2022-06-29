@@ -16,7 +16,7 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
     /// Initializes the interal results array from the given decoder
     /// - Parameter decoder: The decoder
     init(from decoder: Decoder) throws {
-        self.results = []
+        results = []
         // Contains the page and results
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // Contains the TMDBSearchResults array
@@ -31,15 +31,15 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
             // Decide based on the media type which type to use for decoding
             switch mediaType {
             case MediaType.movie.rawValue:
-                self.results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
+                results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
             case MediaType.show.rawValue:
-                self.results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
+                results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
             default:
                 // Skip the entry (probably type person)
                 _ = try? arrayContainer2.decode(Empty.self)
             }
         }
-        self.totalPages = try container.decode(Int.self, forKey: .totalPages)
+        totalPages = try container.decode(Int.self, forKey: .totalPages)
     }
     
     enum CodingKeys: String, CodingKey {

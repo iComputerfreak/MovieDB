@@ -11,19 +11,19 @@ import CoreData
 import Foundation
 import UIKit
 
-extension Thumbnail {
-    @NSManaged public var pngData: Data?
-    @NSManaged public var media: Media?
+public extension Thumbnail {
+    @NSManaged var pngData: Data?
+    @NSManaged var media: Media?
     
-    var image: UIImage? {
-        if let data = self.pngData {
+    internal var image: UIImage? {
+        if let data = pngData {
             return UIImage(data: data)
         }
         return nil
     }
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Thumbnail> {
+    class func fetchRequest() -> NSFetchRequest<Thumbnail> {
         NSFetchRequest<Thumbnail>(entityName: "Thumbnail")
     }
 }

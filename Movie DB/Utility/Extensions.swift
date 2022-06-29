@@ -11,7 +11,7 @@ import SwiftUI
 
 // swiftlint:disable file_types_order
 
-extension KeyedDecodingContainer {
+public extension KeyedDecodingContainer {
     /// Tries to decode a value with any of the given keys
     ///
     /// - Parameters:
@@ -22,7 +22,7 @@ extension KeyedDecodingContainer {
     ///   is not convertible to the requested type.
     /// - Throws: `DecodingError.keyNotFound` if `self` does not have an non-nil entry
     ///   for any of the given keys.
-    public func decodeAny<T>(_ type: T.Type, forKeys keys: [Self.Key]) throws -> T where T: Decodable {
+    func decodeAny<T>(_: T.Type, forKeys keys: [Self.Key]) throws -> T where T: Decodable {
         for key in keys {
             if let value = try decodeIfPresent(T.self, forKey: key) {
                 return value
@@ -36,7 +36,7 @@ extension KeyedDecodingContainer {
     }
 }
 
-extension UnkeyedDecodingContainer {
+public extension UnkeyedDecodingContainer {
     /// Tries to decode an array
     ///
     /// - Parameters:
@@ -44,11 +44,11 @@ extension UnkeyedDecodingContainer {
     /// - Returns: The array of values associated with this unkeyed container
     /// - Throws: `DecodingError.typeMismatch` if the encountered encoded value
     ///   is not convertible to the requested type.
-    public mutating func decodeArray<T>(_ type: T.Type) throws -> [T] where T: Decodable {
+    mutating func decodeArray<T>(_: T.Type) throws -> [T] where T: Decodable {
         var returnValues = [T]()
         
-        while !self.isAtEnd {
-            returnValues.append(try self.decode(T.self))
+        while !isAtEnd {
+            returnValues.append(try decode(T.self))
         }
         
         return returnValues

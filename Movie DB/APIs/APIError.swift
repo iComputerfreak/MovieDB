@@ -19,11 +19,11 @@ extension TMDBAPI.APIError: LocalizedError {
             return Strings.APIError.invalidPageRange
         case .pageOutOfBounds:
             return Strings.APIError.pageOutOfBounds
-        case .unknown(let code):
+        case let .unknown(code):
             return Strings.APIError.unknown(code)
         case .updateError:
             return Strings.APIError.updateError
-        case .statusNotOk(let response):
+        case let .statusNotOk(response):
             return Strings.APIError.statusNotOk(response)
         }
     }

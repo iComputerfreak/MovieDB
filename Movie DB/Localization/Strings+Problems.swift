@@ -20,6 +20,7 @@ extension Strings {
                 comment: "List of missing information on a media. Shown in the problems view. The argument is the formatted list."
             )
         }
+
         static let noProblemsText = String(
             localized: "problems.noProblemsText",
             comment: "The text displayed in the problems view when there are no problematic media objects"

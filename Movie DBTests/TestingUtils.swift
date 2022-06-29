@@ -31,10 +31,10 @@ struct TestingUtils {
             Tag(name: "Gangsters", context: context),
             Tag(name: "Terrorist", context: context),
             Tag(name: "Past", context: context),
-            Tag(name: "Fantasy", context: context)
+            Tag(name: "Fantasy", context: context),
         ]
         self.previewTags = previewTags
-        self.matrixMovie = {
+        matrixMovie = {
             let tmdbData: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie, into: context)
             let m = Movie(context: context, tmdbData: tmdbData)
             m.personalRating = .twoAndAHalfStars
@@ -44,7 +44,7 @@ struct TestingUtils {
             m.watchAgain = false
             return m
         }()
-        self.fightClubMovie = {
+        fightClubMovie = {
             let tmdbData: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie, into: context)
             let m = Movie(context: context, tmdbData: tmdbData)
             m.personalRating = .noRating
@@ -54,7 +54,7 @@ struct TestingUtils {
             m.watchAgain = nil
             return m
         }()
-        self.blacklistShow = {
+        blacklistShow = {
             let tmdbData: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: context)
             let s = Show(context: context, tmdbData: tmdbData)
             s.personalRating = .fiveStars
@@ -64,7 +64,7 @@ struct TestingUtils {
             s.watchAgain = true
             return s
         }()
-        self.gameOfThronesShow = {
+        gameOfThronesShow = {
             let tmdbData: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: context)
             let s = Show(context: context, tmdbData: tmdbData)
             s.personalRating = .twoAndAHalfStars
@@ -74,7 +74,7 @@ struct TestingUtils {
             s.watchAgain = false
             return s
         }()
-        self.mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
+        mediaSamples = [matrixMovie, fightClubMovie, blacklistShow, gameOfThronesShow]
     }
     
     static func load<T: Decodable>(
@@ -102,7 +102,7 @@ struct TestingUtils {
             decoder.userInfo[.managedObjectContext] = context
             decoder.userInfo[.mediaType] = mediaType
             return try decoder.decode(T.self, from: data)
-        } catch let error {
+        } catch {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
@@ -120,7 +120,7 @@ struct TestingUtils {
     }
                      
     func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
-        TestingUtils.getPreviewTags(tagNames, of: self.previewTags)
+        TestingUtils.getPreviewTags(tagNames, of: previewTags)
     }
 }
 

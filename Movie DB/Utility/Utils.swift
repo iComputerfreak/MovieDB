@@ -41,8 +41,8 @@ struct Utils {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("Making GET Request to \(request.url?.absoluteString ?? "nil")")
         #if DEBUG
-        // In Debug mode, always load the URL, never use the cache
-        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+            // In Debug mode, always load the URL, never use the cache
+            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         #endif
         return try await URLSession.shared.data(for: request)
     }
@@ -56,7 +56,7 @@ struct Utils {
         // Create the directory, if it not already exists
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-        } catch let error {
+        } catch {
             print("Error creating folder in documents directory: \(error)")
         }
         return url
@@ -113,9 +113,9 @@ struct Utils {
         let upperBound: Int = max(maxShow?.year, maxMovie?.year) ?? currentYear
         
         assert(lowerBound <= upperBound, "The fetch request returned wrong results. " +
-               "Try inverting the ascending/descending order of the fetch requests")
+            "Try inverting the ascending/descending order of the fetch requests")
         
-        return lowerBound ... upperBound
+        return lowerBound...upperBound
     }
     
     /// Returns a closed range containing the season counts from all media objects in the library
@@ -124,9 +124,9 @@ struct Utils {
         let max = fetchMinMaxShow(key: "numberOfSeasons", ascending: false, context: context)
         
         if min?.numberOfSeasons == nil {
-            return 0 ... (max?.numberOfSeasons ?? 0)
+            return 0...(max?.numberOfSeasons ?? 0)
         }
-        return min!.numberOfSeasons! ... (max?.numberOfSeasons ?? min!.numberOfSeasons!)
+        return min!.numberOfSeasons!...(max?.numberOfSeasons ?? min!.numberOfSeasons!)
     }
     
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
@@ -264,7 +264,7 @@ extension Utils {
         guard !posterDenyList.contains(path) else {
             print("Poster path \(path) is on deny list. Not fetching.")
             assertionFailure("This should have been prevented from being called for poster paths on the deny list " +
-                             "in the first place.")
+                "in the first place.")
             // As a fallback, load the placeholder as thumbnail
             return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
         }
@@ -345,5 +345,5 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
 
 /// Array extension to make all arrays with hashable elements identifiable
 extension Array: Identifiable where Element: Hashable {
-    public var id: Int { self.hashValue }
+    public var id: Int { hashValue }
 }

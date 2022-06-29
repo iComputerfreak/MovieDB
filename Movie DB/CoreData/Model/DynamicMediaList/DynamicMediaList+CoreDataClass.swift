@@ -20,9 +20,9 @@ public class DynamicMediaList: NSManagedObject, MediaListProtocol {
         return fetch
     }
     
-    public override func awakeFromInsert() {
-        if self.filterSetting == nil {
-            self.filterSetting = FilterSetting(context: self.managedObjectContext!)
+    override public func awakeFromInsert() {
+        if filterSetting == nil {
+            filterSetting = FilterSetting(context: managedObjectContext!)
         }
     }
 }

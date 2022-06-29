@@ -14,8 +14,7 @@ extension Image {
     /// - Parameter multiplier: A multiplier value applied to the thumbnail size
     /// - Returns: The image resized to a thumbnail
     func thumbnail(multiplier: CGFloat = 1.0) -> some View {
-        self
-            .resizable()
+        resizable()
             .aspectRatio(contentMode: .fit)
             .frame(
                 width: JFLiterals.thumbnailSize.width * multiplier,

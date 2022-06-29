@@ -43,7 +43,7 @@ struct ParentalRatingView_Preview: PreviewProvider {
                 ParentalRatingView(rating: .fskAgeSixteen)
             }
         }
-            .previewLayout(.fixed(width: 200, height: 100))
+        .previewLayout(.fixed(width: 200, height: 100))
     }
 }
 

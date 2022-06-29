@@ -55,11 +55,11 @@ struct MediaLibrary {
     ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
     func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>) async throws {
         // There should be no media objects with this tmdbID in the library
-        guard !self.mediaExists(result.id, in: context) else {
+        guard !mediaExists(result.id, in: context) else {
             throw UserError.mediaAlreadyAdded
         }
         // Pro limitations
-        guard Utils.purchasedPro() || (self.mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+        guard Utils.purchasedPro() || (mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
             throw UserError.noPro
         }
         
@@ -91,12 +91,12 @@ struct MediaLibrary {
         let changedIDs = try await TMDBAPI.shared.changedIDs(from: lastUpdated, to: Date())
         
         // Create a child context to update the media objects in
-        let updateContext = self.context.newBackgroundContext()
+        let updateContext = context.newBackgroundContext()
         updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
         
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
-        let medias = try self.context.fetch(fetchRequest)
+        let medias = try context.fetch(fetchRequest)
         print("Updating \(medias.count) media objects.")
         
         // Update the media objects using a task group
@@ -114,7 +114,7 @@ struct MediaLibrary {
             }
         }
         // After they all have been updated without errors, we can update the lastUpdate property
-        self.lastUpdated = .now
+        lastUpdated = .now
         // Save the updated media into the parent context (viewContext)
         await PersistenceController.saveContext(updateContext)
         return updateCount
@@ -124,7 +124,7 @@ struct MediaLibrary {
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
     func reloadAll() async throws {
         // Create a new child context to perform the reload in
-        let reloadContext = self.context.newBackgroundContext()
+        let reloadContext = context.newBackgroundContext()
         reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
         
         // Fetch all media objects from the store (using the reload context)
@@ -188,8 +188,9 @@ struct MediaLibrary {
     
     private func delete(_ entityName: String, predicate: NSPredicate) throws {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetch.predicate = predicate
         let delete = NSBatchDeleteRequest(fetchRequest: fetch)
-        try self.context.execute(delete)
+        try context.execute(delete)
     }
     
     /// Resets all available tags and their relation to the media objects
@@ -205,7 +206,7 @@ struct MediaLibrary {
     
     func mediaCount() -> Int? {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        return try? self.context.count(for: fetchRequest)
+        return try? context.count(for: fetchRequest)
     }
 }
 

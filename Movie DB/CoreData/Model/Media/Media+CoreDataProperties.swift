@@ -12,105 +12,110 @@ import Foundation
 import SwiftUI
 import UIKit
 
-extension Media {
+public extension Media {
     /// The internal library id
-    @NSManaged public var id: UUID?
+    @NSManaged var id: UUID?
     /// The type of media
-    public var type: MediaType {
+    var type: MediaType {
         get { getEnum(forKey: "type", defaultValue: .movie) }
         set { setEnum(newValue, forKey: "type") }
     }
+
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    public var personalRating: StarRating {
+    var personalRating: StarRating {
         get { getEnum(forKey: "personalRating", defaultValue: .noRating) }
         set { setEnum(newValue, forKey: "personalRating") }
     }
+
     /// Whether the user would watch the media again
-    public var watchAgain: Bool? {
+    var watchAgain: Bool? {
         get { getOptional(forKey: "watchAgain") }
         set { setOptional(newValue, forKey: "watchAgain") }
     }
+
     /// Personal notes on the media
-    @NSManaged public var notes: String
+    @NSManaged var notes: String
     
     // MARK: - TMDB Data
     
     // Basic Data
     /// The TMDB ID of the media
-    public var tmdbID: Int {
+    var tmdbID: Int {
         get { getInt(forKey: "tmdbID") }
         set { setInt(newValue, forKey: "tmdbID") }
     }
+
     /// The name of the media
-    @NSManaged public var title: String
+    @NSManaged var title: String
     /// The original tile of the media
-    @NSManaged public var originalTitle: String
+    @NSManaged var originalTitle: String
     /// The path of the media poster image on TMDB
-    @NSManaged public var imagePath: String?
+    @NSManaged var imagePath: String?
     /// A list of genres that match the media
-    @NSManaged public var genres: Set<Genre>
+    @NSManaged var genres: Set<Genre>
     /// A short media description
-    @NSManaged public var overview: String?
+    @NSManaged var overview: String?
     /// The tagline of the media
-    @NSManaged public var tagline: String?
+    @NSManaged var tagline: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
-    public var status: MediaStatus {
+    var status: MediaStatus {
         get { getEnum(forKey: "status", defaultValue: .planned) }
         set { setEnum(newValue, forKey: "status") }
     }
+
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
-    @NSManaged public var originalLanguage: String
+    @NSManaged var originalLanguage: String
     
     // Extended Data
     /// A list of companies that produced the media
-    @NSManaged public var productionCompanies: Set<ProductionCompany>
+    @NSManaged var productionCompanies: Set<ProductionCompany>
     /// The url to the homepage of the media
-    @NSManaged public var homepageURL: String?
+    @NSManaged var homepageURL: String?
     /// The ISO 3166 country codes where the media was produced
-    @NSManaged public var productionCountries: [String]
+    @NSManaged var productionCountries: [String]
     
     // TMDB Scoring
     /// The popularity of the media on TMDB
-    @NSManaged public var popularity: Float
+    @NSManaged var popularity: Float
     /// The average rating on TMDB
-    @NSManaged public var voteAverage: Float
+    @NSManaged var voteAverage: Float
     /// The number of votes that were cast on TMDB
-    public var voteCount: Int {
+    var voteCount: Int {
         get { getInt(forKey: "voteCount") }
         set { setInt(newValue, forKey: "voteCount") }
     }
     
     /// The list of keywords on TheMovieDB.org
-    @NSManaged public var keywords: [String]
+    @NSManaged var keywords: [String]
     /// The list of translations available for the media
-    @NSManaged public var translations: [String]
+    @NSManaged var translations: [String]
     /// The list of videos available
-    @NSManaged public var videos: Set<Video>
+    @NSManaged var videos: Set<Video>
     /// A list of user-specified tags
-    @NSManaged public var tags: Set<Tag>
+    @NSManaged var tags: Set<Tag>
     /// The date the media object was created
-    @NSManaged public var creationDate: Date
+    @NSManaged var creationDate: Date
     /// The date the media object was last modified
-    @NSManaged public var modificationDate: Date?
+    @NSManaged var modificationDate: Date?
     /// The date the media object was released or first aired
-    @NSManaged public var releaseDateOrFirstAired: Date?
+    @NSManaged var releaseDateOrFirstAired: Date?
     /// The color of the parental rating label
     @NSManaged private var parentalRatingColor: SerializableColor?
     /// The parental rating certification of the media
     @NSManaged private var parentalRatingLabel: String?
     /// The streaming sites where is media is available to watch
-    @NSManaged public var watchProviders: [WatchProvider]
+    @NSManaged var watchProviders: [WatchProvider]
     /// Whether this media has been marked as a favorite
-    @NSManaged public var isFavorite: Bool
+    @NSManaged var isFavorite: Bool
     /// Whether this media has been added to the watchlist
-    @NSManaged public var isOnWatchlist: Bool
+    @NSManaged var isOnWatchlist: Bool
     /// The user lists this media is associated with
-    @NSManaged public var userLists: Set<UserMediaList>
+    @NSManaged var userLists: Set<UserMediaList>
     
     // MARK: - Computed Properties
     
     /// The parental rating of this media (e.g. FSK 16)
-    var parentalRating: ParentalRating? {
+    internal var parentalRating: ParentalRating? {
         get {
             if let label = parentalRatingLabel {
                 return ParentalRating(label, color: parentalRatingColor?.color)
@@ -129,12 +134,12 @@ extension Media {
     }
     
     /// Whether the result is a movie and is for adults only
-    var isAdultMovie: Bool? {
+    internal var isAdultMovie: Bool? {
         (self as? Movie)?.isAdult
     }
     
     /// The year of the release or first airing of the media
-    var year: Int? {
+    internal var year: Int? {
         var cal = Calendar.current
         cal.timeZone = .utc
         if let releaseDate = (self as? Movie)?.releaseDate {
@@ -146,7 +151,7 @@ extension Media {
     }
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Media> {
+    class func fetchRequest() -> NSFetchRequest<Media> {
         NSFetchRequest<Media>(entityName: "Media")
     }
 }

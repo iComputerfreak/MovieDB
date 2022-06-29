@@ -14,7 +14,7 @@ struct LibraryActionsSection: View {
     @Binding var config: SettingsViewConfig
     @EnvironmentObject var preferences: JFConfig
     @State private var library: MediaLibrary = .shared
-    let reloadHandler: @MainActor () -> Void
+    let reloadHandler: () -> Void
     
     var body: some View {
         Section(footer: FooterView(
@@ -25,10 +25,10 @@ struct LibraryActionsSection: View {
             Button(Strings.Settings.updateMediaLabel, action: self.updateMedia)
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
             #if DEBUG
-            Button("Debug") {
-                // swiftlint:disable:next force_try
-                try! MediaLibrary.shared.cleanup()
-            }
+                Button("Debug") {
+                    // swiftlint:disable:next force_try
+                    try! MediaLibrary.shared.cleanup()
+                }
             #endif
         }
         .disabled(self.config.showingProgress)
@@ -64,7 +64,7 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        self.config.showProgress(Strings.Settings.ProgressView.updateMedia)
+        config.showProgress(Strings.Settings.ProgressView.updateMedia)
         // Execute the update in the background
         Task(priority: .userInitiated) {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded

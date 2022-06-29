@@ -93,23 +93,23 @@ struct TMDBData: Decodable {
     // swiftlint:disable:next function_body_length
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
-        self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
-        self.originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
-        self.imagePath = try container.decode(String?.self, forKey: .imagePath)
-        self.genres = try container.decode([GenreDummy].self, forKey: .genres)
-        self.overview = try container.decode(String?.self, forKey: .overview)
-        self.tagline = try container.decode(String?.self, forKey: .tagline)
-        self.status = try container.decode(MediaStatus.self, forKey: .status)
-        self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
-        self.productionCompanies = try container.decode([ProductionCompanyDummy].self, forKey: .productionCompanies)
-        self.homepageURL = try container.decode(String?.self, forKey: .homepageURL)
-        self.productionCountries = try container
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
+        originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
+        imagePath = try container.decode(String?.self, forKey: .imagePath)
+        genres = try container.decode([GenreDummy].self, forKey: .genres)
+        overview = try container.decode(String?.self, forKey: .overview)
+        tagline = try container.decode(String?.self, forKey: .tagline)
+        status = try container.decode(MediaStatus.self, forKey: .status)
+        originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
+        productionCompanies = try container.decode([ProductionCompanyDummy].self, forKey: .productionCompanies)
+        homepageURL = try container.decode(String?.self, forKey: .homepageURL)
+        productionCountries = try container
             .decode([ProductionCountry].self, forKey: .productionCountries)
             .map(\.iso3166) // Store the iso country codes
-        self.popularity = try container.decode(Float.self, forKey: .popularity)
-        self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
-        self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+        popularity = try container.decode(Float.self, forKey: .popularity)
+        voteAverage = try container.decode(Float.self, forKey: .voteAverage)
+        voteCount = try container.decode(Int.self, forKey: .voteCount)
         
         // MARK: Additional data
         
@@ -130,7 +130,7 @@ struct TMDBData: Decodable {
         
         // Load videos.results as self.videos
         let videosContainer = try container.nestedContainer(keyedBy: GenericResultsCodingKeys.self, forKey: .videos)
-        self.videos = try videosContainer.decode([VideoDummy].self, forKey: .results)
+        videos = try videosContainer.decode([VideoDummy].self, forKey: .results)
         
         // Load the watch providers
         let watchProvidersContainer = try container.nestedContainer(
@@ -140,7 +140,7 @@ struct TMDBData: Decodable {
         let results = try watchProvidersContainer.decode([String: WatchProviderResult].self, forKey: .results)
         // Get the correct providers for the configured region
         let result = results[JFConfig.shared.region]
-        self.watchProviders = result?.providers ?? []
+        watchProviders = result?.providers ?? []
         
         // MARK: Movie/Show specific
         
@@ -175,30 +175,30 @@ struct TMDBData: Decodable {
         // This way, we still get proper error handling.
         if let mediaType = decoder.userInfo[.mediaType] as? MediaType {
             if mediaType == .movie {
-                self.movieData = try MovieData(from: decoder)
+                movieData = try MovieData(from: decoder)
                 // Load the parental rating from the release dates
-                self.parentalRating = try decodeMovieRating()
+                parentalRating = try decodeMovieRating()
             } else {
-                self.showData = try ShowData(from: decoder)
+                showData = try ShowData(from: decoder)
                 // Load the parental rating from the content_ratings
-                self.parentalRating = try decodeShowRating()
+                parentalRating = try decodeShowRating()
             }
         } else {
             assertionFailure("Decoding TMDBData without mediaType in the userInfo dict. " +
-                             "Please specify the type of media we are decoding! Guessing the type...")
+                "Please specify the type of media we are decoding! Guessing the type...")
             // If we don't know the type of media, we have to try both and hope one works
-            self.movieData = try? MovieData(from: decoder)
-            self.showData = try? ShowData(from: decoder)
-            if self.movieData != nil {
-                self.parentalRating = try decodeMovieRating()
-            } else if self.showData != nil {
-                self.parentalRating = try decodeShowRating()
+            movieData = try? MovieData(from: decoder)
+            showData = try? ShowData(from: decoder)
+            if movieData != nil {
+                parentalRating = try decodeMovieRating()
+            } else if showData != nil {
+                parentalRating = try decodeShowRating()
             } else {
                 fatalError("Unable to decode media object. MediaType is unknown.")
             }
         }
         
-        assert(!(self.movieData == nil && self.showData == nil), "Error decoding movie/show data for '\(self.title)'")
+        assert(!(movieData == nil && showData == nil), "Error decoding movie/show data for '\(title)'")
     }
     
     enum CodingKeys: String, CodingKey {

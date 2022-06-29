@@ -51,27 +51,27 @@ struct DebugView: View {
     
     func update() {
         // Set all iCloud values to -1 so its clear when loading finished
-        self.mediaICloud = -1
-        self.genreICloud = -1
-        self.tagICloud = -1
-        self.pcICloud = -1
-        self.videoICloud = -1
-        self.seasonICloud = -1
-        self.castICloud = -1
+        mediaICloud = -1
+        genreICloud = -1
+        tagICloud = -1
+        pcICloud = -1
+        videoICloud = -1
+        seasonICloud = -1
+        castICloud = -1
         
-        self.mediaCount = count(\Media.id)
+        mediaCount = count(\Media.id)
         countiCloud("Media", store: $mediaICloud)
-        self.genreCount = count(\Genre.id)
+        genreCount = count(\Genre.id)
         countiCloud("Genre", store: $genreICloud, predicate: NSPredicate(format: "CD_id > 0"))
-        self.tagCount = count(\Tag.id)
+        tagCount = count(\Tag.id)
         countiCloud("Tag", store: $tagICloud)
-        self.pcCount = count(\ProductionCompany.id)
+        pcCount = count(\ProductionCompany.id)
         countiCloud("ProductionCompany", store: $pcICloud, predicate: NSPredicate(format: "CD_id > 0"))
-        self.videoCount = count(\Video.key)
+        videoCount = count(\Video.key)
         countiCloud("Video", store: $videoICloud, predicate: NSPredicate(format: "CD_key != ''"))
-        self.seasonCount = count(\Season.id)
+        seasonCount = count(\Season.id)
         countiCloud("Season", store: $seasonICloud, predicate: NSPredicate(format: "CD_id > 0"))
-        self.castCount = {
+        castCount = {
             let cast: [CastMember] = (try? context.fetch(CastMember.fetchRequest())) ?? []
             let unique = Set(cast.map(\.id)).count
             return (cast.count, unique)

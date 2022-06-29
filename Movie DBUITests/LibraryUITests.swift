@@ -9,7 +9,7 @@
 import XCTest
 
 class LibraryUITests: XCTestCase {
-    var app: XCUIApplication! = nil
+    var app: XCUIApplication!
 
     override func setUpWithError() throws {
         try super.setUpWithError()

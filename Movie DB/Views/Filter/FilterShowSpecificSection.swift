@@ -39,12 +39,12 @@ struct FilterShowSpecificSection: View {
                     } else if self.filterSetting.numberOfSeasons!.count == 1 {
                         let value = self.filterSetting.numberOfSeasons!.lowerBound
                         Text(Strings.Library.Filter.seasonsValueLabel(value))
-                        .foregroundColor(.secondary)
+                            .foregroundColor(.secondary)
                     } else {
                         let from = self.filterSetting.numberOfSeasons!.lowerBound
                         let to = self.filterSetting.numberOfSeasons!.upperBound
                         Text(Strings.Library.Filter.seasonsValueRangeLabel(from, to))
-                        .foregroundColor(.secondary)
+                            .foregroundColor(.secondary)
                     }
                 }
             }

@@ -17,9 +17,9 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     
     public var rawValue: RawValue {
         switch self {
-        case .season(let season):
+        case let .season(season):
             return "season,\(season)"
-        case .episode(let season, let episode):
+        case let .episode(season, episode):
             return "episode,\(season),\(episode)"
         case .notWatched:
             return "notWatched"
@@ -27,16 +27,16 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     }
     
     var season: Int? {
-        if case .season(let season) = self {
+        if case let .season(season) = self {
             return season
-        } else if case .episode(let season, _) = self {
+        } else if case let .episode(season, _) = self {
             return season
         }
         return nil
     }
     
     var episode: Int? {
-        if case .episode(_, let episode) = self {
+        if case let .episode(_, episode) = self {
             return episode
         }
         return nil
@@ -65,8 +65,7 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     
     private static func matchSeason(_ rawValue: String) -> Int? {
         if
-            // swiftlint:disable:next operator_usage_whitespace comma
-            let match = rawValue.matches(of: /season,[0-9]+/).first,
+            let match = rawValue.matches(of: /season, [0 - 9]+/).first,
             // Drop the first 7 characters ("season,")
             let seasonNumber = Int(rawValue[match.range].dropFirst(7))
         {
@@ -76,8 +75,7 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     }
     
     private static func matchEpisode(_ rawValue: String) -> (Int, Int)? {
-        // swiftlint:disable:next operator_usage_whitespace comma
-        if let match = rawValue.matches(of: /episode,[0-9]+,[0-9]+/).first {
+        if let match = rawValue.matches(of: /episode, [0 - 9]+, [0 - 9]+/).first {
             // Drop the first 8 characters ("episode,")
             let parameters = String(rawValue[match.range].dropFirst(8)).components(separatedBy: ",")
             guard parameters.count == 2 else {

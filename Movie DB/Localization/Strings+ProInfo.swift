@@ -26,6 +26,7 @@ extension Strings {
                 comment: "The button label in the pro info view displaying the price to buy the pro version of the app. The parameter is the localized and formatted price."
             )
         }
+
         static let restoreButtonLabel = String(
             localized: "proInfo.button.restore",
             comment: "The label for the restore button in the pro info view"
@@ -40,6 +41,7 @@ extension Strings {
                 comment: "Text in pro info view that explains the media limit which buying pro removes. The parameter is the amount of objects one can add in the free version"
             )
         }
+
         static let aboutMeHeader = String(
             localized: "proInfo.aboutMe.header",
             comment: "The header of the 'about me' paragraph in the pro info view"

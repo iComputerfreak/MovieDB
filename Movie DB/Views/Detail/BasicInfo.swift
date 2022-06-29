@@ -88,8 +88,8 @@ struct BasicInfo: View {
                     if let lastEpisode = show.lastEpisodeToAir {
                         Text(episodeAirDateString(lastEpisode))
                             .headline(Strings.Detail.lastEpisodeHeadline)
-                    // If there is no last episode available, we show the last air date, if possible
                     } else if let lastAirDate = show.lastAirDate {
+                        // If there is no last episode available, we show the last air date, if possible
                         Text(lastAirDate.formatted(date: .numeric, time: .omitted))
                             .headline(Strings.Detail.lastAiredHeadline)
                     }
@@ -171,7 +171,7 @@ struct BasicInfo_Previews: PreviewProvider {
         List {
             BasicInfo()
         }
-            .environmentObject(PlaceholderData.movie as Media)
+        .environmentObject(PlaceholderData.movie as Media)
         
         List {
             BasicInfo()

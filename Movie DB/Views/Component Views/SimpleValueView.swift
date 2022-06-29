@@ -14,7 +14,7 @@ struct SimpleValueView<T: Hashable>: View {
     
     let values: [T]
     @Binding var value: T
-    var label: ((T) -> String)
+    var label: (T) -> String
     
     var body: some View {
         if editMode?.wrappedValue.isEditing ?? false {

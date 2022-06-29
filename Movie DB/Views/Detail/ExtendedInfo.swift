@@ -72,7 +72,7 @@ struct ExtendedInfo: View {
                         Text(show.createdBy
                             .sorted(using: LastNameComparator(order: .forward))
                             .joined(separator: ", "))
-                        .headline(Strings.Detail.createdByHeadline)
+                            .headline(Strings.Detail.createdByHeadline)
                     }
                 }
                 // TMDB Data

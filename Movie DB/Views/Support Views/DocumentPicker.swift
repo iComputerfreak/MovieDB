@@ -38,7 +38,7 @@ final class DocumentPicker: NSObject, UIViewControllerRepresentable, Identifiabl
     }
     
     init(onSelect: @escaping (URL) -> Void, onCancel: (() -> Void)?) {
-        self.urlToExport = nil
+        urlToExport = nil
         self.onSelect = onSelect
         self.onCancel = onCancel
     }

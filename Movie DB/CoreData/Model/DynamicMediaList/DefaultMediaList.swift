@@ -50,7 +50,7 @@ extension DefaultMediaList {
                 NSPredicate(
                     format: "type = %@",
                     MediaType.show.rawValue
-                )
+                ),
             ]),
             NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Personal Rating missing
@@ -65,8 +65,8 @@ extension DefaultMediaList {
                 NSPredicate(
                     format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
                     MediaType.show.rawValue
-                )
-            ])
+                ),
+            ]),
         ])
     )
 }

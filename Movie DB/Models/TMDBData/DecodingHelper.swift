@@ -45,14 +45,14 @@ struct WatchProviderResult: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.link = try container.decode(String.self, forKey: .link)
+        link = try container.decode(String.self, forKey: .link)
         let flatrateProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .flatrate)?
             .map { WatchProvider(dummy: $0, type: .flatrate) } ?? []
         let adsProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .ads)?
             .map { WatchProvider(dummy: $0, type: .ads) } ?? []
         let buyProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .buy)?
             .map { WatchProvider(dummy: $0, type: .buy) } ?? []
-        self.providers = (flatrateProviders + adsProviders + buyProviders)
+        providers = (flatrateProviders + adsProviders + buyProviders)
     }
     
     enum CodingKeys: String, CodingKey {

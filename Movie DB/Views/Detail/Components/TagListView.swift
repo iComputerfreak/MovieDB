@@ -16,7 +16,7 @@ struct TagListView: View {
     
     // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
-        self._tags = tags
+        _tags = tags
     }
     
     var body: some View {

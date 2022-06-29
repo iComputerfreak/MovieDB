@@ -15,7 +15,7 @@ public class Movie: Media {
     /// Creates a new `Movie` object.
     convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
         self.init(context: context)
-        self.initMedia(type: .movie, tmdbData: tmdbData)
+        initMedia(type: .movie, tmdbData: tmdbData)
     }
     
     override func initMedia(type: MediaType, tmdbData: TMDBData) {

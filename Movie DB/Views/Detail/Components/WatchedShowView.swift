@@ -20,9 +20,9 @@ struct WatchedShowView: View {
         switch watched {
         case .notWatched:
             return Strings.Detail.watchedShowLabelNo
-        case .season(let s):
+        case let .season(s):
             return Strings.Detail.watchedShowLabelSeason(s)
-        case .episode(season: let s, episode: let e):
+        case let .episode(season: s, episode: e):
             return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }
@@ -87,7 +87,7 @@ struct WatchedShowView: View {
                         // Use the values still present in the UI
                         self.watched = .init(season: self.season, episode: self.episode)
                     }
-                // If we switched to "unknown"
+                    // If we switched to "unknown"
                 } else {
                     // Deinitialize, but keep the UI values
                     self.watched = nil
@@ -96,10 +96,10 @@ struct WatchedShowView: View {
         }
         
         init(watched: Binding<ShowWatchState?>) {
-            self._watched = watched
-            self._season = State(wrappedValue: watched.wrappedValue?.season ?? 0)
-            self._episode = State(wrappedValue: watched.wrappedValue?.episode ?? 0)
-            self._unknown = State(wrappedValue: watched.wrappedValue == nil)
+            _watched = watched
+            _season = State(wrappedValue: watched.wrappedValue?.season ?? 0)
+            _episode = State(wrappedValue: watched.wrappedValue?.episode ?? 0)
+            _unknown = State(wrappedValue: watched.wrappedValue == nil)
         }
         
         var body: some View {

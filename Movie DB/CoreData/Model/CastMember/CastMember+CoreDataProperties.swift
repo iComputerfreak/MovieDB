@@ -10,20 +10,21 @@
 import CoreData
 import Foundation
 
-extension CastMember {
-    public var id: Int {
+public extension CastMember {
+    var id: Int {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
     }
+
     /// The name of the actor
-    @NSManaged public var name: String
+    @NSManaged var name: String
     /// The name of the actor in the media
-    @NSManaged public var roleName: String
+    @NSManaged var roleName: String
     /// The path to an image of the actor on TMDB
-    @NSManaged public var imagePath: String?
+    @NSManaged var imagePath: String?
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<CastMember> {
+    class func fetchRequest() -> NSFetchRequest<CastMember> {
         NSFetchRequest<CastMember>(entityName: "CastMember")
     }
 }

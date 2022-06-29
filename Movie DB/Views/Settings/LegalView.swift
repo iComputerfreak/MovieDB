@@ -20,9 +20,9 @@ struct LegalView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 Text(verbatim: """
-                    This app uses data from The Movie Database.
-                    This product uses the TMDb API but is not endorsed or certified by TMDb.
-                    """)
+                This app uses data from The Movie Database.
+                This product uses the TMDb API but is not endorsed or certified by TMDb.
+                """)
                 HStack {
                     tmdbLogo
                     Link(

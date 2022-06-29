@@ -13,7 +13,7 @@ struct ProblemsView: View {
     @FetchRequest(
         entity: Media.entity(),
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \Media.creationDate, ascending: false)
+            NSSortDescriptor(keyPath: \Media.creationDate, ascending: false),
         ],
         // Filter out all media objects that don't have missing information
         predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
@@ -28,7 +28,7 @@ struct ProblemsView: View {
                 NSPredicate(
                     format: "type = %@",
                     MediaType.show.rawValue
-                )
+                ),
             ]),
             NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Personal Rating missing
@@ -43,8 +43,8 @@ struct ProblemsView: View {
                 NSPredicate(
                     format: "type = %@ AND lastEpisodeWatched = nil AND lastSeasonWatched = nil",
                     MediaType.show.rawValue
-                )
-            ])
+                ),
+            ]),
         ]),
         animation: .default
     ) private var missingInfoMedia: FetchedResults<Media>
@@ -78,7 +78,7 @@ struct ProblemsView: View {
                 
                 if missingInfoMedia.isEmpty {
                     Text(Strings.Problems.noProblemsText)
-                    .navigationTitle(Strings.Problems.navBarTitle)
+                        .navigationTitle(Strings.Problems.navBarTitle)
                 } else {
                     List {
                         ForEach(missingInfoMedia) { mediaObject in

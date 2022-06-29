@@ -26,7 +26,7 @@ struct UserListsView: View {
         var lists: [MediaListProtocol] = [
             DefaultMediaList.favorites,
             DefaultMediaList.watchlist,
-            DefaultMediaList.problems
+            DefaultMediaList.problems,
         ]
         dynamicLists.forEach { lists.append($0) }
         userLists.forEach { lists.append($0) }
@@ -51,7 +51,7 @@ struct UserListsView: View {
                     DefaultListRow(list: DefaultMediaList.watchlist) { media in
                         LibraryRow()
                             .environmentObject(media)
-                        // Remove from watchlist
+                            // Remove from watchlist
                             .swipeActions {
                                 Button(Strings.Lists.removeMediaLabel) {
                                     media.isOnWatchlist = false
@@ -89,7 +89,7 @@ struct UserListsView: View {
                             MediaListRow(list: list) { media in
                                 LibraryRow()
                                     .environmentObject(media)
-                                // Media delete
+                                    // Media delete
                                     .swipeActions {
                                         Button(Strings.Lists.deleteLabel) {
                                             list.medias.remove(media)
@@ -107,7 +107,6 @@ struct UserListsView: View {
                         }
                     }
                 }
-                
             }
             
             .toolbar {

@@ -26,8 +26,8 @@ struct GenreDummy: CoreDataDummy {
     
     func transferInto(context: NSManagedObjectContext) -> Genre {
         let genre = Genre(context: context)
-        genre.id = self.id
-        genre.name = self.name
+        genre.id = id
+        genre.name = name
         return genre
     }
 }
@@ -47,10 +47,10 @@ struct ProductionCompanyDummy: CoreDataDummy {
     
     func transferInto(context: NSManagedObjectContext) -> ProductionCompany {
         let pc = ProductionCompany(context: context)
-        pc.id = self.id
-        pc.name = self.name
-        pc.logoPath = self.logoPath
-        pc.originCountry = self.originCountry
+        pc.id = id
+        pc.name = name
+        pc.logoPath = logoPath
+        pc.originCountry = originCountry
         return pc
     }
 }
@@ -101,13 +101,13 @@ struct VideoDummy: CoreDataDummy {
     
     func transferInto(context: NSManagedObjectContext) -> Video {
         let video = Video(context: context)
-        video.key = self.key
-        video.name = self.name
-        video.site = self.site
-        video.type = self.type
-        video.resolution = self.resolution
-        video.language = self.language
-        video.region = self.region
+        video.key = key
+        video.name = name
+        video.site = site
+        video.type = type
+        video.resolution = resolution
+        video.language = language
+        video.region = region
         return video
     }
 }
@@ -140,6 +140,7 @@ struct SeasonDummy: CoreDataDummy {
     }
     
     init(from decoder: Decoder) throws {
+        // swiftformat:disable redundantSelf
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.seasonNumber = try container.decode(Int.self, forKey: .seasonNumber)
@@ -149,6 +150,7 @@ struct SeasonDummy: CoreDataDummy {
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
         let rawAirDate = try container.decode(String?.self, forKey: .airDate)
         self.airDate = Utils.tmdbDateFormatter.date(from: rawAirDate ?? "")
+        // swiftformat:enable redundantSelf
     }
     
     enum CodingKeys: String, CodingKey {
@@ -163,13 +165,13 @@ struct SeasonDummy: CoreDataDummy {
     
     func transferInto(context: NSManagedObjectContext) -> Season {
         let season = Season(context: context)
-        season.id = self.id
-        season.seasonNumber = self.seasonNumber
-        season.episodeCount = self.episodeCount
-        season.name = self.name
-        season.overview = self.overview
-        season.imagePath = self.imagePath
-        season.airDate = self.airDate
+        season.id = id
+        season.seasonNumber = seasonNumber
+        season.episodeCount = episodeCount
+        season.name = name
+        season.overview = overview
+        season.imagePath = imagePath
+        season.airDate = airDate
         return season
     }
 }
@@ -185,7 +187,7 @@ extension NSManagedObjectContext {
         let fetchRequest: NSFetchRequest<Entity> = NSFetchRequest(entityName: Entity.entity().name!)
         let predicates = dummies.map(predicate)
         fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
-        let allMatching = (try? self.fetch(fetchRequest)) ?? []
+        let allMatching = (try? fetch(fetchRequest)) ?? []
         
         var result: [Entity] = []
         for dummy in dummies {

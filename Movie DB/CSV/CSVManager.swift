@@ -16,6 +16,7 @@ struct CSVManager {
     static let separator: Character = ";"
     static let arraySeparator: Character = ","
     static let lineSeparator: Character = "\n"
+    
     /// The `DateFormatter` used for de- and encoding dates
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -23,6 +24,7 @@ struct CSVManager {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+
     /// The `ISO8601DateFormatter` used for de- and encoding date-times
     static let dateTimeFormatter: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -56,7 +58,7 @@ struct CSVManager {
         .genres: (\Media.genres, { ($0 as! Set<Genre>).map(\.name).sorted().joined(separator: arraySeparator) }),
         .overview: (\Media.overview, nil),
         .status: (\Media.status, { ($0 as! MediaStatus).rawValue }),
-        .tagline: (\Media.tagline, nil)
+        .tagline: (\Media.tagline, nil),
     ]
     static let movieExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Movie>, Converter?)] = [
         .movieWatched: (\Movie.watched, { ($0 as! MovieWatchState).rawValue }),
@@ -65,7 +67,7 @@ struct CSVManager {
         .runtime: (\Movie.runtime, nil),
         .revenue: (\Movie.revenue, nil),
         .budget: (\Movie.budget, nil),
-        .isAdult: (\Movie.isAdult, nil)
+        .isAdult: (\Movie.isAdult, nil),
     ]
     static let showExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Show>, Converter?)] = [
         .showWatched: (\Show.watched, { ($0 as! ShowWatchState).rawValue }),
@@ -75,7 +77,7 @@ struct CSVManager {
         .numberOfSeasons: (\Show.numberOfSeasons, nil),
         .isInProduction: (\Show.isInProduction, nil),
         .showType: (\Show.showType, { ($0 as! ShowType).rawValue }),
-        .createdBy: (\Show.createdBy, { ($0 as! [String]).sorted().joined(separator: arraySeparator) })
+        .createdBy: (\Show.createdBy, { ($0 as! [String]).sorted().joined(separator: arraySeparator) }),
     ]
     // swiftlint:enable force_cast
     
@@ -173,14 +175,14 @@ struct CSVManager {
     // swiftlint:disable cyclomatic_complexity
     static func createRecord(from media: Media) -> [CSVKey: String] {
         var values: [CSVKey: String] = [:]
-        for key in self.exportKeys {
+        for key in exportKeys {
             var tuple: (Any, Converter?)?
             
             // Extract the value by reading the KeyPath; Pass the converter to the tuple
-            if let (keyPath, conv) = self.exportKeyPaths[key] {
+            if let (keyPath, conv) = exportKeyPaths[key] {
                 let value = media[keyPath: keyPath]
                 tuple = (value, conv)
-            } else if let (keyPath, conv) = self.movieExclusiveExportKeyPaths[key] {
+            } else if let (keyPath, conv) = movieExclusiveExportKeyPaths[key] {
                 if let movie = media as? Movie {
                     let value = movie[keyPath: keyPath]
                     tuple = (value, conv)
@@ -188,7 +190,7 @@ struct CSVManager {
                     // If the media object is not a Movie, we leave the value blank
                     tuple = ("", nil)
                 }
-            } else if let (keyPath, conv) = self.showExclusiveExportKeyPaths[key] {
+            } else if let (keyPath, conv) = showExclusiveExportKeyPaths[key] {
                 if let show = media as? Show {
                     let value = show[keyPath: keyPath]
                     tuple = (value, conv)
@@ -198,7 +200,7 @@ struct CSVManager {
                 }
             } else {
                 fatalError("The key \(key) has no assigned KeyPath. Please add the key to one of the following " +
-                           "dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
+                    "dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
             }
             
             // Unwrap the value and converter
@@ -255,7 +257,7 @@ struct CSVManager {
         csv.append(exportKeys.map(\.rawValue).joined(separator: separator))
         // CSV Values
         for mediaObject in mediaObjects {
-            let values = self.createRecord(from: mediaObject)
+            let values = createRecord(from: mediaObject)
             let line: [String] = exportKeys.map { values[$0]! }
             csv.append(line.joined(separator: separator))
         }
@@ -306,7 +308,7 @@ struct CSVManager {
     }
 }
 
-fileprivate extension Dictionary where Key == String {
+private extension Dictionary where Key == String {
     subscript(key: CSVManager.CSVKey) -> Value? {
         get {
             self[key.rawValue]

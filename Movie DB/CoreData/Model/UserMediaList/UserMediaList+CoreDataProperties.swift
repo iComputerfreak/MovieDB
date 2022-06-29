@@ -10,13 +10,13 @@
 import CoreData
 import Foundation
 
-extension UserMediaList {
-    @NSManaged public var iconName: String
-    @NSManaged public var name: String
-    @NSManaged public var medias: Set<Media>
+public extension UserMediaList {
+    @NSManaged var iconName: String
+    @NSManaged var name: String
+    @NSManaged var medias: Set<Media>
 
     @nonobjc
-    public static func fetchRequest() -> NSFetchRequest<UserMediaList> {
+    static func fetchRequest() -> NSFetchRequest<UserMediaList> {
         NSFetchRequest<UserMediaList>(entityName: "UserMediaList")
     }
 }

@@ -41,6 +41,6 @@ struct MetadataInfo_Previews: PreviewProvider {
         List {
             MetadataInfo()
         }
-            .environmentObject(PlaceholderData.movie as Media)
+        .environmentObject(PlaceholderData.movie as Media)
     }
 }

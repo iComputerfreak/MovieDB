@@ -32,12 +32,14 @@ extension Strings {
                 comment: "The total amount of media items in the library. Shown in the footer below the list."
             )
         }
+
         static func footer(_ objCount: Int) -> String {
             String(
                 localized: "library.list.footer \(objCount)",
                 comment: "The total amount of media items currently displayed. Shown in the footer below the list."
             )
         }
+
         static let movieSymbolName = String(
             localized: "library.list.movieSymbol",
             comment: "A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name."

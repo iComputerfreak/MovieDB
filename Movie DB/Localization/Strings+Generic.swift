@@ -60,18 +60,21 @@ extension Strings {
                 comment: "A range editing label that describes the actual value that is currently selected for the lower bound of the range. The parameter is the value."
             )
         }
+
         static func pickerRangeToValueLabel(_ value: String) -> String {
             String(
                 localized: "generic.picker.range.to.value \(value)",
                 comment: "A range editing label that describes the actual value that is currently selected for the upper bound of the range. The parameter is the value."
             )
         }
+
         static func pickerMultipleValuesLabel(_ count: Int) -> String {
             String(
                 localized: "generic.picker.multipleValues \(count)",
                 comment: "A picker label that indicates that there are currently multiple values selected. The parameter is the count of selected values."
             )
         }
+
         static let pickerNoValuesLabel = String(
             localized: "generic.picker.noValues",
             comment: "The label displayed by a picker when there are no possible values to pick from"

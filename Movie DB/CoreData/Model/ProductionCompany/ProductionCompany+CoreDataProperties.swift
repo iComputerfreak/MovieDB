@@ -9,57 +9,58 @@
 import CoreData
 import Foundation
 
-extension ProductionCompany {
+public extension ProductionCompany {
     /// The ID of the production company on TMDB
-    public var id: Int {
+    var id: Int {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
     }
+
     /// The name of the production company
-    @NSManaged public var name: String
+    @NSManaged var name: String
     /// The path to the logo on TMDB
-    @NSManaged public var logoPath: String?
+    @NSManaged var logoPath: String?
     /// The country of origin of the production company
-    @NSManaged public var originCountry: String
+    @NSManaged var originCountry: String
     /// The medias this company produced
-    @NSManaged public var medias: Set<Media>
+    @NSManaged var medias: Set<Media>
     /// The shows that were released on this network
-    @NSManaged public var shows: Set<Show>
+    @NSManaged var shows: Set<Show>
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
+    class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
         NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
     }
 }
 
 // MARK: Generated accessors for medias
-extension ProductionCompany {
+public extension ProductionCompany {
     @objc(addMediasObject:)
-    @NSManaged public func addToMedias(_ value: Media)
+    @NSManaged func addToMedias(_ value: Media)
     
     @objc(removeMediasObject:)
-    @NSManaged public func removeFromMedias(_ value: Media)
+    @NSManaged func removeFromMedias(_ value: Media)
     
     @objc(addMedias:)
-    @NSManaged public func addToMedias(_ values: NSSet)
+    @NSManaged func addToMedias(_ values: NSSet)
     
     @objc(removeMedias:)
-    @NSManaged public func removeFromMedias(_ values: NSSet)
+    @NSManaged func removeFromMedias(_ values: NSSet)
 }
 
 // MARK: Generated accessors for shows
-extension ProductionCompany {
+public extension ProductionCompany {
     @objc(addShowsObject:)
-    @NSManaged public func addToShows(_ value: Show)
+    @NSManaged func addToShows(_ value: Show)
     
     @objc(removeShowsObject:)
-    @NSManaged public func removeFromShows(_ value: Show)
+    @NSManaged func removeFromShows(_ value: Show)
     
     @objc(addShows:)
-    @NSManaged public func addToShows(_ values: NSSet)
+    @NSManaged func addToShows(_ values: NSSet)
     
     @objc(removeShows:)
-    @NSManaged public func removeFromShows(_ values: NSSet)
+    @NSManaged func removeFromShows(_ values: NSSet)
 }
 
 extension ProductionCompany: Identifiable {}

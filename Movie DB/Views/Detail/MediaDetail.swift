@@ -16,7 +16,7 @@ struct MediaDetail: View {
     var body: some View {
         if mediaObject.isFault {
             Text(Strings.Detail.errorLoadingText)
-            .navigationTitle(Strings.Detail.navBarErrorTitle)
+                .navigationTitle(Strings.Detail.navBarErrorTitle)
         } else {
             List {
                 TitleView(media: mediaObject)

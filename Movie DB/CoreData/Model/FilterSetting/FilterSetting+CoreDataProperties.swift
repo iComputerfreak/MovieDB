@@ -10,17 +10,19 @@
 import CoreData
 import Foundation
 
-extension FilterSetting {
-    @NSManaged public var id: UUID?
-    public var isAdult: Bool? {
+public extension FilterSetting {
+    @NSManaged var id: UUID?
+    var isAdult: Bool? {
         get { getOptional(forKey: "isAdult") }
         set { setOptional(newValue, forKey: "watchAgain") }
     }
-    public var mediaType: MediaType? {
+
+    var mediaType: MediaType? {
         get { getOptionalEnum(forKey: "mediaType") }
         set { setOptionalEnum(newValue, forKey: "mediaType") }
     }
-    public var minRating: Int? {
+
+    var minRating: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -31,7 +33,8 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "minRating") }
     }
-    public var maxRating: Int? {
+
+    var maxRating: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -42,7 +45,8 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "maxRating") }
     }
-    public var minYear: Int? {
+
+    var minYear: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -53,7 +57,8 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "minYear") }
     }
-    public var maxYear: Int? {
+
+    var maxYear: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -64,15 +69,18 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "maxYear") }
     }
-    public var statuses: [MediaStatus] {
+
+    var statuses: [MediaStatus] {
         get { getEnumArray(forKey: "statuses") }
         set { setEnumArray(newValue, forKey: "statuses") }
     }
-    public var showTypes: [ShowType] {
+
+    var showTypes: [ShowType] {
         get { getEnumArray(forKey: "showTypes") }
         set { setEnumArray(newValue, forKey: "showTypes") }
     }
-    public var minNumberOfSeasons: Int? {
+
+    var minNumberOfSeasons: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -83,7 +91,8 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "minNumberOfSeasons") }
     }
-    public var maxNumberOfSeasons: Int? {
+
+    var maxNumberOfSeasons: Int? {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
@@ -94,66 +103,71 @@ extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: "maxNumberOfSeasons") }
     }
-    public var watched: Bool? {
+
+    var watched: Bool? {
         get { getOptional(forKey: "watched") }
         set { setOptional(newValue, forKey: "watched") }
     }
-    public var watchAgain: Bool? {
+
+    var watchAgain: Bool? {
         get { getOptional(forKey: "watchAgain") }
         set { setOptional(newValue, forKey: "watchAgain") }
     }
+
     /// The genres that are referenced by this filter setting
-    @NSManaged public var genres: Set<Genre>
+    @NSManaged var genres: Set<Genre>
     /// The tags that are referenced by this filter setting
-    @NSManaged public var tags: Set<Tag>
+    @NSManaged var tags: Set<Tag>
     /// The media list that uses this filter setting
-    @NSManaged public var mediaList: DynamicMediaList?
+    @NSManaged var mediaList: DynamicMediaList?
     
-    var rating: ClosedRange<StarRating>? {
-        get {
-            guard let rawMinRating = self.minRating, let minRating = StarRating(rawValue: rawMinRating),
-                  let rawMaxRating = self.maxRating, let maxRating = StarRating(rawValue: rawMaxRating) else {
-                return nil
-            }
-            return minRating ... maxRating
-        }
-        set {
-            self.minRating = newValue?.lowerBound.rawValue
-            self.maxRating = newValue?.upperBound.rawValue
-        }
-    }
-    
-    var year: ClosedRange<Int>? {
-        get {
-            guard let minYear = self.minYear, let maxYear = self.maxYear else {
-                return nil
-            }
-            return minYear ... maxYear
-        }
-        set {
-            self.minYear = newValue?.lowerBound
-            self.maxYear = newValue?.upperBound
-        }
-    }
-    
-    var numberOfSeasons: ClosedRange<Int>? {
+    internal var rating: ClosedRange<StarRating>? {
         get {
             guard
-                let minNumberOfSeasons = self.minNumberOfSeasons,
-                let maxNumberOfSeasons = self.maxNumberOfSeasons
+                let rawMinRating = minRating, let minRating = StarRating(rawValue: rawMinRating),
+                let rawMaxRating = maxRating, let maxRating = StarRating(rawValue: rawMaxRating)
             else {
                 return nil
             }
-            return minNumberOfSeasons ... maxNumberOfSeasons
+            return minRating...maxRating
         }
         set {
-            self.minNumberOfSeasons = newValue?.lowerBound
-            self.maxNumberOfSeasons = newValue?.upperBound
+            minRating = newValue?.lowerBound.rawValue
+            maxRating = newValue?.upperBound.rawValue
+        }
+    }
+    
+    internal var year: ClosedRange<Int>? {
+        get {
+            guard let minYear = minYear, let maxYear = maxYear else {
+                return nil
+            }
+            return minYear...maxYear
+        }
+        set {
+            minYear = newValue?.lowerBound
+            maxYear = newValue?.upperBound
+        }
+    }
+    
+    internal var numberOfSeasons: ClosedRange<Int>? {
+        get {
+            guard
+                let minNumberOfSeasons = minNumberOfSeasons,
+                let maxNumberOfSeasons = maxNumberOfSeasons
+            else {
+                return nil
+            }
+            return minNumberOfSeasons...maxNumberOfSeasons
+        }
+        set {
+            minNumberOfSeasons = newValue?.lowerBound
+            maxNumberOfSeasons = newValue?.upperBound
         }
     }
 
     @nonobjc
-    public static func fetchRequest() -> NSFetchRequest<FilterSetting> {
+    static func fetchRequest() -> NSFetchRequest<FilterSetting> {
         NSFetchRequest<FilterSetting>(entityName: "FilterSetting")
     }
 }

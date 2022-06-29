@@ -30,6 +30,7 @@ extension Strings {
                     comment: "Title of an alert that informs the user that he tried to add a media object twice. The variable is the media title."
                 )
             }
+
             static let errorLoadingTitle = String(
                 localized: "addMedia.alert.errorLoading.title",
                 comment: "Title of an alert showing an error message while loading the media"

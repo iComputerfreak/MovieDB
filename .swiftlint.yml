@@ -4,6 +4,8 @@ disabled_rules:
   - todo
   - type_name
   - cyclomatic_complexity
+  - trailing_comma
+
 opt_in_rules:
   - anonymous_argument_in_multiline_closure
   - array_init
@@ -118,8 +120,8 @@ multiline_arguments:
   only_enforce_after_first_closure_on_first_line: true
 modifier_order:
   preferred_modifier_order:
-    - acl
     - override
+    - acl
     - setterACL
     - dynamic
     - mutators

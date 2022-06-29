@@ -17,7 +17,7 @@ public class Show: Media {
     /// Creates a new `Show` object.
     convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
         self.init(context: context)
-        self.initMedia(type: .show, tmdbData: tmdbData)
+        initMedia(type: .show, tmdbData: tmdbData)
     }
     
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
@@ -29,7 +29,7 @@ public class Show: Media {
         assert(
             managedObjectContext != PersistenceController.viewContext,
             "Media updates should not be done in the view context. " +
-            "Modifications should be done on a background context to prevent an inconsistent view context state"
+                "Modifications should be done on a background context to prevent an inconsistent view context state"
         )
         print("[JF] Updating in MOC \(managedObjectContext?.name ?? "nil")")
         // Set general TMDBData

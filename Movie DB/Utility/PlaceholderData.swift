@@ -13,9 +13,8 @@ enum PlaceholderData {
     static let context = PersistenceController.previewContext
     
     static let allMedia: [Media] = fetchAll()
-    static let movie: Movie = {
-        createMovie()
-    }()
+    static let movie: Movie = createMovie()
+
     static let show: Show = {
         let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
         let s = Show(context: context, tmdbData: tmdbData)
@@ -28,6 +27,7 @@ enum PlaceholderData {
         s.parentalRating = .fskAgeSixteen
         return s
     }()
+
     // A media with some missing information
     static let problemShow: Show = {
         let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
@@ -46,7 +46,7 @@ enum PlaceholderData {
         Tag(name: "Gangsters", context: context),
         Tag(name: "Terrorist", context: context),
         Tag(name: "Past", context: context),
-        Tag(name: "Fantasy", context: context)
+        Tag(name: "Fantasy", context: context),
     ]
     
     static func createMovie() -> Movie {
@@ -108,7 +108,7 @@ enum PlaceholderData {
                 name: "Peacock Premium",
                 imagePath: "/xTHltMrZPAJFLQ6qyCBjAnXSmZt.jpg",
                 priority: 40
-            )
+            ),
         ]
         return m
     }
@@ -153,7 +153,7 @@ enum PlaceholderData {
             decoder.userInfo[.managedObjectContext] = context
             decoder.userInfo[.mediaType] = mediaType
             return try decoder.decode(T.self, from: data)
-        } catch let error {
+        } catch {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }

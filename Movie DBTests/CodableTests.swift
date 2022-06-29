@@ -40,7 +40,7 @@ class CodableTests: XCTestCase {
             ProductionCompanyDummy(id: 79, name: "Village Roadshow Pictures", logoPath: "/tpFpsqbleCzEE2p5EgvUq6ozfCA.png", originCountry: "US"),
             ProductionCompanyDummy(id: 372, name: "Groucho II Film Partnership", logoPath: nil, originCountry: ""),
             ProductionCompanyDummy(id: 1885, name: "Silver Pictures", logoPath: "/xlvoOZr4s1PygosrwZyolIFe5xs.png", originCountry: "US"),
-            ProductionCompanyDummy(id: 174, name: "Warner Bros. Pictures", logoPath: "/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png", originCountry: "US")
+            ProductionCompanyDummy(id: 174, name: "Warner Bros. Pictures", logoPath: "/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png", originCountry: "US"),
         ]
         
         // Test, if the Decoding works
@@ -68,8 +68,8 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movieData.imdbID, "tt0133093")
         assertEqual(movieData.releaseDate, 1999, 03, 30)
         XCTAssertEqual(movieData.runtime, 136)
-        XCTAssertEqual(movieData.budget, 63000000)
-        XCTAssertEqual(movieData.revenue, 463517383)
+        XCTAssertEqual(movieData.budget, 63_000_000)
+        XCTAssertEqual(movieData.revenue, 463_517_383)
         XCTAssertEqual(movieData.isAdult, false)
         
         // Translations, Keywords, Videos and Cast
@@ -79,7 +79,7 @@ class CodableTests: XCTestCase {
             VideoDummy(key: "nUEQNVV3Gfs", name: "Official 4K Trailer", site: "YouTube", type: "Trailer", resolution: 2160, language: "en", region: "US"),
             VideoDummy(key: "RZ-MXBjvA38", name: "Full Movie Preview", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "L0fw0WzFaBM", name: "20th Anniversary UK Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "m8e-FF8MsqU", name: "Classic Trailer", site: "YouTube", type: "Trailer", resolution: 720, language: "en", region: "US")
+            VideoDummy(key: "m8e-FF8MsqU", name: "Classic Trailer", site: "YouTube", type: "Trailer", resolution: 720, language: "en", region: "US"),
         ]
         
         assertEqual(movie.keywords, keywords)
@@ -94,7 +94,7 @@ class CodableTests: XCTestCase {
             ProductionCompanyDummy(id: 20555, name: "Taurus Film", logoPath: "/hD8yEGUBlHOcfHYbujp71vD8gZp.png", originCountry: "DE"),
             ProductionCompanyDummy(id: 54051, name: "Atman Entertainment", logoPath: nil, originCountry: ""),
             ProductionCompanyDummy(id: 54052, name: "Knickerbocker Films", logoPath: nil, originCountry: "US"),
-            ProductionCompanyDummy(id: 4700, name: "The Linson Company", logoPath: "/A32wmjrs9Psf4zw0uaixF0GXfxq.png", originCountry: "US")
+            ProductionCompanyDummy(id: 4700, name: "The Linson Company", logoPath: "/A32wmjrs9Psf4zw0uaixF0GXfxq.png", originCountry: "US"),
         ]
         
         // Test, if the Decoding works
@@ -122,15 +122,15 @@ class CodableTests: XCTestCase {
         XCTAssertEqual(movieData.imdbID, "tt0137523")
         assertEqual(movieData.releaseDate, 1999, 10, 15)
         XCTAssertEqual(movieData.runtime, 139)
-        XCTAssertEqual(movieData.budget, 63000000)
-        XCTAssertEqual(movieData.revenue, 100853753)
+        XCTAssertEqual(movieData.budget, 63_000_000)
+        XCTAssertEqual(movieData.revenue, 100_853_753)
         XCTAssertEqual(movieData.isAdult, false)
         
         // Translations, Keywords, Videos and Cast
         let keywords = ["based on novel or book", "support group", "dual identity", "nihilism", "fight", "rage and hate", "insomnia", "dystopia", "alter ego", "cult film", "split personality", "quitting a job", "dissociative identity disorder", "self destructiveness"]
         let translations = ["Arabic", "Azerbaijani", "Bulgarian", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Estonian", "Persian", "Finnish", "French", "French", "Hebrew", "Croatian", "Hungarian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Malayalam", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Twi", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
         let videos = [
-            VideoDummy(key: "BdJKm16Co6M", name: "#TBT Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US")
+            VideoDummy(key: "BdJKm16Co6M", name: "#TBT Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
         ]
         
         assertEqual(movie.keywords, keywords)
@@ -143,10 +143,10 @@ class CodableTests: XCTestCase {
         let companies = [
             ProductionCompanyDummy(id: 11073, name: "Sony Pictures Television Studios", logoPath: "/wHs44fktdoj6c378ZbSWfzKsM2Z.png", originCountry: "US"),
             ProductionCompanyDummy(id: 1302, name: "Davis Entertainment", logoPath: "/kQZtJdyphCmq292iGDqlUx0yk2D.png", originCountry: "US"),
-            ProductionCompanyDummy(id: 26727, name: "Universal Television", logoPath: "/jeTxdjXhzgKZyLr3l9MllkTn3fy.png", originCountry: "US")
+            ProductionCompanyDummy(id: 26727, name: "Universal Television", logoPath: "/jeTxdjXhzgKZyLr3l9MllkTn3fy.png", originCountry: "US"),
         ]
         let networks = [
-            ProductionCompanyDummy(id: 6, name: "NBC", logoPath: "/nGRVQlfmPBmfkNgCFpx5m7luTxG.png", originCountry: "US")
+            ProductionCompanyDummy(id: 6, name: "NBC", logoPath: "/nGRVQlfmPBmfkNgCFpx5m7luTxG.png", originCountry: "US"),
         ]
         // swiftlint:disable multiline_arguments
         // swiftlint:disable multiline_arguments_brackets
@@ -169,18 +169,18 @@ class CodableTests: XCTestCase {
             SeasonDummy(id: 91328, seasonNumber: 5, episodeCount: 22, name: "Season 5",
                         overview: "Feeling surprisingly unencumbered, Raymond Reddington is back, and in the process of rebuilding his criminal empire. His lust for life is ever-present as he lays the foundation for this new enterprise - one that he\'ll design with Elizabeth Keen by his side. Living with the reality that Red is her father, Liz finds herself torn between her role as an FBI agent and the temptation to act on her more criminal instincts. In a world where the search for Blacklisters has become a family trade, Red will undoubtedly reclaim his moniker as the “Concierge of Crime.”",
                         imagePath: "/6MupSEjQbWd5t37iHoYNGV1Rp2Y.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2017-09-27")),
-            SeasonDummy(id: 112279, seasonNumber: 6, episodeCount: 22, name: "Season 6",
+            SeasonDummy(id: 112_279, seasonNumber: 6, episodeCount: 22, name: "Season 6",
                         overview: "Following the startling revelation that Raymond \"Red\" Reddington isn\'t who he says he is, Elizabeth Keen is torn between the relationship she\'s developed with the man assumed to be her father and her desire to get to the bottom of years of secrets and lies. Meanwhile, Red leads Liz and the FBI to some of the most strange and dangerous criminals yet, growing his empire and eliminating rivals in the process. All throughout, Liz and Red engage in an uneasy cat-and-mouse game in which lines will be crossed and the truth will be revealed.",
                         imagePath: "/f1R6R8AVS8EwaOUltlVxNjASZAs.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-01-03")),
-            SeasonDummy(id: 132066, seasonNumber: 7, episodeCount: 19, name: "Season 7",
+            SeasonDummy(id: 132_066, seasonNumber: 7, episodeCount: 19, name: "Season 7",
                         overview: "After being abducted by Katarina Rostova, Raymond \"Red\" Reddington finds himself alone in hostile territory, unsure of who, if anyone, he can trust. Surrounded by old enemies and new allies, Red must stay one step ahead of the Blacklist\'s most dangerous criminal, who will stop at nothing to unearth the very truth Red wants no one to know about. To find it, Katarina will insinuate herself into the life of Elizabeth Keen, who has finally reunited with her daughter Agnes. Katarina’s presence will bring danger to Liz’s doorstep and forever alter her relationship with Red.",
                         imagePath: "/e72ZZsSeKADafuy2aPWCUp15GgE.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-10-04")),
-            SeasonDummy(id: 165869, seasonNumber: 8, episodeCount: 22, name: "Season 8",
+            SeasonDummy(id: 165_869, seasonNumber: 8, episodeCount: 22, name: "Season 8",
                         overview: "With his back against the wall, Raymond Reddington faces his most formidable enemy yet: Elizabeth Keen. Aligned with her mother, infamous Russian spy Katarina Rostova, Liz must decide how far she is willing to go to find out why Reddington has entered her life and what his endgame really is. The fallout between Reddington and Keen will have devastating consequences for all that lie in their wake, including the Task Force they helped to create.",
                         imagePath: "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2020-11-13")),
-            SeasonDummy(id: 200816, seasonNumber: 9, episodeCount: 22, name: "Season 9",
+            SeasonDummy(id: 200_816, seasonNumber: 9, episodeCount: 22, name: "Season 9",
                         overview: "In the two years following the death of Elizabeth Keen, Raymond Reddington and the members of the FBI Task Force have disbanded – their lives now changed in unexpected ways and with Reddington’s whereabouts unknown. Finding themselves each at a crossroads, a common purpose compels them to renew their original mission: to take down dangerous, vicious and eccentric Blacklisters. In the process, they begin to uncover lethal adversaries, unimaginable conspiracies and surprising betrayals that will threaten alliances and spur vengeance for the past, led by the most devious criminal of them all – Raymond Reddington.",
-                        imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2021-10-21"))
+                        imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2021-10-21")),
         ]
         // swiftlint:enable vertical_parameter_alignment_on_call
         // swiftlint:enable multiline_arguments
@@ -223,7 +223,7 @@ class CodableTests: XCTestCase {
         let translations = ["Arabic", "Dutch", "Turkish", "Mandarin"]
         let videos = [
             VideoDummy(key: "SoT5JImB1H8", name: "The Blacklist - first scene - Reddington surrenders himself to the FBI [HD]", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "-WYdUaK54fU", name: "Blacklist Season 1 - Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US")
+            VideoDummy(key: "-WYdUaK54fU", name: "Blacklist Season 1 - Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
         ]
         
         assertEqual(show.keywords, keywords)
@@ -236,10 +236,10 @@ class CodableTests: XCTestCase {
             ProductionCompanyDummy(id: 76043, name: "Revolution Sun Studios", logoPath: "/9RO2vbQ67otPrBLXCaC8UMp3Qat.png", originCountry: "US"),
             ProductionCompanyDummy(id: 12525, name: "Television 360", logoPath: nil, originCountry: ""),
             ProductionCompanyDummy(id: 5820, name: "Generator Entertainment", logoPath: nil, originCountry: ""),
-            ProductionCompanyDummy(id: 12526, name: "Bighead Littlehead", logoPath: nil, originCountry: "")
+            ProductionCompanyDummy(id: 12526, name: "Bighead Littlehead", logoPath: nil, originCountry: ""),
         ]
         let networks = [
-            ProductionCompanyDummy(id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US")
+            ProductionCompanyDummy(id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US"),
         ]
         // swiftlint:disable multiline_arguments multiline_arguments_brackets
         let seasons = [
@@ -267,9 +267,9 @@ class CodableTests: XCTestCase {
             SeasonDummy(id: 81266, seasonNumber: 7, episodeCount: 7, name: "Season 7",
                         overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
                         imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2017-07-16")),
-            SeasonDummy(id: 107971, seasonNumber: 8, episodeCount: 6, name: "Season 8",
+            SeasonDummy(id: 107_971, seasonNumber: 8, episodeCount: 6, name: "Season 8",
                         overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
-                        imagePath: "/3OcQhbrecf4F4pYss2gSirTGPvD.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-04-14"))
+                        imagePath: "/3OcQhbrecf4F4pYss2gSirTGPvD.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2019-04-14")),
         ]
         // swiftlint:enable multiline_arguments multiline_arguments_brackets
         
@@ -282,7 +282,7 @@ class CodableTests: XCTestCase {
         assertEqual(show.genres, [
             GenreDummy(id: 10765, name: "Sci-Fi & Fantasy"),
             GenreDummy(id: 18, name: "Drama"),
-            GenreDummy(id: 10759, name: "Action & Adventure")
+            GenreDummy(id: 10759, name: "Action & Adventure"),
         ])
         XCTAssertEqual(show.overview, "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.")
         XCTAssertEqual(show.status, .ended)
@@ -317,7 +317,7 @@ class CodableTests: XCTestCase {
             VideoDummy(key: "f3MUpuRF6Ck", name: "Inside Game of Thrones: A Story in Prosthetics – BTS (HBO)", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "bjqEWgDVPe0", name: "GAME OF THRONES - SEASON 1- TRAILER", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "s7L2PVdrb_8", name: "Official Opening Credits: Game of Thrones (HBO)", site: "YouTube", type: "Opening Credits", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "BpJYNVhGf1s", name: "Game of Thrones | Season 1 | Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US")
+            VideoDummy(key: "BpJYNVhGf1s", name: "Game of Thrones | Season 1 | Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
         ]
         
         assertEqual(show.keywords, keywords)

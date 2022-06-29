@@ -10,20 +10,21 @@
 import CoreData
 import Foundation
 
-extension Genre {
+public extension Genre {
     /// The ID of the genre on TMDB
-    public var id: Int {
+    var id: Int {
         get { getInt(forKey: "id") }
         set { setInt(newValue, forKey: "id") }
     }
+
     /// The name of the genre
-    @NSManaged public var name: String
-    @NSManaged public var medias: Set<Media>
+    @NSManaged var name: String
+    @NSManaged var medias: Set<Media>
     /// All ``FilterSetting``s that reference this genre
-    @NSManaged public var filterSettings: Set<FilterSetting>
+    @NSManaged var filterSettings: Set<FilterSetting>
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Genre> { NSFetchRequest<Genre>(entityName: "Genre") }
+    class func fetchRequest() -> NSFetchRequest<Genre> { NSFetchRequest<Genre>(entityName: "Genre") }
 }
 
 extension Genre: Identifiable {}

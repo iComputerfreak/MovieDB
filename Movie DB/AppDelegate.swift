@@ -18,12 +18,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         // MARK: Prepare for UI testing
         #if DEBUG
-        if CommandLine.arguments.contains("--uitesting") {
-            // Prepare a fresh container to do the UI testing in
-            PersistenceController.prepareForUITesting()
-            JFConfig.shared.region = "DE"
-            JFConfig.shared.language = "en-US"
-        }
+            if CommandLine.arguments.contains("--uitesting") {
+                // Prepare a fresh container to do the UI testing in
+                PersistenceController.prepareForUITesting()
+                JFConfig.shared.region = "DE"
+                JFConfig.shared.language = "en-US"
+            }
         #endif
         
         // MARK: Register transformers

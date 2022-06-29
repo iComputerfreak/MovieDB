@@ -37,7 +37,7 @@ struct SearchResultsView<RowContent: View>: View {
     
     var body: some View {
         List {
-            if self.results.isEmpty && !self.resultsText.isEmpty {
+            if self.results.isEmpty, !self.resultsText.isEmpty {
                 HStack {
                     Spacer()
                     Text(self.resultsText)
@@ -48,7 +48,7 @@ struct SearchResultsView<RowContent: View>: View {
                 ForEach(self.results) { (result: TMDBSearchResult) in
                     content(result)
                 }
-                if !self.allPagesLoaded && !self.results.isEmpty {
+                if !self.allPagesLoaded, !self.results.isEmpty {
                     Button {
                         loadNextPage()
                     } label: {
@@ -69,7 +69,7 @@ struct SearchResultsView<RowContent: View>: View {
     
     func onAppear() {
         // Register the publisher for the search results
-        self.model.publisher = model.$searchText
+        model.publisher = model.$searchText
             .receive(on: RunLoop.main)
             .print()
             // Wait 500 ms before actually searching for the text
@@ -96,20 +96,20 @@ struct SearchResultsView<RowContent: View>: View {
     
     func searchMedia(_ searchText: String) {
         print("Search: \(searchText)")
-        self.model.searchText = searchText
-        self.results = []
-        self.pagesLoaded = 0
+        model.searchText = searchText
+        results = []
+        pagesLoaded = 0
         guard !searchText.isEmpty else {
             return
         }
         // Load the first page of results
-        self.resultsText = Strings.MediaSearch.loading
-        self.loadNextPage()
+        resultsText = Strings.MediaSearch.loading
+        loadNextPage()
     }
     
     func loadNextPage() {
         // We cannot load results for an empty text
-        guard !self.model.searchText.isEmpty else {
+        guard !model.searchText.isEmpty else {
             return
         }
         // Fetch the additional search results async

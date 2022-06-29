@@ -16,7 +16,7 @@ struct LibraryList: View {
     
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        return (try? self.managedObjectContext.count(for: fetchRequest)) ?? 0
+        return (try? managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
     // swiftlint:disable:next type_contents_order
@@ -65,7 +65,7 @@ struct LibraryList: View {
         // Append the name sort descriptor as a second alternative
         sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: sortingDirection == .ascending))
         
-        self._filteredMedia = FetchRequest<Media>(
+        _filteredMedia = FetchRequest<Media>(
             entity: Media.entity(),
             sortDescriptors: sortDescriptors,
             predicate: compoundPredicate,
@@ -103,11 +103,11 @@ struct LibraryList: View {
                             }
                             .tint(.blue)
                             #if DEBUG
-                            Button {
-                                mediaObject.thumbnail = nil
-                            } label: {
-                                Text(verbatim: "Debug")
-                            }
+                                Button {
+                                    mediaObject.thumbnail = nil
+                                } label: {
+                                    Text(verbatim: "Debug")
+                                }
                             #endif
                         }
                 }
@@ -132,10 +132,10 @@ struct LibraryList: View {
         let objCount = filteredMedia.count
         
         // Showing all media
-        if objCount == self.totalMediaItems {
+        if objCount == totalMediaItems {
             return Text(Strings.Library.footerTotal(objCount))
-        // Only showing a subset of the total medias
         } else {
+            // Only showing a subset of the total medias
             return Text(Strings.Library.footer(objCount))
         }
     }

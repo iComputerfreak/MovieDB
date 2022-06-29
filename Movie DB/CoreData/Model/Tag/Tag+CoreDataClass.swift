@@ -20,20 +20,20 @@ public class Tag: NSManagedObject {
         self.init(context: context)
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(UUID.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
     }
     
     public convenience init(name: String, context: NSManagedObjectContext) {
         self.init(context: context)
-        self.id = UUID()
+        id = UUID()
         self.name = name
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.id, forKey: .id)
-        try container.encode(self.name, forKey: .name)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -44,6 +44,6 @@ public class Tag: NSManagedObject {
 
 extension Collection where Element == Tag {
     func lexicographicallySorted() -> [Tag] {
-        self.sorted { $0.name.lexicographicallyPrecedes($1.name) }
+        sorted { $0.name.lexicographicallyPrecedes($1.name) }
     }
 }

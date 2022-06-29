@@ -56,7 +56,7 @@ actor TMDBAPI {
     /// - Returns: The decoded media object
     func media(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
         // Get the TMDB Data
-        let tmdbData = try await self.tmdbData(for: id, type: type, context: context)
+        let tmdbData = try await tmdbData(for: id, type: type, context: context)
         let media: Media = await context.perform {
             // Create the media
             let media: Media
@@ -80,7 +80,7 @@ actor TMDBAPI {
         // The given media object should be from the context to perform the update in
         assert(media.managedObjectContext == context)
         let oldImagePath = media.imagePath
-        let tmdbData = try await self.tmdbData(for: media.tmdbID, type: media.type, context: context)
+        let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
         // Update the media in the correct thread
         await context.perform {
             // Update the media object and thumbnail
@@ -149,22 +149,22 @@ actor TMDBAPI {
         from firstPage: Int = 1,
         to lastPage: Int = JFLiterals.maxSearchPages
     ) async throws -> (results: [TMDBSearchResult], totalPages: Int) {
-        try await self.multiPageRequest(
+        try await multiPageRequest(
             path: "/search/multi",
             additionalParameters: [
                 "query": query,
-                "include_adult": String(includeAdult)
+                "include_adult": String(includeAdult),
             ],
             from: firstPage,
             to: lastPage,
             pageWrapper: SearchResultsPageWrapper.self,
-            context: self.disposableContext
+            context: disposableContext
         )
     }
     
     /// Returns all language codes available in the TMDB API
     func tmdbLanguageCodes() async throws -> [String] {
-        try await self.decodeAPIURL(
+        try await decodeAPIURL(
             path: "/configuration/primary_translations",
             as: [String].self,
             context: disposableContext
@@ -193,16 +193,17 @@ actor TMDBAPI {
         guard firstPage <= lastPage else {
             throw APIError.invalidPageRange
         }
-        let decoder = self.decoder(context: context)
+        let decoder = decoder(context: context)
         
         // Fetch the JSON in the background
-        let data = try await self.request(
+        let data = try await request(
             path: path,
             additionalParameters: additionalParameters.merging(["page": String(firstPage)])
         )
         // Decode on the correct thread
         let wrapper = try await context.perform {
-            return try decoder.decode(PageWrapper.self, from: data) // swiftlint:disable:this implicit_return
+            // swiftformat:disable:next redundantReturn
+            return try decoder.decode(PageWrapper.self, from: data)
         }
         
         if wrapper.totalPages == 0 {
@@ -221,7 +222,7 @@ actor TMDBAPI {
             of: [PageWrapper.ObjectWrapper].self
         ) { group in
             // Fetch the pages concurrently
-            for page in (firstPage + 1) ... min(wrapper.totalPages, lastPage) {
+            for page in (firstPage + 1)...min(wrapper.totalPages, lastPage) {
                 // Fetch the page
                 _ = group.addTaskUnlessCancelled {
                     let newParameters = additionalParameters.merging(["page": String(page)])
@@ -259,7 +260,7 @@ actor TMDBAPI {
             // release_dates only for movies
             // content_ratings only for tv
             "append_to_response": "keywords,translations,videos,watch/providers" +
-            (type == .movie ? ",release_dates" : ",content_ratings")
+                (type == .movie ? ",release_dates" : ",content_ratings"),
         ]
         return try await decodeAPIURL(
             path: "/\(type.rawValue)/\(id)",
@@ -287,9 +288,9 @@ actor TMDBAPI {
         userInfo: [CodingUserInfoKey: Any] = [:]
     ) async throws -> T {
         // Load the JSON on a background thread
-        let data = try await self.request(path: path, additionalParameters: additionalParameters)
+        let data = try await request(path: path, additionalParameters: additionalParameters)
         // Decode on the thread of the context (hopefully a background thread)
-        let decoder = context == nil ? JSONDecoder() : self.decoder(context: context)
+        let decoder = context == nil ? JSONDecoder() : decoder(context: context)
         // Merge the userInfo dicts, preferring the new, user-supplied values
         decoder.userInfo.merge(userInfo)
         if context != nil {
@@ -317,14 +318,14 @@ actor TMDBAPI {
         components.path = "/3\(path)"
         components.queryItems = [
             URLQueryItem(name: "api_key", value: apiKey),
-            URLQueryItem(name: "language", value: locale)
+            URLQueryItem(name: "language", value: locale),
         ]
         
         // MARK: Collect parameters
         var parameters: [String: String?] = [
             "api_key": apiKey,
             "language": locale,
-            "region": region
+            "region": region,
         ]
         // Overwrite existing keys
         parameters.merge(additionalParameters)

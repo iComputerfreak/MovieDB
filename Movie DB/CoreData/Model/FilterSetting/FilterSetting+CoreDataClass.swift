@@ -15,16 +15,16 @@ import SwiftUI
 public class FilterSetting: NSManagedObject {
     var isReset: Bool {
         self.isAdult == nil &&
-        self.mediaType == nil &&
-        self.genres.isEmpty &&
-        self.rating == nil &&
-        self.year == nil &&
-        self.statuses.isEmpty &&
-        self.showTypes.isEmpty &&
-        self.numberOfSeasons == nil &&
-        self.watched == nil &&
-        self.watchAgain == nil &&
-        self.tags.isEmpty
+            self.mediaType == nil &&
+            self.genres.isEmpty &&
+            self.rating == nil &&
+            self.year == nil &&
+            self.statuses.isEmpty &&
+            self.showTypes.isEmpty &&
+            self.numberOfSeasons == nil &&
+            self.watched == nil &&
+            self.watchAgain == nil &&
+            self.tags.isEmpty
     }
     
     convenience init(
@@ -46,14 +46,14 @@ public class FilterSetting: NSManagedObject {
         self.id = id
         self.isAdult = isAdult
         self.mediaType = mediaType
-        self.minRating = rating?.lowerBound.rawValue
-        self.maxRating = rating?.upperBound.rawValue
-        self.minYear = year?.lowerBound
-        self.maxYear = year?.upperBound
+        minRating = rating?.lowerBound.rawValue
+        maxRating = rating?.upperBound.rawValue
+        minYear = year?.lowerBound
+        maxYear = year?.upperBound
         self.statuses = statuses
         self.showTypes = showTypes
-        self.minNumberOfSeasons = numberOfSeasons?.lowerBound
-        self.maxNumberOfSeasons = numberOfSeasons?.upperBound
+        minNumberOfSeasons = numberOfSeasons?.lowerBound
+        maxNumberOfSeasons = numberOfSeasons?.upperBound
         self.watched = watched
         self.watchAgain = watchAgain
         self.genres = genres
@@ -61,18 +61,18 @@ public class FilterSetting: NSManagedObject {
     }
     
     func reset() {
-        self.isAdult = nil
-        self.mediaType = nil
-        self.genres = []
-        self.rating = nil
-        self.year = nil
-        self.statuses = []
-        self.showTypes = []
-        self.numberOfSeasons = nil
-        self.watched = nil
-        self.watchAgain = nil
-        self.tags = []
-        assert(self.isReset, "FilterSetting is not in reset state after calling reset()")
+        isAdult = nil
+        mediaType = nil
+        genres = []
+        rating = nil
+        year = nil
+        statuses = []
+        showTypes = []
+        numberOfSeasons = nil
+        watched = nil
+        watchAgain = nil
+        tags = []
+        assert(isReset, "FilterSetting is not in reset state after calling reset()")
     }
 }
 
@@ -98,7 +98,7 @@ extension FilterSetting {
                     lower = upper
                 }
                 // Update the actual binding
-                setting.wrappedValue = lower ... upper
+                setting.wrappedValue = lower...upper
             })
         }
         
@@ -111,7 +111,7 @@ extension FilterSetting {
                     upper = lower
                 }
                 // Update the actual binding
-                setting.wrappedValue = lower ... upper
+                setting.wrappedValue = lower...upper
             })
         }
         
@@ -125,17 +125,17 @@ extension FilterSetting {
     // swiftlint:disable:next function_body_length
     func buildPredicate() -> NSPredicate {
         var predicates: [NSPredicate] = []
-        if let isAdult = self.isAdult as NSNumber? {
+        if let isAdult = isAdult as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "isAdult", isAdult))
         }
-        if let mediaType = self.mediaType {
+        if let mediaType = mediaType {
             predicates.append(NSPredicate(format: "%K == %@", "type", mediaType.rawValue))
         }
-        if !self.genres.isEmpty {
+        if !genres.isEmpty {
             // Any of the media's genres has to be in self.genres
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
-        if let rating = self.rating {
+        if let rating = rating {
             predicates.append(NSPredicate(
                 format: "%K <= %d AND %K => %d",
                 "personalRating",
@@ -144,7 +144,7 @@ extension FilterSetting {
                 rating.lowerBound.rawValue
             ))
         }
-        if let year = self.year {
+        if let year = year {
             let formatter = DateFormatter()
             // We don't care about the time, since all media objects only have a date set and the time is always zero.
             formatter.dateFormat = "yyyy-MM-dd"
@@ -171,13 +171,13 @@ extension FilterSetting {
                     upperDate,
                     "firstAirDate",
                     lowerDate
-                )
+                ),
             ]))
         }
-        if !self.statuses.isEmpty {
+        if !statuses.isEmpty {
             predicates.append(NSPredicate(format: "%K IN %@", "status", statuses.map(\.rawValue)))
         }
-        if !self.showTypes.isEmpty {
+        if !showTypes.isEmpty {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
@@ -188,10 +188,10 @@ extension FilterSetting {
                     showTypes.map(\.rawValue)
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
             ]))
         }
-        if let numberOfSeasons = self.numberOfSeasons {
+        if let numberOfSeasons = numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
@@ -204,11 +204,11 @@ extension FilterSetting {
                     numberOfSeasons.lowerBound
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue)
+                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
-        if let watched = self.watched {
+        if let watched = watched {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
                 NSPredicate(
@@ -237,13 +237,13 @@ extension FilterSetting {
                     watched as NSNumber, // == FALSE
                     "showWatchState",
                     ShowWatchState.notWatched.rawValue
-                )
+                ),
             ]))
         }
-        if let watchAgain = self.watchAgain as NSNumber? {
+        if let watchAgain = watchAgain as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "watchAgain", watchAgain))
         }
-        if !self.tags.isEmpty {
+        if !tags.isEmpty {
             predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

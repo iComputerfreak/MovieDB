@@ -19,7 +19,7 @@ struct MediaLookupDetail: View {
     
     // swiftlint:disable:next type_contents_order
     init(tmdbID: Int, mediaType: MediaType) {
-        self.localContext = PersistenceController.createDisposableContext()
+        localContext = PersistenceController.createDisposableContext()
         self.tmdbID = tmdbID
         self.mediaType = mediaType
         
@@ -30,11 +30,11 @@ struct MediaLookupDetail: View {
         case .show:
             media = Show(context: localContext)
         }
-        self._mediaObject = StateObject(wrappedValue: media)
+        _mediaObject = StateObject(wrappedValue: media)
     }
     
     var body: some View {
-        if finishedLoading && !mediaObject.isFault {
+        if finishedLoading, !mediaObject.isFault {
             List {
                 LookupTitleView(media: mediaObject)
                 BasicInfo()

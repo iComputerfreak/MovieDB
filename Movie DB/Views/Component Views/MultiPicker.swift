@@ -18,9 +18,10 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
     @State private var selection: [SelectionValue] {
         didSet {
             // When changing the selection, save the new value to the actual binding
-            self.selectionBinding = self.selection
+            selectionBinding = selection
         }
     }
+
     /// The label closure, mapping the values to a view for representation in the list
     let label: (SelectionValue) -> RowContent
     /// The label of the Picker and the title in the editing view
@@ -61,10 +62,10 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
         values: [SelectionValue],
         title: Text
     ) {
-        self._selectionBinding = selection
-        self._selection = State(wrappedValue: selection.wrappedValue)
+        _selectionBinding = selection
+        _selection = State(wrappedValue: selection.wrappedValue)
         self.label = label
-        self._values = State(wrappedValue: values)
+        _values = State(wrappedValue: values)
         self.title = title
     }
     
@@ -76,7 +77,7 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
         @Binding var selection: [SelectionValue] {
             didSet {
                 // When changing the selection, save the new value to the actual binding
-                self.selectionBinding = self.selection
+                selectionBinding = selection
             }
         }
         

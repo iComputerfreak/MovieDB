@@ -22,6 +22,7 @@ extension Strings {
                 comment: "The legal notice in the legal view. The parameter is the legal e-mail address."
             )
         }
+
         static func appIconAttribution(_ link: AttributedString) -> String {
             String(
                 localized: "legal.appIconAttribution \(link)",

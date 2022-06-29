@@ -49,7 +49,7 @@ extension EpisodeNumber: LosslessStringConvertible {
             }
             self.episode = episode
         } else {
-            self.episode = nil
+            episode = nil
         }
     }
 }

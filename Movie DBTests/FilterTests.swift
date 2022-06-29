@@ -16,6 +16,7 @@ class FilterTests: XCTestCase {
     var testContext: NSManagedObjectContext {
         testingUtils.context
     }
+
     var tags: [Tag] = []
     var genres: [Genre] = []
     
@@ -24,12 +25,12 @@ class FilterTests: XCTestCase {
         testingUtils = TestingUtils()
         // Remove default medias and tags
         testContext.reset()
-        self.tags = [
+        tags = [
             Tag(name: "Action", context: testContext),
             Tag(name: "Adventure", context: testContext),
             Tag(name: "Horror", context: testContext),
             Tag(name: "Future", context: testContext),
-            Tag(name: "Comedy", context: testContext)
+            Tag(name: "Comedy", context: testContext),
         ]
         // Add sample medias to filter
         XCTAssertEqual(try testContext.fetch(Genre.fetchRequest()).count, 0)
@@ -148,11 +149,11 @@ class FilterTests: XCTestCase {
     
     func testFilterYear() throws {
         XCTAssertEqual(try fetch(.init(context: testContext, year: nil)), .allMedias)
-        XCTAssertEqual(try fetch(.init(context: testContext, year: 1 ... 5000)), .allMedias)
-        XCTAssertEqual(try fetch(.init(context: testContext, year: 2000 ... 3000)), ["Good Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(context: testContext, year: 1 ... 2)), [])
-        XCTAssertEqual(try fetch(.init(context: testContext, year: 1997 ... 1997)), ["Bad Movie"].sorted())
-        XCTAssertEqual(try fetch(.init(context: testContext, year: 2022 ... 2023)), ["Unwatched Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1...5000)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 2000...3000)), ["Good Movie", "Unwatched Movie", "Good Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1...2)), [])
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 1997...1997)), ["Bad Movie"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, year: 2022...2023)), ["Unwatched Movie"].sorted())
     }
     
     func testFilterStatus() throws {
@@ -171,10 +172,10 @@ class FilterTests: XCTestCase {
     }
     
     func testFilterSeasons() throws {
-        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 100)), .allMedias)
-        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 1)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0 ... 3)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
-        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 5 ... 10)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0...100)), .allMedias)
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0...1)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 0...3)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Bad Show", "Unwatched Show"].sorted())
+        XCTAssertEqual(try fetch(.init(context: testContext, numberOfSeasons: 5...10)), ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show"].sorted())
     }
     
     private func fetch(_ filter: FilterSetting) throws -> [String] {

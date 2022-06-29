@@ -28,6 +28,7 @@ struct LibraryHome: View {
             UserDefaults.standard.set(self.sortingOrder.rawValue, forKey: JFLiterals.Keys.sortingOrder)
         }
     }
+
     @State private var sortingDirection: SortingDirection = {
         if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingDirection) {
             return SortingDirection(rawValue: rawValue)!
@@ -135,7 +136,7 @@ struct LibraryHome: View {
                         } label: {
                             Image(systemName: "plus")
                         }
-                            .accessibilityIdentifier("add-media")
+                        .accessibilityIdentifier("add-media")
                     }
                 }
                 .navigationTitle(Strings.TabView.libraryLabel)
@@ -144,7 +145,7 @@ struct LibraryHome: View {
     }
     
     func showFilter() {
-        self.activeSheet = .filter
+        activeSheet = .filter
     }
     
     enum ActiveSheet: Identifiable {

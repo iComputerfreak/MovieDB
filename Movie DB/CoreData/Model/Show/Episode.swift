@@ -18,6 +18,7 @@ public class Episode: NSObject, NSCoding, NSSecureCoding, Decodable {
         }
         return Utils.tmdbDateFormatter.date(from: rawAirDate)
     }
+
     var episodeNumber: Int
     var name: String
     var overview: String?
@@ -26,13 +27,13 @@ public class Episode: NSObject, NSCoding, NSSecureCoding, Decodable {
     var imagePath: String?
     
     public required init?(coder: NSCoder) {
-        self.rawAirDate = coder.decodeObject(of: NSString.self, forKey: CodingKeys.rawAirDate.stringValue) as String?
-        self.episodeNumber = coder.decodeInteger(forKey: CodingKeys.episodeNumber.stringValue)
-        self.name = coder.decodeObject(of: NSString.self, forKey: CodingKeys.name.stringValue)! as String
-        self.overview = coder.decodeObject(of: NSString.self, forKey: CodingKeys.overview.stringValue) as String?
-        self.runtime = coder.decodeInteger(forKey: CodingKeys.runtime.stringValue)
-        self.seasonNumber = coder.decodeInteger(forKey: CodingKeys.seasonNumber.stringValue)
-        self.imagePath = coder.decodeObject(of: NSString.self, forKey: CodingKeys.imagePath.stringValue) as String?
+        rawAirDate = coder.decodeObject(of: NSString.self, forKey: CodingKeys.rawAirDate.stringValue) as String?
+        episodeNumber = coder.decodeInteger(forKey: CodingKeys.episodeNumber.stringValue)
+        name = coder.decodeObject(of: NSString.self, forKey: CodingKeys.name.stringValue)! as String
+        overview = coder.decodeObject(of: NSString.self, forKey: CodingKeys.overview.stringValue) as String?
+        runtime = coder.decodeInteger(forKey: CodingKeys.runtime.stringValue)
+        seasonNumber = coder.decodeInteger(forKey: CodingKeys.seasonNumber.stringValue)
+        imagePath = coder.decodeObject(of: NSString.self, forKey: CodingKeys.imagePath.stringValue) as String?
     }
     
     public func encode(with coder: NSCoder) {

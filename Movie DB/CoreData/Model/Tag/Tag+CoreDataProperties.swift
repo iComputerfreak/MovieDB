@@ -10,19 +10,19 @@
 import CoreData
 import Foundation
 
-extension Tag {
+public extension Tag {
     /// The ID of the tag
-    @NSManaged public var id: UUID
+    @NSManaged var id: UUID
     /// The name of the tag
-    @NSManaged public var name: String
+    @NSManaged var name: String
     
     /// All media objects tagged with this tag
-    @NSManaged public var medias: Set<Media>
+    @NSManaged var medias: Set<Media>
     /// All ``FilterSetting``s that reference this tag
-    @NSManaged public var filterSettings: Set<FilterSetting>
+    @NSManaged var filterSettings: Set<FilterSetting>
     
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Tag> {
+    class func fetchRequest() -> NSFetchRequest<Tag> {
         NSFetchRequest<Tag>(entityName: "Tag")
     }
 }

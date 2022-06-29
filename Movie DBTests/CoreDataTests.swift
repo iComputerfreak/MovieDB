@@ -85,9 +85,9 @@ class CoreDataTests: XCTestCase {
         
         // Add another movie with overlapping genres
         _ = Movie(context: testContext, genres: [
-                GenreDummy(id: 2, name: "Genre 2"),
-                GenreDummy(id: 3, name: "Genre 3"),
-                GenreDummy(id: 4, name: "Genre 4")
+            GenreDummy(id: 2, name: "Genre 2"),
+            GenreDummy(id: 3, name: "Genre 3"),
+            GenreDummy(id: 4, name: "Genre 4")
         ])
         
         // We only should have one new genre (Genre 4)

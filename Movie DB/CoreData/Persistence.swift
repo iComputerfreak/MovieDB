@@ -19,7 +19,7 @@ struct PersistenceController {
     static var previewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
-    static var preview: PersistenceController = { PersistenceController(inMemory: true) }()
+    static var preview: PersistenceController = .init(inMemory: true)
     
     private(set) var container: NSPersistentContainer
     
@@ -65,16 +65,18 @@ struct PersistenceController {
         NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreRemoteChange,
             object: nil,
-            queue: .main) { _ in
+            queue: .main
+        ) { _ in
 //                print("REMOTE CHANGE (\(notification))")
-            }
+        }
         
         NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreCoordinatorStoresDidChange,
             object: nil,
-            queue: .main) { notification in
-                print("DID CHANGE (\(notification))")
-            }
+            queue: .main
+        ) { notification in
+            print("DID CHANGE (\(notification))")
+        }
         
 //        NotificationCenter.default.addObserver(
 //            forName: .NSPersistentStoreCoordinatorStoresWillChange,
@@ -133,7 +135,7 @@ struct PersistenceController {
     /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
         print("Trying to save context \(context.description) from \(file):\(line). " +
-              "Parent: \(context.parent?.description ?? "nil")")
+            "Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         context.performAndWait {
@@ -164,7 +166,7 @@ struct PersistenceController {
     /// - Parameter context: The `NSManagedObjectContext` to save
     static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) async {
         print("Trying to save context \(context.description) from \(file):\(line). " +
-              "Parent: \(context.parent?.description ?? "nil")")
+            "Parent: \(context.parent?.description ?? "nil")")
         // Make sure we save on the correct thread to prevent race conditions
         // See: https://developer.apple.com/forums/thread/668299
         await context.perform {
@@ -213,17 +215,17 @@ struct PersistenceController {
         
         for entity in entities {
             let request = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: entity))
-            try self.container.viewContext.execute(request)
+            try container.viewContext.execute(request)
         }
         
-        self.saveContext()
+        saveContext()
     }
     
     /// Creates a new, empty container to be used for testing
     /// - Returns: A newly created, empty container
     func createTestingContainer() -> NSPersistentContainer {
         // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
-        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: self.container.managedObjectModel)
+        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: container.managedObjectModel)
         container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {

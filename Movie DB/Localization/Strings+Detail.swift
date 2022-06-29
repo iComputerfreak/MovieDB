@@ -80,12 +80,14 @@ extension Strings {
                 comment: "The label in the detail view describing that the user has watched up to a specific season of the show. The parameter is the season number."
             )
         }
+
         static func watchedShowLabelSeasonEpisode(_ season: Int, _ episode: Int) -> String {
             String(
                 localized: "detail.userData.watchedShow.label.seasonAndEpisode \(season) \(episode)",
                 comment: "The label in the detail view describing that the user has watched up to a specific episode of a season of the show. The first parameter is the season number. The second parameter is the episode number."
             )
         }
+
         static let watchedShowEditingHeader = String(
             localized: "detail.userData.watchedShow.header",
             comment: "The header in the editing view where the user specifies up to which season/episode they watched."
@@ -96,12 +98,14 @@ extension Strings {
                 comment: "The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies the season number. The parameter is the season number."
             )
         }
+
         static func watchedShowEditingLabelEpisode(_ episode: Int) -> String {
             String(
                 localized: "detail.userData.watchedShow.label.episodeNumber \(episode)",
                 comment: "The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies the episode number. The parameter is the episode number."
             )
         }
+
         static let watchedShowEditingLabelNotWatched = String(
             localized: "detail.userData.watchedShow.label.notWatched",
             comment: "The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show."
@@ -124,6 +128,7 @@ extension Strings {
                 comment: "The total number of tags, displayed as a footer beneath the list"
             )
         }
+
         static let tagsNavBarTitle = String(
             localized: "detail.tags.navBar.title",
             comment: "The navigation bar title for the tags in the detail view"
@@ -174,6 +179,7 @@ extension Strings {
                 comment: "A string that displays a formatted duration in minutes and hours/minutes. E.g. '90 minutes (1h 30m)'. The first parameter is the formatted duration string in minutes. The second parameter is the formatted duration string in hours and minutes."
             )
         }
+
         static let firstAiredHeadline = String(
             localized: "detail.basicInfo.headline.firstAired",
             comment: "The headline for the 'first aired' property in the detail view"
@@ -220,6 +226,7 @@ extension Strings {
                 comment: "A string that describes the number of seasons of a tv show in the media detail"
             )
         }
+
         static let castLabel = String(
             localized: "detail.basicInfo.cast",
             comment: "The button label in the detail of a media object that leads to the cast information."
@@ -230,6 +237,7 @@ extension Strings {
                 comment: "Season/Episode abbreviation for the 'next/last episode to air' field, including the date. First argument: season number, second argument: episode number, third argument: formatted date"
             )
         }
+
         static func episodeAirDate(_ season: Int, _ episode: Int) -> String {
             String(
                 localized: "detail.episodeAirDate \(season) \(episode)",

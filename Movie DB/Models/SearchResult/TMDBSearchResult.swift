@@ -66,16 +66,16 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
-        self.title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
-        self.mediaType = try container.decode(MediaType.self, forKey: .mediaType)
-        self.imagePath = try container.decode(String?.self, forKey: .imagePath)
-        self.overview = try container.decode(String?.self, forKey: .overview)
-        self.originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
-        self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
-        self.popularity = try container.decode(Float.self, forKey: .popularity)
-        self.voteAverage = try container.decode(Float.self, forKey: .voteAverage)
-        self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
+        mediaType = try container.decode(MediaType.self, forKey: .mediaType)
+        imagePath = try container.decode(String?.self, forKey: .imagePath)
+        overview = try container.decode(String?.self, forKey: .overview)
+        originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
+        originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
+        popularity = try container.decode(Float.self, forKey: .popularity)
+        voteAverage = try container.decode(Float.self, forKey: .voteAverage)
+        voteCount = try container.decode(Int.self, forKey: .voteCount)
     }
     
     enum CodingKeys: String, CodingKey {

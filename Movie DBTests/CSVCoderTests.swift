@@ -61,7 +61,7 @@ class CSVCoderTests: XCTestCase {
                 XCTAssertEqual(mediaObjects[3]!.type, .movie)
                 let hunterKiller = try XCTUnwrap(mediaObjects[3] as? Movie)
                 try self.testDecodeHunterKiller(hunterKiller)
-            } catch let error {
+            } catch {
                 XCTFail(error.localizedDescription)
             }
         }
@@ -69,7 +69,7 @@ class CSVCoderTests: XCTestCase {
     
     private func testDecodeMomentum(_ media: Movie) throws {
         // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 346808)
+        XCTAssertEqual(media.tmdbID, 346_808)
         XCTAssertEqual(media.title, "Momentum")
         XCTAssertEqual(media.personalRating, .fourStars)
         XCTAssertEqual(media.watchAgain, true)
@@ -115,7 +115,7 @@ class CSVCoderTests: XCTestCase {
     
     private func testDecodeHunterKiller(_ media: Movie) throws {
         // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 399402)
+        XCTAssertEqual(media.tmdbID, 399_402)
         XCTAssertEqual(media.title, "Hunter Killer")
         XCTAssertEqual(media.personalRating, .noRating)
         XCTAssertEqual(media.watchAgain, false)

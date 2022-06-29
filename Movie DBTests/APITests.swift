@@ -64,7 +64,7 @@ class APITests: XCTestCase {
             DummyMedia(tmdbID: 550, type: .movie, title: "Fight Club"),
             DummyMedia(tmdbID: 603, type: .movie, title: "The Matrix"),
             DummyMedia(tmdbID: 1399, type: .show, title: "Game of Thrones"),
-            DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist")
+            DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist"),
         ]
         
         for dummy in mediaObjects {

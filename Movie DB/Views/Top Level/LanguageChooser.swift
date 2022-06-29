@@ -15,17 +15,17 @@ struct LanguageChooser: View {
         NavigationView {
             if config.availableLanguages.isEmpty {
                 Text(Strings.LanguageChooser.loadingText)
-                .task(priority: .userInitiated) {
-                    do {
-                        try await Utils.updateTMDBLanguages()
-                    } catch {
-                        AlertHandler.showError(
-                            title: Strings.LanguageChooser.Alert.errorLoadingTitle,
-                            error: error
-                        )
+                    .task(priority: .userInitiated) {
+                        do {
+                            try await Utils.updateTMDBLanguages()
+                        } catch {
+                            AlertHandler.showError(
+                                title: Strings.LanguageChooser.Alert.errorLoadingTitle,
+                                error: error
+                            )
+                        }
                     }
-                }
-                .navigationTitle(Strings.LanguageChooser.navBarTitle)
+                    .navigationTitle(Strings.LanguageChooser.navBarTitle)
             } else {
                 let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
                 List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in

@@ -24,7 +24,7 @@ struct SeasonsInfo: View {
         } else {
             List {
                 ForEach(show.seasons.sorted(by: \.seasonNumber)) { (season: Season) in
-                    if season.overview != nil && !season.overview!.isEmpty {
+                    if season.overview != nil, !season.overview!.isEmpty {
                         NavigationLink {
                             ScrollView {
                                 Text(season.overview!)

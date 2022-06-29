@@ -62,6 +62,7 @@ extension Strings {
                 comment: "The version information at the bottom of the settings page"
             )
         }
+
         static let importMediaLabel = String(
             localized: "settings.actions.importMedia.label",
             comment: "The label for the 'import media' action in the settings view"
@@ -133,6 +134,7 @@ extension Strings {
                     comment: "Message of an alert informing the user how many media objects have been updated. The argument is the count of updated objects"
                 )
             }
+
             static let libraryUpdateErrorTitle = String(
                 localized: "settings.alert.libraryUpdateError.title",
                 comment: "Title of an alert informing the user of an error while updating the library"
@@ -179,6 +181,7 @@ extension Strings {
                     comment: "Message of an alert asking the user to confirm the import. The argument is the count of media objects to import."
                 )
             }
+
             static let importMediaConfirmButtonUndo = String(
                 localized: "settings.alert.importMedia.button.undo",
                 comment: "Button to undo the media import"
@@ -193,6 +196,7 @@ extension Strings {
                     comment: "Message of an alert asking the user to confirm importing the tags. The argument is the count of tags to import."
                 )
             }
+
             static let importTagsErrorTitle = String(
                 localized: "settings.alert.tagImportError.title",
                 comment: "Title of an alert informing the user of an error during tag import"
