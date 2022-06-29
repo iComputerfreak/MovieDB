@@ -78,7 +78,9 @@ class DetailUITests: XCTestCase {
             .wait()
             .tap()
         // Go into edit mode
-        app.navigationBars.element.buttons["Edit"].tap()
+        let navBar = app.navigationBars.element
+        navBar.buttons["More"].tap()
+        app.buttons["Edit"].tap()
         
         app.cells.containing(.staticText, identifier: "Personal Rating")
             .buttons["Increment"]
@@ -125,7 +127,8 @@ class DetailUITests: XCTestCase {
         app.goBack()
         
         // Stop Editing
-        app.navigationBars.element.buttons["Done"].tap()
+        navBar.buttons["More"].tap()
+        app.buttons["Done"].tap()
         
         // Assertions
         let starImages = app.cells.containing(.staticText, identifier: "Personal Rating").images
@@ -184,7 +187,8 @@ class DetailUITests: XCTestCase {
     
     func goToTags(mediaName: String, app: XCUIApplication) {
         app.cells.staticTexts[mediaName].tap()
-        app.navigationBars[mediaName].buttons["Edit"].wait().tap()
+        app.navigationBars[mediaName].buttons["More"].wait().tap()
+        app.buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].wait().tap()
     }
     

@@ -22,10 +22,6 @@
       }
     },
     {
-      "skippedTests" : [
-        "Movie_DBUITests",
-        "Movie_DBUITests\/testConfigureApp()"
-      ],
       "target" : {
         "containerPath" : "container:Movie DB.xcodeproj",
         "identifier" : "AB48BD682816CE3C00E53135",

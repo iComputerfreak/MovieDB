@@ -74,7 +74,8 @@ class SettingsUITests: XCTestCase {
         // There should be no tags listed in the preview anymore
         XCTAssertTrue(app.cells.containing(.staticText, identifier: "Tags").staticTexts["None"].exists)
         
-        app.navigationBars["The Matrix"].buttons["Edit"].tap()
+        app.navigationBars["The Matrix"].buttons["More"].tap()
+        app.buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].tap()
         
         app.wait(1)
@@ -87,7 +88,8 @@ class SettingsUITests: XCTestCase {
     
     func goToTags(mediaName: String, app: XCUIApplication) {
         app.cells.staticTexts.first(hasPrefix: mediaName).tap()
-        app.navigationBars[mediaName].buttons["Edit"].wait().tap()
+        app.navigationBars[mediaName].buttons["More"].wait().tap()
+        app.buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].wait().tap()
     }
     
