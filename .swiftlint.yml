@@ -24,7 +24,6 @@ opt_in_rules:
 #  - discouraged_optional_boolean
 #  - discouraged_optional_collection
   - empty_collection_literal
-  - empty_count
   - empty_string
   - enum_case_associated_values_count
   - explicit_init

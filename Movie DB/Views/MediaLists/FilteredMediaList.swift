@@ -6,26 +6,37 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import CoreData
 import SwiftUI
 
 struct FilteredMediaList<RowContent: View>: View {
-    let list: MediaListProtocol
     let rowContent: (Media) -> RowContent
+    let list: MediaListProtocol
     
-    @FetchRequest
-    private var medias: FetchedResults<Media>
+    // Mirrors the respective property of the list for view updates
+    @State private var sortingOrder: SortingOrder
+
+    // Mirrors the respective property of the list for view updates
+    @State private var sortingDirection: SortingDirection
+    
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    var mediaCount: Int {
+        (try? managedObjectContext.count(for: list.buildFetchRequest())) ?? 0
+    }
     
     // swiftlint:disable:next type_contents_order
-    init(list: MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
-        self.list = list
+    init(list: any MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
         self.rowContent = rowContent
-        _medias = FetchRequest(fetchRequest: list.buildFetchRequest(), animation: .default)
+        self.list = list
+        _sortingOrder = State(wrappedValue: list.sortingOrder)
+        _sortingDirection = State(wrappedValue: list.sortingDirection)
     }
     
     var body: some View {
         VStack {
             // Show a warning when the filter is reset
-            if let dynamicList = list as? DynamicMediaList, dynamicList.filterSetting?.isReset ?? false {
+            if (list as? DynamicMediaList)?.filterSetting?.isReset ?? false {
                 HStack {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .symbolRenderingMode(.multicolor)
@@ -33,16 +44,74 @@ struct FilteredMediaList<RowContent: View>: View {
                 }
             }
             
-            if medias.isEmpty {
+            if mediaCount == 0 {
                 Spacer()
                 Text(Strings.Lists.filteredListEmptyMessage)
                 Spacer()
             } else {
-                List(medias) { media in
-                    self.rowContent(media)
-                }
-                .listStyle(.plain)
+                // Will be recreated every time the sorting order or direction changes
+                SortableMediaList(
+                    sortingOrder: $sortingOrder,
+                    sortingDirection: $sortingDirection,
+                    fetchRequest: list.buildFetchRequest(),
+                    rowContent: self.rowContent
+                )
                 .navigationTitle(list.name)
+                .onChange(of: sortingOrder) { newValue in
+                    // Update the actual list (either a CoreData entity or a default list)
+                    list.sortingOrder = newValue
+                }
+                .onChange(of: sortingDirection) { newValue in
+                    // Update the actual list (either a CoreData entity or a default list)
+                    list.sortingDirection = newValue
+                }
+            }
+        }
+    }
+}
+
+// swiftlint:disable:next file_types_order
+struct SortableMediaList<RowContent: View>: View {
+    @Binding var sortingOrder: SortingOrder
+    @Binding var sortingDirection: SortingDirection
+    let rowContent: (Media) -> RowContent
+    
+    @FetchRequest
+    private var medias: FetchedResults<Media>
+    
+    // swiftlint:disable:next type_contents_order
+    init(
+        sortingOrder: Binding<SortingOrder>,
+        sortingDirection: Binding<SortingDirection>,
+        fetchRequest: NSFetchRequest<Media>,
+        rowContent: @escaping (Media) -> RowContent
+    ) {
+        _sortingOrder = sortingOrder
+        _sortingDirection = sortingDirection
+        self.rowContent = rowContent
+        
+        // Update the sorting of the fetchRequest and use it to display the media
+        let order = sortingOrder.wrappedValue
+        let direction = sortingDirection.wrappedValue
+        fetchRequest.sortDescriptors = order.createSortDescriptors(with: direction)
+        _medias = FetchRequest(fetchRequest: fetchRequest, animation: .default)
+    }
+    
+    var body: some View {
+        List(medias) { media in
+            self.rowContent(media)
+        }
+        .listStyle(.plain)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    SortingMenuSection(
+                        sortingOrder: $sortingOrder,
+                        sortingDirection: $sortingDirection
+                    )
+                } label: {
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                }
             }
         }
     }

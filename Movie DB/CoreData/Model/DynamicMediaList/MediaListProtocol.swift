@@ -9,8 +9,10 @@
 import CoreData
 import Foundation
 
-protocol MediaListProtocol {
+protocol MediaListProtocol: AnyObject {
     var name: String { get }
     var iconName: String { get }
+    var sortingOrder: SortingOrder { get set }
+    var sortingDirection: SortingDirection { get set }
     func buildFetchRequest() -> NSFetchRequest<Media>
 }

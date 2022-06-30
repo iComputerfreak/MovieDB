@@ -53,13 +53,12 @@ class APITests: XCTestCase {
         brokenMedia = nil
     }
     
-    func disabled_testFetchTMDBData() async throws {
-        // TODO: See testAPISuccess
+    func testFetchTMDBData() async throws {
         let result = try await api.media(for: 603, type: .movie, context: testContext)
         print(result)
     }
     
-    func disabled_testAPISuccess() async throws {
+    func testAPISuccess() async throws {
         let mediaObjects = [
             DummyMedia(tmdbID: 550, type: .movie, title: "Fight Club"),
             DummyMedia(tmdbID: 603, type: .movie, title: "The Matrix"),
@@ -68,7 +67,6 @@ class APITests: XCTestCase {
         ]
         
         for dummy in mediaObjects {
-            // TODO: context.save() does not return!
             let result = try await api.media(for: dummy.tmdbID, type: dummy.type, context: testContext)
             assertMediaMatches(result, dummy)
             

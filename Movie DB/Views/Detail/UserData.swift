@@ -24,7 +24,6 @@ struct UserData: View {
             ) {
                 // MARK: Rating
                 RatingView(rating: $mediaObject.personalRating)
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.personalRatingHeadline)
                 // MARK: Watched field
                 if mediaObject.type == .movie {
@@ -52,7 +51,6 @@ struct UserData: View {
                         }
                     )
                     // swiftlint:enable force_cast
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchedHeadline)
                 } else {
                     // Has watched show field
@@ -62,20 +60,15 @@ struct UserData: View {
                         set: { (mediaObject as! Show).watched = $0 }
                     ))
                     // swiftlint:enable force_cast
-                    .environment(\.editMode, editMode)
                 }
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                    // TODO: Do we need the .environment() modifiers?
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchAgainHeadline)
                 // MARK: Taglist
                 TagListView($mediaObject.tags)
-                    .environment(\.editMode, editMode)
                 // MARK: Notes
                 if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
                     NotesView($mediaObject.notes)
-                        .environment(\.editMode, editMode)
                 }
             }
         }

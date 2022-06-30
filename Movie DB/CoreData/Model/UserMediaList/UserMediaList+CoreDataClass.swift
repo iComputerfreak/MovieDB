@@ -15,8 +15,7 @@ public class UserMediaList: NSManagedObject, MediaListProtocol {
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = NSPredicate(format: "%@ in %K", self, "userLists")
-        // TODO: Use stored sorting direction and order
-        fetch.sortDescriptors = []
+        fetch.sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
         return fetch
     }
 }

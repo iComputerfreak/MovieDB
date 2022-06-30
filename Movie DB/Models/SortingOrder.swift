@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SortingOrder: String, Equatable, CaseIterable {
+public enum SortingOrder: String, Equatable, CaseIterable, Codable {
     case name
     case created
     case releaseDate
@@ -42,9 +42,36 @@ enum SortingOrder: String, Equatable, CaseIterable {
             return Strings.SortingOrder.rating
         }
     }
+    
+    func createSortDescriptors(with direction: SortingDirection) -> [NSSortDescriptor] {
+        var sortDescriptors = [NSSortDescriptor]()
+        switch self {
+        case .name:
+            // Name sort descriptor gets appended at the end as a tie breaker
+            break
+        case .created:
+            sortDescriptors.append(NSSortDescriptor(
+                keyPath: \Media.creationDate,
+                ascending: direction == .ascending
+            ))
+        case .releaseDate:
+            sortDescriptors.append(NSSortDescriptor(
+                key: "releaseDateOrFirstAired",
+                ascending: direction == .ascending
+            ))
+        case .rating:
+            sortDescriptors.append(NSSortDescriptor(
+                key: "personalRating",
+                ascending: direction == .ascending
+            ))
+        }
+        // Append the name sort descriptor as a second alternative
+        sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: direction == .ascending))
+        return sortDescriptors
+    }
 }
 
-enum SortingDirection: String, Equatable {
+public enum SortingDirection: String, Equatable, Codable {
     case ascending
     case descending
     

@@ -36,34 +36,9 @@ struct LibraryList: View {
                 searchText
             ))
         }
-        if true { // TODO: Only if filter is active (currently no on/off switch available to toggle that)
-            predicates.append(filterSetting.buildPredicate())
-        }
+        predicates.append(filterSetting.buildPredicate())
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        
-        var sortDescriptors = [NSSortDescriptor]()
-        switch sortingOrder {
-        case .name:
-            // Name sort descriptor gets appended at the end as a tie breaker
-            break
-        case .created:
-            sortDescriptors.append(NSSortDescriptor(
-                keyPath: \Media.creationDate,
-                ascending: sortingDirection == .ascending
-            ))
-        case .releaseDate:
-            sortDescriptors.append(NSSortDescriptor(
-                key: "releaseDateOrFirstAired",
-                ascending: sortingDirection == .ascending
-            ))
-        case .rating:
-            sortDescriptors.append(NSSortDescriptor(
-                key: "personalRating",
-                ascending: sortingDirection == .ascending
-            ))
-        }
-        // Append the name sort descriptor as a second alternative
-        sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: sortingDirection == .ascending))
+        let sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
         
         _filteredMedia = FetchRequest<Media>(
             entity: Media.entity(),

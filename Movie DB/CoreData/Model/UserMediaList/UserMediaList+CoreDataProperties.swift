@@ -13,6 +13,17 @@ import Foundation
 public extension UserMediaList {
     @NSManaged var iconName: String
     @NSManaged var name: String
+    
+    var sortingOrder: SortingOrder {
+        get { getEnum(forKey: "sortingOrder", defaultValue: .default) }
+        set { setEnum(newValue, forKey: "sortingOrder") }
+    }
+
+    var sortingDirection: SortingDirection {
+        get { getEnum(forKey: "sortingDirection", defaultValue: sortingOrder.defaultDirection) }
+        set { setEnum(newValue, forKey: "sortingDirection") }
+    }
+
     @NSManaged var medias: Set<Media>
 
     @nonobjc

@@ -464,7 +464,7 @@
 "lists.editing.label.name" = "Name";
 
 /* The message showed in a filtered list when the list is empty */
-"lists.filteredListEmpty.message" = "Leer";
+"lists.filteredListEmpty.message" = "Es gibt keine Einträge in dieser Liste.";
 
 /* The warning showed in a filtered list when the filter is reset and thus the list is showing all media objects */
 "lists.filterResetWarning" = "Die Liste hat aktuell keinen Filter konfiguriert.";

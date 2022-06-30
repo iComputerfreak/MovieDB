@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21223.11" systemVersion="22A5266r" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21223.12" systemVersion="22A5286j" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -9,6 +9,8 @@
     <entity name="DynamicMediaList" representedClassName="DynamicMediaList" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sortingDirection" optional="YES" attributeType="String"/>
+        <attribute name="sortingOrder" optional="YES" attributeType="String"/>
         <relationship name="filterSetting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="mediaList" inverseEntity="FilterSetting"/>
     </entity>
     <entity name="FilterSetting" representedClassName="FilterSetting" syncable="YES">
@@ -124,6 +126,8 @@
     <entity name="UserMediaList" representedClassName="UserMediaList" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sortingDirection" optional="YES" attributeType="String"/>
+        <attribute name="sortingOrder" optional="YES" attributeType="String"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="userLists" inverseEntity="Media"/>
     </entity>
     <entity name="Video" representedClassName="Video" syncable="YES">
@@ -138,7 +142,7 @@
     </entity>
     <elements>
         <element name="CastMember" positionX="-27" positionY="198" width="128" height="89"/>
-        <element name="DynamicMediaList" positionX="-81" positionY="144" width="128" height="74"/>
+        <element name="DynamicMediaList" positionX="-81" positionY="144" width="128" height="104"/>
         <element name="FilterSetting" positionX="-72" positionY="153" width="128" height="269"/>
         <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="89"/>
         <element name="Media" positionX="-63" positionY="-18" width="128" height="524"/>
@@ -147,7 +151,7 @@
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
         <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="239"/>
         <element name="Tag" positionX="-72" positionY="153" width="128" height="89"/>
+        <element name="UserMediaList" positionX="-81" positionY="144" width="128" height="104"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
-        <element name="UserMediaList" positionX="-81" positionY="144" width="128" height="74"/>
     </elements>
 </model>

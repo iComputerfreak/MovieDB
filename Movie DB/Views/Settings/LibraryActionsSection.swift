@@ -107,10 +107,8 @@ struct LibraryActionsSection: View {
             title: Strings.Settings.Alert.resetLibraryConfirmButtonDelete,
             style: .destructive
         ) { _ in
+            config.showProgress(Strings.Settings.ProgressView.resetLibrary)
             Task(priority: .userInitiated) {
-                await MainActor.run {
-                    self.config.showProgress(Strings.Settings.ProgressView.resetLibrary)
-                }
                 do {
                     print("Resetting Library...")
                     try self.library.reset()

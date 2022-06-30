@@ -96,12 +96,3 @@ extension Strings {
         )
     }
 }
-
-/*
- TODO: Create snippet when snippets menu is no longer bugged:
- 
- static let <#key#> = String(
-     localized: "<#LocalizationKey#>",
-     comment: "<#LocalizationComment#>"
- )
- */

@@ -9,16 +9,65 @@
 import CoreData
 import Foundation
 
-struct DefaultMediaList: MediaListProtocol {
+class DefaultMediaList: MediaListProtocol {
     let name: String
     let iconName: String
     let predicate: NSPredicate
     
+    var sortingOrder: SortingOrder {
+        didSet {
+            let key = Self.userDefaultsKey(for: name, type: .sortingOrder)
+            UserDefaults.standard.set(sortingOrder.rawValue, forKey: key)
+        }
+    }
+
+    var sortingDirection: SortingDirection {
+        didSet {
+            let key = Self.userDefaultsKey(for: name, type: .sortingDirection)
+            UserDefaults.standard.set(sortingDirection.rawValue, forKey: key)
+        }
+    }
+    
+    init(name: String, iconName: String, predicate: NSPredicate) {
+        self.name = name
+        self.iconName = iconName
+        self.predicate = predicate
+        // We know that the name is unique, because we only have a predefined set of names
+        let orderKey = Self.userDefaultsKey(for: name, type: .sortingOrder)
+        if
+            let sortingOrderRawValue = UserDefaults.standard.string(forKey: orderKey),
+            let order = SortingOrder(rawValue: sortingOrderRawValue)
+        {
+            sortingOrder = order
+        } else {
+            sortingOrder = .default
+        }
+        
+        let directionKey = Self.userDefaultsKey(for: name, type: .sortingDirection)
+        if
+            let sortingDirectionRawValue = UserDefaults.standard.string(forKey: directionKey),
+            let direction = SortingDirection(rawValue: sortingDirectionRawValue)
+        {
+            sortingDirection = direction
+        } else {
+            sortingDirection = sortingOrder.defaultDirection
+        }
+    }
+    
+    private static func userDefaultsKey(for name: String, type: StorageType) -> String {
+        "defaultList_\(type.rawValue)_\(name)"
+    }
+    
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = predicate
-        fetch.sortDescriptors = []
+        fetch.sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
         return fetch
+    }
+    
+    private enum StorageType: String {
+        case sortingOrder
+        case sortingDirection
     }
 }
 

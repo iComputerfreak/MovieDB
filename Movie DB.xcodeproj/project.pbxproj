@@ -142,6 +142,7 @@
 		AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB99561128511FEB00C3D063 /* FilterUITests.swift */; };
 		AB9956142851280700C3D063 /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9956132851280700C3D063 /* FilterTests.swift */; };
 		AB995616285638E300C3D063 /* ContactSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB995615285638E300C3D063 /* ContactSection.swift */; };
+		AB9EC349286C875900A2A270 /* SortingMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EC348286C875900A2A270 /* SortingMenuSection.swift */; };
 		ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0399224D4990200DBF71F /* MediaStatus.swift */; };
 		ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA13D5A2382D29E00E885DD /* Extensions.swift */; };
 		ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E0286304F300234E62 /* SelectUserListView.swift */; };
@@ -375,6 +376,7 @@
 		AB9956132851280700C3D063 /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
 		AB995615285638E300C3D063 /* ContactSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSection.swift; sourceTree = "<group>"; };
 		AB9EC347286C4FA600A2A270 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		AB9EC348286C875900A2A270 /* SortingMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingMenuSection.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABA13D5A2382D29E00E885DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */,
 				ABEBA2CA23959D77003BF187 /* MultiPicker.swift */,
 				ABC483C42396CD090004D389 /* RangeEditingView.swift */,
+				AB9EC348286C875900A2A270 /* SortingMenuSection.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1060,7 +1063,8 @@
 				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
 				ABEEB07C28104BE100230F0B /* SwiftLint */,
-				AB9EC346286C4CEA00A2A270 /* SwiftFormat */,
+				AB9EC34A286CA0B500A2A270 /* SwiftFormat */,
+				AB9EC346286C4CEA00A2A270 /* SwiftFormat Linter */,
 				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
@@ -1213,7 +1217,26 @@
 			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                               \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB9EC346286C4CEA00A2A270 /* SwiftFormat */ = {
+		AB9EC346286C4CEA00A2A270 /* SwiftFormat Linter */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftFormat Linter";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --lint . --lintonly unusedArguments\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+		AB9EC34A286CA0B500A2A270 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -1230,7 +1253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --lint . --lintonly unusedArguments\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --quiet --rules indent,redundantSelf,sortedImports .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1357,6 +1380,7 @@
 				ABEEB0D02814317B00230F0B /* ImportExportSection.swift in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
 				AB6478DA22C7B8E800F3E14E /* TMDBSearchResult.swift in Sources */,
+				AB9EC349286C875900A2A270 /* SortingMenuSection.swift in Sources */,
 				AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */,
 				AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */,
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,

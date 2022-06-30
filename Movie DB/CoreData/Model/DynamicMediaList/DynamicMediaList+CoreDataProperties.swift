@@ -15,6 +15,17 @@ public extension DynamicMediaList {
     @NSManaged var name: String
     /// The name of the SF Symbol to use as an icon for this list
     @NSManaged var iconName: String
+    
+    var sortingOrder: SortingOrder {
+        get { getEnum(forKey: "sortingOrder", defaultValue: .default) }
+        set { setEnum(newValue, forKey: "sortingOrder") }
+    }
+    
+    var sortingDirection: SortingDirection {
+        get { getEnum(forKey: "sortingDirection", defaultValue: sortingOrder.defaultDirection) }
+        set { setEnum(newValue, forKey: "sortingDirection") }
+    }
+    
     /// The filter setting of this media list
     @NSManaged var filterSetting: FilterSetting?
 
