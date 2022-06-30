@@ -43,30 +43,23 @@ struct FilteredMediaList<RowContent: View>: View {
                     Text(Strings.Lists.filteredListResetWarning)
                 }
             }
-            
-            if mediaCount == 0 {
-                Spacer()
-                Text(Strings.Lists.filteredListEmptyMessage)
-                Spacer()
-            } else {
-                // Will be recreated every time the sorting order or direction changes
-                SortableMediaList(
-                    sortingOrder: $sortingOrder,
-                    sortingDirection: $sortingDirection,
-                    fetchRequest: list.buildFetchRequest(),
-                    rowContent: self.rowContent
-                )
-                .navigationTitle(list.name)
-                .onChange(of: sortingOrder) { newValue in
-                    // Update the actual list (either a CoreData entity or a default list)
-                    list.sortingOrder = newValue
-                }
-                .onChange(of: sortingDirection) { newValue in
-                    // Update the actual list (either a CoreData entity or a default list)
-                    list.sortingDirection = newValue
-                }
+            // Will be recreated every time the sorting order or direction changes
+            SortableMediaList(
+                sortingOrder: $sortingOrder,
+                sortingDirection: $sortingDirection,
+                fetchRequest: list.buildFetchRequest(),
+                rowContent: self.rowContent
+            )
+            .onChange(of: sortingOrder) { newValue in
+                // Update the actual list (either a CoreData entity or a default list)
+                list.sortingOrder = newValue
+            }
+            .onChange(of: sortingDirection) { newValue in
+                // Update the actual list (either a CoreData entity or a default list)
+                list.sortingDirection = newValue
             }
         }
+        .navigationTitle(list.name)
     }
 }
 
@@ -98,21 +91,27 @@ struct SortableMediaList<RowContent: View>: View {
     }
     
     var body: some View {
-        List(medias) { media in
-            self.rowContent(media)
-        }
-        .listStyle(.plain)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    SortingMenuSection(
-                        sortingOrder: $sortingOrder,
-                        sortingDirection: $sortingDirection
-                    )
-                } label: {
-                    Image(systemName: "arrow.up.arrow.down.circle")
+        if medias.isEmpty {
+            Spacer()
+            Text(Strings.Lists.filteredListEmptyMessage)
+            Spacer()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Menu {
+                            SortingMenuSection(
+                                sortingOrder: $sortingOrder,
+                                sortingDirection: $sortingDirection
+                            )
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down.circle")
+                        }
+                    }
                 }
+        } else {
+            List(medias) { media in
+                self.rowContent(media)
             }
+            .listStyle(.grouped)
         }
     }
 }

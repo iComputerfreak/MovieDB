@@ -23,6 +23,7 @@ public extension Show {
         set { setOptionalEnum(newValue, forKey: "showType") }
     }
 
+    // TODO: Remove when migrated on all devices (iOS 16)
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
     var lastSeasonWatched2: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }

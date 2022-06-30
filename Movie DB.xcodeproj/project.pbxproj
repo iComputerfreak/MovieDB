@@ -131,6 +131,8 @@
 		AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */; };
 		AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */; };
 		AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */; };
+		AB8B88EC286DD84B00691C11 /* DefaultLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88EB286DD84B00691C11 /* DefaultLists.swift */; };
+		AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
 		AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA37264D770F0048B8CC /* LanguageChooser.swift */; };
@@ -366,6 +368,9 @@
 		AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUserDataSection.swift; sourceTree = "<group>"; };
 		AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInformationSection.swift; sourceTree = "<group>"; };
 		AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShowSpecificSection.swift; sourceTree = "<group>"; };
+		AB8B88EB286DD84B00691C11 /* DefaultLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLists.swift; sourceTree = "<group>"; };
+		AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLibraryRow.swift; sourceTree = "<group>"; };
+		AB8B88EF286DDBFC00691C11 /* Movie DB v7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v7.xcdatamodel"; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
 		AB98EA37264D770F0048B8CC /* LanguageChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooser.swift; sourceTree = "<group>"; };
@@ -513,6 +518,7 @@
 				AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */,
 				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
 				AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */,
+				AB8B88EB286DD84B00691C11 /* DefaultLists.swift */,
 			);
 			path = DynamicMediaList;
 			sourceTree = "<group>";
@@ -686,7 +692,6 @@
 		AB3648BD22C3DD8B0096FE39 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB4CF8DE2823CD11006F2F81 /* Problems */,
 				ABEEB0DD2815825100230F0B /* Top Level */,
 				AB7DE5DD28217F94007B59A2 /* Filter */,
 				ABEEB0DB2815823C00230F0B /* Library */,
@@ -703,6 +708,7 @@
 		AB3648C022C3FAEE0096FE39 /* Support Views */ = {
 			isa = PBXGroup;
 			children = (
+				AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */,
 				ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */,
 				AB61CA28241425E3008BD8C8 /* DocumentPicker.swift */,
 			);
@@ -721,14 +727,6 @@
 				AB99560E2850F52E00C3D063 /* .swiftlint.yml */,
 			);
 			path = "Movie DBUITests";
-			sourceTree = "<group>";
-		};
-		AB4CF8DE2823CD11006F2F81 /* Problems */ = {
-			isa = PBXGroup;
-			children = (
-				AB4CF8DF2823CD1E006F2F81 /* NavigationLinkChevron.swift */,
-			);
-			path = Problems;
 			sourceTree = "<group>";
 		};
 		AB6718B422C0312A00F429E4 = {
@@ -1015,6 +1013,7 @@
 				AB11C30B22CA3E1A0057105A /* LibraryHome.swift */,
 				AB5493D525FAB0850072745B /* LibraryList.swift */,
 				ABF8FCC022CAB52F00611036 /* LibraryRow.swift */,
+				AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1079,8 +1078,8 @@
 			buildPhases = (
 				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
-				ABEEB07C28104BE100230F0B /* SwiftLint */,
 				AB9EC34A286CA0B500A2A270 /* SwiftFormat */,
+				ABEEB07C28104BE100230F0B /* SwiftLint */,
 				AB9EC346286C4CEA00A2A270 /* SwiftFormat Linter */,
 				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
@@ -1270,7 +1269,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --quiet --rules indent,redundantSelf,sortedImports .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --quiet --rules indent,redundantSelf,sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1347,6 +1346,7 @@
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB1434AB25CEE53A00AA304F /* Season+CoreDataProperties.swift in Sources */,
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
+				AB8B88EC286DD84B00691C11 /* DefaultLists.swift in Sources */,
 				AB14349B25CEE0E000AA304F /* Genre+CoreDataProperties.swift in Sources */,
 				AB14341225CDDB6600AA304F /* MediaType.swift in Sources */,
 				AB097F63284BA73700E559E7 /* DynamicMediaListEditingView.swift in Sources */,
@@ -1437,6 +1437,7 @@
 				ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */,
 				AB6D9C97283BC21800AF655C /* Strings+MediaSearch.swift in Sources */,
 				AB5493DC25FBDD990072745B /* Persistence.swift in Sources */,
+				AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */,
 				AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */,
 				AB14349A25CEE0E000AA304F /* Genre+CoreDataClass.swift in Sources */,
 				AB1434CD25CEF2DD00AA304F /* EpisodeNumber.swift in Sources */,
@@ -1939,6 +1940,7 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB8B88EF286DDBFC00691C11 /* Movie DB v7.xcdatamodel */,
 				AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */,
 				AB6D9CA6283D513F00AF655C /* Movie DB v5.xcdatamodel */,
 				AB11008B2826C0CE001507B5 /* Movie DB v4.xcdatamodel */,

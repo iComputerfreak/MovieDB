@@ -34,6 +34,7 @@ struct UserListsView: View {
         return lists
     }
     
+    // TODO: View is too big, split up
     var body: some View {
         NavigationView {
             List {
@@ -120,6 +121,7 @@ struct UserListsView: View {
                             let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
                                 let list = DynamicMediaList(context: managedObjectContext)
                                 list.name = name
+                                PersistenceController.saveContext(managedObjectContext)
                             }
                             AlertHandler.presentAlert(alert: alert)
                         }
@@ -127,6 +129,7 @@ struct UserListsView: View {
                             let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
                                 let list = UserMediaList(context: managedObjectContext)
                                 list.name = name
+                                PersistenceController.saveContext(managedObjectContext)
                             }
                             AlertHandler.presentAlert(alert: alert)
                         }
@@ -137,7 +140,7 @@ struct UserListsView: View {
         }
     }
     
-    func buildAlert(_ title: String, onSubmit: @escaping (String) -> Void) -> UIAlertController {
+    private func buildAlert(_ title: String, onSubmit: @escaping (String) -> Void) -> UIAlertController {
         let alert = UIAlertController(
             title: title,
             message: Strings.Lists.Alert.newListMessage,

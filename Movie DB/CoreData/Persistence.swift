@@ -89,15 +89,15 @@ struct PersistenceController {
         // Debug build configuration.
         // Enable once in a while (leaving it enables slows down the app starts)
 //        #if DEBUG
-//        do {
-//            // Use the container to initialize the development schema.
-//            let cloudKitContainer = container as? NSPersistentCloudKitContainer
-//            try cloudKitContainer?.initializeCloudKitSchema(options: [])
-//        } catch {
-//            // Handle any errors.
-//            // No fatalError() because it will make the app crash if there is no iCloud Account set up
-//            print("\(error)")
-//        }
+//            do {
+//                // Use the container to initialize the development schema.
+//                let cloudKitContainer = container as? NSPersistentCloudKitContainer
+//                try cloudKitContainer?.initializeCloudKitSchema(options: [])
+//            } catch {
+//                // Handle any errors.
+//                // No fatalError() because it will make the app crash if there is no iCloud Account set up
+//                print("\(error)")
+//            }
 //        #endif
     }
     

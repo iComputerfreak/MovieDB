@@ -56,36 +56,6 @@ struct LibraryRow: View {
     }
 }
 
-// swiftlint:disable:next file_types_order
-struct ProblemsLibraryRow: View {
-    @EnvironmentObject var mediaObject: Media
-    
-    var missing: String {
-        mediaObject.missingInformation()
-            .map(\.localized)
-            .sorted()
-            .joined(separator: ", ")
-    }
-    
-    var body: some View {
-        HStack {
-            Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
-            VStack(alignment: .leading) {
-                Text(mediaObject.title)
-                    .lineLimit(2)
-                    .font(.headline)
-                // Under the title
-                HStack {
-                    Text(Strings.Problems.missingList(missing))
-                        .font(.caption)
-                        .italic()
-                }
-            }
-        }
-    }
-}
-
 struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -100,8 +70,6 @@ struct LibraryRow_Previews: PreviewProvider {
                     LibraryRow()
                         .environmentObject(movie)
                 }
-                ProblemsLibraryRow()
-                    .environmentObject(PlaceholderData.problemShow as Media)
             }
             .navigationTitle(Text(verbatim: "Library"))
         }

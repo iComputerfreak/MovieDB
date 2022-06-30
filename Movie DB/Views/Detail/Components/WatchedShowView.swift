@@ -21,8 +21,10 @@ struct WatchedShowView: View {
         case .notWatched:
             return Strings.Detail.watchedShowLabelNo
         case let .season(s):
+            assert(s > 0)
             return Strings.Detail.watchedShowLabelSeason(s)
         case let .episode(season: s, episode: e):
+            assert(e > 0)
             return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }
@@ -54,7 +56,7 @@ struct WatchedShowView: View {
                     self.watched = .notWatched
                 } else {
                     // Update the season
-                    if let episode = self.episode {
+                    if let episode = self.episode, episode > 0 {
                         self.watched = .episode(season: season, episode: episode)
                     } else {
                         self.watched = .season(season)

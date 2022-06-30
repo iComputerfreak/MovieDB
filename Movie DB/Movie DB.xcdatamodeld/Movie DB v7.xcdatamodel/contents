@@ -107,8 +107,6 @@
         <attribute name="isInProduction" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
-        <attribute name="lastEpisodeWatched" optional="YES" attributeType="Integer 64" usesScalarValueType="YES" customClassName="EpisodeNumber"/>
-        <attribute name="lastSeasonWatched" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="nextEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
         <attribute name="numberOfEpisodes" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
@@ -149,7 +147,7 @@
         <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
         <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
         <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
-        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="254"/>
+        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="224"/>
         <element name="Tag" positionX="-72" positionY="153" width="128" height="89"/>
         <element name="UserMediaList" positionX="-81" positionY="144" width="128" height="104"/>
         <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
