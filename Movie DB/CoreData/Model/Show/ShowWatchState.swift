@@ -43,6 +43,10 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     }
     
     init(season: Int, episode: Int?) {
+        guard season > 0 else {
+            self = .notWatched
+            return
+        }
         guard let episode, episode > 0 else {
             self = .season(season)
             return
