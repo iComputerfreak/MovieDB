@@ -85,6 +85,7 @@ class CodableTests: XCTestCase {
         assertEqual(movie.keywords, keywords)
         assertEqual(movie.translations, translations)
         assertEqual(movie.videos, videos)
+        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
     }
     
     func testDecodeMovieFightClub() throws {
@@ -136,6 +137,7 @@ class CodableTests: XCTestCase {
         assertEqual(movie.keywords, keywords)
         assertEqual(movie.translations, translations)
         assertEqual(movie.videos, videos)
+        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Prime Video", "Amazon Video", "Apple iTunes", "Chili", "Disney Plus", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
     }
     
     // swiftlint:disable:next inclusive_language
@@ -229,6 +231,7 @@ class CodableTests: XCTestCase {
         assertEqual(show.keywords, keywords)
         assertContains(translations, in: show.translations)
         assertEqual(show.videos, videos)
+        assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "RTL+"])
     }
     
     func testDecodeShowGameOfThrones() throws {
@@ -323,5 +326,6 @@ class CodableTests: XCTestCase {
         assertEqual(show.keywords, keywords)
         assertEqual(show.translations, translations)
         assertEqual(show.videos, videos)
+        assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "Microsoft Store", "Rakuten TV", "Sky Go", "Sky Ticket", "maxdome Store"])
     }
 }

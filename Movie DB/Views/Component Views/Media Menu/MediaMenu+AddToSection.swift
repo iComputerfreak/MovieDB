@@ -42,7 +42,6 @@ extension MediaMenu {
                 Button {
                     self.showingAddToSheet = true
                 } label: {
-                    // FIXME: Localize
                     Label(Strings.Library.mediaActionAddToList, systemImage: "text.badge.plus")
                 }
             }

@@ -15,7 +15,9 @@ struct DynamicMediaListEditingView: View {
     
     var body: some View {
         Form {
+            // MARK: List Details
             MediaListEditingSection(name: $list.name, iconName: $list.iconName)
+            // MARK: Filter Details
             FilterUserDataSection(filterSetting: list.filterSetting!)
             FilterInformationSection(filterSetting: list.filterSetting!)
             FilterShowSpecificSection(filterSetting: list.filterSetting!)

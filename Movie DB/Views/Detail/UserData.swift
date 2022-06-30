@@ -35,7 +35,6 @@ struct UserData: View {
                             set: { (self.mediaObject as! Movie).watched = $0 }
                             // swiftlint:enable force_cast
                         ),
-                        // TODO: Should be a view not a string
                         label: { state in
                             if let state = state {
                                 switch state {

@@ -128,7 +128,10 @@ struct TestingUtils {
 
 /// Tests each element of the array by itself, to get a more local error
 func assertEqual<T>(_ value1: [T], _ value2: [T]) where T: Equatable {
-    XCTAssertEqual(value1.count, value2.count)
+    guard value1.count == value2.count else {
+        XCTFail("Cannot compare arrays of different lenghts: \(value1.count) and \(value2.count)")
+        return
+    }
     for i in 0..<value1.count {
         XCTAssertEqual(value1[i], value2[i])
     }
