@@ -11,7 +11,7 @@ import SwiftUI
 struct MediaDetail: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
-    @State private var showingAddToSheet = false
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     var body: some View {
         if mediaObject.isFault {
@@ -28,9 +28,6 @@ struct MediaDetail: View {
                 ExtendedInfo()
                 MetadataInfo()
             }
-            .sheet(isPresented: $showingAddToSheet, content: {
-                SelectUserListView(mediaObject: mediaObject)
-            })
             .listStyle(.grouped)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(mediaObject.title)
@@ -51,28 +48,7 @@ struct MediaDetail: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        EditButton()
-                        Section {
-                            Button {
-                                mediaObject.isFavorite.toggle()
-                            } label: {
-                                if mediaObject.isFavorite {
-                                    Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.fill")
-                                } else {
-                                    Label(Strings.Detail.menuButtonFavorite, systemImage: "heart")
-                                }
-                            }
-                            // Present popup that asks to which list the media should be added
-                            Button {
-                                self.showingAddToSheet = true
-                            } label: {
-                                Label("Add to List...", systemImage: "text.badge.plus")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
+                    MediaMenu(mediaObject: mediaObject)
                 }
             }
         }

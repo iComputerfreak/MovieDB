@@ -28,6 +28,14 @@ extension Strings {
             localized: "detail.menu.unfavorite",
             comment: "The 'unfavorite' action in the media menu that lets the user mark a media as not favorite anymore."
         )
+        static let menuButtonAddToWatchlist = String(
+            localized: "detail.menu.addToWatchlist",
+            comment: "The 'add to watchlist' media action that adds a media object to the user's watchlist"
+        )
+        static let menuButtonRemoveFromWatchlist = String(
+            localized: "detail.menu.removeFromWatchlist",
+            comment: "The 'remove from watchlist' media action that removes a media object from the user's watchlist"
+        )
         
         // MARK: UserData
         static let userDataSectionHeader = String(

@@ -60,30 +60,17 @@ struct LibraryList: View {
                                 // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                 self.managedObjectContext.delete(mediaObject)
                             }
-                            Button(Strings.Library.swipeActionReload) {
-                                Task(priority: .userInitiated) {
-                                    do {
-                                        try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
-                                    } catch {
-                                        print("Error updating \(mediaObject.title): \(error)")
-                                        AlertHandler.showSimpleAlert(
-                                            title: Strings.Library.Alert.updateErrorTitle,
-                                            message: Strings.Library.Alert.updateErrorMessage(
-                                                mediaObject.title,
-                                                error.localizedDescription
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                            .tint(.blue)
                             #if DEBUG
-                                Button {
-                                    mediaObject.thumbnail = nil
-                                } label: {
-                                    Text(verbatim: "Debug")
-                                }
+//                                Button {
+//                                    mediaObject.thumbnail = nil
+//                                } label: {
+//                                    Text(verbatim: "Debug")
+//                                }
                             #endif
+                        }
+                        .contextMenu {
+                            MediaMenu.AddToSection(mediaObject: mediaObject)
+                            MediaMenu.ActionsSection(mediaObject: mediaObject)
                         }
                 }
             }

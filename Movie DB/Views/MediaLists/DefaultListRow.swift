@@ -11,6 +11,7 @@ import SwiftUI
 struct DefaultListRow<RowContent: View>: View {
     let list: DefaultMediaList
     let rowContent: (Media) -> RowContent
+    @Environment(\.editMode) private var editMode
     
     var body: some View {
         NavigationLink {
@@ -19,6 +20,8 @@ struct DefaultListRow<RowContent: View>: View {
             Label(list.name, systemImage: list.iconName)
                 .symbolRenderingMode(.multicolor)
         }
+        // Disable the destination during editing
+        .disabled(editMode?.wrappedValue.isEditing ?? false)
     }
 }
 

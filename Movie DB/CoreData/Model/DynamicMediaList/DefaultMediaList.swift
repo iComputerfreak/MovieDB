@@ -73,19 +73,19 @@ class DefaultMediaList: MediaListProtocol {
 
 extension DefaultMediaList {
     static let favorites = DefaultMediaList(
-        name: "Favorites",
-        iconName: "star.fill",
+        name: Strings.Lists.defaultListNameFavorites,
+        iconName: "heart.fill",
         predicate: NSPredicate(format: "isFavorite = TRUE")
     )
     
     static let watchlist = DefaultMediaList(
-        name: "Watchlist",
+        name: Strings.Lists.defaultListNameWatchlist,
         iconName: "bookmark.fill",
         predicate: NSPredicate(format: "isOnWatchlist = TRUE")
     )
     
     static let problems = DefaultMediaList(
-        name: "Problems",
+        name: Strings.Lists.defaultListNameProblems,
         iconName: "exclamationmark.triangle.fill",
         predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
             NSCompoundPredicate(orPredicateWithSubpredicates: [

@@ -30,6 +30,7 @@ struct MediaListRow<RowContent: View>: View {
         } label: {
             Label(list.name, systemImage: list.iconName)
                 .symbolRenderingMode(.multicolor)
+                .foregroundColor(.primary)
         }
     }
 }
@@ -38,14 +39,17 @@ struct MediaListRow_Previews: PreviewProvider {
     static let previewList: DynamicMediaList = {
         let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
-        list.iconName = "heart.fill"
+        list.iconName = "film"
         return list
     }()
     
     static var previews: some View {
-        MediaListRow(list: Self.previewList) { media in
-            LibraryRow()
-                .environmentObject(media)
+        List {
+            MediaListRow(list: Self.previewList) { media in
+                LibraryRow()
+                    .environmentObject(media)
+            }
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }
 }

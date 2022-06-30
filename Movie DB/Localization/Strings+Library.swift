@@ -22,9 +22,13 @@ extension Strings {
             localized: "library.list.swipe.delete",
             comment: "The label for the delete swipe action in the library list"
         )
-        static let swipeActionReload = String(
+        static let mediaActionReload = String(
             localized: "library.list.swipe.reload",
-            comment: "The label for the reload swipe action in the library list"
+            comment: "The label for the reload action in the library list or media detail"
+        )
+        static let mediaActionAddToList = String(
+            localized: "library.list.action.addToList",
+            comment: "The label for the add to list action in the library list or media detail"
         )
         static func footerTotal(_ objCount: Int) -> String {
             String(

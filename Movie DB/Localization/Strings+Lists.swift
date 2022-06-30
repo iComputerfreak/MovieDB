@@ -94,5 +94,17 @@ extension Strings {
             localized: "lists.filteredListEmpty.message",
             comment: "The message showed in a filtered list when the list is empty"
         )
+        static let defaultListNameFavorites = String(
+            localized: "lists.defaultListName.favorites",
+            comment: "The name of the default 'favorites' list"
+        )
+        static let defaultListNameWatchlist = String(
+            localized: "lists.defaultListName.watchlist",
+            comment: "The name of the default 'watchlist' list"
+        )
+        static let defaultListNameProblems = String(
+            localized: "lists.defaultListName.problems",
+            comment: "The name of the default 'problems' list"
+        )
     }
 }

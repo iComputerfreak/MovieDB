@@ -11,6 +11,7 @@ import SwiftUI
 
 struct UserListsView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.editMode) private var editMode
     
     @FetchRequest(
         entity: DynamicMediaList.entity(),
@@ -110,10 +111,10 @@ struct UserListsView: View {
             }
             
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Menu(Strings.Lists.newListLabel) {
                         Button(Strings.Lists.newDynamicListLabel) {
                             let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in

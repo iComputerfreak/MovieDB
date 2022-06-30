@@ -786,3 +786,13 @@
 
 /* The label of the settings tab of the main TabView */
 "tabView.settings.label" = "Settings";
+
+"library.list.action.addToList" = "Add to List...";
+
+"detail.menu.addToWatchlist" = "Add to Watchlist";
+
+"detail.menu.removeFromWatchlist" = "Remove from Watchlist";
+
+"lists.defaultListName.favorites" = "Favorites";
+"lists.defaultListName.watchlist" = "Watchlist";
+"lists.defaultListName.problems" = "Problems";
