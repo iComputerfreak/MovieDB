@@ -21,10 +21,10 @@ struct WatchedShowView: View {
         case .notWatched:
             return Strings.Detail.watchedShowLabelNo
         case let .season(s):
-            assert(s > 0)
+//            assert(s > 0)
             return Strings.Detail.watchedShowLabelSeason(s)
         case let .episode(season: s, episode: e):
-            assert(e > 0)
+//            assert(e > 0)
             return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }

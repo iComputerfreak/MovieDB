@@ -11,7 +11,10 @@ import SwiftUI
 extension MediaMenu {
     struct AddToSection: View {
         @ObservedObject var mediaObject: Media
-        @State private var showingAddToSheet = false
+        @FetchRequest(
+            entity: UserMediaList.entity(),
+            sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
+        ) var userLists: FetchedResults<UserMediaList>
         
         var body: some View {
             Section {
@@ -38,16 +41,20 @@ extension MediaMenu {
                     }
                 }
                 // MARK: Add to...
-                // Present popup that asks to which list the media should be added
-                Button {
-                    self.showingAddToSheet = true
+                // sub-menu that asks to which list the media should be added
+                // only shows when it has at least one entry (at least one user list)
+                Menu {
+                    ForEach(userLists) { list in
+                        Button {
+                            mediaObject.userLists.insert(list)
+                        } label: {
+                            Label(list.name, systemImage: list.iconName)
+                        }
+                    }
                 } label: {
                     Label(Strings.Library.mediaActionAddToList, systemImage: "text.badge.plus")
                 }
             }
-            .sheet(isPresented: $showingAddToSheet, content: {
-                SelectUserListView(mediaObject: mediaObject)
-            })
         }
     }
 }

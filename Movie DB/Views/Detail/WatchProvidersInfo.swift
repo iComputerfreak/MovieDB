@@ -57,11 +57,11 @@ struct ProviderView: View {
                 image
                     .resizable()
                     .cornerRadius(10)
+                    .shadow(radius: 1, y: 1.5)
             } placeholder: {
-                ProgressView()
+                Text(provider.name)
             }
             .frame(width: 50, height: 50)
-            .shadow(radius: 1, y: 1.5)
             .padding(2)
             
             Text(provider.type.localized)
