@@ -10,14 +10,20 @@ import Foundation
 
 extension TMDBData {
     struct ShowData: Decodable, Hashable {
-        var rawFirstAirDate: String
+        var rawFirstAirDate: String?
         var firstAirDate: Date? {
-            Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
+            guard let rawFirstAirDate else {
+                return nil
+            }
+            return Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
         }
 
-        var rawLastAirDate: String
+        var rawLastAirDate: String?
         var lastAirDate: Date? {
-            Utils.tmdbDateFormatter.date(from: rawLastAirDate)
+            guard let rawLastAirDate else {
+                return nil
+            }
+            return Utils.tmdbDateFormatter.date(from: rawLastAirDate)
         }
 
         var lastEpisodeToAir: Episode?
@@ -32,8 +38,8 @@ extension TMDBData {
         var createdBy: [String]
         
         init(
-            rawFirstAirDate: String,
-            rawLastAirDate: String,
+            rawFirstAirDate: String?,
+            rawLastAirDate: String?,
             lastEpisodeToAir: Episode? = nil,
             nextEpisodeToAir: Episode? = nil,
             numberOfSeasons: Int? = nil,
@@ -61,8 +67,8 @@ extension TMDBData {
         
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            rawFirstAirDate = try container.decode(String.self, forKey: .rawFirstAirDate)
-            rawLastAirDate = try container.decode(String.self, forKey: .rawLastAirDate)
+            rawFirstAirDate = try container.decode(String?.self, forKey: .rawFirstAirDate)
+            rawLastAirDate = try container.decode(String?.self, forKey: .rawLastAirDate)
             numberOfSeasons = try container.decode(Int?.self, forKey: .numberOfSeasons)
             numberOfEpisodes = try container.decode(Int.self, forKey: .numberOfEpisodes)
             episodeRuntime = try container.decode([Int].self, forKey: .episodeRuntime)

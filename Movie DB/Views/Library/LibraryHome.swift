@@ -54,6 +54,7 @@ struct LibraryHome: View {
                         sortingDirection: sortingDirection
                     )
                     .searchable(text: $searchText)
+                    .background(.thinMaterial)
                 }
                 .onAppear {
                     if JFConfig.shared.libraryWasReset {

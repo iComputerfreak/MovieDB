@@ -158,7 +158,7 @@ struct UserListsView: View {
                 return
             }
             // Check on equality, ignoring case
-            guard !allLists.map(\.name).map { $0.lowercased() }.contains(text.lowercased()) else {
+            guard !allLists.map(\.name).map({ $0.lowercased() }).contains(text.lowercased()) else {
                 AlertHandler.showSimpleAlert(
                     title: Strings.Lists.Alert.alreadyExistsTitle,
                     message: Strings.Lists.Alert.alreadyExistsMessage(text)
