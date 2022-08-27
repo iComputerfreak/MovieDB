@@ -1,5 +1,5 @@
 //
-//  DefaultMediaList.swift
+//  PredicateMediaList.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 04.06.22.
@@ -9,7 +9,8 @@
 import CoreData
 import Foundation
 
-class DefaultMediaList: MediaListProtocol {
+/// Represents a media list that fetches its media objects by a given predicate
+class PredicateMediaList: MediaListProtocol {
     let name: String
     let iconName: String
     let predicate: NSPredicate
@@ -55,7 +56,9 @@ class DefaultMediaList: MediaListProtocol {
     }
     
     private static func userDefaultsKey(for name: String, type: StorageType) -> String {
-        "defaultList_\(type.rawValue)_\(name)"
+        // TODO: Using the name as a unique key for persisting only works as long as we use the predicate lists
+        // for default lists only with a well-defined set of possible names.
+        "predicateList_\(type.rawValue)_\(name)"
     }
     
     func buildFetchRequest() -> NSFetchRequest<Media> {

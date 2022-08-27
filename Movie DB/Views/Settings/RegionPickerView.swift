@@ -13,7 +13,7 @@ struct RegionPickerView: View {
     @EnvironmentObject var preferences: JFConfig
     
     var sortedRegionCodes: [String] {
-        Locale.isoRegionCodes.sorted { code1, code2 in
+        Locale.Region.isoRegions.map(\.identifier).sorted { code1, code2 in
             let name1 = Locale.current.localizedString(forRegionCode: code1)!
             let name2 = Locale.current.localizedString(forRegionCode: code2)!
             return name1.lexicographicallyPrecedes(name2)

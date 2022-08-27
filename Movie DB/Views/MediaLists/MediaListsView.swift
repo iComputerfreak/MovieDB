@@ -13,60 +13,85 @@ struct UserListsView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.editMode) private var editMode
     
+    // MARK: Default Lists
+    var defaultLists: [PredicateMediaList] {
+        [
+            PredicateMediaList.favorites,
+            PredicateMediaList.watchlist,
+            PredicateMediaList.problems,
+        ]
+    }
+    
+    // MARK: Dynamic Lists (predicate-based)
     @FetchRequest(
         entity: DynamicMediaList.entity(),
         sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
     ) private var dynamicLists: FetchedResults<DynamicMediaList>
     
+    // MARK: User Lists (single objects)
     @FetchRequest(
         entity: UserMediaList.entity(),
         sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
     ) private var userLists: FetchedResults<UserMediaList>
     
     var allLists: [MediaListProtocol] {
-        var lists: [MediaListProtocol] = [
-            DefaultMediaList.favorites,
-            DefaultMediaList.watchlist,
-            DefaultMediaList.problems,
-        ]
+        var lists: [MediaListProtocol] = defaultLists
         dynamicLists.forEach { lists.append($0) }
         userLists.forEach { lists.append($0) }
         return lists
     }
     
-    // TODO: View is too big, split up
     var body: some View {
         NavigationView {
             List {
-                // MARK: Default Lists
+                // MARK: - Default Lists (disabled during editing)
                 Section(Strings.Lists.defaultListsHeader) {
-                    DefaultListRow(list: DefaultMediaList.favorites) { media in
-                        LibraryRow()
-                            .environmentObject(media)
-                            .swipeActions {
-                                Button(Strings.Detail.menuButtonUnfavorite) {
-                                    assert(media.isFavorite)
-                                    media.isFavorite = false
+                    // MARK: Favorites
+                    NavigationLink {
+                        FilteredMediaList(list: PredicateMediaList.favorites) { media in
+                            LibraryRow()
+                                .environmentObject(media)
+                                .swipeActions {
+                                    Button(Strings.Detail.menuButtonUnfavorite) {
+                                        assert(media.isFavorite)
+                                        media.isFavorite = false
+                                    }
                                 }
-                            }
+                        }
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.favorites)
                     }
-                    DefaultListRow(list: DefaultMediaList.watchlist) { media in
-                        LibraryRow()
-                            .environmentObject(media)
-                            // Remove from watchlist
-                            .swipeActions {
-                                Button(Strings.Lists.removeMediaLabel) {
-                                    media.isOnWatchlist = false
+                    .disabled(editMode?.wrappedValue.isEditing ?? false)
+                    
+                    // MARK: Watchlist
+                    NavigationLink {
+                        FilteredMediaList(list: PredicateMediaList.watchlist) { media in
+                            WatchlistRow()
+                                .environmentObject(media)
+                                // Remove from watchlist
+                                .swipeActions {
+                                    Button(Strings.Lists.removeMediaLabel) {
+                                        media.isOnWatchlist = false
+                                    }
                                 }
-                            }
+                        }
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.watchlist)
                     }
+                    
+                    // MARK: Problems
                     // For the problems list, show the ProblemsView instead of the normal list rows
-                    DefaultListRow(list: DefaultMediaList.problems) { media in
-                        ProblemsLibraryRow()
-                            .environmentObject(media)
+                    NavigationLink {
+                        FilteredMediaList(list: PredicateMediaList.problems) { media in
+                            ProblemsLibraryRow()
+                                .environmentObject(media)
+                        }
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.problems)
                     }
                 }
-                // MARK: Dynamic Lists
+                
+                // MARK: - Dynamic Lists
                 if !dynamicLists.isEmpty {
                     Section(Strings.Lists.dynamicListsHeader) {
                         ForEach(dynamicLists) { list in
@@ -84,7 +109,7 @@ struct UserListsView: View {
                         }
                     }
                 }
-                // MARK: User Lists
+                // MARK: - User Lists
                 if !userLists.isEmpty {
                     Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in

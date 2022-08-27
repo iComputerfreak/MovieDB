@@ -23,8 +23,7 @@
 		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
 		AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */; };
 		AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */; };
-		AB097F6D284BE7EC00E559E7 /* DefaultMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */; };
-		AB097F6F284BEBD200E559E7 /* DefaultListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6E284BEBD200E559E7 /* DefaultListRow.swift */; };
+		AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */; };
 		AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */; };
 		AB097F74284BF65700E559E7 /* FilterSetting+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F72284BF65700E559E7 /* FilterSetting+CoreDataProperties.swift */; };
 		AB0DA979283A705B0038E4B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0DA977283A705B0038E4B9 /* InfoPlist.strings */; };
@@ -132,9 +131,10 @@
 		AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */; };
 		AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */; };
 		AB7DE5E32821810E007B59A2 /* FilterShowSpecificSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */; };
-		AB8B88EC286DD84B00691C11 /* DefaultLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88EB286DD84B00691C11 /* DefaultLists.swift */; };
+		AB8B88EC286DD84B00691C11 /* PredicateMediaLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */; };
 		AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
+		AB97F42328BAB38A00F1D8C3 /* ListRowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
 		AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA37264D770F0048B8CC /* LanguageChooser.swift */; };
 		AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */; };
@@ -253,8 +253,7 @@
 		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
 		AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolPicker.swift; sourceTree = "<group>"; };
 		AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListProtocol.swift; sourceTree = "<group>"; };
-		AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMediaList.swift; sourceTree = "<group>"; };
-		AB097F6E284BEBD200E559E7 /* DefaultListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListRow.swift; sourceTree = "<group>"; };
+		AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateMediaList.swift; sourceTree = "<group>"; };
 		AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB097F72284BF65700E559E7 /* FilterSetting+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB0DA978283A705B0038E4B9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -370,10 +369,11 @@
 		AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUserDataSection.swift; sourceTree = "<group>"; };
 		AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInformationSection.swift; sourceTree = "<group>"; };
 		AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShowSpecificSection.swift; sourceTree = "<group>"; };
-		AB8B88EB286DD84B00691C11 /* DefaultLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLists.swift; sourceTree = "<group>"; };
+		AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateMediaLists.swift; sourceTree = "<group>"; };
 		AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLibraryRow.swift; sourceTree = "<group>"; };
 		AB8B88EF286DDBFC00691C11 /* Movie DB v7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v7.xcdatamodel"; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
+		AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowLabel.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
 		AB98EA37264D770F0048B8CC /* LanguageChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChooser.swift; sourceTree = "<group>"; };
 		AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateCastMember.swift; sourceTree = "<group>"; };
@@ -519,8 +519,8 @@
 				AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */,
 				AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */,
 				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
-				AB097F6C284BE7EC00E559E7 /* DefaultMediaList.swift */,
-				AB8B88EB286DD84B00691C11 /* DefaultLists.swift */,
+				AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */,
+				AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */,
 			);
 			path = DynamicMediaList;
 			sourceTree = "<group>";
@@ -529,7 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				AB097F56284A96C700E559E7 /* MediaListsView.swift */,
-				AB097F6E284BEBD200E559E7 /* DefaultListRow.swift */,
+				AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */,
 				AB097F60284BA46400E559E7 /* MediaListRow.swift */,
 				AB5E298228B998F300C3ACB8 /* WatchlistRow.swift */,
 				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
@@ -1349,7 +1349,7 @@
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB1434AB25CEE53A00AA304F /* Season+CoreDataProperties.swift in Sources */,
 				AB61CA29241425E3008BD8C8 /* DocumentPicker.swift in Sources */,
-				AB8B88EC286DD84B00691C11 /* DefaultLists.swift in Sources */,
+				AB8B88EC286DD84B00691C11 /* PredicateMediaLists.swift in Sources */,
 				AB14349B25CEE0E000AA304F /* Genre+CoreDataProperties.swift in Sources */,
 				AB14341225CDDB6600AA304F /* MediaType.swift in Sources */,
 				AB097F63284BA73700E559E7 /* DynamicMediaListEditingView.swift in Sources */,
@@ -1364,7 +1364,7 @@
 				AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */,
 				AB6D9C95283BC20D00AF655C /* Strings+MediaStatus.swift in Sources */,
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
-				AB097F6D284BE7EC00E559E7 /* DefaultMediaList.swift in Sources */,
+				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
 				AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */,
 				AB4085422663A7BA008C559B /* LegalView.swift in Sources */,
 				AB5493D625FAB0850072745B /* LibraryList.swift in Sources */,
@@ -1383,6 +1383,7 @@
 				AB6D9C8D283BC1E800AF655C /* Strings+ShowType.swift in Sources */,
 				ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */,
 				ABEEB0D22814318F00230F0B /* LibraryActionsSection.swift in Sources */,
+				AB97F42328BAB38A00F1D8C3 /* ListRowLabel.swift in Sources */,
 				AB1433FD25CDB6F600AA304F /* Media+CoreDataProperties.swift in Sources */,
 				AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
@@ -1451,7 +1452,6 @@
 				ABAA99EC2863100200234E62 /* UserMediaListEditingView.swift in Sources */,
 				ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */,
 				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
-				AB097F6F284BEBD200E559E7 /* DefaultListRow.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  DefaultLists.swift
+//  PredicateMediaLists.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 30.06.22.
@@ -8,23 +8,23 @@
 
 import Foundation
 
-extension DefaultMediaList {
+extension PredicateMediaList {
     // MARK: Favorites
-    static let favorites = DefaultMediaList(
+    static let favorites = PredicateMediaList(
         name: Strings.Lists.defaultListNameFavorites,
         iconName: "heart.fill",
         predicate: NSPredicate(format: "isFavorite = TRUE")
     )
     
     // MARK: Watchlist
-    static let watchlist = DefaultMediaList(
+    static let watchlist = PredicateMediaList(
         name: Strings.Lists.defaultListNameWatchlist,
         iconName: "bookmark.fill",
         predicate: NSPredicate(format: "isOnWatchlist = TRUE")
     )
     
     // MARK: Problems
-    static let problems = DefaultMediaList(
+    static let problems = PredicateMediaList(
         name: Strings.Lists.defaultListNameProblems,
         iconName: "exclamationmark.triangle.fill",
         predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
