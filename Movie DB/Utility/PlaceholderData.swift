@@ -158,4 +158,12 @@ enum PlaceholderData {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
+    
+    enum Lists {
+        static let favorites = PredicateMediaList(
+            name: "Favorites",
+            iconName: "star.fill",
+            predicate: NSPredicate(format: "%K == TRUE", "isFavorite")
+        )
+    }
 }

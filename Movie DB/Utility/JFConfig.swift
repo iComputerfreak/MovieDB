@@ -27,7 +27,7 @@ class JFConfig: ObservableObject {
         }
     }
 
-    @ConfigValue(.region, defaultValue: Locale.current.regionCode ?? "") var region: String {
+    @ConfigValue(.region, defaultValue: Locale.current.region?.identifier ?? "") var region: String {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
