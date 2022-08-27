@@ -14,19 +14,7 @@ enum PlaceholderData {
     
     static let allMedia: [Media] = fetchAll()
     static let movie: Movie = createMovie()
-
-    static let show: Show = {
-        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.personalRating = .fiveStars
-        s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
-            .map { name in allTags.first(where: { $0.name == name })! })
-        s.notes = "A masterpiece!"
-        s.watched = .season(7)
-        s.watchAgain = true
-        s.parentalRating = .fskAgeSixteen
-        return s
-    }()
+    static let show: Show = createShow()
 
     // A media with some missing information
     static let problemShow: Show = {
@@ -111,6 +99,19 @@ enum PlaceholderData {
             ),
         ]
         return m
+    }
+    
+    static func createShow() -> Show {
+        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
+        let s = Show(context: context, tmdbData: tmdbData)
+        s.personalRating = .fiveStars
+        s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
+            .map { name in allTags.first(where: { $0.name == name })! })
+        s.notes = "A masterpiece!"
+        s.watched = .season(7)
+        s.watchAgain = true
+        s.parentalRating = .fskAgeSixteen
+        return s
     }
     
     private static func fetchFirst<T: NSManagedObject>() -> T {
