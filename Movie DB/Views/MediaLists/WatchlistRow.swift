@@ -55,26 +55,47 @@ struct WatchlistRow: View {
                             if let movie = mediaObject as? Movie, movie.watched != nil {
                                 switch movie.watched! {
                                 case .watched:
-                                    Text("\(Image(systemName: "checkmark.circle.fill")) Watched")
-                                        .foregroundColor(.green)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStateWatched,
+                                        systemImage: "checkmark.circle.fill",
+                                        color: .green
+                                    )
                                 case .partially:
-                                    Text("\(Image(systemName: "circle.lefthalf.filled")) Partially Watched")
-                                        .foregroundColor(.yellow)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStatePartiallyWatched,
+                                        systemImage: "circle.lefthalf.filled",
+                                        color: .yellow
+                                    )
                                 case .notWatched:
-                                    Text("\(Image(systemName: "circle")) Not Watched")
-                                        .foregroundColor(.red)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStateNotWatched,
+                                        systemImage: "circle",
+                                        color: .red
+                                    )
                                 }
                             } else if let show = mediaObject as? Show, show.watched != nil {
                                 switch show.watched! {
                                 case let .season(s):
-                                    Text("\(Image(systemName: "checkmark.circle.fill")) Season \(s)")
-                                        .foregroundColor(.green)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStateSeason(season: s),
+                                        systemImage: "checkmark.circle.fill",
+                                        color: .green
+                                    )
                                 case let .episode(season: s, episode: e):
-                                    Text("\(Image(systemName: "circle.lefthalf.fill")) Season \(s), Episode \(e)")
-                                        .foregroundColor(.yellow)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
+                                            season: s,
+                                            episode: e
+                                        ),
+                                        systemImage: "circle.lefthalf.fill",
+                                        color: .yellow
+                                    )
                                 case .notWatched:
-                                    Text("\(Image(systemName: "circle")) Not Watched")
-                                        .foregroundColor(.red)
+                                    WatchedLabel(
+                                        labelText: Strings.Lists.watchlistRowLabelWatchlistStateNotWatched,
+                                        systemImage: "circle",
+                                        color: .red
+                                    )
                                 }
                             }
                         }
@@ -83,6 +104,21 @@ struct WatchlistRow: View {
                     }
                 }
             }
+        }
+    }
+    
+    struct WatchedLabel: View {
+        let labelText: String
+        let systemImage: String
+        let color: Color
+        
+        var body: some View {
+            (
+                Text(Image(systemName: systemImage)) +
+                    Text(verbatim: " ") +
+                    Text(labelText)
+            )
+            .foregroundColor(color)
         }
     }
 }
@@ -104,7 +140,7 @@ struct WatchlistRow_Previews: PreviewProvider {
                         .environmentObject(show(for: watchState) as Media)
                 }
             }
-            .navigationTitle(Text(verbatim: "Library"))
+            .navigationTitle(Text(verbatim: "Watchlist"))
         }
     }
     

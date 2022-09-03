@@ -171,7 +171,7 @@ struct MediaLibrary {
         // MARK: Migrate season watch states to new format
         print("[Cleanup] Migrating show watch states with episode == 0")
         let fetch: NSFetchRequest<Show> = Show.fetchRequest()
-        fetch.predicate = NSPredicate(format: "%K STARTSWITH %@", "showWatchState", "episode")
+        fetch.predicate = NSPredicate(format: "%K BEGINSWITH %@", "showWatchState", "episode")
         let shows = (try? context.fetch(fetch)) ?? []
         for show in shows {
             if case let .episode(season: season, episode: episode) = show.watched {

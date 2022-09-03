@@ -796,3 +796,9 @@
 "lists.defaultListName.favorites" = "Favorites";
 "lists.defaultListName.watchlist" = "Watchlist";
 "lists.defaultListName.problems" = "Problems";
+
+"lists.watchlist.watchState.watched" = "Watched";
+"lists.watchlist.watchState.partiallyWatched" = "Partially Watched";
+"lists.watchlist.watchState.notWatched" = "Not Watched";
+"lists.watchlist.watchState.watchedSeason %lld" = "Season %lld";
+"lists.watchlist.watchState.watchedSeasonEpisode %lld %lld" = "Season %lld, Episode %lld";

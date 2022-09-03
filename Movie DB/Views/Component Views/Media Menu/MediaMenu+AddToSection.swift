@@ -42,14 +42,17 @@ extension MediaMenu {
                 }
                 // MARK: Add to...
                 // sub-menu that asks to which list the media should be added
-                // only shows when it has at least one entry (at least one user list)
+                // only shows when it has at least one entry (at least one user list exists)
                 Menu {
-                    ForEach(userLists) { list in
+                    ForEach(userLists) { (list: UserMediaList) in
                         Button {
                             mediaObject.userLists.insert(list)
                         } label: {
                             Label(list.name, systemImage: list.iconName)
                         }
+                        // FIXME: Does not work. Setting it to constant `true` works
+                        // Disable the "Add to..." button if the media is already in the list
+                        .disabled(mediaObject.userLists.contains(list))
                     }
                 } label: {
                     Label(Strings.Library.mediaActionAddToList, systemImage: "text.badge.plus")

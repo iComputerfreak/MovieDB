@@ -106,5 +106,31 @@ extension Strings {
             localized: "lists.defaultListName.problems",
             comment: "The name of the default 'problems' list"
         )
+        static let watchlistRowLabelWatchlistStateWatched = String(
+            localized: "lists.watchlist.watchState.watched",
+            comment: "The label of movies in watchlist rows that have been watched."
+        )
+        static let watchlistRowLabelWatchlistStatePartiallyWatched = String(
+            localized: "lists.watchlist.watchState.partiallyWatched",
+            comment: "The label of movies in watchlist rows that have been watched partially."
+        )
+        static let watchlistRowLabelWatchlistStateNotWatched = String(
+            localized: "lists.watchlist.watchState.notWatched",
+            comment: "The label of movies or shows in watchlist rows that have not been watched yet."
+        )
+        
+        static func watchlistRowLabelWatchlistStateSeason(season: Int) -> String {
+            String(
+                localized: "lists.watchlist.watchState.watchedSeason \(season)",
+                comment: "The label of shows in watchlist rows where up to a specific season has been watched. The first argument is the season."
+            )
+        }
+        
+        static func watchlistRowLabelWatchlistStateSeasonEpisode(season: Int, episode: Int) -> String {
+            String(
+                localized: "lists.watchlist.watchState.watchedSeasonEpisode \(season) \(episode)",
+                comment: "The label of shows in watchlist rows where up to a specific season and episode has been watched. The first argument is the season, the second argument is the episode."
+            )
+        }
     }
 }
