@@ -50,7 +50,6 @@ struct WatchlistRow: View {
                         }
                         .font(.subheadline)
                         
-                        // FIXME: Localize
                         Group {
                             if let movie = mediaObject as? Movie, movie.watched != nil {
                                 switch movie.watched! {

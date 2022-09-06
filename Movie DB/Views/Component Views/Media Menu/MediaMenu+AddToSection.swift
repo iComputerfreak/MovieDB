@@ -50,8 +50,8 @@ extension MediaMenu {
                         } label: {
                             Label(list.name, systemImage: list.iconName)
                         }
-                        // FIXME: Does not work. Setting it to constant `true` works
                         // Disable the "Add to..." button if the media is already in the list
+                        // !!!: Does not seem to work in simulator, but works on real device
                         .disabled(mediaObject.userLists.contains(list))
                     }
                 } label: {
