@@ -8,10 +8,22 @@
 
 import SwiftUI
 
+// swiftlint:disable:next file_types_order
+struct MediaMenuViewConfig {
+    var isShowingAddedToListNotification = false
+    private(set) var addedToListName: String = ""
+    
+    mutating func showAddedToListNotification(listName: String) {
+        addedToListName = listName
+        isShowingAddedToListNotification = true
+    }
+}
+
 struct MediaDetail: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @State private var menuViewConfig: MediaMenuViewConfig = .init()
     
     var body: some View {
         if mediaObject.isFault {
@@ -48,9 +60,16 @@ struct MediaDetail: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject)
+                    MediaMenu(mediaObject: mediaObject, viewConfig: $menuViewConfig)
                 }
             }
+            // Notification when a media object has been added to a list
+            .notificationPopup(
+                isPresented: $menuViewConfig.isShowingAddedToListNotification,
+                systemImage: "checkmark",
+                title: "Added to List",
+                subtitle: "Added to the list \"\(menuViewConfig.addedToListName).\""
+            )
         }
     }
 }

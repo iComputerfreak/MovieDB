@@ -11,6 +11,7 @@ import SwiftUI
 extension MediaMenu {
     struct AddToSection: View {
         @ObservedObject var mediaObject: Media
+        @Binding var viewConfig: MediaMenuViewConfig
         @FetchRequest(
             entity: UserMediaList.entity(),
             sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
@@ -47,6 +48,7 @@ extension MediaMenu {
                     ForEach(userLists) { (list: UserMediaList) in
                         Button {
                             mediaObject.userLists.insert(list)
+                            viewConfig.showAddedToListNotification(listName: list.name)
                         } label: {
                             Label(list.name, systemImage: list.iconName)
                         }
@@ -64,6 +66,8 @@ extension MediaMenu {
 
 struct AddToSection_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu.AddToSection(mediaObject: PlaceholderData.movie)
+        VStack(alignment: .leading, spacing: 8) {
+            MediaMenu.AddToSection(mediaObject: PlaceholderData.movie, viewConfig: .constant(.init()))
+        }
     }
 }

@@ -14,6 +14,7 @@ struct NotificationPopup: View {
     let image: Image
     let title: String
     let subtitle: String?
+    let displayDuration: Double = 2
     
     // The size of the popup content
     private let popupSize: Double = 250
@@ -22,7 +23,7 @@ struct NotificationPopup: View {
     // The size up to which the actual image will be scaled
     private let imageSize: Double = 75
     // Padding is applied additionally to the popupSize! The final size will be `popupSize + 2 2 * padding`
-    private let padding: Double = 4
+    private let padding: Double = 6
     
     // swiftlint:disable:next type_contents_order
     init(isPresented: Binding<Bool>, imageBuilder: () -> Image, title: String, subtitle: String? = nil) {
@@ -67,6 +68,18 @@ struct NotificationPopup: View {
             .frame(width: popupSize, height: popupSize)
             .padding(padding)
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+            .task {
+                print("Waiting")
+                // Wait x seconds
+                try? await Task.sleep(nanoseconds: UInt64(displayDuration * 1_000_000_000))
+                // Dismiss view
+                await MainActor.run {
+                    withAnimation {
+                        self.isPresented = false
+                    }
+                    print("Dismissed")
+                }
+            }
         } else {
             EmptyView()
         }
@@ -108,7 +121,17 @@ extension View {
 }
 
 struct NotificationPopup_Previews: PreviewProvider {
+    @State static var isActive = true
+    
     static var previews: some View {
+        Preview()
+    }
+}
+
+private struct Preview: View {
+    @State private var isActive = false
+    
+    var body: some View {
         NavigationView {
             List {
                 ForEach(0..<30) { i in
@@ -118,10 +141,16 @@ struct NotificationPopup_Previews: PreviewProvider {
             .navigationTitle("Favorites")
         }
         .notificationPopup(
-            isPresented: .constant(true),
+            isPresented: $isActive,
             systemImage: "plus.circle",
             title: "Added to Playlist",
             subtitle: "1 song has been added to \"Discord.\""
         )
+        .task {
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            await MainActor.run {
+                self.isActive = true
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import SwiftUI
 struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @FetchRequest var filteredMedia: FetchedResults<Media>
+    @State private var menuViewConfig: MediaMenuViewConfig = .init()
     
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
@@ -69,7 +70,7 @@ struct LibraryList: View {
                             #endif
                         }
                         .contextMenu {
-                            MediaMenu.AddToSection(mediaObject: mediaObject)
+                            MediaMenu.AddToSection(mediaObject: mediaObject, viewConfig: $menuViewConfig)
                             MediaMenu.ActionsSection(mediaObject: mediaObject)
                         }
                 }
@@ -85,6 +86,14 @@ struct LibraryList: View {
                 JFConfig.shared.libraryWasReset = false
             }
         }
+        // FIXME: Duplicated in MediaDetail
+        // Notification when a media object has been added to a list
+        .notificationPopup(
+            isPresented: $menuViewConfig.isShowingAddedToListNotification,
+            systemImage: "checkmark",
+            title: "Added to List",
+            subtitle: "Added to the list \"\(menuViewConfig.addedToListName).\""
+        )
     }
     
     var footerText: Text {

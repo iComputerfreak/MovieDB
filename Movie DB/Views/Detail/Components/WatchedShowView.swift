@@ -56,7 +56,7 @@ struct WatchedShowView: View {
                     self.watched = .notWatched
                 } else {
                     // Update the season
-                    if let episode = self.episode, episode > 0 {
+                    if let episode = self.watched?.season, episode > 0 {
                         self.watched = .episode(season: season, episode: episode)
                     } else {
                         self.watched = .season(season)
