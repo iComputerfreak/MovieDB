@@ -383,7 +383,7 @@
 "library.filter.information.label.year %lld" = "%lld";
 
 /* Year range label in the filter settings. The first parameter is the lower bound of the range. The second parameter is the upper bound of the range (inclusive) */
-"library.filter.information.label.year.range %lld %lld" = "%lld to %lld";
+"library.filter.information.label.year.range %@ %@" = "%@ to %@";
 
 /* The navigation bar title for the media type field in the library's filter view */
 "library.filter.mediaType.navBar.title" = "Media Type";
@@ -802,3 +802,7 @@
 "lists.watchlist.watchState.notWatched" = "Not Watched";
 "lists.watchlist.watchState.watchedSeason %lld" = "Season %lld";
 "lists.watchlist.watchState.watchedSeasonEpisode %lld %lld" = "Season %lld, Episode %lld";
+
+"detail.notification.addedToList.title" = "Added to List";
+"detail.notification.addedToList.message %@" = "Added to the list \"%@.\"";
+"detail.notification.reloadComplete.title" = "Reload complete";

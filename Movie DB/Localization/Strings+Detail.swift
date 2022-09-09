@@ -337,6 +337,24 @@ extension Strings {
             comment: "The headline for the 'last modified' property in the detail view"
         )
         
+        // MARK: - Notifications
+        static let addedToListNotificationTitle = String(
+            localized: "detail.notification.addedToList.title",
+            comment: "The title of the notification popup that is displayed when a media object has been added to a list"
+        )
+        
+        static func addedToListNotificationMessage(_ listName: String) -> String {
+            String(
+                localized: "detail.notification.addedToList.message \(listName)",
+                comment: "The subtitle/message of the notification popup that is displayed when a media object has been added to a list. The parameter is the list name."
+            )
+        }
+        
+        static let reloadCompleteNotificationTitle = String(
+            localized: "detail.notification.reloadComplete.title",
+            comment: "The title of the notification popup that is displayed when a single media object has been reloaded by the user"
+        )
+        
         enum Alert {
             static let newTagTitle = String(
                 localized: "detail.alert.newTag.title",

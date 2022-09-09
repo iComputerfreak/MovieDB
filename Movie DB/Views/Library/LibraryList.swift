@@ -71,7 +71,7 @@ struct LibraryList: View {
                         }
                         .contextMenu {
                             MediaMenu.AddToSection(mediaObject: mediaObject, viewConfig: $menuViewConfig)
-                            MediaMenu.ActionsSection(mediaObject: mediaObject)
+                            MediaMenu.ActionsSection(mediaObject: mediaObject, viewConfig: $menuViewConfig)
                         }
                 }
             }
@@ -86,13 +86,18 @@ struct LibraryList: View {
                 JFConfig.shared.libraryWasReset = false
             }
         }
-        // FIXME: Duplicated in MediaDetail
         // Notification when a media object has been added to a list
         .notificationPopup(
             isPresented: $menuViewConfig.isShowingAddedToListNotification,
             systemImage: "checkmark",
-            title: "Added to List",
-            subtitle: "Added to the list \"\(menuViewConfig.addedToListName).\""
+            title: Strings.Detail.addedToListNotificationTitle,
+            subtitle: Strings.Detail.addedToListNotificationMessage(menuViewConfig.addedToListName)
+        )
+        // Notification when a media object has been reloaded manually
+        .notificationPopup(
+            isPresented: $menuViewConfig.isShowingReloadCompleteNotification,
+            systemImage: "checkmark",
+            title: Strings.Detail.reloadCompleteNotificationTitle
         )
     }
     

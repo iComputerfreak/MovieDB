@@ -106,7 +106,7 @@ extension View {
         isPresented: Binding<Bool>,
         systemImage: String,
         title: String,
-        subtitle: String?
+        subtitle: String? = nil
     ) -> some View {
         // swiftformat:disable:next redundantSelf
         self.modifier(
@@ -147,7 +147,7 @@ private struct Preview: View {
             subtitle: "1 song has been added to \"Discord.\""
         )
         .task {
-            try? await Task.sleep(nanoseconds: 1_000_000_000)
+//            try? await Task.sleep(nanoseconds: 1_000_000_000)
             await MainActor.run {
                 self.isActive = true
             }

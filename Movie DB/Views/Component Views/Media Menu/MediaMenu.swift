@@ -18,7 +18,7 @@ struct MediaMenu: View {
             // MARK: Favorite / Add to
             AddToSection(mediaObject: mediaObject, viewConfig: $viewConfig)
             // MARK: Actions
-            ActionsSection(mediaObject: mediaObject)
+            ActionsSection(mediaObject: mediaObject, viewConfig: $viewConfig)
         } label: {
             Image(systemName: "ellipsis.circle")
         }

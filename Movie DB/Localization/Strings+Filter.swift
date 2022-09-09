@@ -101,7 +101,7 @@ extension Strings.Library {
 
         static func yearValueRangeLabel(_ from: Int, _ to: Int) -> String {
             String(
-                localized: "library.filter.information.label.year.range \(from) \(to)",
+                localized: "library.filter.information.label.year.range \(String(from)) \(String(to))",
                 comment: "Year range label in the filter settings. The first parameter is the lower bound of the range. The second parameter is the upper bound of the range (inclusive)"
             )
         }

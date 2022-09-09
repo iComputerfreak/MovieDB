@@ -11,6 +11,7 @@ import SwiftUI
 extension MediaMenu {
     struct ActionsSection: View {
         @ObservedObject var mediaObject: Media
+        @Binding var viewConfig: MediaMenuViewConfig
         @Environment(\.managedObjectContext) private var managedObjectContext
         
         var body: some View {
@@ -19,6 +20,7 @@ extension MediaMenu {
                     Task(priority: .userInitiated) {
                         do {
                             try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
+                            viewConfig.isShowingReloadCompleteNotification = true
                         } catch {
                             print("Error updating \(mediaObject.title): \(error)")
                             AlertHandler.showSimpleAlert(
@@ -40,6 +42,6 @@ extension MediaMenu {
 
 struct ActionsSection_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu.ActionsSection(mediaObject: PlaceholderData.movie)
+        MediaMenu.ActionsSection(mediaObject: PlaceholderData.movie, viewConfig: .constant(.init()))
     }
 }

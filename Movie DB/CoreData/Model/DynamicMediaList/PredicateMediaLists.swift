@@ -36,7 +36,6 @@ extension PredicateMediaList {
                     MovieWatchState.notWatched.rawValue
                 ),
                 // We include all shows since the default value for lastSeasonWatched is already "No"
-                // TODO: Does not work
                 NSPredicate(
                     format: "type = %@ AND (showWatchState = nil OR showWatchState != %@)",
                     MediaType.show.rawValue,

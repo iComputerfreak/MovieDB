@@ -8,17 +8,6 @@
 
 import SwiftUI
 
-// swiftlint:disable:next file_types_order
-struct MediaMenuViewConfig {
-    var isShowingAddedToListNotification = false
-    private(set) var addedToListName: String = ""
-    
-    mutating func showAddedToListNotification(listName: String) {
-        addedToListName = listName
-        isShowingAddedToListNotification = true
-    }
-}
-
 struct MediaDetail: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
@@ -67,8 +56,14 @@ struct MediaDetail: View {
             .notificationPopup(
                 isPresented: $menuViewConfig.isShowingAddedToListNotification,
                 systemImage: "checkmark",
-                title: "Added to List",
-                subtitle: "Added to the list \"\(menuViewConfig.addedToListName).\""
+                title: Strings.Detail.addedToListNotificationTitle,
+                subtitle: Strings.Detail.addedToListNotificationMessage(menuViewConfig.addedToListName)
+            )
+            // Notification when a media object has been reloaded manually
+            .notificationPopup(
+                isPresented: $menuViewConfig.isShowingReloadCompleteNotification,
+                systemImage: "checkmark",
+                title: Strings.Detail.reloadCompleteNotificationTitle
             )
         }
     }

@@ -11,6 +11,28 @@ import CSVImporter
 import JFSwiftUI
 import SwiftUI
 
+// swiftlint:disable:next file_types_order
+struct SettingsViewConfig {
+    var showingProgress = false
+    private(set) var progressText: String = ""
+    var isLoading = false
+    var loadingText: String?
+    var languageChanged = false
+    var regionChanged = false
+    var isShowingProInfo = false
+    var isShowingReloadCompleteNotification = false
+    
+    mutating func showProgress(_ text: String) {
+        showingProgress = true
+        progressText = text
+    }
+    
+    mutating func hideProgress() {
+        showingProgress = false
+        progressText = ""
+    }
+}
+
 struct SettingsView: View {
     // Reference to the config instance
     @ObservedObject private var preferences = JFConfig.shared
@@ -44,6 +66,12 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .notificationPopup(
+                    isPresented: $config.isShowingReloadCompleteNotification,
+                    systemImage: "checkmark",
+                    title: "Reload complete",
+                    subtitle: nil
+                )
             }
         }
     }
@@ -81,25 +109,5 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-    }
-}
-
-struct SettingsViewConfig {
-    var showingProgress = false
-    private(set) var progressText: String = ""
-    var isLoading = false
-    var loadingText: String?
-    var languageChanged = false
-    var regionChanged = false
-    var isShowingProInfo = false
-    
-    mutating func showProgress(_ text: String) {
-        showingProgress = true
-        progressText = text
-    }
-    
-    mutating func hideProgress() {
-        showingProgress = false
-        progressText = ""
     }
 }
