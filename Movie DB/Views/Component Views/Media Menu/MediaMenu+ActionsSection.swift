@@ -11,7 +11,7 @@ import SwiftUI
 extension MediaMenu {
     struct ActionsSection: View {
         @ObservedObject var mediaObject: Media
-        @Binding var viewConfig: MediaMenuViewConfig
+        @EnvironmentObject var notificationProxy: NotificationProxy
         @Environment(\.managedObjectContext) private var managedObjectContext
         
         var body: some View {
@@ -20,7 +20,10 @@ extension MediaMenu {
                     Task(priority: .userInitiated) {
                         do {
                             try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
-                            viewConfig.isShowingReloadCompleteNotification = true
+                            notificationProxy.show(
+                                title: Strings.Detail.reloadCompleteNotificationTitle,
+                                systemImage: "checkmark"
+                            )
                         } catch {
                             print("Error updating \(mediaObject.title): \(error)")
                             AlertHandler.showSimpleAlert(
@@ -42,6 +45,6 @@ extension MediaMenu {
 
 struct ActionsSection_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu.ActionsSection(mediaObject: PlaceholderData.movie, viewConfig: .constant(.init()))
+        MediaMenu.ActionsSection(mediaObject: PlaceholderData.movie)
     }
 }

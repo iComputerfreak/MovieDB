@@ -70,8 +70,8 @@ struct LibraryList: View {
                             #endif
                         }
                         .contextMenu {
-                            MediaMenu.AddToSection(mediaObject: mediaObject, viewConfig: $menuViewConfig)
-                            MediaMenu.ActionsSection(mediaObject: mediaObject, viewConfig: $menuViewConfig)
+                            MediaMenu.AddToSection(mediaObject: mediaObject)
+                            MediaMenu.ActionsSection(mediaObject: mediaObject)
                         }
                 }
             }

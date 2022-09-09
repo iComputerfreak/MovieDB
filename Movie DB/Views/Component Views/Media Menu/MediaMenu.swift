@@ -10,15 +10,14 @@ import SwiftUI
 
 struct MediaMenu: View {
     var mediaObject: Media
-    @Binding var viewConfig: MediaMenuViewConfig
     
     var body: some View {
         Menu {
             EditButton()
             // MARK: Favorite / Add to
-            AddToSection(mediaObject: mediaObject, viewConfig: $viewConfig)
+            AddToSection(mediaObject: mediaObject)
             // MARK: Actions
-            ActionsSection(mediaObject: mediaObject, viewConfig: $viewConfig)
+            ActionsSection(mediaObject: mediaObject)
         } label: {
             Image(systemName: "ellipsis.circle")
         }
@@ -27,6 +26,6 @@ struct MediaMenu: View {
 
 struct MediaMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu(mediaObject: PlaceholderData.movie, viewConfig: .constant(.init()))
+        MediaMenu(mediaObject: PlaceholderData.movie)
     }
 }
