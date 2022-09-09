@@ -8,8 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable file_types_order
-
 struct ReleaseDatesCountry: Decodable {
     let countryCode: String
     let results: [ReleaseDateCertification]

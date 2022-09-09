@@ -10,7 +10,6 @@ disabled_rules:
   - line_length
   - implicitly_unwrapped_optional
   - multiline_function_chains
-  - file_types_order
   - prefer_self_in_static_references
 opt_in_rules:
   - anonymous_argument_in_multiline_closure

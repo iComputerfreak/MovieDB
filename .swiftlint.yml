@@ -31,7 +31,6 @@ opt_in_rules:
   - fallthrough
   - fatal_error_message
   - file_name_no_space
-  - file_types_order
   - first_where
   - flatmap_over_map_reduce
 #  - force_unwrapping
@@ -109,12 +108,6 @@ type_contents_order:
     - subscript
     - deinitializer
     - subtype
-file_types_order:
-  order:
-    - main_type
-    - preview_provider
-    - supporting_type
-    - extension
 multiline_arguments:
   only_enforce_after_first_closure_on_first_line: true
 modifier_order:

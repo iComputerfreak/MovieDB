@@ -11,7 +11,6 @@ import CSVImporter
 import JFSwiftUI
 import SwiftUI
 
-// swiftlint:disable:next file_types_order
 struct SettingsViewConfig {
     var showingProgress = false
     private(set) var progressText: String = ""

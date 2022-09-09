@@ -8,8 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable file_types_order
-
 struct CreditsWrapper: Decodable {
     let id: Int
     let cast: [CastMemberDummy]

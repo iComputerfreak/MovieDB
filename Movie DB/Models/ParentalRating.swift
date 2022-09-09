@@ -9,8 +9,6 @@
 import Foundation
 import SwiftUI
 
-// swiftlint:disable file_types_order
-
 struct ParentalRatingView: View {
     let rating: ParentalRating
     

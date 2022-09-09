@@ -9,7 +9,7 @@
 import CoreData
 import Foundation
 
-// swiftlint:disable:next file_types_order line_length
+// swiftlint:disable:next line_length
 public final class EnumStringTransformer<EnumType: RawRepresentable>: ValueTransformer where EnumType.RawValue == String {
     override public static func transformedValueClass() -> AnyClass { NSString.self }
     

@@ -47,7 +47,6 @@ struct WatchProvidersInfo: View {
     }
 }
 
-// swiftlint:disable:next file_types_order
 struct ProviderView: View {
     let provider: WatchProvider
     

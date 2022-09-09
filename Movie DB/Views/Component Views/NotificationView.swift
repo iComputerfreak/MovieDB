@@ -12,18 +12,17 @@ import SwiftUI
 ///
 /// The `NotificationView` provides a proxy that can be used to display notifications. Call ``NotificationProxy/show(title:subtitle:systemImage:)`` to present a notification popup over the main content.
 struct NotificationView<Content: View>: View {
-    var contentBuilder: (Binding<NotificationProxy>) -> Content
+    var contentBuilder: (NotificationProxy) -> Content
     
-    @State private var proxy: NotificationProxy
+    @StateObject private var proxy = NotificationProxy()
     
     // swiftlint:disable:next type_contents_order
-    init(contentBuilder: @escaping (Binding<NotificationProxy>) -> Content) {
+    init(contentBuilder: @escaping (NotificationProxy) -> Content) {
         self.contentBuilder = contentBuilder
-        self.proxy = NotificationProxy()
     }
     
     var body: some View {
-        contentBuilder($proxy)
+        contentBuilder(proxy)
             .notificationPopup(
                 isPresented: $proxy.isDisplayed,
                 systemImage: proxy.systemImage,
@@ -33,24 +32,22 @@ struct NotificationView<Content: View>: View {
     }
 }
 
-// swiftlint:disable file_types_order
 /// Represents a proxy used to propagate the information to display in a notification popup from the ``NotificationView``'s content to the NotificationView itself.
 ///
 /// Use ``show(title:subtitle:systemImage:)`` to set the required data.
-struct NotificationProxy {
-    fileprivate var isDisplayed = false
+class NotificationProxy: ObservableObject {
+    @Published fileprivate var isDisplayed = false
     fileprivate var title: String = ""
     fileprivate var subtitle: String?
     fileprivate var systemImage: String = ""
     
-    mutating func show(title: String, subtitle: String? = nil, systemImage: String) {
+    func show(title: String, subtitle: String? = nil, systemImage: String) {
         self.title = title
         self.subtitle = subtitle
         self.systemImage = systemImage
         self.isDisplayed = true
     }
 }
-// swiftlint:enable file_types_order
 
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
@@ -63,7 +60,7 @@ struct NotificationView_Previews: PreviewProvider {
                     .task {
                         try? await Task.sleep(nanoseconds: 1_000_000_000)
                         await MainActor.run {
-                            proxy.wrappedValue.show(
+                            proxy.show(
                                 title: "Test",
                                 subtitle: "This is a test notification.",
                                 systemImage: "checkmark.circle.fill"

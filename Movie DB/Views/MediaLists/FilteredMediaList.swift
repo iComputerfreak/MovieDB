@@ -63,7 +63,6 @@ struct FilteredMediaList<RowContent: View>: View {
     }
 }
 
-// swiftlint:disable:next file_types_order
 struct SortableMediaList<RowContent: View>: View {
     @Binding var sortingOrder: SortingOrder
     @Binding var sortingDirection: SortingDirection

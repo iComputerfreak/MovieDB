@@ -57,7 +57,6 @@ struct RangeEditingView<Label, ValueLabel, T>: View
     }
 }
 
-// swiftlint:disable:next file_types_order
 extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueLabel)>> {
     /// Convenience init that synthesizes `fromLabel` and `toLabel` using `valueLabel`
     init(
@@ -90,7 +89,6 @@ extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueL
     }
 }
 
-// swiftlint:disable:next file_types_order
 extension RangeEditingView where Label == Text, ValueLabel == Text, T: CustomStringConvertible {
     /// Convenience init for default labels
     init(title: Text, bounds: ClosedRange<T>, setting: Binding<ClosedRange<T>?>, style: Style) {

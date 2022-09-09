@@ -9,8 +9,6 @@
 import Foundation
 import SwiftUI
 
-// swiftlint:disable file_types_order
-
 public extension KeyedDecodingContainer {
     /// Tries to decode a value with any of the given keys
     ///

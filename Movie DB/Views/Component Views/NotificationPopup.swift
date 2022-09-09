@@ -84,7 +84,6 @@ struct NotificationPopup: View {
     }
 }
 
-// swiftlint:disable file_types_order
 struct NotificationPopupModifier: ViewModifier {
     @Binding var isPresented: Bool
     let systemImage: String

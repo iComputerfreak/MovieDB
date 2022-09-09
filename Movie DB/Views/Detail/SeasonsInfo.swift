@@ -84,7 +84,6 @@ struct SeasonsInfo: View {
     }
 }
 
-// swiftlint:disable:next file_types_order
 struct SeasonInfo: View {
     @State var season: Season
     @Binding var thumbnail: UIImage??
