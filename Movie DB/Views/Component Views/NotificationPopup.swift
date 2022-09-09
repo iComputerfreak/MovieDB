@@ -27,12 +27,10 @@ struct NotificationPopup: View {
     
     // swiftlint:disable:next type_contents_order
     init(isPresented: Binding<Bool>, imageBuilder: () -> Image, title: String, subtitle: String? = nil) {
-        // swiftformat:disable redundantSelf
         self._isPresented = isPresented
         self.image = imageBuilder()
         self.title = title
         self.subtitle = subtitle
-        // swiftformat:enable redundantSelf
     }
     
     // swiftlint:disable:next type_contents_order
@@ -108,7 +106,6 @@ extension View {
         title: String,
         subtitle: String? = nil
     ) -> some View {
-        // swiftformat:disable:next redundantSelf
         self.modifier(
             NotificationPopupModifier(
                 isPresented: isPresented,

@@ -140,7 +140,6 @@ struct SeasonDummy: CoreDataDummy {
     }
     
     init(from decoder: Decoder) throws {
-        // swiftformat:disable redundantSelf
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.seasonNumber = try container.decode(Int.self, forKey: .seasonNumber)
@@ -150,7 +149,6 @@ struct SeasonDummy: CoreDataDummy {
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
         let rawAirDate = try container.decode(String?.self, forKey: .airDate)
         self.airDate = Utils.tmdbDateFormatter.date(from: rawAirDate ?? "")
-        // swiftformat:enable redundantSelf
     }
     
     enum CodingKeys: String, CodingKey {
