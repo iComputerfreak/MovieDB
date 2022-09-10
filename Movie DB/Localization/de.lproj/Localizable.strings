@@ -565,12 +565,6 @@
 /* A recovery suggestion to resolve a library problem (e.g. duplicate medias) */
 "problemType.duplicateMedia.recovery" = "Löschen Sie eines der folgenden Medien";
 
-/* The header of the 'about me' paragraph in the pro info view */
-"proInfo.aboutMe.header" = "Über mich";
-
-/* The 'about me' text in the pro info view */
-"proInfo.aboutMe.text" = "Hi, mein Name ist Jonas und ich bin ein Student am Karlsruher Institut für Technologie. In meiner Freizeit programmiere ich Apps wie diese hier. Die App hat als persönliches Projekt angefangen, weil ich alle Filme und Serien, die ich in meinem Leben bereits gesehen habe katalogisieren wollte, um Freunden gute Filme oder Serien vorschlagen zu können. Die App ist nun groß genug und funktioniert auch gut genug, dass ich sie im App Store veröffentlicht habe.";
-
 /* The label for the restore button in the pro info view */
 "proInfo.button.restore" = "Wiederherstellen";
 
@@ -809,3 +803,5 @@
 "detail.notification.addedToList.title" = "Hinzugefügt";
 "detail.notification.addedToList.message %@" = "Zur Liste \"%@\" hinzugefügt.";
 "detail.notification.reloadComplete.title" = "Neu Geladen";
+
+"settings.footer.madeWithLove" = "Gemacht mit ❤️ in Karlsruhe.";

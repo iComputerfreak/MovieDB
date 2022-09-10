@@ -62,6 +62,11 @@ extension Strings {
                 comment: "The version information at the bottom of the settings page"
             )
         }
+        
+        static let madeWithLoveFooter = String(
+            localized: "settings.footer.madeWithLove",
+            comment: "The text in the settings footer that shows where the app has been made"
+        )
 
         static let importMediaLabel = String(
             localized: "settings.actions.importMedia.label",

@@ -64,14 +64,26 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
                 UserDefaults.standard.set(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
                 transactionState = .purchased
+                AlertHandler.showSimpleAlert(
+                    title: Strings.ProInfo.Alert.purchaseCompleteTitle,
+                    message: Strings.ProInfo.Alert.purchaseCompleteMessage
+                )
             case .restored:
                 UserDefaults.standard.set(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
                 transactionState = .restored
+                AlertHandler.showSimpleAlert(
+                    title: Strings.ProInfo.Alert.purchaseRestoredTitle,
+                    message: Strings.ProInfo.Alert.purchaseRestoredMessage
+                )
             case .failed, .deferred:
                 print("Payment Queue Error: \(String(describing: transaction.error))")
                 queue.finishTransaction(transaction)
                 transactionState = .failed
+                AlertHandler.showSimpleAlert(
+                    title: Strings.ProInfo.Alert.purchaseErrorTitle,
+                    message: transaction.error?.localizedDescription
+                )
             default:
                 queue.finishTransaction(transaction)
             }
@@ -84,6 +96,10 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             SKPaymentQueue.default().add(payment)
         } else {
             print("User can't make payment.")
+            AlertHandler.showSimpleAlert(
+                title: Strings.ProInfo.Alert.cannotMakePaymentsTitle,
+                message: Strings.ProInfo.Alert.cannotMakePaymentsMessage
+            )
         }
     }
 }

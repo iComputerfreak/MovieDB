@@ -45,6 +45,7 @@ struct LibraryActionsSection: View {
                 VStack(alignment: .center) {
                     ZStack {
                         // Update Progress
+                        // TODO: Is AnyView necessary?
                         AnyView(
                             HStack(spacing: 5) {
                                 ProgressView()
@@ -54,8 +55,11 @@ struct LibraryActionsSection: View {
                         .hidden(condition: !showingProgress)
                     }
                     .frame(height: showingProgress ? nil : 0)
+                    Text(Strings.Settings.madeWithLoveFooter)
+                        .bold()
                     if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                         Text(Strings.Settings.versionFooter(appVersion))
+                            .italic()
                     }
                 }
                 Spacer()

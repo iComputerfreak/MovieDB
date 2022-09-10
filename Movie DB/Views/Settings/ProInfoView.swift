@@ -19,18 +19,6 @@ struct ProInfoView: View {
                         .padding()
                     Spacer()
                 }
-                HStack {
-                    Text(Strings.ProInfo.aboutMeHeader)
-                        .font(.title)
-                        .padding([.horizontal, .top])
-                        .padding(.bottom, 2)
-                    Spacer()
-                }
-                HStack {
-                    Text(Strings.ProInfo.aboutMeText)
-                        .padding(.horizontal)
-                    Spacer()
-                }
                 Spacer()
                 if Utils.purchasedPro() {
                     Button(Strings.ProInfo.buyButtonLabelDisabled) {}
@@ -40,8 +28,10 @@ struct ProInfoView: View {
                     let manager = StoreManager.shared
                     let product = manager.products.first { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }
                     let price = Double(truncating: product?.price ?? 0)
-                    let priceLocale = product?.priceLocale ?? .current
-                    let priceString = price > 0 ? price.formatted(.currency(code: priceLocale.identifier)) : ""
+                    let priceLocale = product?.priceLocale.currency ?? Locale.current.currency
+                    let priceString = price > 0 ? price.formatted(
+                        .currency(code: priceLocale?.identifier ?? "").precision(.fractionLength(2))
+                    ) : ""
                     Button(Strings.ProInfo.buyButtonLabel(priceString)) {
                         print("Buying Pro")
                         let manager = StoreManager.shared

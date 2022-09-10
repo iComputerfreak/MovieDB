@@ -60,6 +60,34 @@ extension Strings {
                 localized: "settings.alert.errorBuyingPro.message",
                 comment: "Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured"
             )
+            static let purchaseErrorTitle = String(
+                localized: "settings.alert.purchaseError.title",
+                comment: "Title of an alert informing the user that his purchase failed with an error"
+            )
+            static let purchaseRestoredTitle = String(
+                localized: "settings.alert.purchaseRestored.title",
+                comment: "Title of an alert informing the user that his purchases have been restored successfully"
+            )
+            static let purchaseRestoredMessage = String(
+                localized: "settings.alert.purchaseRestored.message",
+                comment: "Message of an alert informing the user that his purchases have been restored successfully"
+            )
+            static let purchaseCompleteTitle = String(
+                localized: "settings.alert.purchaseComplete.title",
+                comment: "Title of an alert informing the user that his purchase has been completed successfully"
+            )
+            static let purchaseCompleteMessage = String(
+                localized: "settings.alert.purchaseComplete.message",
+                comment: "Message of an alert informing the user that his purchase has been completed successfully"
+            )
+            static let cannotMakePaymentsTitle = String(
+                localized: "settings.alert.cannotMakePayments.title",
+                comment: "Title of an alert informing the user that his account cannot make payments"
+            )
+            static let cannotMakePaymentsMessage = String(
+                localized: "settings.alert.cannotMakePayments.message",
+                comment: "Message of an alert informing the user that his account cannot make payments"
+            )
         }
     }
 }
