@@ -13,21 +13,40 @@ import SwiftUI
 struct ImportExportSection: View {
     @State private var importLogger: TagImporter.BasicLogger?
     @State private var importLogShowing = false
-    @State private var documentPicker: DocumentPicker?
     @Binding var config: SettingsViewConfig
+    
+    @State private var isImportingMedia = false
+    @State private var isImportingTags = false
         
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
     var body: some View {
         Section {
             // MARK: - Import Button
-            Button(Strings.Settings.importMediaLabel, action: self.importMedia)
+            Button(Strings.Settings.importMediaLabel, action: { isImportingMedia = true })
+                .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in
+                    do {
+                        let url = try result.get()
+                        self.importMedia(url: url)
+                    } catch {
+                        // Error picking file to import. No need to display an error, as the user is probably aware?
+                        print(error)
+                    }
+                }
             
             // MARK: - Export Button
             Button(Strings.Settings.exportMediaLabel, action: self.exportMedia)
             
             // MARK: - Import Tags
-            Button(Strings.Settings.importTagsLabel, action: self.importTags)
+            Button(Strings.Settings.importTagsLabel) { isImportingTags = true }
+                .fileImporter(isPresented: $isImportingTags, allowedContentTypes: [.plainText]) { result in
+                    do {
+                        let url = try result.get()
+                        self.importTags(url: url)
+                    } catch {
+                        print(error)
+                    }
+                }
                 // MARK: Import Log Popover
                 .popover(isPresented: $importLogShowing) {
                     if let logger = importLogger {
@@ -39,11 +58,10 @@ struct ImportExportSection: View {
             
             // MARK: - Export Tags
             Button(Strings.Settings.exportTagsLabel, action: self.exportTags)
-                .popover(item: self.$documentPicker, content: { $0 })
         }
     }
     
-    func importMedia() {
+    func importMedia(url: URL) {
         if !Utils.purchasedPro() {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
             guard mediaCount < JFLiterals.nonProMediaLimit else {
@@ -51,7 +69,7 @@ struct ImportExportSection: View {
                 return
             }
         }
-        self.import { importContext, url in
+        self.import { importContext in
             // Parse the CSV data
             let csvString = try String(contentsOf: url)
             print("Read csv file. Trying to import into library.")
@@ -115,8 +133,10 @@ struct ImportExportSection: View {
         }
     }
     
-    func importTags() {
-        self.import { importContext, url in
+    func importTags(url: URL) {
+        self.import { importContext in
+            importContext.name = "\(url.lastPathComponent) Tag Import Context"
+            
             let importData = try String(contentsOf: url)
             print("Imported Tag Export file. Trying to import into library.")
             // Count the non-empty tags
@@ -161,40 +181,32 @@ struct ImportExportSection: View {
     }
     
     // Does not save the imported changes!
-    func `import`(_ handler: @escaping (NSManagedObjectContext, URL) throws -> Void) {
+    func `import`(_ handler: @escaping (NSManagedObjectContext) throws -> Void) {
         // Use iOS file picker
-        documentPicker = DocumentPicker(onSelect: { url in
-            print("Importing \(url.lastPathComponent).")
-            self.config.isLoading = true
-            // Document picker finished. Invalidate it.
-            self.documentPicker = nil
-            
-            // Perform the import into a separate context on a background thread
-            PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
-                // Set the merge policy to not override existing data
-                importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-                importContext.name = "\(url.lastPathComponent) Import Context"
-                // Initialize the logger
-                self.importLogger = .init()
-                do {
-                    try handler(importContext, url)
-                } catch {
-                    print("Error importing: \(error)")
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.genericImportErrorTitle,
-                        error: error
-                    )
-                    Task(priority: .userInitiated) {
-                        await MainActor.run {
-                            self.config.isLoading = false
-                        }
+        print("Importing...")
+        self.config.isLoading = true
+        
+        // Perform the import into a separate context on a background thread
+        PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
+            // Set the merge policy to not override existing data
+            importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+            // Initialize the logger
+            self.importLogger = .init()
+            do {
+                try handler(importContext)
+            } catch {
+                print("Error importing: \(error)")
+                AlertHandler.showError(
+                    title: Strings.Settings.Alert.genericImportErrorTitle,
+                    error: error
+                )
+                Task(priority: .userInitiated) {
+                    await MainActor.run {
+                        self.config.isLoading = false
                     }
                 }
             }
-        }, onCancel: {
-            print("Canceling...")
-            self.documentPicker = nil
-        })
+        }
     }
     
     func export(filename: String, content: @escaping (NSManagedObjectContext) throws -> String) {
