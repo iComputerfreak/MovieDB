@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21223.12" systemVersion="22A5286j" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22A5331f" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="CastMember" representedClassName="CastMember" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -140,18 +140,4 @@
         <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="videos" inverseEntity="Media"/>
     </entity>
-    <elements>
-        <element name="CastMember" positionX="-27" positionY="198" width="128" height="89"/>
-        <element name="DynamicMediaList" positionX="-81" positionY="144" width="128" height="104"/>
-        <element name="FilterSetting" positionX="-72" positionY="153" width="128" height="269"/>
-        <element name="Genre" positionX="160.7532958984375" positionY="236.0968017578125" width="128" height="89"/>
-        <element name="Media" positionX="-63" positionY="-18" width="128" height="524"/>
-        <element name="Movie" positionX="27.1129150390625" positionY="36.24856567382812" width="128" height="149"/>
-        <element name="ProductionCompany" positionX="-63" positionY="162" width="128" height="119"/>
-        <element name="Season" positionX="-72" positionY="153" width="128" height="149"/>
-        <element name="Show" positionX="-149.98046875" positionY="34.04913330078125" width="128" height="254"/>
-        <element name="Tag" positionX="-72" positionY="153" width="128" height="89"/>
-        <element name="UserMediaList" positionX="-81" positionY="144" width="128" height="104"/>
-        <element name="Video" positionX="-282.5172119140625" positionY="282.9124755859375" width="128" height="149"/>
-    </elements>
 </model>

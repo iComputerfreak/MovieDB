@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import BackgroundTasks
 import CoreData
 import Foundation
 import StoreKit
@@ -47,6 +48,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
         }
+        
+        // MARK: Background Fetch
+        setupBackgroundFetch(application: application)
         
         return true
     }
@@ -132,6 +136,44 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 UserDefaults.standard.set(true, forKey: castMembersDeletedKey)
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    private func setupBackgroundFetch(application: UIApplication) {
+        let taskID = "de.JonasFrey.Movie-DB.updateLibrary"
+        BGTaskScheduler.shared.register(
+            forTaskWithIdentifier: taskID,
+            using: nil
+        ) { task in
+            // MARK: Schedule
+            let request = BGAppRefreshTaskRequest(identifier: taskID)
+            // Re-scheduled each time it is executed
+            let timeBetweenBackgroundTasks: Double = 7 * 24 * 60 * 60 // 7 days
+            request.earliestBeginDate = Date(timeIntervalSinceNow: timeBetweenBackgroundTasks)
+            do {
+                try BGTaskScheduler.shared.submit(request)
+            } catch {
+                print("Could not schedule app refresh: \(error)")
+            }
+            
+            // MARK: Create Operation
+            let operation = Task {
+                do {
+                    print("Updating Library from Background Fetch...")
+                    let updatedCount = try await MediaLibrary.shared.update()
+                    print("Updated \(updatedCount) media objects.")
+                    task.setTaskCompleted(success: updatedCount > 0)
+                } catch {
+                    print(error)
+                    task.setTaskCompleted(success: false)
+                }
+            }
+            
+            // MARK: Expiration Handler
+            task.expirationHandler = {
+                print("Cancelling...")
+                operation.cancel()
             }
         }
     }
