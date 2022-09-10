@@ -25,109 +25,6 @@ class CSVCoderTests: XCTestCase {
         super.tearDown()
         testingUtils = nil
     }
-        
-    func testDecode() throws {
-        let sample1 = """
-        id;tmdb_id;type;title;personal_rating;watch_again;tags;notes;original_title;genres;overview;status;watched;release_date;runtime;budget;revenue;is_adult;last_episode_watched;first_air_date;last_air_date;number_of_seasons;is_in_production;show_type
-        113;346808;movie;Momentum;8;true;Female Lead,Gangsters,Kidnapping,Revenge;;Momentum;Action,Thriller;When Alex, an infiltration expert with a secret past, accidentally reveals her identity during what should have been a routine heist, she quickly finds herself mixed up in a government conspiracy and entangled in a deadly game of cat-and-mouse with a master assassin and his team of killers.  Armed with her own set of lethal skills, Alex looks to exact revenge for her murdered friends while uncovering the truth.;Released;true;2015-08-01;96;20000000;133332;false;;;;;;
-        157;75219;tv;9-1-1;2;true;Crime;A very great series;9-1-1;Drama,Action & Adventure,Crime;Explore the high-pressure experiences of police officers, paramedics and firefighters who are thrust into the most frightening, shocking and heart-stopping situations. These emergency responders must try to balance saving those who are at their most vulnerable with solving the problems in their own lives.;Returning Series;;;;;;;3;2018-01-03;2020-05-11;3;true;Scripted
-        125;79130;tv;Another Life;1;false;Artificial Intelligence,Aliens,Female Lead,Haunted,Future,Horror,Space,Extinction Level Event;;Another Life;Drama,Sci-Fi & Fantasy;After a massive alien artifact lands on Earth, Niko Breckinridge leads an interstellar mission to track down its source and make first contact.;Returning Series;;;;;;;3/5;2019-07-25;2019-07-25;1;true;Scripted
-        116;399402;movie;Hunter Killer;0;false;;A note with some special characters.\\/:?!;Hunter Killer;Action,Thriller;;Released;true;2018-10-19;122;0;0;false;;;;;;
-        """
-        CSVHelper.importMediaObjects(csvString: sample1, importContext: testingUtils.context) { mediaObjects, _ in
-            do {
-                XCTAssertEqual(mediaObjects.count, 4)
-                
-                for media in mediaObjects {
-                    XCTAssertNotNil(media)
-                }
-                
-                // MARK: Momentum
-                XCTAssertEqual(mediaObjects[0]!.type, .movie)
-                let momentum = try XCTUnwrap(mediaObjects[0] as? Movie)
-                try self.testDecodeMomentum(momentum)
-                
-                // MARK: 9-1-1
-                XCTAssertEqual(mediaObjects[1]!.type, .show)
-                let nineOneOne = try XCTUnwrap(mediaObjects[1] as? Show)
-                try self.testDecodeNineOneOne(nineOneOne)
-                
-                // MARK: Another Life
-                XCTAssertEqual(mediaObjects[2]!.type, .show)
-                let anotherLife = try XCTUnwrap(mediaObjects[2] as? Show)
-                try self.testDecodeAnotherLife(anotherLife)
-                
-                // MARK: Hunter Killer
-                XCTAssertEqual(mediaObjects[3]!.type, .movie)
-                let hunterKiller = try XCTUnwrap(mediaObjects[3] as? Movie)
-                try self.testDecodeHunterKiller(hunterKiller)
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func testDecodeMomentum(_ media: Movie) throws {
-        // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 346_808)
-        XCTAssertEqual(media.title, "Momentum")
-        XCTAssertEqual(media.personalRating, .fourStars)
-        XCTAssertEqual(media.watchAgain, true)
-        XCTAssertEqual(media.tags.map(\.name).sorted(), ["Female Lead", "Gangsters", "Kidnapping", "Revenge"].sorted())
-        XCTAssertEqual(media.notes, "")
-        XCTAssertEqual(media.originalTitle, "Momentum")
-        XCTAssertEqual(media.isAdult, false)
-        XCTAssertEqual(media.isAdultMovie, false)
-        
-        XCTAssertEqual(media.watched, .watched)
-        XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
-    }
-    
-    private func testDecodeNineOneOne(_ media: Show) throws {
-        // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 75219)
-        XCTAssertEqual(media.title, "9-1-1")
-        XCTAssertEqual(media.personalRating, .oneStar)
-        XCTAssertEqual(media.watchAgain, true)
-        XCTAssertEqual(media.tags.map(\.name), ["Crime"])
-        XCTAssertEqual(media.notes, "A very great series")
-        XCTAssertEqual(media.originalTitle, "9-1-1")
-        XCTAssertEqual(media.showType, .scripted)
-        
-        XCTAssertEqual(media.watched, .season(3))
-        XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
-    }
-    
-    private func testDecodeAnotherLife(_ media: Show) throws {
-        // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 79130)
-        XCTAssertEqual(media.title, "Another Life")
-        XCTAssertEqual(media.personalRating, .halfStar)
-        XCTAssertEqual(media.watchAgain, false)
-        XCTAssertEqual(media.tags.map(\.name), ["Artificial Intelligence", "Aliens", "Female Lead", "Haunted", "Future", "Horror", "Space", "Extinction Level Event"].sorted())
-        XCTAssertEqual(media.notes, "")
-        XCTAssertEqual(media.originalTitle, "Another Life")
-        XCTAssertEqual(media.showType, .scripted)
-        
-        XCTAssertEqual(media.watched, .episode(season: 3, episode: 5))
-        XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>())
-    }
-    
-    private func testDecodeHunterKiller(_ media: Movie) throws {
-        // The ID has not to be the same, as in the CSV. The ID will be re-issued
-        XCTAssertEqual(media.tmdbID, 399_402)
-        XCTAssertEqual(media.title, "Hunter Killer")
-        XCTAssertEqual(media.personalRating, .noRating)
-        XCTAssertEqual(media.watchAgain, false)
-        XCTAssertEqual(media.tags, [])
-        XCTAssertEqual(media.notes, "A note with some special characters.\\/:?!")
-        XCTAssertEqual(media.originalTitle, "Hunter Killer")
-        XCTAssertEqual(media.isAdult, false)
-        XCTAssertEqual(media.isAdultMovie, false)
-        
-        XCTAssertEqual(media.watched, .watched)
-        XCTAssertEqual(media.missingInformation(), Set<Media.MediaInformation>([.rating, .tags]))
-    }
     
     func testEncode() throws {
         let sortedSamples = testingUtils.mediaSamples.sorted(by: \.title)
@@ -162,6 +59,49 @@ class CSVCoderTests: XCTestCase {
         // Test all sample media objects
         for i in 0..<sortedSamples.count {
             try testEncodedMedia(dictionaries[i], encodedMedia: sortedSamples[i])
+        }
+    }
+        
+    func testEncodeDecode() throws {
+        // MARK: Encode
+        let sortedSamples = testingUtils.mediaSamples.sorted(by: \.title)
+        let csv = CSVManager.createCSV(from: sortedSamples)
+        
+        // MARK: Decode
+        CSVHelper.importMediaObjects(csvString: csv, importContext: testingUtils.context) { mediaObjects, _ in
+            do {
+                XCTAssertEqual(mediaObjects.count, sortedSamples.count)
+                
+                for i in 0..<mediaObjects.count {
+                    let media = try XCTUnwrap(mediaObjects[i])
+                    let sample = try XCTUnwrap(sortedSamples[i])
+                    
+                    XCTAssertEqual(media.type, sample.type)
+                    XCTAssertEqual(media.tmdbID, sample.tmdbID)
+                    XCTAssertEqual(media.title, sample.title)
+                    XCTAssertEqual(media.personalRating, sample.personalRating)
+                    XCTAssertEqual(media.watchAgain, sample.watchAgain)
+                    XCTAssertEqual(media.tags.map(\.name).sorted(), sample.tags.map(\.name).sorted())
+                    XCTAssertEqual(media.notes, sample.notes)
+                    XCTAssertEqual(media.originalTitle, sample.originalTitle)
+                    XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
+                    XCTAssertEqual(media.missingInformation(), sample.missingInformation())
+                    
+                    if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
+                        XCTAssertEqual(movie.isAdult, movieSample.isAdult)
+                        XCTAssertEqual(movie.watched, movieSample.watched)
+                        // TODO: More properties
+                    } else if media.type == .show, let show = media as? Show, let showSample = sample as? Show {
+                        XCTAssertEqual(show.showType, showSample.showType)
+                        XCTAssertEqual(show.watched, showSample.watched)
+                        // TODO: More properties
+                    } else {
+                        XCTFail("Media is neither a movie, nor a show")
+                    }
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
         }
     }
     

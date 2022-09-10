@@ -45,6 +45,7 @@ struct TagListView: View {
                 tags
                     .map(\.name)
                     .sorted()
+                    .joined(separator: ", ")
             )
         }
     }
