@@ -205,8 +205,8 @@ struct Utils {
     
     static func purchasedPro() -> Bool {
         // TODO: Revert before deploying
-        true
-//        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
+//        true
+        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
     
     /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string

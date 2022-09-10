@@ -21,7 +21,7 @@ struct AggregateCastMember: Decodable {
     
     func createCastMember() -> CastMemberDummy {
         // List all role names, separated by comma
-        let roleName = roles.map(\.characterName).joined(separator: ", ")
+        let roleName = roles.map(\.characterName).formatted()
         return CastMemberDummy(id: id, name: name, roleName: roleName, imagePath: imagePath)
     }
     

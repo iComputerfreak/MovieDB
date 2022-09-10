@@ -15,7 +15,7 @@ struct ProblemsLibraryRow: View {
         mediaObject.missingInformation()
             .map(\.localized)
             .sorted()
-            .joined(separator: ", ")
+            .formatted()
     }
     
     var body: some View {

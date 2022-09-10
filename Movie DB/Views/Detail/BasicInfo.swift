@@ -121,7 +121,7 @@ struct BasicInfo: View {
                                 Locale.current.localizedString(forRegionCode: code) ?? Strings.Generic.unknown
                             }
                             .sorted()
-                            .joined(separator: ", ")
+                            .formatted()
                     )
                     .headline(Strings.Detail.productionCountriesHeadline)
                 }
