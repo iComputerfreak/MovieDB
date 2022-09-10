@@ -70,6 +70,8 @@ struct ImportExportSection: View {
             }
         }
         self.import { importContext in
+            importContext.name = "\(url.lastPathComponent) Media Import Context"
+            
             // Parse the CSV data
             let csvString = try String(contentsOf: url)
             print("Read csv file. Trying to import into library.")
@@ -190,6 +192,7 @@ struct ImportExportSection: View {
         PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
             // Set the merge policy to not override existing data
             importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+            importContext.name = "Import Context" // should be replaced with more precise name later on
             // Initialize the logger
             self.importLogger = .init()
             do {

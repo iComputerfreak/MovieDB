@@ -19,10 +19,9 @@ struct LibraryRow: View {
             // This will be displayed while the object is being deleted
             EmptyView()
         } else {
-            NavigationLink {
-                MediaDetail()
-                    .environmentObject(mediaObject)
-            } label: {
+            // TODO: Value not necessary with SplitView
+            // TODO: NavigationLink not necessary anymore. List handles selection on its own
+            NavigationLink(value: mediaObject) {
                 HStack {
                     Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                         .thumbnail()

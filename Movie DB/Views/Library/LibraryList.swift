@@ -13,6 +13,7 @@ import SwiftUI
 struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @FetchRequest var filteredMedia: FetchedResults<Media>
+    @Binding var selectedMediaObjects: Set<Media>
     
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
@@ -24,7 +25,8 @@ struct LibraryList: View {
         searchText: String,
         filterSetting: FilterSetting,
         sortingOrder: SortingOrder,
-        sortingDirection: SortingDirection
+        sortingDirection: SortingDirection,
+        selectedMediaObjects: Binding<Set<Media>>
     ) {
         var predicates: [NSPredicate] = []
         if !searchText.isEmpty {
@@ -46,10 +48,12 @@ struct LibraryList: View {
             predicate: compoundPredicate,
             animation: .default
         )
+        
+        self._selectedMediaObjects = selectedMediaObjects
     }
     
     var body: some View {
-        List {
+        List(selection: $selectedMediaObjects) {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
                     LibraryRow()
@@ -60,13 +64,6 @@ struct LibraryList: View {
                                 // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                 self.managedObjectContext.delete(mediaObject)
                             }
-                            #if DEBUG
-//                                Button {
-//                                    mediaObject.thumbnail = nil
-//                                } label: {
-//                                    Text(verbatim: "Debug")
-//                                }
-                            #endif
                         }
                         .contextMenu {
                             MediaMenu.AddToSection(mediaObject: mediaObject)
@@ -105,7 +102,13 @@ struct LibraryList: View {
 
 struct LibraryList_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryList(searchText: "", filterSetting: .init(), sortingOrder: .created, sortingDirection: .ascending)
+        LibraryList(
+            searchText: "",
+            filterSetting: .init(),
+            sortingOrder: .created,
+            sortingDirection: .ascending,
+            selectedMediaObjects: .constant(.init())
+        )
             .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }
