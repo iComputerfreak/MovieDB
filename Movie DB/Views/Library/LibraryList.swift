@@ -13,7 +13,6 @@ import SwiftUI
 struct LibraryList: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @FetchRequest var filteredMedia: FetchedResults<Media>
-    @State private var menuViewConfig: MediaMenuViewConfig = .init()
     
     var totalMediaItems: Int {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
@@ -86,19 +85,6 @@ struct LibraryList: View {
                 JFConfig.shared.libraryWasReset = false
             }
         }
-        // Notification when a media object has been added to a list
-        .notificationPopup(
-            isPresented: $menuViewConfig.isShowingAddedToListNotification,
-            systemImage: "checkmark",
-            title: Strings.Detail.addedToListNotificationTitle,
-            subtitle: Strings.Detail.addedToListNotificationMessage(menuViewConfig.addedToListName)
-        )
-        // Notification when a media object has been reloaded manually
-        .notificationPopup(
-            isPresented: $menuViewConfig.isShowingReloadCompleteNotification,
-            systemImage: "checkmark",
-            title: Strings.Detail.reloadCompleteNotificationTitle
-        )
     }
     
     var footerText: Text {
