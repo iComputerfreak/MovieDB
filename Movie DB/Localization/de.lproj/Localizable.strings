@@ -599,7 +599,7 @@
 "settings.actions.importTags.label" = "Schlüsselwörter importieren";
 
 /* The label for the 'reload media' action in the settings view */
-"settings.actions.reloadMedia.label" = "Medien neu laden";
+"settings.actions.reloadMedia.label" = "Mediathek neu laden";
 
 /* The label for the 'reset library' action in the settings view */
 "settings.actions.resetLibrary.label" = "Mediathek zurücksetzen";
@@ -608,7 +608,7 @@
 "settings.actions.resetTags.label" = "Schlüsselwörter zurücksetzen";
 
 /* The label for the 'update media' action in the settings view */
-"settings.actions.updateMedia.label" = "Medien aktualisieren";
+"settings.actions.updateMedia.label" = "Mediathek aktualisieren";
 
 /* Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured */
 "settings.alert.errorBuyingPro.message" = "Das angefragte Produkt wurde nicht gefunden.";

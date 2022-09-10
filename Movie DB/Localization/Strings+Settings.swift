@@ -39,11 +39,11 @@ extension Strings {
             localized: "settings.actions.buyPro.label",
             comment: "The label for the button in the settings to buy the pro version of the app"
         )
-        static let reloadMediaLabel = String(
+        static let reloadLibraryLabel = String(
             localized: "settings.actions.reloadMedia.label",
             comment: "The label for the 'reload media' action in the settings view"
         )
-        static let updateMediaLabel = String(
+        static let updateLibraryLabel = String(
             localized: "settings.actions.updateMedia.label",
             comment: "The label for the 'update media' action in the settings view"
         )

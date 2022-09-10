@@ -21,8 +21,8 @@ struct LibraryActionsSection: View {
             showingProgress: $config.showingProgress,
             progressText: config.progressText
         )) {
-            Button(Strings.Settings.reloadMediaLabel, action: self.reloadHandler)
-            Button(Strings.Settings.updateMediaLabel, action: self.updateMedia)
+            Button(Strings.Settings.updateLibraryLabel, action: self.updateMedia)
+            Button(Strings.Settings.reloadLibraryLabel, action: self.reloadHandler)
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
             #if DEBUG
                 Button("Debug") {
@@ -45,13 +45,10 @@ struct LibraryActionsSection: View {
                 VStack(alignment: .center) {
                     ZStack {
                         // Update Progress
-                        // TODO: Is AnyView necessary?
-                        AnyView(
-                            HStack(spacing: 5) {
-                                ProgressView()
-                                Text(progressText)
-                            }
-                        )
+                        HStack(spacing: 5) {
+                            ProgressView()
+                            Text(progressText)
+                        }
                         .hidden(condition: !showingProgress)
                     }
                     .frame(height: showingProgress ? nil : 0)

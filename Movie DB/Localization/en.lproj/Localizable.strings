@@ -596,7 +596,7 @@
 "settings.actions.importTags.label" = "Import Tags";
 
 /* The label for the 'reload media' action in the settings view */
-"settings.actions.reloadMedia.label" = "Reload Media";
+"settings.actions.reloadMedia.label" = "Reload Library";
 
 /* The label for the 'reset library' action in the settings view */
 "settings.actions.resetLibrary.label" = "Reset Library";
@@ -605,7 +605,7 @@
 "settings.actions.resetTags.label" = "Reset Tags";
 
 /* The label for the 'update media' action in the settings view */
-"settings.actions.updateMedia.label" = "Update Media";
+"settings.actions.updateMedia.label" = "Update Library";
 
 /* Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured */
 "settings.alert.errorBuyingPro.message" = "The requested In-App Purchase was not found.";
