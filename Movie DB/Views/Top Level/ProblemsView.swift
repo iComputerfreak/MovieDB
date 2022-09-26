@@ -55,27 +55,6 @@ struct ProblemsView: View {
     
     var body: some View {
         NavigationView {
-//            ZStack {
-//                // We maintain an invisible list in the background to be able to permanently keep a NavigationLink
-//                // "visible" that can be triggered programmatically. This way, we can keep the selected media active,
-//                // even after the below if-else-code evaluates to the true branch and hides the list of medias.
-//                List {
-//                    NavigationLink(isActive: $presentedMedia.isPresenting) {
-//                        if let mediaObject = presentedMedia.media {
-//                            MediaDetail()
-//                                .environmentObject(mediaObject)
-//                        } else {
-//                            Text(Strings.Generic.errorText)
-//                        }
-//                    } label: {
-//                        EmptyView()
-//                    }
-//                    .hidden()
-//                    .frame(height: 0)
-//                }
-//                .disabled(true)
-//                .opacity(0)
-                
             if missingInfoMedia.isEmpty {
                 Text(Strings.Problems.noProblemsText)
                     .navigationTitle(Strings.Problems.navBarTitle)
@@ -97,7 +76,6 @@ struct ProblemsView: View {
                     .navigationTitle(Strings.Problems.navBarTitle)
                 }
                 .listStyle(.grouped)
-//                }
             }
         }
     }
