@@ -29,7 +29,7 @@ struct DebugView: View {
     @State private var castICloud = 0
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section("Core Data") {
                     describe(mediaCount, mediaICloud, label: "Medias")

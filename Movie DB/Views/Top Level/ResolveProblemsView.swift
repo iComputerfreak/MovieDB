@@ -12,14 +12,15 @@ struct ResolveProblemsView: View {
     @Binding var problems: [Problem]
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    @State private var selectedMedia: Media?
+    
     var body: some View {
-        NavigationView {
-            List {
+        NavigationSplitView {
+            List(selection: $selectedMedia) {
                 ForEach(problems) { problem in
                     Section(problem.type.localized) {
                         Text(problem.type.recovery)
                         ForEach(problem.associatedMedias) { media in
-                            // TODO: Rework navigation
                             NavigationLink(value: media) {
                                 LibraryRow()
                                     .environmentObject(media)
@@ -36,6 +37,14 @@ struct ResolveProblemsView: View {
                 }
             }
             .navigationTitle(Strings.ResolveProblems.navBarTitle)
+        } detail: {
+            if let selectedMedia {
+                MediaDetail()
+                    .environmentObject(selectedMedia)
+            } else {
+                // TODO: Localize
+                Text("Select a media object.")
+            }
         }
     }
 }

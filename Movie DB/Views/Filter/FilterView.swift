@@ -18,7 +18,7 @@ struct FilterView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
         
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 FilterUserDataSection(filterSetting: filterSetting)
                 FilterInformationSection(filterSetting: filterSetting)

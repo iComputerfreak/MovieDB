@@ -56,7 +56,6 @@ struct LibraryList: View {
         List(selection: $selectedMediaObjects) {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
-                    // TODO: Rework navigation
                     NavigationLink(value: mediaObject) {
                         LibraryRow()
                             .environmentObject(mediaObject)
