@@ -15,6 +15,13 @@ enum PlaceholderData {
     static let allMedia: [Media] = fetchAll()
     static let movie: Movie = createMovie()
     static let show: Show = createShow()
+    static let problemMovie: Movie = {
+        let m = createMovie()
+        m.watched = .watched
+        m.personalRating = .noRating
+        m.tags = []
+        return m
+    }()
 
     // A media with some missing information
     static let problemShow: Show = {

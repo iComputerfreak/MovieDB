@@ -12,7 +12,7 @@ struct LanguageChooser: View {
     @ObservedObject private var config = JFConfig.shared
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if config.availableLanguages.isEmpty {
                 Text(Strings.LanguageChooser.loadingText)
                     .task(priority: .userInitiated) {

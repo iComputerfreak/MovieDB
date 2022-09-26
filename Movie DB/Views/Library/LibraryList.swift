@@ -56,19 +56,22 @@ struct LibraryList: View {
         List(selection: $selectedMediaObjects) {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
-                    LibraryRow()
-                        .environmentObject(mediaObject)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(Strings.Library.swipeActionDelete, role: .destructive) {
-                                print("Deleting \(mediaObject.title)")
-                                // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
-                                self.managedObjectContext.delete(mediaObject)
+                    // TODO: Rework navigation
+                    NavigationLink(value: mediaObject) {
+                        LibraryRow()
+                            .environmentObject(mediaObject)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(Strings.Library.swipeActionDelete, role: .destructive) {
+                                    print("Deleting \(mediaObject.title)")
+                                    // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
+                                    self.managedObjectContext.delete(mediaObject)
+                                }
                             }
-                        }
-                        .contextMenu {
-                            MediaMenu.AddToSection(mediaObject: mediaObject)
-                            MediaMenu.ActionsSection(mediaObject: mediaObject)
-                        }
+                            .contextMenu {
+                                MediaMenu.AddToSection(mediaObject: mediaObject)
+                                MediaMenu.ActionsSection(mediaObject: mediaObject)
+                            }
+                    }
                 }
             }
         }
@@ -109,6 +112,6 @@ struct LibraryList_Previews: PreviewProvider {
             sortingDirection: .ascending,
             selectedMediaObjects: .constant(.init())
         )
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+        .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

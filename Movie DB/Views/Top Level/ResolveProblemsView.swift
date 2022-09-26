@@ -19,8 +19,11 @@ struct ResolveProblemsView: View {
                     Section(problem.type.localized) {
                         Text(problem.type.recovery)
                         ForEach(problem.associatedMedias) { media in
-                            LibraryRow()
-                                .environmentObject(media)
+                            // TODO: Rework navigation
+                            NavigationLink(value: media) {
+                                LibraryRow()
+                                    .environmentObject(media)
+                            }
                         }
                         .onDelete { indexSet in
                             for offset in indexSet {

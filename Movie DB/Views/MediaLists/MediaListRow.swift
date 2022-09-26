@@ -46,8 +46,11 @@ struct MediaListRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
             MediaListRow(list: Self.previewList) { media in
-                LibraryRow()
-                    .environmentObject(media)
+                // TODO: Rework navigation
+                NavigationLink(value: media) {
+                    LibraryRow()
+                        .environmentObject(media)
+                }
             }
             .environment(\.managedObjectContext, PersistenceController.previewContext)
         }

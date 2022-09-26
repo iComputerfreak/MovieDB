@@ -126,7 +126,6 @@
 		AB711FBE281D8F7D003ED045 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FBD281D8F7D003ED045 /* Episode.swift */; };
 		AB711FC0281DCC93003ED045 /* ParentalRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FBF281DCC93003ED045 /* ParentalRating.swift */; };
 		AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB711FC1281EB02F003ED045 /* MetadataInfo.swift */; };
-		AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */; };
 		AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */; };
 		AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */; };
 		AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */; };
@@ -364,7 +363,6 @@
 		AB711FBD281D8F7D003ED045 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		AB711FBF281DCC93003ED045 /* ParentalRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRating.swift; sourceTree = "<group>"; };
 		AB711FC1281EB02F003ED045 /* MetadataInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInfo.swift; sourceTree = "<group>"; };
-		AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
 		AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JFUtilsTests.swift; sourceTree = "<group>"; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUserDataSection.swift; sourceTree = "<group>"; };
@@ -1050,7 +1048,6 @@
 			children = (
 				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
-				AB72E6D1249FFCA000765BF1 /* ProblemsView.swift */,
 				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
 				AB0318E52842AA3800041E0B /* DebugView.swift */,
 			);
@@ -1370,7 +1367,6 @@
 				AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */,
 				AB4085422663A7BA008C559B /* LegalView.swift in Sources */,
 				AB5493D625FAB0850072745B /* LibraryList.swift in Sources */,
-				AB72E6D2249FFCA000765BF1 /* ProblemsView.swift in Sources */,
 				ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */,
 				ABCE3358286DA68200FB481A /* MediaMenu.swift in Sources */,
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,

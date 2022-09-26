@@ -49,14 +49,17 @@ struct UserListsView: View {
                     // MARK: Favorites
                     NavigationLink {
                         FilteredMediaList(list: PredicateMediaList.favorites) { media in
-                            LibraryRow()
-                                .environmentObject(media)
-                                .swipeActions {
-                                    Button(Strings.Detail.menuButtonUnfavorite) {
-                                        assert(media.isFavorite)
-                                        media.isFavorite = false
+                            // TODO: Rework navigation
+                            NavigationLink(value: media) {
+                                LibraryRow()
+                                    .environmentObject(media)
+                                    .swipeActions {
+                                        Button(Strings.Detail.menuButtonUnfavorite) {
+                                            assert(media.isFavorite)
+                                            media.isFavorite = false
+                                        }
                                     }
-                                }
+                            }
                         }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.favorites)
@@ -96,8 +99,11 @@ struct UserListsView: View {
                     Section(Strings.Lists.dynamicListsHeader) {
                         ForEach(dynamicLists) { list in
                             MediaListRow(list: list) { media in
-                                LibraryRow()
-                                    .environmentObject(media)
+                                // TODO: Rework navigation
+                                NavigationLink(value: media) {
+                                    LibraryRow()
+                                        .environmentObject(media)
+                                }
                             }
                         }
                         // List delete
@@ -114,15 +120,18 @@ struct UserListsView: View {
                     Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in
                             MediaListRow(list: list) { media in
-                                LibraryRow()
-                                    .environmentObject(media)
-                                    // Media delete
-                                    .swipeActions {
-                                        Button(Strings.Lists.deleteLabel) {
-                                            list.medias.remove(media)
-                                            PersistenceController.saveContext()
+                                // TODO: Rework navigation
+                                NavigationLink(value: media) {
+                                    LibraryRow()
+                                        .environmentObject(media)
+                                        // Media delete
+                                        .swipeActions {
+                                            Button(Strings.Lists.deleteLabel) {
+                                                list.medias.remove(media)
+                                                PersistenceController.saveContext()
+                                            }
                                         }
-                                    }
+                                }
                             }
                         }
                         // List delete

@@ -128,8 +128,11 @@ struct FilteredMediaList_Previews: PreviewProvider {
         let list = dynamicList
         NavigationStack {
             FilteredMediaList(list: list) { media in
-                LibraryRow()
-                    .environmentObject(media)
+                // TODO: Rework navigation
+                NavigationLink(value: media) {
+                    LibraryRow()
+                        .environmentObject(media)
+                }
             }
             .navigationTitle(list.name)
             .environment(\.managedObjectContext, PersistenceController.previewContext)
