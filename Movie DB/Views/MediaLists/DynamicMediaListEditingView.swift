@@ -39,7 +39,7 @@ struct DynamicMediaListEditingView_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             DynamicMediaListEditingView(list: Self.previewList)
                 .environment(\.managedObjectContext, PersistenceController.previewContext)
         }

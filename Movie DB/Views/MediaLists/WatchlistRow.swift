@@ -124,7 +124,7 @@ struct WatchlistRow: View {
 
 struct WatchlistRow_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(MovieWatchState.allCases, id: \.rawValue) { watchState in
                     WatchlistRow()

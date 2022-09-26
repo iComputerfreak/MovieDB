@@ -69,7 +69,7 @@ struct NotesView_Previews: PreviewProvider {
             }
         }
         Group {
-            NavigationView {
+            NavigationStack {
                 NotesView.EditView(notes: .constant("This one is being edited."))
             }
             .previewDisplayName("Editing View")

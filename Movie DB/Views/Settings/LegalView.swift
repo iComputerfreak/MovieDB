@@ -49,7 +49,7 @@ struct LegalView: View {
 
 struct LegalView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             LegalView()
         }
     }

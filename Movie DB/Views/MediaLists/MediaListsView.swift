@@ -42,6 +42,7 @@ struct UserListsView: View {
     }
     
     var body: some View {
+        // TODO: Refactor to NavigationSplitView
         NavigationView {
             List {
                 // MARK: - Default Lists (disabled during editing)

@@ -128,7 +128,7 @@ private struct Preview: View {
     @State private var isActive = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(0..<30) { i in
                     Text("This is Item \(i)")

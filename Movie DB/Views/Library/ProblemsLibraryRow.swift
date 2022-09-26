@@ -19,6 +19,7 @@ struct ProblemsLibraryRow: View {
     }
     
     var body: some View {
+        // TODO: Move out of this view
         NavigationLink {
             MediaDetail()
                 .environmentObject(mediaObject)
@@ -44,7 +45,7 @@ struct ProblemsLibraryRow: View {
 
 struct ProblemsLibraryRow_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ProblemsLibraryRow()
                     .environmentObject(PlaceholderData.problemShow as Media)

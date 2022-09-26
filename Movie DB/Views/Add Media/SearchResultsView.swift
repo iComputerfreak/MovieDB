@@ -19,6 +19,7 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var resultsText: String = ""
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
+    @Binding var selection: TMDBSearchResult?
     
     // We use an observable model to store the searchText and publisher
     // This way, we can access the publisher of the @Published searchText property directly to
@@ -31,12 +32,13 @@ struct SearchResultsView<RowContent: View>: View {
     let content: (TMDBSearchResult) -> RowContent
     
     // swiftlint:disable:next type_contents_order
-    init(@ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent) {
+    init(selection: Binding<TMDBSearchResult?>, @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent) {
         self.content = content
+        self._selection = selection
     }
     
     var body: some View {
-        List {
+        List(selection: $selection) {
             if self.results.isEmpty, !self.resultsText.isEmpty {
                 HStack {
                     Spacer()
@@ -176,8 +178,8 @@ struct SearchResultsView<RowContent: View>: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            SearchResultsView { result in
+        NavigationStack {
+            SearchResultsView(selection: .constant(nil)) { result in
                 SearchResultRow(result: result)
             }
             .navigationTitle(Text(verbatim: "Add Media"))

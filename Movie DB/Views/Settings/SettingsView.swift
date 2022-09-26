@@ -46,7 +46,7 @@ struct SettingsView: View {
             isShowing: $config.isLoading,
             text: config.loadingText ?? Strings.Settings.loadingPlaceholder
         ) {
-            NavigationView {
+            NavigationStack {
                 Form {
                     PreferencesSection(config: $config, reloadHandler: self.reloadMedia)
                     if !Utils.purchasedPro() {

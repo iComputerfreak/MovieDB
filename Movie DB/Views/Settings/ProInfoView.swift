@@ -12,7 +12,7 @@ struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .center) {
                 HStack {
                     Text(Strings.ProInfo.introText(JFLiterals.nonProMediaLimit))

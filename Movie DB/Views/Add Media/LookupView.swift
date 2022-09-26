@@ -15,18 +15,25 @@ struct LookupView: View {
     @State private var isShowingProPopup = false
     
     @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    @State private var result: TMDBSearchResult?
         
     var body: some View {
         LoadingView(isShowing: $isLoading) {
-            NavigationView {
-                SearchResultsView { result in
-                    NavigationLink {
-                        MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
-                    } label: {
+            NavigationSplitView {
+                SearchResultsView(selection: $result) { result in
+                    NavigationLink(value: result) {
                         SearchResultRow(result: result)
                     }
                 }
                 .navigationTitle(Strings.TabView.lookupLabel)
+            } detail: {
+                if let result {
+                    MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+                } else {
+                    // TODO: Localize
+                    Text("Select a search result.")
+                }
             }
         }
         .popover(isPresented: $isShowingProPopup) {

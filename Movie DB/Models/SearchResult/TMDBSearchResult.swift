@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 /// Represents a search result from the TMDBAPI search call
-class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
+class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     // Basic Data
     /// The TMDB ID of the media
     let id: Int
@@ -62,6 +62,7 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
         self.voteCount = voteCount
     }
     
+    // swiftlint:disable type_contents_order
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
@@ -91,5 +92,33 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject {
         case popularity
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+    }
+    
+    // MARK: Hashable Conformance
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(title)
+        hasher.combine(mediaType)
+        hasher.combine(imagePath)
+        hasher.combine(overview)
+        hasher.combine(originalTitle)
+        hasher.combine(originalLanguage)
+        hasher.combine(popularity)
+        hasher.combine(voteAverage)
+        hasher.combine(voteCount)
+    }
+    
+    static func == (lhs: TMDBSearchResult, rhs: TMDBSearchResult) -> Bool {
+        lhs.id == rhs.id &&
+            lhs.title == rhs.title &&
+            lhs.mediaType == rhs.mediaType &&
+            lhs.imagePath == rhs.imagePath &&
+            lhs.overview == rhs.overview &&
+            lhs.originalTitle == rhs.originalTitle &&
+            lhs.originalLanguage == rhs.originalLanguage &&
+            lhs.popularity == rhs.popularity &&
+            lhs.voteAverage == rhs.voteAverage &&
+            lhs.voteCount == rhs.voteCount
     }
 }

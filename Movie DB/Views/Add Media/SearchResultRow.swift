@@ -86,7 +86,7 @@ struct SearchResultRow: View {
 struct SearchResultView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationView {
+            NavigationStack {
                 List {
                     ForEach(0..<5, id: \.self) { _ in
                         SearchResultRow(result: TMDBMovieSearchResult(

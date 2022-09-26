@@ -52,7 +52,7 @@ class NotificationProxy: ObservableObject {
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
         NotificationView { proxy in
-            NavigationView {
+            NavigationStack {
                 List {
                     ForEach(0..<10) { i in
                         Text(verbatim: "This is item \(i)")

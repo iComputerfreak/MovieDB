@@ -54,7 +54,7 @@ struct SFSymbolPicker: View {
 
 struct SFSymbolPicker_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             SFSymbolPicker(symbol: .constant("heart.fill"))
         }
     }

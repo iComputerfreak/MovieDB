@@ -31,7 +31,7 @@ struct UserMediaListEditingView_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             UserMediaListEditingView(list: Self.previewList)
         }
     }

@@ -59,7 +59,7 @@ struct LibraryRow: View {
 
 struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(ParentalRating.fskRatings, id: \.label) { rating in
                     let movie: Media = {

@@ -46,6 +46,7 @@ class TMDBMovieSearchResult: TMDBSearchResult {
         )
     }
     
+    // swiftlint:disable type_contents_order
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
@@ -65,5 +66,20 @@ class TMDBMovieSearchResult: TMDBSearchResult {
     enum CodingKeys: String, CodingKey {
         case isAdult = "adult"
         case rawReleaseDate = "release_date"
+    }
+    
+    // MARK: Hashable Conformance
+    
+    override func hash(into hasher: inout Hasher) {
+        hasher.combine(isAdult)
+        hasher.combine(releaseDate)
+    }
+    
+    static func == (lhs: TMDBMovieSearchResult, rhs: TMDBMovieSearchResult) -> Bool {
+        let superLhs = lhs as TMDBSearchResult
+        let superRhs = rhs as TMDBSearchResult
+        return superLhs == superRhs &&
+            lhs.isAdult == rhs.isAdult &&
+            lhs.releaseDate == rhs.releaseDate
     }
 }
