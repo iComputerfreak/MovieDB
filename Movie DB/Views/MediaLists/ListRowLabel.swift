@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct ListRowLabel: View {
-    let list: MediaListProtocol
+    let list: any MediaListProtocol
     
     var body: some View {
         Label(list.name, systemImage: list.iconName)

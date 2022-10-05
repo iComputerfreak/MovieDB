@@ -32,6 +32,8 @@ struct LegalView: View {
                     )
                 }
                 Divider()
+                // TODO: Markdown does not work this way. Either use `+ Text(markdown)`
+                // or interpret the whole localized string as markdown
                 // swiftlint:disable:next force_try
                 let mail = try! AttributedString(markdown: "[legal@jonasfreyapps.de](mailto:legal@joansfreyapps.de)")
                 Text(Strings.Legal.legalNoticeMail(mail))

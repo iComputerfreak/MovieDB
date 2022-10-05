@@ -65,7 +65,7 @@ opt_in_rules:
   - static_operator
   - switch_case_on_newline
   - toggle_bool
-  - type_contents_order
+#  - type_contents_order
   - unneeded_parentheses_in_closure_argument
   - unavailable_function
   - unused_declaration
@@ -91,23 +91,23 @@ trailing_whitespace:
 unused_declaration:
   include_public_and_open: true
 
-type_contents_order:
-  order:
-    - case
-    - type_alias
-    - associated_type
-    - type_property
-    - instance_property
-    - ib_inspectable
-    - ib_outlet
-    - initializer
-    - type_method
-    - view_life_cycle_method
-    - ib_action
-    - other_method
-    - subscript
-    - deinitializer
-    - subtype
+#type_contents_order:
+#  order:
+#    - case
+#    - type_alias
+#    - associated_type
+#    - type_property
+#    - instance_property
+#    - ib_inspectable
+#    - ib_outlet
+#    - initializer
+#    - type_method
+#    - view_life_cycle_method
+#    - ib_action
+#    - other_method
+#    - subscript
+#    - deinitializer
+#    - subtype
 multiline_arguments:
   only_enforce_after_first_closure_on_first_line: true
 modifier_order:

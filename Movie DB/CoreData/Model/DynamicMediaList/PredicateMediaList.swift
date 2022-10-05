@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import SwiftUI
 
 /// Represents a media list that fetches its media objects by a given predicate
 class PredicateMediaList: MediaListProtocol {
@@ -71,5 +72,19 @@ class PredicateMediaList: MediaListProtocol {
     private enum StorageType: String {
         case sortingOrder
         case sortingDirection
+    }
+    
+    // MARK: - Hashable Conformance
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(iconName)
+        hasher.combine(predicate)
+    }
+    
+    static func == (lhs: PredicateMediaList, rhs: PredicateMediaList) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.iconName == rhs.iconName &&
+            lhs.predicate == rhs.predicate
     }
 }

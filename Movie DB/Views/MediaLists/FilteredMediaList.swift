@@ -11,13 +11,15 @@ import SwiftUI
 
 struct FilteredMediaList<RowContent: View>: View {
     let rowContent: (Media) -> RowContent
-    let list: MediaListProtocol
+    let list: any MediaListProtocol
     
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
 
     // Mirrors the respective property of the list for view updates
     @State private var sortingDirection: SortingDirection
+    
+    @Binding var selectedMedia: Media?
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     
@@ -26,11 +28,12 @@ struct FilteredMediaList<RowContent: View>: View {
     }
     
     // swiftlint:disable:next type_contents_order
-    init(list: any MediaListProtocol, rowContent: @escaping (Media) -> RowContent) {
+    init(list: any MediaListProtocol, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
         self.rowContent = rowContent
         self.list = list
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
+        self._selectedMedia = selectedMedia
     }
     
     var body: some View {
@@ -48,6 +51,7 @@ struct FilteredMediaList<RowContent: View>: View {
                 sortingOrder: $sortingOrder,
                 sortingDirection: $sortingDirection,
                 fetchRequest: list.buildFetchRequest(),
+                selectedMedia: $selectedMedia,
                 rowContent: self.rowContent
             )
             .onChange(of: sortingOrder) { newValue in
@@ -71,15 +75,19 @@ struct SortableMediaList<RowContent: View>: View {
     @FetchRequest
     private var medias: FetchedResults<Media>
     
+    @Binding var selectedMedia: Media?
+    
     // swiftlint:disable:next type_contents_order
     init(
         sortingOrder: Binding<SortingOrder>,
         sortingDirection: Binding<SortingDirection>,
         fetchRequest: NSFetchRequest<Media>,
+        selectedMedia: Binding<Media?>,
         rowContent: @escaping (Media) -> RowContent
     ) {
         _sortingOrder = sortingOrder
         _sortingDirection = sortingDirection
+        self._selectedMedia = selectedMedia
         self.rowContent = rowContent
         
         // Update the sorting of the fetchRequest and use it to display the media
@@ -107,7 +115,7 @@ struct SortableMediaList<RowContent: View>: View {
                     }
                 }
         } else {
-            List(medias) { media in
+            List(medias, selection: $selectedMedia) { media in
                 self.rowContent(media)
             }
             .listStyle(.grouped)
@@ -127,7 +135,7 @@ struct FilteredMediaList_Previews: PreviewProvider {
     static var previews: some View {
         let list = dynamicList
         NavigationStack {
-            FilteredMediaList(list: list) { media in
+            FilteredMediaList(list: list, selectedMedia: .constant(nil)) { media in
                 // TODO: Rework navigation
                 NavigationLink(value: media) {
                     LibraryRow()

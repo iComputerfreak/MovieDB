@@ -9,7 +9,7 @@
 import CoreData
 import Foundation
 
-protocol MediaListProtocol: AnyObject {
+protocol MediaListProtocol: AnyObject, Hashable {
     var name: String { get }
     var iconName: String { get }
     var sortingOrder: SortingOrder { get set }

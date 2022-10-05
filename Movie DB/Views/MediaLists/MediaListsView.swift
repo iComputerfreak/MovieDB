@@ -34,156 +34,139 @@ struct UserListsView: View {
         sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
     ) private var userLists: FetchedResults<UserMediaList>
     
-    var allLists: [MediaListProtocol] {
-        var lists: [MediaListProtocol] = defaultLists
+    var allLists: [any MediaListProtocol] {
+        var lists: [any MediaListProtocol] = defaultLists
         dynamicLists.forEach { lists.append($0) }
         userLists.forEach { lists.append($0) }
         return lists
     }
     
+    @State private var selectedMedia: Media?
+    
     var body: some View {
-        // TODO: Refactor to NavigationSplitView
-        NavigationView {
+        NavigationSplitView {
             List {
                 // MARK: - Default Lists (disabled during editing)
                 Section(Strings.Lists.defaultListsHeader) {
                     // MARK: Favorites
                     NavigationLink {
-                        FilteredMediaList(list: PredicateMediaList.favorites) { media in
-                            // TODO: Rework navigation
-                            NavigationLink(value: media) {
-                                LibraryRow()
-                                    .environmentObject(media)
-                                    .swipeActions {
-                                        Button(Strings.Detail.menuButtonUnfavorite) {
-                                            assert(media.isFavorite)
-                                            media.isFavorite = false
-                                        }
-                                    }
-                            }
-                        }
+                        FavoritesMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.favorites)
                     }
-                    .disabled(editMode?.wrappedValue.isEditing ?? false)
                     
                     // MARK: Watchlist
                     NavigationLink {
-                        FilteredMediaList(list: PredicateMediaList.watchlist) { media in
-                            WatchlistRow()
-                                .environmentObject(media)
-                                // Remove from watchlist
-                                .swipeActions {
-                                    Button(Strings.Lists.removeMediaLabel) {
-                                        media.isOnWatchlist = false
-                                    }
-                                }
-                        }
+                        WatchlistMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.watchlist)
                     }
                     
                     // MARK: Problems
-                    // For the problems list, show the ProblemsView instead of the normal list rows
                     NavigationLink {
-                        FilteredMediaList(list: PredicateMediaList.problems) { media in
-                            ProblemsLibraryRow()
-                                .environmentObject(media)
-                        }
+                        ProblemsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
                     }
                 }
+                .disabled(editMode?.wrappedValue.isEditing ?? false)
                 
                 // MARK: - Dynamic Lists
                 if !dynamicLists.isEmpty {
                     Section(Strings.Lists.dynamicListsHeader) {
                         ForEach(dynamicLists) { list in
-                            MediaListRow(list: list) { media in
-                                // TODO: Rework navigation
-                                NavigationLink(value: media) {
-                                    LibraryRow()
-                                        .environmentObject(media)
-                                }
+                            // NavigationLink for the lists
+                            NavigationLink {
+                                DynamicMediaListView(list: list, selectedMedia: $selectedMedia)
+                                    // TODO: necessary?
+                                    .environment(\.editMode, self.editMode)
+                            } label: {
+                                ListRowLabel(list: list)
+                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete
-                        .onDelete { indexSet in
-                            indexSet.forEach { index in
-                                self.managedObjectContext.delete(dynamicLists[index])
-                            }
-                            PersistenceController.saveContext(self.managedObjectContext)
-                        }
+                        .onDelete(perform: deleteDynamicList(indexSet:))
                     }
                 }
                 // MARK: - User Lists
                 if !userLists.isEmpty {
                     Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in
-                            MediaListRow(list: list) { media in
-                                // TODO: Rework navigation
-                                NavigationLink(value: media) {
-                                    LibraryRow()
-                                        .environmentObject(media)
-                                        // Media delete
-                                        .swipeActions {
-                                            Button(Strings.Lists.deleteLabel) {
-                                                list.medias.remove(media)
-                                                PersistenceController.saveContext()
-                                            }
-                                        }
-                                }
+                            NavigationLink {
+                                UserMediaListView(list: list, selectedMedia: $selectedMedia)
+                                    // TODO: necessary?
+                                    .environment(\.editMode, self.editMode)
+                            } label: {
+                                ListRowLabel(list: list)
+                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete
-                        .onDelete { indexSet in
-                            indexSet.forEach { index in
-                                self.managedObjectContext.delete(userLists[index])
-                            }
-                            PersistenceController.saveContext(self.managedObjectContext)
-                        }
+                        .onDelete(perform: deleteUserList(indexSet:))
                     }
                 }
             }
-            
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Menu(Strings.Lists.newListLabel) {
-                        Button(Strings.Lists.newDynamicListLabel) {
-                            let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
-                                let list = DynamicMediaList(context: managedObjectContext)
-                                list.name = name
-                                PersistenceController.saveContext(managedObjectContext)
-                            }
-                            AlertHandler.presentAlert(alert: alert)
-                        }
-                        Button(Strings.Lists.newCustomListLabel) {
-                            let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
-                                let list = UserMediaList(context: managedObjectContext)
-                                list.name = name
-                                PersistenceController.saveContext(managedObjectContext)
-                            }
-                            AlertHandler.presentAlert(alert: alert)
-                        }
-                    }
-                }
-            }
+            .toolbar(content: toolbar)
             .navigationTitle(Strings.TabView.listsLabel)
+        } content: {
+            // MARK: List contents showing the medias in the list
+            // content is provided by the `NavigationLink`s in the sidebar view
+            Text(Strings.Lists.listsRootPlaceholderText)
+        } detail: {
+            // MARK: MediaDetail
+            if let selectedMedia {
+                MediaDetail()
+                    .environmentObject(selectedMedia)
+            } else {
+                Text(Strings.Lists.listsDetailPlaceholderText)
+            }
+        }
+    }
+    
+    private func deleteDynamicList(indexSet: IndexSet) {
+        indexSet.forEach { index in
+            self.managedObjectContext.delete(dynamicLists[index])
+        }
+        PersistenceController.saveContext(self.managedObjectContext)
+    }
+    
+    private func deleteUserList(indexSet: IndexSet) {
+        indexSet.forEach { index in
+            self.managedObjectContext.delete(userLists[index])
+        }
+        PersistenceController.saveContext(self.managedObjectContext)
+    }
+    
+    @ToolbarContentBuilder private func toolbar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            EditButton()
+        }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Menu(Strings.Lists.newListLabel) {
+                Button(Strings.Lists.newDynamicListLabel) {
+                    let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
+                        let list = DynamicMediaList(context: managedObjectContext)
+                        list.name = name
+                        PersistenceController.saveContext(managedObjectContext)
+                    }
+                    AlertHandler.presentAlert(alert: alert)
+                }
+                Button(Strings.Lists.newCustomListLabel) {
+                    let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
+                        let list = UserMediaList(context: managedObjectContext)
+                        list.name = name
+                        PersistenceController.saveContext(managedObjectContext)
+                    }
+                    AlertHandler.presentAlert(alert: alert)
+                }
+            }
         }
     }
     
     private func buildAlert(_ title: String, onSubmit: @escaping (String) -> Void) -> UIAlertController {
-        let alert = UIAlertController(
-            title: title,
-            message: Strings.Lists.Alert.newListMessage,
-            preferredStyle: .alert
-        )
-        alert.addTextField { textField in
-            textField.autocapitalizationType = .words
-        }
+        let alert = UIAlertController(title: title, message: Strings.Lists.Alert.newListMessage, preferredStyle: .alert)
+        alert.addTextField { $0.autocapitalizationType = .words }
         alert.addAction(.cancelAction())
         alert.addAction(.init(title: Strings.Lists.Alert.newListButtonAdd, style: .default, handler: { _ in
             guard let textField = alert.textFields?.first else {

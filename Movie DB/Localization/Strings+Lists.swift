@@ -132,5 +132,15 @@ extension Strings {
                 comment: "The label of shows in watchlist rows where up to a specific season and episode has been watched. The first argument is the season, the second argument is the episode."
             )
         }
+        
+        static let listsDetailPlaceholderText = String(
+            localized: "lists.detail.placeholder",
+            comment: "The placeholder text displayed in the detail column of the lists view when no media is selected."
+        )
+        
+        static let listsRootPlaceholderText = String(
+            localized: "lists.root.placeholder",
+            comment: "The placeholder text displayed in the middle column of the lists view when no list is selected."
+        )
     }
 }

@@ -813,3 +813,6 @@
 
 "settings.alert.cannotMakePayments.title" = "Unable to complete Purchase";
 "settings.alert.cannotMakePayments.message" = "This account is unable to make purchases on the App Store.";
+
+"lists.detail.placeholder" = "Select a media";
+"lists.root.placeholder" = "Select a list";

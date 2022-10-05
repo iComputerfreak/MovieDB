@@ -805,3 +805,6 @@
 "detail.notification.reloadComplete.title" = "Neu Geladen";
 
 "settings.footer.madeWithLove" = "Gemacht mit ❤️ in Karlsruhe.";
+
+"lists.detail.placeholder" = "Medium auswählen";
+"lists.root.placeholder" = "Liste auswählen";
