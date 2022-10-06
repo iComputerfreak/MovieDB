@@ -31,11 +31,8 @@ struct DynamicMediaListView: View {
         } else {
             // Default destination
             FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-                // TODO: Remove. List handles selection on its own
-                NavigationLink(value: media) {
-                    LibraryRow()
-                        .environmentObject(media)
-                }
+                LibraryRow()
+                    .environmentObject(media)
             }
         }
     }

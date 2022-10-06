@@ -31,8 +31,7 @@ struct LookupView: View {
                 if let result {
                     MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
                 } else {
-                    // TODO: Localize
-                    Text("Select a search result.")
+                    Text(Strings.AddMedia.detailPlaceholderText)
                 }
             }
         }
