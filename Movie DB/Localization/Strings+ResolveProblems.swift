@@ -14,5 +14,9 @@ extension Strings {
             localized: "resolveProblems.navBar.title",
             comment: "The navigation bar title for the language chooser view"
         )
+        static let detailPlaceholder = String(
+            localized: "resolveProblems.detail.placeholder",
+            comment: "The placeholder text displayed in the detail column of the resolve problems view when no media is selected"
+        )
     }
 }

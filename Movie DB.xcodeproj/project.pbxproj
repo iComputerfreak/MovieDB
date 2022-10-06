@@ -188,6 +188,7 @@
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
 		ABD8648A281940E3001A1F7C /* WatchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86489281940E3001A1F7C /* WatchProvider.swift */; };
 		ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */; };
+		ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE060C228EE550E005EE10E /* SortableMediaList.swift */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
 		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6721525E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */; };
@@ -428,6 +429,7 @@
 		ABD86489281940E3001A1F7C /* WatchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvider.swift; sourceTree = "<group>"; };
 		ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvidersInfo.swift; sourceTree = "<group>"; };
 		ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v2.xcdatamodel"; sourceTree = "<group>"; };
+		ABE060C228EE550E005EE10E /* SortableMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortableMediaList.swift; sourceTree = "<group>"; };
 		ABE17B68284FA05600879C30 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCloudKit.tbd; path = usr/lib/swift/libswiftCloudKit.tbd; sourceTree = SDKROOT; };
 		ABE6721325E017D100CAF7C3 /* Thumbnail+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thumbnail+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				ABAA99EB2863100200234E62 /* UserMediaListView.swift */,
 				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
+				ABE060C228EE550E005EE10E /* SortableMediaList.swift */,
 			);
 			path = MediaLists;
 			sourceTree = "<group>";
@@ -1488,6 +1491,7 @@
 				AB6D9C85283BC17C00AF655C /* Strings+Generic.swift in Sources */,
 				AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
+				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
 				ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */,

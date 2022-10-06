@@ -808,3 +808,5 @@
 
 "lists.detail.placeholder" = "Medium auswählen";
 "lists.root.placeholder" = "Liste auswählen";
+"addMedia.detail.placeholder" = "Suchergebnis auswählen";
+"resolveProblems.detail.placeholder" = "Medium auswählen";

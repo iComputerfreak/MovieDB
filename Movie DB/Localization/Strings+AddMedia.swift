@@ -18,6 +18,10 @@ extension Strings {
             localized: "addMedia.navBar.button.close",
             comment: "The label of the button to dismiss the 'add media' sheet"
         )
+        static let detailPlaceholderText = String(
+            localized: "addMedia.detail.placeholder",
+            comment: "The placeholder text displayed in the detail column of the search results view when no search result is selected"
+        )
         
         enum Alert {
             static let alreadyAddedTitle = String(

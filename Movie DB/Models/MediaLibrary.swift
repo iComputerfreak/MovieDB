@@ -186,6 +186,7 @@ struct MediaLibrary {
         
         // MARK: Delete entities that are not used anymore
         print("[Cleanup] Deleting unused entities...")
+        assert(Genre.entity().name != nil)
         try delete(
             Genre.entity().name!,
             predicate: NSPredicate(format: "medias.@count = 0")

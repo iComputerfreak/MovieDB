@@ -67,62 +67,6 @@ struct FilteredMediaList<RowContent: View>: View {
     }
 }
 
-struct SortableMediaList<RowContent: View>: View {
-    @Binding var sortingOrder: SortingOrder
-    @Binding var sortingDirection: SortingDirection
-    let rowContent: (Media) -> RowContent
-    
-    @FetchRequest
-    private var medias: FetchedResults<Media>
-    
-    @Binding var selectedMedia: Media?
-    
-    // swiftlint:disable:next type_contents_order
-    init(
-        sortingOrder: Binding<SortingOrder>,
-        sortingDirection: Binding<SortingDirection>,
-        fetchRequest: NSFetchRequest<Media>,
-        selectedMedia: Binding<Media?>,
-        rowContent: @escaping (Media) -> RowContent
-    ) {
-        _sortingOrder = sortingOrder
-        _sortingDirection = sortingDirection
-        self._selectedMedia = selectedMedia
-        self.rowContent = rowContent
-        
-        // Update the sorting of the fetchRequest and use it to display the media
-        let order = sortingOrder.wrappedValue
-        let direction = sortingDirection.wrappedValue
-        fetchRequest.sortDescriptors = order.createSortDescriptors(with: direction)
-        _medias = FetchRequest(fetchRequest: fetchRequest, animation: .default)
-    }
-    
-    var body: some View {
-        if medias.isEmpty {
-            Spacer()
-            Text(Strings.Lists.filteredListEmptyMessage)
-            Spacer()
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Menu {
-                            SortingMenuSection(
-                                sortingOrder: $sortingOrder,
-                                sortingDirection: $sortingDirection
-                            )
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down.circle")
-                        }
-                    }
-                }
-        } else {
-            List(medias, selection: $selectedMedia) { media in
-                self.rowContent(media)
-            }
-            .listStyle(.grouped)
-        }
-    }
-}
-
 struct FilteredMediaList_Previews: PreviewProvider {
     static let dynamicList: DynamicMediaList = {
         _ = PlaceholderData.createMovie()
@@ -136,11 +80,8 @@ struct FilteredMediaList_Previews: PreviewProvider {
         let list = dynamicList
         NavigationStack {
             FilteredMediaList(list: list, selectedMedia: .constant(nil)) { media in
-                // TODO: Rework navigation
-                NavigationLink(value: media) {
-                    LibraryRow()
-                        .environmentObject(media)
-                }
+                LibraryRow()
+                    .environmentObject(media)
             }
             .navigationTitle(list.name)
             .environment(\.managedObjectContext, PersistenceController.previewContext)

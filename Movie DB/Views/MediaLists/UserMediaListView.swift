@@ -27,17 +27,15 @@ struct UserMediaListView: View {
             // Default destination
             FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
                 // NavigationLink to the detail
-                NavigationLink(value: media) {
-                    LibraryRow()
-                        .environmentObject(media)
-                        // Media delete
-                        .swipeActions {
-                            Button(Strings.Lists.deleteLabel) {
-                                list.medias.remove(media)
-                                PersistenceController.saveContext()
-                            }
+                LibraryRow()
+                    .environmentObject(media)
+                // Media delete
+                    .swipeActions {
+                        Button(Strings.Lists.deleteLabel) {
+                            list.medias.remove(media)
+                            PersistenceController.saveContext()
                         }
-                }
+                    }
             }
         }
     }

@@ -112,14 +112,14 @@ struct UserListsView: View {
         } content: {
             // MARK: List contents showing the medias in the list
             // content is provided by the `NavigationLink`s in the sidebar view
-            Text(Strings.Lists.listsRootPlaceholderText)
+            Text(Strings.Lists.rootPlaceholderText)
         } detail: {
             // MARK: MediaDetail
             if let selectedMedia {
                 MediaDetail()
                     .environmentObject(selectedMedia)
             } else {
-                Text(Strings.Lists.listsDetailPlaceholderText)
+                Text(Strings.Lists.detailPlaceholderText)
             }
         }
     }

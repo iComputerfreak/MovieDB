@@ -42,8 +42,7 @@ struct ResolveProblemsView: View {
                 MediaDetail()
                     .environmentObject(selectedMedia)
             } else {
-                // TODO: Localize
-                Text("Select a media object.")
+                Text(Strings.ResolveProblems.detailPlaceholder)
             }
         }
     }

@@ -133,12 +133,12 @@ extension Strings {
             )
         }
         
-        static let listsDetailPlaceholderText = String(
+        static let detailPlaceholderText = String(
             localized: "lists.detail.placeholder",
             comment: "The placeholder text displayed in the detail column of the lists view when no media is selected."
         )
         
-        static let listsRootPlaceholderText = String(
+        static let rootPlaceholderText = String(
             localized: "lists.root.placeholder",
             comment: "The placeholder text displayed in the middle column of the lists view when no list is selected."
         )
