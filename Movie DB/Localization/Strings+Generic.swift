@@ -91,5 +91,13 @@ extension Strings {
             localized: "generic.loadingText",
             comment: "A generic 'Loading...' string, displayed with a progress view"
         )
+        static let editButtonLabelDone = String(
+            localized: "generic.editButtonDone",
+            comment: "The edit button label displayed while in editing mode"
+        )
+        static let editButtonLabelEdit = String(
+            localized: "generic.editButtonEdit",
+            comment: "The edit button label displayed while not in editing mode"
+        )
     }
 }

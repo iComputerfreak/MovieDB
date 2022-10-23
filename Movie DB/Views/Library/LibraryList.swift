@@ -49,7 +49,7 @@ struct LibraryList: View {
             animation: .default
         )
         
-        self._selectedMediaObjects = selectedMediaObjects
+        _selectedMediaObjects = selectedMediaObjects
     }
     
     var body: some View {

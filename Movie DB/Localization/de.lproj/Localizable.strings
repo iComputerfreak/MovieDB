@@ -810,3 +810,6 @@
 "lists.root.placeholder" = "Liste auswählen";
 "addMedia.detail.placeholder" = "Suchergebnis auswählen";
 "resolveProblems.detail.placeholder" = "Medium auswählen";
+"library.detailPlaceholder" = "Medium auswählen";
+"generic.editButtonDone" = "Fertig";
+"generic.editButtonEdit" = "Bearbeiten";

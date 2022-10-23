@@ -1289,7 +1289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/zsh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --quiet --rules indent,redundantSelf,sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  # swiftformat --quiet --rules indent,redundantSelf,sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n    swiftformat --quiet --rules sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;

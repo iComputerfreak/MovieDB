@@ -208,7 +208,6 @@ struct PersistenceController {
     }
     
     func reset() throws {
-        // TODO: ProgressView while resetting
         // TODO: LibraryList is not refreshing after batch deletes
         // Reset all entities
         let entities = container.managedObjectModel.entities.compactMap(\.name)

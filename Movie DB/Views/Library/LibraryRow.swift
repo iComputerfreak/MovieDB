@@ -8,9 +8,6 @@
 
 import SwiftUI
 
-// TODO: Rework navigation with NavigationLinks
-// TODO: NavigationLink not necessary anymore? List handles selection on its own
-
 /// Represents the label of a list displaying media objects.
 /// Presents various data about the media object, e.g. the thumbnail image, title and year
 /// Requires the displayed media object as an `EnvironmentObject`.
@@ -62,20 +59,18 @@ struct LibraryRow_Previews: PreviewProvider {
         NavigationStack {
             List {
                 ForEach(ParentalRating.fskRatings, id: \.label) { rating in
-                    let movie: Media = {
-                        // swiftlint:disable:next force_cast
-                        let movie = PlaceholderData.movie.copy() as! Movie
-                        movie.parentalRating = rating
-                        return movie
-                    }()
-                    // TODO: Rework navigation
-                    NavigationLink(value: movie as Media) {
-                        LibraryRow()
-                            .environmentObject(movie)
-                    }
+                    LibraryRow()
+                        .environmentObject(buildMovie(with: rating) as Media)
                 }
             }
             .navigationTitle(Text(verbatim: "Library"))
         }
+    }
+    
+    static func buildMovie(with rating: ParentalRating) -> Movie {
+        // swiftlint:disable:next force_cast
+        let movie = PlaceholderData.movie.copy() as! Movie
+        movie.parentalRating = rating
+        return movie
     }
 }

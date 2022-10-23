@@ -27,8 +27,8 @@ struct SortableMediaList<RowContent: View>: View {
         selectedMedia: Binding<Media?>,
         rowContent: @escaping (Media) -> RowContent
     ) {
-        _sortingOrder = sortingOrder
-        _sortingDirection = sortingDirection
+        self._sortingOrder = sortingOrder
+        self._sortingDirection = sortingDirection
         self._selectedMedia = selectedMedia
         self.rowContent = rowContent
         

@@ -78,7 +78,6 @@ struct UserListsView: View {
                             // NavigationLink for the lists
                             NavigationLink {
                                 DynamicMediaListView(list: list, selectedMedia: $selectedMedia)
-                                    // TODO: necessary?
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
@@ -95,7 +94,6 @@ struct UserListsView: View {
                         ForEach(userLists) { list in
                             NavigationLink {
                                 UserMediaListView(list: list, selectedMedia: $selectedMedia)
-                                    // TODO: necessary?
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
@@ -128,19 +126,25 @@ struct UserListsView: View {
         indexSet.forEach { index in
             self.managedObjectContext.delete(dynamicLists[index])
         }
-        PersistenceController.saveContext(self.managedObjectContext)
+        PersistenceController.saveContext(managedObjectContext)
     }
     
     private func deleteUserList(indexSet: IndexSet) {
         indexSet.forEach { index in
             self.managedObjectContext.delete(userLists[index])
         }
-        PersistenceController.saveContext(self.managedObjectContext)
+        PersistenceController.saveContext(managedObjectContext)
     }
     
     @ToolbarContentBuilder private func toolbar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            EditButton()
+            // FIXME: Does not work as expected, does not toggle editMode
+//            EditButton()
+            Button(self.editMode?.wrappedValue == .active ? "Done2" : "Edit2") {
+                let newValue: EditMode = self.editMode?.wrappedValue == .active ? .inactive : .active
+                print("Changing edit Mode to \(newValue)")
+                self.editMode?.wrappedValue = newValue
+            }
         }
         ToolbarItem(placement: .navigationBarLeading) {
             Menu(Strings.Lists.newListLabel) {

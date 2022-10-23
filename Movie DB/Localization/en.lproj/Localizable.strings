@@ -818,3 +818,6 @@
 "lists.root.placeholder" = "Select a list";
 "addMedia.detail.placeholder" = "Select a search result";
 "resolveProblems.detail.placeholder" = "Select a media";
+"library.detailPlaceholder" = "Select a media";
+"generic.editButtonDone" = "Done";
+"generic.editButtonEdit" = "Edit";

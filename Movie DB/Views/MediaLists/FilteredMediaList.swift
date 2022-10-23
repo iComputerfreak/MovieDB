@@ -33,7 +33,7 @@ struct FilteredMediaList<RowContent: View>: View {
         self.list = list
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
-        self._selectedMedia = selectedMedia
+        _selectedMedia = selectedMedia
     }
     
     var body: some View {

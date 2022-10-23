@@ -29,7 +29,7 @@ struct UserMediaListView: View {
                 // NavigationLink to the detail
                 LibraryRow()
                     .environmentObject(media)
-                // Media delete
+                    // Media delete
                     .swipeActions {
                         Button(Strings.Lists.deleteLabel) {
                             list.medias.remove(media)

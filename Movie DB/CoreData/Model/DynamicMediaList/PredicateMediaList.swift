@@ -57,8 +57,8 @@ class PredicateMediaList: MediaListProtocol {
     }
     
     private static func userDefaultsKey(for name: String, type: StorageType) -> String {
-        // TODO: Using the name as a unique key for persisting only works as long as we use the predicate lists
-        // for default lists only with a well-defined set of possible names.
+        // !!!: Using the name as a unique key for persisting only works as long as we use the predicate lists
+        // !!!: for default lists only with a well-defined set of possible names.
         "predicateList_\(type.rawValue)_\(name)"
     }
     

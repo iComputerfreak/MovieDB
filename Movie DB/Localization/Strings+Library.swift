@@ -52,6 +52,10 @@ extension Strings {
             localized: "library.list.showSymbol",
             comment: "A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name."
         )
+        static let detailPlaceholder = String(
+            localized: "library.detailPlaceholder",
+            comment: "The placeholder text displayed in the detail column of the library view when no media is selected"
+        )
         
         enum Alert {
             static let updateErrorTitle = String(

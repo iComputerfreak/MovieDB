@@ -204,8 +204,6 @@ struct Utils {
     }
     
     static func purchasedPro() -> Bool {
-        // TODO: Revert before deploying
-//        true
         UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
     
@@ -238,6 +236,22 @@ struct Utils {
             }
         }
         return ParentalRating(label)
+    }
+}
+
+// MARK: - Factory
+extension Utils {
+    static func buildEditButton(_ editMode: Binding<EditMode>?) -> Button<Text> {
+        Button {
+            let isEditing = editMode?.wrappedValue == .active
+            editMode?.wrappedValue = isEditing ? .inactive : .active
+        } label: {
+            Text(
+                editMode?.wrappedValue == .active ?
+                    Strings.Generic.editButtonLabelDone :
+                    Strings.Generic.editButtonLabelEdit
+            )
+        }
     }
 }
 
