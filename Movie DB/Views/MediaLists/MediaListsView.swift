@@ -114,8 +114,10 @@ struct UserListsView: View {
         } detail: {
             // MARK: MediaDetail
             if let selectedMedia {
-                MediaDetail()
-                    .environmentObject(selectedMedia)
+                NavigationStack {
+                    MediaDetail()
+                        .environmentObject(selectedMedia)
+                }
             } else {
                 Text(Strings.Lists.detailPlaceholderText)
             }

@@ -20,19 +20,15 @@ struct LookupView: View {
         
     var body: some View {
         LoadingView(isShowing: $isLoading) {
-            NavigationSplitView {
+            NavigationStack {
                 SearchResultsView(selection: $result) { result in
-                    NavigationLink(value: result) {
+                    NavigationLink {
+                        MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+                    } label: {
                         SearchResultRow(result: result)
                     }
                 }
                 .navigationTitle(Strings.TabView.lookupLabel)
-            } detail: {
-                if let result {
-                    MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
-                } else {
-                    Text(Strings.AddMedia.detailPlaceholderText)
-                }
             }
         }
         .popover(isPresented: $isShowingProPopup) {

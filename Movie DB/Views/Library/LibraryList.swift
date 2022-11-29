@@ -56,7 +56,10 @@ struct LibraryList: View {
         List(selection: $selectedMediaObjects) {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
-                    NavigationLink(value: mediaObject) {
+                    NavigationLink {
+                        MediaDetail()
+                            .environmentObject(mediaObject)
+                    } label: {
                         LibraryRow()
                             .environmentObject(mediaObject)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {

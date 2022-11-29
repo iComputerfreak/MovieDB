@@ -21,7 +21,7 @@ struct LibraryHome: View {
     
     @State private var sortingOrder: SortingOrder = {
         if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingOrder) {
-            return SortingOrder(rawValue: rawValue)!
+            return SortingOrder(rawValue: rawValue) ?? .default
         }
         return .default
     }() {
@@ -32,7 +32,7 @@ struct LibraryHome: View {
 
     @State private var sortingDirection: SortingDirection = {
         if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingDirection) {
-            return SortingDirection(rawValue: rawValue)!
+            return SortingDirection(rawValue: rawValue) ?? SortingOrder.default.defaultDirection
         }
         return SortingOrder.default.defaultDirection
     }() {
@@ -42,7 +42,7 @@ struct LibraryHome: View {
     }
     
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
             // This way, the fetchRequest inside LibraryList.init will be re-built every time the searchText changes
             LibraryList(
@@ -115,13 +115,6 @@ struct LibraryHome: View {
                 }
             }
             .navigationTitle(Strings.TabView.libraryLabel)
-        } detail: {
-            if let mediaObject = selectedMediaObjects.first {
-                MediaDetail()
-                    .environmentObject(mediaObject)
-            } else {
-                Text(Strings.Library.detailPlaceholder)
-            }
         }
     }
     

@@ -112,6 +112,14 @@ struct PersistenceController {
         return context
     }
     
+    static func createDisposableViewContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        let model = shared.container.persistentStoreCoordinator.managedObjectModel
+        context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        context.name = "Disposable View Context (\(Date()))"
+        return context
+    }
+    
     /// Creates a new context with a new, empty container behind it to be used for testing
     /// - Returns: A context of a newly created, empty container
     static func createTestingContext() -> NSManagedObjectContext {
