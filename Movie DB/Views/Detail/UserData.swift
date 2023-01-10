@@ -74,12 +74,6 @@ struct UserData: View {
                     )
                     // swiftlint:enable force_cast
                 }
-                NavigationLink {
-                    Text("Hello, world!")
-                } label: {
-                    Text("Hi")
-                }
-
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
                     .headline(Strings.Detail.watchAgainHeadline)

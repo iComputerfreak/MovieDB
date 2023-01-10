@@ -14,6 +14,12 @@ struct TagListView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.isEditing) private var isEditing
     
+    // !!!: If we move this @FetchRequest down into EditView, we somehow get an infinite view rendering loop
+    // No idea why, but it took me 4 hours to debug that and I don't care anymore...
+    // Also makes more sense up here for performance reasons
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)])
+    private var allTags: FetchedResults<Tag>
+    
     // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
         _tags = tags
@@ -22,9 +28,7 @@ struct TagListView: View {
     var body: some View {
         if isEditing {
             NavigationLink {
-                EditView(tags: $tags)
-                    .environment(\.managedObjectContext, managedObjectContext)
-                    .environment(\.isEditing, isEditing)
+                EditView(allTags: Array(allTags), tags: $tags)
             } label: {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
@@ -56,13 +60,7 @@ struct TagListView: View {
     struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
-        // FIXME: This @FetchRequest somehow break the whole app when using a NavigationLink in Detail while isEditing is true
-        // - isEditing == true (otherwise EditView is not created)
-        // - EditView is destination of a NavigationLink
-        // - other NavigationLink is triggered
-        @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)])
-        private var allTags: FetchedResults<Tag>
-        
+        let allTags: [Tag]
         @Binding var tags: Set<Tag>
         
         var body: some View {
