@@ -8,9 +8,22 @@
 
 import SwiftUI
 
+// TODO: Move into separate file
+private struct IsEditingKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    var isEditing: Bool {
+        get { self[IsEditingKey.self] }
+        set { self[IsEditingKey.self] = newValue }
+    }
+}
+
+/// Represents the user data section in the ``MediaDetail`` view
 struct UserData: View {
     @EnvironmentObject private var mediaObject: Media
-    @Environment(\.editMode) private var editMode
+    @Environment(\.isEditing) private var isEditing
     
     var body: some View {
         if self.mediaObject.isFault {
@@ -24,7 +37,6 @@ struct UserData: View {
             ) {
                 // MARK: Rating
                 RatingView(rating: $mediaObject.personalRating)
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.personalRatingHeadline)
                 // MARK: Watched field
                 if mediaObject.type == .movie {
@@ -50,26 +62,31 @@ struct UserData: View {
                             return "-"
                         }
                     )
-                    // swiftlint:enable force_cast
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchedHeadline)
                 } else {
                     // Has watched show field
                     // swiftlint:disable force_cast
-                    WatchedShowView(watched: .init(
-                        get: { (mediaObject as! Show).watched },
-                        set: { (mediaObject as! Show).watched = $0 }
-                    ))
+                    WatchedShowView(
+                        watched: .init(
+                            get: { (mediaObject as! Show).watched },
+                            set: { (mediaObject as! Show).watched = $0 }
+                        )
+                    )
                     // swiftlint:enable force_cast
                 }
+                NavigationLink {
+                    Text("Hello, world!")
+                } label: {
+                    Text("Hi")
+                }
+
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                    .environment(\.editMode, editMode)
                     .headline(Strings.Detail.watchAgainHeadline)
                 // MARK: Taglist
                 TagListView($mediaObject.tags)
                 // MARK: Notes
-                if !mediaObject.notes.isEmpty || (editMode?.wrappedValue.isEditing ?? false) {
+                if !mediaObject.notes.isEmpty || isEditing {
                     NotesView($mediaObject.notes)
                 }
             }

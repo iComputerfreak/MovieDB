@@ -42,9 +42,11 @@ struct SortableMediaList<RowContent: View>: View {
     var body: some View {
         Group {
             if medias.isEmpty {
-                Spacer()
-                Text(Strings.Lists.filteredListEmptyMessage)
-                Spacer()
+                HStack {
+                    Spacer()
+                    Text(Strings.Lists.filteredListEmptyMessage)
+                    Spacer()
+                }
             } else {
                 List(medias, selection: $selectedMedia) { media in
                     self.rowContent(media)

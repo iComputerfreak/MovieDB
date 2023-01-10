@@ -11,8 +11,8 @@ import SwiftUI
 
 struct TagListView: View {
     @Binding var tags: Set<Tag>
-    @Environment(\.editMode) private var editMode
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.isEditing) private var isEditing
     
     // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
@@ -20,9 +20,11 @@ struct TagListView: View {
     }
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
+        if isEditing {
             NavigationLink {
                 EditView(tags: $tags)
+                    .environment(\.managedObjectContext, managedObjectContext)
+                    .environment(\.isEditing, isEditing)
             } label: {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
@@ -38,29 +40,30 @@ struct TagListView: View {
         
         var body: some View {
             if tags.isEmpty {
-                return Text(Strings.Detail.noTagsLabel)
+                Text(Strings.Detail.noTagsLabel)
                     .italic()
+            } else {
+                Text(
+                    tags
+                        .map(\.name)
+                        .sorted()
+                        .joined(separator: ", ")
+                )
             }
-            return Text(
-                tags
-                    .map(\.name)
-                    .sorted()
-                    .joined(separator: ", ")
-            )
         }
     }
     
     struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
-        @FetchRequest(
-            entity: Tag.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)]
-        ) var allTags: FetchedResults<Tag>
-        @Binding var tags: Set<Tag>
+        // FIXME: This @FetchRequest somehow break the whole app when using a NavigationLink in Detail while isEditing is true
+        // - isEditing == true (otherwise EditView is not created)
+        // - EditView is destination of a NavigationLink
+        // - other NavigationLink is triggered
+        @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)])
+        private var allTags: FetchedResults<Tag>
         
-        // Keep a local copy of the tags, sorted by name, to modify
-        private var sortedTags: [Tag] { allTags.sorted(by: \.name) }
+        @Binding var tags: Set<Tag>
         
         var body: some View {
             List {
@@ -68,7 +71,7 @@ struct TagListView: View {
                     header: Text(Strings.Detail.tagsHeadline),
                     footer: Text(Strings.Detail.tagsFooter(allTags.count))
                 ) {
-                    ForEach(self.sortedTags.sorted(by: \.name), id: \.id) { tag in
+                    ForEach(allTags, id: \.id) { tag in
                         Button {
                             if self.tags.contains(tag) {
                                 print("Removing Tag \(tag.name)")
@@ -84,13 +87,13 @@ struct TagListView: View {
                     }
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
-                            let tag = self.sortedTags[index]
+                            let tag = self.allTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
                             self.managedObjectContext.delete(tag)
-                            // Save asynchronous
-                            Task {
-                                await PersistenceController.saveContext(self.managedObjectContext)
-                            }
+                        }
+                        // Save the deletion of the tags asynchronously
+                        Task {
+                            await PersistenceController.saveContext(self.managedObjectContext)
                         }
                     })
                 }

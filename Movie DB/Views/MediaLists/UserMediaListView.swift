@@ -8,35 +8,59 @@
 
 import SwiftUI
 
+/// Represents a media list that the user can add individual media objects to
 struct UserMediaListView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.editMode) private var editMode
     
     @ObservedObject var list: UserMediaList
     @Binding var selectedMedia: Media?
+    @State private var isShowingConfiguration = false
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
-            // Editing view
+        // Default destination
+        FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
+            // NavigationLink to the detail
+            LibraryRow()
+                .environmentObject(media)
+                // Media delete
+                .swipeActions {
+                    Button(Strings.Lists.deleteLabel) {
+                        list.medias.remove(media)
+                        PersistenceController.saveContext()
+                    }
+                }
+        }
+        .toolbar {
+            ListConfigurationButton($isShowingConfiguration)
+        }
+        // MARK: Editing View / Configuration View
+        .popover(isPresented: $isShowingConfiguration) {
+            EditingView(list: list)
+        }
+    }
+}
+
+/// Represents the configuration view for this type of list
+private struct EditingView: View {
+    @ObservedObject var list: UserMediaList // TODO: Increase class level
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationStack {
             Form {
                 MediaListEditingSection(name: $list.name, iconName: $list.iconName)
             }
+            .toolbar {
+                // TODO: Localize
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Done")
+                        .bold()
+                }
+            }
             .navigationTitle(list.name)
             .navigationBarTitleDisplayMode(.inline)
-        } else {
-            // Default destination
-            FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-                // NavigationLink to the detail
-                LibraryRow()
-                    .environmentObject(media)
-                    // Media delete
-                    .swipeActions {
-                        Button(Strings.Lists.deleteLabel) {
-                            list.medias.remove(media)
-                            PersistenceController.saveContext()
-                        }
-                    }
-            }
         }
     }
 }

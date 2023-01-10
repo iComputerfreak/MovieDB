@@ -10,7 +10,7 @@ import SwiftUI
 
 struct NotesView: View {
     @Binding var notes: String
-    @Environment(\.editMode) private var editMode
+    @Environment(\.isEditing) private var isEditing
     
     // swiftlint:disable:next type_contents_order
     init(_ notes: Binding<String>) {
@@ -18,7 +18,7 @@ struct NotesView: View {
     }
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
+        if isEditing {
             NavigationLink {
                 EditView(notes: self.$notes)
             } label: {

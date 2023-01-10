@@ -15,9 +15,10 @@ struct SimpleValueView<T: Hashable>: View {
     let values: [T]
     @Binding var value: T
     var label: (T) -> String
+    @Environment(\.isEditing) private var isEditing
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
+        if isEditing {
             Picker(selection: $value, label: EmptyView()) {
                 ForEach(values, id: \.self) { value in
                     Text(self.label(value))
@@ -33,16 +34,20 @@ struct SimpleValueView<T: Hashable>: View {
     
     // Factory method
     static func createYesNo(value: Binding<Bool?>) -> SimpleValueView<Bool?> {
-        SimpleValueView<Bool?>(values: [true, false, nil], value: value) { value in
-            if let value = value {
-                if value {
-                    return Strings.Generic.pickerValueYes
+        SimpleValueView<Bool?>(
+            values: [true, false, nil],
+            value: value,
+            label: { value in
+                if let value = value {
+                    if value {
+                        return Strings.Generic.pickerValueYes
+                    }
+                    return Strings.Generic.pickerValueNo
+                } else {
+                    return "-"
                 }
-                return Strings.Generic.pickerValueNo
-            } else {
-                return "-"
             }
-        }
+        )
     }
 }
 

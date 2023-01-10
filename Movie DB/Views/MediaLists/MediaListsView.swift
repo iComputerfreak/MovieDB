@@ -140,13 +140,8 @@ struct UserListsView: View {
     
     @ToolbarContentBuilder private func toolbar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            // FIXME: Does not work as expected, does not toggle editMode
-//            EditButton()
-            Button(self.editMode?.wrappedValue == .active ? "Done2" : "Edit2") {
-                let newValue: EditMode = self.editMode?.wrappedValue == .active ? .inactive : .active
-                print("Changing edit Mode to \(newValue)")
-                self.editMode?.wrappedValue = newValue
-            }
+            // !!!: Only used for deleting lists (maybe later reordering), not configuring them!
+            EditButton()
         }
         ToolbarItem(placement: .navigationBarLeading) {
             Menu(Strings.Lists.newListLabel) {

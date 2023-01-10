@@ -12,6 +12,10 @@ struct MediaDetail: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     @Environment(\.managedObjectContext) private var managedObjectContext
+    // Whether the user is in edit mode right now (editing the user data)
+    // !!!: We cannot use @Environment's \.editMode here since that is meant for list editing (delete, move)
+    // !!!: and therefore would disable all NavigationLinks
+    @State private var isEditing = false
     
     var body: some View {
         if mediaObject.isFault {
@@ -21,6 +25,7 @@ struct MediaDetail: View {
             List {
                 TitleView(media: mediaObject)
                 UserData()
+                    .environment(\.isEditing, isEditing)
                 BasicInfo()
                 if !mediaObject.watchProviders.isEmpty {
                     WatchProvidersInfo()
@@ -48,7 +53,7 @@ struct MediaDetail: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject)
+                    MediaMenu(mediaObject: mediaObject, isEditing: $isEditing)
                 }
             }
         }

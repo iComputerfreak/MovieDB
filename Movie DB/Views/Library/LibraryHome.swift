@@ -78,7 +78,6 @@ struct LibraryHome: View {
                     FilterView(filterSetting: filterSetting)
                         .environment(\.managedObjectContext, managedObjectContext)
                     // FUTURE: Open new item in editing mode
-                    //                        .sheet(item: $addedMedia, content: MediaDetail().environmentObject(_:))
                 }
             }
             

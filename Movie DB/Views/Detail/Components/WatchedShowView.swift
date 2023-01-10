@@ -11,7 +11,7 @@ import SwiftUI
 
 struct WatchedShowView: View {
     @Binding var watched: ShowWatchState?
-    @Environment(\.editMode) private var editMode
+    @Environment(\.isEditing) private var isEditing
     
     private var episodeString: String {
         guard let watched else {
@@ -30,7 +30,7 @@ struct WatchedShowView: View {
     }
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
+        if isEditing {
             NavigationLink {
                 EditView(watched: $watched)
             } label: {
@@ -138,7 +138,9 @@ struct WatchedShowView: View {
 
 struct WatchedShowView_Previews: PreviewProvider {
     static var previews: some View {
-        WatchedShowView(watched: .constant(.episode(season: 2, episode: 5)))
+        WatchedShowView(
+            watched: .constant(.episode(season: 2, episode: 5))
+        )
         WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)))
             .previewDisplayName("Edit View")
     }
