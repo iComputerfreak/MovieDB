@@ -11,11 +11,5 @@ import CoreData
 import XCTest
 
 class TestingPlayground: XCTestCase {
-    func testPlayground() async throws {
-        _ = try await TMDBAPI.shared.media(
-            for: 1399,
-            type: .show,
-            context: PersistenceController.createDisposableContext()
-        )
-    }
+    func testPlayground() async throws {}
 }

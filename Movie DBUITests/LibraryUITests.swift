@@ -55,6 +55,7 @@ class LibraryUITests: XCTestCase {
         app.buttons["Delete"]
             .wait()
             .tap()
+        app.wait(1)
         // Should not exist anymore
         XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
     }

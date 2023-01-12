@@ -132,7 +132,7 @@ class DetailUITests: XCTestCase {
         
         // Assertions
         let starImages = app.cells.containing(.staticText, identifier: "Personal Rating").images
-        let labels = ["Favorite", "Favorite", "Favorite", "Half Star", "Favorite"]
+        let labels = ["Favourite", "Favourite", "Favourite", "Half Star", "Favourite"]
         for i in 0..<5 {
             XCTAssertEqual(
                 starImages.element(boundBy: i).label,
