@@ -121,7 +121,7 @@ struct DebugView: View {
         return Text("\(count.0) \(label) (\(unique) unique, \(icloud) in iCloud)")
     }
     
-    func count<T: NSManagedObject, Value: Hashable>(_ keyPath: KeyPath<T, Value>) -> (count: Int, unique: Int) {
+    func count<T: NSManagedObject>(_ keyPath: KeyPath<T, some Hashable>) -> (count: Int, unique: Int) {
         let request: NSFetchRequest<T> = NSFetchRequest(entityName: T.entity().name!)
         let objects: [T] = (try? context.fetch(request)) ?? []
         return (objects.count, objects.uniqued(on: { $0[keyPath: keyPath] }).count)

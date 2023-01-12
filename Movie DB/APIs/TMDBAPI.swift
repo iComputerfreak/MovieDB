@@ -101,7 +101,7 @@ actor TMDBAPI {
         // Construct the request parameters for the date range
         let dateRangeParameters: [String: String?] = {
             var dict: [String: String?] = ["end_date": Utils.tmdbDateFormatter.string(from: endDate)]
-            if let startDate = startDate {
+            if let startDate {
                 dict["start_date"] = Utils.tmdbDateFormatter.string(from: startDate)
             }
             return dict

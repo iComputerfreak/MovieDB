@@ -10,7 +10,7 @@ import CoreData
 
 struct PersistenceController {
     /// The main instance of the PersistenceController
-    private(set) static var shared = PersistenceController()
+    private(set) static var shared = Self()
     
     /// The view context of the shared container
     static var viewContext: NSManagedObjectContext { shared.container.viewContext }

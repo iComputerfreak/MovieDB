@@ -148,15 +148,15 @@ struct TMDBData: Decodable {
             let releaseDates = try container.decode([String: [ReleaseDatesCountry]].self, forKey: .releaseDates)
             let certification: String? = releaseDates["results"]!
                 // We are only interested in results for our country
-                .filter { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() }
                 // We should only have one result for our country
-                .first?
+                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })?
                 // We take all the release dates from that country
                 .results
                 // We don't need release dates without a parental rating
-                .filter { !$0.certification.isEmpty }
                 // We only want theatrical releases (type 3)
-                .first(where: { (release: ReleaseDateCertification) in release.type == 3 })?
+                .first { release in
+                    !release.certification.isEmpty && release.type == 3
+                }?
                 // The parental rating of that release
                 .certification
             return certification.flatMap(Utils.parentalRating(for:))

@@ -123,7 +123,7 @@ public extension Media {
             return nil
         }
         set {
-            if let newValue = newValue {
+            if let newValue {
                 parentalRatingLabel = newValue.label
                 parentalRatingColor = newValue.color.map(SerializableColor.init(from:))
             } else {

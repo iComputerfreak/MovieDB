@@ -42,7 +42,7 @@ public class Tag: NSManagedObject {
     }
 }
 
-extension Collection where Element == Tag {
+extension Collection<Tag> {
     func lexicographicallySorted() -> [Tag] {
         sorted { $0.name.lexicographicallyPrecedes($1.name) }
     }

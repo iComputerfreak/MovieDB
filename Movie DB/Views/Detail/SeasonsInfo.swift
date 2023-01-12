@@ -71,7 +71,7 @@ struct SeasonsInfo: View {
             // Accumulate results
             var results: [Int: UIImage] = [:]
             for await (seasonID, image) in group {
-                guard let image = image else { continue }
+                guard let image else { continue }
                 results[seasonID] = image
             }
             

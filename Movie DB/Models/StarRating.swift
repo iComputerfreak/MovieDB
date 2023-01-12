@@ -35,14 +35,14 @@ public enum StarRating: Int, Strideable, Codable {
     }
     
     init?(integerRepresentation: Int) {
-        guard let rating = StarRating(rawValue: integerRepresentation) else {
+        guard let rating = Self(rawValue: integerRepresentation) else {
             return nil
         }
         self = rating
     }
     
     public func advanced(by n: Int) -> StarRating {
-        StarRating(rawValue: rawValue + n)!
+        Self(rawValue: rawValue + n)!
     }
     
     public func distance(to other: StarRating) -> Int {

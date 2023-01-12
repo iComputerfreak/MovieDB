@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ListConfigurationButton: View {
-    
     @Binding var isShowing: Bool
     
     init(_ isShowing: Binding<Bool>) {
@@ -23,7 +22,6 @@ struct ListConfigurationButton: View {
             // TODO: Localize
             Text("Configure...")
         }
-
     }
 }
 

@@ -28,15 +28,11 @@ struct CSVHelper {
         var csvHeader: [String] = []
         importer.startImportingRecords { (headerValues: [String]) in
             // Check if the header contains the necessary values
-            for header in CSVManager.requiredImportKeys {
-                if !headerValues.contains(header.rawValue) {
-                    importLog.append("[Error] The CSV file does not contain the required header '\(header)'.")
-                }
+            for header in CSVManager.requiredImportKeys where !headerValues.contains(header.rawValue) {
+                importLog.append("[Error] The CSV file does not contain the required header '\(header)'.")
             }
-            for header in CSVManager.optionalImportKeys {
-                if !headerValues.contains(header.rawValue) {
-                    importLog.append("[Warning] The CSV file does not contain the optional header '\(header)'.")
-                }
+            for header in CSVManager.optionalImportKeys where !headerValues.contains(header.rawValue) {
+                importLog.append("[Warning] The CSV file does not contain the optional header '\(header)'.")
             }
             importLog.append("[Info] Importing CSV with header \(headerValues.joined(separator: CSVManager.separator))")
             csvHeader = headerValues
@@ -63,13 +59,13 @@ struct CSVHelper {
                     return
                 }
                 // Any other error
-                if let error = error {
+                if let error {
                     print(error)
                     // Other errors, e.g., error while fetching the TMDBData
                     importLog.append("[Error] \(error.localizedDescription)")
                     return
                 }
-                guard let media = media else {
+                guard let media else {
                     return
                 }
                 result = media

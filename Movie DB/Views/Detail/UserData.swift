@@ -49,7 +49,7 @@ struct UserData: View {
                             // swiftlint:enable force_cast
                         ),
                         label: { state in
-                            if let state = state {
+                            if let state {
                                 switch state {
                                 case .watched:
                                     return Strings.Detail.watchedPickerValueYes

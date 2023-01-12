@@ -733,13 +733,13 @@
 		AB48BD6A2816CE3C00E53135 /* Movie DBUITests */ = {
 			isa = PBXGroup;
 			children = (
+				AB99560E2850F52E00C3D063 /* .swiftlint.yml */,
 				AB99560C2850F1F200C3D063 /* UITestingHelper.swift */,
 				AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */,
 				AB99561128511FEB00C3D063 /* FilterUITests.swift */,
 				AB9956082850F1D300C3D063 /* DetailUITests.swift */,
 				AB99560A2850F1DA00C3D063 /* SettingsUITests.swift */,
 				AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */,
-				AB99560E2850F52E00C3D063 /* .swiftlint.yml */,
 			);
 			path = "Movie DBUITests";
 			sourceTree = "<group>";

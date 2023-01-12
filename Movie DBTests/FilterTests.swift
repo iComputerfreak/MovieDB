@@ -193,6 +193,6 @@ class FilterTests: XCTestCase {
     }
 }
 
-extension Array where Element == String {
+extension [String] {
     static let allMedias = ["Good Movie", "Bad Movie", "Unwatched Movie", "Good Show", "Bad Show", "Unwatched Show"].sorted()
 }

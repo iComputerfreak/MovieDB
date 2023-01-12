@@ -33,7 +33,7 @@ public class Show: Media {
     }
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
-        guard let managedObjectContext = managedObjectContext else {
+        guard let managedObjectContext else {
             assertionFailure()
             return
         }

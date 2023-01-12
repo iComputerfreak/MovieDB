@@ -69,10 +69,7 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     
     private static func matchSeason(_ rawValue: String) -> Int? {
         if
-            // swiftformat:disable spaceAroundOperators
-            // swiftlint:disable:next comma operator_usage_whitespace
             let match = rawValue.matches(of: /season,[0-9]+/).first,
-            // swiftformat:enable spaceAroundOperators
             // Drop the first 7 characters ("season,")
             let seasonNumber = Int(rawValue[match.range].dropFirst(7))
         {
@@ -82,10 +79,7 @@ public enum ShowWatchState: RawRepresentable, Equatable {
     }
     
     private static func matchEpisode(_ rawValue: String) -> (Int, Int)? {
-        // swiftformat:disable spaceAroundOperators
-        // swiftlint:disable:next comma operator_usage_whitespace
         if let match = rawValue.matches(of: /episode,[0-9]+,[0-9]+/).first {
-            // swiftformat:enable spaceAroundOperators
             // Drop the first 8 characters ("episode,")
             let parameters = String(rawValue[match.range].dropFirst(8)).components(separatedBy: ",")
             guard parameters.count == 2 else {

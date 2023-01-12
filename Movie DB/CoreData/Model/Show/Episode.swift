@@ -13,7 +13,7 @@ public class Episode: NSObject, NSCoding, NSSecureCoding, Decodable {
     
     var rawAirDate: String?
     var airDate: Date? {
-        guard let rawAirDate = rawAirDate else {
+        guard let rawAirDate else {
             return nil
         }
         return Utils.tmdbDateFormatter.date(from: rawAirDate)

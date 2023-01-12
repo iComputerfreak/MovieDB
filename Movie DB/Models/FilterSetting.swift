@@ -51,7 +51,7 @@ struct FilterSetting: Identifiable {
     
     var year: ClosedRange<Int>? {
         get {
-            guard let minYear = minYear, let maxYear = maxYear else {
+            guard let minYear, let maxYear else {
                 return nil
             }
             return minYear...maxYear
@@ -65,8 +65,8 @@ struct FilterSetting: Identifiable {
     var numberOfSeasons: ClosedRange<Int>? {
         get {
             guard
-                let minNumberOfSeasons = minNumberOfSeasons,
-                let maxNumberOfSeasons = maxNumberOfSeasons
+                let minNumberOfSeasons,
+                let maxNumberOfSeasons
             else {
                 return nil
             }
@@ -158,20 +158,19 @@ extension FilterSetting {
 extension FilterSetting {
     /// Builds a predicate that represents the current filter configuration
     /// - Returns: The `NSCompoundPredicate` representing the current filter configuration
-    // swiftlint:disable:next function_body_length
-    func predicate() -> NSPredicate {
+    func predicate() -> NSPredicate { // swiftlint:disable:this function_body_length
         var predicates: [NSPredicate] = []
         if let isAdult = isAdult as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", "isAdult", isAdult))
         }
-        if let mediaType = mediaType {
+        if let mediaType {
             predicates.append(NSPredicate(format: "%K == %@", "type", mediaType.rawValue))
         }
         if !genres.isEmpty {
             // Any of the media's genres has to be in self.genres
             predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
         }
-        if let rating = rating {
+        if let rating {
             predicates.append(NSPredicate(
                 format: "%K <= %d AND %K => %d",
                 "personalRating",
@@ -180,7 +179,7 @@ extension FilterSetting {
                 rating.lowerBound.rawValue
             ))
         }
-        if let year = year {
+        if let year {
             let formatter = DateFormatter()
             // We don't care about the time, since all media objects only have a date set and the time is always zero.
             formatter.dateFormat = "yyyy-MM-dd"
@@ -227,7 +226,7 @@ extension FilterSetting {
                 NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
             ]))
         }
-        if let numberOfSeasons = numberOfSeasons {
+        if let numberOfSeasons {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
@@ -244,7 +243,7 @@ extension FilterSetting {
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
-        if let watched = watched {
+        if let watched {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Movie
                 NSPredicate(

@@ -139,7 +139,7 @@ public extension FilterSetting {
     
     internal var year: ClosedRange<Int>? {
         get {
-            guard let minYear = minYear, let maxYear = maxYear else {
+            guard let minYear, let maxYear else {
                 return nil
             }
             return minYear...maxYear
@@ -153,8 +153,8 @@ public extension FilterSetting {
     internal var numberOfSeasons: ClosedRange<Int>? {
         get {
             guard
-                let minNumberOfSeasons = minNumberOfSeasons,
-                let maxNumberOfSeasons = maxNumberOfSeasons
+                let minNumberOfSeasons,
+                let maxNumberOfSeasons
             else {
                 return nil
             }

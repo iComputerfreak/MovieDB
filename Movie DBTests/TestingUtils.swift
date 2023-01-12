@@ -112,7 +112,7 @@ struct TestingUtils {
             let tag = tags.first { tag in
                 tag.name == name
             }
-            guard let tag = tag else {
+            guard let tag else {
                 fatalError("Preview Tag \(name) does not exist.")
             }
             return tag

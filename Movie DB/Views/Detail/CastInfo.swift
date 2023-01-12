@@ -38,16 +38,15 @@ struct CastInfo: View {
                 List {
                     ForEach(cast) { member in
                         HStack {
-                            AsyncImage(
-                                url: member.imagePath.map { imagePath in
-                                    Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
-                                }) { image in
-                                    image
-                                        .thumbnail()
-                                } placeholder: {
-                                    Image(JFLiterals.posterPlaceholderName)
-                                        .thumbnail()
-                                }
+                            AsyncImage(url: member.imagePath.map { imagePath in
+                                Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
+                            }) { image in
+                                image
+                                    .thumbnail()
+                            } placeholder: {
+                                Image(JFLiterals.posterPlaceholderName)
+                                    .thumbnail()
+                            }
                             Text(member.name)
                                 .headline(verbatim: member.roleName)
                         }

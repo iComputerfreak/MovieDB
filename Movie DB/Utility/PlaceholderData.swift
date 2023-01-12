@@ -44,6 +44,7 @@ enum PlaceholderData {
         Tag(name: "Fantasy", context: context),
     ]
     
+    // swiftlint:disable:next function_body_length
     static func createMovie() -> Movie {
         let tmdbData: TMDBData = Self.load("Matrix.json", mediaType: .movie, into: context)
         let m = Movie(context: context, tmdbData: tmdbData)

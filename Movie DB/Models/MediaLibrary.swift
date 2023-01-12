@@ -11,7 +11,7 @@ import Foundation
 import SwiftUI
 
 struct MediaLibrary {
-    static let shared = MediaLibrary(context: PersistenceController.viewContext)
+    static let shared = Self(context: PersistenceController.viewContext)
     
     let context: NSManagedObjectContext
     @AppStorage("lastLibraryUpdate") var lastUpdated: Date = .now

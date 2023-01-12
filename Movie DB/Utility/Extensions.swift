@@ -53,7 +53,7 @@ public extension UnkeyedDecodingContainer {
     }
 }
 
-extension Dictionary where Key == String, Value == Any? {
+extension [String: Any?] {
     /// Returns the dictionary as a string of HTTP arguments, percent escaped
     ///
     ///     [key1: "test", key2: "Hello World"].percentEscaped()
@@ -109,10 +109,10 @@ struct LastNameComparator: SortComparator {
             return .orderedSame
         }
         
-        guard let lhsLastName = lhsLastName, !lhsLastName.isEmpty else {
+        guard let lhsLastName, !lhsLastName.isEmpty else {
             return .orderedDescending
         }
-        guard let rhsLastName = rhsLastName, !rhsLastName.isEmpty else {
+        guard let rhsLastName, !rhsLastName.isEmpty else {
             return .orderedAscending
         }
         

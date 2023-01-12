@@ -38,7 +38,7 @@ struct SimpleValueView<T: Hashable>: View {
             values: [true, false, nil],
             value: value,
             label: { value in
-                if let value = value {
+                if let value {
                     if value {
                         return Strings.Generic.pickerValueYes
                     }

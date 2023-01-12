@@ -35,7 +35,7 @@ public class Media: NSManagedObject {
     override public func prepareForDeletion() {
         print("Preparing \(title) for deletion")
         if
-            let imagePath = imagePath,
+            let imagePath,
             let imageURL = Utils.imageFileURL(path: imagePath),
             FileManager.default.fileExists(atPath: imageURL.path)
         {
@@ -69,7 +69,7 @@ public class Media: NSManagedObject {
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
-        guard let managedObjectContext = managedObjectContext else {
+        guard let managedObjectContext else {
             assertionFailure()
             return
         }
@@ -132,7 +132,7 @@ public class Media: NSManagedObject {
     
     private func loadThumbnailFromDisk() -> UIImage? {
         guard
-            let imagePath = imagePath,
+            let imagePath,
             let fileURL = Utils.imageFileURL(path: imagePath),
             FileManager.default.fileExists(atPath: fileURL.path)
         else {
@@ -142,7 +142,7 @@ public class Media: NSManagedObject {
     }
     
     private func downloadThumbnail() async -> UIImage? {
-        guard let imagePath = imagePath else {
+        guard let imagePath else {
             return nil
         }
         // We try to load the image, but fail silently if we don't succeed.
@@ -171,7 +171,7 @@ public class Media: NSManagedObject {
             // Thumbnail already present, don't load/download again, unless force parameter is given
             return
         }
-        guard let imagePath = imagePath, !imagePath.isEmpty else {
+        guard let imagePath, !imagePath.isEmpty else {
             // No image path set means no image to load
             return
         }

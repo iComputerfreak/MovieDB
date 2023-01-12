@@ -169,10 +169,10 @@ struct CSVManager {
         return media
     }
     
+    // swiftlint:disable cyclomatic_complexity
     /// Creates a CSV record (line) from the given media object
     /// - Parameter media: The media object to export
     /// - Returns: The CSV line as a dictionary with all string values, keyed by their CSV header
-    // swiftlint:disable cyclomatic_complexity
     static func createRecord(from media: Media) -> [CSVKey: String] {
         var values: [CSVKey: String] = [:]
         for key in exportKeys {

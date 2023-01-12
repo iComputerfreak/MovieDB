@@ -57,6 +57,7 @@ struct RangeEditingView<Label, ValueLabel, T>: View
     }
 }
 
+// swiftlint:disable:next large_tuple
 extension RangeEditingView where Label == HStack<TupleView<(Text, Spacer, ValueLabel)>> {
     /// Convenience init that synthesizes `fromLabel` and `toLabel` using `valueLabel`
     init(

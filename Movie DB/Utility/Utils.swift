@@ -20,8 +20,8 @@ import UIKit
 ///
 ///     let value: String = undefined() // Will compile as a String
 ///     print(value.components(separatedBy: " ") // Will not throw any compiler errors
-// swiftlint:disable:next unavailable_function
 func undefined<T>(_ message: String = "") -> T {
+    // swiftlint:disable:previous unavailable_function
     fatalError(message)
 }
 
