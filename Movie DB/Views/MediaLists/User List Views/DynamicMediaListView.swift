@@ -15,25 +15,28 @@ struct DynamicMediaListView: View {
     
     @ObservedObject var list: DynamicMediaList
     @Binding var selectedMedia: Media?
+    @State private var isShowingConfiguration = false
     
     var body: some View {
-        if editMode?.wrappedValue.isEditing ?? false {
-            // Editing destination
-            Form {
+        // Default destination
+        FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
+            LibraryRow()
+                .environmentObject(media)
+        }
+        .toolbar {
+            ListConfigurationButton($isShowingConfiguration)
+        }
+        // MARK: Editing View / Configuration View
+        .popover(isPresented: $isShowingConfiguration) {
+            ListConfigurationView(list: list) { list in
                 // MARK: List Details
+                // This binding uses the global list property defined in DynamicMediaListView, not the parameter
+                // given into the closure
                 MediaListEditingSection(name: $list.name, iconName: $list.iconName)
                 // MARK: Filter Details
                 FilterUserDataSection(filterSetting: list.filterSetting!)
                 FilterInformationSection(filterSetting: list.filterSetting!)
                 FilterShowSpecificSection(filterSetting: list.filterSetting!)
-            }
-            .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
-        } else {
-            // Default destination
-            FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-                LibraryRow()
-                    .environmentObject(media)
             }
         }
     }

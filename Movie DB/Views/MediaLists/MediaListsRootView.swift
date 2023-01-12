@@ -9,7 +9,7 @@
 import CoreData
 import SwiftUI
 
-struct UserListsView: View {
+struct MediaListsRootView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.editMode) private var editMode
     
@@ -192,7 +192,7 @@ struct UserListsView: View {
 
 struct UserListsViews_Previews: PreviewProvider {
     static var previews: some View {
-        UserListsView()
+        MediaListsRootView()
             .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

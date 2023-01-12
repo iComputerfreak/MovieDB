@@ -20,7 +20,7 @@ struct ContentView: View {
                         Text(Strings.TabView.libraryLabel)
                     }
                 
-                UserListsView()
+                MediaListsRootView()
                     .tabItem {
                         Image(systemName: "list.bullet")
                         Text(Strings.TabView.listsLabel)

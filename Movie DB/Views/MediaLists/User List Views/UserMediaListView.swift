@@ -35,32 +35,9 @@ struct UserMediaListView: View {
         }
         // MARK: Editing View / Configuration View
         .popover(isPresented: $isShowingConfiguration) {
-            EditingView(list: list)
-        }
-    }
-}
-
-/// Represents the configuration view for this type of list
-private struct EditingView: View {
-    @ObservedObject var list: UserMediaList // TODO: Increase class level
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-        NavigationStack {
-            Form {
+            ListConfigurationView(list: list) { list in
                 MediaListEditingSection(name: $list.name, iconName: $list.iconName)
             }
-            .toolbar {
-                // TODO: Localize
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Done")
-                        .bold()
-                }
-            }
-            .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

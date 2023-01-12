@@ -10,7 +10,8 @@ import CoreData
 import Foundation
 import SwiftUI
 
-/// Represents a media list that fetches its media objects by a given predicate
+// TODO: Make ObservableObject?
+/// Represents a media list that fetches its media objects by a fixed predicate
 class PredicateMediaList: MediaListProtocol {
     let name: String
     let iconName: String
