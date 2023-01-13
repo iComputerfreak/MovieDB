@@ -13,14 +13,15 @@ struct WatchlistMediaList: View {
     
     var body: some View {
         FilteredMediaList(list: PredicateMediaList.watchlist, selectedMedia: $selectedMedia) { media in
-            // TODO: Extract NavigationLink? Rework?
-            WatchlistRow()
-                .environmentObject(media)
-                .swipeActions {
-                    Button(Strings.Lists.removeMediaLabel) {
-                        media.isOnWatchlist = false
+            NavigationLink(value: media) {
+                WatchlistRow()
+                    .environmentObject(media)
+                    .swipeActions {
+                        Button(Strings.Lists.removeMediaLabel) {
+                            media.isOnWatchlist = false
+                        }
                     }
-                }
+            }
         }
     }
 }

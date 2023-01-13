@@ -122,6 +122,7 @@ struct MediaListsRootView: View {
                 Text(Strings.Lists.detailPlaceholderText)
             }
         }
+        .navigationSplitViewStyle(.balanced)
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {

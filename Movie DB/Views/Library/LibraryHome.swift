@@ -42,6 +42,7 @@ struct LibraryHome: View {
     }
     
     var body: some View {
+        // TODO: This should probably be a NavigationSplitView on iPad
         NavigationStack {
             // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
             // This way, the fetchRequest inside LibraryList.init will be re-built every time the searchText changes
