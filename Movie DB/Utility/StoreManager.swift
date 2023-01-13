@@ -9,11 +9,14 @@
 import Foundation
 import StoreKit
 
+// TODO: Documentation
 class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     static let shared = StoreManager()
     
     @Published var products: [SKProduct] = []
     @Published var transactionState: SKPaymentTransactionState?
+    
+    private var purchaseCallback: () -> Void = {}
     
     func getProducts(productIDs: [String]) {
         print("Start requesting products ...")
@@ -68,6 +71,8 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
                     title: Strings.ProInfo.Alert.purchaseCompleteTitle,
                     message: Strings.ProInfo.Alert.purchaseCompleteMessage
                 )
+                // Inform the caller about a successful purchase
+                purchaseCallback()
             case .restored:
                 UserDefaults.standard.set(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
@@ -90,9 +95,14 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
         }
     }
     
-    func purchase(product: SKProduct) {
+    /// Initiates a purchase of a product
+    /// - Parameters:
+    ///   - product: The product to purchase
+    ///   - onSuccess: The closure to execute iff the product has been purchased successfully
+    func purchase(product: SKProduct, onSuccess: @escaping () -> Void = {}) {
         if SKPaymentQueue.canMakePayments() {
             let payment = SKPayment(product: product)
+            self.purchaseCallback = onSuccess
             SKPaymentQueue.default().add(payment)
         } else {
             print("User can't make payment.")

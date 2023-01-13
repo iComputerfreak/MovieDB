@@ -86,6 +86,9 @@ class CSVCoderTests: XCTestCase {
                     XCTAssertEqual(media.originalTitle, sample.originalTitle)
                     XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
                     XCTAssertEqual(media.missingInformation(), sample.missingInformation())
+                    XCTAssertEqual(media.creationDate, sample.creationDate)
+                    XCTAssertEqual(media.modificationDate, sample.modificationDate)
+                    XCTAssertEqual(media.id, sample.id)
                     
                     if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
                         XCTAssertEqual(movie.isAdult, movieSample.isAdult)

@@ -160,6 +160,8 @@
 		ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F528E774690092497F /* WatchlistMediaList.swift */; };
 		ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */; };
 		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
+		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
+		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABC1E2642816C3120039CA84 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B62813078900230F0B /* FightClub.json */; };
@@ -408,6 +410,8 @@
 		ABAD15F528E774690092497F /* WatchlistMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsMediaList.swift; sourceTree = "<group>"; };
 		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
+		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -491,6 +495,7 @@
 				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */,
+				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB54940125FD41930072745B /* CSVImporter in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
 			);
@@ -802,6 +807,7 @@
 				AB6718CE22C0312B00F429E4 /* Info.plist */,
 				AB0DA977283A705B0038E4B9 /* InfoPlist.strings */,
 				AB61CA2A24142E6B008BD8C8 /* Movie DB.entitlements */,
+				ABB64495297176A40024BD80 /* Products.storekit */,
 				AB6718CB22C0312B00F429E4 /* LaunchScreen.storyboard */,
 				ABEEB07A280F1B7300230F0B /* Settings.bundle */,
 				AB6718C822C0312B00F429E4 /* Preview Content */,
@@ -899,6 +905,7 @@
 		AB79E99C25C9F1850050BD8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABB644932971760A0024BD80 /* StoreKit.framework */,
 				ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */,
 				ABE17B68284FA05600879C30 /* CloudKit.framework */,
 				AB79E99D25C9F1850050BD8D /* CloudKit.framework */,
@@ -1230,6 +1237,7 @@
 				ABEEB0C62813084D00230F0B /* SearchResults-1.json in Resources */,
 				ABEEB07B280F1B7300230F0B /* Settings.bundle in Resources */,
 				AB6718C722C0312B00F429E4 /* Assets.xcassets in Resources */,
+				ABB64496297176D60024BD80 /* Products.storekit in Resources */,
 				ABEEB0C72813084D00230F0B /* Blacklist.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

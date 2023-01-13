@@ -613,6 +613,8 @@
 /* Message of an alert informing the user that the purchase could not be completed because the in-app purchase could not be found / is not configured */
 "settings.alert.errorBuyingPro.message" = "Das angefragte Produkt wurde nicht gefunden.";
 
+"settings.alert.purchaseError.title" = "Fehler beim Kauf";
+
 /* Title of an alert informing the user that there was an error with the in-app purchase */
 "settings.alert.errorBuyingPro.title" = "Fehler beim Kauf";
 

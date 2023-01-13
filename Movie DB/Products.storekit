@@ -1,0 +1,40 @@
+{
+  "identifier" : "5E9CC613",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "1573113362",
+      "localizations" : [
+        {
+          "description" : "Alle App-Features freischalten",
+          "displayName" : "Pro",
+          "locale" : "de"
+        },
+        {
+          "description" : "Unlock all app features",
+          "displayName" : "Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "movie_db_pro",
+      "referenceName" : "Movie DB Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1552079477",
+    "_developerTeamID" : "46C9Y785NA",
+    "_lastSynchronizedDate" : 695301801.27966905
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
@@ -45,7 +46,10 @@ struct ProInfoView: View {
                             return
                         }
                         // Execute the purchase
-                        StoreManager.shared.purchase(product: product)
+                        StoreManager.shared.purchase(product: product) {
+                            // on success:
+                            dismiss()
+                        }
                     }
                     .buttonStyle(.borderedProminent)
                 }
