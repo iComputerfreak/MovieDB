@@ -29,6 +29,7 @@ struct RegionPickerView: View {
                     .tag(code)
             }
         }
+        .pickerStyle(.navigationLink)
     }
 }
 

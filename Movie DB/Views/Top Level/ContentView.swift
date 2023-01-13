@@ -32,14 +32,6 @@ struct ContentView: View {
                         Text(Strings.TabView.lookupLabel)
                     }
                 
-                #if DEBUG
-                    DebugView()
-                        .tabItem {
-                            Image(systemName: "ladybug")
-                            Text("Debug")
-                        }
-                #endif
-                
                 SettingsView()
                     .tabItem {
                         Image(systemName: "gear")

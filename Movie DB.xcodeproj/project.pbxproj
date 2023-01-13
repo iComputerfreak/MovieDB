@@ -12,7 +12,6 @@
 		AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01096624D5C3CC001BEF39 /* SearchResultsPageWrapper.swift */; };
 		AB01097424D850A2001BEF39 /* CSVCoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01097324D850A2001BEF39 /* CSVCoderTests.swift */; };
 		AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E32842A28800041E0B /* CoreDataDummies.swift */; };
-		AB0318E62842AA3800041E0B /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E52842AA3800041E0B /* DebugView.swift */; };
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
 		AB097F57284A96C700E559E7 /* MediaListsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F56284A96C700E559E7 /* MediaListsRootView.swift */; };
 		AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F58284A974500E559E7 /* FilteredMediaList.swift */; };
@@ -249,7 +248,6 @@
 		AB01097324D850A2001BEF39 /* CSVCoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVCoderTests.swift; sourceTree = "<group>"; };
 		AB0318BE28411A2300041E0B /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		AB0318E32842A28800041E0B /* CoreDataDummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDummies.swift; sourceTree = "<group>"; };
-		AB0318E52842AA3800041E0B /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v6.xcdatamodel"; sourceTree = "<group>"; };
 		AB0318E92842BF4500041E0B /* CreditsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsHelpers.swift; sourceTree = "<group>"; };
 		AB097F56284A96C700E559E7 /* MediaListsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListsRootView.swift; sourceTree = "<group>"; };
@@ -1090,7 +1088,6 @@
 				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
-				AB0318E52842AA3800041E0B /* DebugView.swift */,
 			);
 			path = "Top Level";
 			sourceTree = "<group>";
@@ -1543,7 +1540,6 @@
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
-				AB0318E62842AA3800041E0B /* DebugView.swift in Sources */,
 				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */,

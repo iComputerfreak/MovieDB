@@ -25,6 +25,7 @@ struct LanguagePickerView: View {
                 }
             }
         }
+        .pickerStyle(.navigationLink)
     }
     
     private func updateLanguages() async {
