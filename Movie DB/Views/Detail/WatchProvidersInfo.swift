@@ -49,6 +49,7 @@ struct WatchProvidersInfo: View {
 
 struct ProviderView: View {
     let provider: WatchProvider
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         VStack {
@@ -58,7 +59,14 @@ struct ProviderView: View {
                     .cornerRadius(10)
                     .shadow(radius: 1, y: 1.5)
             } placeholder: {
-                Text(provider.name)
+                AutoInvertingColor(whiteValue: 0.9, darkSchemeOffset: -0.1)
+                    .cornerRadius(10)
+                    .shadow(radius: 1, y: 1.5)
+                    .overlay {
+                        Text(provider.name)
+                            .multilineTextAlignment(.center)
+                            .font(.caption2)
+                    }
             }
             .frame(width: 50, height: 50)
             .padding(2)
@@ -74,6 +82,7 @@ struct WatchProvidersInfo_Previews: PreviewProvider {
         List {
             WatchProvidersInfo()
                 .environmentObject(PlaceholderData.movie as Media)
+                .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }
 }

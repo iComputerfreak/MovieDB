@@ -74,7 +74,7 @@ enum PlaceholderData {
                 id: 2,
                 type: .flatrate,
                 name: "Spectrum on Demand",
-                imagePath: "/79mRAYq40lcYiXkQm6N7YErSSHd.jpg",
+                imagePath: nil,
                 priority: 20
             ),
             .init(
