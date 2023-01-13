@@ -24,6 +24,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 PersistenceController.prepareForUITesting()
                 JFConfig.shared.region = "DE"
                 JFConfig.shared.language = "en-US"
+            } else if CommandLine.arguments.contains("--screenshots") {
+                // Prepare with sample data for taking screenshots
+                PersistenceController.prepareForUITesting()
+                JFConfig.shared.region = Locale.current.region?.identifier ?? ""
+                JFConfig.shared.language = Locale.current.language.languageCode?.identifier ?? ""
+                
+                // Add sample data
+                Task {
+                    // swiftlint:disable:next force_try
+                    try! await AppStoreScreenshotData(context: PersistenceController.viewContext).prepareSampleData()
+                }
             }
         #endif
         

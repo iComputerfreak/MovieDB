@@ -74,6 +74,17 @@
                ReferencedContainer = "container:Movie DB.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ABB6449A2971C10D0024BD80"
+               BuildableName = "Movie DBScreenshots.xctest"
+               BlueprintName = "Movie DBScreenshots"
+               ReferencedContainer = "container:Movie DB.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

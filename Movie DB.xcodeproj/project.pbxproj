@@ -96,6 +96,7 @@
 		AB6718EE22C032AA00F429E4 /* Media+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718ED22C032AA00F429E4 /* Media+CoreDataClass.swift */; };
 		AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EF22C037E300F429E4 /* TMDBData.swift */; };
 		AB6718F622C113F800F429E4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* Utils.swift */; };
+		AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */; };
 		AB6CE7422816BFC400FDF869 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */; };
 		AB6D9C7B283BC0DA00AF655C /* Strings+Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D9C7A283BC0DA00AF655C /* Strings+Detail.swift */; };
 		AB6D9C7D283BC10700AF655C /* Strings+AddMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */; };
@@ -161,6 +162,8 @@
 		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
+		ABB6449E2971C10D0024BD80 /* Movie_DBScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB6449D2971C10D0024BD80 /* Movie_DBScreenshots.swift */; };
+		ABB644A92971C1C80024BD80 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB644A82971C1C80024BD80 /* SnapshotHelper.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
 		ABC1E2642816C3120039CA84 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B62813078900230F0B /* FightClub.json */; };
@@ -233,6 +236,13 @@
 			remoteInfo = "Movie DB";
 		};
 		AB6718D422C0312B00F429E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB6718B522C0312A00F429E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB6718BC22C0312A00F429E4;
+			remoteInfo = "Movie DB";
+		};
+		ABB644A12971C10D0024BD80 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AB6718B522C0312A00F429E4 /* Project object */;
 			proxyType = 1;
@@ -338,6 +348,7 @@
 		AB6718ED22C032AA00F429E4 /* Media+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Media+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotData.swift; sourceTree = "<group>"; };
 		AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		AB6D9C7A283BC0DA00AF655C /* Strings+Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Detail.swift"; sourceTree = "<group>"; };
 		AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddMedia.swift"; sourceTree = "<group>"; };
@@ -410,6 +421,9 @@
 		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
 		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
+		ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBScreenshots.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB6449D2971C10D0024BD80 /* Movie_DBScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBScreenshots.swift; sourceTree = "<group>"; };
+		ABB644A82971C1C80024BD80 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -500,6 +514,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AB6718D022C0312B00F429E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB644982971C10D0024BD80 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -769,6 +790,7 @@
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
 				AB48BD6A2816CE3C00E53135 /* Movie DBUITests */,
+				ABB6449C2971C10D0024BD80 /* Movie DBScreenshots */,
 				AB6718BE22C0312B00F429E4 /* Products */,
 				AB79E99C25C9F1850050BD8D /* Frameworks */,
 			);
@@ -780,6 +802,7 @@
 				AB6718BD22C0312B00F429E4 /* Movie DB.app */,
 				AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */,
 				AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */,
+				ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -789,6 +812,7 @@
 			children = (
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
 				AB12CA042860E7340073F751 /* MigrationManager.swift */,
+				AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
 				AB25099C238B1EE000F7A411 /* Utility */,
@@ -941,6 +965,15 @@
 				AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */,
 			);
 			path = "Default List Views";
+			sourceTree = "<group>";
+		};
+		ABB6449C2971C10D0024BD80 /* Movie DBScreenshots */ = {
+			isa = PBXGroup;
+			children = (
+				ABB6449D2971C10D0024BD80 /* Movie_DBScreenshots.swift */,
+				ABB644A82971C1C80024BD80 /* SnapshotHelper.swift */,
+			);
+			path = "Movie DBScreenshots";
 			sourceTree = "<group>";
 		};
 		ABB65ED025D01C65009378EC /* Tag */ = {
@@ -1159,13 +1192,31 @@
 			productReference = AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ABB6449A2971C10D0024BD80 /* Movie DBScreenshots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABB644A32971C10D0024BD80 /* Build configuration list for PBXNativeTarget "Movie DBScreenshots" */;
+			buildPhases = (
+				ABB644972971C10D0024BD80 /* Sources */,
+				ABB644982971C10D0024BD80 /* Frameworks */,
+				ABB644992971C10D0024BD80 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABB644A22971C10D0024BD80 /* PBXTargetDependency */,
+			);
+			name = "Movie DBScreenshots";
+			productName = "Movie DBScreenshots";
+			productReference = ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		AB6718B522C0312A00F429E4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Jonas Frey";
 				TargetAttributes = {
@@ -1178,6 +1229,10 @@
 					};
 					AB6718D222C0312B00F429E4 = {
 						CreatedOnToolsVersion = 11.0;
+						TestTargetID = AB6718BC22C0312A00F429E4;
+					};
+					ABB6449A2971C10D0024BD80 = {
+						CreatedOnToolsVersion = 14.2;
 						TestTargetID = AB6718BC22C0312A00F429E4;
 					};
 				};
@@ -1205,6 +1260,7 @@
 				AB6718BC22C0312A00F429E4 /* Movie DB */,
 				AB6718D222C0312B00F429E4 /* Movie DBTests */,
 				AB48BD682816CE3C00E53135 /* Movie DBUITests */,
+				ABB6449A2971C10D0024BD80 /* Movie DBScreenshots */,
 			);
 		};
 /* End PBXProject section */
@@ -1249,6 +1305,13 @@
 				ABC1E2672816C3120039CA84 /* Blacklist.json in Resources */,
 				ABC1E2682816C3120039CA84 /* SearchResults-1.json in Resources */,
 				ABC1E2692816C3120039CA84 /* SearchResults-2.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB644992971C10D0024BD80 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1395,6 +1458,7 @@
 				AB097F63284BA73700E559E7 /* DynamicMediaListView.swift in Sources */,
 				ABD8647A2818141B001A1F7C /* SearchResultsView.swift in Sources */,
 				ABD864802818319B001A1F7C /* PosterView.swift in Sources */,
+				AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */,
 				AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */,
 				ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */,
 				AB1433FA25CDB6F600AA304F /* Movie+CoreDataClass.swift in Sources */,
@@ -1563,6 +1627,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ABB644972971C10D0024BD80 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB6449E2971C10D0024BD80 /* Movie_DBScreenshots.swift in Sources */,
+				ABB644A92971C1C80024BD80 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1575,6 +1648,11 @@
 			isa = PBXTargetDependency;
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 			targetProxy = AB6718D422C0312B00F429E4 /* PBXContainerItemProxy */;
+		};
+		ABB644A22971C10D0024BD80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
+			targetProxy = ABB644A12971C10D0024BD80 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1889,6 +1967,44 @@
 			};
 			name = Release;
 		};
+		ABB644A42971C10D0024BD80 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 46C9Y785NA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBScreenshots";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Movie DB";
+			};
+			name = Debug;
+		};
+		ABB644A52971C10D0024BD80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 46C9Y785NA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBScreenshots";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Movie DB";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1924,6 +2040,15 @@
 			buildConfigurations = (
 				AB6718E022C0312B00F429E4 /* Debug */,
 				AB6718E122C0312B00F429E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB644A32971C10D0024BD80 /* Build configuration list for PBXNativeTarget "Movie DBScreenshots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB644A42971C10D0024BD80 /* Debug */,
+				ABB644A52971C10D0024BD80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

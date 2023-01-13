@@ -153,6 +153,7 @@ struct MediaListsRootView: View {
                     }
                     AlertHandler.presentAlert(alert: alert)
                 }
+                .accessibilityIdentifier("new-dynamic-list")
                 Button(Strings.Lists.newCustomListLabel) {
                     let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
                         let list = UserMediaList(context: managedObjectContext)
@@ -161,6 +162,7 @@ struct MediaListsRootView: View {
                     }
                     AlertHandler.presentAlert(alert: alert)
                 }
+                .accessibilityIdentifier("new-custom-list")
             }
         }
     }
