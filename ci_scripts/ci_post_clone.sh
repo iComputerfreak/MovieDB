@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+set -e
+
+HOMEBREW_NO_AUTO_UPDATE=1 # disable homebrew's automatic updates.
 echo "Setting up homebrew dependencies..."
 brew install nshipster/formulae/gyb
 brew install mono0926/license-plist/license-plist
@@ -23,3 +26,5 @@ echo "command -v pyenv >/dev/null || export PATH=\"$PYENV_ROOT/bin:$PATH\"" >> ~
 echo "eval \"$(pyenv init -)\"" >> ~/.zshrc
 echo "export PATH=$(pyenv root)/shims:$PATH" >> ~/.zshrc
 echo "export HOMEBREW_NO_ENV_HINTS=true" >> ~/.zshrc
+
+exit 0
