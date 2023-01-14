@@ -16,6 +16,12 @@ class CSVCoderTests: XCTestCase {
     // swiftlint:disable:next implicitly_unwrapped_optional
     var testingUtils: TestingUtils!
     
+    let isoFormatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.timeZone = .utc
+        return f
+    }()
+    
     override func setUp() {
         super.setUp()
         testingUtils = TestingUtils()
@@ -62,19 +68,36 @@ class CSVCoderTests: XCTestCase {
         }
     }
         
-    func testEncodeDecode() throws {
+    func testEncodeDecode() async throws {
         // MARK: Encode
-        let sortedSamples = testingUtils.mediaSamples.sorted(by: \.title)
-        let csv = CSVManager.createCSV(from: sortedSamples)
+        let sampleData: [(Int, MediaType)] = [
+            (603, .movie), // Matrix
+            (550, .movie), // Fight Club
+            (1399, .show), // Game of Thrones
+            (46952, .show), // Blacklist
+        ]
+        var samples: [Media] = []
+        let api = TMDBAPI.shared
+        for (tmdbID, type) in sampleData {
+            samples.append(try await api.media(for: tmdbID, type: type, context: testingUtils.context))
+        }
+        samples.sort(by: \.title)
+        let csv = CSVManager.createCSV(from: samples)
+        XCTAssertEqual(csv.components(separatedBy: .newlines).count, samples.count + 1)
+        
+        // Wait a bit to ensure that the current time is different from the creationTime of the samples
+        try await Task.sleep(for: .seconds(3))
         
         // MARK: Decode
-        CSVHelper.importMediaObjects(csvString: csv, importContext: testingUtils.context) { mediaObjects, _ in
+        let expectation = XCTestExpectation(description: "Decode CSV")
+        let disposableContext = PersistenceController.createDisposableContext()
+        CSVHelper.importMediaObjects(csvString: csv, importContext: disposableContext) { mediaObjects, _ in
             do {
-                XCTAssertEqual(mediaObjects.count, sortedSamples.count)
+                XCTAssertEqual(mediaObjects.count, samples.count)
                 
                 for i in 0..<mediaObjects.count {
                     let media = try XCTUnwrap(mediaObjects[i])
-                    let sample = try XCTUnwrap(sortedSamples[i])
+                    let sample = try XCTUnwrap(samples[i])
                     
                     XCTAssertEqual(media.type, sample.type)
                     XCTAssertEqual(media.tmdbID, sample.tmdbID)
@@ -86,9 +109,8 @@ class CSVCoderTests: XCTestCase {
                     XCTAssertEqual(media.originalTitle, sample.originalTitle)
                     XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
                     XCTAssertEqual(media.missingInformation(), sample.missingInformation())
-                    XCTAssertEqual(media.creationDate, sample.creationDate)
-                    XCTAssertEqual(media.modificationDate, sample.modificationDate)
-                    XCTAssertEqual(media.id, sample.id)
+                    self.datesEqual(media.creationDate, sample.creationDate)
+                    self.datesEqual(media.modificationDate, sample.modificationDate)
                     
                     if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
                         XCTAssertEqual(movie.isAdult, movieSample.isAdult)
@@ -105,7 +127,31 @@ class CSVCoderTests: XCTestCase {
             } catch {
                 XCTFail(error.localizedDescription)
             }
+            // Fulfill the expectation.
+            expectation.fulfill()
         }
+        
+        // Wait for decoding tests to finish
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    // Compares if two dates by comparing their ISO8601 representation
+    private func datesEqual(_ date1: Date?, _ date2: Date?) {
+        if date1 == nil, date2 == nil {
+            // Equal
+            return
+        }
+        guard let date1 else {
+            // Will fail with correct error message
+            XCTAssertEqual(date1, date2)
+            return
+        }
+        guard let date2 else {
+            // Will fail with correct error message
+            XCTAssertEqual(date1, date2)
+            return
+        }
+        XCTAssertEqual(isoFormatter.string(from: date1), isoFormatter.string(from: date2))
     }
     
     private func testEncodedMedia(_ data: [CSVManager.CSVKey: String], encodedMedia media: Media) throws {

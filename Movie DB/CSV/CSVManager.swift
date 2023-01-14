@@ -167,12 +167,15 @@ struct CSVManager {
                 show.watched = watched
             }
         }
-        if let rawCreationDate = values[.creationDate], let creationDate = dateFormatter.date(from: rawCreationDate) {
+        if
+            let rawCreationDate = values[.creationDate],
+            let creationDate = dateTimeFormatter.date(from: rawCreationDate)
+        {
             media.creationDate = creationDate
         }
         if
             let rawModificationDate = values[.modificationDate],
-            let modificationDate = dateFormatter.date(from: rawModificationDate)
+            let modificationDate = dateTimeFormatter.date(from: rawModificationDate)
         {
             media.modificationDate = modificationDate
         }
