@@ -74,7 +74,6 @@ opt_in_rules:
 
 analyzer_rules:
   - unused_declaration
-  - explicit_self
   - unused_import
 
 force_cast: warning

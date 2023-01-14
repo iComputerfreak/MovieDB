@@ -35,40 +35,40 @@ struct TestingUtils {
         ]
         self.previewTags = previewTags
         matrixMovie = {
-            let tmdbData: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie, into: context)
+            let tmdbData: TMDBData = Self.load("Matrix.json", mediaType: .movie, into: context)
             let m = Movie(context: context, tmdbData: tmdbData)
             m.personalRating = .twoAndAHalfStars
-            m.tags = TestingUtils.getPreviewTags(["Future", "Conspiracy", "Dark"], of: previewTags)
+            m.tags = Self.getPreviewTags(["Future", "Conspiracy", "Dark"], of: previewTags)
             m.notes = ""
             m.watched = .watched
             m.watchAgain = false
             return m
         }()
         fightClubMovie = {
-            let tmdbData: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie, into: context)
+            let tmdbData: TMDBData = Self.load("FightClub.json", mediaType: .movie, into: context)
             let m = Movie(context: context, tmdbData: tmdbData)
             m.personalRating = .noRating
-            m.tags = TestingUtils.getPreviewTags(["Dark", "Violent"], of: previewTags)
+            m.tags = Self.getPreviewTags(["Dark", "Violent"], of: previewTags)
             m.notes = "Never watched it..."
             m.watched = .notWatched
             m.watchAgain = nil
             return m
         }()
         blacklistShow = {
-            let tmdbData: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: context)
+            let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
             let s = Show(context: context, tmdbData: tmdbData)
             s.personalRating = .fiveStars
-            s.tags = TestingUtils.getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"], of: previewTags)
+            s.tags = Self.getPreviewTags(["Gangsters", "Conspiracy", "Terrorist"], of: previewTags)
             s.notes = "A masterpiece!"
             s.watched = .season(7)
             s.watchAgain = true
             return s
         }()
         gameOfThronesShow = {
-            let tmdbData: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: context)
+            let tmdbData: TMDBData = Self.load("GameOfThrones.json", mediaType: .show, into: context)
             let s = Show(context: context, tmdbData: tmdbData)
             s.personalRating = .twoAndAHalfStars
-            s.tags = TestingUtils.getPreviewTags(["Past", "Fantasy"], of: previewTags)
+            s.tags = Self.getPreviewTags(["Past", "Fantasy"], of: previewTags)
             s.notes = "Bad ending"
             s.watched = .episode(season: 8, episode: 3)
             s.watchAgain = false
@@ -120,7 +120,7 @@ struct TestingUtils {
     }
                      
     func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
-        TestingUtils.getPreviewTags(tagNames, of: previewTags)
+        Self.getPreviewTags(tagNames, of: previewTags)
     }
 }
 

@@ -16,7 +16,10 @@ struct ExportMediaButton: View {
     }
     
     func exportMedia() {
-        ImportExportSection.export(filename: "MovieDB_Export_\(Utils.isoDateString()).csv", isLoading: $config.isLoading) { context in
+        ImportExportSection.export(
+            filename: "MovieDB_Export_\(Utils.isoDateString()).csv",
+            isLoading: $config.isLoading
+        ) { context in
             let medias = Utils.allMedias(context: context)
             return CSVManager.createCSV(from: medias)
         }

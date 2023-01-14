@@ -21,7 +21,7 @@ struct SettingsViewConfig {
     var isShowingProInfo = false
     var isShowingReloadCompleteNotification = false
     var importLogShowing = false
-    var importLogger: TagImporter.BasicLogger? = nil
+    var importLogger: TagImporter.BasicLogger?
     
     mutating func showProgress(_ text: String) {
         showingProgress = true

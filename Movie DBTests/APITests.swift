@@ -97,7 +97,7 @@ class APITests: XCTestCase {
 }
 
 struct DummyMedia {
-    static let broken = DummyMedia(tmdbID: -1, type: .movie, title: "")
+    static let broken = Self(tmdbID: -1, type: .movie, title: "")
     
     var tmdbID: Int
     var type: MediaType

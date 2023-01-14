@@ -16,7 +16,10 @@ struct ExportTagsButton: View {
     }
     
     func exportTags() {
-        ImportExportSection.export(filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt", isLoading: $config.isLoading) { context in
+        ImportExportSection.export(
+            filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
+            isLoading: $config.isLoading
+        ) { context in
             try TagImporter.export(context: context)
         }
     }
