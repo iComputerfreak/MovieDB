@@ -32,3 +32,7 @@ An app to keep track of all the movies and shows you watched.
 Please note, that the project is currently not under any license and therefore "All rights reserved".
 
 If you wish to use parts of my code, feel free to [contact me](mailto:dev@jonasfrey.de).
+
+This app uses data from The Movie Database.
+This product uses the TMDb API but is not endorsed or certified by TMDb.
+https://www.themoviedb.org

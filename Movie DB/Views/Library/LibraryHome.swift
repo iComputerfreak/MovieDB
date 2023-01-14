@@ -7,11 +7,11 @@
 //
 
 import Combine
+import CoreData
 import SwiftUI
 
 struct LibraryHome: View {
-    // The filter setting (non-persistent)
-    @StateObject private var filterSetting = FilterSetting(context: PersistenceController.createDisposableContext())
+    @StateObject private var filterSetting = FilterSetting.shared
     
     @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -75,10 +75,10 @@ struct LibraryHome: View {
                 case .addMedia:
                     AddMediaView()
                         .environment(\.managedObjectContext, managedObjectContext)
+                    // FUTURE: Open new item in editing mode
                 case .filter:
                     FilterView(filterSetting: filterSetting)
                         .environment(\.managedObjectContext, managedObjectContext)
-                    // FUTURE: Open new item in editing mode
                 }
             }
             

@@ -40,7 +40,7 @@ struct LegalView: View {
                 Divider()
                 // swiftlint:disable:next force_try
                 let link = try! AttributedString(markdown: "[https://uxwing.com](https://uxwing.com)")
-                Text(Strings.Legal.appIconAttribution(link))
+                Text(Strings.Legal.appIconAttribution(link)) // TODO: Use a separate `Link`
             }
         }
         .lineLimit(nil)

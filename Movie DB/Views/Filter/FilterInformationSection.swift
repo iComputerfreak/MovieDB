@@ -37,6 +37,8 @@ struct FilterInformationSection: View {
             let genresProxy = Binding<[Genre]> {
                 Array(filterSetting.genres).sorted(by: \.name)
             } set: { newValue in
+                // We need to move the Genres into the filterSetting context first
+                // TODO: Implement
                 filterSetting.genres = Set(newValue)
             }
             FilterMultiPicker(
