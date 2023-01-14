@@ -26,6 +26,7 @@ struct SimpleValueView<T: Hashable>: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
+            .padding(.top, 4)
             .labelsHidden()
         } else {
             Text(label(value))
@@ -60,7 +61,7 @@ struct SimpleValueView_Previews: PreviewProvider {
                 label: { $0 ? "Yes" : "No" }
             )
             SimpleValueView<Bool>.createYesNo(value: .constant(true))
-                .environment(\.editMode, .constant(.active))
+                .environment(\.isEditing, true)
         }
     }
 }

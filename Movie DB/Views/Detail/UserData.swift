@@ -90,6 +90,22 @@ struct UserData: View {
 
 struct UserData_Previews: PreviewProvider {
     static var previews: some View {
-        UserData()
+        List {
+            UserData()
+                .environmentObject(PlaceholderData.movie as Media)
+            UserData()
+                .environmentObject(PlaceholderData.movie as Media)
+                .environment(\.isEditing, true)
+        }
+        .previewDisplayName("Movie")
+        
+        List {
+            UserData()
+                .environmentObject(PlaceholderData.show as Media)
+            UserData()
+                .environmentObject(PlaceholderData.show as Media)
+                .environment(\.isEditing, true)
+        }
+        .previewDisplayName("Show")
     }
 }
