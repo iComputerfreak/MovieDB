@@ -26,8 +26,12 @@ struct LibraryActionsSection: View {
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
             #if DEBUG
                 Button("Debug") {
-                    // swiftlint:disable:next force_try
-                    try! MediaLibrary.shared.cleanup()
+                    // swiftlint:disable line_length
+                    print("Medias: \(Utils.allMedias(context: PersistenceController.viewContext).count)")
+                    print("Genres: \(Utils.allGenres(context: PersistenceController.viewContext).count)")
+                    print("Tags: \(Utils.allObjects(entityName: "Tag", context: PersistenceController.viewContext).count)")
+                    print("ProductionCompany: \(Utils.allObjects(entityName: "ProductionCompany", context: PersistenceController.viewContext).count)")
+                    // swiftlint:enable line_length
                 }
             #endif
         }

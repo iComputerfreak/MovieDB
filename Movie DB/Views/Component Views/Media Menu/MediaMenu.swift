@@ -10,14 +10,9 @@ import SwiftUI
 
 struct MediaMenu: View {
     var mediaObject: Media
-    @Binding var isEditing: Bool
     
     var body: some View {
         Menu {
-            // TODO: Localize
-            Button(isEditing ? "Done" : "Edit") {
-                isEditing.toggle()
-            }
             // MARK: Favorite / Add to
             AddToSection(mediaObject: mediaObject)
             // MARK: Actions
@@ -30,6 +25,6 @@ struct MediaMenu: View {
 
 struct MediaMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu(mediaObject: PlaceholderData.movie, isEditing: .constant(false))
+        MediaMenu(mediaObject: PlaceholderData.movie)
     }
 }

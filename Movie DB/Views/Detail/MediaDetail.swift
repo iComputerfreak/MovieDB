@@ -45,15 +45,15 @@ struct MediaDetail: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        mediaObject.isOnWatchlist.toggle()
-                    } label: {
-                        let imageName = mediaObject.isOnWatchlist ? "bookmark.fill" : "bookmark"
-                        Image(systemName: imageName)
+                    // TODO: Localize
+                    Button(isEditing ? "Done" : "Edit") {
+                        withAnimation(.easeInOut) {
+                            isEditing.toggle()
+                        }
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject, isEditing: $isEditing)
+                    MediaMenu(mediaObject: mediaObject)
                 }
             }
         }
@@ -62,12 +62,16 @@ struct MediaDetail: View {
 
 struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
-        MediaDetail()
-            .environmentObject(PlaceholderData.movie as Media)
-            .previewDisplayName("Movie")
+        NavigationStack {
+            MediaDetail()
+                .environmentObject(PlaceholderData.movie as Media)
+        }
+        .previewDisplayName("Movie")
         
-        MediaDetail()
-            .environmentObject(PlaceholderData.show as Media)
-            .previewDisplayName("Show")
+        NavigationStack {
+            MediaDetail()
+                .environmentObject(PlaceholderData.show as Media)
+        }
+        .previewDisplayName("Show")
     }
 }
