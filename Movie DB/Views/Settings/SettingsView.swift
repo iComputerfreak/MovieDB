@@ -20,6 +20,8 @@ struct SettingsViewConfig {
     var regionChanged = false
     var isShowingProInfo = false
     var isShowingReloadCompleteNotification = false
+    var importLogShowing = false
+    var importLogger: TagImporter.BasicLogger? = nil
     
     mutating func showProgress(_ text: String) {
         showingProgress = true

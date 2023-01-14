@@ -97,6 +97,10 @@
 		AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718EF22C037E300F429E4 /* TMDBData.swift */; };
 		AB6718F622C113F800F429E4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* Utils.swift */; };
 		AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */; };
+		AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */; };
+		AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */; };
+		AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C52972FA3F00E36AE6 /* ExportMediaButton.swift */; };
+		AB6B86C82972FA4A00E36AE6 /* ExportTagsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C72972FA4A00E36AE6 /* ExportTagsButton.swift */; };
 		AB6CE7422816BFC400FDF869 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */; };
 		AB6D9C7B283BC0DA00AF655C /* Strings+Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D9C7A283BC0DA00AF655C /* Strings+Detail.swift */; };
 		AB6D9C7D283BC10700AF655C /* Strings+AddMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */; };
@@ -349,6 +353,10 @@
 		AB6718EF22C037E300F429E4 /* TMDBData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBData.swift; sourceTree = "<group>"; };
 		AB6718F522C113F800F429E4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotData.swift; sourceTree = "<group>"; };
+		AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMediaButton.swift; sourceTree = "<group>"; };
+		AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTagsButton.swift; sourceTree = "<group>"; };
+		AB6B86C52972FA3F00E36AE6 /* ExportMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportMediaButton.swift; sourceTree = "<group>"; };
+		AB6B86C72972FA4A00E36AE6 /* ExportTagsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTagsButton.swift; sourceTree = "<group>"; };
 		AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		AB6D9C7A283BC0DA00AF655C /* Strings+Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Detail.swift"; sourceTree = "<group>"; };
 		AB6D9C7C283BC10700AF655C /* Strings+AddMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddMedia.swift"; sourceTree = "<group>"; };
@@ -890,6 +898,18 @@
 			path = APIs;
 			sourceTree = "<group>";
 		};
+		AB6B86C02972F8C900E36AE6 /* ImportExport */ = {
+			isa = PBXGroup;
+			children = (
+				ABEEB0CF2814317B00230F0B /* ImportExportSection.swift */,
+				AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */,
+				AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */,
+				AB6B86C52972FA3F00E36AE6 /* ExportMediaButton.swift */,
+				AB6B86C72972FA4A00E36AE6 /* ExportTagsButton.swift */,
+			);
+			path = ImportExport;
+			sourceTree = "<group>";
+		};
 		AB6D9C79283BC0C000AF655C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -1076,7 +1096,7 @@
 				AB995615285638E300C3D063 /* ContactSection.swift */,
 				ABEEB0D5281434E600230F0B /* ProSection.swift */,
 				AB4085472663B325008C559B /* ProInfoView.swift */,
-				ABEEB0CF2814317B00230F0B /* ImportExportSection.swift */,
+				AB6B86C02972F8C900E36AE6 /* ImportExport */,
 				ABEEB0D72814356F00230F0B /* ImportLogViewer.swift */,
 				ABEEB0D12814318F00230F0B /* LibraryActionsSection.swift */,
 				AB4085412663A7BA008C559B /* LegalView.swift */,
@@ -1496,6 +1516,7 @@
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
+				AB6B86C82972FA4A00E36AE6 /* ExportTagsButton.swift in Sources */,
 				AB50944D238D63FD003A81DB /* SettingsView.swift in Sources */,
 				ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */,
 				AB6718F022C037E300F429E4 /* TMDBData.swift in Sources */,
@@ -1513,6 +1534,7 @@
 				AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */,
 				AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */,
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
+				AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */,
 				AB14349D25CEE0E000AA304F /* CastMember+CoreDataProperties.swift in Sources */,
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
 				AB14349C25CEE0E000AA304F /* CastMember+CoreDataClass.swift in Sources */,
@@ -1523,11 +1545,13 @@
 				AB6D9C8F283BC1EE00AF655C /* Strings+ResolveProblems.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
 				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
+				AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */,
 				AB6D9C87283BC1C400AF655C /* Strings+WatchProvider.swift in Sources */,
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
 				AB995616285638E300C3D063 /* ContactSection.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
+				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
 				AB6D9C7F283BC10C00AF655C /* Strings+Library.swift in Sources */,
 				AB6D9C83283BC15B00AF655C /* Strings+APIError.swift in Sources */,
