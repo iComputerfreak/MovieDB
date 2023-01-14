@@ -12,6 +12,9 @@
 //            the new SnapshotHelper.swift
 // -----------------------------------------------------
 
+// swiftlint:disable all
+// swiftformat:disable all
+
 import Foundation
 import XCTest
 

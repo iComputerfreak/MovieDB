@@ -10,6 +10,8 @@ import CoreData
 import CSVImporter
 import Foundation
 
+// swiftlint:disable type_body_length
+/// Represents a static helper class to import and export media objects to and from CSV
 struct CSVManager {
     typealias Converter = (Any) -> String
     
@@ -32,11 +34,14 @@ struct CSVManager {
         return f
     }()
     
+    /// The CSV keys that are required to be present when importing media
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     // swiftlint:disable multiline_literal_brackets
+    /// The CSV keys that are optional when importing media
     static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .movieWatched, .showWatched,
                                                .creationDate, .modificationDate]
     // swiftlint:enable multiline_literal_brackets
+    /// The properties/CSV keys that will be included in the export CSV data
     static let exportKeys: [CSVKey] = CSVKey.allCases
     
     // MARK: Export KeyPaths
@@ -81,10 +86,18 @@ struct CSVManager {
     ]
     // swiftlint:enable force_cast
     
+    // This is a static helper class. We do not need to make instances of it.
     private init() {}
     
-    // swiftlint:disable:next cyclomatic_complexity
-    static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media? {
+    // swiftlint:disable cyclomatic_complexity function_body_length
+    /// Creates a ``Media`` object from the given key-value-pairs.
+    /// - Parameters:
+    ///   - values: The key-value-pairs to use for creating the new ``Media`` object
+    ///   - context: The ``NSManagedObjectContext`` to create the media object in
+    /// - Returns: The ``Media`` object
+    static func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media {
+        // swiftlint:enable cyclomatic_complexity function_body_length
+        
         // We only need the tmdbID and user values from the CSV
         guard let tmdbIDValue = values[.tmdbID], let tmdbID = Int(tmdbIDValue) else {
             throw CSVError.noTMDBID
@@ -174,6 +187,7 @@ struct CSVManager {
     /// - Parameter media: The media object to export
     /// - Returns: The CSV line as a dictionary with all string values, keyed by their CSV header
     static func createRecord(from media: Media) -> [CSVKey: String] {
+        // swiftlint:enable cyclomatic_complexity
         var values: [CSVKey: String] = [:]
         for key in exportKeys {
             var tuple: (Any, Converter?)?

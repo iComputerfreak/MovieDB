@@ -109,8 +109,8 @@ struct WatchlistRow: View {
         var body: some View {
             (
                 Text(Image(systemName: systemImage)) +
-                Text(verbatim: " ") +
-                Text(labelText)
+                    Text(verbatim: " ") +
+                    Text(labelText)
             )
             .foregroundColor(color)
         }
