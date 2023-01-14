@@ -14,12 +14,13 @@ struct ParentalRatingView: View {
     
     var body: some View {
         Text(rating.label)
-            .font(.caption2)
+            .font(.caption)
+            .bold()
             .padding(.horizontal, 1.5)
             .padding(.vertical, 0.5)
             .background(
-                RoundedRectangle(cornerRadius: 2, style: .continuous)
-                    .stroke(rating.color ?? .primary, lineWidth: 1.5)
+                RoundedRectangle(cornerRadius: 3, style: .continuous)
+                    .stroke(rating.color ?? .primary, lineWidth: 2)
             )
             .foregroundColor(rating.color ?? .primary)
     }
@@ -38,7 +39,9 @@ struct ParentalRatingView_Preview: PreviewProvider {
             }
             HStack {
                 Text(verbatim: "Rating: ")
-                ParentalRatingView(rating: .fskAgeSixteen)
+                ForEach(ParentalRating.fskRatings, id: \.label) { rating in
+                    ParentalRatingView(rating: rating)
+                }
             }
         }
         .previewLayout(.fixed(width: 200, height: 100))

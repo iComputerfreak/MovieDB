@@ -27,17 +27,24 @@ struct TitleView: View {
         HStack(alignment: VerticalAlignment.center) {
             Image(uiImage: media.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
-                .padding([.vertical, .trailing])
+                .padding(.trailing)
             // Title and year
             VStack(alignment: .leading) {
                 Text(media.title)
                     .font(.headline)
                     .lineLimit(3)
                     .padding([.bottom], 5.0)
-                if media.year != nil {
-                    Text(media.year!.description)
-                        .padding(4.0)
-                        .background(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 2))
+                // MARK: Year and rating
+                HStack {
+                    if let year = media.year {
+                        Text(year.description)
+                            .foregroundColor(.gray)
+                            .font(.headline)
+                            .padding(4)
+                    }
+                    if let rating = media.parentalRating {
+                        rating.symbol
+                    }
                 }
             }
         }
@@ -46,10 +53,14 @@ struct TitleView: View {
 
 struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            Section {
-                TitleView(media: PlaceholderData.movie)
+        NavigationStack {
+            List {
+                Section {
+                    TitleView(media: PlaceholderData.movie)
+                }
             }
+            .listStyle(.grouped)
         }
+        .previewLayout(.fixed(width: 500, height: 250))
     }
 }

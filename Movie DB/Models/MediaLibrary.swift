@@ -186,21 +186,21 @@ struct MediaLibrary {
         
         // MARK: Delete entities that are not used anymore
         print("[Cleanup] Deleting unused entities...")
-        assert(Genre.entity().name != nil)
+        // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview
         try delete(
-            Genre.entity().name!,
+            "Genre",
             predicate: NSPredicate(format: "medias.@count = 0")
         )
         try delete(
-            ProductionCompany.entity().name!,
+            "ProductionCompany",
             predicate: NSPredicate(format: "medias.@count = 0 AND shows.@count = 0")
         )
         try delete(
-            Video.entity().name!,
+            "Video",
             predicate: NSPredicate(format: "media = nil")
         )
         try delete(
-            Season.entity().name!,
+            "Season",
             predicate: NSPredicate(format: "show = nil")
         )
     }
