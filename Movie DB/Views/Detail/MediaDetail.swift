@@ -45,8 +45,7 @@ struct MediaDetail: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    // TODO: Localize
-                    Button(isEditing ? "Done" : "Edit") {
+                    Button(isEditing ? Strings.Generic.editButtonLabelDone : Strings.Generic.editButtonLabelEdit) {
                         withAnimation(.easeInOut) {
                             isEditing.toggle()
                         }

@@ -815,3 +815,5 @@
 "library.detailPlaceholder" = "Medium auswählen";
 "generic.editButtonDone" = "Fertig";
 "generic.editButtonEdit" = "Bearbeiten";
+"generic.dismissViewDone" = "Fertig";
+"lists.detail.configure" = "Konfigurieren...";

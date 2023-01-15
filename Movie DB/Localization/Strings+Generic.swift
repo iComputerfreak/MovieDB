@@ -99,5 +99,9 @@ extension Strings {
             localized: "generic.editButtonEdit",
             comment: "The edit button label displayed while not in editing mode"
         )
+        static let dismissViewDone = String(
+            localized: "generic.dismissViewDone",
+            comment: "The done button to dismiss a view (e.g. a popup or sheet view)"
+        )
     }
 }

@@ -73,9 +73,9 @@ struct LibraryHome: View {
             .sheet(item: $activeSheet) { sheet in
                 switch sheet {
                 case .addMedia:
+                    // FUTURE: Open new item in editing mode
                     AddMediaView()
                         .environment(\.managedObjectContext, managedObjectContext)
-                    // FUTURE: Open new item in editing mode
                 case .filter:
                     FilterView(filterSetting: filterSetting)
                         .environment(\.managedObjectContext, managedObjectContext)
@@ -102,9 +102,10 @@ struct LibraryHome: View {
                         Image(systemName: "ellipsis.circle")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
+                // Reactivate when actions and multiselection is implemented
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    EditButton()
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         self.activeSheet = .addMedia

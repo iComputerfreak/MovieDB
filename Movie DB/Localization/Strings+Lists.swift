@@ -142,5 +142,10 @@ extension Strings {
             localized: "lists.root.placeholder",
             comment: "The placeholder text displayed in the middle column of the lists view when no list is selected."
         )
+        
+        static let configureListLabel = String(
+            localized: "lists.detail.configure",
+            comment: "The button label for the toolbar button to configure an opened view."
+        )
     }
 }

@@ -821,3 +821,5 @@
 "library.detailPlaceholder" = "Select a media";
 "generic.editButtonDone" = "Done";
 "generic.editButtonEdit" = "Edit";
+"generic.dismissViewDone" = "Done";
+"lists.detail.configure" = "Configure...";

@@ -22,8 +22,7 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
             .navigationTitle(list.name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // TODO: Localize
-                Button("Done") {
+                Button(Strings.Generic.dismissViewDone) {
                     dismiss()
                 }
             }

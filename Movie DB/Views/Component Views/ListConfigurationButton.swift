@@ -19,8 +19,7 @@ struct ListConfigurationButton: View {
         Button {
             isShowing = true
         } label: {
-            // TODO: Localize
-            Text("Configure...")
+            Text(Strings.Lists.configureListLabel)
         }
     }
 }
