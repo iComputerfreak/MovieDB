@@ -2,6 +2,10 @@
 
 An app to keep track of all the movies and shows you watched.
 
+
+**Download now via [TestFlight](https://testflight.apple.com/join/yI9GMaOD)!**
+
+
 ## Features
 * Add movies and tv shows from TheMovieDB.org to your library
 * Show Information about your movies / tv shows
