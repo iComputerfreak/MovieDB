@@ -60,8 +60,15 @@ struct TagListView: View {
     struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
-        let allTags: [Tag]
+        // !!!: Keep the tags in a state to be able to locally modify them when deleting a Tag
+        // !!!: Otherwise (using a let) would crash the app
+        @State var allTags: [Tag]
         @Binding var tags: Set<Tag>
+        
+        init(allTags: [Tag], tags: Binding<Set<Tag>>) {
+            self._allTags = State(wrappedValue: allTags)
+            self._tags = tags
+        }
         
         var body: some View {
             List {
@@ -70,23 +77,28 @@ struct TagListView: View {
                     footer: Text(Strings.Detail.tagsFooter(allTags.count))
                 ) {
                     ForEach(allTags, id: \.id) { tag in
-                        Button {
-                            if self.tags.contains(tag) {
-                                print("Removing Tag \(tag.name)")
-                                self.tags.remove(tag)
-                            } else {
-                                print("Adding Tag \(tag.name)")
-                                self.tags.insert(tag)
+                        if !tag.isFault {
+                            Button {
+                                if self.tags.contains(tag) {
+                                    print("Removing Tag \(tag.name)")
+                                    self.tags.remove(tag)
+                                } else {
+                                    print("Adding Tag \(tag.name)")
+                                    self.tags.insert(tag)
+                                }
+                            } label: {
+                                TagEditRow(tag: tag, tags: $tags)
                             }
-                        } label: {
-                            TagEditRow(tag: tag, tags: $tags)
+                            .foregroundColor(.primary)
                         }
-                        .foregroundColor(.primary)
                     }
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
-                            let tag = self.allTags[index]
+                            let tag = self.allTags.remove(at: index)
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
+                            // If we are making UI changes, we better be on the main thread/context
+                            assert(Thread.current.isMainThread)
+                            assert(managedObjectContext == PersistenceController.viewContext)
                             self.managedObjectContext.delete(tag)
                         }
                         // Save the deletion of the tags asynchronously
