@@ -42,7 +42,7 @@ struct AddMediaView: View {
                 }))
             }
         }
-        .popover(isPresented: $isShowingProPopup) {
+        .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()
         }
     }
@@ -80,7 +80,7 @@ struct AddMediaView: View {
 struct AddMediaView_Previews: PreviewProvider {
     static var previews: some View {
         Text("")
-            .popover(isPresented: .constant(true)) {
+            .sheet(isPresented: .constant(true)) {
                 AddMediaView()
             }
     }

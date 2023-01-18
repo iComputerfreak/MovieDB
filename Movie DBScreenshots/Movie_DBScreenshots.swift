@@ -21,6 +21,10 @@ final class Movie_DBScreenshots: XCTestCase {
         setupSnapshot(app)
         // Reset snapshot counter
         snapshotCounter = 1
+        // If device is iPad, put it into landscape mode
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            XCUIDevice.shared.orientation = UIDeviceOrientation.landscapeLeft
+        }
     }
     
     override func tearDownWithError() throws {
@@ -46,13 +50,13 @@ final class Movie_DBScreenshots: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         // Add dynamic list
-        app.navigationBars.buttons.firstMatch.tap() // New...
+        app.navigationBars.buttons["new-list"].tap() // New...
         app.buttons["new-dynamic-list"].tap()
         app.typeText("5-star Movies")
         app.alerts.buttons.element(boundBy: 1).tap() // Add
         
         // Add custom list
-        app.navigationBars.buttons.firstMatch.tap()
+        app.navigationBars.buttons["new-list"].tap()
         app.buttons["new-custom-list"].tap()
         app.typeText("Recommend to Ben")
         app.alerts.buttons.element(boundBy: 1).tap()
@@ -62,11 +66,20 @@ final class Movie_DBScreenshots: XCTestCase {
         app.cells.buttons.element(boundBy: 2).tap()
         snapshot("Watchlist")
         
-        app.navigationBars.buttons.firstMatch.tap() // Back
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            app.navigationBars.buttons.firstMatch.tap() // Back
+        }
         app.cells.buttons["5-star Movies"].tap()
-        app.navigationBars.firstMatch.buttons.element(boundBy: 1).tap() // Configure...
+        let buttonOffset = UIDevice.current.userInterfaceIdiom == .phone ? 1 : 0
+        app.navigationBars["5-star Movies"].buttons.element(boundBy: buttonOffset).tap() // Configure...
         app.cells.buttons.element(boundBy: 4).tap() // Media type
         app.collectionViews.firstMatch.buttons.element(boundBy: 1).tap() // Movie
+        app.cells.buttons.element(boundBy: 6).tap() // Personal Rating
+        // Increase to 5 stars
+        app.steppers.firstMatch.buttons["Increment"].tap(withNumberOfTaps: 5, numberOfTouches: 5)
+        app.steppers.firstMatch.buttons["Increment"].tap(withNumberOfTaps: 5, numberOfTouches: 5)
+        app.navigationBars.buttons.firstMatch.tap() // Back
+        
         snapshot("ListConfiguration")
         app.navigationBars.firstMatch.buttons.firstMatch.tap() // Done
         

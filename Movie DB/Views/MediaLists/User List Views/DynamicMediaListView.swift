@@ -27,7 +27,7 @@ struct DynamicMediaListView: View {
             ListConfigurationButton($isShowingConfiguration)
         }
         // MARK: Editing View / Configuration View
-        .popover(isPresented: $isShowingConfiguration) {
+        .sheet(isPresented: $isShowingConfiguration) {
             ListConfigurationView(list: list) { list in
                 // MARK: List Details
                 // This binding uses the global list property defined in DynamicMediaListView, not the parameter

@@ -31,7 +31,7 @@ struct LookupView: View {
                 .navigationTitle(Strings.TabView.lookupLabel)
             }
         }
-        .popover(isPresented: $isShowingProPopup) {
+        .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()
         }
     }

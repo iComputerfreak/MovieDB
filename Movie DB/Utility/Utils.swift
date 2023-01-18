@@ -204,7 +204,7 @@ struct Utils {
     }
     
     static func purchasedPro() -> Bool {
-        return true
+        true
         // TODO: Re-enable for release
 //        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }

@@ -28,14 +28,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 // Prepare with sample data for taking screenshots
                 PersistenceController.prepareForUITesting()
                 JFConfig.shared.region = Locale.current.region?.identifier ?? ""
-                // !!!: If the device is set to "English" (not "English (United States)"), the device region is used
-                // !!!: e.g. setting the device language to "English" and the region to "Germany", yields "en_DE",
-                // !!!: which is not a valid language identifier for the API.
-                // !!!: So we need to make sure to only use full language identifiers (e.g. setting the device language
-                // !!!: to "English (United States)" instead of "English".
+                // Combining language and region can lead to invalid language/region pairs (e.g. if the device language
+                // is "English" and the device region is "Germany", the pair will be "en-DE", on the other hand, if the
+                // device language is "English (Australia)" and the region is "Germany", the pair will correctly be
+                // "en-AU".
                 let lang = Locale.current.language.languageCode!.identifier
                 let region = Locale.current.language.region!.identifier
-                JFConfig.shared.language = "\(lang)_\(region)"
+                JFConfig.shared.language = "\(lang)-\(region)"
                 
                 let bgContext = PersistenceController.viewContext.newBackgroundContext()
                 // Add sample data

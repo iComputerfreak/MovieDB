@@ -32,7 +32,7 @@ struct ImportExportSection: View {
             ExportTagsButton(config: $config)
         }
         // MARK: Import Log Popover
-        .popover(isPresented: $config.importLogShowing) {
+        .sheet(isPresented: $config.importLogShowing) {
             if let logger = $config.importLogger.wrappedValue {
                 ImportLogViewer(logger: logger)
             } else {

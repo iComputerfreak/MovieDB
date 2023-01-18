@@ -15,7 +15,7 @@ struct ProSection: View {
     var body: some View {
         Section {
             Button(Strings.Settings.buyProLabel, action: { self.config.isShowingProInfo = true })
-                .popover(isPresented: $config.isShowingProInfo) {
+                .sheet(isPresented: $config.isShowingProInfo) {
                     ProInfoView()
                 }
         }

@@ -34,7 +34,7 @@ struct UserMediaListView: View {
             ListConfigurationButton($isShowingConfiguration)
         }
         // MARK: Editing View / Configuration View
-        .popover(isPresented: $isShowingConfiguration) {
+        .sheet(isPresented: $isShowingConfiguration) {
             ListConfigurationView(list: list) { list in
                 MediaListEditingSection(name: $list.name, iconName: $list.iconName)
             }
