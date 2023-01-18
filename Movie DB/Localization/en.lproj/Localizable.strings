@@ -823,3 +823,5 @@
 "generic.editButtonEdit" = "Edit";
 "generic.dismissViewDone" = "Done";
 "lists.detail.configure" = "Configure...";
+
+"lists.alerts.newList.buttons.add" = "Add";

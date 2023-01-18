@@ -30,6 +30,7 @@ final class Movie_DBScreenshots: XCTestCase {
     func testScreenshots() throws {
         app.launch()
         
+        // Give the app a second to load the sample data
         _ = app.wait(for: .runningBackground, timeout: 1)
         snapshot("Library")
         
@@ -58,11 +59,11 @@ final class Movie_DBScreenshots: XCTestCase {
         snapshot("Lists")
         
         // Go into Watchlist
-        app.cells.buttons.element(boundBy: 2)
+        app.cells.buttons.element(boundBy: 2).tap()
         snapshot("Watchlist")
         
-        app.navigationBars.buttons.firstMatch.tap()
-        app.cells.buttons["Movies"].tap()
+        app.navigationBars.buttons.firstMatch.tap() // Back
+        app.cells.buttons["5-star Movies"].tap()
         app.navigationBars.firstMatch.buttons.element(boundBy: 1).tap() // Configure...
         app.cells.buttons.element(boundBy: 4).tap() // Media type
         app.collectionViews.firstMatch.buttons.element(boundBy: 1).tap() // Movie
