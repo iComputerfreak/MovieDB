@@ -117,6 +117,8 @@ struct LibraryHome: View {
             }
             .navigationTitle(Strings.TabView.libraryLabel)
         }
+        // FUTURE: Disable when no longer bugging around
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func showFilter() {

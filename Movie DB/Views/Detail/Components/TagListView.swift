@@ -33,6 +33,9 @@ struct TagListView: View {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
             }
+            .onChange(of: Array(allTags)) { newValue in
+                print("allTags changed to \(newValue)")
+            }
         } else {
             TagListViewLabel(tags: tags)
                 .headline(Strings.Detail.tagsHeadline)

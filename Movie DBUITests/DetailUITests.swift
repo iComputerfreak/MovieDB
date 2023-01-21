@@ -164,7 +164,7 @@ class DetailUITests: XCTestCase {
         // TODO: Test filter
         // Implement after reworking the filter UI
     }
-                
+    
     func testRenameTag() {
         let oldName = "Old Tag Name"
         let newName = "New Tag"
@@ -185,10 +185,23 @@ class DetailUITests: XCTestCase {
         XCTAssertTrue(app.cells.staticTexts[newName].wait().exists)
     }
     
+    func testDeleteTag() {
+        app.launch()
+        app.addMatrix()
+        goToTags(mediaName: "The Matrix", app: app)
+        addTag("Tag 1", app)
+        addTag("Tag 2", app)
+        // Delete Tag 1
+        app.cells.containing(.staticText, identifier: "Tag 1").firstMatch.swipeLeft()
+        app.cells.buttons["Delete"].tap()
+        app.wait(1)
+        // Check if it worked
+        XCTAssertFalse(app.cells.staticTexts["Tag 1"].wait().exists)
+    }
+    
     func goToTags(mediaName: String, app: XCUIApplication) {
         app.cells.staticTexts[mediaName].tap()
-        app.navigationBars[mediaName].buttons["More"].wait().tap()
-        app.buttons["Edit"].tap()
+        app.navigationBars.firstMatch.buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].wait().tap()
     }
     

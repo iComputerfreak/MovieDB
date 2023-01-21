@@ -125,6 +125,8 @@ struct MediaListsRootView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
+        // FUTURE: Disable when no longer bugging around
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {
