@@ -11,14 +11,7 @@ import SwiftUI
 
 struct TagListView: View {
     @Binding var tags: Set<Tag>
-    @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.isEditing) private var isEditing
-    
-    // !!!: If we move this @FetchRequest down into EditView, we somehow get an infinite view rendering loop
-    // No idea why, but it took me 4 hours to debug that and I don't care anymore...
-    // Also makes more sense up here for performance reasons
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Tag.name, order: .forward)])
-    var allTags: FetchedResults<Tag>
     
     // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
@@ -28,7 +21,7 @@ struct TagListView: View {
     var body: some View {
         if isEditing {
             NavigationLink {
-                EditView(allTags: Array(allTags), tags: $tags)
+                EditView(tags: $tags)
             } label: {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
@@ -60,13 +53,11 @@ struct TagListView: View {
     struct EditView: View {
         @Environment(\.managedObjectContext) private var managedObjectContext
         
-        // !!!: Keep the tags in a state to be able to locally modify them when deleting a Tag
-        // !!!: Otherwise (using a let) would crash the app
-        @State var allTags: [Tag]
+        @FetchRequest(sortDescriptors: [SortDescriptor(\Tag.name, order: .forward)])
+        var allTags: FetchedResults<Tag>
         @Binding var tags: Set<Tag>
         
-        init(allTags: [Tag], tags: Binding<Set<Tag>>) {
-            self._allTags = State(wrappedValue: allTags)
+        init(tags: Binding<Set<Tag>>) {
             self._tags = tags
         }
         
@@ -76,7 +67,7 @@ struct TagListView: View {
                     header: Text(Strings.Detail.tagsHeadline),
                     footer: Text(Strings.Detail.tagsFooter(allTags.count))
                 ) {
-                    ForEach(allTags, id: \.id) { tag in
+                    ForEach(allTags) { tag in
                         if !tag.isFault {
                             Button {
                                 if self.tags.contains(tag) {
@@ -94,7 +85,7 @@ struct TagListView: View {
                     }
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
-                            let tag = self.allTags.remove(at: index)
+                            let tag = self.allTags[index]
                             print("Removing Tag '\(tag.name)' (\(tag.id)).")
                             // If we are making UI changes, we better be on the main thread/context
                             assert(Thread.current.isMainThread)
