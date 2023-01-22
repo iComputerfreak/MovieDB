@@ -29,9 +29,9 @@ struct LookupView: View {
                     }
                 }
                 .navigationTitle(Strings.TabView.lookupLabel)
+                // FUTURE: Disable when no longer bugging around
+                .navigationBarTitleDisplayMode(.inline)
             }
-            // FUTURE: Disable when no longer bugging around
-            .navigationBarTitleDisplayMode(.inline)
         }
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()

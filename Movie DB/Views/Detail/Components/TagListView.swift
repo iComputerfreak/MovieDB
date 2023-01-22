@@ -17,8 +17,8 @@ struct TagListView: View {
     // !!!: If we move this @FetchRequest down into EditView, we somehow get an infinite view rendering loop
     // No idea why, but it took me 4 hours to debug that and I don't care anymore...
     // Also makes more sense up here for performance reasons
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)])
-    private var allTags: FetchedResults<Tag>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Tag.name, order: .forward)])
+    var allTags: FetchedResults<Tag>
     
     // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
@@ -32,9 +32,6 @@ struct TagListView: View {
             } label: {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
-            }
-            .onChange(of: Array(allTags)) { newValue in
-                print("allTags changed to \(newValue)")
             }
         } else {
             TagListViewLabel(tags: tags)
