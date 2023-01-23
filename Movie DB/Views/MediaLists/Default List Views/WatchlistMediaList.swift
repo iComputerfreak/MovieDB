@@ -14,7 +14,7 @@ struct WatchlistMediaList: View {
     var body: some View {
         FilteredMediaList(list: PredicateMediaList.watchlist, selectedMedia: $selectedMedia) { media in
             NavigationLink(value: media) {
-                WatchlistRow()
+                LibraryRow()
                     .environmentObject(media)
                     .swipeActions {
                         Button(Strings.Lists.removeMediaLabel) {

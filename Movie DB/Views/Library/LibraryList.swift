@@ -60,7 +60,7 @@ struct LibraryList: View {
                         MediaDetail()
                             .environmentObject(mediaObject)
                     } label: {
-                        WatchlistRow()
+                        LibraryRow()
                             .environmentObject(mediaObject)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(Strings.Library.swipeActionDelete, role: .destructive) {

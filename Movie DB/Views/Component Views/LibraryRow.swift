@@ -1,5 +1,5 @@
 //
-//  WatchlistRow.swift
+//  LibraryRow.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 27.08.22.
@@ -8,7 +8,10 @@
 
 import SwiftUI
 
-struct WatchlistRow: View {
+/// Represents the label of a list displaying media objects.
+/// Presents various data about the media object, e.g. the thumbnail image, title and year
+/// Requires the displayed media object as an `EnvironmentObject`.
+struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
     let movieSymbol = Strings.Library.movieSymbolName
@@ -50,47 +53,25 @@ struct WatchlistRow: View {
                         if let movie = mediaObject as? Movie, movie.watched != nil {
                             switch movie.watched! {
                             case .watched:
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStateWatched,
-                                    systemImage: "checkmark.circle.fill",
-                                    color: .green
-                                )
+                                self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateWatched)
                             case .partially:
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStatePartiallyWatched,
-                                    systemImage: "circle.lefthalf.filled",
-                                    color: .yellow
+                                self.partiallyWatchedLabel(
+                                    Strings.Lists.watchlistRowLabelWatchlistStatePartiallyWatched
                                 )
                             case .notWatched:
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStateNotWatched,
-                                    systemImage: "circle",
-                                    color: .red
-                                )
+                                self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
                             }
                         } else if let show = mediaObject as? Show, show.watched != nil {
                             switch show.watched! {
                             case let .season(s):
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStateSeason(season: s),
-                                    systemImage: "checkmark.circle.fill",
-                                    color: .green
-                                )
+                                self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeason(season: s))
                             case let .episode(season: s, episode: e):
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
-                                        season: s,
-                                        episode: e
-                                    ),
-                                    systemImage: "circle.lefthalf.fill",
-                                    color: .yellow
-                                )
+                                self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
+                                    season: s,
+                                    episode: e
+                                ))
                             case .notWatched:
-                                WatchedLabel(
-                                    labelText: Strings.Lists.watchlistRowLabelWatchlistStateNotWatched,
-                                    systemImage: "circle",
-                                    color: .red
-                                )
+                                self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
                             }
                         }
                     }
@@ -101,28 +82,37 @@ struct WatchlistRow: View {
         }
     }
     
-    struct WatchedLabel: View {
-        let labelText: String
-        let systemImage: String
-        let color: Color
-        
-        var body: some View {
-            (
-                Text(Image(systemName: systemImage)) +
-                    Text(verbatim: " ") +
-                    Text(labelText)
-            )
-            .foregroundColor(color)
-        }
+    func watchedLabel(_ text: String) -> WatchedLabel {
+        WatchedLabel(
+            labelText: text,
+            systemImage: "checkmark.circle.fill",
+            color: .green
+        )
+    }
+    
+    func partiallyWatchedLabel(_ text: String) -> WatchedLabel {
+        WatchedLabel(
+            labelText: text,
+            systemImage: "circle.lefthalf.fill",
+            color: .yellow
+        )
+    }
+    
+    func notWatchedLabel(_ text: String) -> WatchedLabel {
+        WatchedLabel(
+            labelText: text,
+            systemImage: "circle",
+            color: .red
+        )
     }
 }
 
-struct WatchlistRow_Previews: PreviewProvider {
+struct LibraryRow_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             List {
                 ForEach(MovieWatchState.allCases, id: \.rawValue) { watchState in
-                    WatchlistRow()
+                    LibraryRow()
                         .environmentObject(movie(for: watchState) as Media)
                 }
                 ForEach([
@@ -130,7 +120,7 @@ struct WatchlistRow_Previews: PreviewProvider {
                     .episode(season: 1, episode: 5),
                     ShowWatchState.notWatched,
                 ], id: \.rawValue) { watchState in
-                    WatchlistRow()
+                    LibraryRow()
                         .environmentObject(show(for: watchState) as Media)
                 }
             }
