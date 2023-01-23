@@ -18,7 +18,7 @@ struct CastInfo: View {
             if self.mediaObject.isFault {
                 EmptyView()
             } else if cast.isEmpty {
-                HStack {
+                HStack(spacing: 8) {
                     ProgressView()
                     Text(Strings.Generic.loadingText)
                 }
@@ -37,19 +37,7 @@ struct CastInfo: View {
             } else {
                 List {
                     ForEach(cast) { member in
-                        HStack {
-                            AsyncImage(url: member.imagePath.map { imagePath in
-                                Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
-                            }) { image in
-                                image
-                                    .thumbnail()
-                            } placeholder: {
-                                Image(JFLiterals.posterPlaceholderName)
-                                    .thumbnail()
-                            }
-                            Text(member.name)
-                                .headline(verbatim: member.roleName)
-                        }
+                        CastMemberRow(castMember: member)
                     }
                 }
             }
@@ -62,5 +50,6 @@ struct CastInfo: View {
 struct CastInfo_Previews: PreviewProvider {
     static var previews: some View {
         CastInfo()
+            .environmentObject(PlaceholderData.movie as Media)
     }
 }

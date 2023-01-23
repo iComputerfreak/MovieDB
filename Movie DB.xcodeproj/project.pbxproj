@@ -59,6 +59,7 @@
 		AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2ACF5224DC4961002C5F41 /* TagImporter.swift */; };
 		AB2D07EF267F83AA005D6353 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D07EE267F83AA005D6353 /* StoreManager.swift */; };
 		AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */; };
+		AB3190DF297E07CD004BA53A /* CastMemberRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3190DE297E07CD004BA53A /* CastMemberRow.swift */; };
 		AB3434DF281D475400459673 /* MovieDBApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3434DE281D475400459673 /* MovieDBApp.swift */; };
 		AB3648BC22C3D9AF0096FE39 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */; };
 		AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */; };
@@ -313,6 +314,7 @@
 		AB2ACF5224DC4961002C5F41 /* TagImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagImporter.swift; sourceTree = "<group>"; };
 		AB2D07EE267F83AA005D6353 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetail.swift; sourceTree = "<group>"; };
+		AB3190DE297E07CD004BA53A /* CastMemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastMemberRow.swift; sourceTree = "<group>"; };
 		AB3434DE281D475400459673 /* MovieDBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBApp.swift; sourceTree = "<group>"; };
 		AB3648BB22C3D9AF0096FE39 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
@@ -1133,6 +1135,7 @@
 				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
 				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
 				ABCEA492238D1FCD00D92B95 /* CastInfo.swift */,
+				AB3190DE297E07CD004BA53A /* CastMemberRow.swift */,
 				AB711FC1281EB02F003ED045 /* MetadataInfo.swift */,
 			);
 			path = Detail;
@@ -1627,6 +1630,7 @@
 				AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */,
 				AB5F7E41238AF0AC0007A3FE /* JFLiterals.swift in Sources */,
 				AB3434DF281D475400459673 /* MovieDBApp.swift in Sources */,
+				AB3190DF297E07CD004BA53A /* CastMemberRow.swift in Sources */,
 				AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */,
 				AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */,
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
