@@ -9,9 +9,9 @@
 import CoreData
 import SwiftUI
 
-struct FilteredMediaList<RowContent: View>: View {
+struct FilteredMediaList<RowContent: View, ListType: MediaListProtocol>: View {
     let rowContent: (Media) -> RowContent
-    let list: any MediaListProtocol
+    let list: ListType
     
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
@@ -28,7 +28,7 @@ struct FilteredMediaList<RowContent: View>: View {
     }
     
     // swiftlint:disable:next type_contents_order
-    init(list: any MediaListProtocol, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
+    init(list: ListType, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
         self.rowContent = rowContent
         self.list = list
         _sortingOrder = State(wrappedValue: list.sortingOrder)

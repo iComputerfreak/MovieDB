@@ -118,10 +118,8 @@ struct MediaListsRootView: View {
         } detail: {
             // MARK: MediaDetail
             if let selectedMedia {
-                NavigationStack {
-                    MediaDetail()
-                        .environmentObject(selectedMedia)
-                }
+                MediaDetail()
+                    .environmentObject(selectedMedia)
             } else {
                 Text(Strings.Lists.detailPlaceholderText)
             }
