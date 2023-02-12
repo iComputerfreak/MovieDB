@@ -1,0 +1,55 @@
+//
+//  DynamicMediaListConfigurationView.swift
+//  Movie DB
+//
+//  Created by Jonas Frey on 12.02.23.
+//  Copyright © 2023 Jonas Frey. All rights reserved.
+//
+
+import SwiftUI
+
+struct DynamicMediaListConfigurationView: View {
+    @ObservedObject var list: DynamicMediaList
+    @Environment(\.dismiss) private var dismiss
+    
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    init(list: DynamicMediaList) {
+        self.list = list
+        if list.filterSetting == nil {
+            print("List has no FilterSetting. Creating a new one.")
+            assertionFailure("List should have a FilterSetting.")
+            list.filterSetting = FilterSetting(context: managedObjectContext)
+        }
+    }
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                // MARK: List Details
+                // This binding uses the global list property defined in DynamicMediaListView, not the parameter
+                // given into the closure
+                MediaListEditingSection(name: $list.name, iconName: $list.iconName)
+                // MARK: Filter Details
+                FilterUserDataSection()
+                FilterInformationSection()
+                    .environmentObject(list.filterSetting!)
+                FilterShowSpecificSection()
+            }
+            .environmentObject(list.filterSetting!)
+            .navigationTitle(list.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                Button(Strings.Generic.dismissViewDone) {
+                    dismiss()
+                }
+            }
+        }
+    }
+}
+
+struct DynamicMediaListConfigurationView_Previews: PreviewProvider {
+    static var previews: some View {
+        DynamicMediaListConfigurationView(list: DynamicMediaList(context: PersistenceController.previewContext))
+    }
+}

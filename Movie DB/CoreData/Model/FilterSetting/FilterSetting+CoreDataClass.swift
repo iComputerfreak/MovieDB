@@ -7,6 +7,7 @@
 //
 //
 
+import Combine
 import CoreData
 import Foundation
 import SwiftUI
@@ -45,6 +46,16 @@ public class FilterSetting: NSManagedObject {
             self.tags.isEmpty
     }
     
+    private var parentNotificationSubscription: AnyCancellable?
+    
+    override public init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
+        // If this FilterSetting changes, we notify its associated media list, if there is any
+        self.parentNotificationSubscription = self.objectWillChange.sink {
+            self.mediaList?.objectWillChange.send()
+        }
+    }
+        
     convenience init(
         with context: NSManagedObjectContext,
         id: UUID = UUID(),
