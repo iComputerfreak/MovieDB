@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FilterInformationSection: View {
-    @ObservedObject var filterSetting: FilterSetting
+    @EnvironmentObject var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     private var mediaTypeProxy: Binding<String> {
@@ -116,6 +116,7 @@ struct FilterInformationSection: View {
 
 struct FilterInformationSection_Previews: PreviewProvider {
     static var previews: some View {
-        FilterInformationSection(filterSetting: FilterSetting(context: PersistenceController.createDisposableContext()))
+        FilterInformationSection()
+            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
     }
 }

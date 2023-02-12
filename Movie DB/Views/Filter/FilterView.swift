@@ -12,7 +12,7 @@ import SwiftUI
 struct FilterView: View {
     static let nilString = "any"
     
-    @ObservedObject var filterSetting: FilterSetting
+    @EnvironmentObject var filterSetting: FilterSetting
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -20,10 +20,11 @@ struct FilterView: View {
     var body: some View {
         NavigationStack {
             Form {
-                FilterUserDataSection(filterSetting: filterSetting)
-                FilterInformationSection(filterSetting: filterSetting)
-                FilterShowSpecificSection(filterSetting: filterSetting)
+                FilterUserDataSection()
+                FilterInformationSection()
+                FilterShowSpecificSection()
             }
+            .environmentObject(filterSetting)
             .navigationTitle(Strings.Library.Filter.navBarTitle)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -48,6 +49,7 @@ struct FilterView: View {
 
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterView(filterSetting: FilterSetting(context: PersistenceController.createDisposableContext()))
+        FilterView()
+            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
     }
 }

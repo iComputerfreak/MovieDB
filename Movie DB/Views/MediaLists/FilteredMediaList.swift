@@ -9,9 +9,9 @@
 import CoreData
 import SwiftUI
 
-struct FilteredMediaList<RowContent: View, ListType: MediaListProtocol>: View {
+struct FilteredMediaList<RowContent: View, ListType>: View where ListType: MediaListProtocol & ObservableObject {
     let rowContent: (Media) -> RowContent
-    let list: ListType
+    @ObservedObject var list: ListType
     
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder

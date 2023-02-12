@@ -131,6 +131,8 @@ public class Media: NSManagedObject {
     // MARK: - Functions
     
     private func loadThumbnailFromDisk() -> UIImage? {
+        // TODO: We are not on the moc's thread, but are accessing its properties (imagePath)
+        // When accessing the imagePath, we should be on the same thread as the managedObjectContext
         guard
             let imagePath,
             let fileURL = Utils.imageFileURL(path: imagePath),

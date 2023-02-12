@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iComputerfreak/JFUtils",
       "state" : {
-        "revision" : "6693027a31860b32cc118c45fc8beee8b26b8f62",
-        "version" : "1.8.0"
+        "revision" : "409b9991a4f6921e07bcbdaafd44a0463dccf645",
+        "version" : "1.8.2"
       }
     },
     {

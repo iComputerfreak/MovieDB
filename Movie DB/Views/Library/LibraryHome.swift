@@ -79,7 +79,8 @@ struct LibraryHome: View {
                     AddMediaView()
                         .environment(\.managedObjectContext, managedObjectContext)
                 case .filter:
-                    FilterView(filterSetting: filterSetting)
+                    FilterView()
+                        .environmentObject(filterSetting)
                         .environment(\.managedObjectContext, managedObjectContext)
                 }
             }
