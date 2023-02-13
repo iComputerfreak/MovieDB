@@ -59,4 +59,16 @@ extension PredicateMediaList {
             ]),
         ])
     )
+    
+    // MARK: New Seasons
+    static let newSeasons = PredicateMediaList(
+        name: Strings.Lists.defaultListNameNewSeasons,
+        iconName: "sparkles.tv",
+        predicate: NSCompoundPredicate(type: .and, subpredicates: [
+            NSPredicate(format: "type = %@", MediaType.show.rawValue),
+            NSPredicate(format: "showWatchState LIKE %@", "season,*"),
+            // TODO: Does not work! We need to store season and episode in separate attributes again
+            NSPredicate(format: "showWatchState ENDSWITH numberOfSeasons"),
+        ])
+    )
 }

@@ -142,6 +142,7 @@
 		AB97932129997D8700B20EC8 /* DynamicMediaListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */; };
 		AB979323299AB5E000B20EC8 /* WatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979322299AB5E000B20EC8 /* WatchState.swift */; };
 		AB979325299AD01700B20EC8 /* WatchStateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979324299AD01700B20EC8 /* WatchStateLabel.swift */; };
+		AB979327299AD85F00B20EC8 /* PredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979326299AD85F00B20EC8 /* PredicateTests.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		AB97F42328BAB38A00F1D8C3 /* ListRowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
@@ -407,6 +408,7 @@
 		AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListConfigurationView.swift; sourceTree = "<group>"; };
 		AB979322299AB5E000B20EC8 /* WatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchState.swift; sourceTree = "<group>"; };
 		AB979324299AD01700B20EC8 /* WatchStateLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchStateLabel.swift; sourceTree = "<group>"; };
+		AB979326299AD85F00B20EC8 /* PredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateTests.swift; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowLabel.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
@@ -572,9 +574,6 @@
 			children = (
 				AB097F5B284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift */,
 				AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */,
-				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
-				AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */,
-				AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */,
 			);
 			path = DynamicMediaList;
 			sourceTree = "<group>";
@@ -881,6 +880,7 @@
 				AB7501AC23A12A1500EC2542 /* JFUtilsTests.swift */,
 				AB6CE7412816BFC400FDF869 /* CoreDataTests.swift */,
 				AB9956132851280700C3D063 /* FilterTests.swift */,
+				AB979326299AD85F00B20EC8 /* PredicateTests.swift */,
 				ABC1E26A2816C3910039CA84 /* TestingPlayground.swift */,
 				AB6718D922C0312B00F429E4 /* Info.plist */,
 			);
@@ -890,6 +890,9 @@
 		AB6718E222C0314100F429E4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
+				AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */,
+				AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */,
 				ABD8648328183E2B001A1F7C /* Problem.swift */,
 				ABD86487281933BC001A1F7C /* MediaLibrary.swift */,
 				ABED3B03239324E000F4C327 /* TMDBData */,
@@ -1665,6 +1668,7 @@
 				AB6CE7422816BFC400FDF869 /* CoreDataTests.swift in Sources */,
 				ABC1E26B2816C3910039CA84 /* TestingPlayground.swift in Sources */,
 				AB7501AD23A12A1500EC2542 /* JFUtilsTests.swift in Sources */,
+				AB979327299AD85F00B20EC8 /* PredicateTests.swift in Sources */,
 				AB9956142851280700C3D063 /* FilterTests.swift in Sources */,
 				ABE70015239D7EA100DD672B /* APITests.swift in Sources */,
 				AB01097424D850A2001BEF39 /* CSVCoderTests.swift in Sources */,

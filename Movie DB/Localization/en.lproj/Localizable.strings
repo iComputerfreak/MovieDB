@@ -826,3 +826,5 @@
 
 "lists.alerts.newList.buttons.add" = "Add";
 "library.searchPlaceholder" = "Search my Library";
+"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Season %lld / %lld";
+"lists.defaultListName.newSeasons" = "New Seasons";

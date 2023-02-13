@@ -818,3 +818,5 @@
 "generic.dismissViewDone" = "Fertig";
 "lists.detail.configure" = "Konfigurieren...";
 "library.searchPlaceholder" = "Meine Mediathek durchsuchen";
+"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Staffel %lld / %lld";
+"lists.defaultListName.newSeasons" = "Neue Staffeln";

@@ -106,23 +106,34 @@ extension Strings {
             localized: "lists.defaultListName.problems",
             comment: "The name of the default 'problems' list"
         )
+        static let defaultListNameNewSeasons = String(
+            localized: "lists.defaultListName.newSeasons",
+            comment: "The name of the default 'New Seasons' list"
+        )
         static let watchlistRowLabelWatchlistStateWatched = String(
             localized: "lists.watchlist.watchState.watched",
-            comment: "The label of movies in watchlist rows that have been watched."
+            comment: "The label of movies in library rows that have been watched."
         )
         static let watchlistRowLabelWatchlistStatePartiallyWatched = String(
             localized: "lists.watchlist.watchState.partiallyWatched",
-            comment: "The label of movies in watchlist rows that have been watched partially."
+            comment: "The label of movies in library rows that have been watched partially."
         )
         static let watchlistRowLabelWatchlistStateNotWatched = String(
             localized: "lists.watchlist.watchState.notWatched",
-            comment: "The label of movies or shows in watchlist rows that have not been watched yet."
+            comment: "The label of movies or shows in library rows that have not been watched yet."
         )
         
         static func watchlistRowLabelWatchlistStateSeason(season: Int) -> String {
             String(
                 localized: "lists.watchlist.watchState.watchedSeason \(season)",
-                comment: "The label of shows in watchlist rows where up to a specific season has been watched. The first argument is the season."
+                comment: "The label of shows in library rows where up to a specific season has been watched. The first argument is the season."
+            )
+        }
+        
+        static func watchlistRowLabelWatchlistStateSeasonOfMax(season: Int, maxSeason: Int) -> String {
+            String(
+                localized: "lists.watchlist.watchState.watchedSeasonOfMax \(season) \(maxSeason)",
+                comment: "The label of shows in library rows where up to a specific season has been watched, but there are further seasons available. The first argument is the season up to which has been watched. The second argument is the number of seasons available."
             )
         }
         
