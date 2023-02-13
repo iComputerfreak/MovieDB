@@ -168,22 +168,6 @@ struct MediaLibrary {
     
     /// Performs a cleanup of the library, deleting all entities with missing relations (e.g. unused ``Genre``s or ``ProductionCompany``s
     func cleanup() throws {
-        // MARK: Migrate season watch states to new format
-        print("[Cleanup] Migrating show watch states with episode == 0")
-        let fetch: NSFetchRequest<Show> = Show.fetchRequest()
-        fetch.predicate = NSPredicate(format: "%K BEGINSWITH %@", "showWatchState", "episode")
-        let shows = (try? context.fetch(fetch)) ?? []
-        for show in shows {
-            if case let .episode(season: season, episode: episode) = show.watched {
-                assert(season > 0)
-                // Migrate .episode(season: x, episode: 0) to .season(x)
-                if episode == 0 {
-                    show.watched = .season(season)
-                }
-            }
-        }
-        PersistenceController.saveContext(context)
-        
         // MARK: Delete entities that are not used anymore
         print("[Cleanup] Deleting unused entities...")
         // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview

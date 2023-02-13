@@ -247,24 +247,19 @@ extension FilterSetting {
                     watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
                 ),
                 // Show
-                // watched == true && showWatchState != nil && showWatchState != 'notWatched'
+                // watched == true && $showsWatchedAny
                 NSPredicate(
-                    format: "%K == %@ AND %@ == TRUE AND %K != nil AND %K != %@",
+                    format: "%K == %@ AND %@ == TRUE AND $showsWatchedAny",
                     "type", // ==
                     MediaType.show.rawValue,
-                    watched as NSNumber, // == TRUE
-                    "showWatchState", // != nil
-                    "showWatchState", // !=
-                    ShowWatchState.notWatched.rawValue
+                    watched as NSNumber // == TRUE
                 ),
-                // watched == true && showWatchState == 'notWatched'
+                // watched == false && $showsNotWatched
                 NSPredicate(
-                    format: "%K == %@ AND %@ == FALSE AND %K = %@",
+                    format: "%K == %@ AND %@ == FALSE AND $showsNotWatched",
                     "type", // ==
                     MediaType.show.rawValue,
-                    watched as NSNumber, // == FALSE
-                    "showWatchState",
-                    ShowWatchState.notWatched.rawValue
+                    watched as NSNumber // == FALSE
                 ),
             ]))
         }

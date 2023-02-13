@@ -35,11 +35,10 @@ extension PredicateMediaList {
                     MediaType.movie.rawValue,
                     MovieWatchState.notWatched.rawValue
                 ),
-                // We include all shows since the default value for lastSeasonWatched is already "No"
+                // We don't include shows that are marked as explicitly 'not watched'
                 NSPredicate(
-                    format: "type = %@ AND (showWatchState = nil OR showWatchState != %@)",
-                    MediaType.show.rawValue,
-                    ShowWatchState.notWatched.rawValue
+                    format: "type = %@ AND $showsNotWatched",
+                    MediaType.show.rawValue
                 ),
             ]),
             NSCompoundPredicate(orPredicateWithSubpredicates: [
@@ -53,7 +52,7 @@ extension PredicateMediaList {
                 NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
                 // LastWatched missing (Show)
                 NSPredicate(
-                    format: "type = %@ AND showWatchState = nil",
+                    format: "type = %@ AND $showsWatchedUnknown",
                     MediaType.show.rawValue
                 ),
             ]),
@@ -61,14 +60,14 @@ extension PredicateMediaList {
     )
     
     // MARK: New Seasons
-    static let newSeasons = PredicateMediaList(
-        name: Strings.Lists.defaultListNameNewSeasons,
-        iconName: "sparkles.tv",
-        predicate: NSCompoundPredicate(type: .and, subpredicates: [
-            NSPredicate(format: "type = %@", MediaType.show.rawValue),
-            NSPredicate(format: "showWatchState LIKE %@", "season,*"),
-            // TODO: Does not work! We need to store season and episode in separate attributes again
-            NSPredicate(format: "showWatchState ENDSWITH numberOfSeasons"),
-        ])
-    )
+//    static let newSeasons = PredicateMediaList(
+//        name: Strings.Lists.defaultListNameNewSeasons,
+//        iconName: "sparkles.tv",
+//        predicate: NSCompoundPredicate(type: .and, subpredicates: [
+//            NSPredicate(format: "type = %@", MediaType.show.rawValue),
+//            NSPredicate(format: "showWatchState LIKE %@", "season,*"),
+//            // TODO: Does not work! We need to store season and episode in separate attributes again
+//            NSPredicate(format: "showWatchState ENDSWITH numberOfSeasons"),
+//        ])
+//    )
 }

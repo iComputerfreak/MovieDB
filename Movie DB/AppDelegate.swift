@@ -64,9 +64,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: - Delete all Cast Members from CoreData. They are not used anymore
         deleteCastMembers()
         
-        // MARK: Migrations
-        MigrationManager.run()
-        
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()

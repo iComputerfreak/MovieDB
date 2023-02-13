@@ -13,8 +13,16 @@ import Foundation
 public extension Show {
     /// Whether the user has watched the show
     var watched: ShowWatchState? {
-        get { getOptionalEnum(forKey: "showWatchState") }
-        set { setOptionalEnum(newValue, forKey: "showWatchState") }
+        get {
+            guard let lastSeasonWatched else {
+                return nil
+            }
+            return .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
+        }
+        set {
+            lastSeasonWatched = newValue?.season
+            lastEpisodeWatched = newValue?.episode
+        }
     }
 
     /// The type of the show (e.g. Scripted)
@@ -23,15 +31,14 @@ public extension Show {
         set { setOptionalEnum(newValue, forKey: "showType") }
     }
 
-    // TODO: Remove when migrated on all devices (iOS 16)
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
-    var lastSeasonWatched2: Int? {
+    var lastSeasonWatched: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }
         set { setOptionalInt(newValue, forKey: "lastSeasonWatched") }
     }
 
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
-    var lastEpisodeWatched2: Int? {
+    var lastEpisodeWatched: Int? {
         get { getOptionalInt(forKey: "lastEpisodeWatched") }
         set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
     }
@@ -72,24 +79,6 @@ public extension Show {
     @NSManaged var createdBy: [String]
     @NSManaged var nextEpisodeToAir: Episode?
     @NSManaged var lastEpisodeToAir: Episode?
-    
-    var lastWatched2: EpisodeNumber? {
-        get {
-            guard let lastSeason = lastSeasonWatched2 else {
-                return nil
-            }
-            return EpisodeNumber(season: lastSeason, episode: lastEpisodeWatched2)
-        }
-        set {
-            guard let episodeNumber = newValue else {
-                lastSeasonWatched2 = nil
-                lastEpisodeWatched2 = nil
-                return
-            }
-            lastSeasonWatched2 = episodeNumber.season
-            lastEpisodeWatched2 = episodeNumber.episode
-        }
-    }
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Show> {

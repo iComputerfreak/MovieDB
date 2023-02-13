@@ -32,6 +32,8 @@ struct PersistenceController {
             true as NSNumber,
             forKey: "NSPersistentStoreRemoteChangeNotificationOptionKey"
         )
+        container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
+        container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = false
         container.loadPersistentStores { _, error in
             print("Finished loading persistent stores.")
             if let error = error as NSError? {
