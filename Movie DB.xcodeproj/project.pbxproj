@@ -141,6 +141,7 @@
 		AB9190E4297E054900324520 /* WatchedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9190E3297E054900324520 /* WatchedLabel.swift */; };
 		AB97932129997D8700B20EC8 /* DynamicMediaListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */; };
 		AB979323299AB5E000B20EC8 /* WatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979322299AB5E000B20EC8 /* WatchState.swift */; };
+		AB979325299AD01700B20EC8 /* WatchStateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979324299AD01700B20EC8 /* WatchStateLabel.swift */; };
 		AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97D2AF238C194900418E36 /* AlertHandler.swift */; };
 		AB97F42328BAB38A00F1D8C3 /* ListRowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */; };
 		AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98EA35264C23E20048B8CC /* SortingOrder.swift */; };
@@ -405,6 +406,7 @@
 		AB9190E3297E054900324520 /* WatchedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedLabel.swift; sourceTree = "<group>"; };
 		AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListConfigurationView.swift; sourceTree = "<group>"; };
 		AB979322299AB5E000B20EC8 /* WatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchState.swift; sourceTree = "<group>"; };
+		AB979324299AD01700B20EC8 /* WatchStateLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchStateLabel.swift; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowLabel.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
@@ -748,6 +750,7 @@
 				ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */,
 				AB9190E3297E054900324520 /* WatchedLabel.swift */,
 				AB5E298228B998F300C3ACB8 /* LibraryRow.swift */,
+				AB979324299AD01700B20EC8 /* WatchStateLabel.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1474,6 +1477,7 @@
 				ABCE335B286DA8B000FB481A /* MediaMenu+AddToSection.swift in Sources */,
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
 				AB624D2B296CB63000A0CF27 /* ListConfigurationButton.swift in Sources */,
+				AB979325299AD01700B20EC8 /* WatchStateLabel.swift in Sources */,
 				AB2D07EF267F83AA005D6353 /* StoreManager.swift in Sources */,
 				AB711FB8281D8EA6003ED045 /* MovieData.swift in Sources */,
 				AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */,

@@ -49,61 +49,10 @@ struct LibraryRow: View {
                     }
                     .font(.subheadline)
                     
-                    Group {
-                        if let movie = mediaObject as? Movie, movie.watched != nil {
-                            switch movie.watched! {
-                            case .watched:
-                                self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateWatched)
-                            case .partially:
-                                self.partiallyWatchedLabel(
-                                    Strings.Lists.watchlistRowLabelWatchlistStatePartiallyWatched
-                                )
-                            case .notWatched:
-                                self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
-                            }
-                        } else if let show = mediaObject as? Show, show.watched != nil {
-                            switch show.watched! {
-                            case let .season(s):
-                                self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeason(season: s))
-                            case let .episode(season: s, episode: e):
-                                self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
-                                    season: s,
-                                    episode: e
-                                ))
-                            case .notWatched:
-                                self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
-                            }
-                        }
-                    }
-                    .font(.subheadline)
-                    .bold()
+                    WatchStateLabel()
                 }
             }
         }
-    }
-    
-    func watchedLabel(_ text: String) -> WatchedLabel {
-        WatchedLabel(
-            labelText: text,
-            systemImage: "checkmark.circle.fill",
-            color: .green
-        )
-    }
-    
-    func partiallyWatchedLabel(_ text: String) -> WatchedLabel {
-        WatchedLabel(
-            labelText: text,
-            systemImage: "circle.lefthalf.fill",
-            color: .yellow
-        )
-    }
-    
-    func notWatchedLabel(_ text: String) -> WatchedLabel {
-        WatchedLabel(
-            labelText: text,
-            systemImage: "circle",
-            color: .red
-        )
     }
 }
 

@@ -107,7 +107,7 @@ struct WatchedShowView: View {
             self.maxSeason = maxSeason
         }
         
-        var validSeason: Bool {
+        var seasonIsValid: Bool {
             guard let maxSeason else {
                 return true
             }
@@ -115,7 +115,7 @@ struct WatchedShowView: View {
         }
         
         var warningFooter: Text {
-            if validSeason {
+            if seasonIsValid {
                 return Text("")
             } else {
                 let image = Image(systemName: "exclamationmark.triangle.fill")
@@ -134,7 +134,7 @@ struct WatchedShowView: View {
                     Stepper(value: seasonWrapper, in: 0...1000) {
                         if self.season > 0 {
                             Text(Strings.Detail.watchedShowLabelSeason(self.season))
-                                .foregroundColor(validSeason ? .primary : .yellow)
+                                .foregroundColor(seasonIsValid ? .primary : .yellow)
                         } else {
                             Text(Strings.Detail.watchedShowEditingLabelNotWatched)
                         }
