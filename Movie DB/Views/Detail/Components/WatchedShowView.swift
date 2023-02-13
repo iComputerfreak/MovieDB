@@ -11,6 +11,7 @@ import SwiftUI
 
 struct WatchedShowView: View {
     @Binding var watched: ShowWatchState?
+    let maxSeason: Int?
     @Environment(\.isEditing) private var isEditing
     
     private var episodeString: String {
@@ -32,7 +33,7 @@ struct WatchedShowView: View {
     var body: some View {
         if isEditing {
             NavigationLink {
-                EditView(watched: $watched)
+                EditView(watched: $watched, maxSeason: maxSeason)
             } label: {
                 Text(episodeString)
                     .headline(Strings.Detail.watchedHeadline)
@@ -45,6 +46,7 @@ struct WatchedShowView: View {
     
     struct EditView: View {
         @Binding var watched: ShowWatchState?
+        let maxSeason: Int?
         
         @State private var season: Int
         private var seasonWrapper: Binding<Int> {
@@ -97,29 +99,48 @@ struct WatchedShowView: View {
             }
         }
         
-        init(watched: Binding<ShowWatchState?>) {
+        init(watched: Binding<ShowWatchState?>, maxSeason: Int? = nil) {
             _watched = watched
             _season = State(wrappedValue: watched.wrappedValue?.season ?? 0)
             _episode = State(wrappedValue: watched.wrappedValue?.episode ?? 0)
             _unknown = State(wrappedValue: watched.wrappedValue == nil)
+            self.maxSeason = maxSeason
+        }
+        
+        var validSeason: Bool {
+            guard let maxSeason else {
+                return true
+            }
+            return season <= maxSeason
+        }
+        
+        var warningFooter: Text {
+            if validSeason {
+                return Text("")
+            } else {
+                let image = Image(systemName: "exclamationmark.triangle.fill")
+                return Text("detail.showWatchState.seasonWarning \(image) \(maxSeason ?? 0)")
+            }
         }
         
         var body: some View {
             Form {
                 Section(
-                    header: Text(Strings.Detail.watchedShowEditingHeader)
+                    header: Text(Strings.Detail.watchedShowEditingHeader),
+                    footer: warningFooter
                 ) {
                     Toggle(Strings.Detail.watchedShowEditingLabelUnknown, isOn: unknownWrapper)
-                    // FUTURE: Clamp to the actual amount of seasons/episodes?
-                    // May not be a good idea if the TMDB data is outdated
+                    // Seasons
                     Stepper(value: seasonWrapper, in: 0...1000) {
                         if self.season > 0 {
                             Text(Strings.Detail.watchedShowLabelSeason(self.season))
+                                .foregroundColor(validSeason ? .primary : .yellow)
                         } else {
                             Text(Strings.Detail.watchedShowEditingLabelNotWatched)
                         }
                     }
                     .disabled(unknown)
+                    // Episodes
                     if season > 0 {
                         Stepper(value: episodeWrapper, in: 0...1000) {
                             if self.episode > 0 {
@@ -139,9 +160,10 @@ struct WatchedShowView: View {
 struct WatchedShowView_Previews: PreviewProvider {
     static var previews: some View {
         WatchedShowView(
-            watched: .constant(.episode(season: 2, episode: 5))
+            watched: .constant(.episode(season: 2, episode: 5)),
+            maxSeason: 1
         )
-        WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)))
+        WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
             .previewDisplayName("Edit View")
     }
 }

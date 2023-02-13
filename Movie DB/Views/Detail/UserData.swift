@@ -70,7 +70,8 @@ struct UserData: View {
                         watched: .init(
                             get: { (mediaObject as! Show).watched },
                             set: { (mediaObject as! Show).watched = $0 }
-                        )
+                        ),
+                        maxSeason: (mediaObject as! Show).numberOfSeasons
                     )
                     // swiftlint:enable force_cast
                 }
