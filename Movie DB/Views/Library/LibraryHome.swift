@@ -55,7 +55,7 @@ struct LibraryHome: View {
                 sortingDirection: sortingDirection,
                 selectedMediaObjects: $selectedMediaObjects
             )
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             .background(.thinMaterial)
             .onAppear {
                 if JFConfig.shared.libraryWasReset {

@@ -825,3 +825,4 @@
 "lists.detail.configure" = "Configure...";
 
 "lists.alerts.newList.buttons.add" = "Add";
+"library.searchPlaceholder" = "Search my Library";

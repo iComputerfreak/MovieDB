@@ -56,6 +56,10 @@ extension Strings {
             localized: "library.detailPlaceholder",
             comment: "The placeholder text displayed in the detail column of the library view when no media is selected"
         )
+        static let searchPlaceholder = String(
+            localized: "library.searchPlaceholder",
+            comment: "The placeholder text displayed in the search field in the library view"
+        )
         
         enum Alert {
             static let updateErrorTitle = String(

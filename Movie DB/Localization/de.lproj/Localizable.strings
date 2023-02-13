@@ -817,3 +817,4 @@
 "generic.editButtonEdit" = "Bearbeiten";
 "generic.dismissViewDone" = "Fertig";
 "lists.detail.configure" = "Konfigurieren...";
+"library.searchPlaceholder" = "Meine Mediathek durchsuchen";
