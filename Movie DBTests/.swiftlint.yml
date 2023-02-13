@@ -8,3 +8,4 @@ disabled_rules:
   - multiline_function_chains
   - inclusive_language
   - function_parameter_count
+  - large_tuple

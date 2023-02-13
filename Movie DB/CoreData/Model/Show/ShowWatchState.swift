@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ShowWatchState: RawRepresentable, Equatable {
+public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     case season(Int)
     case episode(season: Int, episode: Int)
     case notWatched

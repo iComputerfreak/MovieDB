@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum MovieWatchState: String, CaseIterable {
+public enum MovieWatchState: String, WatchState, CaseIterable {
     case watched
     case partially
     case notWatched

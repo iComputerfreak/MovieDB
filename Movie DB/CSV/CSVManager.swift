@@ -9,6 +9,7 @@
 import CoreData
 import CSVImporter
 import Foundation
+import RegexBuilder
 
 // swiftlint:disable type_body_length
 /// Represents a static helper class to import and export media objects to and from CSV
@@ -257,6 +258,15 @@ struct CSVManager {
             if stringValue.contains(separator) {
                 stringValue = "\"\(stringValue)\""
             }
+            
+            // Replace newlines and "\n"'s with spaces to prevent messing up the CSV file
+            let regex = Regex {
+                ChoiceOf {
+                    OneOrMore(.newlineSequence)
+                    OneOrMore("\\n") // "\n" string, not newline char
+                }
+            }
+            stringValue.replace(regex) { _ in " " }
             
             // Save the value to the values dict
             values[key] = stringValue

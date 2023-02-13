@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import CSVImporter
 import JFUtils
 @testable import Movie_DB
 import XCTest
@@ -70,16 +71,26 @@ class CSVCoderTests: XCTestCase {
         
     func testEncodeDecode() async throws {
         // MARK: Encode
-        let sampleData: [(Int, MediaType)] = [
-            (603, .movie), // Matrix
-            (550, .movie), // Fight Club
-            (1399, .show), // Game of Thrones
-            (46952, .show), // Blacklist
+        // TODO: Add Tags
+        let sampleData: [(Int, MediaType, StarRating, WatchState, Bool?, String)] = [
+            (603, .movie, .threeStars, MovieWatchState.watched, false, "A classic."), // Matrix
+            (550, .movie, .noRating, MovieWatchState.notWatched, nil, "Not watched yet."), // Fight Club
+            (1399, .show, .threeAndAHalfStars, ShowWatchState.season(8), false, "Not a good ending.\nLine2\n\nLine4"), // Game of Thrones
+            (46952, .show, .fiveStars, ShowWatchState.season(7), true, "A great show!,./';\""), // Blacklist
         ]
         var samples: [Media] = []
         let api = TMDBAPI.shared
-        for (tmdbID, type) in sampleData {
-            samples.append(try await api.media(for: tmdbID, type: type, context: testingUtils.context))
+        for (tmdbID, type, rating, watchState, watchAgain, notes) in sampleData {
+            let media = try await api.media(for: tmdbID, type: type, context: testingUtils.context)
+            media.personalRating = rating
+            if let watchState = watchState as? MovieWatchState, let movie = media as? Movie {
+                movie.watched = watchState
+            } else if let watchState = watchState as? ShowWatchState, let show = media as? Show {
+                show.watched = watchState
+            }
+            media.watchAgain = watchAgain
+            media.notes = notes
+            samples.append(media)
         }
         samples.sort(by: \.title)
         let csv = CSVManager.createCSV(from: samples)
@@ -105,7 +116,7 @@ class CSVCoderTests: XCTestCase {
                     XCTAssertEqual(media.personalRating, sample.personalRating)
                     XCTAssertEqual(media.watchAgain, sample.watchAgain)
                     XCTAssertEqual(media.tags.map(\.name).sorted(), sample.tags.map(\.name).sorted())
-                    XCTAssertEqual(media.notes, sample.notes)
+                    XCTAssertEqual(media.notes, sample.notes.replacing(/\n+/, with: { _ in " " }))
                     XCTAssertEqual(media.originalTitle, sample.originalTitle)
                     XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
                     XCTAssertEqual(media.missingInformation(), sample.missingInformation())
@@ -212,17 +223,19 @@ class CSVCoderTests: XCTestCase {
     }
     
     func testEncodeMediaWithIllegalCharacters() throws {
-        let media = testingUtils.matrixMovie
+        let media1 = testingUtils.matrixMovie
         let newName = "Illegal\(CSVManager.separator) Tag"
         let tagWithSeparator = Tag(name: newName, context: testingUtils.context)
-        media.tags.insert(tagWithSeparator)
-        media.notes = "This note contains:\(CSVManager.lineSeparator)\(CSVManager.separator)\(CSVManager.arraySeparator)"
-        let csv = CSVManager.createCSV(from: [media])
+        media1.tags.insert(tagWithSeparator)
+        media1.notes = "This note contains:\(CSVManager.separator)\(CSVManager.arraySeparator)"
+        let media2 = testingUtils.fightClubMovie
+        media2.notes = "This note contains:\nnewlines"
+        let csv = CSVManager.createCSV(from: [media1, media2])
         let lines = csv.components(separatedBy: CSVManager.lineSeparator)
         // Additional line for the header and the line break in the note
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
-        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:")
-        XCTAssertEqual(lines[2], ";,\";watched;;\(media.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media.creationDate));\(media.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:;,\";watched;;\(media1.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media1.creationDate));\(media1.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[2], "550;movie;0;;Dark,Violent;This note contains: newlines;notWatched;;\(media2.id?.uuidString ?? "");Mischief. Mayhem. Soap.;Fight Club;Fight Club;Drama;A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"\"fight clubs\"\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.;Released;1999-10-15;139;63000000;100853753;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media2.creationDate));\(media2.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
     }
 }
