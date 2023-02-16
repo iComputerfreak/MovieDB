@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents the watch state of a show
 public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     /// A predicate that filters for all shows that have not been watched yet
     static let showsNotWatchedPredicate = NSPredicate(
@@ -63,6 +64,21 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
         return nil
     }
     
+    /// Creates a new watch state from a given season and episode
+    ///
+    /// The watch state is constructed by the given rules:
+    /// 1. If the season is `<= 0`, the watch state will be constructed as `.notWatched`.
+    /// 2. If the season is `> 0` and the episode is `nil` or `<= 0`, the watch state will be constructed as `.season()`,
+    /// describing a watch state where the user has watched up to a specific season and completed watching that season
+    /// 3. If the season and episode both are `> 0`, the watch state is constructed as `.episode()`,
+    /// describing a watch state where the user has watched up to a specific episode of a specific season
+    ///
+    /// Instances where the watch state is unknown are to be expressed by a `nil` watch state property.
+    ///
+    /// - Parameters:
+    ///   - season: The season up to which the user has watched, or 0 if the user has not watched the show yet.
+    ///   - episode: The episode up to which the user has watched (in the given season), or `nil`,
+    ///   if the user watched the full season or has not watched the show yet.
     init(season: Int, episode: Int?) {
         guard season > 0 else {
             self = .notWatched

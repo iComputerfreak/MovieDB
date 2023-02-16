@@ -39,11 +39,13 @@ struct CSVManager {
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
     // swiftlint:disable multiline_literal_brackets
     /// The CSV keys that are optional when importing media
-    static let optionalImportKeys: [CSVKey] = [.personalRating, .watchAgain, .tags, .notes, .movieWatched, .showWatched,
-                                               .creationDate, .modificationDate]
+    static let optionalImportKeys: [CSVKey] = [
+        .personalRating, .watchAgain, .tags, .notes, .movieWatched, .lastSeasonWatched, .lastEpisodeWatched,
+        .creationDate, .modificationDate
+    ]
     // swiftlint:enable multiline_literal_brackets
-    /// The properties/CSV keys that will be included in the export CSV data
-    static let exportKeys: [CSVKey] = CSVKey.allCases
+    /// The properties/CSV keys that will be included in the export CSV data (do not include the legacy `showWatched` key)
+    static let exportKeys: [CSVKey] = CSVKey.allCases.filter { $0 != .showWatched }
     
     // MARK: Export KeyPaths
     // swiftlint:disable force_cast
@@ -76,7 +78,8 @@ struct CSVManager {
         .isAdult: (\Movie.isAdult, nil),
     ]
     static let showExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Show>, Converter?)] = [
-        .showWatched: (\Show.watched, { ($0 as! ShowWatchState).rawValue }),
+        .lastSeasonWatched: (\Show.watched, { ($0 as! ShowWatchState).season?.description ?? "" }),
+        .lastEpisodeWatched: (\Show.watched, { ($0 as! ShowWatchState).episode?.description ?? "" }),
         
         .firstAirDate: (\Show.firstAirDate, { dateFormatter.string(from: $0 as! Date) }),
         .lastAirDate: (\Show.lastAirDate, { dateFormatter.string(from: $0 as! Date) }),
@@ -162,10 +165,21 @@ struct CSVManager {
                 movie.watched = watched
             }
         }
+        // Legacy show watch state import
         if let rawWatched = values[.showWatched], let watched = ShowWatchState(rawValue: rawWatched) {
             assert(mediaType == .show)
             if let show = media as? Show {
                 show.watched = watched
+            }
+        }
+        // New show watch state import
+        if let rawLastSeasonWatched = values[.lastSeasonWatched], let lastSeasonWatched = Int(rawLastSeasonWatched) {
+            let rawLastEpisodeWatched = values[.lastEpisodeWatched]
+            let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
+            
+            assert(mediaType == .show)
+            if let show = media as? Show {
+                show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
             }
         }
         if
@@ -303,6 +317,8 @@ struct CSVManager {
         case movieWatched = "movie_watched"
         // Show exclusive
         case showWatched = "show_watched"
+        case lastSeasonWatched = "last_season_watched"
+        case lastEpisodeWatched = "last_episode_watched"
         
         // Export only
         case id

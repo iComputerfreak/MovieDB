@@ -11,7 +11,7 @@ import CoreData
 import Foundation
 
 public extension Show {
-    /// Whether the user has watched the show
+    /// The watch state of the show (unknown, not watched or watched up to a spefic season or episode)
     var watched: ShowWatchState? {
         get {
             guard let lastSeasonWatched else {
@@ -32,13 +32,13 @@ public extension Show {
     }
 
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
-    var lastSeasonWatched: Int? {
+    private var lastSeasonWatched: Int? {
         get { getOptionalInt(forKey: "lastSeasonWatched") }
         set { setOptionalInt(newValue, forKey: "lastSeasonWatched") }
     }
 
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
-    var lastEpisodeWatched: Int? {
+    private var lastEpisodeWatched: Int? {
         get { getOptionalInt(forKey: "lastEpisodeWatched") }
         set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
     }
