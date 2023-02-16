@@ -56,6 +56,9 @@ struct LibraryHome: View {
                 selectedMediaObjects: $selectedMediaObjects
             )
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
+            // Disable autocorrection in the search field as a workaround to search text changing after transitioning
+            // to a detail and invalidating the transition
+            .autocorrectionDisabled()
             .background(.thinMaterial)
             .onAppear {
                 if JFConfig.shared.libraryWasReset {
