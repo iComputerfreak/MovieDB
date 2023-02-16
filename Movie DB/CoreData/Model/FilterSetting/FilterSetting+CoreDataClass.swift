@@ -237,7 +237,7 @@ extension FilterSetting {
         }
         // We need to cast Bool to NSNumber for the predicate to work
         if let watched {
-            predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
+            predicates.append(NSCompoundPredicate(type: .or, subpredicates: [
                 // Movie
                 NSPredicate(
                     format: "%K == %@ AND %K == %@",
@@ -247,20 +247,26 @@ extension FilterSetting {
                     watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
                 ),
                 // Show
-                // watched == true && $showsWatchedAny
-                NSPredicate(
-                    format: "%K == %@ AND %@ == TRUE AND $showsWatchedAny",
-                    "type", // ==
-                    MediaType.show.rawValue,
-                    watched as NSNumber // == TRUE
-                ),
-                // watched == false && $showsNotWatched
-                NSPredicate(
-                    format: "%K == %@ AND %@ == FALSE AND $showsNotWatched",
-                    "type", // ==
-                    MediaType.show.rawValue,
-                    watched as NSNumber // == FALSE
-                ),
+                // watched == true && showsWatchedAny
+                NSCompoundPredicate(type: .or, subpredicates: [
+                    NSPredicate(
+                        format: "%K == %@ AND %@ == TRUE",
+                        "type", // ==
+                        MediaType.show.rawValue,
+                        watched as NSNumber // == TRUE
+                    ),
+                    ShowWatchState.showsWatchedAnyPredicate,
+                ]),
+                // watched == false && showsNotWatched
+                NSCompoundPredicate(type: .and, subpredicates: [
+                    NSPredicate(
+                        format: "%K == %@ AND %@ == FALSE",
+                        "type", // ==
+                        MediaType.show.rawValue,
+                        watched as NSNumber // == FALSE
+                    ),
+                    ShowWatchState.showsNotWatchedPredicate,
+                ]),
             ]))
         }
         if let watchAgain = watchAgain as NSNumber? {

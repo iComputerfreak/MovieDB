@@ -411,6 +411,7 @@
 		AB979326299AD85F00B20EC8 /* PredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateTests.swift; sourceTree = "<group>"; };
 		AB97932C299AE5D300B20EC8 /* ShowToShowV6V7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowToShowV6V7.swift; sourceTree = "<group>"; };
 		AB97932E299AF55E00B20EC8 /* MappingModelV6V7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV6V7.xcmappingmodel; sourceTree = "<group>"; };
+		AB979330299DA97A00B20EC8 /* Movie DB v8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v8.xcdatamodel"; sourceTree = "<group>"; };
 		AB97D2AF238C194900418E36 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
 		AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowLabel.swift; sourceTree = "<group>"; };
 		AB98EA35264C23E20048B8CC /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
@@ -2185,6 +2186,7 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB979330299DA97A00B20EC8 /* Movie DB v8.xcdatamodel */,
 				AB8B88EF286DDBFC00691C11 /* Movie DB v7.xcdatamodel */,
 				AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */,
 				AB6D9CA6283D513F00AF655C /* Movie DB v5.xcdatamodel */,

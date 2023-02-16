@@ -36,10 +36,13 @@ extension PredicateMediaList {
                     MovieWatchState.notWatched.rawValue
                 ),
                 // We don't include shows that are marked as explicitly 'not watched'
-                NSPredicate(
-                    format: "type = %@ AND $showsNotWatched",
-                    MediaType.show.rawValue
-                ),
+                NSCompoundPredicate(type: .and, subpredicates: [
+                    NSPredicate(
+                        format: "type = %@",
+                        MediaType.show.rawValue
+                    ),
+                    ShowWatchState.showsNotWatchedPredicate,
+                ]),
             ]),
             NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Personal Rating missing
@@ -51,10 +54,13 @@ extension PredicateMediaList {
                 // Watched missing (Movie)
                 NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
                 // LastWatched missing (Show)
-                NSPredicate(
-                    format: "type = %@ AND $showsWatchedUnknown",
-                    MediaType.show.rawValue
-                ),
+                NSCompoundPredicate(type: .and, subpredicates: [
+                    NSPredicate(
+                        format: "type = %@",
+                        MediaType.show.rawValue
+                    ),
+                    ShowWatchState.showsWatchedUnknown,
+                ]),
             ]),
         ])
     )

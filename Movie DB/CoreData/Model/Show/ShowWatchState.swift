@@ -9,6 +9,27 @@
 import Foundation
 
 public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
+    /// A predicate that filters for all shows that have not been watched yet
+    static let showsNotWatchedPredicate = NSPredicate(
+        format: "lastSeasonWatched == 0 AND (lastEpisodeWatched == nil OR lastEpisodeWatched == 0)"
+    )
+    /// A predicate that filters for all shows that have been watched for at least one episode
+    static let showsWatchedAnyPredicate = NSPredicate(
+        format: "lastSeasonWatched > 0"
+    )
+    /// A predicate that filters for all shows that have been watched up to a specific episode (not counting shows that have been watched up to a specific season)
+    static let showsWatchedEpisode = NSPredicate(
+        format: "lastSeasonWatched > 0 AND lastEpisodeWatched > 0"
+    )
+    /// A predicate that filters for all shows that have been watched up to a specific season (and that season has been finished, i.e. all episodes of that season watched)
+    static let showsWatchedSeason = NSPredicate(
+        format: "lastSeasonWatched > 0 AND (lastEpisodeWatched == nil OR lastEpisodeWatched == 0)"
+    )
+    /// A predicate that filters for all shows that have an unknown watch state
+    static let showsWatchedUnknown = NSPredicate(
+        format: "lastSeasonWatched == nil"
+    )
+    
     case season(Int)
     case episode(season: Int, episode: Int)
     case notWatched
