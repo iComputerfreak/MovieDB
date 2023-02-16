@@ -6,11 +6,13 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import JFUtils
 import SwiftUI
 
 struct CapsuleLabelView: View {
     let text: String
     let color: Color
+    @Environment(\.colorScheme) private var colorScheme
     
     init(text: String, color: Color? = nil) {
         self.text = text
@@ -25,7 +27,8 @@ struct CapsuleLabelView: View {
             .padding(.vertical, 1.5)
             .background(
                 Capsule(style: .continuous)
-                    .fill(.tertiary)
+                    // Use a gray background, depending on the scheme
+                    .fill(colorScheme == .dark ? Color(white: 0.2) : Color(white: 0.9))
             )
             .foregroundColor(color)
     }
@@ -34,5 +37,6 @@ struct CapsuleLabelView: View {
 struct SmallLabelView_Previews: PreviewProvider {
     static var previews: some View {
         CapsuleLabelView(text: "16", color: Color("AgeSixteen"))
+            .previewLayout(.fixed(width: 100, height: 80))
     }
 }
