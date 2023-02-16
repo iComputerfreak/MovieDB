@@ -27,8 +27,10 @@ extension PredicateMediaList {
     static let problems = PredicateMediaList(
         name: Strings.Lists.defaultListNameProblems,
         iconName: "exclamationmark.triangle.fill",
-        predicate: NSCompoundPredicate(andPredicateWithSubpredicates: [
-            NSCompoundPredicate(orPredicateWithSubpredicates: [
+        // This predicate looks for movies or shows that are incomplete / have problems
+        predicate: NSCompoundPredicate(type: .and, subpredicates: [
+            // To be included, the movie/show must not be marked as "not watched"
+            NSCompoundPredicate(type: .or, subpredicates: [
                 // We don't include movies that are marked as 'not watched'
                 NSPredicate(
                     format: "type = %@ AND (watchedState = nil OR watchedState != %@)",
@@ -37,14 +39,12 @@ extension PredicateMediaList {
                 ),
                 // We don't include shows that are marked as explicitly 'not watched'
                 NSCompoundPredicate(type: .and, subpredicates: [
-                    NSPredicate(
-                        format: "type = %@",
-                        MediaType.show.rawValue
-                    ),
+                    NSPredicate(format: "type = %@", MediaType.show.rawValue),
                     ShowWatchState.showsNotWatchedPredicate,
                 ]),
             ]),
-            NSCompoundPredicate(orPredicateWithSubpredicates: [
+            // If any of these applies, information is missing
+            NSCompoundPredicate(type: .or, subpredicates: [
                 // Personal Rating missing
                 NSPredicate(format: "personalRating = nil"),
                 // WatchAgain missing
@@ -53,7 +53,7 @@ extension PredicateMediaList {
                 NSPredicate(format: "tags.@count = 0"),
                 // Watched missing (Movie)
                 NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
-                // LastWatched missing (Show)
+                // Last watched missing (Show)
                 NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(
                         format: "type = %@",
