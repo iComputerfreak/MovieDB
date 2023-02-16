@@ -40,7 +40,6 @@ struct TitleView: View {
                         Text(year.description)
                             .foregroundColor(.gray)
                             .font(.headline)
-                            .padding(4)
                     }
                     if let rating = media.parentalRating {
                         rating.symbol

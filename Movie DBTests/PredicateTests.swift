@@ -60,4 +60,24 @@ class PredicateTests: XCTestCase {
         
         XCTAssertEqual(results.map(\.title), [matchingMedia1.title, matchingMedia2.title])
     }
+    
+    func testAnyPredicate() throws {
+        PlaceholderData.context.reset()
+        
+        let show = PlaceholderData.createShow()
+        show.watched = .season(1)
+        show.numberOfSeasons = 2
+        
+        let predicate = NSCompoundPredicate(type: .and, subpredicates: [
+            NSPredicate(format: "type = %@", MediaType.show.rawValue),
+            ShowWatchState.showsWatchedAnyPredicate,
+            NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
+        ])
+        
+        let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
+        fetchRequest.predicate = predicate
+        let results = try PlaceholderData.context.fetch(fetchRequest)
+        XCTAssertEqual(results.count, 1)
+        print(results)
+    }
 }

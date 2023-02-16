@@ -45,12 +45,12 @@ extension Strings {
         }
 
         static let movieSymbolName = String(
-            localized: "library.list.movieSymbol",
-            comment: "A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name."
+            localized: "library.list.movieSymbolText",
+            comment: "A short text describing a movie (e.g. 'Movie'). Used in the library list beneath the name."
         )
         static let showSymbolName = String(
-            localized: "library.list.showSymbol",
-            comment: "A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name."
+            localized: "library.list.showSymbolText",
+            comment: "A short text describing a tv show (e.g. 'TV'). Used in the library list beneath the name."
         )
         static let detailPlaceholder = String(
             localized: "library.detailPlaceholder",

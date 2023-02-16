@@ -419,10 +419,10 @@
 "library.filter.watched.navBar.title" = "Angeschaut?";
 
 /* A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name. */
-"library.list.movieSymbol" = "f.square";
+"library.list.movieSymbolText" = "Film";
 
 /* A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name. */
-"library.list.showSymbol" = "s.square";
+"library.list.showSymbolText" = "Serie";
 
 /* The label for the delete swipe action in the library list */
 "library.list.swipe.delete" = "Löschen";

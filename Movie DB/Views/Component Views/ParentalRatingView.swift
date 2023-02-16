@@ -12,16 +12,7 @@ struct ParentalRatingView: View {
     let rating: ParentalRating
     
     var body: some View {
-        Text(rating.label)
-            .font(.caption)
-            .bold()
-            .padding(.horizontal, 3)
-            .padding(.vertical, 1.5)
-            .background(
-                RoundedRectangle(cornerRadius: 3, style: .continuous)
-                    .stroke(rating.color ?? .primary, lineWidth: 2)
-            )
-            .foregroundColor(rating.color ?? .primary)
+        CapsuleLabelView(text: rating.label, color: rating.color)
     }
 }
 

@@ -37,11 +37,10 @@ struct CSVManager {
     
     /// The CSV keys that are required to be present when importing media
     static let requiredImportKeys: [CSVKey] = [.tmdbID, .mediaType]
-    // swiftlint:disable multiline_literal_brackets
     /// The CSV keys that are optional when importing media
     static let optionalImportKeys: [CSVKey] = [
         .personalRating, .watchAgain, .tags, .notes, .movieWatched, .lastSeasonWatched, .lastEpisodeWatched,
-        .creationDate, .modificationDate
+        .creationDate, .modificationDate,
     ]
     // swiftlint:enable multiline_literal_brackets
     /// The properties/CSV keys that will be included in the export CSV data (do not include the legacy `showWatched` key)

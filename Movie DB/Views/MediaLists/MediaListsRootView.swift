@@ -70,6 +70,13 @@ struct MediaListsRootView: View {
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
                     }
+                    
+                    // MARK: New Seasons
+                    NavigationLink {
+                        NewSeasonsMediaList(selectedMedia: $selectedMedia)
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.newSeasons)
+                    }
                 }
                 .disabled(editMode?.wrappedValue.isEditing ?? false)
                 

@@ -14,8 +14,8 @@ import SwiftUI
 struct LibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
-    let movieSymbol = Strings.Library.movieSymbolName
-    let seriesSymbol = Strings.Library.showSymbolName
+    let movieSymbolText = Strings.Library.movieSymbolName
+    let seriesSymbolText = Strings.Library.showSymbolName
     
     var body: some View {
         if mediaObject.isFault {
@@ -32,10 +32,11 @@ struct LibraryRow: View {
                     // Under the title
                     HStack {
                         // MARK: Type
-                        if mediaObject.type == .movie {
-                            Image(systemName: movieSymbol)
-                        } else {
-                            Image(systemName: seriesSymbol)
+                        switch mediaObject.type {
+                        case .movie:
+                            CapsuleLabelView(text: movieSymbolText)
+                        case .show:
+                            CapsuleLabelView(text: seriesSymbolText)
                         }
                         // MARK: FSK Rating
                         if let rating = mediaObject.parentalRating {
@@ -43,8 +44,8 @@ struct LibraryRow: View {
                                 .font(.caption2)
                         }
                         // MARK: Year
-                        if mediaObject.year != nil {
-                            Text(mediaObject.year!.description)
+                        if let year = mediaObject.year {
+                            CapsuleLabelView(text: year.description)
                         }
                     }
                     .font(.subheadline)

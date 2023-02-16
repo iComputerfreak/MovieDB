@@ -77,6 +77,8 @@
 		AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493E325FBE4CB0072745B /* PlaceholderData.swift */; };
 		AB54940125FD41930072745B /* CSVImporter in Frameworks */ = {isa = PBXBuildFile; productRef = AB54940025FD41930072745B /* CSVImporter */; };
 		AB54940525FD41B90072745B /* CSVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54940425FD41B90072745B /* CSVManager.swift */; };
+		AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */; };
+		AB54A6E6299EE1D7002C3044 /* CapsuleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */; };
 		AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5612552970045B0039850B /* ListConfigurationView.swift */; };
 		AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59E3BE281D68EF00436853 /* SceneDelegate.swift */; };
 		AB5E298328B998F300C3ACB8 /* LibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E298228B998F300C3ACB8 /* LibraryRow.swift */; };
@@ -336,6 +338,8 @@
 		AB5493DB25FBDD990072745B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		AB5493E325FBE4CB0072745B /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
 		AB54940425FD41B90072745B /* CSVManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVManager.swift; sourceTree = "<group>"; };
+		AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSeasonsMediaList.swift; sourceTree = "<group>"; };
+		AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabelView.swift; sourceTree = "<group>"; };
 		AB5612552970045B0039850B /* ListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurationView.swift; sourceTree = "<group>"; };
 		AB59E3BE281D68EF00436853 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AB5E298228B998F300C3ACB8 /* LibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRow.swift; sourceTree = "<group>"; };
@@ -750,6 +754,7 @@
 				AB624D2A296CB63000A0CF27 /* ListConfigurationButton.swift */,
 				ABB64491297171A10024BD80 /* AutoInvertingColor.swift */,
 				ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */,
+				AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */,
 				AB9190E3297E054900324520 /* WatchedLabel.swift */,
 				AB5E298228B998F300C3ACB8 /* LibraryRow.swift */,
 				AB979324299AD01700B20EC8 /* WatchStateLabel.swift */,
@@ -1019,6 +1024,7 @@
 			children = (
 				ABAD15F528E774690092497F /* WatchlistMediaList.swift */,
 				ABAD15F328E774330092497F /* FavoritesMediaList.swift */,
+				AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */,
 				ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */,
 				AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */,
 			);
@@ -1570,6 +1576,7 @@
 				ABEEB0D02814317B00230F0B /* ImportExportSection.swift in Sources */,
 				AB97932F299AF55E00B20EC8 /* MappingModelV6V7.xcmappingmodel in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
+				AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */,
 				AB6478DA22C7B8E800F3E14E /* TMDBSearchResult.swift in Sources */,
 				AB9EC349286C875900A2A270 /* SortingMenuSection.swift in Sources */,
 				AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */,
@@ -1677,6 +1684,7 @@
 				AB97932129997D8700B20EC8 /* DynamicMediaListConfigurationView.swift in Sources */,
 				AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */,
 				AB97932D299AE5D300B20EC8 /* ShowToShowV6V7.swift in Sources */,
+				AB54A6E6299EE1D7002C3044 /* CapsuleLabelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
