@@ -50,17 +50,18 @@ struct LibraryActionsSection: View {
             HStack {
                 Spacer()
                 VStack(alignment: .center) {
-                    ZStack {
-                        // Update Progress
-                        HStack(spacing: 5) {
-                            ProgressView()
-                            Text(progressText)
-                        }
-                        .hidden(condition: !showingProgress)
+                    // Update Progress
+                    HStack(spacing: 5) {
+                        ProgressView()
+                        Text(progressText)
                     }
+                    .hidden(condition: !showingProgress)
+                    .padding(.bottom, showingProgress ? 4 : 0)
                     .frame(height: showingProgress ? nil : 0)
+                    // Made with love footer
                     Text(Strings.Settings.madeWithLoveFooter)
                         .bold()
+                    // App version
                     if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                         Text(Strings.Settings.versionFooter(appVersion))
                             .italic()
@@ -140,11 +141,22 @@ struct LibraryActionsSection: View {
 
 struct LibraryActionsSection_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            LibraryActionsSection(
-                config: .constant(SettingsViewConfig()),
-                reloadHandler: {}
-            )
+        Group {
+            List {
+                LibraryActionsSection(
+                    config: .constant(SettingsViewConfig()),
+                    reloadHandler: {}
+                )
+            }
         }
+        Group {
+            VStack {
+                LibraryActionsSection.FooterView(showingProgress: .constant(true), progressText: "Loading...")
+                    .background(.cyan)
+                LibraryActionsSection.FooterView(showingProgress: .constant(false), progressText: "Loading...")
+                    .background(.cyan)
+            }
+        }
+        .previewDisplayName("Footer Loading View")
     }
 }
