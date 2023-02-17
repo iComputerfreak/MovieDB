@@ -98,19 +98,53 @@ actor TMDBAPI {
     ///   - startDate: The start of the timespan
     ///   - endDate: The end of the timespan
     /// - Returns: All TMDB IDs that changed during the given timespan
-    func changedIDs(from startDate: Date?, to endDate: Date) async throws -> [Int] {
+    func changedIDs(from startDate: Date?, to endDate: Date) async throws -> [MediaType: [Int]] {
+        // We don't care about the time, we only provide the date in the API call
+        var startDate = (startDate ?? .now).timeErased()
+        let endDate = endDate.timeErased()
+
+        // The TMDB API only allows date ranges <= 14 days. We need to use multiple requests to get larger ranges.
+        // This means the API is okay with a range of e.g. 2023-01-01 to 2023-01-15
+        let apiLimit = 14
+        
+        func numberOfDays() -> Int {
+            let distance = startDate.distance(to: endDate)
+            let days = distance / .day
+            // Round to compensate for rounding errors, the result should always be close to full numbers,
+            // since we erased the time of both dates
+            assert(abs(days - days.rounded()) < 0.01)
+            return Int(days.rounded())
+        }
+        
+        // We need to limit the number of requests somehow
+        guard numberOfDays() <= (10 * apiLimit) else {
+            throw APIError.updateError
+        }
+        
+        var results: [MediaType: [Int]] = [:]
+        if numberOfDays() > apiLimit {
+            // Do a recursive call to handle the part of the range that exceeds our limit
+            // (e.g. for the range 1...100, the recursive call handles 1...89 and we handle 90...100,
+            // if the apiLimit were 10)
+            let newEndDate = endDate.addingTimeInterval(Double(-(apiLimit + 1)) * .day)
+            // Fetch results from start to (end - (apiLimit + 1))
+            results = try await self.changedIDs(from: startDate, to: newEndDate)
+            
+            // Update the startDate for the rest of the execution
+            // We can subtract a full day here, since we only consider days as a lowest magnitude
+            startDate = newEndDate.addingTimeInterval(.day)
+            // Continue with range from (end - apiLimit) to end
+        }
+        
         // Construct the request parameters for the date range
-        let dateRangeParameters: [String: String?] = {
-            var dict: [String: String?] = ["end_date": Utils.tmdbDateFormatter.string(from: endDate)]
-            if let startDate {
-                dict["start_date"] = Utils.tmdbDateFormatter.string(from: startDate)
-            }
-            return dict
-        }()
+        let dateRangeParameters: [String: String?] = [
+            "end_date": Utils.tmdbDateFormatter.string(from: endDate),
+            "start_date": Utils.tmdbDateFormatter.string(from: startDate),
+        ]
         // Do both fetch requests concurrently using a task group
-        let groupResult = try await withThrowingTaskGroup(
-            of: [MediaChangeWrapper].self
-        ) { group -> [MediaChangeWrapper] in
+        let newResults = try await withThrowingTaskGroup(
+            of: (MediaType, [MediaChangeWrapper]).self
+        ) { group -> [MediaType: [Int]] in
             // Fetch changes for all media types
             for type in MediaType.allCases {
                 // Fetch the changes for the current media type and return the child result
@@ -122,19 +156,19 @@ actor TMDBAPI {
                         // We use a disposable context since we only use the IDs from the results
                         context: self.disposableContext
                     )
-                    return results
+                    return (type, results)
                 }
             }
             // Accumulate all child results of this group
-            var allResults: [MediaChangeWrapper] = []
-            for try await resultSet in group {
-                allResults.append(contentsOf: resultSet)
+            var allResults: [MediaType: [Int]] = [:]
+            for try await (type, resultSet) in group {
+                allResults[type] = resultSet.map(\.id)
             }
             // Return the accumulated results
             return allResults
         }
-        // Return only the IDs
-        return groupResult.map(\.id)
+        // Return the union of the recursively fetched results and the results of this call
+        return results.merging(newResults)
     }
     
     /// Searches for media with a given query on TheMovieDB.org

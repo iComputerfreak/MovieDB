@@ -14,7 +14,7 @@ struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     
     let context: NSManagedObjectContext
-    @AppStorage("lastLibraryUpdate") var lastUpdated: Date = .now
+    @AppStorage("lastLibraryUpdate") var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
     
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
@@ -88,15 +88,26 @@ struct MediaLibrary {
     /// Updates the media library by updaing every media object with API calls again.
     func update() async throws -> Int {
         // Fetch the tmdbIDs of the media objects that changed
-        let changedIDs = try await TMDBAPI.shared.changedIDs(from: lastUpdated, to: Date())
+        let lastUpdate = Date(timeIntervalSince1970: lastUpdated)
+        let changedIDs = try await TMDBAPI.shared.changedIDs(from: lastUpdate, to: Date.now)
         
         // Create a child context to update the media objects in
         let updateContext = context.newBackgroundContext()
         updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
         
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K IN %@", "tmdbID", changedIDs)
-        let medias = try context.fetch(fetchRequest)
+        var medias: [Media] = []
+        for type in changedIDs.keys {
+            // swiftlint:disable:next implicitly_unwrapped_optional
+            let fetchRequest: NSFetchRequest<Media>!
+            switch type {
+            case .movie:
+                fetchRequest = Movie.fetchRequest()
+            case .show:
+                fetchRequest = Show.fetchRequest()
+            }
+            fetchRequest.predicate = NSPredicate(format: "type = %@ AND tmdbID IN %@", type.rawValue, changedIDs[type]!)
+            medias.append(contentsOf: try context.fetch(fetchRequest))
+        }
         print("Updating \(medias.count) media objects.")
         
         // Update the media objects using a task group
@@ -114,7 +125,7 @@ struct MediaLibrary {
             }
         }
         // After they all have been updated without errors, we can update the lastUpdate property
-        lastUpdated = .now
+        lastUpdated = Date.now.timeIntervalSince1970
         // Save the updated media into the parent context (viewContext)
         await PersistenceController.saveContext(updateContext)
         return updateCount
@@ -155,6 +166,9 @@ struct MediaLibrary {
             }
             // We don't need to wait for all the thumbnails to finish loading, we can just exit here
         }
+        // Since we just reloaded all media, they are all up-to-date
+        // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
+        lastUpdated = Date.now.timeIntervalSince1970
     }
     
     /// Resets the library, deleting everything!
@@ -210,22 +224,5 @@ struct MediaLibrary {
     func mediaCount() -> Int? {
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         return try? context.count(for: fetchRequest)
-    }
-}
-
-extension Date: RawRepresentable {
-    public typealias RawValue = String
-    
-    private static let formatter = ISO8601DateFormatter()
-    
-    public var rawValue: String {
-        Self.formatter.string(from: self)
-    }
-    
-    public init?(rawValue: String) {
-        if let date = Self.formatter.date(from: rawValue) {
-            self = date
-        }
-        return nil
     }
 }

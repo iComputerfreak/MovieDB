@@ -38,7 +38,7 @@
 "apiError.unknown.description %lld %@" = "HTTP Error %lld: %@";
 
 /* Description of the TMDb API error that occurs during updating of the media objects */
-"apiError.updateError.description" = "Error updating the media.";
+"apiError.updateError.description" = "Error updating the media. If this issue persists, please try to reload the library in the settings.";
 
 /* The title of an alert informing the user about an error while loading the cast information */
 "detail.alert.errorLoadingCastTitle" = "Error Loading Cast";
@@ -826,5 +826,5 @@
 
 "lists.alerts.newList.buttons.add" = "Add";
 "library.searchPlaceholder" = "Search my Library";
-"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Season %lld / %lld";
+"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Season %lld of %lld";
 "lists.defaultListName.newSeasons" = "New Seasons";

@@ -38,7 +38,7 @@
 "apiError.unknown.description %lld %@" = "HTTP Error %lld: %@";
 
 /* Description of the TMDb API error that occurs during updating of the media objects */
-"apiError.updateError.description" = "Fehler beim aktualisieren der Medien.";
+"apiError.updateError.description" = "Fehler beim aktualisieren der Medien. Wenn dieser Fehler weiterhin besthet, versuchen Sie bitte die Mediathek in den Einstellungen neu zu laden.";
 
 /* The title of an alert informing the user about an error while loading the cast information */
 "detail.alert.errorLoadingCastTitle" = "Fehler beim Laden der Besetzung";
@@ -818,5 +818,5 @@
 "generic.dismissViewDone" = "Fertig";
 "lists.detail.configure" = "Konfigurieren...";
 "library.searchPlaceholder" = "Meine Mediathek durchsuchen";
-"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Staffel %lld / %lld";
+"lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Staffel %lld von %lld";
 "lists.defaultListName.newSeasons" = "Neue Staffeln";
