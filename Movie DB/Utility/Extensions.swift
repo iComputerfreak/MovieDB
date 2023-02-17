@@ -120,3 +120,10 @@ struct LastNameComparator: SortComparator {
         return lhsLastName.compare(rhsLastName)
     }
 }
+
+extension NSPredicate {
+    /// Returns a negated version of this predicate
+    func negated() -> NSPredicate {
+        NSCompoundPredicate(type: .not, subpredicates: [self])
+    }
+}
