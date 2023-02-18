@@ -39,7 +39,7 @@ struct LibraryList: View {
             ))
         }
         predicates.append(filterSetting.buildPredicate())
-        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
         let sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
         
         _filteredMedia = FetchRequest<Media>(

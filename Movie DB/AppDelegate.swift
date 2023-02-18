@@ -24,7 +24,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 PersistenceController.prepareForUITesting()
                 JFConfig.shared.region = "DE"
                 JFConfig.shared.language = "en-US"
+                // Make sure the app does not ask for a rating during UI testing
+                UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
             } else if CommandLine.arguments.contains("--screenshots") {
+                // Make sure the app does not ask for a rating during UI testing
+                UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
                 // Prepare with sample data for taking screenshots
                 PersistenceController.prepareForUITesting()
                 JFConfig.shared.region = Locale.current.region?.identifier ?? ""

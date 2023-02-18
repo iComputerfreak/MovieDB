@@ -54,5 +54,9 @@ enum JFLiterals {
         static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
         /// The id of the filter settings used for filtering in the library home
         static let filterSetting = "filterSetting"
+        /// The number of times the app has asked for app store ratings
+        static let askedForAppRating = "askedForRating"
+        /// The date when the app was first opened
+        static let firstAppOpenDate = "firstAppOpen"
     }
 }

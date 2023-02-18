@@ -40,7 +40,7 @@ final class Movie_DBScreenshots: XCTestCase {
         
         app.navigationBars.firstMatch.buttons["add-media"].tap()
         app.navigationBars.firstMatch.searchFields.firstMatch.tap()
-        app.typeText("Hannibal")
+        app.typeText("Constantine")
         snapshot("AddMedia")
         
         app.navigationBars.firstMatch.buttons.firstMatch.tap() // Cancel button

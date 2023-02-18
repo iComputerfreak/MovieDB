@@ -90,7 +90,7 @@ struct CSVHelper {
         context: NSManagedObjectContext,
         completion: @escaping (Media?, Error?) -> Void
     ) {
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let media = try await CSVManager.createMedia(from: values, context: context)
                 completion(media, nil)

@@ -28,16 +28,14 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
     
     func sceneDidBecomeActive(_ scene: UIScene) {
         // MARK: App Store Rating
-        let askedForRatingKey = "askedForRating"
-        let firstAppOpenKey = "firstAppOpen"
         // Ask for a rating, if it has been at least 7 days since the user first opened the app
         // and ask only once
         Task(priority: .background) {
             let userDefs = UserDefaults.standard
-            if userDefs.integer(forKey: askedForRatingKey) == 0 {
-                guard let date = userDefs.object(forKey: firstAppOpenKey) as? Date else {
-                    // First time opening the app, save the date
-                    userDefs.set(Date.now, forKey: firstAppOpenKey)
+            if userDefs.integer(forKey: JFLiterals.Keys.askedForAppRating) == 0 {
+                guard let date = userDefs.object(forKey: JFLiterals.Keys.firstAppOpenDate) as? Date else {
+                    // First time opening the app, save the date and return
+                    userDefs.set(Date.now, forKey: JFLiterals.Keys.firstAppOpenDate)
                     return
                 }
                 if abs(Date.now.distance(to: date)) > 7 * .day {
@@ -46,7 +44,7 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
                         print("Asking the user for an app store rating")
                         SKStoreReviewController.requestReview(in: scene)
                         // Store as integer instead of bool, since we can technically ask multiple times
-                        userDefs.set(1, forKey: askedForRatingKey)
+                        userDefs.set(1, forKey: JFLiterals.Keys.askedForAppRating)
                     }
                 }
             }

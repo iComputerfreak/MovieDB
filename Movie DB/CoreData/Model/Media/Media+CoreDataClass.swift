@@ -173,7 +173,10 @@ public class Media: NSManagedObject {
             // Thumbnail already present, don't load/download again, unless force parameter is given
             return
         }
-        guard let imagePath, !imagePath.isEmpty else {
+        let loadedPath = await MainActor.run {
+            self.imagePath
+        }
+        guard let imagePath = loadedPath, !imagePath.isEmpty else {
             // No image path set means no image to load
             return
         }
