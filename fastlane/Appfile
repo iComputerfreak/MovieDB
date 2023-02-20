@@ -1,5 +1,5 @@
 app_identifier("de.JonasFrey.Movie-DB") # The bundle identifier of your app
-# apple_id("[[APPLE_ID]]") # Your Apple Developer Portal username
+apple_id("dev@jonasfrey.de") # Your Apple Developer Portal username
 
 
 # For more information about the Appfile, see:

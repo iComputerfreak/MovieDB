@@ -28,12 +28,7 @@ struct LibraryActionsSection: View {
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
                     Button("Debug") {
-                        // swiftlint:disable line_length
-                        print("Medias: \(Utils.allMedias(context: PersistenceController.viewContext).count)")
-                        print("Genres: \(Utils.allGenres(context: PersistenceController.viewContext).count)")
-                        print("Tags: \(Utils.allObjects(entityName: "Tag", context: PersistenceController.viewContext).count)")
-                        print("ProductionCompany: \(Utils.allObjects(entityName: "ProductionCompany", context: PersistenceController.viewContext).count)")
-                        // swiftlint:enable line_length
+                        // Do debugging things here
                     }
                 }
             #endif

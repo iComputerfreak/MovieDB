@@ -396,8 +396,8 @@ D05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBMLDBcYHR4mKzAxNDU5Pj9CRkpMVSRudWxs1Q0ODxAR
         <attribute name="destinationname" type="string">Show</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z233"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z196 z199 z210 z195 z208 z228 z119 z118 z202 z239 z185 z214 z201 z180 z123 z113 z198 z148 z256 z157 z124 z149 z240 z179 z232 z114 z107 z174 z166 z216 z236 z152 z245 z162 z217 z191 z146 z172 z161 z238"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z121 z234 z133 z255 z249 z213 z116"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z228 z166 z162 z210 z238 z179 z214 z201 z239 z149 z157 z191 z124 z198 z107 z123 z148 z118 z199 z202 z172 z174 z196 z114 z232 z152 z161 z119 z113 z256 z217 z195 z146 z180 z216 z208 z185 z245 z240 z236"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z133 z213 z255 z234 z249 z121 z116"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z179">
         <attribute name="name" type="string">voteCount</attribute>

@@ -37,6 +37,13 @@ struct ContentView: View {
                         Image(systemName: "gear")
                         Text(Strings.TabView.settingsLabel)
                     }
+                #if DEBUG
+                DebugView()
+                    .tabItem {
+                        Image(systemName: "ladybug")
+                        Text("Debug")
+                    }
+                #endif
             }
             .environmentObject(notificationProxy)
             .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {

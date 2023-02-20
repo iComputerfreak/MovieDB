@@ -36,8 +36,7 @@ public class Media: NSManagedObject {
         print("Preparing \(title) for deletion")
         if
             let imagePath,
-            let imageURL = Utils.imageFileURL(path: imagePath),
-            FileManager.default.fileExists(atPath: imageURL.path)
+            let imageURL = Utils.imageFileURL(path: imagePath)
         {
             do {
                 try FileManager.default.removeItem(at: imageURL)
@@ -116,6 +115,7 @@ public class Media: NSManagedObject {
         super.awakeFromInsert()
         print("[\(title)] Awaking from insert")
         tags = []
+        // TODO: Maybe consider using `setPrimitiveValue` here to avoid sending notifications
         creationDate = Date()
         modificationDate = Date()
     }
@@ -124,14 +124,21 @@ public class Media: NSManagedObject {
         // Changing properties in this function will invoke willSave again.
         // We need to make sure we don't result in a infinite loop
         if (modificationDate?.distance(to: .now) ?? 100.0) > 10.0 {
+            // TODO: Use setPrimitiveValue to prevent infinite loop and increase performance
             modificationDate = Date()
+        }
+        
+        if isDeleted {
+            // TODO: Delete local data here, not in prepareForDeletion(), in case there is a rollback or the context is discarded
+            // TODO: We need to find another way to store thumbnails on disk, to prevent deletion in a background/disposable context to delete the thumbnails on disk
         }
     }
     
     // MARK: - Functions
     
     private func loadThumbnailFromDisk() -> UIImage? {
-        // TODO: We are not on the moc's thread, but are accessing its properties (imagePath)
+        // TODO: Fix: We are not on the moc's thread, but are accessing its properties (imagePath),
+        // probably need to make this function async
         // When accessing the imagePath, we should be on the same thread as the managedObjectContext
         guard
             let imagePath,
@@ -144,7 +151,10 @@ public class Media: NSManagedObject {
     }
     
     private func downloadThumbnail() async -> UIImage? {
-        guard let imagePath else {
+        let loadedPath = await managedObjectContext?.perform {
+            self.imagePath
+        }
+        guard let imagePath = loadedPath else {
             return nil
         }
         // We try to load the image, but fail silently if we don't succeed.
@@ -173,7 +183,7 @@ public class Media: NSManagedObject {
             // Thumbnail already present, don't load/download again, unless force parameter is given
             return
         }
-        let loadedPath = await MainActor.run {
+        let loadedPath = await managedObjectContext?.perform {
             self.imagePath
         }
         guard let imagePath = loadedPath, !imagePath.isEmpty else {

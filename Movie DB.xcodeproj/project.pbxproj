@@ -172,6 +172,7 @@
 		ABAD15F428E774330092497F /* FavoritesMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F328E774330092497F /* FavoritesMediaList.swift */; };
 		ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F528E774690092497F /* WatchlistMediaList.swift */; };
 		ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */; };
+		ABADB85B29A173F500853F56 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB85A29A173F500853F56 /* DebugView.swift */; };
 		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
@@ -445,6 +446,7 @@
 		ABAD15F328E774330092497F /* FavoritesMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F528E774690092497F /* WatchlistMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsMediaList.swift; sourceTree = "<group>"; };
+		ABADB85A29A173F500853F56 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
 		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
@@ -1185,6 +1187,7 @@
 				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
+				ABADB85A29A173F500853F56 /* DebugView.swift */,
 			);
 			path = "Top Level";
 			sourceTree = "<group>";
@@ -1666,6 +1669,7 @@
 				AB2ACF5324DC4961002C5F41 /* TagImporter.swift in Sources */,
 				AB097F57284A96C700E559E7 /* MediaListsRootView.swift in Sources */,
 				ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */,
+				ABADB85B29A173F500853F56 /* DebugView.swift in Sources */,
 				ABA0399324D4990200DBF71F /* MediaStatus.swift in Sources */,
 				AB6718F622C113F800F429E4 /* Utils.swift in Sources */,
 				AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */,
