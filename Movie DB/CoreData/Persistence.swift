@@ -8,9 +8,11 @@
 
 import CoreData
 
-struct PersistenceController {
+let appTransactionAuthorName = "app"
+
+class PersistenceController {
     /// The main instance of the PersistenceController
-    private(set) static var shared = Self()
+    private(set) static var shared: PersistenceController = .init()
     
     /// The view context of the shared container
     static var viewContext: NSManagedObjectContext { shared.container.viewContext }
@@ -25,15 +27,16 @@ struct PersistenceController {
     
     private init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Movie DB")
+        let description = container.persistentStoreDescriptions.first
+        
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            description?.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.persistentStoreDescriptions.first!.setOption(
-            true as NSNumber,
-            forKey: "NSPersistentStoreRemoteChangeNotificationOptionKey"
-        )
-        container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
-        container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = false
+        
+        // MARK: Store Configuration
+        Self.configureStoreDescription(description)
+        
+        // MARK: Load store
         container.loadPersistentStores { _, error in
             print("Finished loading persistent stores.")
             if let error = error as NSError? {
@@ -41,53 +44,23 @@ struct PersistenceController {
                     title: Strings.Alert.errorLoadingCoreDataTitle,
                     error: error
                 )
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
+                // TODO: What else could we do, if the store is inaccessible?
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
         
-        // Automatically merge changes done in other context of this container.
-        // E.g. merge changes from a background context, as soon as that context saves
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        container.viewContext.undoManager = nil
-        container.viewContext.shouldDeleteInaccessibleFaults = true
-        container.viewContext.name = "View Context"
+        // MARK: Context configuration
+        Self.configureViewContext(container.viewContext)
         
+        // MARK: Notification Observers
         NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreRemoteChange,
-            object: nil,
-            queue: .main
-        ) { _ in
-//                print("REMOTE CHANGE (\(notification))")
-        }
+            object: container.persistentStoreCoordinator,
+            queue: nil,
+            using: fetchChanges(_:)
+        )
         
-        NotificationCenter.default.addObserver(
-            forName: .NSPersistentStoreCoordinatorStoresDidChange,
-            object: nil,
-            queue: .main
-        ) { notification in
-            print("DID CHANGE (\(notification))")
-        }
-        
-//        NotificationCenter.default.addObserver(
-//            forName: .NSPersistentStoreCoordinatorStoresWillChange,
-//            object: nil,
-//            queue: .main) { notification in
-//                print("WILL CHANGE (\(notification))")
-//            }
-        
-        // Only initialize the schema when building the app with the
+        // Only initialize the iCloud schema when building the app with the
         // Debug build configuration.
         // Enable once in a while (leaving it enables slows down the app starts)
 //        #if DEBUG
@@ -103,117 +76,35 @@ struct PersistenceController {
 //        #endif
     }
     
-    /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
-    /// A context created by this method may not be saved!
-    static func createDisposableContext() -> NSManagedObjectContext {
-        // The disposable context is a new empty context without any data in it
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        let model = shared.container.persistentStoreCoordinator.managedObjectModel
-        context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        context.name = "Disposable Context (\(Date()))"
-        return context
-    }
-    
-    static func createDisposableViewContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let model = shared.container.persistentStoreCoordinator.managedObjectModel
-        context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        context.name = "Disposable View Context (\(Date()))"
-        return context
-    }
-    
-    /// Creates a new context with a new, empty container behind it to be used for testing
-    /// - Returns: A context of a newly created, empty container
-    static func createTestingContext() -> NSManagedObjectContext {
-        createTestingContainer().viewContext
-    }
-    
-    /// Creates a new context with a new, empty container behind it to be used for testing
-    /// - Returns: A context of a newly created, empty container
-    static func createTestingContainer() -> NSPersistentContainer {
-        shared.createTestingContainer()
-    }
-    
-    /// Saves the shared viewContext
-    static func saveContext(file: String = #file, line: Int = #line) {
-        print("Saving shared viewContext from \(file):\(line)")
-        shared.saveContext()
-    }
-    
-    /// Saves the given context if it has been modified since the last save
-    /// Performs the save operation synchronous and returns when it was completed.
-    /// - Parameter context: The `NSManagedObjectContext` to save
-    static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) {
-        print("Trying to save context \(context.description) from \(file):\(line). " +
-            "Parent: \(context.parent?.description ?? "nil")")
-        // Make sure we save on the correct thread to prevent race conditions
-        // See: https://developer.apple.com/forums/thread/668299
-        context.performAndWait {
-            print("Starting save...")
-            if context.hasChanges {
-                do {
-                    try context.save()
-                    print("Context saved.")
-                } catch {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    let nserror = error as NSError
-                    print(nserror)
-                    AlertHandler.showError(
-                        title: Strings.Alert.errorSavingCoreDataTitle,
-                        error: nserror
-                    )
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            } else {
-                print("Context has no changes.")
-            }
-        }
-    }
-    
-    /// Saves the given context if it has been modified since the last save
-    /// Performs the save operation asynchronous
-    /// - Parameter context: The `NSManagedObjectContext` to save
-    static func saveContext(_ context: NSManagedObjectContext, file: String = #file, line: Int = #line) async {
-        print("Trying to save context \(context.description) from \(file):\(line). " +
-            "Parent: \(context.parent?.description ?? "nil")")
-        // Make sure we save on the correct thread to prevent race conditions
-        // See: https://developer.apple.com/forums/thread/668299
-        await context.perform {
-            print("Starting save...")
-            if context.hasChanges {
-                do {
-                    try context.save()
-                    print("Context saved.")
-                } catch {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    let nserror = error as NSError
-                    AlertHandler.showError(
-                        title: Strings.Alert.errorSavingCoreDataTitle,
-                        error: nserror
-                    )
-                    print(nserror)
-//                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            } else {
-                print("Context has no changes.")
-            }
-        }
-    }
-    
     static func prepareForUITesting() {
         shared.container = createTestingContainer()
-        shared.container.viewContext.name = "UI Testing View Context"
+        shared.container.viewContext.type = .viewContext
     }
     
-    /// Saves the shared viewContext
-    func saveContext() {
-        Task {
-            print("========================")
-            print("SAVING CORE DATA CONTEXT")
-            print("========================")
-            await Self.saveContext(container.viewContext)
+    static func configureStoreDescription(_ description: NSPersistentStoreDescription?) {
+        // Migration settings
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = false
+        // Turn on persistent history tracking
+        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        // Turn on remote change notifications
+        let remoteChangeKey = "NSPersistentStoreRemoteChangeNotificationOptionKey"
+        description?.setOption(true as NSNumber, forKey: remoteChangeKey)
+    }
+    
+    static func configureViewContext(_ viewContext: NSManagedObjectContext) {
+        viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        viewContext.undoManager = nil
+        viewContext.shouldDeleteInaccessibleFaults = true
+        viewContext.type = .viewContext
+        viewContext.transactionAuthor = appTransactionAuthorName
+        
+        // Pin the viewContext to the current generation token, and set it to keep itself up to date with local changes.
+        viewContext.automaticallyMergesChangesFromParent = true
+        do {
+            try viewContext.setQueryGenerationFrom(.current)
+        } catch {
+            fatalError("###\(#function): Failed to pin viewContext to the current generation: \(error)")
         }
     }
     
@@ -230,36 +121,178 @@ struct PersistenceController {
         saveContext()
     }
     
-    /// Creates a new, empty container to be used for testing
-    /// - Returns: A newly created, empty container
-    func createTestingContainer() -> NSPersistentContainer {
-        // We need to reuse the same model as in the view context (so there are no duplicate models at the same time)
-        let container = NSPersistentContainer(name: "Movie DB", managedObjectModel: container.managedObjectModel)
-        container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                fatalError("Unexpected Error \(error)")
+    // MARK: Persistent History Tracking
+    
+    /// Track the last history token processed for a store, and write its value to file.
+    ///
+    /// The `historyQueue` reads the token when executing operations and updates it after processing is complete.
+    private var lastHistoryToken: NSPersistentHistoryToken? = nil {
+        didSet {
+            guard
+                let token = lastHistoryToken,
+                let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
+            else {
+                return
+            }
+            
+            do {
+                try data.write(to: tokenFile)
+            } catch {
+                print("###\(#function): Failed to write token data. Error: \(error)")
             }
         }
-        // Automatically merge changes done in other context of this container.
-        // E.g. merge changes from a background context, as soon as that context saves
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        container.viewContext.undoManager = nil
-        container.viewContext.shouldDeleteInaccessibleFaults = true
-        container.viewContext.name = "Testing View Context"
-        return container
     }
     
-    /// Creates a new context with a new, empty container behind it to be used for testing
-    /// - Returns: A context of a newly created, empty container
-    func createTestingContext() -> NSManagedObjectContext {
-        createTestingContainer().viewContext
+    /// The file URL for persisting the persistent history token.
+    private lazy var tokenFile: URL = {
+        let url = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("MovieDB", isDirectory: true)
+        if !FileManager.default.fileExists(atPath: url.path) {
+            do {
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("###\(#function): Failed to create persistent container URL. Error: \(error)")
+            }
+        }
+        return url.appendingPathComponent("token.data", isDirectory: false)
+    }()
+    
+    /// An operation queue for handling history processing tasks: watching changes, deduplicating tags, and triggering UI updates if needed.
+    private lazy var historyQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+}
+
+extension Notification.Name {
+    static let didFindRelevantTransactions = Notification.Name("didFindRelevantTransactions")
+}
+
+// MARK: - Persistent History Tracking
+
+extension PersistenceController {
+    /// Handle remote store change notifications (.NSPersistentStoreRemoteChange).
+    func fetchChanges(_ notification: Notification) {
+        // Process persistent history to merge changes from other coordinators.
+        historyQueue.addOperation {
+            self.processPersistentHistory()
+        }
     }
     
-    /// Creates a new background context without a parent
-    /// - Returns: A background context that saves directly to the container
-    func newBackgroundContext() -> NSManagedObjectContext {
-        container.newBackgroundContext()
+    /// Process persistent history, posting any relevant transactions to the current view.
+    func processPersistentHistory() {
+        let taskContext = container.newBackgroundContext()
+        taskContext.performAndWait {
+            // Fetch history received from outside the app since the last token
+            let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest!
+            historyFetchRequest.predicate = NSPredicate(format: "author != %@", appTransactionAuthorName)
+            let request = NSPersistentHistoryChangeRequest.fetchHistory(after: lastHistoryToken)
+            request.fetchRequest = historyFetchRequest
+
+            let result = (try? taskContext.execute(request)) as? NSPersistentHistoryResult
+            guard
+                let transactions = result?.result as? [NSPersistentHistoryTransaction],
+                !transactions.isEmpty
+            else { return }
+
+            // Post transactions relevant to the current view.
+            DispatchQueue.main.async {
+                // TODO: Receive these notification in the views and update (look up how to do with SwiftUI)
+                NotificationCenter.default.post(
+                    name: .didFindRelevantTransactions,
+                    object: self,
+                    userInfo: ["transactions": transactions]
+                )
+                
+                // !!!: Alternatively: (update on any change, like we did before)
+                transactions.forEach { transaction in
+                    guard let userInfo = transaction.objectIDNotification().userInfo else { return }
+                    let viewContext = self.container.viewContext
+                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo, into: [viewContext])
+                }
+            }
+
+            // Deduplicate the new tags.
+            var newMediaObjectIDs = [NSManagedObjectID]()
+            let mediaEntityName = Media.entity().name
+
+            for transaction in transactions where transaction.changes != nil {
+                for change in transaction.changes!
+                    where change.changedObjectID.entity.name == mediaEntityName && change.changeType == .insert {
+                        newMediaObjectIDs.append(change.changedObjectID)
+                }
+            }
+            
+            if !newMediaObjectIDs.isEmpty {
+                deduplicateAndWait(mediaObjectIDs: newMediaObjectIDs)
+            }
+            
+            // Update the history token using the last transaction.
+            lastHistoryToken = transactions.last!.token
+        }
+    }
+}
+
+// MARK: - Deduplicate Medias
+
+// TODO: Do with other entities as well
+
+extension PersistenceController {
+    /// Deduplicate tags with the same name by processing the persistent history, one tag at a time, on the historyQueue.
+    ///
+    /// All peers should eventually reach the same result with no coordination or communication.
+    private func deduplicateAndWait(mediaObjectIDs: [NSManagedObjectID]) {
+        // Make any store changes on a background context
+        let taskContext = container.newBackgroundContext()
+        
+        // Use performAndWait because each step relies on the sequence.
+        // Because historyQueue runs in the background, waiting won’t block the main queue.
+        taskContext.performAndWait {
+            mediaObjectIDs.forEach { mediaObjectID in
+                deduplicate(mediaObjectID: mediaObjectID, performingContext: taskContext)
+            }
+            // Save the background context to trigger a notification and merge the result into the viewContext.
+            PersistenceController.saveContext(taskContext)
+        }
+    }
+
+    /// Deduplicate a single tag.
+    private func deduplicate(mediaObjectID: NSManagedObjectID, performingContext: NSManagedObjectContext) {
+        guard
+            let media = performingContext.object(with: mediaObjectID) as? Media,
+            let mediaID = media.id
+        else {
+            // TODO: Replace with correct error handling
+            fatalError("###\(#function): Failed to retrieve a valid media with objectID: \(mediaObjectID)")
+        }
+
+        // Fetch all medias with the same id, sorted by modificationDate
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.modificationDate, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", mediaID.uuidString)
+        
+        // Return if there are no duplicates.
+        guard
+            var duplicatedMedias = try? performingContext.fetch(fetchRequest),
+            duplicatedMedias.count > 1
+        else { return }
+        print("###\(#function): Deduplicating media with title: \(media.title), count: \(duplicatedMedias.count)")
+        
+        // Pick the first media as the winner (latest modification date)
+        let winner = duplicatedMedias.first!
+        duplicatedMedias.removeFirst()
+        remove(duplicatedMedias: duplicatedMedias, winner: winner, performingContext: performingContext)
+    }
+    
+    /// Remove duplicate tags from their respective posts, replacing them with the winner.
+    private func remove(duplicatedMedias: [Media], winner: Media, performingContext: NSManagedObjectContext) {
+        duplicatedMedias.forEach { media in
+            defer { performingContext.delete(media) }
+            
+            // TODO: What to do here?
+            // - copy over custom lists, isFavorite, isBookmarked?
+            // - copy over other user data?
+            print("###\(#function): Removing deduplicated medias")
+        }
     }
 }

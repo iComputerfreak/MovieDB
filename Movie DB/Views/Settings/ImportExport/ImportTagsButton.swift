@@ -30,7 +30,7 @@ struct ImportTagsButton: View {
         // Initialize the logger
         self.config.importLogger = .init()
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
-            importContext.name = "\(url.lastPathComponent) Tag Import Context"
+            importContext.type = .backgroundContext
             
             let importData = try String(contentsOf: url)
             print("Imported Tag Export file. Trying to import into library.")

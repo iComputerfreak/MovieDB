@@ -38,11 +38,11 @@ struct ContentView: View {
                         Text(Strings.TabView.settingsLabel)
                     }
                 #if DEBUG
-                DebugView()
-                    .tabItem {
-                        Image(systemName: "ladybug")
-                        Text("Debug")
-                    }
+                    DebugView()
+                        .tabItem {
+                            Image(systemName: "ladybug")
+                            Text("Debug")
+                        }
                 #endif
             }
             .environmentObject(notificationProxy)

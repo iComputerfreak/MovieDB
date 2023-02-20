@@ -173,6 +173,10 @@
 		ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F528E774690092497F /* WatchlistMediaList.swift */; };
 		ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */; };
 		ABADB85B29A173F500853F56 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB85A29A173F500853F56 /* DebugView.swift */; };
+		ABADB85E29A3D09500853F56 /* Persistence+Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB85D29A3D09500853F56 /* Persistence+Saving.swift */; };
+		ABADB86029A3D09C00853F56 /* Persistence+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB85F29A3D09C00853F56 /* Persistence+Testing.swift */; };
+		ABADB86229A3D0A300853F56 /* Persistence+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */; };
+		ABADB86429A3D4DF00853F56 /* ContextType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86329A3D4DF00853F56 /* ContextType.swift */; };
 		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
@@ -447,6 +451,10 @@
 		ABAD15F528E774690092497F /* WatchlistMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsMediaList.swift; sourceTree = "<group>"; };
 		ABADB85A29A173F500853F56 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
+		ABADB85D29A3D09500853F56 /* Persistence+Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Saving.swift"; sourceTree = "<group>"; };
+		ABADB85F29A3D09C00853F56 /* Persistence+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Testing.swift"; sourceTree = "<group>"; };
+		ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Convenience.swift"; sourceTree = "<group>"; };
+		ABADB86329A3D4DF00853F56 /* ContextType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextType.swift; sourceTree = "<group>"; };
 		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
 		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
@@ -640,6 +648,10 @@
 				AB14340325CDD84B00AA304F /* CoreDataExtensions.swift */,
 				AB14341925CDE2BD00AA304F /* EnumTransformer.swift */,
 				AB5493DB25FBDD990072745B /* Persistence.swift */,
+				ABADB85D29A3D09500853F56 /* Persistence+Saving.swift */,
+				ABADB85F29A3D09C00853F56 /* Persistence+Testing.swift */,
+				ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */,
+				ABADB86329A3D4DF00853F56 /* ContextType.swift */,
 				AB1433CC25CDA3A100AA304F /* Model */,
 			);
 			path = CoreData;
@@ -1552,6 +1564,7 @@
 				ABED3B072393263E00F4C327 /* ShowType.swift in Sources */,
 				AB6D9C99283BC21E00AF655C /* Strings+MediaInformation.swift in Sources */,
 				AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */,
+				ABADB86429A3D4DF00853F56 /* ContextType.swift in Sources */,
 				ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */,
 				AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultRow.swift in Sources */,
@@ -1595,6 +1608,7 @@
 				AB6D9C8F283BC1EE00AF655C /* Strings+ResolveProblems.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
 				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
+				ABADB85E29A3D09500853F56 /* Persistence+Saving.swift in Sources */,
 				AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */,
 				AB6D9C87283BC1C400AF655C /* Strings+WatchProvider.swift in Sources */,
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
@@ -1654,6 +1668,7 @@
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
 				AB6D9C85283BC17C00AF655C /* Strings+Generic.swift in Sources */,
 				AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */,
+				ABADB86229A3D0A300853F56 /* Persistence+Convenience.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
@@ -1678,6 +1693,7 @@
 				AB3190DF297E07CD004BA53A /* CastMemberRow.swift in Sources */,
 				AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */,
 				AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */,
+				ABADB86029A3D09C00853F56 /* Persistence+Testing.swift in Sources */,
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,

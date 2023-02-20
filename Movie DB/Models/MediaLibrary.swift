@@ -93,7 +93,6 @@ struct MediaLibrary {
         
         // Create a child context to update the media objects in
         let updateContext = context.newBackgroundContext()
-        updateContext.name = "Update Context (\(updateContext.name ?? "unknown"))"
         
         var medias: [Media] = []
         for type in changedIDs.keys {
@@ -136,7 +135,6 @@ struct MediaLibrary {
     func reloadAll() async throws {
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
-        reloadContext.name = "Reload Context (\(reloadContext.name ?? "unknown"))"
         
         // Fetch all media objects from the store (using the reload context)
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()

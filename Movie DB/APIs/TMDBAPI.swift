@@ -10,6 +10,7 @@ import CoreData
 import Foundation
 import UIKit
 
+// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 actor TMDBAPI {
     static let shared = TMDBAPI()

@@ -38,7 +38,7 @@ struct ImportMediaButton: View {
         // Initialize the logger
         self.config.importLogger = .init()
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
-            importContext.name = "\(url.lastPathComponent) Media Import Context"
+            importContext.type = .backgroundContext
             
             // Parse the CSV data
             let csvString = try String(contentsOf: url)
