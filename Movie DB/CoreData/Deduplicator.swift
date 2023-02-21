@@ -12,7 +12,7 @@ import Foundation
 class Deduplicator {
     init() {}
     
-    /// Deduplicate tags with the same name by processing the persistent history, one entity at a time, on the historyQueue.
+    /// Deduplicate Core Data entities by processing the given `NSManagedObjectID`s.
     ///
     /// All peers should eventually reach the same result with no coordination or communication.
     func deduplicateAndWait(_ entity: DeduplicationEntity, changedObjectIDs: [NSManagedObjectID]) {
@@ -20,7 +20,7 @@ class Deduplicator {
         let taskContext = PersistenceController.shared.newBackgroundContext()
         
         // Use performAndWait because each step relies on the sequence.
-        // Because historyQueue runs in the background, waiting won’t block the main queue.
+        // Because historyQueue (our caller) runs in the background, waiting won’t block the main queue.
         taskContext.performAndWait {
             changedObjectIDs.forEach { objectID in
                 deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
@@ -30,6 +30,7 @@ class Deduplicator {
         }
     }
     
+    // swiftlint:disable:next function_body_length
     private func deduplicate(
         _ entity: DeduplicationEntity,
         changedObjectID: NSManagedObjectID,
@@ -38,7 +39,7 @@ class Deduplicator {
         let object = performingContext.object(with: changedObjectID)
         
         /// Cast the object to the generic type and return it on success
-        func castObject<T>() -> T {
+        func castObject<T>(as: T.Type = T.self) -> T {
             guard let object = object as? T else {
                 fatalError("###\(#function): Failed to retrieve object for objectID: \(object.objectID)")
             }
@@ -49,34 +50,107 @@ class Deduplicator {
         
         // TODO: Maybe we should do the winner selection in a closure instead of using a KeyPath to support more complex decisions?
         
+        // Make the function call a bit shorter by overloading the function locally
+        func deduplicateObject<T: NSManagedObject>(
+            _ object: T,
+            chosenBy keyPath: KeyPath<T, some Any>,
+            ascending: Bool,
+            uniquePropertyName propertyName: String,
+            uniquePropertyValue propertyValue: some CVarArg
+        ) {
+            self.deduplicateObject(
+                object,
+                entity: entity,
+                chosenBy: keyPath,
+                ascending: ascending,
+                uniquePropertyName: propertyName,
+                uniquePropertyValue: propertyValue,
+                performingContext: performingContext
+            )
+        }
+        
         switch entity {
         case .media:
             let media: Media = castObject()
             deduplicateObject(
                 media,
-                entity: entity,
                 chosenBy: \Media.modificationDate,
                 ascending: false,
                 uniquePropertyName: "id",
-                uniquePropertyValue: media.id!.uuidString,
-                performingContext: performingContext
+                uniquePropertyValue: media.id!.uuidString
             )
         case .tag:
-            break
+            let tag: Tag = castObject()
+            deduplicateObject(
+                tag,
+                chosenBy: \Tag.name,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: tag.id.uuidString
+            )
         case .genre:
-            break
+            let genre: Genre = castObject()
+            deduplicateObject(
+                genre,
+                chosenBy: \Genre.name,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: genre.id
+            )
         case .userMediaList:
-            break
+            let list: UserMediaList = castObject()
+            deduplicateObject(
+                list,
+                chosenBy: \UserMediaList.medias.count, // Choose the list with the most objects
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: list.id.uuidString
+            )
         case .dynamicMediaList:
-            break
+            let list: DynamicMediaList = castObject()
+            deduplicateObject(
+                list,
+                chosenBy: \DynamicMediaList.name,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: list.id.uuidString
+            )
         case .filterSetting:
-            break
+            let filterSetting: FilterSetting = castObject()
+            deduplicateObject(
+                filterSetting,
+                chosenBy: \FilterSetting.tags.count, // TODO: I would prefer to use random here
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: filterSetting.id!.uuidString
+            )
         case .productionCompany:
-            break
+            let company: ProductionCompany = castObject()
+            deduplicateObject(
+                company,
+                chosenBy: \ProductionCompany.name,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: company.id
+            )
         case .season:
-            break
+            let season: Season = castObject()
+            deduplicateObject(
+                season,
+                chosenBy: \Season.name,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: season.id
+            )
         case .video:
-            break
+            let video: Video = castObject()
+            deduplicateObject(
+                video,
+                chosenBy: \Video.name,
+                ascending: false,
+                uniquePropertyName: "key",
+                uniquePropertyValue: video.key
+            )
         }
     }
     
@@ -89,13 +163,13 @@ class Deduplicator {
     ///   - propertyName: The name of the property to use for detecting duplicates.
     ///   - propertyValue: The value of the property for the given object.
     ///   - performingContext: The `NSManagedObjectContext` in which we are currently performing.
-    private func deduplicateObject<T: NSManagedObject, V: CVarArg, U>(
+    private func deduplicateObject<T: NSManagedObject>( // swiftlint:disable:this function_parameter_count
         _ object: T,
         entity: DeduplicationEntity,
-        chosenBy keyPath: KeyPath<T, U>,
+        chosenBy keyPath: KeyPath<T, some Any>,
         ascending: Bool,
         uniquePropertyName propertyName: String,
-        uniquePropertyValue propertyValue: V,
+        uniquePropertyValue propertyValue: some CVarArg,
         performingContext: NSManagedObjectContext
     ) {
         guard entity.modelType == T.self else {
@@ -105,7 +179,7 @@ class Deduplicator {
         }
         
         // Fetch all objects with matching properties, sorted by the given keyPath
-        let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>(entityName: T.entity().name!)
+        let fetchRequest = NSFetchRequest<T>(entityName: T.entity().name!)
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: keyPath, ascending: ascending)]
         fetchRequest.predicate = NSPredicate(format: "%K == %@", propertyName, propertyValue)
         
@@ -117,14 +191,17 @@ class Deduplicator {
             return
         }
         
-        print("###\(#function): Deduplicating objects of type \(T.self) on property " +
-              "\(propertyName) = \(propertyValue), count: \(duplicates.count)")
+        print(
+            "###\(#function): Deduplicating objects of type \(T.self) on property " +
+            "\(propertyName) = \(propertyValue), count: \(duplicates.count)"
+        )
         
         // Pick the first object as the winner
         let winner = duplicates.first!
         duplicates.removeFirst()
         
         // Remove the other candidates (we need to split up into different functions here)
+        // swiftlint:disable force_cast
         switch entity {
         case .media:
             remove(
@@ -153,6 +230,7 @@ class Deduplicator {
         case .video:
             break
         }
+        // swiftlint:enable force_cast
     }
     
     /// Removes the given duplicate `Media` objects

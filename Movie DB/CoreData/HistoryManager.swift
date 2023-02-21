@@ -74,7 +74,9 @@ class HistoryManager {
             guard
                 let transactions = result?.result as? [NSPersistentHistoryTransaction],
                 !transactions.isEmpty
-            else { return }
+            else {
+                return
+            }
 
             // Post transactions relevant to the current view.
             DispatchQueue.main.async {
@@ -114,6 +116,7 @@ class HistoryManager {
                     // We only need the objectIDs of the changes
                     .map(\.changedObjectID)
                 
+                // We are still in a background context
                 deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
             }
             

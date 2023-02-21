@@ -52,6 +52,7 @@ public class Media: NSManagedObject {
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         print("calling initMedia")
+        // TODO: We could do this in awakeFromInsert
         personalRating = .noRating
         tags = []
         

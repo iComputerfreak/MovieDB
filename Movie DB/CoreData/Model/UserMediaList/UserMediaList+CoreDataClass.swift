@@ -18,4 +18,8 @@ public class UserMediaList: NSManagedObject, MediaListProtocol {
         fetch.sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
         return fetch
     }
+    
+    override public func awakeFromInsert() {
+        self.id = UUID()
+    }
 }
