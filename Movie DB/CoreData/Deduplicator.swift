@@ -216,23 +216,55 @@ class Deduplicator {
                 performingContext: performingContext
             )
         case .genre:
-            break
+            remove(
+                duplicatedGenres: duplicates as! [Genre],
+                winner: winner as! Genre,
+                performingContext: performingContext
+            )
         case .userMediaList:
-            break
+            remove(
+                duplicatedUserMediaLists: duplicates as! [UserMediaList],
+                winner: winner as! UserMediaList,
+                performingContext: performingContext
+            )
         case .dynamicMediaList:
-            break
+            remove(
+                duplicatedDynamicMediaLists: duplicates as! [DynamicMediaList],
+                winner: winner as! DynamicMediaList,
+                performingContext: performingContext
+            )
         case .filterSetting:
-            break
+            remove(
+                duplicatedFilterSettings: duplicates as! [FilterSetting],
+                winner: winner as! FilterSetting,
+                performingContext: performingContext
+            )
         case .productionCompany:
-            break
+            remove(
+                duplicatedProductionCompanies: duplicates as! [ProductionCompany],
+                winner: winner as! ProductionCompany,
+                performingContext: performingContext
+            )
         case .season:
-            break
+            remove(
+                duplicatedSeasons: duplicates as! [Season],
+                winner: winner as! Season,
+                performingContext: performingContext
+            )
         case .video:
-            break
+            remove(
+                duplicatedVideos: duplicates as! [Video],
+                winner: winner as! Video,
+                performingContext: performingContext
+            )
         }
         // swiftlint:enable force_cast
     }
-    
+}
+
+// MARK: - Duplicate Removal
+
+extension Deduplicator {
     /// Removes the given duplicate `Media` objects
     /// - Parameters:
     ///   - duplicatedMedias: The list of medias to remove
@@ -244,7 +276,7 @@ class Deduplicator {
             
             // TODO: Should we merge other properties? (notes, rating, watched, isFavorite, ...)
             
-            print("###\(#function): Removing deduplicated medias")
+            print("###\(#function): Removing deduplicated Media")
             exchange(media, with: winner, in: \.medias, on: \.userLists)
             exchange(media, with: winner, in: \.medias, on: \.productionCompanies)
             exchange(media, with: winner, in: \.medias, on: \.genres)
@@ -261,18 +293,96 @@ class Deduplicator {
         }
     }
     
-    /// Removes the given duplicate `Tag` objects
-    /// - Parameters:
-    ///   - duplicatedTags: The list of tags to remove
-    ///   - winner: The winner tag that can be used as a replacement
-    ///   - performingContext: The `NSManagedObjectContext` we are currently performing in
     private func remove(duplicatedTags: [Tag], winner: Tag, performingContext: NSManagedObjectContext) {
         duplicatedTags.forEach { tag in
             defer { performingContext.delete(tag) }
             
-            print("###\(#function): Removing deduplicated tags")
+            print("###\(#function): Removing deduplicated Tag")
             exchange(tag, with: winner, in: \.tags, on: \.medias)
             exchange(tag, with: winner, in: \.tags, on: \.filterSettings)
+        }
+    }
+    
+    private func remove(duplicatedGenres: [Genre], winner: Genre, performingContext: NSManagedObjectContext) {
+        duplicatedGenres.forEach { genre in
+            defer { performingContext.delete(genre) }
+            
+            print("###\(#function): Removing deduplicated Genre")
+            exchange(genre, with: winner, in: \.genres, on: \.filterSettings)
+            exchange(genre, with: winner, in: \.genres, on: \.medias)
+        }
+    }
+    
+    private func remove(
+        duplicatedUserMediaLists: [UserMediaList],
+        winner: UserMediaList,
+        performingContext: NSManagedObjectContext
+    ) {
+        duplicatedUserMediaLists.forEach { list in
+            defer { performingContext.delete(list) }
+            
+            print("###\(#function): Removing deduplicated UserMediaList")
+            exchange(list, with: winner, in: \.userLists, on: \.medias)
+        }
+    }
+    
+    private func remove(
+        duplicatedDynamicMediaLists: [DynamicMediaList],
+        winner: DynamicMediaList,
+        performingContext: NSManagedObjectContext
+    ) {
+        duplicatedDynamicMediaLists.forEach { list in
+            defer { performingContext.delete(list) }
+            
+            print("###\(#function): Removing deduplicated DynamicMediaList")
+            // DynamicMediaList.filterSetting will be automatically deleted by their cascading deletion rule
+        }
+    }
+    
+    private func remove(duplicatedFilterSettings: [FilterSetting], winner: FilterSetting, performingContext: NSManagedObjectContext) {
+        duplicatedFilterSettings.forEach { filterSetting in
+            defer { performingContext.delete(filterSetting) }
+            
+            print("###\(#function): Removing deduplicated FilterSetting")
+            exchange(filterSetting, with: winner, in: \.filterSettings, on: \.genres)
+            exchange(filterSetting, with: winner, in: \.filterSettings, on: \.tags)
+            
+            // We need to exchange the duplicate on the DynamicMediaLists too
+            filterSetting.mediaList?.filterSetting = winner
+        }
+    }
+    
+    private func remove(duplicatedProductionCompanies: [ProductionCompany], winner: ProductionCompany, performingContext: NSManagedObjectContext) {
+        duplicatedProductionCompanies.forEach { productionCompany in
+            defer { performingContext.delete(productionCompany) }
+            
+            print("###\(#function): Removing deduplicated ProductionCompany")
+            exchange(productionCompany, with: winner, in: \.productionCompanies, on: \.medias)
+            exchange(productionCompany, with: winner, in: \.productionCompanies, on: \.shows)
+        }
+    }
+    
+    private func remove(duplicatedSeasons: [Season], winner: Season, performingContext: NSManagedObjectContext) {
+        duplicatedSeasons.forEach { season in
+            defer { performingContext.delete(season) }
+            
+            print("###\(#function): Removing deduplicated Season")
+            if let show = season.show {
+                show.seasons.remove(season)
+                show.seasons.insert(winner)
+            }
+        }
+    }
+    
+    private func remove(duplicatedVideos: [Video], winner: Video, performingContext: NSManagedObjectContext) {
+        duplicatedVideos.forEach { video in
+            defer { performingContext.delete(video) }
+            
+            print("###\(#function): Removing deduplicated Video")
+            if let media = video.media {
+                media.videos.remove(video)
+                media.videos.insert(winner)
+            }
         }
     }
     

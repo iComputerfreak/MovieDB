@@ -6,7 +6,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sortingDirection" optional="YES" attributeType="String"/>
         <attribute name="sortingOrder" optional="YES" attributeType="String"/>
-        <relationship name="filterSetting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="mediaList" inverseEntity="FilterSetting"/>
+        <relationship name="filterSetting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="FilterSetting" inverseName="mediaList" inverseEntity="FilterSetting"/>
     </entity>
     <entity name="FilterSetting" representedClassName="FilterSetting" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
