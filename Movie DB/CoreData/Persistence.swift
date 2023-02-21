@@ -206,25 +206,34 @@ extension PersistenceController {
                 
                 // !!!: Alternatively: (update on any change, like we did before)
                 transactions.forEach { transaction in
-                    guard let userInfo = transaction.objectIDNotification().userInfo else { return }
+                    guard let userInfo = transaction.objectIDNotification().userInfo else {
+                        return
+                    }
                     let viewContext = self.container.viewContext
                     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo, into: [viewContext])
                 }
             }
 
-            // Deduplicate the new tags.
-            var newMediaObjectIDs = [NSManagedObjectID]()
-            let mediaEntityName = Media.entity().name
-
-            for transaction in transactions where transaction.changes != nil {
-                for change in transaction.changes!
-                    where change.changedObjectID.entity.name == mediaEntityName && change.changeType == .insert {
-                        newMediaObjectIDs.append(change.changedObjectID)
-                }
-            }
+            // MARK: Deduplication
             
-            if !newMediaObjectIDs.isEmpty {
-                deduplicateAndWait(mediaObjectIDs: newMediaObjectIDs)
+            // Pre-filter the changes
+            let relevantChanges = transactions
+                // Create a flattened array of all changes
+                .flatMap { $0.changes ?? [] } // returns [NSPersistentHistoryChange]
+                // Only look at inserts
+                .filter { $0.changeType == .insert }
+            
+            // Deduplicate all entities
+            for entity in DeduplicationEntity.allCases {
+                let entityName = entity.entityName
+                
+                let changedObjectIDs = relevantChanges
+                    // Only consider changes that involve the current entity
+                    .filter { $0.changedObjectID.entity.name == entityName }
+                    // We only need the objectIDs of the changes
+                    .map(\.changedObjectID)
+                
+                deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
             }
             
             // Update the history token using the last transaction.
@@ -235,64 +244,221 @@ extension PersistenceController {
 
 // MARK: - Deduplicate Medias
 
-// TODO: Do with other entities as well
-
 extension PersistenceController {
-    /// Deduplicate tags with the same name by processing the persistent history, one tag at a time, on the historyQueue.
+    /// Deduplicate tags with the same name by processing the persistent history, one entity at a time, on the historyQueue.
     ///
     /// All peers should eventually reach the same result with no coordination or communication.
-    private func deduplicateAndWait(mediaObjectIDs: [NSManagedObjectID]) {
+    private func deduplicateAndWait(_ entity: DeduplicationEntity, changedObjectIDs: [NSManagedObjectID]) {
         // Make any store changes on a background context
         let taskContext = container.newBackgroundContext()
         
         // Use performAndWait because each step relies on the sequence.
         // Because historyQueue runs in the background, waiting won’t block the main queue.
         taskContext.performAndWait {
-            mediaObjectIDs.forEach { mediaObjectID in
-                deduplicate(mediaObjectID: mediaObjectID, performingContext: taskContext)
+            changedObjectIDs.forEach { objectID in
+                deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
             }
             // Save the background context to trigger a notification and merge the result into the viewContext.
             PersistenceController.saveContext(taskContext)
         }
     }
-
-    /// Deduplicate a single tag.
-    private func deduplicate(mediaObjectID: NSManagedObjectID, performingContext: NSManagedObjectContext) {
-        guard
-            let media = performingContext.object(with: mediaObjectID) as? Media,
-            let mediaID = media.id
-        else {
-            // TODO: Replace with correct error handling
-            fatalError("###\(#function): Failed to retrieve a valid media with objectID: \(mediaObjectID)")
+    
+    private func deduplicate(
+        _ entity: DeduplicationEntity,
+        changedObjectID: NSManagedObjectID,
+        performingContext: NSManagedObjectContext
+    ) {
+        let object = performingContext.object(with: changedObjectID)
+        
+        /// Cast the object to the generic type and return it on success
+        func castObject<T>() -> T {
+            guard let object = object as? T else {
+                fatalError("###\(#function): Failed to retrieve object for objectID: \(object.objectID)")
+            }
+            return object
         }
-
-        // Fetch all medias with the same id, sorted by modificationDate
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.modificationDate, ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", mediaID.uuidString)
+        
+        // MARK: Decide how to select the winner
+        
+        // TODO: Maybe we should do the winner selection in a closure instead of using a KeyPath to support more complex decisions?
+        
+        switch entity {
+        case .media:
+            let media: Media = castObject()
+            deduplicateObject(
+                media,
+                entity: entity,
+                chosenBy: \Media.modificationDate,
+                ascending: false,
+                uniquePropertyName: "id",
+                uniquePropertyValue: media.id!.uuidString,
+                performingContext: performingContext
+            )
+        case .tag:
+            break
+        case .genre:
+            break
+        case .userMediaList:
+            break
+        case .dynamicMediaList:
+            break
+        case .filterSetting:
+            break
+        case .productionCompany:
+            break
+        case .season:
+            break
+        case .video:
+            break
+        }
+    }
+    
+    /// Deduplicates the given object instance using the given winner criteria
+    /// - Parameters:
+    ///   - object: The `NSManagedObject` instance to deduplicate
+    ///   - entity: The `DeduplicationEntity` of the object
+    ///   - keyPath: A `KeyPath` describing the property to use for selecting a winner between the duplicates. The duplicates will be sorted by this property.
+    ///   - ascending: Whether the duplicates should be sorted by the given keyPath in an ascending order, before choosing the first object as the winner.
+    ///   - propertyName: The name of the property to use for detecting duplicates.
+    ///   - propertyValue: The value of the property for the given object.
+    ///   - performingContext: The `NSManagedObjectContext` in which we are currently performing.
+    private func deduplicateObject<T: NSManagedObject, V: CVarArg, U>(
+        _ object: T,
+        entity: DeduplicationEntity,
+        chosenBy keyPath: KeyPath<T, U>,
+        ascending: Bool,
+        uniquePropertyName propertyName: String,
+        uniquePropertyValue propertyValue: V,
+        performingContext: NSManagedObjectContext
+    ) {
+        guard entity.modelType == T.self else {
+            // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
+            fatalError("Error: deduplicate() called with mismatching object of type \(T.self) " +
+                       "and entity parameter of type \(entity.modelType).")
+        }
+        
+        // Fetch all objects with matching properties, sorted by the given keyPath
+        let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>(entityName: T.entity().name!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: keyPath, ascending: ascending)]
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", propertyName, propertyValue)
         
         // Return if there are no duplicates.
         guard
-            var duplicatedMedias = try? performingContext.fetch(fetchRequest),
-            duplicatedMedias.count > 1
-        else { return }
-        print("###\(#function): Deduplicating media with title: \(media.title), count: \(duplicatedMedias.count)")
+            var duplicates = try? performingContext.fetch(fetchRequest),
+            duplicates.count > 1
+        else {
+            return
+        }
         
-        // Pick the first media as the winner (latest modification date)
-        let winner = duplicatedMedias.first!
-        duplicatedMedias.removeFirst()
-        remove(duplicatedMedias: duplicatedMedias, winner: winner, performingContext: performingContext)
+        print("###\(#function): Deduplicating objects of type \(T.self) on property " +
+              "\(propertyName) = \(propertyValue), count: \(duplicates.count)")
+        
+        // Pick the first object as the winner
+        let winner = duplicates.first!
+        duplicates.removeFirst()
+        
+        // Remove the other candidates (we need to split up into different functions here)
+        switch entity {
+        case .media:
+            remove(
+                duplicatedMedias: duplicates as! [Media],
+                winner: winner as! Media,
+                performingContext: performingContext
+            )
+        case .tag:
+            remove(
+                duplicatedTags: duplicates as! [Tag],
+                winner: winner as! Tag,
+                performingContext: performingContext
+            )
+        case .genre:
+            break
+        case .userMediaList:
+            break
+        case .dynamicMediaList:
+            break
+        case .filterSetting:
+            break
+        case .productionCompany:
+            break
+        case .season:
+            break
+        case .video:
+            break
+        }
     }
     
-    /// Remove duplicate tags from their respective posts, replacing them with the winner.
+    /// Removes the given duplicate `Media` objects
+    /// - Parameters:
+    ///   - duplicatedMedias: The list of medias to remove
+    ///   - winner: The winner media that can be used as a replacement
+    ///   - performingContext: The `NSManagedObjectContext` we are currently performing in
     private func remove(duplicatedMedias: [Media], winner: Media, performingContext: NSManagedObjectContext) {
         duplicatedMedias.forEach { media in
             defer { performingContext.delete(media) }
             
-            // TODO: What to do here?
-            // - copy over custom lists, isFavorite, isBookmarked?
-            // - copy over other user data?
+            // TODO: Should we merge other properties? (notes, rating, watched, isFavorite, ...)
+            
             print("###\(#function): Removing deduplicated medias")
+            exchange(media, with: winner, in: \.medias, on: \.userLists)
+            exchange(media, with: winner, in: \.medias, on: \.productionCompanies)
+            exchange(media, with: winner, in: \.medias, on: \.genres)
+            exchange(media, with: winner, in: \.medias, on: \.tags)
+            
+            // Media.videos and Show.seasons will be automatically deleted by their cascading deletion rules
+            
+            if
+                let show = media as? Show,
+                let winnerShow = winner as? Show
+            {
+                exchange(show, with: winnerShow, in: \.shows, on: \.networks)
+            }
+        }
+    }
+    
+    /// Removes the given duplicate `Tag` objects
+    /// - Parameters:
+    ///   - duplicatedTags: The list of tags to remove
+    ///   - winner: The winner tag that can be used as a replacement
+    ///   - performingContext: The `NSManagedObjectContext` we are currently performing in
+    private func remove(duplicatedTags: [Tag], winner: Tag, performingContext: NSManagedObjectContext) {
+        duplicatedTags.forEach { tag in
+            defer { performingContext.delete(tag) }
+            
+            print("###\(#function): Removing deduplicated tags")
+            exchange(tag, with: winner, in: \.tags, on: \.medias)
+            exchange(tag, with: winner, in: \.tags, on: \.filterSettings)
+        }
+    }
+    
+    /// Exchanges the given duplicate instance with the winner instance.
+    /// The instance is exchanged in all sets that are located at the `referenceKeyPath` under the `propertyKeyPath`
+    ///
+    ///     let duplicateTag = Tag(...)
+    ///     let winnerTag = Tag(...)
+    ///
+    ///     // Go through all medias associated with the duplicate tag (\.medias)
+    ///     // and replace the duplicate tag in the tags of that media (\.tags)
+    ///     exchange(duplicateTag, with: winnerTag, in: \.tags, on: \.medias)
+    ///
+    ///     // After execution, all medias in duplicateTag.medias contain the winnerTag,
+    ///     // instead of the duplicateTag
+    ///
+    /// - Parameters:
+    ///   - duplicate: The duplicate object
+    ///   - winner: The winner object
+    ///   - referenceKeyPath: A reference to a Set of objects of the same type as duplicate and winner.
+    ///   - propertyKeyPath: A reference to a Set of objects of the same type as the root of the `referenceKeyPath`.
+    private func exchange<T, V>(
+        _ duplicate: T,
+        with winner: T,
+        in referenceKeyPath: ReferenceWritableKeyPath<V, Set<T>>,
+        on propertyKeyPath: KeyPath<T, Set<V>>
+    ) {
+        // For each item in the given list, remove the duplicate and add the winner
+        duplicate[keyPath: propertyKeyPath].forEach { item in
+            item[keyPath: referenceKeyPath].remove(duplicate)
+            item[keyPath: referenceKeyPath].insert(winner)
         }
     }
 }
