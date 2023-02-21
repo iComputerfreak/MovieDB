@@ -49,6 +49,8 @@
 		AB1434AB25CEE53A00AA304F /* Season+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1434A325CEE53A00AA304F /* Season+CoreDataProperties.swift */; };
 		AB1434CD25CEF2DD00AA304F /* EpisodeNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1434CC25CEF2DD00AA304F /* EpisodeNumber.swift */; };
 		AB149BF923A557220066FD7E /* ResultsPageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB149BF823A557220066FD7E /* ResultsPageWrapper.swift */; };
+		AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2226E729A53472009EF7BE /* HistoryManager.swift */; };
+		AB2226EA29A534FD009EF7BE /* Deduplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2226E929A534FD009EF7BE /* Deduplicator.swift */; };
 		AB2742562389D95200744B83 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2742552389D95200744B83 /* RatingView.swift */; };
 		AB27425C2389DFEE00744B83 /* WatchedShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27425B2389DFEE00744B83 /* WatchedShowView.swift */; };
 		AB2742602389E06500744B83 /* SimpleValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27425F2389E06500744B83 /* SimpleValueView.swift */; };
@@ -315,6 +317,8 @@
 		AB1434A325CEE53A00AA304F /* Season+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Season+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB1434CC25CEF2DD00AA304F /* EpisodeNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeNumber.swift; sourceTree = "<group>"; };
 		AB149BF823A557220066FD7E /* ResultsPageWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsPageWrapper.swift; sourceTree = "<group>"; };
+		AB2226E729A53472009EF7BE /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
+		AB2226E929A534FD009EF7BE /* Deduplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deduplicator.swift; sourceTree = "<group>"; };
 		AB2742552389D95200744B83 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		AB27425B2389DFEE00744B83 /* WatchedShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedShowView.swift; sourceTree = "<group>"; };
 		AB27425F2389E06500744B83 /* SimpleValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleValueView.swift; sourceTree = "<group>"; };
@@ -648,6 +652,8 @@
 				ABADB85D29A3D09500853F56 /* Persistence+Saving.swift */,
 				ABADB85F29A3D09C00853F56 /* Persistence+Testing.swift */,
 				ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */,
+				AB2226E729A53472009EF7BE /* HistoryManager.swift */,
+				AB2226E929A534FD009EF7BE /* Deduplicator.swift */,
 				ABADB86729A50B0900853F56 /* DeduplicationEntity.swift */,
 				ABADB86329A3D4DF00853F56 /* ContextType.swift */,
 				AB1433CC25CDA3A100AA304F /* Model */,
@@ -1539,6 +1545,7 @@
 				ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */,
 				ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */,
 				AB6D9C95283BC20D00AF655C /* Strings+MediaStatus.swift in Sources */,
+				AB2226EA29A534FD009EF7BE /* Deduplicator.swift in Sources */,
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
 				AB9190E4297E054900324520 /* WatchedLabel.swift in Sources */,
@@ -1658,6 +1665,7 @@
 				AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */,
 				ABADB86229A3D0A300853F56 /* Persistence+Convenience.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
+				AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */,
 				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
