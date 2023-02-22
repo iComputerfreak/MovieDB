@@ -9,6 +9,23 @@
 import CoreData
 import Foundation
 
+// TODO: Put into library, add min and max, maybe use this syntax in future: https://forums.swift.org/t/map-sorting/21421
+extension Sequence {
+    func sorted(by keyPath: KeyPath<Element, (some Comparable)?>) -> [Element] {
+        sorted { a, b in
+            // If value1 is nil, we sort it before value2 => return true
+            guard let value1 = a[keyPath: keyPath] else {
+                return true
+            }
+            // If value2 is nil, we sort it before value1 => return false
+            guard let value2 = b[keyPath: keyPath] else {
+                return false
+            }
+            return value1 < value2
+        }
+    }
+}
+
 class Deduplicator {
     init() {}
     
@@ -48,21 +65,17 @@ class Deduplicator {
         
         // MARK: Decide how to select the winner
         
-        // TODO: Maybe we should do the winner selection in a closure instead of using a KeyPath to support more complex decisions?
-        
         // Make the function call a bit shorter by overloading the function locally
-        func deduplicateObject<T: NSManagedObject>(
-            _ object: T,
-            chosenBy keyPath: KeyPath<T, some Any>,
-            ascending: Bool,
+        func deduplicateObject<Entity: NSManagedObject>(
+            _ object: Entity,
+            chooseWinner: ([Entity]) -> Entity = { $0.first! },
             uniquePropertyName propertyName: String,
             uniquePropertyValue propertyValue: some CVarArg
         ) {
             self.deduplicateObject(
                 object,
                 entity: entity,
-                chosenBy: keyPath,
-                ascending: ascending,
+                chooseWinner: chooseWinner,
                 uniquePropertyName: propertyName,
                 uniquePropertyValue: propertyValue,
                 performingContext: performingContext
@@ -74,8 +87,8 @@ class Deduplicator {
             let media: Media = castObject()
             deduplicateObject(
                 media,
-                chosenBy: \Media.modificationDate,
-                ascending: false,
+                // Use the media with the newest modification date
+                chooseWinner: { $0.sorted(by: \.modificationDate).last! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: media.id!.uuidString
             )
@@ -83,8 +96,8 @@ class Deduplicator {
             let tag: Tag = castObject()
             deduplicateObject(
                 tag,
-                chosenBy: \Tag.name,
-                ascending: false,
+                // Use the first tag with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: tag.id.uuidString
             )
@@ -92,8 +105,8 @@ class Deduplicator {
             let genre: Genre = castObject()
             deduplicateObject(
                 genre,
-                chosenBy: \Genre.name,
-                ascending: false,
+                // Use the first genre with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: genre.id
             )
@@ -101,8 +114,8 @@ class Deduplicator {
             let list: UserMediaList = castObject()
             deduplicateObject(
                 list,
-                chosenBy: \UserMediaList.medias.count, // Choose the list with the most objects
-                ascending: false,
+                // Choose the list with the most objects
+                chooseWinner: { $0.sorted(by: \UserMediaList.medias.count).last! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: list.id.uuidString
             )
@@ -110,8 +123,8 @@ class Deduplicator {
             let list: DynamicMediaList = castObject()
             deduplicateObject(
                 list,
-                chosenBy: \DynamicMediaList.name,
-                ascending: false,
+                // Use the first list with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: list.id.uuidString
             )
@@ -119,8 +132,8 @@ class Deduplicator {
             let filterSetting: FilterSetting = castObject()
             deduplicateObject(
                 filterSetting,
-                chosenBy: \FilterSetting.tags.count, // TODO: I would prefer to use random here
-                ascending: false,
+                // Does not matter
+                chooseWinner: { $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: filterSetting.id!.uuidString
             )
@@ -128,8 +141,8 @@ class Deduplicator {
             let company: ProductionCompany = castObject()
             deduplicateObject(
                 company,
-                chosenBy: \ProductionCompany.name,
-                ascending: false,
+                // Use the first company with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: company.id
             )
@@ -137,8 +150,8 @@ class Deduplicator {
             let season: Season = castObject()
             deduplicateObject(
                 season,
-                chosenBy: \Season.name,
-                ascending: false,
+                // Use the first season with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
                 uniquePropertyValue: season.id
             )
@@ -146,8 +159,8 @@ class Deduplicator {
             let video: Video = castObject()
             deduplicateObject(
                 video,
-                chosenBy: \Video.name,
-                ascending: false,
+                // Use the first video with a non-empty name
+                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "key",
                 uniquePropertyValue: video.key
             )
@@ -158,29 +171,26 @@ class Deduplicator {
     /// - Parameters:
     ///   - object: The `NSManagedObject` instance to deduplicate
     ///   - entity: The `DeduplicationEntity` of the object
-    ///   - keyPath: A `KeyPath` describing the property to use for selecting a winner between the duplicates. The duplicates will be sorted by this property.
-    ///   - ascending: Whether the duplicates should be sorted by the given keyPath in an ascending order, before choosing the first object as the winner.
+    ///   - chooseWinner: A closure that determines the index of the winner instance in a given list of duplicates
     ///   - propertyName: The name of the property to use for detecting duplicates.
     ///   - propertyValue: The value of the property for the given object.
     ///   - performingContext: The `NSManagedObjectContext` in which we are currently performing.
-    private func deduplicateObject<T: NSManagedObject>( // swiftlint:disable:this function_parameter_count
-        _ object: T,
+    private func deduplicateObject<Entity: NSManagedObject>( // swiftlint:disable:this function_parameter_count
+        _ object: Entity,
         entity: DeduplicationEntity,
-        chosenBy keyPath: KeyPath<T, some Any>,
-        ascending: Bool,
+        chooseWinner: ([Entity]) -> Entity = { $0.first! },
         uniquePropertyName propertyName: String,
         uniquePropertyValue propertyValue: some CVarArg,
         performingContext: NSManagedObjectContext
     ) {
-        guard entity.modelType == T.self else {
+        guard entity.modelType == Entity.self else {
             // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
-            fatalError("Error: deduplicate() called with mismatching object of type \(T.self) " +
+            fatalError("\(#function) called with mismatching object of type \(Entity.self) " +
                        "and entity parameter of type \(entity.modelType).")
         }
         
         // Fetch all objects with matching properties, sorted by the given keyPath
-        let fetchRequest = NSFetchRequest<T>(entityName: T.entity().name!)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: keyPath, ascending: ascending)]
+        let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entity().name!)
         fetchRequest.predicate = NSPredicate(format: "%K == %@", propertyName, propertyValue)
         
         // Return if there are no duplicates.
@@ -192,13 +202,21 @@ class Deduplicator {
         }
         
         print(
-            "###\(#function): Deduplicating objects of type \(T.self) on property " +
+            "###\(#function): Deduplicating objects of type \(Entity.self) on property " +
             "\(propertyName) = \(propertyValue), count: \(duplicates.count)"
         )
         
-        // Pick the first object as the winner
-        let winner = duplicates.first!
-        duplicates.removeFirst()
+        // Remove the winner object from the duplicates
+        assert(
+            Set(duplicates.map(\.objectID)).count == duplicates.count,
+            "There are duplicates with identical objectIDs! The below selection algorithm will not work."
+        )
+        let winner = chooseWinner(duplicates)
+        guard let winnerIndex = duplicates.firstIndex(where: { $0.objectID == winner.objectID }) else {
+            print("###\(#function): The selected winner is not part of the provided duplicates.")
+            return
+        }
+        duplicates.remove(at: winnerIndex)
         
         // Remove the other candidates (we need to split up into different functions here)
         // swiftlint:disable force_cast
