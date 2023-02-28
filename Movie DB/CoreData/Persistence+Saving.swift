@@ -69,11 +69,10 @@ extension PersistenceController {
                     try context.save()
                     print("Context saved.")
                 } catch {
-                    let nserror = error as NSError
-                    print(nserror)
+                    print(error)
                     AlertHandler.showError(
                         title: Strings.Alert.errorSavingCoreDataTitle,
-                        error: nserror
+                        error: error
                     )
                 }
             } else {

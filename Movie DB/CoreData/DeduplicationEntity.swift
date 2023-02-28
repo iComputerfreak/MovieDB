@@ -11,6 +11,8 @@ import CoreData
 /// Represents a Core Data entity that must be duplicated when merging remote changes
 enum DeduplicationEntity: CaseIterable {
     case media
+    case movie
+    case show
     case tag
     case genre
     case userMediaList
@@ -30,6 +32,10 @@ enum DeduplicationEntity: CaseIterable {
         switch self {
         case .media:
             return Media.self
+        case .movie:
+            return Movie.self
+        case .show:
+            return Show.self
         case .tag:
             return Tag.self
         case .genre:

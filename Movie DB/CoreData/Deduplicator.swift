@@ -9,6 +9,8 @@
 import CoreData
 import Foundation
 
+// swiftlint:disable file_length
+
 // TODO: Put into library, add min and max, maybe use this syntax in future: https://forums.swift.org/t/map-sorting/21421
 extension Sequence {
     func sorted(by keyPath: KeyPath<Element, (some Comparable)?>) -> [Element] {
@@ -26,6 +28,7 @@ extension Sequence {
     }
 }
 
+// swiftlint:disable:next type_body_length
 class Deduplicator {
     init() {}
     
@@ -33,8 +36,14 @@ class Deduplicator {
     ///
     /// All peers should eventually reach the same result with no coordination or communication.
     func deduplicateAndWait(_ entity: DeduplicationEntity, changedObjectIDs: [NSManagedObjectID]) {
+        guard !changedObjectIDs.isEmpty else {
+            // Nothing to do
+            return
+        }
+        
         // Make any store changes on a background context
         let taskContext = PersistenceController.shared.newBackgroundContext()
+        taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         
         // Use performAndWait because each step relies on the sequence.
         // Because historyQueue (our caller) runs in the background, waiting won’t block the main queue.
@@ -83,23 +92,29 @@ class Deduplicator {
         }
         
         switch entity {
-        case .media:
+        case .media, .movie, .show:
             let media: Media = castObject()
-            deduplicateObject(
-                media,
-                // Use the media with the newest modification date
-                chooseWinner: { $0.sorted(by: \.modificationDate).last! },
-                uniquePropertyName: "id",
-                uniquePropertyValue: media.id!.uuidString
-            )
+            if let id = media.id {
+                deduplicateObject(
+                    media,
+                    // Use the media with the newest modification date
+                    chooseWinner: { $0.sorted(by: \.modificationDate).last! },
+                    uniquePropertyName: "id",
+                    uniquePropertyValue: id.uuidString
+                )
+            } else {
+                print("Media \(media.title) is missing an UUID. Generating a new one...")
+                media.id = UUID()
+            }
         case .tag:
             let tag: Tag = castObject()
             deduplicateObject(
                 tag,
                 // Use the first tag with a non-empty name
+                // TODO: Must be deteministic!
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "id",
-                uniquePropertyValue: tag.id.uuidString
+                uniquePropertyName: "name",
+                uniquePropertyValue: tag.name
             )
         case .genre:
             let genre: Genre = castObject()
@@ -108,7 +123,7 @@ class Deduplicator {
                 // Use the first genre with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
-                uniquePropertyValue: genre.id
+                uniquePropertyValue: genre.id as NSNumber
             )
         case .userMediaList:
             let list: UserMediaList = castObject()
@@ -130,13 +145,20 @@ class Deduplicator {
             )
         case .filterSetting:
             let filterSetting: FilterSetting = castObject()
-            deduplicateObject(
-                filterSetting,
-                // Does not matter
-                chooseWinner: { $0.first! },
-                uniquePropertyName: "id",
-                uniquePropertyValue: filterSetting.id!.uuidString
-            )
+            // We can only deduplicate if we have an ID, otherwise we need to assume the FilterSettings are distinct
+            if let id = filterSetting.id {
+                deduplicateObject(
+                    filterSetting,
+                    // Does not matter
+                    chooseWinner: { $0.first! },
+                    uniquePropertyName: "id",
+                    uniquePropertyValue: id.uuidString
+                )
+            } else {
+                // Give the FilterSetting a new ID
+                print("FilterSetting is missing an UUID. Generating a new one...")
+                filterSetting.id = UUID()
+            }
         case .productionCompany:
             let company: ProductionCompany = castObject()
             deduplicateObject(
@@ -144,7 +166,7 @@ class Deduplicator {
                 // Use the first company with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
-                uniquePropertyValue: company.id
+                uniquePropertyValue: company.id as NSNumber
             )
         case .season:
             let season: Season = castObject()
@@ -153,7 +175,7 @@ class Deduplicator {
                 // Use the first season with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: "id",
-                uniquePropertyValue: season.id
+                uniquePropertyValue: season.id as NSNumber
             )
         case .video:
             let video: Video = castObject()
@@ -175,7 +197,7 @@ class Deduplicator {
     ///   - propertyName: The name of the property to use for detecting duplicates.
     ///   - propertyValue: The value of the property for the given object.
     ///   - performingContext: The `NSManagedObjectContext` in which we are currently performing.
-    private func deduplicateObject<Entity: NSManagedObject>( // swiftlint:disable:this function_parameter_count
+    private func deduplicateObject<Entity: NSManagedObject>( // swiftlint:disable:this function_body_length
         _ object: Entity,
         entity: DeduplicationEntity,
         chooseWinner: ([Entity]) -> Entity = { $0.first! },
@@ -183,11 +205,12 @@ class Deduplicator {
         uniquePropertyValue propertyValue: some CVarArg,
         performingContext: NSManagedObjectContext
     ) {
-        guard entity.modelType == Entity.self else {
-            // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
-            fatalError("\(#function) called with mismatching object of type \(Entity.self) " +
-                       "and entity parameter of type \(entity.modelType).")
-        }
+        // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
+        assert(
+            entity.modelType == Entity.self || entity == .movie || entity == .show,
+            "\(#function) called with mismatching object of type \(Entity.self) " +
+            "and entity parameter of type \(entity.modelType)."
+        )
         
         // Fetch all objects with matching properties, sorted by the given keyPath
         let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entity().name!)
@@ -221,7 +244,7 @@ class Deduplicator {
         // Remove the other candidates (we need to split up into different functions here)
         // swiftlint:disable force_cast
         switch entity {
-        case .media:
+        case .media, .movie, .show:
             remove(
                 duplicatedMedias: duplicates as! [Media],
                 winner: winner as! Media,
@@ -289,6 +312,11 @@ extension Deduplicator {
     ///   - winner: The winner media that can be used as a replacement
     ///   - performingContext: The `NSManagedObjectContext` we are currently performing in
     private func remove(duplicatedMedias: [Media], winner: Media, performingContext: NSManagedObjectContext) {
+        precondition(
+            duplicatedMedias.map(\.title).removingDuplicates().count == 1,
+            "The duplicate media objects have different titles"
+        )
+        
         duplicatedMedias.forEach { media in
             defer { performingContext.delete(media) }
             
@@ -312,20 +340,31 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedTags: [Tag], winner: Tag, performingContext: NSManagedObjectContext) {
+        precondition(
+            duplicatedTags.map(\.name).removingDuplicates().count == 1,
+            "The duplicate tags have different names"
+        )
+        precondition(!duplicatedTags.contains(winner), "The duplicated tags must be excluding the winner.")
+        
         duplicatedTags.forEach { tag in
             defer { performingContext.delete(tag) }
             
-            print("###\(#function): Removing deduplicated Tag")
+            print("Removing deduplicated Tag: \(tag)")
             exchange(tag, with: winner, in: \.tags, on: \.medias)
             exchange(tag, with: winner, in: \.tags, on: \.filterSettings)
         }
     }
     
     private func remove(duplicatedGenres: [Genre], winner: Genre, performingContext: NSManagedObjectContext) {
+        precondition(
+            duplicatedGenres.map(\.name).removingDuplicates().count == 1,
+            "The duplicate genres have different names"
+        )
+        
         duplicatedGenres.forEach { genre in
             defer { performingContext.delete(genre) }
             
-            print("###\(#function): Removing deduplicated Genre")
+            print("Removing deduplicated Genre: \(genre)")
             exchange(genre, with: winner, in: \.genres, on: \.filterSettings)
             exchange(genre, with: winner, in: \.genres, on: \.medias)
         }
@@ -336,6 +375,11 @@ extension Deduplicator {
         winner: UserMediaList,
         performingContext: NSManagedObjectContext
     ) {
+        precondition(
+            duplicatedUserMediaLists.map(\.name).removingDuplicates().count == 1,
+            "The duplicate user lists have different names"
+        )
+        
         duplicatedUserMediaLists.forEach { list in
             defer { performingContext.delete(list) }
             
@@ -349,6 +393,11 @@ extension Deduplicator {
         winner: DynamicMediaList,
         performingContext: NSManagedObjectContext
     ) {
+        precondition(
+            duplicatedDynamicMediaLists.map(\.name).removingDuplicates().count == 1,
+            "The duplicate dynamic lists have different names"
+        )
+        
         duplicatedDynamicMediaLists.forEach { list in
             defer { performingContext.delete(list) }
             
@@ -357,7 +406,11 @@ extension Deduplicator {
         }
     }
     
-    private func remove(duplicatedFilterSettings: [FilterSetting], winner: FilterSetting, performingContext: NSManagedObjectContext) {
+    private func remove(
+        duplicatedFilterSettings: [FilterSetting],
+        winner: FilterSetting,
+        performingContext: NSManagedObjectContext
+    ) {
         duplicatedFilterSettings.forEach { filterSetting in
             defer { performingContext.delete(filterSetting) }
             
@@ -370,7 +423,16 @@ extension Deduplicator {
         }
     }
     
-    private func remove(duplicatedProductionCompanies: [ProductionCompany], winner: ProductionCompany, performingContext: NSManagedObjectContext) {
+    private func remove(
+        duplicatedProductionCompanies: [ProductionCompany],
+        winner: ProductionCompany,
+        performingContext: NSManagedObjectContext
+    ) {
+        precondition(
+            duplicatedProductionCompanies.map(\.name).removingDuplicates().count == 1,
+            "The duplicate production companies have different names"
+        )
+        
         duplicatedProductionCompanies.forEach { productionCompany in
             defer { performingContext.delete(productionCompany) }
             
@@ -381,6 +443,11 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedSeasons: [Season], winner: Season, performingContext: NSManagedObjectContext) {
+        precondition(
+            duplicatedSeasons.map(\.seasonNumber).removingDuplicates().count == 1,
+            "The duplicate seasons have different season numbers"
+        )
+        
         duplicatedSeasons.forEach { season in
             defer { performingContext.delete(season) }
             
@@ -393,6 +460,11 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedVideos: [Video], winner: Video, performingContext: NSManagedObjectContext) {
+        precondition(
+            duplicatedVideos.map(\.key).removingDuplicates().count == 1,
+            "The duplicate videos have different keys"
+        )
+        
         duplicatedVideos.forEach { video in
             defer { performingContext.delete(video) }
             

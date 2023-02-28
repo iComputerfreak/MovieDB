@@ -87,7 +87,7 @@ class PersistenceController {
     static func configureStoreDescription(_ description: NSPersistentStoreDescription?) {
         // Migration settings
         description?.shouldMigrateStoreAutomatically = true
-        description?.shouldInferMappingModelAutomatically = false
+        description?.shouldInferMappingModelAutomatically = true
         // Turn on persistent history tracking
         description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         // Turn on remote change notifications

@@ -127,3 +127,17 @@ extension NSPredicate {
         NSCompoundPredicate(type: .not, subpredicates: [self])
     }
 }
+
+extension Int {
+    // TODO: Write better docs
+    /// Left-pads the number using the given padding string to the given length (does not remove characters)
+    func padding(toLength length: Int, withPad paddingString: String = " ") -> String {
+        var string = String(self)
+        
+        while string.count < length {
+            string = paddingString + string
+        }
+        
+        return string
+    }
+}

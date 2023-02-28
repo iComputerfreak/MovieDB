@@ -32,6 +32,11 @@ public class Media: NSManagedObject {
         }
     }
     
+    override public var description: String {
+        "Media(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watchAgain: " +
+        "\(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
+    }
+    
     override public func prepareForDeletion() {
         print("Preparing \(title) for deletion")
         if
@@ -106,9 +111,9 @@ public class Media: NSManagedObject {
     }
     
     override public func awakeFromFetch() {
-        print("[\(title)] Awaking from fetch")
         Task {
-            await self.loadThumbnail()
+            // TODO: Reactivate
+            //await self.loadThumbnail()
         }
     }
     
@@ -142,7 +147,7 @@ public class Media: NSManagedObject {
         // probably need to make this function async
         // When accessing the imagePath, we should be on the same thread as the managedObjectContext
         guard
-            let imagePath,
+            let imagePath = self.managedObjectContext?.performAndWait({ self.imagePath }),
             let fileURL = Utils.imageFileURL(path: imagePath),
             FileManager.default.fileExists(atPath: fileURL.path)
         else {
@@ -152,9 +157,30 @@ public class Media: NSManagedObject {
     }
     
     private func downloadThumbnail() async -> UIImage? {
-        let loadedPath = await managedObjectContext?.perform {
-            self.imagePath
+        guard !Task.isCancelled else {
+            return nil
         }
+        // TODO: FIX: Error happening seemingly randomly
+        /*
+         2023-02-25 01:00:34.677895+0100 Movie DB[83392:11327579] [error] error: illegally invoked -performWithOptions* on dying NSManagedObjectContext at:
+             (
+             0   CoreData                            0x0000000184548868 -[NSManagedObjectContext(_NSCoreDataSPI) performWithOptions:andBlock:] + 560
+             1   CoreData                            0x000000018449118c $sSo22NSManagedObjectContextC8CoreDataE7perform8schedule_xAbCE17ScheduledTaskTypeO_xyKctYaKlFTY0_ + 900
+             2   Movie DB                            0x00000001006a0751 $s8Movie_DB5MediaC17downloadThumbnail33_6C2B2FD65E8B52D357497CFEE84243C5LLSo7UIImageCSgyYaFTQ1_ + 1
+             3   Movie DB                            0x00000001006a4059 $s8Movie_DB5MediaC13loadThumbnail5forceySb_tYaFyyYaYbcfU2_TQ0_ + 1
+             4   Movie DB                            0x00000001006a59f1 $s8Movie_DB5MediaC13loadThumbnail5forceySb_tYaFyyYaYbcfU2_TATQ0_ + 1
+             5   Movie DB                            0x0000000100539df9 $sxIeghHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRTQ0_ + 1
+             6   Movie DB                            0x000000010053a065 $sxIeghHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRTATQ0_ + 1
+             7   libswift_Concurrency.dylib          0x00000001b03bedcd _ZL23completeTaskWithClosurePN5swift12AsyncContextEPNS_10SwiftErrorE + 1
+         )
+         */
+        // TODO: Restore and fix
+        /*
+         let loadedPath = await managedObjectContext?.perform {
+             self.imagePath
+         }
+         */
+        let loadedPath = managedObjectContext?.performAndWait({ self.imagePath })
         guard let imagePath = loadedPath else {
             return nil
         }

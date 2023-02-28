@@ -52,11 +52,52 @@ class HistoryManager {
         return queue
     }()
     
+    init() {
+        // Load the last token from the token file.
+        if let tokenData = try? Data(contentsOf: tokenFile) {
+            do {
+                lastHistoryToken = try NSKeyedUnarchiver.unarchivedObject(
+                    ofClass: NSPersistentHistoryToken.self,
+                    from: tokenData
+                )
+            } catch {
+                print("###\(#function): Failed to unarchive NSPersistentHistoryToken. Error = \(error)")
+            }
+        }
+    }
+    
     /// Handle remote store change notifications (.NSPersistentStoreRemoteChange).
     func fetchChanges(_ notification: Notification) {
         // Process persistent history to merge changes from other coordinators.
         historyQueue.addOperation {
             self.processPersistentHistory()
+        }
+    }
+    
+    // TODO: Move into transaction's descripton property
+    func debugPrint(_ transaction: NSPersistentHistoryTransaction, in context: NSManagedObjectContext) {
+        func description(for changeType: NSPersistentHistoryChangeType) -> String {
+            switch changeType {
+            case .insert:
+                return "Insert"
+            case .update:
+                return "Update"
+            case .delete:
+                return "Delete"
+            default:
+                return "Unknown"
+            }
+        }
+        
+        // MARK: Debug Output
+        if let changes = transaction.changes {
+            print("Merging \(changes.count) changes...")
+            for change in changes {
+                print("  \(description(for: change.changeType)): \(context.object(with: change.changedObjectID))")
+                if let updatedProperties = change.updatedProperties?.map(\.name) {
+                    print("    \(updatedProperties.joined(separator: ", "))")
+                }
+            }
         }
     }
     
@@ -90,8 +131,12 @@ class HistoryManager {
                 // !!!: Alternatively: (update on any change, like we did before)
                 transactions.forEach { transaction in
                     guard let userInfo = transaction.objectIDNotification().userInfo else {
+                        assertionFailure("Unable to get userInfo for remote change transaction")
                         return
                     }
+                    
+                    self.debugPrint(transaction, in: taskContext)
+                    
                     let viewContext = PersistenceController.viewContext
                     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo, into: [viewContext])
                 }
@@ -99,12 +144,9 @@ class HistoryManager {
 
             // MARK: Deduplication
             
-            // Pre-filter the changes
+            // Create a flattened array of all changes
             let relevantChanges = transactions
-                // Create a flattened array of all changes
-                .flatMap { $0.changes ?? [] } // returns [NSPersistentHistoryChange]
-                // Only look at inserts
-                .filter { $0.changeType == .insert }
+                .flatMap { $0.changes ?? [] }
             
             // Deduplicate all entities
             for entity in DeduplicationEntity.allCases {
@@ -116,11 +158,17 @@ class HistoryManager {
                     // We only need the objectIDs of the changes
                     .map(\.changedObjectID)
                 
+                // No need to call the deduplicator if we have no objects of this entity type
+                guard !changedObjectIDs.isEmpty else {
+                    continue
+                }
+                
                 // We are still in a background context
                 deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
             }
             
             // Update the history token using the last transaction.
+            print("Updating history token.")
             lastHistoryToken = transactions.last!.token
         }
     }

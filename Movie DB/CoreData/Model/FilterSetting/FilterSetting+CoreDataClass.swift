@@ -32,6 +32,10 @@ public class FilterSetting: NSManagedObject {
         return newFilterSetting
     }()
     
+    override public var description: String {
+        "FilterSetting(id: \(id?.uuidString ?? "nil"))"
+    }
+    
     var isReset: Bool {
         self.isAdult == nil &&
             self.mediaType == nil &&

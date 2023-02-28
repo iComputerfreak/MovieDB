@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 
+/// The data loaded when starting the app with the appropriate command line argument for doing app store screenshots through UI tests
 struct AppStoreScreenshotData {
     let context: NSManagedObjectContext
     

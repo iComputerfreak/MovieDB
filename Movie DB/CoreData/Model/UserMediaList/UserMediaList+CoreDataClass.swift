@@ -12,6 +12,10 @@ import Foundation
 
 @objc(UserMediaList)
 public class UserMediaList: NSManagedObject, MediaListProtocol {
+    override public var description: String {
+        "UserMediaList(id: \(id.uuidString), name: \(name))"
+    }
+    
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = NSPredicate(format: "%@ in %K", self, "userLists")

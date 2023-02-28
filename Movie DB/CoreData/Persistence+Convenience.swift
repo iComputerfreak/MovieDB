@@ -13,7 +13,9 @@ extension PersistenceController {
     /// Creates a new background context without a parent
     /// - Returns: A background context that saves directly to the container
     func newBackgroundContext() -> NSManagedObjectContext {
-        container.newBackgroundContext()
+        let context = container.newBackgroundContext()
+        context.type = .backgroundContext
+        return context
     }
     
     /// Creates a new context with a new, empty container behind it to be used for testing

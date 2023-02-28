@@ -26,8 +26,22 @@ public class Tag: NSManagedObject {
     
     public convenience init(name: String, context: NSManagedObjectContext) {
         self.init(context: context)
-        id = UUID()
         self.name = name
+    }
+    
+    override public var description: String {
+        "Tag(id: \(id?.uuidString ?? "nil"), name: \(name), medias: \(medias.count) objects)"
+    }
+    
+    override public func awakeFromInsert() {
+        self.id = UUID()
+    }
+    
+    override public func awakeFromFetch() {
+        // Migrate existing tags to use an ID
+        if self.id == nil {
+            self.id = UUID()
+        }
     }
     
     public func encode(to encoder: Encoder) throws {

@@ -12,4 +12,8 @@ import Foundation
 
 /// Represents a video on some external site
 @objc(Video)
-public class Video: NSManagedObject {}
+public class Video: NSManagedObject {
+    override public var description: String {
+        "Video(key: \(key), name: \(name), type: \(type))"
+    }
+}

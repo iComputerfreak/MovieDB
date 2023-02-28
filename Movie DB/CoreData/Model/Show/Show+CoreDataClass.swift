@@ -25,6 +25,12 @@ public class Show: Media {
         setTMDBShowData(tmdbData)
     }
     
+    override public var description: String {
+        "Show(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watched: " +
+        "\(self.watched?.rawValue ?? "nil"), watchAgain: \(self.watchAgain?.description ?? "nil"), " +
+        "tags: \(tags.map(\.name)))"
+    }
+    
     override func update(tmdbData: TMDBData) {
         // Set general TMDBData
         super.update(tmdbData: tmdbData)
