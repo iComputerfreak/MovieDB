@@ -22,10 +22,10 @@ struct WatchedShowView: View {
         case .notWatched:
             return Strings.Detail.watchedShowLabelNo
         case let .season(s):
-//            assert(s > 0)
+            assert(s > 0)
             return Strings.Detail.watchedShowLabelSeason(s)
         case let .episode(season: s, episode: e):
-//            assert(e > 0)
+            assert(e > 0)
             return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }
@@ -49,55 +49,8 @@ struct WatchedShowView: View {
         let maxSeason: Int?
         
         @State private var season: Int
-        private var seasonWrapper: Binding<Int> {
-            Binding<Int>(get: { self.season }, set: { season in
-                self.season = season
-                // Update the watched binding
-                if season == 0 {
-                    // Set to not watched
-                    self.watched = .notWatched
-                } else {
-                    // Update the season
-                    if let episode = self.watched?.episode, episode > 0 {
-                        self.watched = .episode(season: season, episode: episode)
-                    } else {
-                        self.watched = .season(season)
-                    }
-                }
-            })
-        }
-        
         @State private var episode: Int
-        private var episodeWrapper: Binding<Int> {
-            Binding<Int>(get: { self.episode }, set: { episode in
-                self.episode = episode
-                if let season = self.watched?.season {
-                    // Update the binding
-                    self.watched = episode == 0 ? .season(season) : .episode(season: season, episode: episode)
-                }
-            })
-        }
-        
         @State private var unknown: Bool
-        private var unknownWrapper: Binding<Bool> {
-            .init {
-                self.unknown
-            } set: { newValue in
-                self.unknown = newValue
-                // If we switched to "known"
-                if newValue == false {
-                    // Initialize, if not already
-                    if self.watched == nil {
-                        // Use the values still present in the UI
-                        self.watched = .init(season: self.season, episode: self.episode)
-                    }
-                    // If we switched to "unknown"
-                } else {
-                    // Deinitialize, but keep the UI values
-                    self.watched = nil
-                }
-            }
-        }
         
         init(watched: Binding<ShowWatchState?>, maxSeason: Int? = nil) {
             _watched = watched
@@ -129,9 +82,9 @@ struct WatchedShowView: View {
                     header: Text(Strings.Detail.watchedShowEditingHeader),
                     footer: warningFooter
                 ) {
-                    Toggle(Strings.Detail.watchedShowEditingLabelUnknown, isOn: unknownWrapper)
+                    Toggle(Strings.Detail.watchedShowEditingLabelUnknown, isOn: $unknown)
                     // Seasons
-                    Stepper(value: seasonWrapper, in: 0...1000) {
+                    Stepper(value: $season, in: 0...1000) {
                         if self.season > 0 {
                             Text(Strings.Detail.watchedShowLabelSeason(self.season))
                                 .foregroundColor(seasonIsValid ? .primary : .yellow)
@@ -142,7 +95,7 @@ struct WatchedShowView: View {
                     .disabled(unknown)
                     // Episodes
                     if season > 0 {
-                        Stepper(value: episodeWrapper, in: 0...1000) {
+                        Stepper(value: $episode, in: 0...1000) {
                             if self.episode > 0 {
                                 Text(Strings.Detail.watchedShowEditingLabelEpisode(self.episode))
                             } else {
@@ -150,6 +103,43 @@ struct WatchedShowView: View {
                             }
                         }
                         .disabled(unknown)
+                    }
+                }
+                .onChange(of: self.season) { newSeason in
+                    // season < 0 means "unknown"
+                    if newSeason < 0 {
+                        self.watched = nil
+                    } else if newSeason == 0 {
+                        // season == 0 means "not watched"
+                        self.watched = .notWatched
+                    } else {
+                        // season > 0 means either .season or .episode
+                        
+                        // episode > 0 means .episode
+                        if episode > 0 {
+                            self.watched = .episode(season: newSeason, episode: episode)
+                        } else {
+                            // episode <= 0 means .season
+                            self.watched = .season(newSeason)
+                        }
+                    }
+                }
+                .onChange(of: self.episode) { newEpisode in
+                    // episode <= 0 means .season
+                    if newEpisode <= 0 {
+                        self.watched = .season(season)
+                    } else {
+                        // episode > 0 means .episode
+                        self.watched = .episode(season: season, episode: newEpisode)
+                    }
+                }
+                .onChange(of: unknown) { newValue in
+                    // If the new state is "unknown"
+                    if newValue {
+                        self.watched = nil
+                    } else {
+                        // If the new state if known
+                        self.watched = .init(season: season, episode: episode)
                     }
                 }
             }

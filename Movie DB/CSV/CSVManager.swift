@@ -77,7 +77,7 @@ struct CSVManager {
         .isAdult: (\Movie.isAdult, nil),
     ]
     static let showExclusiveExportKeyPaths: [CSVKey: (PartialKeyPath<Show>, Converter?)] = [
-        .lastSeasonWatched: (\Show.watched, { ($0 as! ShowWatchState).season?.description ?? "" }),
+        .lastSeasonWatched: (\Show.watched, { ($0 as! ShowWatchState).season.description }),
         .lastEpisodeWatched: (\Show.watched, { ($0 as! ShowWatchState).episode?.description ?? "" }),
         
         .firstAirDate: (\Show.firstAirDate, { dateFormatter.string(from: $0 as! Date) }),

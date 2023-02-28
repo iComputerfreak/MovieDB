@@ -20,8 +20,15 @@ public extension Show {
             return .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
         }
         set {
-            lastSeasonWatched = newValue?.season
-            lastEpisodeWatched = newValue?.episode
+            if let newValue {
+                // If the season property is nil, we use -1 for "unknown"
+                lastSeasonWatched = newValue.season ?? -1
+                lastEpisodeWatched = newValue.episode
+            } else {
+                // Set the values to "unknown"
+                lastSeasonWatched = -1
+                lastEpisodeWatched = 0
+            }
         }
     }
 

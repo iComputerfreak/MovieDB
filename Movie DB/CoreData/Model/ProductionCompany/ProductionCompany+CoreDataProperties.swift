@@ -21,7 +21,7 @@ public extension ProductionCompany {
     /// The path to the logo on TMDB
     @NSManaged var logoPath: String?
     /// The country of origin of the production company
-    @NSManaged var originCountry: String
+    @NSManaged var originCountry: String?
     /// The medias this company produced
     @NSManaged var medias: Set<Media>
     /// The shows that were released on this network

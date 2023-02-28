@@ -14,6 +14,7 @@ import SwiftUI
 
 @objc(FilterSetting)
 public class FilterSetting: NSManagedObject {
+    // TODO: Still used?
     static let shared: FilterSetting = {
         // Load the filter setting or create a new one
         if let id = UserDefaults.standard.object(forKey: JFLiterals.Keys.filterSetting) as? String {
@@ -252,7 +253,7 @@ extension FilterSetting {
                 ),
                 // Show
                 // watched == true && showsWatchedAny
-                NSCompoundPredicate(type: .or, subpredicates: [
+                NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(
                         format: "%K == %@ AND %@ == TRUE",
                         "type", // ==

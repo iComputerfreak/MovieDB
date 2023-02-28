@@ -38,6 +38,8 @@ public class Media: NSManagedObject {
     }
     
     override public func prepareForDeletion() {
+        // TODO: Title seems to already be empty at this point
+        // TODO: Use new poster entity to delete the thumbnail (using the media UUID as filename)
         print("Preparing \(title) for deletion")
         if
             let imagePath,
