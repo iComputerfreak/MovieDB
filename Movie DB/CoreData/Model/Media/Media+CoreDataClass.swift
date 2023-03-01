@@ -17,18 +17,23 @@ import UIKit
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    @Published private var loadedThumbnail: UIImage?
-    // The thumbnail will be loaded from disk only when it is first accessed
-    var thumbnail: UIImage? {
-        get {
-            if loadedThumbnail == nil {
-                loadedThumbnail = loadThumbnailFromDisk()
-            }
-            return loadedThumbnail
+    @Published private(set) var thumbnail: UIImage?
+    
+    // Loads the poster thumbnail in the background and assigns it to this media's thumbnail property
+    func loadThumbnail(force: Bool = false) async {
+        guard await managedObjectContext?.perform({ self.thumbnail }) == nil || force else {
+            // Thumbnail already present, don't load/download again, unless force parameter is given
+            return
         }
-        set {
-            objectWillChange.send()
-            loadedThumbnail = newValue
+        do {
+            let thumbnail = try await PosterService.shared.thumbnail(for: self, force: force)
+            assert(self.managedObjectContext != nil)
+            await self.managedObjectContext?.perform {
+                self.objectWillChange.send()
+                self.thumbnail = thumbnail
+            }
+        } catch {
+            print("Error downloading thumbnail: \(error)")
         }
     }
     
@@ -41,14 +46,11 @@ public class Media: NSManagedObject {
         // TODO: Title seems to already be empty at this point
         // TODO: Use new poster entity to delete the thumbnail (using the media UUID as filename)
         print("Preparing \(title) for deletion")
-        if
-            let imagePath,
-            let imageURL = Utils.imageFileURL(path: imagePath)
-        {
+        if let id = self.id {
             do {
-                try FileManager.default.removeItem(at: imageURL)
+                try Utils.deleteImage(for: id)
             } catch {
-                print("Error deleting thumbnail on NSManagedObject deletion: \(error)")
+                print("Error deleting thumbnail: \(error)")
             }
         }
     }
@@ -113,9 +115,9 @@ public class Media: NSManagedObject {
     }
     
     override public func awakeFromFetch() {
+        super.awakeFromFetch()
         Task {
-            // TODO: Reactivate
-            //await self.loadThumbnail()
+            await self.loadThumbnail()
         }
     }
     
@@ -204,66 +206,6 @@ public class Media: NSManagedObject {
             print("Error loading thumbnail: \(error)")
             // Fail silently
             return nil
-        }
-    }
-    
-    func loadThumbnail(force: Bool = false) async {
-        guard loadedThumbnail == nil || force else {
-            // Thumbnail already present, don't load/download again, unless force parameter is given
-            return
-        }
-        let loadedPath = await managedObjectContext?.perform {
-            self.imagePath
-        }
-        guard let imagePath = loadedPath, !imagePath.isEmpty else {
-            // No image path set means no image to load
-            return
-        }
-        // If the image is on deny list, delete it and don't reload
-        guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(title)] Thumbnail is on deny list. Purging now.")
-            if let imageFile = Utils.imageFileURL(path: imagePath) {
-                try? FileManager.default.removeItem(at: imageFile)
-            }
-            await MainActor.run {
-                self.thumbnail = nil
-            }
-            return
-        }
-        
-        // If the image exists on disk (and the force parameter is false), use the cached version
-        if
-            let fileURL = Utils.imageFileURL(path: imagePath),
-            FileManager.default.fileExists(atPath: fileURL.path),
-            !force,
-            // If the thumbnail cannot be loaded (e.g. corrupt file), download again too
-            let loadedFromDisk = loadThumbnailFromDisk()
-        {
-            // Load from disk
-            await MainActor.run {
-                self.thumbnail = loadedFromDisk
-            }
-        } else {
-            // If the image does not exist, is corrupted or the force parameter is given, download it
-            print("[\(title)] Downloading thumbnail...")
-            Task {
-                let image = await downloadThumbnail()
-                await MainActor.run {
-                    // Use the custom property to invoke the objectWillChange.send()
-                    self.thumbnail = image
-                }
-                // Save the downloaded file
-                if let fileURL = Utils.imageFileURL(path: imagePath) {
-                    Task {
-                        let data = image?.jpegData(compressionQuality: 0.8)
-                        do {
-                            try data?.write(to: fileURL)
-                        } catch {
-                            print("Error saving downloaded thumbnail to disk: \(error)")
-                        }
-                    }
-                }
-            }
         }
     }
     
