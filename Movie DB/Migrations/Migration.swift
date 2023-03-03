@@ -14,6 +14,9 @@ protocol Migration {
     var hasRun: Bool { get }
     /// Executes the migration
     func run() throws
+    /// Marks the migration as completed, setting a key to make sure it is not run again in the future.
+    /// Future calls of `hasRun` will return `true`.
+    func setCompleted()
     
     init()
 }
@@ -21,5 +24,9 @@ protocol Migration {
 extension Migration {
     var hasRun: Bool {
         UserDefaults.standard.bool(forKey: migrationKey)
+    }
+    
+    func setCompleted() {
+        UserDefaults.standard.set(true, forKey: migrationKey)
     }
 }

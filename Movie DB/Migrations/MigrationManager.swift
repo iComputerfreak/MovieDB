@@ -20,6 +20,8 @@ class MigrationManager {
         for migration in migrations.map({ $0.init() }) where !migration.hasRun {
             do {
                 try migration.run()
+                // Save successful exit of the migration
+                migration.setCompleted()
             } catch {
                 print("Error running migration \(migration.migrationKey): \(error)")
             }

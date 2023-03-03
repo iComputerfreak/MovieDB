@@ -241,6 +241,7 @@
 		ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0D9281455AB00230F0B /* DecodingHelper.swift */; };
 		ABEEB0DF2815941400230F0B /* SerializableColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0DE2815941400230F0B /* SerializableColor.swift */; };
 		ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */; };
+		ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */; };
 		ABF1A171297C235E00A7E6ED /* ParentalRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */; };
 		ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFFE80B2809AF4D00598356 /* CSVHelper.swift */; };
 /* End PBXBuildFile section */
@@ -525,6 +526,7 @@
 		ABEEB0D9281455AB00230F0B /* DecodingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingHelper.swift; sourceTree = "<group>"; };
 		ABEEB0DE2815941400230F0B /* SerializableColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerializableColor.swift; sourceTree = "<group>"; };
 		ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionPickerView.swift; sourceTree = "<group>"; };
+		ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOldPosterFilesMigration.swift; sourceTree = "<group>"; };
 		ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRatingView.swift; sourceTree = "<group>"; };
 		ABFFE80B2809AF4D00598356 /* CSVHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1005,6 +1007,7 @@
 			children = (
 				AB840C4929A7B0AE00637C2A /* Migration.swift */,
 				AB05298829A957E800C11B6F /* MigrationManager.swift */,
+				ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -1677,6 +1680,7 @@
 				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */,
+				ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */,
 				ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */,
 				AB97932129997D8700B20EC8 /* DynamicMediaListConfigurationView.swift in Sources */,
 				AB711FC2281EB02F003ED045 /* MetadataInfo.swift in Sources */,

@@ -65,7 +65,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: Run Migrations
         let migrationManager = MigrationManager()
         
-        // Register migrations here...
+        migrationManager.register(DeleteOldPosterFilesMigration.self)
         
         migrationManager.run()
         
