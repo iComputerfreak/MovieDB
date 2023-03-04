@@ -12,6 +12,10 @@ import Foundation
 
 @objc(DynamicMediaList)
 public class DynamicMediaList: NSManagedObject, MediaListProtocol {
+    override public var description: String {
+        "DynamicMediaList(id: \(id.uuidString), name: \(name))"
+    }
+    
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = filterSetting?.buildPredicate() ?? NSPredicate(value: true)
@@ -20,6 +24,7 @@ public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     }
     
     override public func awakeFromInsert() {
+        self.id = UUID()
         if filterSetting == nil {
             filterSetting = FilterSetting(context: managedObjectContext!)
         }

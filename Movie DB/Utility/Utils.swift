@@ -71,10 +71,21 @@ struct Utils {
         imagesDirectory()?.appendingPathComponent(imagePath)
     }
     
+    static func imageFileURL(for mediaID: UUID) -> URL? {
+        imagesDirectory()?.appendingPathComponent(mediaID.uuidString.appending(".jpg"))
+    }
+    
     /// Returns either black or white, depending on the color scheme
     /// - Parameter colorScheme: The current color scheme environment variable
     static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {
         colorScheme == .light ? .black : .white
+    }
+    
+    /// Removes the local image for the given media ID
+    static func deleteImage(for mediaID: UUID) throws {
+        if let fileURL = Self.imageFileURL(for: mediaID) {
+            try FileManager.default.removeItem(at: fileURL)
+        }
     }
     
     /// Downloads an image using the given URL

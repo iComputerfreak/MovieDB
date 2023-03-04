@@ -18,6 +18,12 @@ public class Movie: Media {
         initMedia(type: .movie, tmdbData: tmdbData)
     }
     
+    override public var description: String {
+        "Movie(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watched: " +
+        "\(self.watched?.rawValue ?? "nil"), watchAgain: \(self.watchAgain?.description ?? "nil"), " +
+        "tags: \(tags.map(\.name)))"
+    }
+    
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
         super.initMedia(type: type, tmdbData: tmdbData)
         setTMDBMovieData(tmdbData)

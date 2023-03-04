@@ -32,8 +32,7 @@ class PredicateTests: XCTestCase {
     func testNewSeasonsAvailablePredicate() throws {
         let predicateCompletelyWatched = NSCompoundPredicate(type: .and, subpredicates: [
             NSPredicate(format: "type = %@", MediaType.show.rawValue),
-            NSPredicate(format: "showWatchState LIKE %@", "season,*"),
-            NSPredicate(format: "showWatchState ENDSWITH "),
+            NSPredicate(format: "lastSeasonWatched > 0 AND lastSeasonWatched < numberOfSeasons"),
         ])
         
         PlaceholderData.context.reset()

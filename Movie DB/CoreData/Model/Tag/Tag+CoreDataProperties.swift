@@ -12,7 +12,7 @@ import Foundation
 
 public extension Tag {
     /// The ID of the tag
-    @NSManaged var id: UUID
+    @NSManaged var id: UUID?
     /// The name of the tag
     @NSManaged var name: String
     

@@ -58,5 +58,8 @@ enum JFLiterals {
         static let askedForAppRating = "askedForRating"
         /// The date when the app was first opened
         static let firstAppOpenDate = "firstAppOpen"
+        // TODO: Still in use?
+        /// The key storing whether the cleanup code to remove duplicate entities has been run
+        static let duplicatesCleanedUpKey = "duplicatesCleanedUp"
     }
 }

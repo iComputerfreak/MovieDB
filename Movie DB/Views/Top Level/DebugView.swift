@@ -88,12 +88,6 @@ struct DebugView: View {
         countiCloud("Video", store: $videoICloud, predicate: NSPredicate(format: "CD_key != ''"))
         self.seasonCount = count(\Season.id)
         countiCloud("Season", store: $seasonICloud, predicate: NSPredicate(format: "CD_id > 0"))
-        self.castCount = {
-            let cast: [CastMember] = (try? context.fetch(CastMember.fetchRequest())) ?? []
-            let unique = Set(cast.map(\.id)).count
-            return (cast.count, unique)
-        }()
-        countiCloud("CastMember", store: $castICloud, predicate: NSPredicate(format: "CD_id > 0"))
     }
     
     func countiCloud(_ entity: String, store: Binding<Int>, predicate: NSPredicate = .init(format: "CD_id != ''")) {

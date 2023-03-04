@@ -17,33 +17,31 @@ import UIKit
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    @Published private var loadedThumbnail: UIImage?
-    // The thumbnail will be loaded from disk only when it is first accessed
-    var thumbnail: UIImage? {
-        get {
-            if loadedThumbnail == nil {
-                loadedThumbnail = loadThumbnailFromDisk()
-            }
-            return loadedThumbnail
+    @Published private(set) var thumbnail: UIImage?
+    
+    // Loads the poster thumbnail in the background and assigns it to this media's thumbnail property
+    func loadThumbnail(force: Bool = false) async {
+        guard force || managedObjectContext?.performAndWait({ self.thumbnail }) == nil else {
+            // Thumbnail already present, don't load/download again, unless force parameter is given
+            return
         }
-        set {
-            objectWillChange.send()
-            loadedThumbnail = newValue
+        do {
+            let mediaID = managedObjectContext?.performAndWait { self.id }
+            let imagePath = managedObjectContext?.performAndWait { self.imagePath }
+            let thumbnail = try await PosterService.shared.thumbnail(for: mediaID, imagePath: imagePath, force: force)
+            assert(self.managedObjectContext != nil)
+            self.managedObjectContext?.performAndWait {
+                self.objectWillChange.send()
+                self.thumbnail = thumbnail
+            }
+        } catch {
+            print("Error downloading thumbnail: \(error)")
         }
     }
     
-    override public func prepareForDeletion() {
-        print("Preparing \(title) for deletion")
-        if
-            let imagePath,
-            let imageURL = Utils.imageFileURL(path: imagePath)
-        {
-            do {
-                try FileManager.default.removeItem(at: imageURL)
-            } catch {
-                print("Error deleting thumbnail on NSManagedObject deletion: \(error)")
-            }
-        }
+    override public var description: String {
+        "Media(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watchAgain: " +
+        "\(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
     }
     
     // MARK: - Missing Information
@@ -52,6 +50,7 @@ public class Media: NSManagedObject {
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
         print("calling initMedia")
+        // TODO: We could do this in awakeFromInsert
         personalRating = .noRating
         tags = []
         
@@ -105,7 +104,7 @@ public class Media: NSManagedObject {
     }
     
     override public func awakeFromFetch() {
-        print("[\(title)] Awaking from fetch")
+        super.awakeFromFetch()
         Task {
             await self.loadThumbnail()
         }
@@ -115,22 +114,25 @@ public class Media: NSManagedObject {
         super.awakeFromInsert()
         print("[\(title)] Awaking from insert")
         tags = []
-        // TODO: Maybe consider using `setPrimitiveValue` here to avoid sending notifications
-        creationDate = Date()
-        modificationDate = Date()
+        // Use `setPrimitiveValue` to avoid sending notifications
+        setPrimitiveValue(Date(), forKey: "creationDate")
+        setPrimitiveValue(Date(), forKey: "modificationDate")
     }
     
     override public func willSave() {
-        // Changing properties in this function will invoke willSave again.
-        // We need to make sure we don't result in a infinite loop
-        if (modificationDate?.distance(to: .now) ?? 100.0) > 10.0 {
-            // TODO: Use setPrimitiveValue to prevent infinite loop and increase performance
-            modificationDate = Date()
-        }
+        // Use `setPrimitiveValue` to avoid sending notifications
+        setPrimitiveValue(Date(), forKey: "modificationDate")
         
         if isDeleted {
-            // TODO: Delete local data here, not in prepareForDeletion(), in case there is a rollback or the context is discarded
-            // TODO: We need to find another way to store thumbnails on disk, to prevent deletion in a background/disposable context to delete the thumbnails on disk
+            // Delete local data here, not in prepareForDeletion(), in case there is a rollback or the context is discarded
+            print("Deleting \(title)...")
+            if let id = self.id {
+                do {
+                    try Utils.deleteImage(for: id)
+                } catch {
+                    print("Error deleting thumbnail: \(error)")
+                }
+            }
         }
     }
     
@@ -141,7 +143,7 @@ public class Media: NSManagedObject {
         // probably need to make this function async
         // When accessing the imagePath, we should be on the same thread as the managedObjectContext
         guard
-            let imagePath,
+            let imagePath = self.managedObjectContext?.performAndWait({ self.imagePath }),
             let fileURL = Utils.imageFileURL(path: imagePath),
             FileManager.default.fileExists(atPath: fileURL.path)
         else {
@@ -151,9 +153,10 @@ public class Media: NSManagedObject {
     }
     
     private func downloadThumbnail() async -> UIImage? {
-        let loadedPath = await managedObjectContext?.perform {
-            self.imagePath
+        guard !Task.isCancelled else {
+            return nil
         }
+        let loadedPath = managedObjectContext?.performAndWait { self.imagePath }
         guard let imagePath = loadedPath else {
             return nil
         }
@@ -175,66 +178,6 @@ public class Media: NSManagedObject {
             print("Error loading thumbnail: \(error)")
             // Fail silently
             return nil
-        }
-    }
-    
-    func loadThumbnail(force: Bool = false) async {
-        guard loadedThumbnail == nil || force else {
-            // Thumbnail already present, don't load/download again, unless force parameter is given
-            return
-        }
-        let loadedPath = await managedObjectContext?.perform {
-            self.imagePath
-        }
-        guard let imagePath = loadedPath, !imagePath.isEmpty else {
-            // No image path set means no image to load
-            return
-        }
-        // If the image is on deny list, delete it and don't reload
-        guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(title)] Thumbnail is on deny list. Purging now.")
-            if let imageFile = Utils.imageFileURL(path: imagePath) {
-                try? FileManager.default.removeItem(at: imageFile)
-            }
-            await MainActor.run {
-                self.thumbnail = nil
-            }
-            return
-        }
-        
-        // If the image exists on disk (and the force parameter is false), use the cached version
-        if
-            let fileURL = Utils.imageFileURL(path: imagePath),
-            FileManager.default.fileExists(atPath: fileURL.path),
-            !force,
-            // If the thumbnail cannot be loaded (e.g. corrupt file), download again too
-            let loadedFromDisk = loadThumbnailFromDisk()
-        {
-            // Load from disk
-            await MainActor.run {
-                self.thumbnail = loadedFromDisk
-            }
-        } else {
-            // If the image does not exist, is corrupted or the force parameter is given, download it
-            print("[\(title)] Downloading thumbnail...")
-            Task {
-                let image = await downloadThumbnail()
-                await MainActor.run {
-                    // Use the custom property to invoke the objectWillChange.send()
-                    self.thumbnail = image
-                }
-                // Save the downloaded file
-                if let fileURL = Utils.imageFileURL(path: imagePath) {
-                    Task {
-                        let data = image?.jpegData(compressionQuality: 0.8)
-                        do {
-                            try data?.write(to: fileURL)
-                        } catch {
-                            print("Error saving downloaded thumbnail to disk: \(error)")
-                        }
-                    }
-                }
-            }
         }
     }
     

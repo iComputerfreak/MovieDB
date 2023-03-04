@@ -203,7 +203,8 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(data[.isAdult], movie.isAdult.description)
         } else if let show = media as? Show {
             // Show exclusive
-            XCTAssertEqual(data[.showWatched], show.watched?.rawValue ?? "")
+            XCTAssertEqual(data[.lastSeasonWatched], show.watched?.season?.description ?? "")
+            XCTAssertEqual(data[.lastEpisodeWatched], show.watched?.episode?.description ?? "")
             if let firstAirDate = show.firstAirDate {
                 XCTAssertEqual(data[.firstAirDate], CSVManager.dateFormatter.string(from: firstAirDate))
             } else {
@@ -235,7 +236,7 @@ class CSVCoderTests: XCTestCase {
         // Additional line for the header and the line break in the note
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
-        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:;,\";watched;;\(media1.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media1.creationDate));\(media1.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
-        XCTAssertEqual(lines[2], "550;movie;0;;Dark,Violent;This note contains: newlines;notWatched;;\(media2.id?.uuidString ?? "");Mischief. Mayhem. Soap.;Fight Club;Fight Club;Drama;A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"\"fight clubs\"\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.;Released;1999-10-15;139;63000000;100853753;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media2.creationDate));\(media2.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:;,\";watched;;;\(media1.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media1.creationDate));\(media1.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[2], "550;movie;0;;Dark,Violent;This note contains: newlines;notWatched;;;\(media2.id?.uuidString ?? "");Mischief. Mayhem. Soap.;Fight Club;Fight Club;Drama;A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"\"fight clubs\"\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.;Released;1999-10-15;139;63000000;100853753;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media2.creationDate));\(media2.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
     }
 }

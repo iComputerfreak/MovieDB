@@ -12,4 +12,8 @@ import Foundation
 
 /// Represents a Media genre
 @objc(Genre)
-public class Genre: NSManagedObject {}
+public class Genre: NSManagedObject {
+    override public var description: String {
+        "Genre(id: \(id), name: \(name))"
+    }
+}

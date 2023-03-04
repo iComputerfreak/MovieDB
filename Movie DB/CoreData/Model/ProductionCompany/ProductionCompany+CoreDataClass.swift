@@ -11,4 +11,8 @@ import Foundation
 
 /// Represents a production company
 @objc(ProductionCompany)
-public class ProductionCompany: NSManagedObject {}
+public class ProductionCompany: NSManagedObject {
+    override public var description: String {
+        "ProductionCompany(id: \(id), name: \(name))"
+    }
+}

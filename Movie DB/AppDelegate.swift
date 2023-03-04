@@ -62,6 +62,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: Update Poster Deny List
         loadDenyList()
         
+        // MARK: Run Migrations
+        let migrationManager = MigrationManager()
+        
+        migrationManager.register(DeleteOldPosterFilesMigration.self)
+        
+        migrationManager.run()
+        
         // MARK: Set up In App Purchases
         setupIAP()
         

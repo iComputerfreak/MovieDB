@@ -14,6 +14,7 @@ import SwiftUI
 
 @objc(FilterSetting)
 public class FilterSetting: NSManagedObject {
+    // TODO: Still used?
     static let shared: FilterSetting = {
         // Load the filter setting or create a new one
         if let id = UserDefaults.standard.object(forKey: JFLiterals.Keys.filterSetting) as? String {
@@ -31,6 +32,10 @@ public class FilterSetting: NSManagedObject {
         PersistenceController.saveContext()
         return newFilterSetting
     }()
+    
+    override public var description: String {
+        "FilterSetting(id: \(id?.uuidString ?? "nil"))"
+    }
     
     var isReset: Bool {
         self.isAdult == nil &&
@@ -248,7 +253,7 @@ extension FilterSetting {
                 ),
                 // Show
                 // watched == true && showsWatchedAny
-                NSCompoundPredicate(type: .or, subpredicates: [
+                NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(
                         format: "%K == %@ AND %@ == TRUE",
                         "type", // ==

@@ -54,7 +54,7 @@ struct ImportExportSection: View {
         PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
             // Set the merge policy to not override existing data
             importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-            importContext.name = "Import Context" // should be replaced with more precise name later on
+            importContext.type = .backgroundContext
             do {
                 try handler(importContext)
             } catch {
@@ -82,7 +82,7 @@ struct ImportExportSection: View {
         
         Task(priority: .userInitiated) {
             await PersistenceController.shared.container.performBackgroundTask { context in
-                context.name = "\(filename) Export Context"
+                context.type = .backgroundContext
                 do {
                     // Get the content to export
                     let exportData: String = try content(context)
