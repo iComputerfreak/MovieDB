@@ -30,40 +30,36 @@ class PredicateTests: XCTestCase {
     }
     
     func testNewSeasonsAvailablePredicate() throws {
-        let predicateCompletelyWatched = NSCompoundPredicate(type: .and, subpredicates: [
+        let predicateNotCompletelyWatched = NSCompoundPredicate(type: .and, subpredicates: [
             NSPredicate(format: "type = %@", MediaType.show.rawValue),
             NSPredicate(format: "lastSeasonWatched > 0 AND lastSeasonWatched < numberOfSeasons"),
         ])
         
-        PlaceholderData.context.reset()
+        let media1 = PlaceholderData.createShow(in: testingUtils.context)
+        media1.title = "Media 1"
+        media1.numberOfSeasons = 11
+        media1.watched = .season(11)
         
-        let matchingMedia1 = PlaceholderData.createShow()
-        matchingMedia1.title = "Media 1"
-        matchingMedia1.numberOfSeasons = 11
-        matchingMedia1.watched = .season(11)
+        let media2 = PlaceholderData.createShow(in: testingUtils.context)
+        media2.title = "Media 2"
+        media2.numberOfSeasons = 1
+        media2.watched = .season(11)
         
-        let matchingMedia2 = PlaceholderData.createShow()
-        matchingMedia2.title = "Media 2"
-        matchingMedia2.numberOfSeasons = 1
-        matchingMedia2.watched = .season(11)
-        
-        let nonMatchingMedia = PlaceholderData.createShow()
-        nonMatchingMedia.title = "Media 3"
-        nonMatchingMedia.numberOfSeasons = 11
-        nonMatchingMedia.watched = .season(1)
+        let media3 = PlaceholderData.createShow(in: testingUtils.context)
+        media3.title = "Media 3"
+        media3.numberOfSeasons = 11
+        media3.watched = .season(1)
         
         let fetchRequest = Media.fetchRequest()
-        fetchRequest.predicate = predicateCompletelyWatched
+        fetchRequest.predicate = predicateNotCompletelyWatched
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        let results = try PlaceholderData.context.fetch(fetchRequest)
+        let results = try testingUtils.context.fetch(fetchRequest)
         
-        XCTAssertEqual(results.map(\.title), [matchingMedia1.title, matchingMedia2.title])
+        XCTAssertEqual(results.map(\.title), [media3.title])
     }
     
     func testAnyPredicate() throws {
-        PlaceholderData.context.reset()
-        
-        let show = PlaceholderData.createShow()
+        let show = PlaceholderData.createShow(in: testingUtils.context)
         show.watched = .season(1)
         show.numberOfSeasons = 2
         
@@ -75,7 +71,7 @@ class PredicateTests: XCTestCase {
         
         let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
         fetchRequest.predicate = predicate
-        let results = try PlaceholderData.context.fetch(fetchRequest)
+        let results = try testingUtils.context.fetch(fetchRequest)
         XCTAssertEqual(results.count, 1)
         print(results)
     }

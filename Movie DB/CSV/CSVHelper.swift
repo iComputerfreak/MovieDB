@@ -13,6 +13,7 @@ import Foundation
 struct CSVHelper {
     private init() {}
     
+    // TODO: Make async and use continuation to return the result (or throw an error)
     static func importMediaObjects(
         csvString: String,
         importContext: NSManagedObjectContext,

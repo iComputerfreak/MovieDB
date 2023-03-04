@@ -33,24 +33,27 @@ enum PlaceholderData {
         return s
     }()
     
-    static let allTags: [Tag] = [
-        Tag(name: "Future", context: context),
-        Tag(name: "Conspiracy", context: context),
-        Tag(name: "Dark", context: context),
-        Tag(name: "Violent", context: context),
-        Tag(name: "Gangsters", context: context),
-        Tag(name: "Terrorist", context: context),
-        Tag(name: "Past", context: context),
-        Tag(name: "Fantasy", context: context),
-    ]
+    static func mapTags(_ tagNames: [String], in context: NSManagedObjectContext) -> Set<Tag> {
+        var tags: Set<Tag> = []
+        for name in tagNames {
+            let fetchRequest = Tag.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+            if let tag = try? context.fetch(fetchRequest).first {
+                // Use the existing tag
+                tags.insert(tag)
+            } else {
+                // Create a new one
+                tags.insert(Tag(name: name, context: context))
+            }
+        }
+        return tags
+    }
     
-    // swiftlint:disable:next function_body_length
-    static func createMovie() -> Movie {
+    static func createMovie(in context: NSManagedObjectContext = context) -> Movie {
         let tmdbData: TMDBData = Self.load("Matrix.json", mediaType: .movie, into: context)
         let m = Movie(context: context, tmdbData: tmdbData)
         m.personalRating = .twoAndAHalfStars
-        m.tags = Set(["Future", "Conspiracy", "Dark"]
-            .map { name in allTags.first(where: { $0.name == name })! })
+        m.tags = mapTags(["Future", "Conspiracy", "Dark"], in: context)
         m.notes = ""
         m.watched = .watched
         m.watchAgain = false
@@ -109,12 +112,11 @@ enum PlaceholderData {
         return m
     }
     
-    static func createShow() -> Show {
+    static func createShow(in context: NSManagedObjectContext = context) -> Show {
         let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
         let s = Show(context: context, tmdbData: tmdbData)
         s.personalRating = .fiveStars
-        s.tags = Set(["Gangsters", "Conspiracy", "Terrorist"]
-            .map { name in allTags.first(where: { $0.name == name })! })
+        s.tags = mapTags(["Gangsters", "Conspiracy", "Terrorist"], in: context)
         s.notes = "A masterpiece!"
         s.watched = .season(7)
         s.watchAgain = true

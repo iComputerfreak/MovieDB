@@ -100,9 +100,15 @@ class CSVCoderTests: XCTestCase {
         try await Task.sleep(for: .seconds(3))
         
         // MARK: Decode
-        let expectation = XCTestExpectation(description: "Decode CSV")
+        let expectation = expectation(description: "Decode CSV")
         let disposableContext = PersistenceController.createDisposableContext()
-        CSVHelper.importMediaObjects(csvString: csv, importContext: disposableContext) { mediaObjects, _ in
+        CSVHelper.importMediaObjects(csvString: csv, importContext: disposableContext) { _ in
+            // onProgress
+        } onFail: { importLog in
+            XCTFail("CSVHelper failed importing the media objects.")
+            print(importLog.joined(separator: "\n"))
+            expectation.fulfill()
+        } onFinish: { mediaObjects, _ in
             do {
                 XCTAssertEqual(mediaObjects.count, samples.count)
                 
@@ -138,12 +144,11 @@ class CSVCoderTests: XCTestCase {
             } catch {
                 XCTFail(error.localizedDescription)
             }
-            // Fulfill the expectation.
             expectation.fulfill()
         }
         
         // Wait for decoding tests to finish
-        wait(for: [expectation], timeout: 10.0)
+        await waitForExpectations(timeout: 20)
     }
     
     // Compares if two dates by comparing their ISO8601 representation
@@ -203,7 +208,7 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(data[.isAdult], movie.isAdult.description)
         } else if let show = media as? Show {
             // Show exclusive
-            XCTAssertEqual(data[.lastSeasonWatched], show.watched?.season?.description ?? "")
+            XCTAssertEqual(data[.lastSeasonWatched], show.watched?.season.description ?? "")
             XCTAssertEqual(data[.lastEpisodeWatched], show.watched?.episode?.description ?? "")
             if let firstAirDate = show.firstAirDate {
                 XCTAssertEqual(data[.firstAirDate], CSVManager.dateFormatter.string(from: firstAirDate))

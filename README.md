@@ -5,6 +5,15 @@ An app to keep track of all the movies and shows you watched.
 
 **Download now via [TestFlight](https://testflight.apple.com/join/yI9GMaOD)!**
 
+<p align="center">
+  <img src="./readme_images/01_Library.png" width="16%" />
+  <img src="./readme_images/02_AddMedia.png" width="16%" />
+  <img src="./readme_images/03_Lists.png" width="16%" />
+  <img src="./readme_images/04_Watchlist.png" width="16%" />
+  <img src="./readme_images/05_ListConfiguration.png" width="16%" />
+  <img src="./readme_images/06_Settings.png" width="16%" />
+</p>
+
 
 ## Features
 * Add movies and tv shows from TheMovieDB.org to your library

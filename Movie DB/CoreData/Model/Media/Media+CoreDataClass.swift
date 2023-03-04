@@ -21,16 +21,18 @@ public class Media: NSManagedObject {
     
     // Loads the poster thumbnail in the background and assigns it to this media's thumbnail property
     func loadThumbnail(force: Bool = false) async {
-        guard force || managedObjectContext?.performAndWait({ self.thumbnail }) == nil else {
-            // Thumbnail already present, don't load/download again, unless force parameter is given
+        guard
+            let managedObjectContext,
+            force || managedObjectContext.performAndWait({ self.thumbnail }) == nil
+        else {
+            // Thumbnail already present or no context, don't load/download again, unless force parameter is given
             return
         }
         do {
-            let mediaID = managedObjectContext?.performAndWait { self.id }
-            let imagePath = managedObjectContext?.performAndWait { self.imagePath }
+            let mediaID = managedObjectContext.performAndWait { self.id }
+            let imagePath = managedObjectContext.performAndWait { self.imagePath }
             let thumbnail = try await PosterService.shared.thumbnail(for: mediaID, imagePath: imagePath, force: force)
-            assert(self.managedObjectContext != nil)
-            self.managedObjectContext?.performAndWait {
+            managedObjectContext.performAndWait {
                 self.objectWillChange.send()
                 self.thumbnail = thumbnail
             }
@@ -115,8 +117,8 @@ public class Media: NSManagedObject {
         print("[\(title)] Awaking from insert")
         tags = []
         // Use `setPrimitiveValue` to avoid sending notifications
-        setPrimitiveValue(Date(), forKey: "creationDate")
-        setPrimitiveValue(Date(), forKey: "modificationDate")
+        self.creationDate = .now
+        self.modificationDate = .now
     }
     
     override public func willSave() {
