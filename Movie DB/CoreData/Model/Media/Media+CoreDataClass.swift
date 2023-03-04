@@ -115,6 +115,15 @@ public class Media: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         print("[\(title)] Awaking from insert")
+        #if DEBUG
+        // If we are debugging, we want to make sure that the media get's its ID, otherwise we may be calling the wrong initializer
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            assert(
+                self.id != nil, "Created Media with nil ID. Please make sure to use init(context:tmdbData:) " +
+                "on a concrete subclass of Media."
+            )
+        }
+        #endif
         tags = []
         // Use `setPrimitiveValue` to avoid sending notifications
         self.creationDate = .now

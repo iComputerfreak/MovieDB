@@ -11,5 +11,16 @@ import CoreData
 import XCTest
 
 class TestingPlayground: XCTestCase {
+    var testingUtils: TestingUtils!
+    
+    override func setUp() async throws {
+        try await super.setUp()
+        testingUtils = TestingUtils()
+    }
+    
+    override func tearDown() async throws {
+        try await super.tearDown()
+    }
+    
     func testPlayground() async throws {}
 }
