@@ -15,12 +15,12 @@ actor PosterService {
     
     private var activeDownloads: [UUID: Task<UIImage, Error>] = [:]
     
-    func thumbnail(for media: Media, force: Bool = false) async throws -> UIImage? {
-        // TODO: Probably error with "dying NSManagedObjectContext" again? Maybe access unsynchronized (its just read)
+    func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
+        // TODO: Create a separate context for fetching the media properties?
         guard
-            let mediaID = await media.managedObjectContext?.perform({ media.id }),
+            let mediaID,
             let fileURL = Utils.imageFileURL(for: mediaID),
-            let imagePath = await media.managedObjectContext?.perform({ media.imagePath }),
+            let imagePath,
             !imagePath.isEmpty
         else {
             // No thumbnail to load
@@ -29,7 +29,7 @@ actor PosterService {
         
         // If the image is on deny list, delete it and don't reload
         guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(media.title)] Thumbnail is on deny list. Purging now.")
+            print("[\(mediaID)] Thumbnail is on deny list. Purging now.")
             try? Utils.deleteImage(for: mediaID)
             return nil
         }
