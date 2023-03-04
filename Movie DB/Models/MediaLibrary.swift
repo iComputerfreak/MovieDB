@@ -180,8 +180,6 @@ struct MediaLibrary {
     
     /// Performs a cleanup of the library, deleting all entities with missing relations (e.g. unused ``Genre``s or ``ProductionCompany``s
     func cleanup() throws {
-        // TODO: Check if they are actually needed
-        
         // MARK: Delete entities that are not used anymore
         print("[Cleanup] Deleting unused entities...")
         // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview

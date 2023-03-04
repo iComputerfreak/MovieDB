@@ -11,8 +11,6 @@ import Foundation
 import SwiftUI
 
 struct ImportExportSection: View {
-    // TODO: importLogShowing is unused! Also now split into separate buttons and should be in SettingsViewConfig!
-    // TODO: Same with importLogger!
     @Binding var config: SettingsViewConfig
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext

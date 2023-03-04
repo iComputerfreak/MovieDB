@@ -316,9 +316,9 @@ extension Utils {
             
             return displayString1.lexicographicallyPrecedes(displayString2)
         }
-        // TODO: Executed on correct thread?
-        // TODO: Make JFConfig an actor?
-        JFConfig.shared.availableLanguages = sortedCodes
+        await MainActor.run {
+            JFConfig.shared.availableLanguages = sortedCodes
+        }
         return sortedCodes
     }
     

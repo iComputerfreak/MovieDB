@@ -79,7 +79,6 @@ struct ImportMediaButton: View {
                                     await PersistenceController.saveContext(importContext)
                                     await PersistenceController.saveContext(PersistenceController.viewContext)
                                     await MainActor.run {
-                                        // TODO: Why does this not introduce a race condition? (Modifying the _log Variable)
                                         self.config.importLogger?.info("Import complete.")
                                         self.config.importLogShowing = true
                                     }

@@ -58,7 +58,7 @@ class PersistenceController {
                     title: Strings.Alert.errorLoadingCoreDataTitle,
                     error: error
                 )
-                // TODO: What else could we do, if the store is inaccessible?
+                // If there was an error loading the persistent store, there is no data to display and we have to crash the app
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
@@ -128,7 +128,6 @@ class PersistenceController {
     }
     
     func reset() throws {
-        // TODO: LibraryList is not refreshing after batch deletes
         // Reset all entities
         let entities = container.managedObjectModel.entities.compactMap(\.name)
         

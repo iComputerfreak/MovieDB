@@ -42,7 +42,6 @@ struct LibraryHome: View {
     }
     
     var body: some View {
-        // TODO: Change to NavigationSplitView
         // Currently, when using a NavigationStack for example, going into editing mode and accessing the Tags
         // NavigationLink, the app hangs. Using a NavigationView as a workaround seems to work.
         NavigationView {

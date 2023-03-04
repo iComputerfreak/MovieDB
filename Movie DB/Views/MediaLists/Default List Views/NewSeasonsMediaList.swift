@@ -13,7 +13,7 @@ struct NewSeasonsMediaList: View {
     
     var body: some View {
         FilteredMediaList(list: PredicateMediaList.newSeasons, selectedMedia: $selectedMedia) { media in
-            // TODO: Rework navigation
+            // TODO: Rework navigation (maybe the cause, why those lists are so buggy)
             NavigationLink(value: media) {
                 LibraryRow()
                     .environmentObject(media)

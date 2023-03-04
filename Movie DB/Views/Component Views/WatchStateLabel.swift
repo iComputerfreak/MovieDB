@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct WatchStateLabel: View {
-    // TODO: This should only require an abstracted form of WatchState
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {

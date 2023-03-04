@@ -16,7 +16,6 @@ actor PosterService {
     private var activeDownloads: [UUID: Task<UIImage, Error>] = [:]
     
     func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
-        // TODO: Create a separate context for fetching the media properties?
         guard
             let mediaID,
             let fileURL = Utils.imageFileURL(for: mediaID),

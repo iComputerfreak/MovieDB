@@ -121,7 +121,6 @@ class HistoryManager {
 
             // Post transactions relevant to the current view.
             DispatchQueue.main.async {
-                // TODO: Receive these notification in the views and update (look up how to do with SwiftUI)
                 NotificationCenter.default.post(
                     name: .didFindRelevantTransactions,
                     object: self,

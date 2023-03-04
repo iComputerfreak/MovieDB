@@ -320,8 +320,6 @@ extension Deduplicator {
         duplicatedMedias.forEach { media in
             defer { performingContext.delete(media) }
             
-            // TODO: Should we merge other properties? (notes, rating, watched, isFavorite, ...)
-            
             print("###\(#function): Removing deduplicated Media")
             exchange(media, with: winner, in: \.medias, on: \.userLists)
             exchange(media, with: winner, in: \.medias, on: \.productionCompanies)

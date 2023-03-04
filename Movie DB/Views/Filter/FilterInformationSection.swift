@@ -38,7 +38,8 @@ struct FilterInformationSection: View {
                 Array(filterSetting.genres).sorted(by: \.name)
             } set: { newValue in
                 // We need to move the Genres into the filterSetting context first
-                // TODO: Implement
+                // TODO: Implement. Maybe use this:
+//                newValue.map(\.objectID).map { self.managedObjectContext.object(with: $0) }
                 filterSetting.genres = Set(newValue)
             }
             FilterMultiPicker(

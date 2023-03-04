@@ -19,28 +19,6 @@ import UIKit
 public class Media: NSManagedObject {
     @Published private(set) var thumbnail: UIImage?
     
-    // Loads the poster thumbnail in the background and assigns it to this media's thumbnail property
-    func loadThumbnail(force: Bool = false) async {
-        guard
-            let managedObjectContext,
-            force || managedObjectContext.performAndWait({ self.thumbnail }) == nil
-        else {
-            // Thumbnail already present or no context, don't load/download again, unless force parameter is given
-            return
-        }
-        do {
-            let mediaID = managedObjectContext.performAndWait { self.id }
-            let imagePath = managedObjectContext.performAndWait { self.imagePath }
-            let thumbnail = try await PosterService.shared.thumbnail(for: mediaID, imagePath: imagePath, force: force)
-            managedObjectContext.performAndWait {
-                self.objectWillChange.send()
-                self.thumbnail = thumbnail
-            }
-        } catch {
-            print("Error downloading thumbnail: \(error)")
-        }
-    }
-    
     override public var description: String {
         "Media(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watchAgain: " +
         "\(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
@@ -149,46 +127,26 @@ public class Media: NSManagedObject {
     
     // MARK: - Functions
     
-    private func loadThumbnailFromDisk() -> UIImage? {
-        // TODO: Fix: We are not on the moc's thread, but are accessing its properties (imagePath),
-        // probably need to make this function async
-        // When accessing the imagePath, we should be on the same thread as the managedObjectContext
+    /// Loads this `Media`'s poster thumbnail from disk or the internet and assigns it to the `thumbnail` property
+    /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
+    func loadThumbnail(force: Bool = false) async {
         guard
-            let imagePath = self.managedObjectContext?.performAndWait({ self.imagePath }),
-            let fileURL = Utils.imageFileURL(path: imagePath),
-            FileManager.default.fileExists(atPath: fileURL.path)
+            let managedObjectContext,
+            force || managedObjectContext.performAndWait({ self.thumbnail }) == nil
         else {
-            return nil
+            // Thumbnail already present or no context, don't load/download again, unless force parameter is given
+            return
         }
-        return UIImage(contentsOfFile: fileURL.path)
-    }
-    
-    private func downloadThumbnail() async -> UIImage? {
-        guard !Task.isCancelled else {
-            return nil
-        }
-        let loadedPath = managedObjectContext?.performAndWait { self.imagePath }
-        guard let imagePath = loadedPath else {
-            return nil
-        }
-        // We try to load the image, but fail silently if we don't succeed.
-        // No need to spam the user with error messages, he will see that the images did not load
-        // and no need to delete any existing images on failure.
         do {
-            let url = Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
-            let (data, response) = try await URLSession.shared.data(from: url)
-            // Only continue if we got a valid response
-            guard
-                let httpResponse = response as? HTTPURLResponse,
-                200...299 ~= httpResponse.statusCode
-            else {
-                return nil
+            let mediaID = managedObjectContext.performAndWait { self.id }
+            let imagePath = managedObjectContext.performAndWait { self.imagePath }
+            let thumbnail = try await PosterService.shared.thumbnail(for: mediaID, imagePath: imagePath, force: force)
+            managedObjectContext.performAndWait {
+                self.objectWillChange.send()
+                self.thumbnail = thumbnail
             }
-            return UIImage(data: data)
         } catch {
-            print("Error loading thumbnail: \(error)")
-            // Fail silently
-            return nil
+            print("Error downloading thumbnail: \(error)")
         }
     }
     

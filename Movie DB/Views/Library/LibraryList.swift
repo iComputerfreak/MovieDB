@@ -82,8 +82,7 @@ struct LibraryList: View {
             // If the library was just reset, we need to refresh the view
             if JFConfig.shared.libraryWasReset {
                 print("Library was reset. Refreshing...")
-                // TODO: self.fetchRequest.update() somehow
-//                self._filteredMedia.update()
+                // TODO: We need to call self.fetchRequest.update() somehow
                 JFConfig.shared.libraryWasReset = false
             }
         }
