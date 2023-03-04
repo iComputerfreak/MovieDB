@@ -242,10 +242,9 @@ extension FilterSetting {
                 NSPredicate(format: "%K == %@", Schema.Media.type.rawValue, MediaType.movie.rawValue),
             ]))
         }
-        // We need to cast Bool to NSNumber for the predicate to work
         if let watched {
-            predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
-                // Movie
+            // MARK: Movies
+            var watchedPredicates = [
                 NSPredicate(
                     format: "%K == %@ AND %K == %@",
                     Schema.Media.type.rawValue,
@@ -253,29 +252,17 @@ extension FilterSetting {
                     Schema.Movie.watchedState.rawValue,
                     watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
                 ),
-                // Show
-                // TODO: Deprecated! Use preconfigured predicates
-                // watched == true && showWatchState != nil && showWatchState != 'notWatched'
-                NSPredicate(
-                    format: "%K == %@ AND %@ == TRUE AND %K != nil AND %K != %@",
-                    Schema.Media.type.rawValue, // ==
-                    MediaType.show.rawValue,
-                    watched as NSNumber, // == TRUE
-                    "showWatchState", // != nil
-                    "showWatchState", // !=
-                    ShowWatchState.notWatched.rawValue
-                ),
-                // TODO: Deprecated!
-                // watched == true && showWatchState == 'notWatched'
-                NSPredicate(
-                    format: "%K == %@ AND %@ == FALSE AND %K = %@",
-                    Schema.Media.type.rawValue, // ==
-                    MediaType.show.rawValue,
-                    watched as NSNumber, // == FALSE
-                    "showWatchState",
-                    ShowWatchState.notWatched.rawValue
-                ),
-            ]))
+            ]
+            // MARK: Shows
+            if watched {
+                // Shows that have been watched
+                watchedPredicates.append(ShowWatchState.showsWatchedAnyPredicate)
+            } else {
+                // Shows that have **not** been watched
+                watchedPredicates.append(ShowWatchState.showsNotWatchedPredicate)
+            }
+            
+            predicates.append(NSCompoundPredicate(type: .or, subpredicates: watchedPredicates))
         }
         if let watchAgain = watchAgain as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", Schema.Media.watchAgain.rawValue, watchAgain))
