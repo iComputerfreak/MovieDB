@@ -23,27 +23,35 @@ struct WatchProvidersInfo: View {
             EmptyView()
         } else {
             if !providers.isEmpty {
-                Section(
-                    header: HStack {
-                        Image(systemName: "tv")
-                        Text(Strings.Detail.watchProvidersSectionHeader)
-                    }
-                ) {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(providers, id: \.id) { provider in
-                                ProviderView(provider: provider)
+                Section(header: header, footer: footer) {
+                    VStack {
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(providers, id: \.id) { provider in
+                                    ProviderView(provider: provider)
+                                }
                             }
                         }
+                        .padding(.top, 8)
+                        .padding(.bottom, 3)
                     }
-                    .padding(.top, 8)
-                    .padding(.bottom, 3)
-                    let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
-                    Text(attribution ?? "Powered by JustWatch.com")
-                        .font(.footnote)
                 }
             }
         }
+    }
+    
+    @ViewBuilder
+    var header: some View {
+        HStack {
+            Image(systemName: "tv")
+            Text(Strings.Detail.watchProvidersSectionHeader)
+        }
+    }
+    
+    @ViewBuilder
+    var footer: some View {
+        let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
+        Text(attribution ?? "Powered by JustWatch.com")
     }
 }
 
@@ -53,20 +61,19 @@ struct ProviderView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: Utils.getTMDBImageURL(path: provider.imagePath!, size: nil)) { image in
-                image
-                    .resizable()
-                    .cornerRadius(10)
-                    .shadow(radius: 1, y: 1.5)
-            } placeholder: {
-                AutoInvertingColor(whiteValue: 0.9, darkSchemeOffset: -0.1)
-                    .cornerRadius(10)
-                    .shadow(radius: 1, y: 1.5)
-                    .overlay {
-                        Text(provider.name)
-                            .multilineTextAlignment(.center)
-                            .font(.caption2)
+            Group {
+                if let imagePath = provider.imagePath {
+                    AsyncImage(url: Utils.getTMDBImageURL(path: imagePath, size: nil)) { image in
+                        image
+                            .resizable()
+                            .cornerRadius(10)
+                            .shadow(radius: 1, y: 1.5)
+                    } placeholder: {
+                        placeholderView(for: provider)
                     }
+                } else {
+                    placeholderView(for: provider)
+                }
             }
             .frame(width: 50, height: 50)
             .padding(2)
@@ -74,6 +81,17 @@ struct ProviderView: View {
             Text(provider.type.localized)
                 .font(.caption)
         }
+    }
+    
+    func placeholderView(for provider: WatchProvider) -> some View {
+        AutoInvertingColor(whiteValue: 0.9, darkSchemeOffset: -0.1)
+            .cornerRadius(10)
+            .shadow(radius: 1, y: 1.5)
+            .overlay {
+                Text(provider.name)
+                    .multilineTextAlignment(.center)
+                    .font(.caption2)
+            }
     }
 }
 

@@ -72,9 +72,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: Set up In App Purchases
         setupIAP()
         
-        // MARK: - Delete all Cast Members from CoreData. They are not used anymore
-        deleteCastMembers()
-        
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
@@ -155,20 +152,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         StoreManager.shared.getProducts(productIDs: JFLiterals.inAppPurchaseIDs)
         // Add store manager as observer for changes
         SKPaymentQueue.default().add(StoreManager.shared)
-    }
-    
-    private func deleteCastMembers() {
-        let castMembersDeletedKey = "castMembersDeleted"
-        if !UserDefaults.standard.bool(forKey: castMembersDeletedKey) {
-            do {
-                let batchDelete = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: "CastMember"))
-                try PersistenceController.viewContext.execute(batchDelete)
-                PersistenceController.saveContext()
-                UserDefaults.standard.set(true, forKey: castMembersDeletedKey)
-            } catch {
-                print(error)
-            }
-        }
     }
     
     private func setupBackgroundFetch(application: UIApplication) {

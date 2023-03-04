@@ -21,23 +21,34 @@ class PersistenceController {
     static var previewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
-    static var preview: PersistenceController = .init(inMemory: true)
+    static var preview: PersistenceController = .init(forTesting: true)
     
     private(set) var container: NSPersistentContainer
     
     // Manages the persistent history
     private let historyManager = HistoryManager()
     
-    private init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "Movie DB")
+    /// Creates a new `PersistsenceController`
+    /// - Parameter forTesting: Configures the controller for testing purposes
+    ///
+    /// `forTesting` does the following:
+    /// * keep the store in memory instead of using the default SQLite database
+    /// * disable persistent history tracking
+    /// * disable query generations
+    private init(forTesting: Bool = false) {
+        if forTesting {
+            container = NSPersistentContainer(name: "Movie DB")
+        } else {
+            container = NSPersistentCloudKitContainer(name: "Movie DB")
+        }
         let description = container.persistentStoreDescriptions.first
         
-        if inMemory {
+        if forTesting {
             description?.url = URL(fileURLWithPath: "/dev/null")
         }
         
         // MARK: Store Configuration
-        Self.configureStoreDescription(description)
+        Self.configureStoreDescription(description, forTesting: forTesting)
         
         // MARK: Load store
         container.loadPersistentStores { _, error in
@@ -53,7 +64,7 @@ class PersistenceController {
         }
         
         // MARK: Context configuration
-        Self.configureViewContext(container.viewContext)
+        Self.configureViewContext(container.viewContext, forTesting: forTesting)
         
         // MARK: Notification Observers
         NotificationCenter.default.addObserver(
@@ -84,18 +95,21 @@ class PersistenceController {
         shared.container.viewContext.type = .viewContext
     }
     
-    static func configureStoreDescription(_ description: NSPersistentStoreDescription?) {
+    static func configureStoreDescription(
+        _ description: NSPersistentStoreDescription?,
+        forTesting: Bool
+    ) {
         // Migration settings
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true
         // Turn on persistent history tracking
-        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        description?.setOption(!forTesting as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         // Turn on remote change notifications
         let remoteChangeKey = "NSPersistentStoreRemoteChangeNotificationOptionKey"
         description?.setOption(true as NSNumber, forKey: remoteChangeKey)
     }
     
-    static func configureViewContext(_ viewContext: NSManagedObjectContext) {
+    static func configureViewContext(_ viewContext: NSManagedObjectContext, forTesting: Bool) {
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         viewContext.undoManager = nil
         viewContext.shouldDeleteInaccessibleFaults = true
@@ -104,10 +118,12 @@ class PersistenceController {
         
         // Pin the viewContext to the current generation token, and set it to keep itself up to date with local changes.
         viewContext.automaticallyMergesChangesFromParent = true
-        do {
-            try viewContext.setQueryGenerationFrom(.current)
-        } catch {
-            fatalError("###\(#function): Failed to pin viewContext to the current generation: \(error)")
+        if !forTesting {
+            do {
+                try viewContext.setQueryGenerationFrom(.current)
+            } catch {
+                fatalError("###\(#function): Failed to pin viewContext to the current generation: \(error)")
+            }
         }
     }
     
