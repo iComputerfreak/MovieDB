@@ -14,7 +14,7 @@ struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     
     let context: NSManagedObjectContext
-    @AppStorage("lastLibraryUpdate") var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
+    @AppStorage(JFLiterals.Keys.lastLibraryUpdate) var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
     
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
@@ -36,7 +36,7 @@ struct MediaLibrary {
     /// - Returns: Whether the media already exists
     func mediaExists(_ tmdbID: Int, in context: NSManagedObjectContext) -> Bool {
         let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        existingFetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", tmdbID)
+        existingFetchRequest.predicate = NSPredicate(format: "%K = %d", Schema.Media.tmdbID.rawValue, tmdbID)
         existingFetchRequest.fetchLimit = 1
         let existingObjects: Int
         do {
@@ -186,19 +186,19 @@ struct MediaLibrary {
         print("[Cleanup] Deleting unused entities...")
         // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview
         try delete(
-            "Genre",
+            Schema.Genre._entityName,
             predicate: NSPredicate(format: "medias.@count = 0")
         )
         try delete(
-            "ProductionCompany",
+            Schema.ProductionCompany._entityName,
             predicate: NSPredicate(format: "medias.@count = 0 AND shows.@count = 0")
         )
         try delete(
-            "Video",
+            Schema.Video._entityName,
             predicate: NSPredicate(format: "media = nil")
         )
         try delete(
-            "Season",
+            Schema.Season._entityName,
             predicate: NSPredicate(format: "show = nil")
         )
     }

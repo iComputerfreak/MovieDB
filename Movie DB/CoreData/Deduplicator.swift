@@ -99,7 +99,7 @@ class Deduplicator {
                     media,
                     // Use the media with the newest modification date
                     chooseWinner: { $0.sorted(by: \.modificationDate).last! },
-                    uniquePropertyName: "id",
+                    uniquePropertyName: Schema.Media.id.rawValue,
                     uniquePropertyValue: id.uuidString
                 )
             } else {
@@ -113,7 +113,7 @@ class Deduplicator {
                 // Use the first tag with a non-empty name
                 // TODO: Must be deteministic!
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "name",
+                uniquePropertyName: Schema.Tag.name.rawValue,
                 uniquePropertyValue: tag.name
             )
         case .genre:
@@ -122,7 +122,7 @@ class Deduplicator {
                 genre,
                 // Use the first genre with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "id",
+                uniquePropertyName: Schema.Genre.name.rawValue,
                 uniquePropertyValue: genre.id as NSNumber
             )
         case .userMediaList:
@@ -131,7 +131,7 @@ class Deduplicator {
                 list,
                 // Choose the list with the most objects
                 chooseWinner: { $0.sorted(by: \UserMediaList.medias.count).last! },
-                uniquePropertyName: "id",
+                uniquePropertyName: Schema.UserMediaList.id.rawValue,
                 uniquePropertyValue: list.id.uuidString
             )
         case .dynamicMediaList:
@@ -140,7 +140,7 @@ class Deduplicator {
                 list,
                 // Use the first list with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "id",
+                uniquePropertyName: Schema.DynamicMediaList.id.rawValue,
                 uniquePropertyValue: list.id.uuidString
             )
         case .filterSetting:
@@ -151,7 +151,7 @@ class Deduplicator {
                     filterSetting,
                     // Does not matter
                     chooseWinner: { $0.first! },
-                    uniquePropertyName: "id",
+                    uniquePropertyName: Schema.FilterSetting.id.rawValue,
                     uniquePropertyValue: id.uuidString
                 )
             } else {
@@ -165,7 +165,7 @@ class Deduplicator {
                 company,
                 // Use the first company with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "id",
+                uniquePropertyName: Schema.ProductionCompany.id.rawValue,
                 uniquePropertyValue: company.id as NSNumber
             )
         case .season:
@@ -174,7 +174,7 @@ class Deduplicator {
                 season,
                 // Use the first season with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "id",
+                uniquePropertyName: Schema.Season.id.rawValue,
                 uniquePropertyValue: season.id as NSNumber
             )
         case .video:
@@ -183,7 +183,7 @@ class Deduplicator {
                 video,
                 // Use the first video with a non-empty name
                 chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
-                uniquePropertyName: "key",
+                uniquePropertyName: Schema.Video.key.rawValue,
                 uniquePropertyValue: video.key
             )
         }

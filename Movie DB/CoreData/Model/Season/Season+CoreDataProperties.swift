@@ -13,20 +13,20 @@ import Foundation
 public extension Season {
     /// The id of the season on TMDB
     var id: Int {
-        get { getInt(forKey: "id") }
-        set { setInt(newValue, forKey: "id") }
+        get { getInt(forKey: Schema.Season.id) }
+        set { setInt(newValue, forKey: Schema.Season.id) }
     }
 
     /// The number of the season
     var seasonNumber: Int {
-        get { getInt(forKey: "seasonNumber") }
-        set { setInt(newValue, forKey: "seasonNumber") }
+        get { getInt(forKey: Schema.Season.seasonNumber) }
+        set { setInt(newValue, forKey: Schema.Season.seasonNumber) }
     }
 
     /// The number of episodes, this season has
     var episodeCount: Int {
-        get { getInt(forKey: "episodeCount") }
-        set { setInt(newValue, forKey: "episodeCount") }
+        get { getInt(forKey: Schema.Season.episodeCount) }
+        set { setInt(newValue, forKey: Schema.Season.episodeCount) }
     }
 
     /// The name of the season
@@ -42,7 +42,7 @@ public extension Season {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Season> {
-        NSFetchRequest<Season>(entityName: "Season")
+        NSFetchRequest<Season>(entityName: Schema.Season._entityName)
     }
 }
 

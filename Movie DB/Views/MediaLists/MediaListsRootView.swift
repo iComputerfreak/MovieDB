@@ -25,13 +25,13 @@ struct MediaListsRootView: View {
     // MARK: Dynamic Lists (predicate-based)
     @FetchRequest(
         entity: DynamicMediaList.entity(),
-        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
+        sortDescriptors: [NSSortDescriptor(key: Schema.DynamicMediaList.name.rawValue, ascending: true)]
     ) private var dynamicLists: FetchedResults<DynamicMediaList>
     
     // MARK: User Lists (single objects)
     @FetchRequest(
         entity: UserMediaList.entity(),
-        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
+        sortDescriptors: [NSSortDescriptor(key: Schema.UserMediaList.name.rawValue, ascending: true)]
     ) private var userLists: FetchedResults<UserMediaList>
     
     var allLists: [any MediaListProtocol] {

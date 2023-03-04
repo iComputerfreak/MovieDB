@@ -61,5 +61,7 @@ enum JFLiterals {
         // TODO: Still in use?
         /// The key storing whether the cleanup code to remove duplicate entities has been run
         static let duplicatesCleanedUpKey = "duplicatesCleanedUp"
+        /// The key storing the Date in `.timeIntervalSince1970` of the last `MediaLibrary` update
+        static let lastLibraryUpdate = "lastLibraryUpdate"
     }
 }

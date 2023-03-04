@@ -13,8 +13,8 @@ import Foundation
 public extension Genre {
     /// The ID of the genre on TMDB
     var id: Int {
-        get { getInt(forKey: "id") }
-        set { setInt(newValue, forKey: "id") }
+        get { getInt(forKey: Schema.Genre.id) }
+        set { setInt(newValue, forKey: Schema.Genre.id) }
     }
 
     /// The name of the genre
@@ -24,7 +24,7 @@ public extension Genre {
     @NSManaged var filterSettings: Set<FilterSetting>
     
     @nonobjc
-    class func fetchRequest() -> NSFetchRequest<Genre> { NSFetchRequest<Genre>(entityName: "Genre") }
+    class func fetchRequest() -> NSFetchRequest<Genre> { NSFetchRequest<Genre>(entityName: Schema.Genre._entityName) }
 }
 
 extension Genre: Identifiable {}

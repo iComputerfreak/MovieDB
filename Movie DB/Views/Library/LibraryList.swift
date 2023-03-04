@@ -32,9 +32,9 @@ struct LibraryList: View {
         if !searchText.isEmpty {
             predicates.append(NSPredicate(
                 format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)",
-                "title",
+                Schema.Media.title.rawValue,
                 searchText,
-                "originalTitle",
+                Schema.Media.originalTitle.rawValue,
                 searchText
             ))
         }

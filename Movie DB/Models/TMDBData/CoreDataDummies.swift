@@ -203,7 +203,7 @@ extension NSManagedObjectContext {
     
     func importDummies(_ dummies: [GenreDummy]) -> [Genre] {
         importDummies(dummies) { dummy in
-            NSPredicate(format: "%K = %d", "id", dummy.id)
+            NSPredicate(format: "%K = %d", Schema.Genre.id.rawValue, dummy.id)
         } isEqual: { dummy, entity in
             dummy.id == entity.id
         }
@@ -211,7 +211,7 @@ extension NSManagedObjectContext {
     
     func importDummies(_ dummies: [ProductionCompanyDummy]) -> [ProductionCompany] {
         importDummies(dummies) { dummy in
-            NSPredicate(format: "%K = %d", "id", dummy.id)
+            NSPredicate(format: "%K = %d", Schema.ProductionCompany.id.rawValue, dummy.id)
         } isEqual: { dummy, entity in
             dummy.id == entity.id
         }
@@ -219,7 +219,7 @@ extension NSManagedObjectContext {
         
     func importDummies(_ dummies: [VideoDummy]) -> [Video] {
         importDummies(dummies) { dummy in
-            NSPredicate(format: "%K = %d", "key", dummy.key)
+            NSPredicate(format: "%K = %d", Schema.Video.key.rawValue, dummy.key)
         } isEqual: { dummy, entity in
             dummy.key == entity.key
         }
@@ -227,7 +227,7 @@ extension NSManagedObjectContext {
     
     func importDummies(_ dummies: [SeasonDummy]) -> [Season] {
         importDummies(dummies) { dummy in
-            NSPredicate(format: "%K = %d", "id", dummy.id)
+            NSPredicate(format: "%K = %d", Schema.Season.id.rawValue, dummy.id)
         } isEqual: { dummy, entity in
             dummy.id == entity.id
         }

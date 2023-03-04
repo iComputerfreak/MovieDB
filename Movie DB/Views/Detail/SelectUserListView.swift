@@ -14,7 +14,7 @@ struct SelectUserListView: View {
     
     @FetchRequest(
         entity: UserMediaList.entity(),
-        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)]
+        sortDescriptors: [NSSortDescriptor(key: Schema.UserMediaList.name.rawValue, ascending: true)]
     ) private var lists: FetchedResults<UserMediaList>
     
     @ObservedObject var mediaObject: Media

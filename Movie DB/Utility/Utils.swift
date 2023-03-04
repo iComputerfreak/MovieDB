@@ -114,10 +114,10 @@ struct Utils {
     
     /// Returns a closed range containing the years of all media objects in the library
     static func yearBounds(context: NSManagedObjectContext) -> ClosedRange<Int> {
-        let minShow = fetchMinMaxShow(key: "firstAirDate", ascending: true, context: context)
-        let minMovie = fetchMinMaxMovie(key: "releaseDate", ascending: true, context: context)
-        let maxShow = fetchMinMaxShow(key: "firstAirDate", ascending: false, context: context)
-        let maxMovie = fetchMinMaxMovie(key: "releaseDate", ascending: false, context: context)
+        let minShow = fetchMinMaxShow(key: Schema.Show.firstAirDate, ascending: true, context: context)
+        let minMovie = fetchMinMaxMovie(key: Schema.Movie.releaseDate, ascending: true, context: context)
+        let maxShow = fetchMinMaxShow(key: Schema.Show.firstAirDate, ascending: false, context: context)
+        let maxMovie = fetchMinMaxMovie(key: Schema.Movie.releaseDate, ascending: false, context: context)
         
         let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
         let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
@@ -131,8 +131,8 @@ struct Utils {
     
     /// Returns a closed range containing the season counts from all media objects in the library
     static func numberOfSeasonsBounds(context: NSManagedObjectContext) -> ClosedRange<Int> {
-        let min = fetchMinMaxShow(key: "numberOfSeasons", ascending: true, context: context)
-        let max = fetchMinMaxShow(key: "numberOfSeasons", ascending: false, context: context)
+        let min = fetchMinMaxShow(key: Schema.Show.numberOfSeasons, ascending: true, context: context)
+        let max = fetchMinMaxShow(key: Schema.Show.numberOfSeasons, ascending: false, context: context)
         
         if min?.numberOfSeasons == nil {
             return 0...(max?.numberOfSeasons ?? 0)
@@ -142,14 +142,14 @@ struct Utils {
     
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
-        allObjects(entityName: "Genre", context: context)
+        allObjects(entityName: Schema.Genre._entityName, context: context)
             .uniqued(on: \.id)
             .sorted(by: \.name)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
-        allObjects(entityName: "Media", context: context)
+        allObjects(entityName: Schema.Media._entityName, context: context)
             .uniqued(on: \.id)
             .sorted(by: \.id)
     }
@@ -161,12 +161,16 @@ struct Utils {
         return objects ?? []
     }
     
-    private static func fetchMinMaxMovie(key: String, ascending: Bool, context: NSManagedObjectContext) -> Movie? {
-        fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key, ascending: ascending, context: context)
+    private static func fetchMinMaxMovie(
+        key: Schema.Movie,
+        ascending: Bool,
+        context: NSManagedObjectContext
+    ) -> Movie? {
+        fetchMinMax(fetchRequest: Movie.fetchRequest(), key: key.rawValue, ascending: ascending, context: context)
     }
     
-    private static func fetchMinMaxShow(key: String, ascending: Bool, context: NSManagedObjectContext) -> Show? {
-        fetchMinMax(fetchRequest: Show.fetchRequest(), key: key, ascending: ascending, context: context)
+    private static func fetchMinMaxShow(key: Schema.Show, ascending: Bool, context: NSManagedObjectContext) -> Show? {
+        fetchMinMax(fetchRequest: Show.fetchRequest(), key: key.rawValue, ascending: ascending, context: context)
     }
     
     private static func fetchMinMax<T>(

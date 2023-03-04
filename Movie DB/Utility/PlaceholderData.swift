@@ -173,7 +173,7 @@ enum PlaceholderData {
         static let favorites = PredicateMediaList(
             name: "Favorites",
             iconName: "star.fill",
-            predicate: NSPredicate(format: "%K == TRUE", "isFavorite")
+            predicate: NSPredicate(format: "%K == TRUE", Schema.Media.isFavorite.rawValue)
         )
     }
 }

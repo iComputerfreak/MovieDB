@@ -17,20 +17,20 @@ public extension Media {
     @NSManaged var id: UUID?
     /// The type of media
     var type: MediaType {
-        get { getEnum(forKey: "type", defaultValue: .movie) }
-        set { setEnum(newValue, forKey: "type") }
+        get { getEnum(forKey: Schema.Media.type, defaultValue: .movie) }
+        set { setEnum(newValue, forKey: Schema.Media.type) }
     }
 
     /// A rating between 0 and 10 (no Rating and 5 stars)
     var personalRating: StarRating {
-        get { getEnum(forKey: "personalRating", defaultValue: .noRating) }
-        set { setEnum(newValue, forKey: "personalRating") }
+        get { getEnum(forKey: Schema.Media.personalRating, defaultValue: .noRating) }
+        set { setEnum(newValue, forKey: Schema.Media.personalRating) }
     }
 
     /// Whether the user would watch the media again
     var watchAgain: Bool? {
-        get { getOptional(forKey: "watchAgain") }
-        set { setOptional(newValue, forKey: "watchAgain") }
+        get { getOptional(forKey: Schema.Media.watchAgain) }
+        set { setOptional(newValue, forKey: Schema.Media.watchAgain) }
     }
 
     /// Personal notes on the media
@@ -41,8 +41,8 @@ public extension Media {
     // Basic Data
     /// The TMDB ID of the media
     var tmdbID: Int {
-        get { getInt(forKey: "tmdbID") }
-        set { setInt(newValue, forKey: "tmdbID") }
+        get { getInt(forKey: Schema.Media.tmdbID) }
+        set { setInt(newValue, forKey: Schema.Media.tmdbID) }
     }
 
     /// The name of the media
@@ -59,8 +59,8 @@ public extension Media {
     @NSManaged var tagline: String?
     /// The status of the media (e.g. Rumored, Planned, In Production, Post Production, Released, Canceled)
     var status: MediaStatus {
-        get { getEnum(forKey: "status", defaultValue: .planned) }
-        set { setEnum(newValue, forKey: "status") }
+        get { getEnum(forKey: Schema.Media.status, defaultValue: .planned) }
+        set { setEnum(newValue, forKey: Schema.Media.status) }
     }
 
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
@@ -81,8 +81,8 @@ public extension Media {
     @NSManaged var voteAverage: Float
     /// The number of votes that were cast on TMDB
     var voteCount: Int {
-        get { getInt(forKey: "voteCount") }
-        set { setInt(newValue, forKey: "voteCount") }
+        get { getInt(forKey: Schema.Media.voteCount) }
+        set { setInt(newValue, forKey: Schema.Media.voteCount) }
     }
     
     /// The list of keywords on TheMovieDB.org
@@ -152,7 +152,7 @@ public extension Media {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Media> {
-        NSFetchRequest<Media>(entityName: "Media")
+        NSFetchRequest<Media>(entityName: Schema.Media._entityName)
     }
 }
 

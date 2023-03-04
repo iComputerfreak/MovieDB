@@ -12,8 +12,8 @@ import Foundation
 public extension ProductionCompany {
     /// The ID of the production company on TMDB
     var id: Int {
-        get { getInt(forKey: "id") }
-        set { setInt(newValue, forKey: "id") }
+        get { getInt(forKey: Schema.ProductionCompany.id) }
+        set { setInt(newValue, forKey: Schema.ProductionCompany.id) }
     }
 
     /// The name of the production company
@@ -29,7 +29,7 @@ public extension ProductionCompany {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<ProductionCompany> {
-        NSFetchRequest<ProductionCompany>(entityName: "ProductionCompany")
+        NSFetchRequest<ProductionCompany>(entityName: Schema.ProductionCompany._entityName)
     }
 }
 

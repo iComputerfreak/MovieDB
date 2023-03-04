@@ -20,7 +20,7 @@ public class FilterSetting: NSManagedObject {
         if let id = UserDefaults.standard.object(forKey: JFLiterals.Keys.filterSetting) as? String {
             // Fetch the FilterSetting with the loaded UUID
             let fetchRequest: NSFetchRequest<FilterSetting> = FilterSetting.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", id)
+            fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.FilterSetting.id.rawValue, id)
             fetchRequest.fetchLimit = 1
             if let result = try? PersistenceController.viewContext.fetch(fetchRequest).first {
                 return result
@@ -159,21 +159,21 @@ extension FilterSetting {
     func buildPredicate() -> NSPredicate { // swiftlint:disable:this function_body_length
         var predicates: [NSPredicate] = []
         if let isAdult = isAdult as NSNumber? {
-            predicates.append(NSPredicate(format: "%K == %@", "isAdult", isAdult))
+            predicates.append(NSPredicate(format: "%K == %@", Schema.Movie.isAdult.rawValue, isAdult))
         }
         if let mediaType {
-            predicates.append(NSPredicate(format: "%K == %@", "type", mediaType.rawValue))
+            predicates.append(NSPredicate(format: "%K == %@", Schema.Media.type.rawValue, mediaType.rawValue))
         }
         if !genres.isEmpty {
             // Any of the media's genres has to be in self.genres
-            predicates.append(NSPredicate(format: "ANY %K IN %@", "genres", genres))
+            predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.genres.rawValue, genres))
         }
         if let rating {
             predicates.append(NSPredicate(
                 format: "%K <= %d AND %K => %d",
-                "personalRating",
+                Schema.Media.personalRating.rawValue,
                 rating.upperBound.rawValue,
-                "personalRating",
+                Schema.Media.personalRating.rawValue,
                 rating.lowerBound.rawValue
             ))
         }
@@ -188,40 +188,40 @@ extension FilterSetting {
                 // Movie
                 NSPredicate(
                     format: "%K = %@ AND %K <= %@ AND %K => %@",
-                    "type",
+                    Schema.Media.type.rawValue,
                     MediaType.movie.rawValue,
-                    "releaseDate",
+                    Schema.Movie.releaseDate.rawValue,
                     upperDate,
-                    "releaseDate",
+                    Schema.Movie.releaseDate.rawValue,
                     lowerDate
                 ),
                 // Show
                 NSPredicate(
                     format: "%K = %@ AND %K <= %@ AND %K => %@",
-                    "type",
+                    Schema.Media.type.rawValue,
                     MediaType.show.rawValue,
-                    "firstAirDate",
+                    Schema.Show.firstAirDate.rawValue,
                     upperDate,
-                    "firstAirDate",
+                    Schema.Show.firstAirDate.rawValue,
                     lowerDate
                 ),
             ]))
         }
         if !statuses.isEmpty {
-            predicates.append(NSPredicate(format: "%K IN %@", "status", statuses.map(\.rawValue)))
+            predicates.append(NSPredicate(format: "%K IN %@", Schema.Media.status.rawValue, statuses.map(\.rawValue)))
         }
         if !showTypes.isEmpty {
             predicates.append(NSCompoundPredicate(orPredicateWithSubpredicates: [
                 // Show
                 NSPredicate(
                     format: "%K == %@ AND %K IN %@",
-                    "type",
+                    Schema.Media.type.rawValue,
                     MediaType.show.rawValue,
-                    "showType",
+                    Schema.Show.showType.rawValue,
                     showTypes.map(\.rawValue)
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
+                NSPredicate(format: "%K == %@", Schema.Media.type.rawValue, MediaType.movie.rawValue),
             ]))
         }
         if let numberOfSeasons {
@@ -229,15 +229,15 @@ extension FilterSetting {
                 // Show
                 NSPredicate(
                     format: "%K == %@ AND %K <= %d AND %K >= %d",
-                    "type",
+                    Schema.Media.type.rawValue,
                     MediaType.show.rawValue,
-                    "numberOfSeasons",
+                    Schema.Show.numberOfSeasons.rawValue,
                     numberOfSeasons.upperBound,
-                    "numberOfSeasons",
+                    Schema.Show.numberOfSeasons.rawValue,
                     numberOfSeasons.lowerBound
                 ),
                 // Movie
-                NSPredicate(format: "%K == %@", "type", MediaType.movie.rawValue),
+                NSPredicate(format: "%K == %@", Schema.Media.type.rawValue, MediaType.movie.rawValue),
             ]))
         }
         // We need to cast Bool to NSNumber for the predicate to work
@@ -246,9 +246,9 @@ extension FilterSetting {
                 // Movie
                 NSPredicate(
                     format: "%K == %@ AND %K == %@",
-                    "type",
+                    Schema.Media.type.rawValue,
                     MediaType.movie.rawValue,
-                    "watchedState",
+                    Schema.Movie.watchedState.rawValue,
                     watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
                 ),
                 // Show
@@ -256,7 +256,7 @@ extension FilterSetting {
                 NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(
                         format: "%K == %@ AND %@ == TRUE",
-                        "type", // ==
+                        Schema.Media.type.rawValue, // ==
                         MediaType.show.rawValue,
                         watched as NSNumber // == TRUE
                     ),
@@ -266,7 +266,7 @@ extension FilterSetting {
                 NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(
                         format: "%K == %@ AND %@ == FALSE",
-                        "type", // ==
+                        Schema.Media.type.rawValue, // ==
                         MediaType.show.rawValue,
                         watched as NSNumber // == FALSE
                     ),
@@ -275,10 +275,10 @@ extension FilterSetting {
             ]))
         }
         if let watchAgain = watchAgain as NSNumber? {
-            predicates.append(NSPredicate(format: "%K == %@", "watchAgain", watchAgain))
+            predicates.append(NSPredicate(format: "%K == %@", Schema.Media.watchAgain.rawValue, watchAgain))
         }
         if !tags.isEmpty {
-            predicates.append(NSPredicate(format: "ANY %K IN %@", "tags", tags))
+            predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.tags.rawValue, tags))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }

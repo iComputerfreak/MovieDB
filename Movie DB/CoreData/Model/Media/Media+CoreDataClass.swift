@@ -132,7 +132,7 @@ public class Media: NSManagedObject {
     
     override public func willSave() {
         // Use `setPrimitiveValue` to avoid sending notifications
-        setPrimitiveValue(Date(), forKey: "modificationDate")
+        setPrimitiveValue(Date(), forKey: Schema.Media.modificationDate.rawValue)
         
         if isDeleted {
             // Delete local data here, not in prepareForDeletion(), in case there is a rollback or the context is discarded

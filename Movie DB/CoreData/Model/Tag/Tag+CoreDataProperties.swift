@@ -23,7 +23,7 @@ public extension Tag {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Tag> {
-        NSFetchRequest<Tag>(entityName: "Tag")
+        NSFetchRequest<Tag>(entityName: Schema.Tag._entityName)
     }
 }
 

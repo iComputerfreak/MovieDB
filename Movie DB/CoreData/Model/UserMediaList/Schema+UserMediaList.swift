@@ -1,0 +1,23 @@
+//
+//  Schema+UserMediaList.swift
+//  Movie DB
+//
+//  Created by Jonas Frey on 04.03.23.
+//  Copyright © 2023 Jonas Frey. All rights reserved.
+//
+
+extension Schema {
+    enum UserMediaList: String, SchemaEntity {
+        static let _entityName = "UserMediaList"
+        
+        // MARK: Attributes
+        case iconName
+        case id
+        case name
+        case sortingDirection
+        case sortingOrder
+        
+        // MARK: Relationships
+        case medias
+    }
+}

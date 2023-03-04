@@ -111,7 +111,11 @@ struct CSVManager {
         
         // Check if media with this tmdbID already exists
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K = %d", "tmdbID", tmdbID)
+        fetchRequest.predicate = NSPredicate(
+            format: "%K = %d",
+            Schema.Media.tmdbID.rawValue,
+            tmdbID
+        )
         fetchRequest.fetchLimit = 1
         let existingAmount = (try? context.count(for: fetchRequest)) ?? 0
         if existingAmount > 0 {
@@ -141,7 +145,7 @@ struct CSVManager {
                 for name in tagNames {
                     // Create the tag if it does not exist yet
                     let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "%K = %@", "name", name)
+                    fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
                     fetchRequest.fetchLimit = 1
                     if let tag = try? context.fetch(fetchRequest).first {
                         assert(tag.managedObjectContext == context)

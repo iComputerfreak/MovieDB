@@ -34,27 +34,27 @@ public extension Show {
 
     /// The type of the show (e.g. Scripted)
     var showType: ShowType? {
-        get { getOptionalEnum(forKey: "showType") }
-        set { setOptionalEnum(newValue, forKey: "showType") }
+        get { getOptionalEnum(forKey: Schema.Show.showType) }
+        set { setOptionalEnum(newValue, forKey: Schema.Show.showType) }
     }
 
     /// The season of the episode, the user has watched most recently, or nil, if the user didn't watch this series
     private var lastSeasonWatched: Int? {
-        get { getOptionalInt(forKey: "lastSeasonWatched") }
-        set { setOptionalInt(newValue, forKey: "lastSeasonWatched") }
+        get { getOptionalInt(forKey: Schema.Show.lastSeasonWatched) }
+        set { setOptionalInt(newValue, forKey: Schema.Show.lastSeasonWatched) }
     }
 
     /// The episode number of the episode, the user has watched most recently, or nil, if the user watched a whole season or didn't watch this series
     private var lastEpisodeWatched: Int? {
-        get { getOptionalInt(forKey: "lastEpisodeWatched") }
-        set { setOptionalInt(newValue, forKey: "lastEpisodeWatched") }
+        get { getOptionalInt(forKey: Schema.Show.lastEpisodeWatched) }
+        set { setOptionalInt(newValue, forKey: Schema.Show.lastEpisodeWatched) }
     }
 
     /// The date, the show was first aired
     var firstAirDate: Date? {
-        get { getOptional(forKey: "firstAirDate") }
+        get { getOptional(forKey: Schema.Show.firstAirDate) }
         set {
-            setOptional(newValue, forKey: "firstAirDate")
+            setOptional(newValue, forKey: Schema.Show.firstAirDate)
             // Update the convenience property
             releaseDateOrFirstAired = newValue
         }
@@ -64,14 +64,14 @@ public extension Show {
     @NSManaged var lastAirDate: Date?
     /// The number of seasons the show  has
     var numberOfSeasons: Int? {
-        get { getOptionalInt(forKey: "numberOfSeasons") }
-        set { setOptionalInt(newValue, forKey: "numberOfSeasons") }
+        get { getOptionalInt(forKey: Schema.Show.numberOfSeasons) }
+        set { setOptionalInt(newValue, forKey: Schema.Show.numberOfSeasons) }
     }
 
     /// The number of episodes, the show has
     var numberOfEpisodes: Int {
-        get { getInt(forKey: "numberOfEpisodes") }
-        set { setInt(newValue, forKey: "numberOfEpisodes") }
+        get { getInt(forKey: Schema.Show.numberOfEpisodes) }
+        set { setInt(newValue, forKey: Schema.Show.numberOfEpisodes) }
     }
 
     /// The runtime the episodes typically have
@@ -89,7 +89,7 @@ public extension Show {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Show> {
-        NSFetchRequest<Show>(entityName: "Show")
+        NSFetchRequest<Show>(entityName: Schema.Show._entityName)
     }
 }
 

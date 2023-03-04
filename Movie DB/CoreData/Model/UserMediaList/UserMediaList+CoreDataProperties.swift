@@ -20,21 +20,21 @@ public extension UserMediaList {
     
     /// The order in which to sort the medias inside the list
     var sortingOrder: SortingOrder {
-        get { getEnum(forKey: "sortingOrder", defaultValue: .default) }
-        set { setEnum(newValue, forKey: "sortingOrder") }
+        get { getEnum(forKey: Schema.UserMediaList.sortingOrder, defaultValue: .default) }
+        set { setEnum(newValue, forKey: Schema.UserMediaList.sortingOrder) }
     }
 
     /// The direction in which to sort the medias in this list
     var sortingDirection: SortingDirection {
-        get { getEnum(forKey: "sortingDirection", defaultValue: sortingOrder.defaultDirection) }
-        set { setEnum(newValue, forKey: "sortingDirection") }
+        get { getEnum(forKey: Schema.UserMediaList.sortingDirection, defaultValue: sortingOrder.defaultDirection) }
+        set { setEnum(newValue, forKey: Schema.UserMediaList.sortingDirection) }
     }
 
     @NSManaged var medias: Set<Media>
 
     @nonobjc
     static func fetchRequest() -> NSFetchRequest<UserMediaList> {
-        NSFetchRequest<UserMediaList>(entityName: "UserMediaList")
+        NSFetchRequest<UserMediaList>(entityName: Schema.UserMediaList._entityName)
     }
 }
 

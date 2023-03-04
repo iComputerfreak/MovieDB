@@ -56,12 +56,12 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
             ))
         case .releaseDate:
             sortDescriptors.append(NSSortDescriptor(
-                key: "releaseDateOrFirstAired",
+                key: Schema.Media.releaseDateOrFirstAired.rawValue,
                 ascending: direction == .ascending
             ))
         case .rating:
             sortDescriptors.append(NSSortDescriptor(
-                key: "personalRating",
+                key: Schema.Media.personalRating.rawValue,
                 ascending: direction == .ascending
             ))
         }

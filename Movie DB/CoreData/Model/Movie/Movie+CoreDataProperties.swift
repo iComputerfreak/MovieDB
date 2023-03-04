@@ -13,21 +13,21 @@ import Foundation
 public extension Movie {
     /// Whether the user has watched the media
     var watched: MovieWatchState? {
-        get { getOptionalEnum(forKey: "watchedState") }
-        set { setOptionalEnum(newValue, forKey: "watchedState") }
+        get { getOptionalEnum(forKey: Schema.Movie.watchedState) }
+        set { setOptionalEnum(newValue, forKey: Schema.Movie.watchedState) }
     }
 
     /// Runtime in minutes
     var runtime: Int? {
-        get { getOptionalInt(forKey: "runtime") }
-        set { setOptionalInt(newValue, forKey: "runtime") }
+        get { getOptionalInt(forKey: Schema.Movie.runtime) }
+        set { setOptionalInt(newValue, forKey: Schema.Movie.runtime) }
     }
 
     /// The date, the movie was released
     var releaseDate: Date? {
-        get { getOptional(forKey: "releaseDate") }
+        get { getOptional(forKey: Schema.Movie.releaseDate) }
         set {
-            setOptional(newValue, forKey: "releaseDate")
+            setOptional(newValue, forKey: Schema.Movie.releaseDate)
             // Update the convenience property
             releaseDateOrFirstAired = newValue
         }
@@ -35,14 +35,14 @@ public extension Movie {
 
     /// The production budget in dollars
     var budget: Int {
-        get { getInt(forKey: "budget") }
-        set { setInt(newValue, forKey: "budget") }
+        get { getInt(forKey: Schema.Movie.budget) }
+        set { setInt(newValue, forKey: Schema.Movie.budget) }
     }
 
     /// The revenue in dollars
     var revenue: Int {
-        get { getInt(forKey: "revenue") }
-        set { setInt(newValue, forKey: "revenue") }
+        get { getInt(forKey: Schema.Movie.revenue) }
+        set { setInt(newValue, forKey: Schema.Movie.revenue) }
     }
 
     /// Whether the movie is an adult movie
@@ -52,6 +52,6 @@ public extension Movie {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Movie> {
-        NSFetchRequest<Movie>(entityName: "Movie")
+        NSFetchRequest<Movie>(entityName: Schema.Movie._entityName)
     }
 }

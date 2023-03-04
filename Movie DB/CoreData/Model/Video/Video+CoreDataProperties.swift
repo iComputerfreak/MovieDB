@@ -21,8 +21,8 @@ public extension Video {
     @NSManaged var type: String
     /// The resolution of the video
     var resolution: Int {
-        get { getInt(forKey: "resolution") }
-        set { setInt(newValue, forKey: "resolution") }
+        get { getInt(forKey: Schema.Video.resolution) }
+        set { setInt(newValue, forKey: Schema.Video.resolution) }
     }
 
     /// The ISO-639-1 language code  (e.g. 'en')
@@ -34,7 +34,7 @@ public extension Video {
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Video> {
-        NSFetchRequest<Video>(entityName: "Video")
+        NSFetchRequest<Video>(entityName: Schema.Video._entityName)
     }
 }
 

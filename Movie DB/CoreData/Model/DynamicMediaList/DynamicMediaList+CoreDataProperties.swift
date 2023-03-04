@@ -19,13 +19,13 @@ public extension DynamicMediaList {
     @NSManaged var iconName: String
     
     var sortingOrder: SortingOrder {
-        get { getEnum(forKey: "sortingOrder", defaultValue: .default) }
-        set { setEnum(newValue, forKey: "sortingOrder") }
+        get { getEnum(forKey: Schema.DynamicMediaList.sortingOrder, defaultValue: .default) }
+        set { setEnum(newValue, forKey: Schema.DynamicMediaList.sortingOrder) }
     }
     
     var sortingDirection: SortingDirection {
-        get { getEnum(forKey: "sortingDirection", defaultValue: sortingOrder.defaultDirection) }
-        set { setEnum(newValue, forKey: "sortingDirection") }
+        get { getEnum(forKey: Schema.DynamicMediaList.sortingDirection, defaultValue: sortingOrder.defaultDirection) }
+        set { setEnum(newValue, forKey: Schema.DynamicMediaList.sortingDirection) }
     }
     
     /// The filter setting of this media list
@@ -33,7 +33,7 @@ public extension DynamicMediaList {
 
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<DynamicMediaList> {
-        NSFetchRequest<DynamicMediaList>(entityName: "DynamicMediaList")
+        NSFetchRequest<DynamicMediaList>(entityName: Schema.DynamicMediaList._entityName)
     }
 }
 
