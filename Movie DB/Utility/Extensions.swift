@@ -129,8 +129,11 @@ extension NSPredicate {
 }
 
 extension Int {
-    // TODO: Write better docs
-    /// Left-pads the number using the given padding string to the given length (does not remove characters)
+    /// Pads this number by adding the given paddingString to the left, until a given length is reached
+    /// - Parameters:
+    ///   - length: The minimum length of the resulting string
+    ///   - paddingString: The string to use for the padding
+    /// - Returns: The padded string
     func padding(toLength length: Int, withPad paddingString: String = " ") -> String {
         var string = String(self)
         

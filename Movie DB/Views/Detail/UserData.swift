@@ -8,18 +8,6 @@
 
 import SwiftUI
 
-// TODO: Move into separate file
-private struct IsEditingKey: EnvironmentKey {
-    static let defaultValue = false
-}
-
-extension EnvironmentValues {
-    var isEditing: Bool {
-        get { self[IsEditingKey.self] }
-        set { self[IsEditingKey.self] = newValue }
-    }
-}
-
 /// Represents the user data section in the ``MediaDetail`` view
 struct UserData: View {
     @EnvironmentObject private var mediaObject: Media

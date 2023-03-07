@@ -198,6 +198,7 @@
 		ABB644A92971C1C80024BD80 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB644A82971C1C80024BD80 /* SnapshotHelper.swift */; };
 		ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */; };
 		ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */; };
+		ABBC782B29B7DB82004F322E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBC782A29B7DB82004F322E /* Environment.swift */; };
 		ABC1E2642816C3120039CA84 /* FightClub.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B62813078900230F0B /* FightClub.json */; };
 		ABC1E2652816C3120039CA84 /* Matrix.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B32813078900230F0B /* Matrix.json */; };
 		ABC1E2662816C3120039CA84 /* GameOfThrones.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B42813078900230F0B /* GameOfThrones.json */; };
@@ -491,6 +492,7 @@
 		ABB644A82971C1C80024BD80 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		ABB65EC325D01C50009378EC /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABB65EC425D01C50009378EC /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		ABBC782A29B7DB82004F322E /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		ABC1E26A2816C3910039CA84 /* TestingPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingPlayground.swift; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
@@ -887,6 +889,7 @@
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
+				ABBC782A29B7DB82004F322E /* Environment.swift */,
 				AB25099C238B1EE000F7A411 /* Utility */,
 				AB6718F222C110F500F429E4 /* APIs */,
 				AB01096A24D73BDE001BEF39 /* CSV */,
@@ -1640,6 +1643,7 @@
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
+				ABBC782B29B7DB82004F322E /* Environment.swift in Sources */,
 				AB6D9C7F283BC10C00AF655C /* Strings+Library.swift in Sources */,
 				AB6D9C83283BC15B00AF655C /* Strings+APIError.swift in Sources */,
 				AB6D9C8B283BC1DE00AF655C /* Strings+SortingOrder.swift in Sources */,

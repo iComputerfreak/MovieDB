@@ -9,7 +9,6 @@
 import Foundation
 import StoreKit
 
-// TODO: Documentation
 class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     static let shared = StoreManager()
     
