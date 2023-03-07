@@ -16,15 +16,15 @@ extension Strings {
             localized: "legal.navBar.title",
             comment: "The navigation bar title for the legal view"
         )
-        static func legalNoticeMail(_ mailAddress: AttributedString) -> String {
-            String(
+        static func legalNoticeMail(_ mailAddress: AttributedString) -> AttributedString {
+            AttributedString(
                 localized: "legal.legalNotice \(mailAddress)",
                 comment: "The legal notice in the legal view. The parameter is the legal e-mail address."
             )
         }
 
-        static func appIconAttribution(_ link: AttributedString) -> String {
-            String(
+        static func appIconAttribution(_ link: AttributedString) -> AttributedString {
+            AttributedString(
                 localized: "legal.appIconAttribution \(link)",
                 comment: "The attribution for the app icon. The parameter is the attribution link."
             )

@@ -21,26 +21,48 @@ class PersistenceController {
     static var previewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
-    static var preview: PersistenceController = .init(forTesting: true)
+    static var preview: PersistenceController = .init(forTesting: true, usePersistentHistory: false)
     
     private(set) var container: NSPersistentContainer
     
     // Manages the persistent history
     private let historyManager = HistoryManager()
     
+    // The observer used for monitoring remote store changes
+    private static var remoteChangeObserver: NSObjectProtocol?
+    
+    // The Core Data model in use
+    private static var model: NSManagedObjectModel?
+    
     /// Creates a new `PersistsenceController`
     /// - Parameter forTesting: Configures the controller for testing purposes
     ///
     /// `forTesting` does the following:
     /// * keep the store in memory instead of using the default SQLite database
-    /// * disable persistent history tracking
-    /// * disable query generations
-    private init(forTesting: Bool = false) {
-        if forTesting {
-            container = NSPersistentContainer(name: "Movie DB")
+    /// * disable iCloud sync
+    ///
+    /// `usePersistentHistory` does the following:
+    /// * enable persistent history tracking
+    /// * enable query generations
+    private init(forTesting: Bool = false, usePersistentHistory: Bool = true) {
+        // If we already have an existing model, reuse it
+        if let model = Self.model {
+            // Use the existing model
+            if forTesting {
+                container = NSPersistentContainer(name: "Movie DB", managedObjectModel: model)
+            } else {
+                container = NSPersistentCloudKitContainer(name: "Movie DB", managedObjectModel: model)
+            }
         } else {
-            container = NSPersistentCloudKitContainer(name: "Movie DB")
+            // Create a new model
+            if forTesting {
+                container = NSPersistentContainer(name: "Movie DB")
+            } else {
+                container = NSPersistentCloudKitContainer(name: "Movie DB")
+            }
+            Self.model = container.managedObjectModel
         }
+        
         let description = container.persistentStoreDescriptions.first
         
         if forTesting {
@@ -48,7 +70,7 @@ class PersistenceController {
         }
         
         // MARK: Store Configuration
-        Self.configureStoreDescription(description, forTesting: forTesting)
+        Self.configureStoreDescription(description, forTesting: forTesting, usePersistentHistory: usePersistentHistory)
         
         // MARK: Load store
         container.loadPersistentStores { _, error in
@@ -64,15 +86,22 @@ class PersistenceController {
         }
         
         // MARK: Context configuration
-        Self.configureViewContext(container.viewContext, forTesting: forTesting)
+        Self.configureViewContext(
+            container.viewContext,
+            forTesting: forTesting,
+            usePersistentHistory: usePersistentHistory
+        )
         
         // MARK: Notification Observers
-        NotificationCenter.default.addObserver(
-            forName: .NSPersistentStoreRemoteChange,
-            object: container.persistentStoreCoordinator,
-            queue: nil,
-            using: historyManager.fetchChanges(_:)
-        )
+        // Only create observer if there isn't one already
+        if !forTesting, Self.remoteChangeObserver == nil {
+            Self.remoteChangeObserver = NotificationCenter.default.addObserver(
+                forName: .NSPersistentStoreRemoteChange,
+                object: container.persistentStoreCoordinator,
+                queue: nil,
+                using: historyManager.fetchChanges(_:)
+            )
+        }
         
         // Only initialize the iCloud schema when building the app with the
         // Debug build configuration.
@@ -91,25 +120,35 @@ class PersistenceController {
     }
     
     static func prepareForUITesting() {
-        shared.container = createTestingContainer()
-        shared.container.viewContext.type = .viewContext
+        // Disable remote store notifications, as we will replace the shared controller with one that does not support them
+        if let remoteChangeObserver {
+            NotificationCenter.default.removeObserver(remoteChangeObserver)
+        }
+        shared = PersistenceController(forTesting: true, usePersistentHistory: false)
     }
     
     static func configureStoreDescription(
         _ description: NSPersistentStoreDescription?,
-        forTesting: Bool
+        forTesting: Bool,
+        usePersistentHistory: Bool
     ) {
         // Migration settings
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true
-        // Turn on persistent history tracking
-        description?.setOption(!forTesting as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        // Turn on remote change notifications
-        let remoteChangeKey = "NSPersistentStoreRemoteChangeNotificationOptionKey"
-        description?.setOption(true as NSNumber, forKey: remoteChangeKey)
+        if usePersistentHistory {
+            // Turn on persistent history tracking
+            description?.setOption(!forTesting as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+            // Turn on remote change notifications
+            let remoteChangeKey = "NSPersistentStoreRemoteChangeNotificationOptionKey"
+            description?.setOption(true as NSNumber, forKey: remoteChangeKey)
+        }
     }
     
-    static func configureViewContext(_ viewContext: NSManagedObjectContext, forTesting: Bool) {
+    static func configureViewContext(
+        _ viewContext: NSManagedObjectContext,
+        forTesting: Bool,
+        usePersistentHistory: Bool
+    ) {
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         viewContext.undoManager = nil
         viewContext.shouldDeleteInaccessibleFaults = true
@@ -118,7 +157,7 @@ class PersistenceController {
         
         // Pin the viewContext to the current generation token, and set it to keep itself up to date with local changes.
         viewContext.automaticallyMergesChangesFromParent = true
-        if !forTesting {
+        if usePersistentHistory {
             do {
                 try viewContext.setQueryGenerationFrom(.current)
             } catch {
@@ -128,12 +167,22 @@ class PersistenceController {
     }
     
     func reset() throws {
-        // Reset all entities
+        // Get a list of all Core Data entities
         let entities = container.managedObjectModel.entities.compactMap(\.name)
         
+        // Save pending changes
+        saveContext()
+        
+        // Delete all entities
         for entity in entities {
             let request = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: entity))
-            try container.viewContext.execute(request)
+            try container.viewContext.executeAndMergeChanges(using: request)
+        }
+        
+        // TODO: For some reason, the tags don't get deleted by the NSBatchDeleteRequest, so we have to do it manually
+        let tags = (try? container.viewContext.fetch(Tag.fetchRequest())) ?? []
+        tags.forEach { tag in
+            container.viewContext.delete(tag)
         }
         
         saveContext()

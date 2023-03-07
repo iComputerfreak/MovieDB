@@ -78,14 +78,6 @@ struct LibraryList: View {
             }
         }
         .listStyle(.grouped)
-        .onAppear {
-            // If the library was just reset, we need to refresh the view
-            if JFConfig.shared.libraryWasReset {
-                print("Library was reset. Refreshing...")
-                // TODO: We need to call self.fetchRequest.update() somehow
-                JFConfig.shared.libraryWasReset = false
-            }
-        }
     }
     
     var footerText: Text {

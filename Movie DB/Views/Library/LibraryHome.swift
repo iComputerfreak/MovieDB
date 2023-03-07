@@ -59,19 +59,6 @@ struct LibraryHome: View {
             // to a detail and invalidating the transition
             .autocorrectionDisabled()
             .background(.thinMaterial)
-            .onAppear {
-                if JFConfig.shared.libraryWasReset {
-                    // FUTURE: Replace with better alternative
-                    // Workaround to refresh the library after the reset
-                    // We toggle the sortingDirection for the fraction of a second to force a recreation of the LibraryList
-                    self.sortingDirection.toggle()
-                    JFConfig.shared.libraryWasReset = false
-                    // Revert back to original value
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                        self.sortingDirection.toggle()
-                    }
-                }
-            }
             
             // Display the currently active sheet
             .sheet(item: $activeSheet) { sheet in

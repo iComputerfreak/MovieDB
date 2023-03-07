@@ -29,15 +29,7 @@ public class Media: NSManagedObject {
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
-        print("calling initMedia")
-        // TODO: We could do this in awakeFromInsert
-        personalRating = .noRating
-        tags = []
-        
-        // Assign a new UUID
-        id = UUID()
         self.type = type
-        
         setTMDBData(tmdbData)
         
         // Load the thumbnail from disk or network
@@ -93,17 +85,10 @@ public class Media: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         print("[\(title)] Awaking from insert")
-        #if DEBUG
-        // If we are debugging, we want to make sure that the media get's its ID, otherwise we may be calling the wrong initializer
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            assert(
-                self.id != nil, "Created Media with nil ID. Please make sure to use init(context:tmdbData:) " +
-                "on a concrete subclass of Media."
-            )
-        }
-        #endif
-        tags = []
-        // Use `setPrimitiveValue` to avoid sending notifications
+        
+        self.id = UUID()
+        self.personalRating = .noRating
+        self.tags = []
         self.creationDate = .now
         self.modificationDate = .now
     }
@@ -113,7 +98,8 @@ public class Media: NSManagedObject {
         setPrimitiveValue(Date(), forKey: Schema.Media.modificationDate.rawValue)
         
         if isDeleted {
-            // Delete local data here, not in prepareForDeletion(), in case there is a rollback or the context is discarded
+            // Delete local data here, not in prepareForDeletion()
+            // This way, if there is a rollback or the context is discarded, we avoid deleting resources that we still need
             print("Deleting \(title)...")
             if let id = self.id {
                 do {

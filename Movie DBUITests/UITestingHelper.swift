@@ -35,7 +35,7 @@ extension XCUIApplication {
     }
     
     func addMatrix(checkAdded: Bool = true) {
-        addMedia("Matrix", name: "The Matrix", type: .movie, checkAdded: checkAdded)
+        addMedia("The Matrix", name: "The Matrix", type: .movie, checkAdded: checkAdded)
     }
     
     func addBlacklist(checkAdded: Bool = true) {

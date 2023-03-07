@@ -74,39 +74,15 @@ class HistoryManager {
         }
     }
     
-    // TODO: Move into transaction's descripton property
-    func debugPrint(_ transaction: NSPersistentHistoryTransaction, in context: NSManagedObjectContext) {
-        func description(for changeType: NSPersistentHistoryChangeType) -> String {
-            switch changeType {
-            case .insert:
-                return "Insert"
-            case .update:
-                return "Update"
-            case .delete:
-                return "Delete"
-            default:
-                return "Unknown"
-            }
-        }
-        
-        // MARK: Debug Output
-        if let changes = transaction.changes {
-            print("Merging \(changes.count) changes...")
-            for change in changes {
-                print("  \(description(for: change.changeType)): \(context.object(with: change.changedObjectID))")
-                if let updatedProperties = change.updatedProperties?.map(\.name) {
-                    print("    \(updatedProperties.joined(separator: ", "))")
-                }
-            }
-        }
-    }
-    
     /// Process persistent history, posting any relevant transactions to the current view.
     func processPersistentHistory() {
         let taskContext = PersistenceController.shared.newBackgroundContext()
         taskContext.performAndWait {
             // Fetch history received from outside the app since the last token
-            let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest!
+            guard let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest else {
+                print("Error: Unable to create NSPersistentHistory fetch request.")
+                return
+            }
             historyFetchRequest.predicate = NSPredicate(format: "author != %@", appTransactionAuthorName)
             let request = NSPersistentHistoryChangeRequest.fetchHistory(after: lastHistoryToken)
             request.fetchRequest = historyFetchRequest
@@ -134,7 +110,9 @@ class HistoryManager {
                         return
                     }
                     
-                    self.debugPrint(transaction, in: taskContext)
+                    #if DEBUG
+                    print(transaction.description(in: taskContext))
+                    #endif
                     
                     let viewContext = PersistenceController.viewContext
                     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo, into: [viewContext])

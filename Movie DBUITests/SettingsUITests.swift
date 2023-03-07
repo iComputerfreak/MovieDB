@@ -58,9 +58,11 @@ class SettingsUITests: XCTestCase {
         
         // TODO: Remove when fixed
         // Workaround for refreshing the library
-        XCUIDevice.shared.press(XCUIDevice.Button.home)
-        XCTAssertFalse(app.wait(for: .unknown, timeout: 1))
-        app.launch()
+//        XCUIDevice.shared.press(XCUIDevice.Button.home)
+//        XCTAssertFalse(app.wait(for: .unknown, timeout: 1))
+//        app.launch()
+        
+        app.wait(3)
         
         // Should be empty
         XCTAssertFalse(app.cells.staticTexts["The Blacklist"].exists)
@@ -74,8 +76,7 @@ class SettingsUITests: XCTestCase {
         // There should be no tags listed in the preview anymore
         XCTAssertTrue(app.cells.containing(.staticText, identifier: "Tags").staticTexts["None"].exists)
         
-        app.navigationBars["The Matrix"].buttons["More"].tap()
-        app.buttons["Edit"].tap()
+        app.navigationBars["The Matrix"].buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].tap()
         
         app.wait(1)
@@ -88,8 +89,7 @@ class SettingsUITests: XCTestCase {
     
     func goToTags(mediaName: String, app: XCUIApplication) {
         app.cells.staticTexts.first(hasPrefix: mediaName).tap()
-        app.navigationBars[mediaName].buttons["More"].wait().tap()
-        app.buttons["Edit"].tap()
+        app.navigationBars[mediaName].buttons["Edit"].tap()
         app.cells.staticTexts["Tags"].wait().tap()
     }
     

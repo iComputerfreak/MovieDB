@@ -116,7 +116,6 @@ struct LibraryActionsSection: View {
                 do {
                     print("Resetting Library...")
                     try self.library.reset()
-                    JFConfig.shared.libraryWasReset = true
                 } catch {
                     print("Error resetting library")
                     print(error)

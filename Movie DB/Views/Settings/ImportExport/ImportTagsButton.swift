@@ -47,7 +47,6 @@ struct ImportTagsButton: View {
                     )
                     controller.addAction(.yesAction { _ in
                         Task(priority: .userInitiated) {
-                            // TODO: Rethrow the error. Need to use `try Task() {}`
                             // Use the background context for importing the tags
                             do {
                                 try await TagImporter.import(importData, into: importContext)

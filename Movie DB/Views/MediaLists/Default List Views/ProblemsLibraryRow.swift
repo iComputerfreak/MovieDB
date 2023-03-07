@@ -19,7 +19,7 @@ struct ProblemsLibraryRow: View {
     }
     
     var body: some View {
-        // TODO: Move out of this view
+        // TODO: Move NavigationLink out of this view
         NavigationLink {
             MediaDetail()
                 .environmentObject(mediaObject)
