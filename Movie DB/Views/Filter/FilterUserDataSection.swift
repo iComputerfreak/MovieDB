@@ -59,7 +59,7 @@ struct FilterUserDataSection: View {
             // MARK: - Tags
             FilterMultiPicker(
                 selection: Binding(
-                    get: { Array(filterSetting.tags).sorted(by: \.name) },
+                    get: { Array(filterSetting.tags).sorted(on: \.name, by: <) },
                     set: { filterSetting.tags = Set($0) }
                 ),
                 label: { Text($0.name) },

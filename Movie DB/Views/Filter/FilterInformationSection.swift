@@ -35,7 +35,7 @@ struct FilterInformationSection: View {
             }
             // MARK: - Genres
             let genresProxy = Binding<[Genre]> {
-                Array(filterSetting.genres).sorted(by: \.name)
+                Array(filterSetting.genres).sorted(on: \.name, by: <)
             } set: { newValue in
                 // We need to move the Genres into the filterSetting context first
                 // TODO: Implement. Maybe use this:
@@ -108,7 +108,7 @@ struct FilterInformationSection: View {
             FilterMultiPicker(
                 selection: $filterSetting.statuses,
                 label: { Text($0.rawValue) },
-                values: MediaStatus.allCases.sorted(by: \.rawValue),
+                values: MediaStatus.allCases.sorted(on: \.rawValue, by: <),
                 title: Text(Strings.Library.Filter.mediaStatusLabel)
             )
         }

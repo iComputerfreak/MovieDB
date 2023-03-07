@@ -18,7 +18,7 @@ struct FilterShowSpecificSection: View {
             FilterMultiPicker(
                 selection: $filterSetting.showTypes,
                 label: { Text($0.rawValue) },
-                values: ShowType.allCases.sorted(by: \.rawValue),
+                values: ShowType.allCases.sorted(on: \.rawValue, by: <),
                 title: Text(Strings.Library.Filter.showTypeLabel)
             )
             // MARK: - Number of Seasons

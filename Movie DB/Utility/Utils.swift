@@ -144,14 +144,14 @@ struct Utils {
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: Schema.Genre._entityName, context: context)
             .uniqued(on: \.id)
-            .sorted(by: \.name)
+            .sorted(on: \.name, by: <)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
         allObjects(entityName: Schema.Media._entityName, context: context)
             .uniqued(on: \.id)
-            .sorted(by: \.id)
+            .sorted(on: \.id, by: <)
     }
     
     /// Returns a list of all entities with the given name in the given context.

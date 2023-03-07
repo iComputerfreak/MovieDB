@@ -14,7 +14,8 @@ struct WatchProvidersInfo: View {
     var providers: [WatchProvider] {
         mediaObject.watchProviders
             .filter { $0.type != .buy }
-            .sorted(by: [\.type.priority, \.priority])
+            // Multiply the type priority by 1000 to give it more weight
+            .sorted(on: { $0.type.priority * 1000 + $0.type.priority }, by: <)
             .reversed()
     }
     

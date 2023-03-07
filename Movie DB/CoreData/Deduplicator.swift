@@ -130,7 +130,7 @@ class Deduplicator {
             deduplicateObject(
                 list,
                 // Choose the list with the most objects
-                chooseWinner: { $0.sorted(by: \UserMediaList.medias.count).last! },
+                chooseWinner: { $0.max(on: \.medias.count, by: <)! },
                 uniquePropertyName: Schema.UserMediaList.id.rawValue,
                 uniquePropertyValue: list.id.uuidString
             )
