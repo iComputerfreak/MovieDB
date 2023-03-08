@@ -8,25 +8,9 @@
 
 import CoreData
 import Foundation
+import os.log
 
 // swiftlint:disable file_length
-
-// TODO: Put into library, add min and max, maybe use this syntax in future: https://forums.swift.org/t/map-sorting/21421
-extension Sequence {
-    func sorted(by keyPath: KeyPath<Element, (some Comparable)?>) -> [Element] {
-        sorted { a, b in
-            // If value1 is nil, we sort it before value2 => return true
-            guard let value1 = a[keyPath: keyPath] else {
-                return true
-            }
-            // If value2 is nil, we sort it before value1 => return false
-            guard let value2 = b[keyPath: keyPath] else {
-                return false
-            }
-            return value1 < value2
-        }
-    }
-}
 
 // swiftlint:disable:next type_body_length
 class Deduplicator {
@@ -94,25 +78,28 @@ class Deduplicator {
         switch entity {
         case .media, .movie, .show:
             let media: Media = castObject()
-            if let id = media.id {
-                deduplicateObject(
-                    media,
-                    // Use the media with the newest modification date
-                    chooseWinner: { $0.sorted(by: \.modificationDate).last! },
-                    uniquePropertyName: Schema.Media.id.rawValue,
-                    uniquePropertyValue: id.uuidString
-                )
-            } else {
-                print("Media \(media.title) is missing an UUID. Generating a new one...")
-                media.id = UUID()
-            }
+            deduplicateObject(
+                media,
+                // Use the media with the newest modification date
+                chooseWinner: { (duplicates: [Media]) in
+                    if
+                        let winner = duplicates
+                            .filter({ $0.modificationDate != nil })
+                            .max(on: \.modificationDate, by: { $0! < $1! })
+                    {
+                        return winner
+                    } else {
+                        // Use the hashValue as a deterministic way to choose an arbitrary winner
+                        return duplicates.min(on: \.hashValue, by: <)!
+                    }
+                },
+                uniquePropertyName: Schema.Media.id.rawValue,
+                uniquePropertyValue: media.id!.uuidString
+            )
         case .tag:
             let tag: Tag = castObject()
             deduplicateObject(
                 tag,
-                // Use the first tag with a non-empty name
-                // TODO: Must be deteministic!
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: Schema.Tag.name.rawValue,
                 uniquePropertyValue: tag.name
             )
@@ -120,8 +107,6 @@ class Deduplicator {
             let genre: Genre = castObject()
             deduplicateObject(
                 genre,
-                // Use the first genre with a non-empty name
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: Schema.Genre.name.rawValue,
                 uniquePropertyValue: genre.id as NSNumber
             )
@@ -138,27 +123,16 @@ class Deduplicator {
             let list: DynamicMediaList = castObject()
             deduplicateObject(
                 list,
-                // Use the first list with a non-empty name
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
                 uniquePropertyName: Schema.DynamicMediaList.id.rawValue,
                 uniquePropertyValue: list.id.uuidString
             )
         case .filterSetting:
             let filterSetting: FilterSetting = castObject()
-            // We can only deduplicate if we have an ID, otherwise we need to assume the FilterSettings are distinct
-            if let id = filterSetting.id {
-                deduplicateObject(
-                    filterSetting,
-                    // Does not matter
-                    chooseWinner: { $0.first! },
-                    uniquePropertyName: Schema.FilterSetting.id.rawValue,
-                    uniquePropertyValue: id.uuidString
-                )
-            } else {
-                // Give the FilterSetting a new ID
-                print("FilterSetting is missing an UUID. Generating a new one...")
-                filterSetting.id = UUID()
-            }
+            deduplicateObject(
+                filterSetting,
+                uniquePropertyName: Schema.FilterSetting.id.rawValue,
+                uniquePropertyValue: filterSetting.id!.uuidString
+            )
         case .productionCompany:
             let company: ProductionCompany = castObject()
             deduplicateObject(
@@ -200,9 +174,9 @@ class Deduplicator {
     private func deduplicateObject<Entity: NSManagedObject>( // swiftlint:disable:this function_body_length
         _ object: Entity,
         entity: DeduplicationEntity,
-        chooseWinner: ([Entity]) -> Entity = { $0.first! },
+        chooseWinner: ([Entity]) -> Entity = { $0.min(on: \.hashValue, by: <)! },
         uniquePropertyName propertyName: String,
-        uniquePropertyValue propertyValue: some CVarArg,
+        uniquePropertyValue propertyValue: some CVarArg & CustomStringConvertible,
         performingContext: NSManagedObjectContext
     ) {
         // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
@@ -224,9 +198,8 @@ class Deduplicator {
             return
         }
         
-        print(
-            "###\(#function): Deduplicating objects of type \(Entity.self) on property " +
-            "\(propertyName) = \(propertyValue), count: \(duplicates.count)"
+        Logger.coreData.debug(
+            "Deduplicating objects of type \(Entity.self) on property \(propertyName) = \(propertyValue), count: \(duplicates.count)"
         )
         
         // Remove the winner object from the duplicates
@@ -236,7 +209,7 @@ class Deduplicator {
         )
         let winner = chooseWinner(duplicates)
         guard let winnerIndex = duplicates.firstIndex(where: { $0.objectID == winner.objectID }) else {
-            print("###\(#function): The selected winner is not part of the provided duplicates.")
+            Logger.coreData.error("The selected deduplication winner is not part of the provided duplicates.")
             return
         }
         duplicates.remove(at: winnerIndex)
@@ -320,7 +293,7 @@ extension Deduplicator {
         duplicatedMedias.forEach { media in
             defer { performingContext.delete(media) }
             
-            print("###\(#function): Removing deduplicated Media")
+            Logger.coreData.debug("Removing deduplicated Media: \(media)")
             exchange(media, with: winner, in: \.medias, on: \.userLists)
             exchange(media, with: winner, in: \.medias, on: \.productionCompanies)
             exchange(media, with: winner, in: \.medias, on: \.genres)
@@ -347,7 +320,7 @@ extension Deduplicator {
         duplicatedTags.forEach { tag in
             defer { performingContext.delete(tag) }
             
-            print("Removing deduplicated Tag: \(tag)")
+            Logger.coreData.debug("Removing deduplicated Tag: \(tag)")
             exchange(tag, with: winner, in: \.tags, on: \.medias)
             exchange(tag, with: winner, in: \.tags, on: \.filterSettings)
         }
@@ -362,7 +335,7 @@ extension Deduplicator {
         duplicatedGenres.forEach { genre in
             defer { performingContext.delete(genre) }
             
-            print("Removing deduplicated Genre: \(genre)")
+            Logger.coreData.debug("Removing deduplicated Genre: \(genre)")
             exchange(genre, with: winner, in: \.genres, on: \.filterSettings)
             exchange(genre, with: winner, in: \.genres, on: \.medias)
         }
@@ -381,7 +354,7 @@ extension Deduplicator {
         duplicatedUserMediaLists.forEach { list in
             defer { performingContext.delete(list) }
             
-            print("###\(#function): Removing deduplicated UserMediaList")
+            Logger.coreData.debug("Removing deduplicated UserMediaList: \(list)")
             exchange(list, with: winner, in: \.userLists, on: \.medias)
         }
     }
@@ -399,7 +372,7 @@ extension Deduplicator {
         duplicatedDynamicMediaLists.forEach { list in
             defer { performingContext.delete(list) }
             
-            print("###\(#function): Removing deduplicated DynamicMediaList")
+            Logger.coreData.debug("Removing deduplicated DynamicMediaList: \(list)")
             // DynamicMediaList.filterSetting will be automatically deleted by their cascading deletion rule
         }
     }
@@ -412,7 +385,7 @@ extension Deduplicator {
         duplicatedFilterSettings.forEach { filterSetting in
             defer { performingContext.delete(filterSetting) }
             
-            print("###\(#function): Removing deduplicated FilterSetting")
+            Logger.coreData.debug("Removing deduplicated FilterSetting: \(filterSetting)")
             exchange(filterSetting, with: winner, in: \.filterSettings, on: \.genres)
             exchange(filterSetting, with: winner, in: \.filterSettings, on: \.tags)
             
@@ -434,7 +407,7 @@ extension Deduplicator {
         duplicatedProductionCompanies.forEach { productionCompany in
             defer { performingContext.delete(productionCompany) }
             
-            print("###\(#function): Removing deduplicated ProductionCompany")
+            Logger.coreData.debug("Removing deduplicated ProductionCompany: \(productionCompany)")
             exchange(productionCompany, with: winner, in: \.productionCompanies, on: \.medias)
             exchange(productionCompany, with: winner, in: \.productionCompanies, on: \.shows)
         }
@@ -449,7 +422,7 @@ extension Deduplicator {
         duplicatedSeasons.forEach { season in
             defer { performingContext.delete(season) }
             
-            print("###\(#function): Removing deduplicated Season")
+            Logger.coreData.debug("Removing deduplicated Season: \(season)")
             if let show = season.show {
                 show.seasons.remove(season)
                 show.seasons.insert(winner)
@@ -466,7 +439,7 @@ extension Deduplicator {
         duplicatedVideos.forEach { video in
             defer { performingContext.delete(video) }
             
-            print("###\(#function): Removing deduplicated Video")
+            Logger.coreData.debug("Removing deduplicated Video: \(video)")
             if let media = video.media {
                 media.videos.remove(video)
                 media.videos.insert(winner)

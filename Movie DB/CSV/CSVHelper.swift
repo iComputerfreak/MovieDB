@@ -9,6 +9,7 @@
 import CoreData
 import CSVImporter
 import Foundation
+import os.log
 
 struct CSVHelper {
     private init() {}
@@ -61,7 +62,7 @@ struct CSVHelper {
                 }
                 // Any other error
                 if let error {
-                    print(error)
+                    Logger.importExport.error("Unknown error during media import: \(error)")
                     // Other errors, e.g., error while fetching the TMDBData
                     importLog.append("[Error] \(error.localizedDescription)")
                     return

@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 
 let appTransactionAuthorName = "app"
 
@@ -74,12 +75,13 @@ class PersistenceController {
         
         // MARK: Load store
         container.loadPersistentStores { _, error in
-            print("Finished loading persistent stores.")
+            Logger.coreData.info("Finished loading persistent stores.")
             if let error = error as NSError? {
                 AlertHandler.showError(
                     title: Strings.Alert.errorLoadingCoreDataTitle,
                     error: error
                 )
+                Logger.coreData.critical("Error loading persistent store: \(error)")
                 // If there was an error loading the persistent store, there is no data to display and we have to crash the app
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -114,7 +116,7 @@ class PersistenceController {
 //            } catch {
 //                // Handle any errors.
 //                // No fatalError() because it will make the app crash if there is no iCloud Account set up
-//                print("\(error)")
+//                Logger.coreData.error("Error initializing iCloud schema: \(error)")
 //            }
 //        #endif
     }

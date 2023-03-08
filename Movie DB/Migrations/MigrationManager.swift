@@ -6,6 +6,8 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import os.log
+
 class MigrationManager {
     private(set) var migrations: [Migration.Type] = []
     
@@ -23,7 +25,7 @@ class MigrationManager {
                 // Save successful exit of the migration
                 migration.setCompleted()
             } catch {
-                print("Error running migration \(migration.migrationKey): \(error)")
+                Logger.migrations.error("Error running migration \(migration.migrationKey): \(error)")
             }
         }
     }

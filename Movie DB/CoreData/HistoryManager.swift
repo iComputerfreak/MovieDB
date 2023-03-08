@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 
 class HistoryManager {
     let deduplicator = Deduplicator()
@@ -27,7 +28,7 @@ class HistoryManager {
             do {
                 try data.write(to: tokenFile)
             } catch {
-                print("###\(#function): Failed to write token data. Error: \(error)")
+                Logger.coreData.warning("Error writing token data: \(error)")
             }
         }
     }
@@ -39,7 +40,7 @@ class HistoryManager {
             do {
                 try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                print("###\(#function): Failed to create persistent container URL. Error: \(error)")
+                Logger.coreData.error("Failed to create persistent container URL to store token file: \(error)")
             }
         }
         return url.appendingPathComponent("token.data", isDirectory: false)
@@ -61,7 +62,7 @@ class HistoryManager {
                     from: tokenData
                 )
             } catch {
-                print("###\(#function): Failed to unarchive NSPersistentHistoryToken. Error = \(error)")
+                Logger.coreData.error("Failed to unarchive NSPersistentHistoryToken: \(error)")
             }
         }
     }
@@ -80,7 +81,7 @@ class HistoryManager {
         taskContext.performAndWait {
             // Fetch history received from outside the app since the last token
             guard let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest else {
-                print("Error: Unable to create NSPersistentHistory fetch request.")
+                Logger.coreData.warning("Unable to create NSPersistentHistory fetch request.")
                 return
             }
             historyFetchRequest.predicate = NSPredicate(format: "author != %@", appTransactionAuthorName)
@@ -111,7 +112,7 @@ class HistoryManager {
                     }
                     
                     #if DEBUG
-                    print(transaction.description(in: taskContext))
+                    Logger.coreData.debug("\(transaction.description(in: taskContext))")
                     #endif
                     
                     let viewContext = PersistenceController.viewContext
@@ -145,7 +146,7 @@ class HistoryManager {
             }
             
             // Update the history token using the last transaction.
-            print("Updating history token.")
+            Logger.coreData.debug("Updating history token.")
             lastHistoryToken = transactions.last!.token
         }
     }

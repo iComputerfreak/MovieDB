@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import UIKit
 
 // swiftlint:disable file_length
@@ -378,15 +379,14 @@ actor TMDBAPI {
         
         // Unauthorized
         guard httpResponse.statusCode != 401 else {
-            print(httpResponse)
+            Logger.api.debug("API Call unauthorized: \(httpResponse)")
             throw APIError.unauthorized
         }
         
         // Status codes 2xx are ok
         guard 200...299 ~= httpResponse.statusCode else {
-            print("API Request returned status code \(httpResponse.statusCode).")
-            print("Headers: \(httpResponse.allHeaderFields)")
-            print("Body: \(String(data: data, encoding: .utf8) ?? "nil")")
+            Logger.api.debug("TMDB API request returned status code \(httpResponse.statusCode)")
+            Logger.api.debug("TMDB API request body: \(String(data: data, encoding: .utf8) ?? "nil")")
             throw APIError.statusNotOk(httpResponse)
         }
         

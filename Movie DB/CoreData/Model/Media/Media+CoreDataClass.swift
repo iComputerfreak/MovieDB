@@ -11,6 +11,7 @@ import Combine
 import CoreData
 import Foundation
 import JFSwiftUI
+import os.log
 import SwiftUI
 import UIKit
 
@@ -77,6 +78,10 @@ public class Media: NSManagedObject {
     
     override public func awakeFromFetch() {
         super.awakeFromFetch()
+        // Generate a new ID, if the existing one is nil
+        if self.id == nil {
+            self.id = UUID()
+        }
         Task {
             await self.loadThumbnail()
         }
@@ -84,7 +89,7 @@ public class Media: NSManagedObject {
     
     override public func awakeFromInsert() {
         super.awakeFromInsert()
-        print("[\(title)] Awaking from insert")
+        Logger.coreData.debug("[\(self.title)] Awaking from insert")
         
         self.id = UUID()
         self.personalRating = .noRating
@@ -100,12 +105,12 @@ public class Media: NSManagedObject {
         if isDeleted {
             // Delete local data here, not in prepareForDeletion()
             // This way, if there is a rollback or the context is discarded, we avoid deleting resources that we still need
-            print("Deleting \(title)...")
+            Logger.coreData.debug("Deleting \(self.title)...")
             if let id = self.id {
                 do {
                     try Utils.deleteImage(for: id)
                 } catch {
-                    print("Error deleting thumbnail: \(error)")
+                    Logger.coreData.warning("[\(self.title)] Error deleting thumbnail: \(error)")
                 }
             }
         }
@@ -132,7 +137,7 @@ public class Media: NSManagedObject {
                 self.thumbnail = thumbnail
             }
         } catch {
-            print("Error downloading thumbnail: \(error)")
+            Logger.coreData.warning("[\(self.title)] Error (down-)loading thumbnail: \(error)")
         }
     }
     

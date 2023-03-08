@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import SwiftUI
 
 struct MediaLibrary {
@@ -107,7 +108,7 @@ struct MediaLibrary {
             fetchRequest.predicate = NSPredicate(format: "type = %@ AND tmdbID IN %@", type.rawValue, changedIDs[type]!)
             medias.append(contentsOf: try context.fetch(fetchRequest))
         }
-        print("Updating \(medias.count) media objects.")
+        Logger.library.info("Updating \(medias.count) media objects.")
         
         // Update the media objects using a task group
         var updateCount = 0
@@ -139,7 +140,7 @@ struct MediaLibrary {
         // Fetch all media objects from the store (using the reload context)
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
         let medias = (try? reloadContext.fetch(fetchRequest)) ?? []
-        print("Reloading \(medias.count) media objects.")
+        Logger.library.info("Reloading \(medias.count) media objects.")
         
         // Reload all media objects using a task group
         try await withThrowingTaskGroup(of: Void.self) { group in
@@ -181,7 +182,7 @@ struct MediaLibrary {
     /// Performs a cleanup of the library, deleting all entities with missing relations (e.g. unused ``Genre``s or ``ProductionCompany``s
     func cleanup() throws {
         // MARK: Delete entities that are not used anymore
-        print("[Cleanup] Deleting unused entities...")
+        Logger.library.info("Deleting unused entities...")
         // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview
         try delete(
             Schema.Genre._entityName,

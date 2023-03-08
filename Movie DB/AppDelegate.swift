@@ -9,6 +9,7 @@
 import BackgroundTasks
 import CoreData
 import Foundation
+import os.log
 import StoreKit
 import UIKit
 
@@ -104,10 +105,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Only update once every 24h
             guard diff >= 24 * 60 * 60 else {
                 let durationString = (diff / Double(60 * 60)).formatted(.number.precision(.fractionLength(2)))
-                print("Last deny list update was \(durationString) hours ago. Not updating deny list. (< 24h)")
+                Logger.network.info(
+                    "Last deny list update was \(durationString) hours ago. Not updating deny list. (< 24h)"
+                )
                 return
             }
-            print("Updating deny list...")
+            Logger.network.info("Updating deny list...")
             
             // Load the deny list
             let denyListURL = URL(string: "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt")!
@@ -117,12 +120,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200
             else {
-                print("Error updating deny list. Invalid response: \(response)")
+                Logger.network.error(
+                    "Error updating deny list. HTTP response: \(response), body: \(String(data: data, encoding: .utf8) ?? "nil")"
+                )
                 return
             }
             
             guard let text = String(data: data, encoding: .utf8) else {
-                print("Error decoding deny list:\n\(data)")
+                Logger.network.error("Error decoding deny list:\n\(data)")
                 return
             }
             
@@ -131,7 +136,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Skip empty lines and comments
             for line in denyListLines where !line.isEmpty && !line.starts(with: "#") {
                 if !line.starts(with: "/") {
-                    print("Invalid line: '\(line)'. Lines must begin with a '/'. Skipping...")
+                    Logger.network.warning("Invalid line: '\(line)'. Lines must begin with a '/'. Skipping...")
                     continue
                 }
                 // Otherwise, we assume the line contains a poster path
@@ -168,25 +173,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             do {
                 try BGTaskScheduler.shared.submit(request)
             } catch {
-                print("Could not schedule app refresh: \(error)")
+                Logger.background.error("Could not schedule app refresh: \(error)")
             }
             
             // MARK: Create Operation
             let operation = Task {
                 do {
-                    print("Updating Library from Background Fetch...")
+                    Logger.background.info("Updating Library from background fetch...")
                     let updatedCount = try await MediaLibrary.shared.update()
-                    print("Updated \(updatedCount) media objects.")
+                    Logger.background.info("Updated \(updatedCount) media objects.")
                     task.setTaskCompleted(success: updatedCount > 0)
                 } catch {
-                    print(error)
+                    Logger.background.error("Error executing background fetch: \(error)")
                     task.setTaskCompleted(success: false)
                 }
             }
             
             // MARK: Expiration Handler
             task.expirationHandler = {
-                print("Cancelling...")
+                Logger.background.info("Cancelling background task...")
                 operation.cancel()
             }
         }
