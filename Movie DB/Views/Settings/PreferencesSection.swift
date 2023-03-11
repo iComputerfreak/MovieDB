@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 struct PreferencesSection: View {
@@ -23,12 +24,12 @@ struct PreferencesSection: View {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
             LanguagePickerView()
                 .onChange(of: preferences.language) { languageCode in
-                    print("Language changed to \(languageCode)")
+                    Logger.settings.info("Language changed to \(languageCode, privacy: .public)")
                     self.config.languageChanged = true
                 }
             RegionPickerView()
                 .onChange(of: preferences.region) { regionCode in
-                    print("Region changed to \(regionCode)")
+                    Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
                     self.config.regionChanged = true
                 }
         }

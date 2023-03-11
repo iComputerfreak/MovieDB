@@ -116,7 +116,7 @@ class PersistenceController {
 //            } catch {
 //                // Handle any errors.
 //                // No fatalError() because it will make the app crash if there is no iCloud Account set up
-//                Logger.coreData.error("Error initializing iCloud schema: \(error)")
+//                Logger.coreData.fault("Error initializing iCloud schema: \(error, privacy: .public)")
 //            }
 //        #endif
     }

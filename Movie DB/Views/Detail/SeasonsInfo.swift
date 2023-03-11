@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 struct SeasonsInfo: View {
@@ -53,7 +54,7 @@ struct SeasonsInfo: View {
         else {
             return
         }
-        print("Loading season thumbnails for \(show.title)")
+        Logger.detail.info("Loading season thumbnails for \(show.title, privacy: .public)")
         
         // We don't use a throwing task group, since we want to fail silently.
         // Unavailable images should just not be loaded instead of showing an error message

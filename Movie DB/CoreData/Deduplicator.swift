@@ -63,7 +63,7 @@ class Deduplicator {
             _ object: Entity,
             chooseWinner: ([Entity]) -> Entity = { $0.first! },
             uniquePropertyName propertyName: String,
-            uniquePropertyValue propertyValue: some CVarArg
+            uniquePropertyValue propertyValue: some CVarArg & CustomStringConvertible
         ) {
             self.deduplicateObject(
                 object,
@@ -86,7 +86,7 @@ class Deduplicator {
                         let winner = duplicates
                             .filter({ $0.modificationDate != nil })
                             .max(on: \.modificationDate, by: { $0! < $1! })
-                    {
+                    { // swiftlint:disable:this opening_brace
                         return winner
                     } else {
                         // Use the hashValue as a deterministic way to choose an arbitrary winner
@@ -199,6 +199,7 @@ class Deduplicator {
         }
         
         Logger.coreData.debug(
+            // swiftlint:disable:next line_length
             "Deduplicating objects of type \(Entity.self) on property \(propertyName) = \(propertyValue), count: \(duplicates.count)"
         )
         

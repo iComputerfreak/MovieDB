@@ -25,7 +25,9 @@ class MigrationManager {
                 // Save successful exit of the migration
                 migration.setCompleted()
             } catch {
-                Logger.migrations.error("Error running migration \(migration.migrationKey): \(error)")
+                Logger.migrations.error(
+                    "Error running migration \(migration.migrationKey, privacy: .public): \(error, privacy: .public)"
+                )
             }
         }
     }

@@ -62,7 +62,7 @@ struct CSVHelper {
                 }
                 // Any other error
                 if let error {
-                    Logger.importExport.error("Unknown error during media import: \(error)")
+                    Logger.importExport.error("Unknown error during media import: \(error, privacy: .public)")
                     // Other errors, e.g., error while fetching the TMDBData
                     importLog.append("[Error] \(error.localizedDescription)")
                     return

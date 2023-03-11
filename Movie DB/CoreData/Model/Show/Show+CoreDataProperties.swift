@@ -22,7 +22,7 @@ public extension Show {
         set {
             if let newValue {
                 // If the season property is nil, we use -1 for "unknown"
-                lastSeasonWatched = newValue.season ?? -1
+                lastSeasonWatched = newValue.season
                 lastEpisodeWatched = newValue.episode
             } else {
                 // Set the values to "unknown"

@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 import SwiftUI
 
 struct MediaLookupDetail: View {
@@ -68,7 +69,7 @@ struct MediaLookupDetail: View {
                             self.finishedLoading = true
                         }
                     } catch {
-                        print(error)
+                        Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
                         AlertHandler.showError(
                             title: Strings.Lookup.Alert.errorLoadingTitle,
                             error: error

@@ -10,20 +10,10 @@ import Algorithms
 import CoreData
 import Foundation
 import JFUtils
+import os.log
 import StoreKit
 import SwiftUI
 import UIKit
-
-/// Throws a fatal error when called. Used for setting undefined values temporarily to make the code compile
-///
-/// Example:
-///
-///     let value: String = undefined() // Will compile as a String
-///     print(value.components(separatedBy: " ") // Will not throw any compiler errors
-func undefined<T>(_ message: String = "") -> T {
-    // swiftlint:disable:previous unavailable_function
-    fatalError(message)
-}
 
 struct Utils {
     /// The URL describing the documents directory of the app
@@ -39,7 +29,7 @@ struct Utils {
     static func request(from url: URL) async throws -> (Data, URLResponse) {
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("Making GET Request to \(request.url?.absoluteString ?? "nil")")
+        Logger.network.info("Making GET Request to \(request.url?.absoluteString ?? "nil", privacy: .private)")
         #if DEBUG
             // In Debug mode, always load the URL, never use the cache
             request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -57,7 +47,7 @@ struct Utils {
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            print("Error creating folder in documents directory: \(error)")
+            Logger.fileSystem.error("Error creating folder in documents directory: \(error, privacy: .public)")
         }
         return url
     }
@@ -92,16 +82,19 @@ struct Utils {
     /// - Parameter url: The URL to download the image from
     /// - Returns: The downloaded UIImage
     static func loadImage(from url: URL) async throws -> UIImage {
-        print("Loading image from \(url.absoluteString)")
+        Logger.network.info("Loading image from \(url.absoluteString, privacy: .public)")
         let (data, response) = try await Self.request(from: url)
         
         guard
             let httpResponse = response as? HTTPURLResponse,
             (200...299) ~= httpResponse.statusCode
         else {
-            print("statusCode should be 2xx, but is \(String(describing: (response as? HTTPURLResponse)?.statusCode))")
-            print("response = \(response)")
-            print("data = \(String(data: data, encoding: .utf8) ?? "nil")")
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            let dataString = String(data: data, encoding: .utf8)
+            Logger.network.error(
+                // swiftlint:disable:next line_length
+                "statusCode should be 2xx, but is \(statusCode?.description ?? "nil")). Response: \(response, privacy: .public). Data: \(dataString ?? "nil", privacy: .public)"
+            )
             throw HTTPError.invalidResponse
         }
         
@@ -292,9 +285,12 @@ extension Utils {
     static func getTMDBImageURL(path: String, size: Int?) -> URL {
         // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
         guard !posterDenyList.contains(path) else {
-            print("Poster path \(path) is on deny list. Not fetching.")
-            assertionFailure("This should have been prevented from being called for poster paths on the deny list " +
-                "in the first place.")
+            Logger.network.warning("Poster path \(path, privacy: .public) is on deny list. Denying url fetch.")
+            assertionFailure(
+                "This should have been prevented from being called for poster paths on the deny list " +
+                "in the first place."
+            )
+            // TODO: Should probably return nil here and not even make the fetch
             // As a fallback, load the placeholder as thumbnail
             return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
         }

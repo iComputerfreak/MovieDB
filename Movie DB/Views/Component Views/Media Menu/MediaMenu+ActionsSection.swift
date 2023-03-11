@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 extension MediaMenu {
@@ -25,7 +26,9 @@ extension MediaMenu {
                                 systemImage: "checkmark"
                             )
                         } catch {
-                            print("Error updating \(mediaObject.title): \(error)")
+                            Logger.library.error(
+                                "Error updating \(mediaObject.title, privacy: .public): \(error, privacy: .public)"
+                            )
                             AlertHandler.showSimpleAlert(
                                 title: Strings.Library.Alert.updateErrorTitle,
                                 message: Strings.Library.Alert.updateErrorMessage(

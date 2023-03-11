@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 /// Represents a Picker view that lets the user pick multiple values from a list
@@ -95,10 +96,15 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
                         Button {
                             if self.selection.contains(value) {
                                 self.selection.removeAll { $0 == value }
-                                print("Removed \(value) to \(self.selection)")
+                                // Double string interpolation, because OSLogMessage does not support interpolation of arbitrary types
+                                Logger.general.debug(
+                                    "Removed \("\(value)", privacy: .auto) to \(self.selection, privacy: .private)"
+                                )
                             } else {
                                 self.selection.append(value)
-                                print("Added \(value) to \(self.selection)")
+                                Logger.general.debug(
+                                    "Added \("\(value)", privacy: .auto) to \(self.selection, privacy: .private)"
+                                )
                             }
                         } label: {
                             HStack {

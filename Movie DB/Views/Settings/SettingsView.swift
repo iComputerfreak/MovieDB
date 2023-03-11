@@ -9,6 +9,7 @@
 import CoreData
 import CSVImporter
 import JFSwiftUI
+import os.log
 import SwiftUI
 
 struct SettingsViewConfig {
@@ -82,7 +83,7 @@ struct SettingsView: View {
         
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
-            print("Starting reload...")
+            Logger.library.info("Starting reload...")
             do {
                 // Reload and show the result
                 try await self.library.reloadAll()
@@ -94,7 +95,7 @@ struct SettingsView: View {
                     )
                 }
             } catch {
-                print("Error reloading media objects: \(error)")
+                Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
                 await MainActor.run {
                     self.config.hideProgress()
                     AlertHandler.showError(

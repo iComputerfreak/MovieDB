@@ -9,6 +9,12 @@
 import Foundation
 import SwiftUI
 
+// Deprecate default print statements as a reminder to use Logger.
+@available(*, deprecated, message: "Use os.log.Logger instead.")
+public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    Swift.print(items, separator: separator, terminator: terminator)
+}
+
 public extension KeyedDecodingContainer {
     /// Tries to decode a value with any of the given keys
     ///

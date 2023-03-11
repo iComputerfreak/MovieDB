@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 import SwiftUI
 
 struct TagListView: View {
@@ -71,10 +72,10 @@ struct TagListView: View {
                         if !tag.isFault {
                             Button {
                                 if self.tags.contains(tag) {
-                                    print("Removing Tag \(tag.name)")
+                                    Logger.general.info("Removing Tag \(tag.name, privacy: .public)")
                                     self.tags.remove(tag)
                                 } else {
-                                    print("Adding Tag \(tag.name)")
+                                    Logger.general.info("Adding Tag \(tag.name, privacy: .public)")
                                     self.tags.insert(tag)
                                 }
                             } label: {
@@ -86,7 +87,10 @@ struct TagListView: View {
                     .onDelete(perform: { indexSet in
                         for index in indexSet {
                             let tag = self.allTags[index]
-                            print("Removing Tag '\(tag.name)' (\(tag.id)).")
+                            Logger.general.info(
+                                // swiftlint:disable:next line_length
+                                "Removing Tag '\(tag.name, privacy: .public)' (\(tag.id?.uuidString ?? "nil", privacy: .public))"
+                            )
                             // If we are making UI changes, we better be on the main thread/context
                             assert(Thread.current.isMainThread)
                             assert(managedObjectContext == PersistenceController.viewContext)

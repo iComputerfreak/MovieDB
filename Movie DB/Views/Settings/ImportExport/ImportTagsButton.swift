@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 import SwiftUI
 
 struct ImportTagsButton: View {
@@ -21,7 +22,7 @@ struct ImportTagsButton: View {
                     let url = try result.get()
                     self.importTags(url: url)
                 } catch {
-                    print(error)
+                    Logger.importExport.error("Error importing tags: \(error, privacy: .public)")
                 }
             }
     }
@@ -33,7 +34,7 @@ struct ImportTagsButton: View {
             importContext.type = .backgroundContext
             
             let importData = try String(contentsOf: url)
-            print("Imported Tag Export file. Trying to import into library.")
+            Logger.importExport.debug("Successfully read tags file. Trying to import into library.")
             // Count the non-empty tags
             let count = importData.components(separatedBy: "\n").filter { !$0.isEmpty }.count
             
@@ -52,7 +53,7 @@ struct ImportTagsButton: View {
                                 try await TagImporter.import(importData, into: importContext)
                                 await PersistenceController.saveContext(importContext)
                             } catch {
-                                print(error)
+                                Logger.importExport.error("Error importing tags: \(error, privacy: .public)")
                                 AlertHandler.showError(
                                     title: Strings.Settings.Alert.importTagsErrorTitle,
                                     error: error

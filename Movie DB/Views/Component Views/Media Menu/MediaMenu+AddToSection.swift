@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 extension MediaMenu {
@@ -21,9 +22,7 @@ extension MediaMenu {
             Section {
                 // MARK: Favorites
                 Button {
-                    print("Before: \(mediaObject.isFavorite)")
                     mediaObject.isFavorite.toggle()
-                    print("After: \(mediaObject.isFavorite)")
                 } label: {
                     if mediaObject.isFavorite {
                         Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.fill")

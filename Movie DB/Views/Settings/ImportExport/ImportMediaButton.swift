@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 import SwiftUI
 
 struct ImportMediaButton: View {
@@ -22,7 +23,7 @@ struct ImportMediaButton: View {
                     self.importMedia(url: url)
                 } catch {
                     // Error picking file to import. No need to display an error, as the user is probably aware?
-                    print(error)
+                    Logger.importExport.error("Error picking import file: \(error, privacy: .public)")
                 }
             }
     }
@@ -42,7 +43,7 @@ struct ImportMediaButton: View {
             
             // Parse the CSV data
             let csvString = try String(contentsOf: url)
-            print("Read csv file. Trying to import into library.")
+            Logger.importExport.debug("Successfully read CSV file. Trying to import into library...")
             CSVHelper.importMediaObjects(
                 csvString: csvString,
                 importContext: importContext,

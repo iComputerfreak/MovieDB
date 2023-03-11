@@ -147,8 +147,6 @@ enum PlaceholderData {
             fatalError("Unable to load bundle")
         }
         
-        print(bundle)
-                
         guard let file = bundle.url(forResource: "\(filename)", withExtension: nil) else {
             fatalError("Couldn't find \(filename) in main bundle.")
         }

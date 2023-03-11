@@ -28,7 +28,7 @@ class HistoryManager {
             do {
                 try data.write(to: tokenFile)
             } catch {
-                Logger.coreData.warning("Error writing token data: \(error)")
+                Logger.coreData.warning("Error writing token data: \(error, privacy: .public)")
             }
         }
     }
@@ -40,7 +40,9 @@ class HistoryManager {
             do {
                 try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                Logger.coreData.error("Failed to create persistent container URL to store token file: \(error)")
+                Logger.coreData.error(
+                    "Failed to create persistent container URL to store token file: \(error, privacy: .public)"
+                )
             }
         }
         return url.appendingPathComponent("token.data", isDirectory: false)
@@ -62,7 +64,7 @@ class HistoryManager {
                     from: tokenData
                 )
             } catch {
-                Logger.coreData.error("Failed to unarchive NSPersistentHistoryToken: \(error)")
+                Logger.coreData.error("Failed to unarchive NSPersistentHistoryToken: \(error, privacy: .public)")
             }
         }
     }

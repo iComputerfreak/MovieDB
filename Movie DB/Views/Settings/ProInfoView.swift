@@ -6,6 +6,7 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct ProInfoView: View {
@@ -34,7 +35,7 @@ struct ProInfoView: View {
                         .currency(code: priceLocale?.identifier ?? "").precision(.fractionLength(2))
                     ) : ""
                     Button(Strings.ProInfo.buyButtonLabel(priceString)) {
-                        print("Buying Pro")
+                        Logger.appStore.info("Buying Pro")
                         let manager = StoreManager.shared
                         guard let product = manager.products.first(where: { product in
                             product.productIdentifier == JFLiterals.inAppPurchaseIDPro
@@ -58,7 +59,7 @@ struct ProInfoView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button(Strings.ProInfo.restoreButtonLabel) {
-                        print("Restoring Purchases")
+                        Logger.appStore.info("Restoring Purchases")
                         StoreManager.shared.restorePurchases()
                     }
                 }

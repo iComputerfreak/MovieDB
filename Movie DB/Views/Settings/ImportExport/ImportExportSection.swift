@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import SwiftUI
 
 struct ImportExportSection: View {
@@ -45,7 +46,7 @@ struct ImportExportSection: View {
         handler: @escaping (NSManagedObjectContext) throws -> Void
     ) {
         // Use iOS file picker
-        print("Importing...")
+        Logger.importExport.debug("Starting an import...")
         isLoading.wrappedValue = true
         
         // Perform the import into a separate context on a background thread
@@ -56,7 +57,7 @@ struct ImportExportSection: View {
             do {
                 try handler(importContext)
             } catch {
-                print("Error importing: \(error)")
+                Logger.importExport.error("Error during import: \(error, privacy: .public)")
                 AlertHandler.showError(
                     title: Strings.Settings.Alert.genericImportErrorTitle,
                     error: error
@@ -75,7 +76,7 @@ struct ImportExportSection: View {
         isLoading: Binding<Bool>,
         content: @escaping (NSManagedObjectContext) throws -> String
     ) {
-        print("Exporting \(filename)...")
+        Logger.importExport.debug("Exporting \(filename, privacy: .public)...")
         isLoading.wrappedValue = true
         
         Task(priority: .userInitiated) {
@@ -99,8 +100,7 @@ struct ImportExportSection: View {
                     try exportData.write(to: url, atomically: true, encoding: .utf8)
                     Utils.share(items: [url])
                 } catch {
-                    print("Error writing Export file")
-                    print(error)
+                    Logger.importExport.error("Error writing export file: \(error, privacy: .public)")
                     // Stop the loading animation
                     Task(priority: .userInitiated) {
                         await MainActor.run {

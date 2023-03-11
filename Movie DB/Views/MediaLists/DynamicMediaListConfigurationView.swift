@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct DynamicMediaListConfigurationView: View {
@@ -17,7 +18,7 @@ struct DynamicMediaListConfigurationView: View {
     init(list: DynamicMediaList) {
         self.list = list
         if list.filterSetting == nil {
-            print("List has no FilterSetting. Creating a new one.")
+            Logger.coreData.warning("Dynamic media list has no FilterSetting. Recovering by creating a new one.")
             assertionFailure("List should have a FilterSetting.")
             list.filterSetting = FilterSetting(context: managedObjectContext)
         }

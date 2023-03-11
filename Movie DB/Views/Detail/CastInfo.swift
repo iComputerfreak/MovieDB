@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct CastInfo: View {
@@ -23,11 +24,13 @@ struct CastInfo: View {
                     Text(Strings.Generic.loadingText)
                 }
                 .task(priority: .userInitiated) {
-                    print("Loading cast for \(mediaObject.title)")
+                    Logger.api.info("Loading cast for \(mediaObject.title, privacy: .public)")
                     do {
                         self.cast = try await TMDBAPI.shared.cast(for: mediaObject.tmdbID, type: mediaObject.type)
                     } catch {
-                        print(error)
+                        Logger.api.error(
+                            "Error loading cast for \(mediaObject.title, privacy: .public): \(error, privacy: .public)"
+                        )
                         AlertHandler.showError(
                             title: Strings.Detail.Alert.errorLoadingCastTitle,
                             error: error

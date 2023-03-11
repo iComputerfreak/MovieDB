@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 struct LanguagePickerView: View {
@@ -34,9 +35,9 @@ struct LanguagePickerView: View {
             do {
                 try await Utils.updateTMDBLanguages()
             } catch {
+                Logger.settings.error("Error updating TMDB languages: \(error, privacy: .public)")
                 // We need to report the error, otherwise the user may be confused due to the loading text
                 await MainActor.run {
-                    print(error)
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.errorLoadingLanguagesTitle,
                         error: error

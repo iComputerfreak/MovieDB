@@ -106,7 +106,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             guard diff >= 24 * 60 * 60 else {
                 let durationString = (diff / Double(60 * 60)).formatted(.number.precision(.fractionLength(2)))
                 Logger.network.info(
-                    "Last deny list update was \(durationString) hours ago. Not updating deny list. (< 24h)"
+                    // swiftlint:disable:next line_length
+                    "Last deny list update was \(durationString, privacy: .public) hours ago. Not updating deny list. (< 24h)"
                 )
                 return
             }
@@ -120,14 +121,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200
             else {
+                let bodyString = String(data: data, encoding: .utf8) ?? "nil"
                 Logger.network.error(
-                    "Error updating deny list. HTTP response: \(response), body: \(String(data: data, encoding: .utf8) ?? "nil")"
+                    // swiftlint:disable:next line_length
+                    "Error updating deny list. HTTP response: \(response, privacy: .public), body: \(bodyString, privacy: .private)"
                 )
                 return
             }
             
             guard let text = String(data: data, encoding: .utf8) else {
-                Logger.network.error("Error decoding deny list:\n\(data)")
+                Logger.network.error("Error decoding deny list:\n\(data, privacy: .private)")
                 return
             }
             
@@ -136,7 +139,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Skip empty lines and comments
             for line in denyListLines where !line.isEmpty && !line.starts(with: "#") {
                 if !line.starts(with: "/") {
-                    Logger.network.warning("Invalid line: '\(line)'. Lines must begin with a '/'. Skipping...")
+                    // swiftlint:disable:next line_length
+                    Logger.network.warning("Invalid line: '\(line, privacy: .private)'. Lines must begin with a '/'. Skipping...")
                     continue
                 }
                 // Otherwise, we assume the line contains a poster path
@@ -173,7 +177,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             do {
                 try BGTaskScheduler.shared.submit(request)
             } catch {
-                Logger.background.error("Could not schedule app refresh: \(error)")
+                Logger.background.error("Could not schedule app refresh: \(error, privacy: .public)")
             }
             
             // MARK: Create Operation
@@ -184,7 +188,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                     Logger.background.info("Updated \(updatedCount) media objects.")
                     task.setTaskCompleted(success: updatedCount > 0)
                 } catch {
-                    Logger.background.error("Error executing background fetch: \(error)")
+                    Logger.background.error("Error executing background fetch: \(error, privacy: .public)")
                     task.setTaskCompleted(success: false)
                 }
             }

@@ -6,6 +6,7 @@
 //  Copyright © 2021 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct LanguageChooser: View {
@@ -34,7 +35,7 @@ struct LanguageChooser: View {
                 }
                 .environment(\.editMode, .constant(.active))
                 .onChange(of: config.language) { _ in
-                    print("Language changed to \(config.language)")
+                    Logger.settings.info("Language changed to \(config.language, privacy: .public)")
                 }
                 .navigationTitle(Strings.LanguageChooser.navBarTitle)
             }

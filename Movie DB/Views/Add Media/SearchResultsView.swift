@@ -9,6 +9,7 @@
 import Combine
 import CoreData
 import JFSwiftUI
+import os.log
 import SwiftUI
 
 /// A view that allows the user to search for TMDB movies/shows
@@ -73,7 +74,10 @@ struct SearchResultsView<RowContent: View>: View {
         // Register the publisher for the search results
         model.publisher = model.$searchText
             .receive(on: RunLoop.main)
-            .print()
+            .map { searchText in
+                Logger.addMedia.debug("Searching for: \(searchText, privacy: .public)")
+                return searchText
+            }
             // Wait 500 ms before actually searching for the text
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             // Remove duplicate calls
@@ -97,7 +101,7 @@ struct SearchResultsView<RowContent: View>: View {
     }
     
     func searchMedia(_ searchText: String) {
-        print("Search: \(searchText)")
+        Logger.addMedia.info("Searching for: \(searchText, privacy: .public)")
         model.searchText = searchText
         results = []
         pagesLoaded = 0
@@ -162,7 +166,10 @@ struct SearchResultsView<RowContent: View>: View {
                     self.allPagesLoaded = true
                 }
             } catch {
-                print("Error searching for media with searchText '\(model.searchText)': \(error)")
+                Logger.addMedia.error(
+                    // swiftlint:disable:next line_length
+                    "Error searching for media with searchText '\(model.searchText, privacy: .public)': \(error, privacy: .public)"
+                )
                 await MainActor.run {
                     AlertHandler.showError(
                         title: Strings.MediaSearch.Alert.errorSearchingTitle,

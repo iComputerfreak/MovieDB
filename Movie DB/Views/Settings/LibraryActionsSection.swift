@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import SwiftUI
 
 struct LibraryActionsSection: View {
@@ -87,7 +88,7 @@ struct LibraryActionsSection: View {
                     )
                 }
             } catch {
-                print("Error updating media objects: \(error)")
+                Logger.library.error("Error updating media objects: \(error, privacy: .public)")
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(
@@ -114,11 +115,10 @@ struct LibraryActionsSection: View {
             config.showProgress(Strings.Settings.ProgressView.resetLibrary)
             Task(priority: .userInitiated) {
                 do {
-                    print("Resetting Library...")
+                    Logger.library.info("Resetting Library...")
                     try self.library.reset()
                 } catch {
-                    print("Error resetting library")
-                    print(error)
+                    Logger.library.error("Error resetting library: \(error, privacy: .public)")
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.resetLibraryErrorTitle,
                         error: error

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct SearchResultRow: View {
@@ -49,11 +50,11 @@ struct SearchResultRow: View {
     
     func loadImage() async {
         guard let imagePath = result.imagePath else {
-            print("\(result.title) has no thumbnail")
+            Logger.addMedia.debug("\(result.title, privacy: .public) has no thumbnail")
             return
         }
         guard !Utils.posterDenyList.contains(imagePath) else {
-            print("\(result.title) is on deny list. Refusing to load thumbnail.")
+            Logger.addMedia.info("\(result.title, privacy: .public) is on deny list. Refusing to load thumbnail.")
             return
         }
         
@@ -63,8 +64,8 @@ struct SearchResultRow: View {
                 self.image = image
             }
         } catch {
-            print(error)
             // If we failed to load the search result image, we just silently fail
+            Logger.addMedia.error("Error loading search result thumbnail: \(error, privacy: .public)")
         }
     }
     

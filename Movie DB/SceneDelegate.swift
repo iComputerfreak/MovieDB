@@ -7,12 +7,12 @@
 //
 
 import Foundation
+import os.log
 import StoreKit
 import UIKit
 
 class SceneDelegate: NSObject, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
-        print("Scene entered background.")
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
@@ -41,7 +41,7 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
                 if abs(Date.now.distance(to: date)) > 7 * .day {
                     // Never asked and at least 7 days since first opening the app
                     if let scene = scene as? UIWindowScene {
-                        print("Asking the user for an app store rating")
+                        Logger.appStore.debug("Asking the user for an app store rating")
                         SKStoreReviewController.requestReview(in: scene)
                         // Store as integer instead of bool, since we can technically ask multiple times
                         userDefs.set(1, forKey: JFLiterals.Keys.askedForAppRating)

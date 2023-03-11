@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 /// An actor, resposible for downloading and caching media posters from themoviedatabase.org
@@ -28,8 +29,12 @@ actor PosterService {
         
         // If the image is on deny list, delete it and don't reload
         guard !Utils.posterDenyList.contains(imagePath) else {
-            print("[\(mediaID)] Thumbnail is on deny list. Purging now.")
-            try? Utils.deleteImage(for: mediaID)
+            Logger.library.warning("[\(mediaID, privacy: .public)] Thumbnail is on deny list. Purging now.")
+            do {
+                try Utils.deleteImage(for: mediaID)
+            } catch {
+                Logger.library.error("Error deleting thumbnail on deny list: \(error, privacy: .public)")
+            }
             return nil
         }
         
@@ -62,7 +67,9 @@ actor PosterService {
                 activeDownloads[mediaID] = nil
             } catch {
                 // Error saving the image to disk, we will need to download it again next time
-                print("Error saving image to disk: \(mediaID)")
+                Logger.library.error(
+                    "[\(mediaID, privacy: .public)] Error saving image to disk: \(error, privacy: .public)"
+                )
             }
             
             // Return the downloaded image

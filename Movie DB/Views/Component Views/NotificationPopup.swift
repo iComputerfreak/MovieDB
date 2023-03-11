@@ -67,7 +67,6 @@ struct NotificationPopup: View {
             .padding(padding)
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
             .task {
-                print("Waiting")
                 // Wait x seconds
                 try? await Task.sleep(nanoseconds: UInt64(displayDuration * 1_000_000_000))
                 // Dismiss view
@@ -75,7 +74,6 @@ struct NotificationPopup: View {
                     withAnimation {
                         self.isPresented = false
                     }
-                    print("Dismissed")
                 }
             }
         } else {

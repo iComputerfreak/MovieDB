@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import SwiftUI
 
 struct LibraryList: View {
@@ -64,7 +65,7 @@ struct LibraryList: View {
                             .environmentObject(mediaObject)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(Strings.Library.swipeActionDelete, role: .destructive) {
-                                    print("Deleting \(mediaObject.title)")
+                                    Logger.coreData.info("Deleting \(mediaObject.title, privacy: .public)")
                                     // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                     self.managedObjectContext.delete(mediaObject)
                                 }

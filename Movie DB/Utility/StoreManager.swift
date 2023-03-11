@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import StoreKit
 
 class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
@@ -18,7 +19,7 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     private var purchaseCallback: () -> Void = {}
     
     func getProducts(productIDs: [String]) {
-        print("Start requesting products ...")
+        Logger.appStore.info("Start requesting products ...")
         let request = SKProductsRequest(productIdentifiers: Set(productIDs))
         request.delegate = self
         request.start()
@@ -35,7 +36,7 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     // MARK: - Fetch Products
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        print("Did receive response")
+        Logger.appStore.info("Did receive response")
         
         DispatchQueue.main.async {
             if !response.products.isEmpty {
@@ -48,13 +49,13 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             }
             
             for invalidIdentifier in response.invalidProductIdentifiers {
-                print("Invalid identifiers found: \(invalidIdentifier)")
+                Logger.appStore.warning("Invalid identifiers found: \(invalidIdentifier, privacy: .public)")
             }
         }
     }
     
     func request(_ request: SKRequest, didFailWithError error: Error) {
-        print("Request did fail: \(error)")
+        Logger.appStore.error("Request did fail: \(error, privacy: .public)")
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -81,7 +82,7 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
                     message: Strings.ProInfo.Alert.purchaseRestoredMessage
                 )
             case .failed, .deferred:
-                print("Payment Queue Error: \(String(describing: transaction.error))")
+                Logger.appStore.error("Payment Queue Error: \(transaction.error, privacy: .public)")
                 queue.finishTransaction(transaction)
                 transactionState = .failed
                 AlertHandler.showSimpleAlert(
@@ -104,7 +105,7 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             self.purchaseCallback = onSuccess
             SKPaymentQueue.default().add(payment)
         } else {
-            print("User can't make payment.")
+            Logger.appStore.warning("User can't make payment.")
             AlertHandler.showSimpleAlert(
                 title: Strings.ProInfo.Alert.cannotMakePaymentsTitle,
                 message: Strings.ProInfo.Alert.cannotMakePaymentsMessage

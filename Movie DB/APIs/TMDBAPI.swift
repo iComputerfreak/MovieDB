@@ -379,14 +379,16 @@ actor TMDBAPI {
         
         // Unauthorized
         guard httpResponse.statusCode != 401 else {
-            Logger.api.debug("API Call unauthorized: \(httpResponse)")
+            Logger.api.error("API Call unauthorized: \(httpResponse, privacy: .private)")
             throw APIError.unauthorized
         }
         
         // Status codes 2xx are ok
         guard 200...299 ~= httpResponse.statusCode else {
-            Logger.api.debug("TMDB API request returned status code \(httpResponse.statusCode)")
-            Logger.api.debug("TMDB API request body: \(String(data: data, encoding: .utf8) ?? "nil")")
+            Logger.api.debug("TMDB API request returned status code \(httpResponse.statusCode, privacy: .public)")
+            Logger.api.debug(
+                "TMDB API request body: \(String(data: data, encoding: .utf8) ?? "nil", privacy: .private)"
+            )
             throw APIError.statusNotOk(httpResponse)
         }
         

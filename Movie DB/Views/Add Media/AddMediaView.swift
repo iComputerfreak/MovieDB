@@ -10,6 +10,7 @@ import Combine
 import CoreData
 import Foundation
 import struct JFSwiftUI.LoadingView
+import os.log
 import SwiftUI
 
 struct AddMediaView: View {
@@ -48,7 +49,7 @@ struct AddMediaView: View {
     }
     
     func addMedia(_ result: TMDBSearchResult) async {
-        print("Selected \(result.title)")
+        Logger.library.info("Adding \(result.title, privacy: .public) to library")
         // Add the media object to the library
         do {
             try await library.addMedia(result, isLoading: $isLoading)
@@ -63,9 +64,10 @@ struct AddMediaView: View {
             }
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
+            Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
             self.isShowingProPopup = true
         } catch {
-            print("Error loading media: \(error)")
+            Logger.general.error("Error loading media: \(error, privacy: .public)")
             await MainActor.run {
                 AlertHandler.showError(
                     title: Strings.AddMedia.Alert.errorLoadingTitle,
