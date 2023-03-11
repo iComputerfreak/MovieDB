@@ -13,7 +13,11 @@ import Foundation
 @objc(DynamicMediaList)
 public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     override public var description: String {
-        "DynamicMediaList(id: \(id.uuidString), name: \(name))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id.uuidString), name: \(name))"
+        }
     }
     
     func buildFetchRequest() -> NSFetchRequest<Media> {

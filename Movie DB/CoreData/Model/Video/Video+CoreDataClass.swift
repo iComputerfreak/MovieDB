@@ -14,6 +14,10 @@ import Foundation
 @objc(Video)
 public class Video: NSManagedObject {
     override public var description: String {
-        "Video(key: \(key), name: \(name), type: \(type))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(key: \(key), name: \(name), type: \(type))"
+        }
     }
 }

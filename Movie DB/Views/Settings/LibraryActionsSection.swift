@@ -30,6 +30,10 @@ struct LibraryActionsSection: View {
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
                     Button("Debug") {
                         // Do debugging things here
+                        let images = try! FileManager.default.contentsOfDirectory(at: Utils.imagesDirectory()!, includingPropertiesForKeys: nil)
+                        images.forEach { image in
+                            try! FileManager.default.removeItem(at: image)
+                        }
                     }
                 }
             #endif

@@ -20,9 +20,17 @@ import UIKit
 public class Media: NSManagedObject {
     @Published private(set) var thumbnail: UIImage?
     
+    // The task responsible for (down-)loading the thumbnail
+    private var loadThumbnailTask: Task<Void, Never>?
+    
     override public var description: String {
-        "Media(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watchAgain: " +
-        "\(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), " +
+            "rating: \(personalRating.rawValue), watchAgain: " +
+            "\(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
+        }
     }
     
     // MARK: - Missing Information
@@ -101,6 +109,15 @@ public class Media: NSManagedObject {
         self.modificationDate = .now
     }
     
+    deinit {
+        if let loadThumbnailTask {
+            Logger.lifeCycle.debug(
+                "De-initializing media object with running thumbnail download. Cancelling download..."
+            )
+            loadThumbnailTask.cancel()
+        }
+    }
+    
     override public func willSave() {
         // Use `setPrimitiveValue` to avoid sending notifications
         setPrimitiveValue(Date(), forKey: Schema.Media.modificationDate.rawValue)
@@ -109,8 +126,7 @@ public class Media: NSManagedObject {
             // Delete local data here, not in prepareForDeletion()
             // This way, if there is a rollback or the context is discarded, we avoid deleting resources that we still need
             Logger.coreData.debug(
-                // swiftlint:disable:next line_length
-                "Deleting \(self.title, privacy: .public)... (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+                "Deleting \(self.title, privacy: .public) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
             )
             if let id = self.id {
                 do {
@@ -130,26 +146,64 @@ public class Media: NSManagedObject {
     /// Loads this `Media`'s poster thumbnail from disk or the internet and assigns it to the `thumbnail` property
     /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
     func loadThumbnail(force: Bool = false) async {
-        guard
-            let managedObjectContext,
-            force || managedObjectContext.performAndWait({ self.thumbnail }) == nil
-        else {
-            // Thumbnail already present or no context, don't load/download again, unless force parameter is given
-            return
+        // !!!: Use lots of Task.isCancelled to make sure this media object still exists during execution,
+        // !!!: otherwise accessing e.g. the unowned managedObjectContext property crashes the app
+        if let loadThumbnailTask {
+            // Already loading the thumbnail. Cancel and restart
+            loadThumbnailTask.cancel()
         }
-        do {
-            let mediaID = managedObjectContext.performAndWait { self.id }
-            let imagePath = managedObjectContext.performAndWait { self.imagePath }
-            let thumbnail = try await PosterService.shared.thumbnail(for: mediaID, imagePath: imagePath, force: force)
-            managedObjectContext.performAndWait {
-                self.objectWillChange.send()
-                self.thumbnail = thumbnail
+        
+        // Start loading the thumbnail
+        // Use a dedicated overall task to be able to cancel it
+        self.loadThumbnailTask = Task { [managedObjectContext] in
+            guard !Task.isCancelled else {
+                return
             }
-        } catch {
-            Logger.coreData.warning(
-                // swiftlint:disable:next line_length
-                "[\(self.title, privacy: .public)] Error (down-)loading thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
-            )
+            
+            // We need to access the properties on the managedObjectContext's thread
+            await managedObjectContext?.perform {
+                guard force || self.thumbnail == nil else {
+                    // Thumbnail already present or no context, don't load/download again, unless force parameter is given
+                    return
+                }
+            }
+            
+            var mediaID: Media.ID?
+            var imagePath: String?
+            
+            guard !Task.isCancelled else {
+                return
+            }
+            
+            await managedObjectContext?.perform {
+                mediaID = self.id
+                imagePath = self.imagePath
+            }
+            
+            Task { [mediaID, imagePath] in
+                guard !Task.isCancelled, let mediaID else {
+                    return
+                }
+                
+                do {
+                    let thumbnail = try await PosterService.shared.thumbnail(
+                        for: mediaID,
+                        imagePath: imagePath,
+                        force: force
+                    )
+                    if !Task.isCancelled {
+                        await managedObjectContext?.perform {
+                            self.objectWillChange.send()
+                            self.thumbnail = thumbnail
+                        }
+                    }
+                } catch {
+                    Logger.coreData.warning(
+                        // swiftlint:disable:next line_length
+                        "[\(self.title, privacy: .public)] Error (down-)loading thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+                    )
+                }
+            }
         }
     }
     

@@ -73,7 +73,10 @@ struct Utils {
     
     /// Removes the local image for the given media ID
     static func deleteImage(for mediaID: UUID) throws {
-        if let fileURL = Self.imageFileURL(for: mediaID) {
+        if
+            let fileURL = Self.imageFileURL(for: mediaID),
+            FileManager.default.fileExists(atPath: fileURL.path())
+        {
             try FileManager.default.removeItem(at: fileURL)
         }
     }

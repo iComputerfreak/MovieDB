@@ -30,7 +30,12 @@ public class Tag: NSManagedObject {
     }
     
     override public var description: String {
-        "Tag(id: \(id?.uuidString ?? "nil"), name: \(name), medias: \(medias.count) objects)"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), name: \(name), " +
+            "medias: \(medias.count) objects)"
+        }
     }
     
     override public func awakeFromInsert() {

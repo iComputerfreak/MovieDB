@@ -14,7 +14,11 @@ import Foundation
 @objc(Season)
 public class Season: NSManagedObject {
     override public var description: String {
-        "Season(id: \(id.padding(toLength: 8)), seasonNumber: \(seasonNumber.padding(toLength: 2)), name: \(name), " +
-        "show: \(show?.id?.uuidString ?? "nil"))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id.padding(toLength: 8)), " +
+            "seasonNumber: \(seasonNumber.padding(toLength: 2)), name: \(name), show: \(show?.id?.uuidString ?? "nil"))"
+        }
     }
 }

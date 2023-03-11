@@ -19,9 +19,13 @@ public class Movie: Media {
     }
     
     override public var description: String {
-        "Movie(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), watched: " +
-        "\(self.watched?.rawValue ?? "nil"), watchAgain: \(self.watchAgain?.description ?? "nil"), " +
-        "tags: \(tags.map(\.name)))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), " +
+            "rating: \(personalRating.rawValue), watched: \(self.watched?.rawValue ?? "nil"), " +
+            "watchAgain: \(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
+        }
     }
     
     override func initMedia(type: MediaType, tmdbData: TMDBData) {

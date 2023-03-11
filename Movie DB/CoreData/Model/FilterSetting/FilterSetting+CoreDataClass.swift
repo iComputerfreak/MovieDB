@@ -33,7 +33,11 @@ public class FilterSetting: NSManagedObject {
     }()
     
     override public var description: String {
-        "FilterSetting(id: \(id?.uuidString ?? "nil"))"
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"))"
+        }
     }
     
     var isReset: Bool {

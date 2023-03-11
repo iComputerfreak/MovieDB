@@ -78,6 +78,9 @@ class Deduplicator {
         switch entity {
         case .media, .movie, .show:
             let media: Media = castObject()
+            if media.id == nil {
+                media.id = UUID()
+            }
             deduplicateObject(
                 media,
                 // Use the media with the newest modification date
