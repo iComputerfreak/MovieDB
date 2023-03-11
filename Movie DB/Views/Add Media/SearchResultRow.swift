@@ -50,11 +50,13 @@ struct SearchResultRow: View {
     
     func loadImage() async {
         guard let imagePath = result.imagePath else {
-            Logger.addMedia.debug("\(result.title, privacy: .public) has no thumbnail")
+            Logger.addMedia.debug("Result \(result.title, privacy: .public) has no thumbnail")
             return
         }
         guard !Utils.posterDenyList.contains(imagePath) else {
-            Logger.addMedia.info("\(result.title, privacy: .public) is on deny list. Refusing to load thumbnail.")
+            Logger.addMedia.info(
+                "Result \(result.title, privacy: .public) is on deny list. Refusing to load thumbnail."
+            )
             return
         }
         

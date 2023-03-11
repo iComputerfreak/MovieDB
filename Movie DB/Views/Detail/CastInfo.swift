@@ -24,7 +24,10 @@ struct CastInfo: View {
                     Text(Strings.Generic.loadingText)
                 }
                 .task(priority: .userInitiated) {
-                    Logger.api.info("Loading cast for \(mediaObject.title, privacy: .public)")
+                    Logger.api.info(
+                        // swiftlint:disable:next line_length
+                        "Loading cast for \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
+                    )
                     do {
                         self.cast = try await TMDBAPI.shared.cast(for: mediaObject.tmdbID, type: mediaObject.type)
                     } catch {

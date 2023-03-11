@@ -54,7 +54,10 @@ struct SeasonsInfo: View {
         else {
             return
         }
-        Logger.detail.info("Loading season thumbnails for \(show.title, privacy: .public)")
+        Logger.detail.info(
+            // swiftlint:disable:next line_length
+            "Loading season thumbnails for \(show.title, privacy: .public) (mediaID: \(show.id?.uuidString ?? "nil", privacy: .public))"
+        )
         
         // We don't use a throwing task group, since we want to fail silently.
         // Unavailable images should just not be loaded instead of showing an error message

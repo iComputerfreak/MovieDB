@@ -65,7 +65,10 @@ struct LibraryList: View {
                             .environmentObject(mediaObject)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(Strings.Library.swipeActionDelete, role: .destructive) {
-                                    Logger.coreData.info("Deleting \(mediaObject.title, privacy: .public)")
+                                    Logger.coreData.info(
+                                        // swiftlint:disable:next line_length
+                                        "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
+                                    )
                                     // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                     self.managedObjectContext.delete(mediaObject)
                                 }

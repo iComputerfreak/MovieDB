@@ -89,7 +89,10 @@ public class Media: NSManagedObject {
     
     override public func awakeFromInsert() {
         super.awakeFromInsert()
-        Logger.coreData.debug("[\(self.title, privacy: .public)] Awaking from insert")
+        Logger.coreData.debug(
+            // swiftlint:disable:next line_length
+            "[\(self.title, privacy: .public)] Awaking from insert (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+        )
         
         self.id = UUID()
         self.personalRating = .noRating
@@ -105,12 +108,18 @@ public class Media: NSManagedObject {
         if isDeleted {
             // Delete local data here, not in prepareForDeletion()
             // This way, if there is a rollback or the context is discarded, we avoid deleting resources that we still need
-            Logger.coreData.debug("Deleting \(self.title, privacy: .public)...")
+            Logger.coreData.debug(
+                // swiftlint:disable:next line_length
+                "Deleting \(self.title, privacy: .public)... (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+            )
             if let id = self.id {
                 do {
                     try Utils.deleteImage(for: id)
                 } catch {
-                    Logger.coreData.warning("[\(self.title, privacy: .public)] Error deleting thumbnail: \(error)")
+                    Logger.coreData.warning(
+                        // swiftlint:disable:next line_length
+                        "[\(self.title, privacy: .public)] Error deleting thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+                    )
                 }
             }
         }
@@ -137,7 +146,10 @@ public class Media: NSManagedObject {
                 self.thumbnail = thumbnail
             }
         } catch {
-            Logger.coreData.warning("[\(self.title, privacy: .public)] Error (down-)loading thumbnail: \(error)")
+            Logger.coreData.warning(
+                // swiftlint:disable:next line_length
+                "[\(self.title, privacy: .public)] Error (down-)loading thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+            )
         }
     }
     
