@@ -7,7 +7,7 @@
 //
 
 extension Schema {
-    enum Season: String, SchemaEntity {
+    enum Season: String, SchemaEntityKey {
         static let _entityName = "Season"
         
         // MARK: Attributes

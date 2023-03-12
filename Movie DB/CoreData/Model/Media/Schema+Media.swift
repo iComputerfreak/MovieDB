@@ -6,12 +6,13 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
-protocol SchemaEntity {
+protocol SchemaEntityKey {
     static var _entityName: String { get }
+    var rawValue: String { get }
 }
 
 extension Schema {
-    enum Media: String, SchemaEntity {
+    enum Media: String, SchemaEntityKey {
         static let _entityName = "Media"
         
         // MARK: Attributes

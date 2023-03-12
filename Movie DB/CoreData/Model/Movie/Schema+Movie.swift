@@ -7,7 +7,7 @@
 //
 
 extension Schema {
-    enum Movie: String, SchemaEntity {
+    enum Movie: String, SchemaEntityKey {
         static let _entityName = "Movie"
         
         // MARK: Attributes

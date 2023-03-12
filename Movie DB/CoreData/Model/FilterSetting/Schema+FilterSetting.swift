@@ -7,7 +7,7 @@
 //
 
 extension Schema {
-    enum FilterSetting: String, SchemaEntity {
+    enum FilterSetting: String, SchemaEntityKey {
         static let _entityName = "FilterSetting"
         
         // MARK: Attributes

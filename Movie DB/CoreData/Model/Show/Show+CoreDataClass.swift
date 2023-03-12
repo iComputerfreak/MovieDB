@@ -29,9 +29,9 @@ public class Show: Media {
         if isFault {
             return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
         } else {
-            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), rating: \(personalRating.rawValue), " +
-            "watched: \(self.watched?.rawValue ?? "nil"), watchAgain: \(self.watchAgain?.description ?? "nil"), " +
-            "tags: \(tags.map(\.name)))"
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), " +
+            "rating: \(personalRating.rawValue), watched: \(self.watched?.rawValue ?? "nil"), " +
+            "watchAgain: \(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
         }
     }
     

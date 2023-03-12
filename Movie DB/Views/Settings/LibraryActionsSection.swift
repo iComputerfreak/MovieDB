@@ -29,11 +29,16 @@ struct LibraryActionsSection: View {
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
                     Button("Debug") {
+                        // swiftlint:disable force_try
                         // Do debugging things here
-                        let images = try! FileManager.default.contentsOfDirectory(at: Utils.imagesDirectory()!, includingPropertiesForKeys: nil)
+                        let images = try! FileManager.default.contentsOfDirectory(
+                            at: Utils.imagesDirectory()!,
+                            includingPropertiesForKeys: nil
+                        )
                         images.forEach { image in
                             try! FileManager.default.removeItem(at: image)
                         }
+                        // swiftlint:enable force_try
                     }
                 }
             #endif

@@ -119,8 +119,15 @@ public class Media: NSManagedObject {
     }
     
     override public func willSave() {
-        // Use `setPrimitiveValue` to avoid sending notifications
-        setPrimitiveValue(Date(), forKey: Schema.Media.modificationDate.rawValue)
+        // Only react to inserts and updates
+        if !isDeleted {
+            // If the change is containing a modificationDate, don't update again to...
+            // a) prevent willSave loops
+            // b) not update the modificationDate for changes synced from another device
+            if !self.changedValues().keys.contains(Schema.Media.modificationDate.rawValue) {
+                setPrimitiveValue(Date.now, forKey: Schema.Media.modificationDate.rawValue)
+            }
+        }
         
         if isDeleted {
             // Delete local data here, not in prepareForDeletion()

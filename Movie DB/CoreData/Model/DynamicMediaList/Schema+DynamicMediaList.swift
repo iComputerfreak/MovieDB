@@ -7,7 +7,7 @@
 //
 
 extension Schema {
-    enum DynamicMediaList: String, SchemaEntity {
+    enum DynamicMediaList: String, SchemaEntityKey {
         static let _entityName = "DynamicMediaList"
         
         // MARK: Attributes

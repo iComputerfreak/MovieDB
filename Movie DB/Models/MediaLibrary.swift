@@ -179,11 +179,10 @@ struct MediaLibrary {
         }
     }
     
-    /// Performs a cleanup of the library, deleting all entities with missing relations (e.g. unused ``Genre``s or ``ProductionCompany``s
+    /// Performs a cleanup of the library, deleting unused entities
     func cleanup() throws {
         // MARK: Delete entities that are not used anymore
         Logger.library.info("Deleting unused entities...")
-        // We use the string literals here instead of `Genre.entity().name` to prevent assertion crashes when rendering the Xcode Preview
         try delete(
             Schema.Genre._entityName,
             predicate: NSPredicate(format: "medias.@count = 0")
