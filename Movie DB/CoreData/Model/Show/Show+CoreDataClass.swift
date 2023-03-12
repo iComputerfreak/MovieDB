@@ -12,7 +12,15 @@ import Foundation
 
 @objc(Show)
 public class Show: Media {
-    // MARK: - Initializers
+    override public var description: String {
+        if isFault {
+            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
+        } else {
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), " +
+            "rating: \(personalRating.rawValue), watched: \(self.watched?.rawValue ?? "nil"), " +
+            "watchAgain: \(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
+        }
+    }
     
     /// Creates a new `Show` object.
     convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
@@ -23,16 +31,6 @@ public class Show: Media {
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
         super.initMedia(type: type, tmdbData: tmdbData)
         setTMDBShowData(tmdbData)
-    }
-    
-    override public var description: String {
-        if isFault {
-            return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
-        } else {
-            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), title: \(title), " +
-            "rating: \(personalRating.rawValue), watched: \(self.watched?.rawValue ?? "nil"), " +
-            "watchAgain: \(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
-        }
     }
     
     override func update(tmdbData: TMDBData) {

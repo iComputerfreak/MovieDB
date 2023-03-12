@@ -12,12 +12,6 @@ import Foundation
 
 @objc(Movie)
 public class Movie: Media {
-    /// Creates a new `Movie` object.
-    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
-        self.init(context: context)
-        initMedia(type: .movie, tmdbData: tmdbData)
-    }
-    
     override public var description: String {
         if isFault {
             return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
@@ -26,6 +20,12 @@ public class Movie: Media {
             "rating: \(personalRating.rawValue), watched: \(self.watched?.rawValue ?? "nil"), " +
             "watchAgain: \(self.watchAgain?.description ?? "nil"), tags: \(tags.map(\.name)))"
         }
+    }
+    
+    /// Creates a new `Movie` object.
+    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
+        self.init(context: context)
+        initMedia(type: .movie, tmdbData: tmdbData)
     }
     
     override func initMedia(type: MediaType, tmdbData: TMDBData) {

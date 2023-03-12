@@ -101,6 +101,15 @@ class Deduplicator {
             )
         case .tag:
             let tag: Tag = castObject()
+            // Deduplicate on id
+            if let id = tag.id {
+                deduplicateObject(
+                    tag,
+                    uniquePropertyName: Schema.Tag.id.rawValue,
+                    uniquePropertyValue: id.uuidString
+                )
+            }
+            // Deduplicate on name
             deduplicateObject(
                 tag,
                 uniquePropertyName: Schema.Tag.name.rawValue,

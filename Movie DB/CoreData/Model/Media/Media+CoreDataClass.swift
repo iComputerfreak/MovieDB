@@ -18,11 +18,6 @@ import UIKit
 /// Represents a media object in the library
 @objc(Media)
 public class Media: NSManagedObject {
-    @Published private(set) var thumbnail: UIImage?
-    
-    // The task responsible for (down-)loading the thumbnail
-    private var loadThumbnailTask: Task<Void, Never>?
-    
     override public var description: String {
         if isFault {
             return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
@@ -33,7 +28,10 @@ public class Media: NSManagedObject {
         }
     }
     
-    // MARK: - Missing Information
+    @Published private(set) var thumbnail: UIImage?
+    
+    // The task responsible for (down-)loading the thumbnail
+    private var loadThumbnailTask: Task<Void, Never>?
     
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
@@ -44,6 +42,15 @@ public class Media: NSManagedObject {
         // Load the thumbnail from disk or network
         Task {
             await loadThumbnail()
+        }
+    }
+    
+    deinit {
+        if let loadThumbnailTask {
+            Logger.lifeCycle.debug(
+                "De-initializing media object with running thumbnail download. Cancelling download..."
+            )
+            loadThumbnailTask.cancel()
         }
     }
     
@@ -84,6 +91,61 @@ public class Media: NSManagedObject {
         objects.map { managedObjectContext!.object(with: $0.objectID) as! T }
     }
     
+    /// Updates the media object with the given data
+    /// - Parameter tmdbData: The new data
+    func update(tmdbData: TMDBData) {
+        setTMDBData(tmdbData)
+    }
+    
+    // MARK: - MediaInformation (Problems)
+    
+    /// Returns all `MediaInformation` that is missing on this media object
+    func missingInformation() -> Set<MediaInformation> {
+        var missing: Set<MediaInformation> = []
+        if personalRating == .noRating {
+            missing.insert(.rating)
+        }
+        if watchAgain == nil {
+            missing.insert(.watchAgain)
+        }
+        if tags.isEmpty {
+            missing.insert(.tags)
+        }
+        return missing
+    }
+    
+    /// Represents a user-provided information about a media object.
+    /// This enum only contains the information, that will cause the object to show up in the Problems tab, when missing
+    public enum MediaInformation: String, CaseIterable, Codable {
+        case rating
+        case watched
+        case watchAgain
+        case tags
+        // Notes are not required for the media object to be complete
+        
+        var localized: String {
+            switch self {
+            case .rating:
+                return Strings.MediaInformation.rating
+            case .watched:
+                return Strings.MediaInformation.watched
+            case .watchAgain:
+                return Strings.MediaInformation.watchAgain
+            case .tags:
+                return Strings.MediaInformation.tags
+            }
+        }
+    }
+    
+    enum MediaError: Error {
+        case noData
+        case encodingFailed(String)
+    }
+}
+
+// MARK: - Core Data
+
+extension Media {
     override public func awakeFromFetch() {
         super.awakeFromFetch()
         // Generate a new ID, if the existing one is nil
@@ -107,15 +169,6 @@ public class Media: NSManagedObject {
         self.tags = []
         self.creationDate = .now
         self.modificationDate = .now
-    }
-    
-    deinit {
-        if let loadThumbnailTask {
-            Logger.lifeCycle.debug(
-                "De-initializing media object with running thumbnail download. Cancelling download..."
-            )
-            loadThumbnailTask.cancel()
-        }
     }
     
     override public func willSave() {
@@ -147,9 +200,11 @@ public class Media: NSManagedObject {
             }
         }
     }
-    
-    // MARK: - Functions
-    
+}
+
+// MARK: - Thumbnail
+
+extension Media {
     /// Loads this `Media`'s poster thumbnail from disk or the internet and assigns it to the `thumbnail` property
     /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
     func loadThumbnail(force: Bool = false) async {
@@ -212,55 +267,5 @@ public class Media: NSManagedObject {
                 }
             }
         }
-    }
-    
-    /// Updates the media object with the given data
-    /// - Parameter tmdbData: The new data
-    func update(tmdbData: TMDBData) {
-        setTMDBData(tmdbData)
-    }
-    
-    func missingInformation() -> Set<MediaInformation> {
-        var missing: Set<MediaInformation> = []
-        if personalRating == .noRating {
-            missing.insert(.rating)
-        }
-        if watchAgain == nil {
-            missing.insert(.watchAgain)
-        }
-        if tags.isEmpty {
-            missing.insert(.tags)
-        }
-        return missing
-    }
-}
-
-extension Media {
-    /// Represents a user-provided information about a media object.
-    /// This enum only contains the information, that will cause the object to show up in the Problems tab, when missing
-    public enum MediaInformation: String, CaseIterable, Codable {
-        case rating
-        case watched
-        case watchAgain
-        case tags
-        // Notes are not required for the media object to be complete
-        
-        var localized: String {
-            switch self {
-            case .rating:
-                return Strings.MediaInformation.rating
-            case .watched:
-                return Strings.MediaInformation.watched
-            case .watchAgain:
-                return Strings.MediaInformation.watchAgain
-            case .tags:
-                return Strings.MediaInformation.tags
-            }
-        }
-    }
-    
-    enum MediaError: Error {
-        case noData
-        case encodingFailed(String)
     }
 }
