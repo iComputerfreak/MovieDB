@@ -19,24 +19,18 @@ struct ProblemsLibraryRow: View {
     }
     
     var body: some View {
-        // TODO: Move NavigationLink out of this view
-        NavigationLink {
-            MediaDetail()
-                .environmentObject(mediaObject)
-        } label: {
-            HStack {
-                Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                    .thumbnail()
-                VStack(alignment: .leading) {
-                    Text(mediaObject.title)
-                        .lineLimit(2)
-                        .font(.headline)
-                    // Under the title
-                    HStack {
-                        Text(Strings.Problems.missingList(missing))
-                            .font(.caption)
-                            .italic()
-                    }
+        HStack {
+            Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
+                .thumbnail()
+            VStack(alignment: .leading) {
+                Text(mediaObject.title)
+                    .lineLimit(2)
+                    .font(.headline)
+                // Under the title
+                HStack {
+                    Text(Strings.Problems.missingList(missing))
+                        .font(.caption)
+                        .italic()
                 }
             }
         }

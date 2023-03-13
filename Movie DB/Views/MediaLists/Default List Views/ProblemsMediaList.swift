@@ -13,8 +13,10 @@ struct ProblemsMediaList: View {
     
     var body: some View {
         FilteredMediaList(list: PredicateMediaList.problems, selectedMedia: $selectedMedia) { media in
-            ProblemsLibraryRow()
-                .environmentObject(media)
+            NavigationLink(value: media) {
+                ProblemsLibraryRow()
+                    .environmentObject(media)
+            }
         }
     }
 }
