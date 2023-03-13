@@ -40,9 +40,7 @@ public class Media: NSManagedObject {
         setTMDBData(tmdbData)
         
         // Load the thumbnail from disk or network
-        Task {
-            await loadThumbnail()
-        }
+        loadThumbnail()
     }
     
     deinit {
@@ -152,9 +150,7 @@ public extension Media {
         if self.id == nil {
             self.id = UUID()
         }
-        Task {
-            await self.loadThumbnail()
-        }
+        self.loadThumbnail()
     }
     
     override func awakeFromInsert() {
@@ -232,7 +228,7 @@ public extension Media {
 extension Media {
     /// Loads this `Media`'s poster thumbnail from disk or the internet and assigns it to the `thumbnail` property
     /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
-    func loadThumbnail(force: Bool = false) async {
+    func loadThumbnail(force: Bool = false) {
         // !!!: Use lots of Task.isCancelled to make sure this media object still exists during execution,
         // !!!: otherwise accessing e.g. the unowned managedObjectContext property crashes the app
         if let loadThumbnailTask {

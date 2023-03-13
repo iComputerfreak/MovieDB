@@ -28,6 +28,7 @@ public class UserMediaList: NSManagedObject, MediaListProtocol {
     }
     
     override public func awakeFromInsert() {
+        super.awakeFromInsert()
         self.id = UUID()
     }
 }

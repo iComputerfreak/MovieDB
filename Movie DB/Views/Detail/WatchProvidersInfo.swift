@@ -61,21 +61,17 @@ struct WatchProvidersInfo: View {
 }
 
 struct ProviderView: View {
-    let provider: WatchProvider
+    @ObservedObject var provider: WatchProvider
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         VStack {
             Group {
-                if let imagePath = provider.imagePath {
-                    AsyncImage(url: Utils.getTMDBImageURL(path: imagePath, size: nil)) { image in
-                        image
-                            .resizable()
-                            .cornerRadius(10)
-                            .shadow(radius: 1, y: 1.5)
-                    } placeholder: {
-                        placeholderView(for: provider)
-                    }
+                if let image = provider.logoImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .cornerRadius(10)
+                        .shadow(radius: 1, y: 1.5)
                 } else {
                     placeholderView(for: provider)
                 }

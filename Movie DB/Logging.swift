@@ -32,6 +32,7 @@ extension Logger {
     static let detail = Logger("detail")
     static let fileSystem = Logger("fileSystem")
     static let lifeCycle = Logger("lifeCycle")
+    static let imageService = Logger("imageService")
     
     /*
      * Log Levels:

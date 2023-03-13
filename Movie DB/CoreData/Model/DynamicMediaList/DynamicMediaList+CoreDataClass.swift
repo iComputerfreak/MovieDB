@@ -28,6 +28,7 @@ public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     }
     
     override public func awakeFromInsert() {
+        super.awakeFromInsert()
         self.id = UUID()
         if filterSetting == nil {
             filterSetting = FilterSetting(context: managedObjectContext!)

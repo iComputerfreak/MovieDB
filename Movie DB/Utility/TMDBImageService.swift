@@ -18,7 +18,7 @@ actor TMDBImageService {
     
     let imageSize: Int?
     
-    private var activeDownloads: [UUID: Task<UIImage, Error>] = [:]
+    private var activeDownloads: [AnyHashable: Task<UIImage, Error>] = [:]
     
     /// Creates a new `TMDBImageService`
     /// - Parameter thumbnailSize: The size as used by the TMDB API for fetching the thumbnail
@@ -28,20 +28,17 @@ actor TMDBImageService {
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo``
     func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
-        guard
-            let mediaID,
-            let fileURL = Utils.imageFileURL(for: mediaID)
-        else {
+        guard let mediaID else {
             return nil
         }
-        return try await image(for: imagePath, to: fileURL, downloadID: mediaID)
+        return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID)
     }
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo`` using an optional imagePath.
     func image(
         for imagePath: String?,
-        to fileURL: URL,
-        downloadID: UUID,
+        to fileURL: URL? = nil,
+        downloadID: AnyHashable,
         force: Bool = false
     ) async throws -> UIImage? {
         guard let imagePath, !imagePath.isEmpty else {
@@ -56,29 +53,33 @@ actor TMDBImageService {
     /// If the fileURL does not point to an image on disk, this function downloads the image using the provided `imagePath`.
     /// The resulting image is then stored at the given `fileURL` and returned.
     ///
+    /// If `fileURL` is `nil`, the image will be downloaded and returned every time, instead of being cached.
+    ///
     /// If an image is requested using this funtion while it is already being downloaded, the running download will be awaited and the result returned.
     ///
     /// - Parameters:
     ///   - imagePath: The TMDB API image path that specifies the internet location where to get the image from
-    ///   - fileURL: An URL to a file on disk that is used to load an already cached file
+    ///   - fileURL: An optional URL to a file on disk that is used to load an already cached file and save a downloaded image
     ///   - downloadID: A unique ID for this download (e.g. `Media.id`)
     ///   - force: Whether to download the image regardless of whether it already exists on disk
     /// - Returns: The (down-)loaded image
     func image(
         for imagePath: String,
-        to fileURL: URL,
-        downloadID: UUID,
+        to fileURL: URL? = nil,
+        downloadID: AnyHashable,
         force: Bool = false
     ) async throws -> UIImage? {
         // If the image is on deny list, delete it and don't reload
         guard !Utils.posterDenyList.contains(imagePath) else {
-            Logger.library.warning("[\(downloadID, privacy: .public)] Image is on deny list. Purging now.")
-            do {
-                if FileManager.default.fileExists(atPath: fileURL.path()) {
-                    try FileManager.default.removeItem(at: fileURL)
+            if let fileURL {
+                Logger.imageService.warning("[\(downloadID, privacy: .public)] Image is on deny list. Purging now.")
+                do {
+                    if FileManager.default.fileExists(atPath: fileURL.path()) {
+                        try FileManager.default.removeItem(at: fileURL)
+                    }
+                } catch {
+                    Logger.imageService.error("Error deleting image on deny list: \(error, privacy: .public)")
                 }
-            } catch {
-                Logger.library.error("Error deleting image on deny list: \(error, privacy: .public)")
             }
             return nil
         }
@@ -90,14 +91,14 @@ actor TMDBImageService {
         }
         
         // Check if the image already exists on disk (does not matter if force is true)
-        if !force, FileManager.default.fileExists(atPath: fileURL.path()) {
+        if let fileURL, !force, FileManager.default.fileExists(atPath: fileURL.path()) {
             // File already downloaded, return the file on disk
             return UIImage(data: try Data(contentsOf: fileURL))
         } else {
             // Download the poster image in thumbnail size
             let downloadTask = Task {
-                Logger.network.debug(
-                    "Downloading image for downloadID \(downloadID.uuidString, privacy: .public)"
+                Logger.imageService.debug(
+                    "Downloading image for downloadID \(String(describing: downloadID), privacy: .public)"
                 )
                 let webURL = Utils.getTMDBImageURL(path: imagePath, size: imageSize)
                 return try await Utils.loadImage(from: webURL)
@@ -110,15 +111,18 @@ actor TMDBImageService {
             let result = try await downloadTask.value
             
             // Save the image to disk for later requests
-            do {
-                try result.pngData()?.write(to: fileURL)
-                activeDownloads[downloadID] = nil
-            } catch {
-                // Error saving the image to disk, we will need to download it again next time
-                Logger.library.error(
-                    "[\(downloadID, privacy: .public)] Error saving image to disk: \(error, privacy: .public)"
-                )
+            if let fileURL {
+                do {
+                    try result.pngData()?.write(to: fileURL)
+                } catch {
+                    // Error saving the image to disk, we will need to download it again next time
+                    Logger.imageService.error(
+                        "[\(downloadID, privacy: .public)] Error saving image to disk: \(error, privacy: .public)"
+                    )
+                }
             }
+            
+            activeDownloads[downloadID] = nil
             
             // Return the downloaded image
             return result

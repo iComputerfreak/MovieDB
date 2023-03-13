@@ -39,10 +39,12 @@ public class Tag: NSManagedObject {
     }
     
     override public func awakeFromInsert() {
+        super.awakeFromInsert()
         self.id = UUID()
     }
     
     override public func awakeFromFetch() {
+        super.awakeFromFetch()
         // Migrate existing tags to use an ID
         if self.id == nil {
             self.id = UUID()
