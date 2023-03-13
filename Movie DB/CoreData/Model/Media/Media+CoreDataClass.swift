@@ -282,7 +282,7 @@ extension Media {
                 }
                 
                 do {
-                    let thumbnail = try await PosterService.shared.thumbnail(
+                    let thumbnail = try await TMDBImageService.mediaThumbnails.thumbnail(
                         for: mediaID,
                         imagePath: imagePath,
                         force: force

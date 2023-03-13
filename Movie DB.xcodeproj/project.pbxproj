@@ -190,7 +190,7 @@
 		ABADB86229A3D0A300853F56 /* Persistence+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */; };
 		ABADB86429A3D4DF00853F56 /* ContextType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86329A3D4DF00853F56 /* ContextType.swift */; };
 		ABADB86829A50B0900853F56 /* DeduplicationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86729A50B0900853F56 /* DeduplicationEntity.swift */; };
-		ABB194CD29AFDEBA0041DFFA /* PosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB194CC29AFDEBA0041DFFA /* PosterService.swift */; };
+		ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */; };
 		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
@@ -487,7 +487,7 @@
 		ABADB86129A3D0A300853F56 /* Persistence+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Convenience.swift"; sourceTree = "<group>"; };
 		ABADB86329A3D4DF00853F56 /* ContextType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextType.swift; sourceTree = "<group>"; };
 		ABADB86729A50B0900853F56 /* DeduplicationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeduplicationEntity.swift; sourceTree = "<group>"; };
-		ABB194CC29AFDEBA0041DFFA /* PosterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterService.swift; sourceTree = "<group>"; };
+		ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBImageService.swift; sourceTree = "<group>"; };
 		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
 		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
@@ -790,7 +790,7 @@
 				AB2D07EE267F83AA005D6353 /* StoreManager.swift */,
 				AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */,
 				AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */,
-				ABB194CC29AFDEBA0041DFFA /* PosterService.swift */,
+				ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1621,7 +1621,7 @@
 				ABEF108229BF6E4E0047E4B9 /* Schema+WatchProvider.swift in Sources */,
 				AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
-				ABB194CD29AFDEBA0041DFFA /* PosterService.swift in Sources */,
+				ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,

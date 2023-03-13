@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import UIKit
 
 public extension WatchProvider {
     var id: Int {
@@ -30,6 +31,21 @@ public extension WatchProvider {
     @NSManaged var imagePath: String?
     
     @NSManaged var medias: Set<Media>
+    
+    @NSManaged private var pngData: Data?
+    
+    /// The logo image of this watch provider
+    var logoImage: UIImage? {
+        get {
+            if let pngData {
+                return UIImage(data: pngData)
+            }
+            return nil
+        }
+        set {
+            self.pngData = newValue?.pngData()
+        }
+    }
     
     enum ProviderType: String {
         case flatrate
