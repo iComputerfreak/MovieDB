@@ -23,9 +23,9 @@ struct CastMemberRow: View {
                     .thumbnail()
             }
             VStack(alignment: .leading) {
-                Text(castMember.name)
+                Text(verbatim: castMember.name)
                     .bold()
-                Text("as \(castMember.roleName)")
+                Text(Strings.Detail.castMemberRole(castMember.roleName))
                     .italic()
             }
         }

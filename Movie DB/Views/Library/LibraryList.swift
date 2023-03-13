@@ -86,7 +86,7 @@ struct LibraryList: View {
     
     var footerText: Text {
         guard !filteredMedia.isEmpty else {
-            return Text("")
+            return Text(verbatim: "")
         }
         let objCount = filteredMedia.count
         

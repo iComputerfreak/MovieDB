@@ -69,9 +69,10 @@ struct WatchedShowView: View {
         
         var warningFooter: Text {
             if seasonIsValid {
-                return Text("")
+                return Text(verbatim: "")
             } else {
                 let image = Image(systemName: "exclamationmark.triangle.fill")
+                // Not using Strings.Detail..., because we cannot return a String with an interpolated Image
                 return Text("detail.showWatchState.seasonWarning \(image) \(maxSeason ?? 0)")
             }
         }

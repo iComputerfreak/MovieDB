@@ -81,7 +81,7 @@ struct AddMediaView: View {
 
 struct AddMediaView_Previews: PreviewProvider {
     static var previews: some View {
-        Text("")
+        EmptyView()
             .sheet(isPresented: .constant(true)) {
                 AddMediaView()
             }

@@ -129,10 +129,10 @@ private struct Preview: View {
         NavigationStack {
             List {
                 ForEach(0..<30) { i in
-                    Text("This is Item \(i)")
+                    Text(verbatim: "This is Item \(i)")
                 }
             }
-            .navigationTitle("Favorites")
+            .navigationTitle(Text(verbatim: "Favorites"))
         }
         .notificationPopup(
             isPresented: $isActive,

@@ -239,6 +239,14 @@ extension Strings {
             localized: "detail.basicInfo.cast",
             comment: "The button label in the detail of a media object that leads to the cast information."
         )
+        
+        static func castMemberRole(_ roleName: String) -> String {
+            String(
+                localized: "detail.cast.roleNameLabel \(roleName)",
+                comment: "The label text that describes the role a cast member fulfills. The parameter is the role name."
+            )
+        }
+        
         static func episodeAirDateWithDate(_ season: Int, _ episode: Int, _ date: String) -> String {
             String(
                 localized: "detail.episodeAirDate \(season) \(episode) \(date)",

@@ -145,8 +145,8 @@ public class Media: NSManagedObject {
 
 // MARK: - Core Data
 
-extension Media {
-    override public func awakeFromFetch() {
+public extension Media {
+    override func awakeFromFetch() {
         super.awakeFromFetch()
         // Generate a new ID, if the existing one is nil
         if self.id == nil {
@@ -157,7 +157,7 @@ extension Media {
         }
     }
     
-    override public func awakeFromInsert() {
+    override func awakeFromInsert() {
         super.awakeFromInsert()
         Logger.coreData.debug(
             // swiftlint:disable:next line_length
@@ -171,7 +171,7 @@ extension Media {
         self.modificationDate = .now
     }
     
-    override public func willSave() {
+    override func willSave() {
         // Only react to inserts and updates
         if !isDeleted {
             // If the change is containing a modificationDate, don't update again to...

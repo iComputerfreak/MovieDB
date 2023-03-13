@@ -79,7 +79,7 @@ struct WatchStateLabel: View {
 struct WatchStateLabel_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Section(header: Text("Movies")) {
+            Section(header: Text(verbatim: "Movies")) {
                 WatchStateLabel()
                     .environmentObject(createMovie(watchState: nil))
                 WatchStateLabel()
@@ -89,7 +89,7 @@ struct WatchStateLabel_Previews: PreviewProvider {
                 WatchStateLabel()
                     .environmentObject(createMovie(watchState: .notWatched))
             }
-            Section(header: Text("Shows")) {
+            Section(header: Text(verbatim: "Shows")) {
                 WatchStateLabel()
                     .environmentObject(createShow(watchState: nil))
                 WatchStateLabel()

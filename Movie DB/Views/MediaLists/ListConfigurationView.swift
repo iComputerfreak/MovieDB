@@ -33,7 +33,7 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
 struct ListConfigurationView_Previews: PreviewProvider {
     static var previews: some View {
         ListConfigurationView(list: UserMediaList(context: PersistenceController.previewContext)) { list in
-            Text("Name: \(list.name)")
+            Text(verbatim: "Name: \(list.name)")
         }
     }
 }

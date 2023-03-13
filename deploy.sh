@@ -45,6 +45,7 @@ git push
 git push --tags
 
 echo "Creating GitHub release..."
+pause
 gh auth login
 gh api \
   --method POST \
