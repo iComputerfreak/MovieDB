@@ -190,6 +190,7 @@ public extension Media {
             )
             if let id = self.id {
                 do {
+                    Logger.fileSystem.debug("Deleting thumbnail for media \(id.uuidString, privacy: .public)")
                     try Utils.deleteImage(for: id)
                 } catch {
                     Logger.coreData.warning(
@@ -211,8 +212,17 @@ extension Media {
         // !!!: Use lots of Task.isCancelled to make sure this media object still exists during execution,
         // !!!: otherwise accessing e.g. the unowned managedObjectContext property crashes the app
         if let loadThumbnailTask {
-            // Already loading the thumbnail. Cancel and restart
-            loadThumbnailTask.cancel()
+            // Already loading the thumbnail
+            if force {
+                // Cancel and restart
+                Logger.coreData.debug(
+                    "Restarting thumbnail download for media \(self.id?.uuidString ?? "nil", privacy: .public)"
+                )
+                loadThumbnailTask.cancel()
+            } else {
+                // Don't restart the thumbnail loading and let the current task finish
+                return
+            }
         }
         
         // Start loading the thumbnail

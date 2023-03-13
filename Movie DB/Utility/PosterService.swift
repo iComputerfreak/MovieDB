@@ -51,6 +51,9 @@ actor PosterService {
         } else {
             // Download the poster image in thumbnail size
             let downloadTask = Task {
+                Logger.network.debug(
+                    "Downloading thumbnail for media \(mediaID.uuidString, privacy: .public)"
+                )
                 let webURL = Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
                 return try await Utils.loadImage(from: webURL)
             }
