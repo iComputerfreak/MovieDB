@@ -13,7 +13,7 @@ protocol Migration {
     /// Returns whether the migration has been run on this device before
     var hasRun: Bool { get }
     /// Executes the migration
-    func run() throws
+    func run() async throws
     /// Marks the migration as completed, setting a key to make sure it is not run again in the future.
     /// Future calls of `hasRun` will return `true`.
     func setCompleted()

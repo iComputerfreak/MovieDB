@@ -128,6 +128,8 @@ struct MediaLibrary {
         lastUpdated = Date.now.timeIntervalSince1970
         // Save the updated media into the parent context (viewContext)
         await PersistenceController.saveContext(updateContext)
+        // Save the view context to make the changes persistent
+        await PersistenceController.saveContext(context)
         return updateCount
     }
     

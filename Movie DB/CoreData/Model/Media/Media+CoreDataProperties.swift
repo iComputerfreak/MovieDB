@@ -104,7 +104,7 @@ public extension Media {
     /// The parental rating certification of the media
     @NSManaged private var parentalRatingLabel: String?
     /// The streaming sites where is media is available to watch
-    @NSManaged var watchProviders: [WatchProvider]
+    @NSManaged var watchProviders: Set<WatchProvider>
     /// Whether this media has been marked as a favorite
     @NSManaged var isFavorite: Bool
     /// Whether this media has been added to the watchlist

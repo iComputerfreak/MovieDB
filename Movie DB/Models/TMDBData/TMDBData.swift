@@ -37,7 +37,7 @@ struct TMDBData: Decodable {
     var translations: [String]
     var videos: [VideoDummy]
     var parentalRating: ParentalRating?
-    var watchProviders: [WatchProvider]
+    var watchProviders: [WatchProviderDummy]
     
     var movieData: MovieData?
     var showData: ShowData?
@@ -62,7 +62,7 @@ struct TMDBData: Decodable {
         translations: [String],
         videos: [VideoDummy],
         parentalRating: ParentalRating? = nil,
-        watchProviders: [WatchProvider],
+        watchProviders: [WatchProviderDummy],
         movieData: TMDBData.MovieData? = nil,
         showData: TMDBData.ShowData? = nil
     ) {
@@ -140,7 +140,7 @@ struct TMDBData: Decodable {
         let results = try watchProvidersContainer.decode([String: WatchProviderResult].self, forKey: .results)
         // Get the correct providers for the configured region
         let result = results[JFConfig.shared.region]
-        watchProviders = result?.providers ?? []
+        self.watchProviders = result?.providers ?? []
         
         // MARK: Movie/Show specific
         

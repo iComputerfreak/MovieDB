@@ -25,12 +25,10 @@ extension Schema {
         case title
         case originalTitle
         case imagePath
-        case genres
         case overview
         case tagline
         case status
         case originalLanguage
-        case productionCompanies
         case homepageURL
         case productionCountries
         case popularity
@@ -38,18 +36,20 @@ extension Schema {
         case voteCount
         case keywords
         case translations
-        case videos
-        case tags
         case creationDate
         case modificationDate
         case releaseDateOrFirstAired
         case parentalRatingColor
         case parentalRatingLabel
-        case watchProviders
         case isFavorite
         case isOnWatchlist
         
         // MARK: Relationships
+        case genres
+        case tags
         case userLists
+        case productionCompanies
+        case videos
+        case watchProviders
     }
 }

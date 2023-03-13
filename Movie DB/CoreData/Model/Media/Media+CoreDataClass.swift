@@ -81,7 +81,7 @@ public class Media: NSManagedObject {
             self.translations = tmdbData.translations
             self.videos = Set(managedObjectContext.importDummies(tmdbData.videos))
             self.parentalRating = tmdbData.parentalRating
-            self.watchProviders = tmdbData.watchProviders
+            self.watchProviders = Set(managedObjectContext.importDummies(tmdbData.watchProviders))
         }
     }
     

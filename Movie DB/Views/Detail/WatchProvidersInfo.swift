@@ -14,8 +14,12 @@ struct WatchProvidersInfo: View {
     var providers: [WatchProvider] {
         mediaObject.watchProviders
             .filter { $0.type != .buy }
-            // Multiply the type priority by 1000 to give it more weight
-            .sorted(on: { $0.type.priority * 1000 + $0.type.priority }, by: <)
+            .sorted(on: { provider in
+                let typePriority = provider.type?.priority ?? 0
+                let providerPriority = provider.priority
+                // Multiply the type priority by 1000 to give it more weight
+                return typePriority * 1000 + providerPriority
+            }, by: <)
             .reversed()
     }
     
@@ -79,7 +83,7 @@ struct ProviderView: View {
             .frame(width: 50, height: 50)
             .padding(2)
             
-            Text(provider.type.localized)
+            Text(provider.type?.localized ?? "")
                 .font(.caption)
         }
     }

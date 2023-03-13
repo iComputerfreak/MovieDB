@@ -81,7 +81,7 @@ actor TMDBAPI {
     ///   - context: The context to update the media objects in
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
-        assert(media.managedObjectContext == context)
+        assert(media.managedObjectContext == context || context.parent == media.managedObjectContext)
         let oldImagePath = media.imagePath
         let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
         // Update the media in the correct thread

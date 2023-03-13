@@ -11,7 +11,7 @@ import Foundation
 
 // swiftlint:disable type_contents_order
 
-protocol CoreDataDummy: Decodable, Hashable {
+protocol CoreDataDummy: Hashable {
     associatedtype Entity: NSManagedObject
     
     /// Creates a new NSManagedObject in the given context with the properties of this dummy object
@@ -20,7 +20,7 @@ protocol CoreDataDummy: Decodable, Hashable {
     func transferInto(context: NSManagedObjectContext) -> Entity
 }
 
-struct GenreDummy: CoreDataDummy {
+struct GenreDummy: CoreDataDummy, Decodable {
     let id: Int
     let name: String
     
@@ -32,7 +32,7 @@ struct GenreDummy: CoreDataDummy {
     }
 }
 
-struct ProductionCompanyDummy: CoreDataDummy {
+struct ProductionCompanyDummy: CoreDataDummy, Decodable {
     let id: Int
     let name: String
     let logoPath: String?
@@ -80,7 +80,7 @@ struct CastMemberDummy: Decodable, Identifiable {
     }
 }
 
-struct VideoDummy: CoreDataDummy {
+struct VideoDummy: CoreDataDummy, Decodable {
     let key: String
     let name: String
     let site: String
@@ -112,7 +112,7 @@ struct VideoDummy: CoreDataDummy {
     }
 }
 
-struct SeasonDummy: CoreDataDummy {
+struct SeasonDummy: CoreDataDummy, Decodable {
     let id: Int
     let seasonNumber: Int
     let episodeCount: Int
@@ -174,6 +174,43 @@ struct SeasonDummy: CoreDataDummy {
     }
 }
 
+struct WatchProviderDummy: CoreDataDummy {
+    typealias Entity = WatchProvider
+    
+    let id: Int
+    let priority: Int
+    let imagePath: String?
+    let name: String
+    let type: WatchProvider.ProviderType
+    
+    init(id: Int, priority: Int, imagePath: String? = nil, name: String, type: WatchProvider.ProviderType) {
+        self.id = id
+        self.priority = priority
+        self.imagePath = imagePath
+        self.name = name
+        self.type = type
+    }
+    
+    init(info: WatchProviderInfoDummy, type: WatchProvider.ProviderType) {
+        self.id = info.id
+        self.priority = info.priority
+        self.imagePath = info.imagePath
+        self.name = info.name
+        self.type = type
+    }
+    
+    func transferInto(context: NSManagedObjectContext) -> WatchProvider {
+        WatchProvider(
+            context: context,
+            id: id,
+            type: type,
+            name: name,
+            imagePath: imagePath,
+            priority: priority
+        )
+    }
+}
+
 extension NSManagedObjectContext {
     func importDummies<Entity, Dummy>(
         _ dummies: [Dummy],
@@ -228,6 +265,14 @@ extension NSManagedObjectContext {
     func importDummies(_ dummies: [SeasonDummy]) -> [Season] {
         importDummies(dummies) { dummy in
             NSPredicate(format: "%K = %d", Schema.Season.id.rawValue, dummy.id)
+        } isEqual: { dummy, entity in
+            dummy.id == entity.id
+        }
+    }
+    
+    func importDummies(_ dummies: [WatchProviderDummy]) -> [WatchProvider] {
+        importDummies(dummies) { dummy in
+            NSPredicate(format: "%K = %d", Schema.WatchProvider.id.rawValue, dummy.id)
         } isEqual: { dummy, entity in
             dummy.id == entity.id
         }

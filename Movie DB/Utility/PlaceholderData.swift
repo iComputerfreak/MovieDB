@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 
+// swiftlint:disable function_body_length
 enum PlaceholderData {
     static let context = PersistenceController.previewContext
     
@@ -60,6 +61,7 @@ enum PlaceholderData {
         m.parentalRating = .fskAgeTwelve
         m.watchProviders = [
             .init(
+                context: context,
                 id: 0,
                 type: .flatrate,
                 name: "Netflix",
@@ -67,6 +69,7 @@ enum PlaceholderData {
                 priority: 100
             ),
             .init(
+                context: context,
                 id: 1,
                 type: .ads,
                 name: "RTL+",
@@ -74,6 +77,7 @@ enum PlaceholderData {
                 priority: 5
             ),
             .init(
+                context: context,
                 id: 2,
                 type: .flatrate,
                 name: "Spectrum on Demand",
@@ -81,6 +85,7 @@ enum PlaceholderData {
                 priority: 20
             ),
             .init(
+                context: context,
                 id: 3,
                 type: .buy,
                 name: "Apple iTunes",
@@ -88,6 +93,7 @@ enum PlaceholderData {
                 priority: 30
             ),
             .init(
+                context: context,
                 id: 4,
                 type: .ads,
                 name: "Peacock",
@@ -95,6 +101,7 @@ enum PlaceholderData {
                 priority: 9
             ),
             .init(
+                context: context,
                 id: 5,
                 type: .flatrate,
                 name: "Amazon Prime Video",
@@ -102,6 +109,7 @@ enum PlaceholderData {
                 priority: 30
             ),
             .init(
+                context: context,
                 id: 6,
                 type: .flatrate,
                 name: "Peacock Premium",

@@ -39,18 +39,22 @@ struct ContentRatingDummy: Decodable {
 
 struct WatchProviderResult: Decodable {
     let link: String
-    let providers: [WatchProvider]
+    let providers: [WatchProviderDummy]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         link = try container.decode(String.self, forKey: .link)
-        let flatrateProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .flatrate)?
-            .map { WatchProvider(dummy: $0, type: .flatrate) } ?? []
-        let adsProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .ads)?
-            .map { WatchProvider(dummy: $0, type: .ads) } ?? []
-        let buyProviders = try container.decodeIfPresent([WatchProviderDummy].self, forKey: .buy)?
-            .map { WatchProvider(dummy: $0, type: .buy) } ?? []
-        providers = (flatrateProviders + adsProviders + buyProviders)
+        let dummiesByType: [WatchProvider.ProviderType: [WatchProviderInfoDummy]] = [
+            .flatrate: try container.decodeIfPresent([WatchProviderInfoDummy].self, forKey: .flatrate) ?? [],
+            .ads: try container.decodeIfPresent([WatchProviderInfoDummy].self, forKey: .ads) ?? [],
+            .buy: try container.decodeIfPresent([WatchProviderInfoDummy].self, forKey: .buy) ?? [],
+        ]
+        self.providers = dummiesByType
+            .flatMap { type, dummies in
+                dummies.map { infoDummy in
+                    WatchProviderDummy(info: infoDummy, type: type)
+                }
+            }
     }
     
     enum CodingKeys: String, CodingKey {
@@ -61,7 +65,7 @@ struct WatchProviderResult: Decodable {
     }
 }
 
-private struct WatchProviderDummy: Decodable {
+struct WatchProviderInfoDummy: Decodable {
     let id: Int
     let priority: Int
     let imagePath: String?
@@ -72,11 +76,5 @@ private struct WatchProviderDummy: Decodable {
         case priority = "display_priority"
         case imagePath = "logo_path"
         case name = "provider_name"
-    }
-}
-
-private extension WatchProvider {
-    convenience init(dummy: WatchProviderDummy, type: WatchProvider.ProviderType) {
-        self.init(id: dummy.id, type: type, name: dummy.name, imagePath: dummy.imagePath, priority: dummy.priority)
     }
 }

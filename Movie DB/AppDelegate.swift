@@ -57,7 +57,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // MARK: Register transformers
         SerializableColorTransformer.register()
-        WatchProviderTransformer.register()
         EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
@@ -67,6 +66,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let migrationManager = MigrationManager()
         
         migrationManager.register(DeleteOldPosterFilesMigration.self)
+        migrationManager.register(ReloadWatchProvidersMigration.self)
         
         migrationManager.run()
         

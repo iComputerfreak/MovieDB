@@ -18,17 +18,24 @@ class MigrationManager {
     }
     
     func run() {
-        // Instantiate and run the migrations
-        for migration in migrations.map({ $0.init() }) where !migration.hasRun {
-            do {
-                try migration.run()
-                // Save successful exit of the migration
-                migration.setCompleted()
-            } catch {
-                Logger.migrations.error(
-                    "Error running migration \(migration.migrationKey, privacy: .public): \(error, privacy: .public)"
-                )
+        // Do the migrations on a background task
+        Task(priority: .background) {
+            Logger.migrations.info("Running migrations...")
+            // Instantiate and run the migrations
+            for migration in migrations.map({ $0.init() }) where !migration.hasRun {
+                do {
+                    Logger.migrations.info("Running migration \(migration.migrationKey, privacy: .public)")
+                    try await migration.run()
+                    // Save successful exit of the migration
+                    migration.setCompleted()
+                } catch {
+                    Logger.migrations.error(
+                        // swiftlint:disable:next line_length
+                        "Error running migration \(migration.migrationKey, privacy: .public): \(error, privacy: .public)"
+                    )
+                }
             }
+            Logger.migrations.info("Migrations complete.")
         }
     }
 }
