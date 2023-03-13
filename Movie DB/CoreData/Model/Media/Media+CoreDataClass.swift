@@ -172,32 +172,56 @@ public extension Media {
     }
     
     override func willSave() {
-        // Only react to inserts and updates
-        if !isDeleted {
-            // If the change is containing a modificationDate, don't update again to...
-            // a) prevent willSave loops
-            // b) not update the modificationDate for changes synced from another device
-            if !self.changedValues().keys.contains(Schema.Media.modificationDate.rawValue) {
-                setPrimitiveValue(Date.now, forKey: Schema.Media.modificationDate.rawValue)
-            }
-        }
+        updateModificationDate()
         
         if isDeleted {
             // Delete local data here, not in prepareForDeletion()
             // This way, if there is a rollback or the context is discarded, we avoid deleting resources that we still need
-            Logger.coreData.debug(
-                "Deleting \(self.title, privacy: .public) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
-            )
-            if let id = self.id {
-                do {
-                    Logger.fileSystem.debug("Deleting thumbnail for media \(id.uuidString, privacy: .public)")
-                    try Utils.deleteImage(for: id)
-                } catch {
-                    Logger.coreData.warning(
-                        // swiftlint:disable:next line_length
-                        "[\(self.title, privacy: .public)] Error deleting thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
-                    )
-                }
+            deleteThumbnailOnDisk()
+        }
+    }
+    
+    /// Updates the modificationDate of this media, if the current update represents a valid change in properties that should trigger a new modificationDate
+    private func updateModificationDate() {
+        // Only react to inserts and updates
+        guard !isDeleted else {
+            return
+        }
+        let changedProperties = self.changedValues().keys
+        
+        // If the change is containing a modificationDate, don't update again to...
+        // a) prevent willSave loops
+        // b) not update the modificationDate for changes synced from another device
+        guard !changedProperties.contains(Schema.Media.modificationDate.rawValue) else {
+            return
+        }
+        
+        // Likewise, don't update the modificationDate if the changed values only contain the parentalRatingColor,
+        // as the SerializableColor seems to randomly produce changes
+        guard
+            !changedProperties.contains(Schema.Media.parentalRatingColor.rawValue) ||
+                changedProperties.count > 1
+        else {
+            return
+        }
+        
+        setPrimitiveValue(Date.now, forKey: Schema.Media.modificationDate.rawValue)
+    }
+    
+    /// Tries to delete this media's thumbnail on disk
+    private func deleteThumbnailOnDisk() {
+        Logger.coreData.debug(
+            "Deleting \(self.title, privacy: .public) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+        )
+        if let id = self.id {
+            do {
+                Logger.fileSystem.debug("Deleting thumbnail for media \(id.uuidString, privacy: .public)")
+                try Utils.deleteImage(for: id)
+            } catch {
+                Logger.coreData.warning(
+                    // swiftlint:disable:next line_length
+                    "[\(self.title, privacy: .public)] Error deleting thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+                )
             }
         }
     }
