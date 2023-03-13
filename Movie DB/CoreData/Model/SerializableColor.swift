@@ -110,26 +110,28 @@ public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
 @objc(SerializableColorTransformer)
 class SerializableColorTransformer: NSSecureUnarchiveFromDataTransformer {
     override class var allowedTopLevelClasses: [AnyClass] {
-        super.allowedTopLevelClasses + [SerializableColor.self]
+        [SerializableColor.self]
     }
     
     override class func allowsReverseTransformation() -> Bool {
         true
     }
     
+    override class func transformedValueClass() -> AnyClass {
+        SerializableColor.self
+    }
+    
     override func transformedValue(_ value: Any?) -> Any? {
         guard let data = value as? Data else {
             return nil
         }
-        // swiftlint:disable:next force_try
-        return try! NSKeyedUnarchiver.unarchivedObject(ofClass: SerializableColor.self, from: data)
+        return super.transformedValue(data)
     }
     
     override func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let color = value as? SerializableColor else {
             return nil
         }
-        // swiftlint:disable:next force_try
-        return try! NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
+        return super.reverseTransformedValue(color)
     }
 }
