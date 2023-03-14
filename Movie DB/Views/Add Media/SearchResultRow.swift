@@ -13,12 +13,9 @@ struct SearchResultRow: View {
     /// The search result to display
     @StateObject var result: TMDBSearchResult
     
-    /// The image used as a thumbnail for the search results
-    @State private var image: UIImage?
-    
     var body: some View {
         HStack {
-            Image(uiImage: image, defaultImage: JFLiterals.posterPlaceholderName)
+            Image(uiImage: result.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
             VStack(alignment: .leading) {
                 Text(verbatim: "\(result.title)")
@@ -45,30 +42,7 @@ struct SearchResultRow: View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .task(priority: .userInitiated) { await loadImage() }
-    }
-    
-    func loadImage() async {
-        guard let imagePath = result.imagePath else {
-            Logger.addMedia.debug("Result \(result.title, privacy: .public) has no thumbnail")
-            return
-        }
-        guard !Utils.posterDenyList.contains(imagePath) else {
-            Logger.addMedia.info(
-                "Result \(result.title, privacy: .public) is on deny list. Refusing to load thumbnail."
-            )
-            return
-        }
-        
-        do {
-            let image = try await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize)
-            await MainActor.run {
-                self.image = image
-            }
-        } catch {
-            // If we failed to load the search result image, we just silently fail
-            Logger.addMedia.error("Error loading search result thumbnail: \(error, privacy: .public)")
-        }
+        .onAppear(perform: result.loadThumbnail)
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Date? {

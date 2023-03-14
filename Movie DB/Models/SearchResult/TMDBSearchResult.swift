@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 /// Represents a search result from the TMDBAPI search call
@@ -26,6 +27,8 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     let originalTitle: String
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     let originalLanguage: String
+    /// The thumbnail for this media
+    var thumbnail: UIImage?
     
     // TMDB Scoring
     /// The popularity of the media on TMDB
@@ -36,6 +39,9 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     let voteCount: Int
     /// Whether the result is a movie and is for adults only
     var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
+    
+    /// The task responsible for loading the thumbnail
+    private var loadThumbnailTask: Task<Void, Never>?
     
     /// Creates a new `TMDBSearchResult` object with the given values
     init(
@@ -60,6 +66,37 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
         self.popularity = popularity
         self.voteAverage = voteAverage
         self.voteCount = voteCount
+    }
+    
+    func loadThumbnail() {
+        // If we are already downloading or already have a thumbnail, return
+        guard self.loadThumbnailTask == nil, thumbnail == nil else {
+            return
+        }
+
+        // Start loading the thumbnail
+        // Use a dedicated overall task to be able to cancel it
+        self.loadThumbnailTask = Task {
+            guard !Task.isCancelled, let imagePath else {
+                return
+            }
+            
+            do {
+                let thumbnail = try await TMDBImageService.mediaThumbnails.image(for: imagePath, downloadID: self.id)
+                guard !Task.isCancelled else {
+                    return
+                }
+                await MainActor.run {
+                    self.objectWillChange.send()
+                    self.thumbnail = thumbnail
+                }
+            } catch {
+                Logger.addMedia.warning(
+                    // swiftlint:disable:next line_length
+                    "[\(self.title, privacy: .public)] Error (down-)loading thumbnail for search result: \(error) (mediaID: \(self.id, privacy: .public))"
+                )
+            }
+        }
     }
     
     // swiftlint:disable type_contents_order
