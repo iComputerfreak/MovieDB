@@ -66,7 +66,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let migrationManager = MigrationManager()
         
         migrationManager.register(DeleteOldPosterFilesMigration.self)
-        migrationManager.register(ReloadWatchProvidersMigration.self)
+        migrationManager.register(ReloadLibraryMigration.self)
         
         migrationManager.run()
         

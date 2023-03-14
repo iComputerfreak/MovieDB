@@ -259,7 +259,7 @@
 		ABEF107F29BF6DC80047E4B9 /* WatchProvider+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF107D29BF6DC80047E4B9 /* WatchProvider+CoreDataClass.swift */; };
 		ABEF108029BF6DC80047E4B9 /* WatchProvider+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF107E29BF6DC80047E4B9 /* WatchProvider+CoreDataProperties.swift */; };
 		ABEF108229BF6E4E0047E4B9 /* Schema+WatchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF108129BF6E4E0047E4B9 /* Schema+WatchProvider.swift */; };
-		ABEF108429BF7A3B0047E4B9 /* ReloadWatchProvidersMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF108329BF7A3B0047E4B9 /* ReloadWatchProvidersMigration.swift */; };
+		ABEF108429BF7A3B0047E4B9 /* ReloadLibraryMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF108329BF7A3B0047E4B9 /* ReloadLibraryMigration.swift */; };
 		ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */; };
 		ABF1A171297C235E00A7E6ED /* ParentalRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */; };
 		ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFFE80B2809AF4D00598356 /* CSVHelper.swift */; };
@@ -565,7 +565,7 @@
 		ABEF107D29BF6DC80047E4B9 /* WatchProvider+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WatchProvider+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABEF107E29BF6DC80047E4B9 /* WatchProvider+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WatchProvider+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABEF108129BF6E4E0047E4B9 /* Schema+WatchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+WatchProvider.swift"; sourceTree = "<group>"; };
-		ABEF108329BF7A3B0047E4B9 /* ReloadWatchProvidersMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWatchProvidersMigration.swift; sourceTree = "<group>"; };
+		ABEF108329BF7A3B0047E4B9 /* ReloadLibraryMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadLibraryMigration.swift; sourceTree = "<group>"; };
 		ABEF108529BF7DD30047E4B9 /* Movie DB v10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v10.xcdatamodel"; sourceTree = "<group>"; };
 		ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOldPosterFilesMigration.swift; sourceTree = "<group>"; };
 		ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRatingView.swift; sourceTree = "<group>"; };
@@ -1061,7 +1061,7 @@
 				AB840C4929A7B0AE00637C2A /* Migration.swift */,
 				AB05298829A957E800C11B6F /* MigrationManager.swift */,
 				ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */,
-				ABEF108329BF7A3B0047E4B9 /* ReloadWatchProvidersMigration.swift */,
+				ABEF108329BF7A3B0047E4B9 /* ReloadLibraryMigration.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -1680,7 +1680,7 @@
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
 				AB995616285638E300C3D063 /* ContactSection.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
-				ABEF108429BF7A3B0047E4B9 /* ReloadWatchProvidersMigration.swift in Sources */,
+				ABEF108429BF7A3B0047E4B9 /* ReloadLibraryMigration.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
