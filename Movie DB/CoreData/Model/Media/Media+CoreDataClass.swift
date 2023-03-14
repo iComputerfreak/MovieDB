@@ -78,7 +78,9 @@ public class Media: NSManagedObject {
             self.keywords = tmdbData.keywords
             self.translations = tmdbData.translations
             self.videos = Set(managedObjectContext.importDummies(tmdbData.videos))
-            self.parentalRating = tmdbData.parentalRating
+            if let rating = tmdbData.parentalRating {
+                self.parentalRating = managedObjectContext.importDummy(rating)
+            }
             self.watchProviders = Set(managedObjectContext.importDummies(tmdbData.watchProviders))
         }
     }
@@ -189,15 +191,6 @@ public extension Media {
         // a) prevent willSave loops
         // b) not update the modificationDate for changes synced from another device
         guard !changedProperties.contains(Schema.Media.modificationDate.rawValue) else {
-            return
-        }
-        
-        // Likewise, don't update the modificationDate if the changed values only contain the parentalRatingColor,
-        // as the SerializableColor seems to randomly produce changes
-        guard
-            !changedProperties.contains(Schema.Media.parentalRatingColor.rawValue) ||
-                changedProperties.count > 1
-        else {
             return
         }
         

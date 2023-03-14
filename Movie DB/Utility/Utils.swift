@@ -228,27 +228,39 @@ struct Utils {
         locale.localizedString(forIdentifier: code)
     }
     
-    static func parentalRating(for label: String) -> ParentalRating? {
-        // We use FSKRating for Germany and ContentRating for everything else
-        if JFConfig.shared.region.lowercased() == "de" {
-            // The given label should be one of the FSK labels
+    /// Maps a parental rating certification label to a color
+    /// Supports only ratings with a `countryCode` of "DE" or "US"
+    static func parentalRatingColor(
+        for country: String,
+        label: String,
+        in context: NSManagedObjectContext
+    ) -> UIColor? {
+        // swiftlint:disable switch_case_on_newline
+        switch country.uppercased() {
+            // Germany: FSK Ratings
+        case "DE":
             switch label {
-            case ParentalRating.fskNoRestriction.label:
-                return ParentalRating.fskNoRestriction
-            case ParentalRating.fskAgeSix.label:
-                return ParentalRating.fskAgeSix
-            case ParentalRating.fskAgeTwelve.label:
-                return ParentalRating.fskAgeTwelve
-            case ParentalRating.fskAgeSixteen.label:
-                return ParentalRating.fskAgeSixteen
-            case ParentalRating.fskAgeEighteen.label:
-                return ParentalRating.fskAgeEighteen
-            default:
-                // If the label is not one of the FSK labels, we just use the default return value below
-                break
+            case "0": return UIColor(named: "NoRestriction")
+            case "6": return UIColor(named: "AgeSix")
+            case "12": return UIColor(named: "AgeTwelve")
+            case "16": return UIColor(named: "AgeSixteen")
+            case "18": return UIColor(named: "AgeEighteen")
+            default: return nil
             }
+        case "US":
+            switch label {
+            case "NR": return UIColor(named: "US-Movie-NR")
+            case "G": return UIColor(named: "US-Movie-G")
+            case "PG": return UIColor(named: "US-Movie-PG")
+            case "PG-13": return UIColor(named: "US-Movie-PG-13")
+            case "R": return UIColor(named: "US-Movie-R")
+            case "NC-17": return UIColor(named: "US-Movie-NC-17")
+            default: return nil
+            }
+        default:
+            return nil
         }
-        return ParentalRating(label)
+        // swiftlint:enable switch_case_on_newline
     }
 }
 

@@ -211,7 +211,43 @@ struct WatchProviderDummy: CoreDataDummy {
     }
 }
 
+struct ParentalRatingDummy: CoreDataDummy {
+    typealias Entity = ParentalRating
+    
+    let countryCode: String
+    let label: String
+    
+    init(countryCode: String, label: String) {
+        self.countryCode = countryCode
+        self.label = label
+    }
+    
+    func transferInto(context: NSManagedObjectContext) -> ParentalRating {
+        ParentalRating(
+            context: context,
+            countryCode: countryCode,
+            label: label,
+            color: Utils.parentalRatingColor(for: countryCode, label: label, in: context)
+        )
+    }
+}
+
 extension NSManagedObjectContext {
+    func importDummy<Entity, Dummy>(
+        _ dummy: Dummy,
+        predicate: NSPredicate
+    ) -> Entity where Dummy: CoreDataDummy, Dummy.Entity == Entity {
+        // Fetch or create the entity
+        let fetchRequest: NSFetchRequest<Entity> = NSFetchRequest(entityName: Entity.entity().name!)
+        fetchRequest.predicate = predicate
+        fetchRequest.fetchLimit = 1
+        if let existing = try? self.fetch(fetchRequest).first {
+            return existing
+        }
+        // Create a new instance
+        return dummy.transferInto(context: self)
+    }
+    
     func importDummies<Entity, Dummy>(
         _ dummies: [Dummy],
         predicate: (Dummy) -> NSPredicate,
@@ -276,5 +312,15 @@ extension NSManagedObjectContext {
         } isEqual: { dummy, entity in
             dummy.id == entity.id
         }
+    }
+    
+    func importDummy(_ dummy: ParentalRatingDummy) -> ParentalRating {
+        importDummy(dummy, predicate: NSPredicate(
+            format: "%K = %@ AND %K = %@",
+            Schema.ParentalRating.label.rawValue,
+            dummy.label,
+            Schema.ParentalRating.countryCode.rawValue,
+            dummy.countryCode
+        ))
     }
 }

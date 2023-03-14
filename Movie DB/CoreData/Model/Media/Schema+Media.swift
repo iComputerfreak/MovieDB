@@ -39,8 +39,6 @@ extension Schema {
         case creationDate
         case modificationDate
         case releaseDateOrFirstAired
-        case parentalRatingColor
-        case parentalRatingLabel
         case isFavorite
         case isOnWatchlist
         
@@ -51,5 +49,6 @@ extension Schema {
         case productionCompanies
         case videos
         case watchProviders
+        case parentalRating
     }
 }

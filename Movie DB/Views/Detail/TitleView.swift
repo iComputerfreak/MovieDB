@@ -42,7 +42,7 @@ struct TitleView: View {
                             .font(.headline)
                     }
                     if let rating = media.parentalRating {
-                        rating.symbol
+                        ParentalRatingView(rating: rating)
                     }
                 }
             }

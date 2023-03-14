@@ -36,7 +36,7 @@ struct TMDBData: Decodable {
     var keywords: [String]
     var translations: [String]
     var videos: [VideoDummy]
-    var parentalRating: ParentalRating?
+    var parentalRating: ParentalRatingDummy?
     var watchProviders: [WatchProviderDummy]
     
     var movieData: MovieData?
@@ -61,7 +61,7 @@ struct TMDBData: Decodable {
         keywords: [String],
         translations: [String],
         videos: [VideoDummy],
-        parentalRating: ParentalRating? = nil,
+        parentalRating: ParentalRatingDummy? = nil,
         watchProviders: [WatchProviderDummy],
         movieData: TMDBData.MovieData? = nil,
         showData: TMDBData.ShowData? = nil
@@ -144,31 +144,44 @@ struct TMDBData: Decodable {
         
         // MARK: Movie/Show specific
         
-        func decodeMovieRating() throws -> ParentalRating? {
+        func decodeMovieRating() throws -> ParentalRatingDummy? {
             let releaseDates = try container.decode([String: [ReleaseDatesCountry]].self, forKey: .releaseDates)
-            let certification: String? = releaseDates["results"]!
+            let releaseDatesCountry: ReleaseDatesCountry? = releaseDates["results"]!
                 // We are only interested in results for our country
                 // We should only have one result for our country
-                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })?
+                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })
+            
+            // Store the actual decoded country code
+            guard let countryCode = releaseDatesCountry?.countryCode else {
+                // If we didn't find a matching country, we can return here already
+                return nil
+            }
+            
+            let certification: ReleaseDateCertification? = releaseDatesCountry?
                 // We take all the release dates from that country
                 .results
                 // We don't need release dates without a parental rating
                 // We only want theatrical releases (type 3)
                 .first { release in
                     !release.certification.isEmpty && release.type == 3
-                }?
-                // The parental rating of that release
-                .certification
-            return certification.flatMap(Utils.parentalRating(for:))
+                }
+            
+            // If we found a result, return it
+            if let certification {
+                return .init(countryCode: countryCode, label: certification.certification)
+            }
+            return nil
         }
         
-        func decodeShowRating() throws -> ParentalRating? {
+        func decodeShowRating() throws -> ParentalRatingDummy? {
             let contentRatings = try container.decode(ContentRatingResult.self, forKey: .contentCertifications)
-            let certification: String? = contentRatings
+            let certification: ContentRatingDummy? = contentRatings
                 .results
-                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })?
-                .rating
-            return certification.flatMap(Utils.parentalRating(for:))
+                .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })
+            if let certification {
+                return .init(countryCode: certification.countryCode, label: certification.rating)
+            }
+            return nil
         }
         
         // If we know which type of media we are, we can decode that type of exclusive data only.

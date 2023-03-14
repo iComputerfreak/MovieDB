@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ParentalRatingView: View {
     let rating: ParentalRating
@@ -17,19 +18,26 @@ struct ParentalRatingView: View {
 }
 
 struct ParentalRatingView_Preview: PreviewProvider {
+    static let context = PersistenceController.previewContext
+    
     static var previews: some View {
         VStack {
             HStack {
                 Text(verbatim: "Rating: ")
-                ParentalRatingView(rating: .init("R", color: .red))
+                ParentalRatingView(rating: .init(context: context, countryCode: "US", label: "R", color: UIColor(named: "US-Movie-R")))
             }
             HStack {
                 Text(verbatim: "Rating: ")
-                ParentalRatingView(rating: .init("PG-13", color: .green))
+                ParentalRatingView(rating: .init(
+                    context: context,
+                    countryCode: "DE",
+                    label: "16",
+                    color: UIColor(named: "AgeSixteen")
+                ))
             }
             HStack {
                 Text(verbatim: "Rating: ")
-                ForEach(ParentalRating.fskRatings, id: \.label) { rating in
+                ForEach(PlaceholderData.fskRatings(in: context), id: \.label) { rating in
                     ParentalRatingView(rating: rating)
                 }
             }

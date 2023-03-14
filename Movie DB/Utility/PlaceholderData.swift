@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import UIKit
 
 // swiftlint:disable function_body_length
 enum PlaceholderData {
@@ -30,9 +31,24 @@ enum PlaceholderData {
         let s = Show(context: context, tmdbData: tmdbData)
         s.notes = "A masterpiece!"
         s.watched = .season(7)
-        s.parentalRating = .fskAgeSixteen
+        s.parentalRating = fskRating(16, context: context)
         return s
     }()
+    
+    static func fskRatings(in context: NSManagedObjectContext) -> [ParentalRating] {
+        [
+            fskRating(0, context: context),
+            fskRating(6, context: context),
+            fskRating(12, context: context),
+            fskRating(16, context: context),
+            fskRating(18, context: context),
+        ]
+    }
+        
+    private static func fskRating(_ age: Int, context: NSManagedObjectContext) -> ParentalRating {
+        let color = Utils.parentalRatingColor(for: "DE", label: "\(age)", in: context)
+        return ParentalRating(context: context, countryCode: "DE", label: "\(age)", color: color)
+    }
     
     static func mapTags(_ tagNames: [String], in context: NSManagedObjectContext) -> Set<Tag> {
         var tags: Set<Tag> = []
@@ -58,7 +74,7 @@ enum PlaceholderData {
         m.notes = ""
         m.watched = .watched
         m.watchAgain = false
-        m.parentalRating = .fskAgeTwelve
+        m.parentalRating = fskRating(12, context: context)
         m.watchProviders = [
             .init(
                 context: context,
@@ -128,7 +144,7 @@ enum PlaceholderData {
         s.notes = "A masterpiece!"
         s.watched = .season(7)
         s.watchAgain = true
-        s.parentalRating = .fskAgeSixteen
+        s.parentalRating = fskRating(16, context: context)
         return s
     }
     

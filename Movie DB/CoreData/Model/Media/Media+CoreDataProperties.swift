@@ -99,10 +99,8 @@ public extension Media {
     @NSManaged var modificationDate: Date?
     /// The date the media object was released or first aired
     @NSManaged var releaseDateOrFirstAired: Date?
-    /// The color of the parental rating label
-    @NSManaged private var parentalRatingColor: SerializableColor?
-    /// The parental rating certification of the media
-    @NSManaged private var parentalRatingLabel: String?
+    /// The parental rating of this media (e.g. FSK 16)
+    @NSManaged var parentalRating: ParentalRating?
     /// The streaming sites where is media is available to watch
     @NSManaged var watchProviders: Set<WatchProvider>
     /// Whether this media has been marked as a favorite
@@ -113,25 +111,6 @@ public extension Media {
     @NSManaged var userLists: Set<UserMediaList>
     
     // MARK: - Computed Properties
-    
-    /// The parental rating of this media (e.g. FSK 16)
-    internal var parentalRating: ParentalRating? {
-        get {
-            if let label = parentalRatingLabel {
-                return ParentalRating(label, color: parentalRatingColor?.color)
-            }
-            return nil
-        }
-        set {
-            if let newValue {
-                parentalRatingLabel = newValue.label
-                parentalRatingColor = newValue.color.map(SerializableColor.init(from:))
-            } else {
-                parentalRatingLabel = nil
-                parentalRatingColor = nil
-            }
-        }
-    }
     
     /// Whether the result is a movie and is for adults only
     internal var isAdultMovie: Bool? {
