@@ -820,3 +820,4 @@
 "library.searchPlaceholder" = "Meine Mediathek durchsuchen";
 "lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Staffel %lld von %lld";
 "lists.defaultListName.newSeasons" = "Neue Staffeln";
+"detail.cast.roleNameLabel %@" = "als %@";

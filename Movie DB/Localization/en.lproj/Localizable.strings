@@ -828,4 +828,4 @@
 "library.searchPlaceholder" = "Search my Library";
 "lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Season %lld of %lld";
 "lists.defaultListName.newSeasons" = "New Seasons";
-"detail.cast.roleNameLabel" = "as %@";
+"detail.cast.roleNameLabel %@" = "as %@";

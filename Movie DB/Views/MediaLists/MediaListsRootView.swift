@@ -46,7 +46,7 @@ struct MediaListsRootView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
+        NavigationSplitView {
             List {
                 // MARK: - Default Lists (disabled during editing)
                 Section(Strings.Lists.defaultListsHeader) {
@@ -123,12 +123,14 @@ struct MediaListsRootView: View {
             // content is provided by the `NavigationLink`s in the sidebar view
             Text(Strings.Lists.rootPlaceholderText)
         } detail: {
-            // MARK: MediaDetail
-            if let selectedMedia {
-                MediaDetail()
-                    .environmentObject(selectedMedia)
-            } else {
-                Text(Strings.Lists.detailPlaceholderText)
+            NavigationStack {
+                // MARK: MediaDetail
+                if let selectedMedia {
+                    MediaDetail()
+                        .environmentObject(selectedMedia)
+                } else {
+                    Text(Strings.Lists.detailPlaceholderText)
+                }
             }
         }
         .navigationSplitViewStyle(.balanced)
