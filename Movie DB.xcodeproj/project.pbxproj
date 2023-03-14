@@ -216,6 +216,16 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
+		ABD3C5D629C12F07000B5107 /* FilterWatchedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */; };
+		ABD3C5D829C12F3F000B5107 /* FilterWatchAgainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */; };
+		ABD3C5DA29C12F6F000B5107 /* FilterTagsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */; };
+		ABD3C5DD29C12FD0000B5107 /* FilterMediaTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5DC29C12FD0000B5107 /* FilterMediaTypePicker.swift */; };
+		ABD3C5DF29C12FFC000B5107 /* FilterGenresPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5DE29C12FFC000B5107 /* FilterGenresPicker.swift */; };
+		ABD3C5E129C13065000B5107 /* FilterPersonalRatingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5E029C13065000B5107 /* FilterPersonalRatingPicker.swift */; };
+		ABD3C5E329C130A9000B5107 /* FilterReleaseYearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5E229C130A9000B5107 /* FilterReleaseYearPicker.swift */; };
+		ABD3C5E529C130C1000B5107 /* FilterMediaStatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5E429C130C1000B5107 /* FilterMediaStatusPicker.swift */; };
+		ABD3C5E829C130FC000B5107 /* FilterShowTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5E729C130FC000B5107 /* FilterShowTypePicker.swift */; };
+		ABD3C5EA29C13119000B5107 /* FilterNumberOfSeasonsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5E929C13119000B5107 /* FilterNumberOfSeasonsPicker.swift */; };
 		ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5A2375D6BB0049E236 /* TitleView.swift */; };
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD8647828174801001A1F7C /* LookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647728174801001A1F7C /* LookupView.swift */; };
@@ -511,6 +521,16 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchedPicker.swift; sourceTree = "<group>"; };
+		ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchAgainPicker.swift; sourceTree = "<group>"; };
+		ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTagsPicker.swift; sourceTree = "<group>"; };
+		ABD3C5DC29C12FD0000B5107 /* FilterMediaTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMediaTypePicker.swift; sourceTree = "<group>"; };
+		ABD3C5DE29C12FFC000B5107 /* FilterGenresPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGenresPicker.swift; sourceTree = "<group>"; };
+		ABD3C5E029C13065000B5107 /* FilterPersonalRatingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPersonalRatingPicker.swift; sourceTree = "<group>"; };
+		ABD3C5E229C130A9000B5107 /* FilterReleaseYearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterReleaseYearPicker.swift; sourceTree = "<group>"; };
+		ABD3C5E429C130C1000B5107 /* FilterMediaStatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMediaStatusPicker.swift; sourceTree = "<group>"; };
+		ABD3C5E729C130FC000B5107 /* FilterShowTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShowTypePicker.swift; sourceTree = "<group>"; };
+		ABD3C5E929C13119000B5107 /* FilterNumberOfSeasonsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNumberOfSeasonsPicker.swift; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
@@ -1048,9 +1068,9 @@
 			isa = PBXGroup;
 			children = (
 				ABED3B0823932A8F00F4C327 /* FilterView.swift */,
-				AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */,
-				AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */,
-				AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */,
+				ABD3C5D429C12EF5000B5107 /* User Data */,
+				ABD3C5DB29C12FA7000B5107 /* Basic Information */,
+				ABD3C5E629C130EC000B5107 /* Show Specific */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1115,6 +1135,40 @@
 				ABCE335C286DA8BB00FB481A /* MediaMenu+ActionsSection.swift */,
 			);
 			path = "Media Menu";
+			sourceTree = "<group>";
+		};
+		ABD3C5D429C12EF5000B5107 /* User Data */ = {
+			isa = PBXGroup;
+			children = (
+				AB7DE5DE28217FC6007B59A2 /* FilterUserDataSection.swift */,
+				ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */,
+				ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */,
+				ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */,
+			);
+			path = "User Data";
+			sourceTree = "<group>";
+		};
+		ABD3C5DB29C12FA7000B5107 /* Basic Information */ = {
+			isa = PBXGroup;
+			children = (
+				AB7DE5E0282180D9007B59A2 /* FilterInformationSection.swift */,
+				ABD3C5DC29C12FD0000B5107 /* FilterMediaTypePicker.swift */,
+				ABD3C5DE29C12FFC000B5107 /* FilterGenresPicker.swift */,
+				ABD3C5E029C13065000B5107 /* FilterPersonalRatingPicker.swift */,
+				ABD3C5E229C130A9000B5107 /* FilterReleaseYearPicker.swift */,
+				ABD3C5E429C130C1000B5107 /* FilterMediaStatusPicker.swift */,
+			);
+			path = "Basic Information";
+			sourceTree = "<group>";
+		};
+		ABD3C5E629C130EC000B5107 /* Show Specific */ = {
+			isa = PBXGroup;
+			children = (
+				AB7DE5E22821810E007B59A2 /* FilterShowSpecificSection.swift */,
+				ABD3C5E729C130FC000B5107 /* FilterShowTypePicker.swift */,
+				ABD3C5E929C13119000B5107 /* FilterNumberOfSeasonsPicker.swift */,
+			);
+			path = "Show Specific";
 			sourceTree = "<group>";
 		};
 		ABD864752817478A001A1F7C /* Components */ = {
@@ -1611,6 +1665,7 @@
 				ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */,
 				ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */,
 				AB6D9C95283BC20D00AF655C /* Strings+MediaStatus.swift in Sources */,
+				ABD3C5E329C130A9000B5107 /* FilterReleaseYearPicker.swift in Sources */,
 				AB2226EA29A534FD009EF7BE /* Deduplicator.swift in Sources */,
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
@@ -1641,6 +1696,7 @@
 				ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
+				ABD3C5DF29C12FFC000B5107 /* FilterGenresPicker.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
 				ABBC782D29B7F7EF004F322E /* Logging.swift in Sources */,
 				AB6B86C82972FA4A00E36AE6 /* ExportTagsButton.swift in Sources */,
@@ -1658,6 +1714,8 @@
 				AB840C4A29A7B0AE00637C2A /* Migration.swift in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
 				AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */,
+				ABD3C5EA29C13119000B5107 /* FilterNumberOfSeasonsPicker.swift in Sources */,
+				ABD3C5DA29C12F6F000B5107 /* FilterTagsPicker.swift in Sources */,
 				AB5AA49D29B3EAA100DEB37B /* Schema+Movie.swift in Sources */,
 				AB6478DA22C7B8E800F3E14E /* TMDBSearchResult.swift in Sources */,
 				AB9EC349286C875900A2A270 /* SortingMenuSection.swift in Sources */,
@@ -1665,6 +1723,7 @@
 				AB7DE5E1282180D9007B59A2 /* FilterInformationSection.swift in Sources */,
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
 				AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */,
+				ABD3C5E529C130C1000B5107 /* FilterMediaStatusPicker.swift in Sources */,
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
 				AB5AA49129B3E8ED00DEB37B /* Schema+Tag.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
@@ -1674,7 +1733,10 @@
 				AB5AA49529B3E9A700DEB37B /* Schema+Genre.swift in Sources */,
 				ABD8648428183E2B001A1F7C /* Problem.swift in Sources */,
 				ABADB85E29A3D09500853F56 /* Persistence+Saving.swift in Sources */,
+				ABD3C5E829C130FC000B5107 /* FilterShowTypePicker.swift in Sources */,
+				ABD3C5E129C13065000B5107 /* FilterPersonalRatingPicker.swift in Sources */,
 				AB5AA49729B3EA0300DEB37B /* Schema+ProductionCompany.swift in Sources */,
+				ABD3C5D629C12F07000B5107 /* FilterWatchedPicker.swift in Sources */,
 				AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */,
 				AB6D9C87283BC1C400AF655C /* Strings+WatchProvider.swift in Sources */,
 				AB6D9C81283BC11900AF655C /* Strings+Filter.swift in Sources */,
@@ -1725,6 +1787,7 @@
 				ABFFE80C2809AF4D00598356 /* CSVHelper.swift in Sources */,
 				AB5AA48B29B3E81C00DEB37B /* Schema+FilterSetting.swift in Sources */,
 				ABF1A171297C235E00A7E6ED /* ParentalRatingView.swift in Sources */,
+				ABD3C5D829C12F3F000B5107 /* FilterWatchAgainPicker.swift in Sources */,
 				ABA726BF28CB935B002F5FCB /* NotificationView.swift in Sources */,
 				AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */,
 				ABEEB0CE2814316E00230F0B /* PreferencesSection.swift in Sources */,
@@ -1745,6 +1808,7 @@
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */,
 				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
+				ABD3C5DD29C12FD0000B5107 /* FilterMediaTypePicker.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
 				ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */,

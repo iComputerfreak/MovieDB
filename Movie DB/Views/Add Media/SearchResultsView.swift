@@ -86,18 +86,15 @@ struct SearchResultsView<RowContent: View>: View {
             .map { (searchText: String) -> String? in
                 if searchText.isEmpty {
                     self.results = []
-                    // Clear the search text (e.g. "No Results")
+                    // Clear the search result text (e.g. "No Results")
                     self.resultsText = ""
                 }
                 return searchText.count >= 3 ? searchText : nil
             }
             // Remove nil
             .compactMap { $0 }
-            // Process the search text
-            .sink { (searchText: String) in
-                // Execute searchMedia when the search text changes
-                self.searchMedia(searchText)
-            }
+            // Execute searchMedia when the search text changes
+            .sink(receiveValue: searchMedia)
     }
     
     func searchMedia(_ searchText: String) {
