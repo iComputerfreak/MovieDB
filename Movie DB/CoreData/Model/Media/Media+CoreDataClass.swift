@@ -240,7 +240,7 @@ extension Media {
         
         // Start loading the thumbnail
         // Use a dedicated overall task to be able to cancel it
-        self.loadThumbnailTask = Task { [managedObjectContext] in
+        self.loadThumbnailTask = Task(priority: .high) { [managedObjectContext] in
             guard !Task.isCancelled else {
                 return
             }
