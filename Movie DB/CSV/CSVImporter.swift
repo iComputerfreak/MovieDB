@@ -12,17 +12,40 @@ import os.log
 import SwiftCSV
 
 /// Handles import of ``Media`` objects from a given CSV string or file URL.
-public class CSVImporter {
-    static let delimiter: CSVDelimiter = .character(CSVManager.separator)
+class CSVImporter {
+    let delimiter: Character
+    let arraySeparator: Character
+    let dateFormatter: DateFormatter
+    let dateTimeFormatter: ISO8601DateFormatter
     
     private let csv: CSV<Named>
-
-    init(url: URL) throws {
-        self.csv = try .init(url: url, delimiter: Self.delimiter, encoding: .utf8, loadColumns: false)
+    
+    init(
+        string: String,
+        delimiter: Character = CSVHelper.delimiter,
+        arraySeparator: Character = CSVHelper.arraySeparator,
+        dateFormatter: DateFormatter = CSVHelper.dateFormatter,
+        dateTimeFormatter: ISO8601DateFormatter = CSVHelper.dateTimeFormatter
+    ) throws {
+        self.delimiter = delimiter
+        self.arraySeparator = arraySeparator
+        self.dateFormatter = dateFormatter
+        self.dateTimeFormatter = dateTimeFormatter
+        self.csv = try .init(string: string, delimiter: .character(delimiter), loadColumns: false)
     }
     
-    init(string: String) throws {
-        self.csv = try .init(string: string, delimiter: Self.delimiter, loadColumns: false)
+    init(
+        url: URL,
+        delimiter: Character = CSVHelper.delimiter,
+        arraySeparator: Character = CSVHelper.arraySeparator,
+        dateFormatter: DateFormatter = CSVHelper.dateFormatter,
+        dateTimeFormatter: ISO8601DateFormatter = CSVHelper.dateTimeFormatter
+    ) throws {
+        self.delimiter = delimiter
+        self.arraySeparator = arraySeparator
+        self.dateFormatter = dateFormatter
+        self.dateTimeFormatter = dateTimeFormatter
+        self.csv = try .init(url: url, delimiter: .character(delimiter), loadColumns: false)
     }
     
     var header: [String] {
@@ -57,7 +80,7 @@ public class CSVImporter {
     ) async throws -> [Media] {
         // MARK: Check header values
         // Check if the header contains the necessary values
-        for headerValue in CSVManager.requiredImportKeys where !self.header.contains(headerValue.rawValue) {
+        for headerValue in CSVHelper.requiredImportKeys where !self.header.contains(headerValue.rawValue) {
             log?("[Error] The CSV file does not contain the required header '\(headerValue)'.")
             Logger.importExport.error(
                 "The CSV file does not contain the required header '\(headerValue.rawValue, privacy: .public)'."
@@ -65,7 +88,7 @@ public class CSVImporter {
             // We cannot recover from this, so we throw an error
             throw CSVError.requiredHeaderMissing(headerValue)
         }
-        for headerValue in CSVManager.optionalImportKeys where !header.contains(headerValue.rawValue) {
+        for headerValue in CSVHelper.optionalImportKeys where !header.contains(headerValue.rawValue) {
             log?("[Warning] The CSV file does not contain the optional header '\(headerValue)'.")
             Logger.importExport.warning(
                 "The CSV file does not contain the optional header '\(headerValue.rawValue, privacy: .public)'."
@@ -73,7 +96,7 @@ public class CSVImporter {
             // Warn, but continue
         }
         
-        let headerString = header.joined(separator: Self.delimiter.rawValue)
+        let headerString = header.joined(separator: delimiter)
         log?("[Info] Importing CSV with header \(headerString)")
         Logger.importExport.info("Importing CSV with header \(headerString, privacy: .public)")
         
@@ -81,11 +104,11 @@ public class CSVImporter {
         var medias: [Media] = []
         for (i, row) in csv.rows.enumerated() {
             // Textual representation of the CSV line (for error messages)
-            lazy var line = row.values.joined(separator: String(Self.delimiter.rawValue))
+            lazy var line = row.values.joined(separator: String(delimiter))
             
             // Decode the CSV row and append it to the results, catch some CSVErrors and report them in both logs
             do {
-                let media = try await CSVManager.createMedia(from: row, context: importContext)
+                let media = try await createMedia(from: row, context: importContext)
                 medias.append(media)
             } catch CSVError.noTMDBID {
                 log?("[Error] The following line is missing a TMDB ID: \(line)")
@@ -119,5 +142,128 @@ public class CSVImporter {
         }
         
         return medias
+    }
+    
+    // swiftlint:disable cyclomatic_complexity function_body_length
+    /// Creates a ``Media`` object from the given key-value-pairs.
+    ///
+    /// The keys are expected to be the `rawValue`s of ``CSVKey``.
+    ///
+    /// - Parameters:
+    ///   - values: The key-value-pairs to use for creating the new ``Media`` object
+    ///   - context: The ``NSManagedObjectContext`` to create the media object in
+    /// - Returns: The ``Media`` object
+    private func createMedia(from values: [String: String], context: NSManagedObjectContext) async throws -> Media {
+        // swiftlint:enable cyclomatic_complexity function_body_length
+        
+        // We only need the tmdbID and user values from the CSV
+        guard let tmdbIDValue = values[.tmdbID], let tmdbID = Int(tmdbIDValue) else {
+            throw CSVError.noTMDBID
+        }
+        guard let mediaTypeValue = values[.mediaType], let mediaType = MediaType(rawValue: mediaTypeValue) else {
+            throw CSVError.noMediaType
+        }
+        
+        // Check if media with this tmdbID already exists
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K = %d",
+            Schema.Media.tmdbID.rawValue,
+            tmdbID
+        )
+        fetchRequest.fetchLimit = 1
+        let existingAmount = (try? context.count(for: fetchRequest)) ?? 0
+        if existingAmount > 0 {
+            // Media already exists in context
+            throw CSVError.mediaAlreadyExists
+        }
+        
+        // Create the media (TMDBAPI is an actor, so our thread does not matter here)
+        let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
+        
+        // From now on, we are working with media, so we need to be on the context's thread
+        await context.perform {
+            // Setting values with PartialKeyPaths is not possible, so we have to do it manually
+            // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
+            if
+                let personalRating = values[.personalRating]
+                    .flatMap(Int.init)
+                    .flatMap(StarRating.init(integerRepresentation:))
+            {
+                media.personalRating = personalRating
+            }
+            if let watchAgain = values[.watchAgain].flatMap(Bool.init) {
+                media.watchAgain = watchAgain
+            }
+            if let rawTags = values[.tags] {
+                var tags: [Tag] = []
+                let tagNames = rawTags.split(separator: self.arraySeparator).map(String.init)
+                if !tagNames.isEmpty {
+                    // TODO: Replace with Tag.fetchOrCreate
+                    for name in tagNames {
+                        // Create the tag if it does not exist yet
+                        let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
+                        fetchRequest.fetchLimit = 1
+                        if let tag = try? context.fetch(fetchRequest).first {
+                            assert(tag.managedObjectContext == context)
+                            tags.append(tag)
+                        } else {
+                            // Create a new tag with the name
+                            let tag = Tag(name: name, context: context)
+                            tags.append(tag)
+                        }
+                    }
+                    media.tags = Set(tags)
+                }
+            }
+            if let notes = values[.notes] {
+                media.notes = notes
+            }
+            if let watched = values[.movieWatched].flatMap(MovieWatchState.init(rawValue:)) {
+                assert(mediaType == .movie)
+                if let movie = media as? Movie {
+                    movie.watched = watched
+                }
+            }
+            // Legacy show watch state import
+            if let watched = values[.showWatched].flatMap(ShowWatchState.init(rawValue:)) {
+                assert(mediaType == .show)
+                if let show = media as? Show {
+                    show.watched = watched
+                }
+            }
+            // New show watch state import
+            if let lastSeasonWatched = values[.lastSeasonWatched].flatMap(Int.init) {
+                let rawLastEpisodeWatched = values[.lastEpisodeWatched]
+                let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
+                
+                assert(mediaType == .show)
+                if let show = media as? Show {
+                    show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
+                }
+            }
+            if let creationDate = values[.creationDate].flatMap(self.dateFormatter.date(from:)) {
+                media.creationDate = creationDate
+            }
+            if let modificationDate = values[.modificationDate].map(self.dateTimeFormatter.date(from:)) {
+                media.modificationDate = modificationDate
+            }
+        }
+        
+        media.loadThumbnail()
+        
+        return media
+    }
+}
+
+private extension Dictionary where Key == String {
+    subscript(key: CSVKey) -> Value? {
+        get {
+            self[key.rawValue]
+        }
+        set(newValue) {
+            self[key.rawValue] = newValue
+        }
     }
 }

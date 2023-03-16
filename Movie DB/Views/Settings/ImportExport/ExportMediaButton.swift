@@ -21,7 +21,8 @@ struct ExportMediaButton: View {
             isLoading: $config.isLoading
         ) { context in
             let medias = Utils.allMedias(context: context)
-            return CSVManager.createCSV(from: medias)
+            let exporter = CSVExporter()
+            return exporter.createCSV(from: medias)
         }
     }
 }

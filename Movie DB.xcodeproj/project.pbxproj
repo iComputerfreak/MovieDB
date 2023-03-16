@@ -76,7 +76,7 @@
 		AB5493D625FAB0850072745B /* LibraryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493D525FAB0850072745B /* LibraryList.swift */; };
 		AB5493DC25FBDD990072745B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493DB25FBDD990072745B /* Persistence.swift */; };
 		AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5493E325FBE4CB0072745B /* PlaceholderData.swift */; };
-		AB54940525FD41B90072745B /* CSVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54940425FD41B90072745B /* CSVManager.swift */; };
+		AB54940525FD41B90072745B /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54940425FD41B90072745B /* CSVExporter.swift */; };
 		AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */; };
 		AB54A6E6299EE1D7002C3044 /* CapsuleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */; };
 		AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5612552970045B0039850B /* ListConfigurationView.swift */; };
@@ -228,6 +228,8 @@
 		ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = ABD3C5ED29C39F56000B5107 /* SwiftCSV */; };
 		ABD3C5F029C39F71000B5107 /* CSVImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5EF29C39F71000B5107 /* CSVImporter.swift */; };
 		ABD3C5F229C3A9B1000B5107 /* CSVError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F129C3A9B1000B5107 /* CSVError.swift */; };
+		ABD3C5F429C3B66F000B5107 /* CSVKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F329C3B66F000B5107 /* CSVKey.swift */; };
+		ABD3C5F629C3B6F6000B5107 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F529C3B6F6000B5107 /* CSVHelper.swift */; };
 		ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5A2375D6BB0049E236 /* TitleView.swift */; };
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD8647828174801001A1F7C /* LookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647728174801001A1F7C /* LookupView.swift */; };
@@ -374,7 +376,7 @@
 		AB5493D525FAB0850072745B /* LibraryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryList.swift; sourceTree = "<group>"; };
 		AB5493DB25FBDD990072745B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		AB5493E325FBE4CB0072745B /* PlaceholderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderData.swift; sourceTree = "<group>"; };
-		AB54940425FD41B90072745B /* CSVManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVManager.swift; sourceTree = "<group>"; };
+		AB54940425FD41B90072745B /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExporter.swift; sourceTree = "<group>"; };
 		AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSeasonsMediaList.swift; sourceTree = "<group>"; };
 		AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabelView.swift; sourceTree = "<group>"; };
 		AB5612552970045B0039850B /* ListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurationView.swift; sourceTree = "<group>"; };
@@ -535,6 +537,8 @@
 		ABD3C5EB29C39CF3000B5107 /* Movie DB v12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v12.xcdatamodel"; sourceTree = "<group>"; };
 		ABD3C5EF29C39F71000B5107 /* CSVImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporter.swift; sourceTree = "<group>"; };
 		ABD3C5F129C3A9B1000B5107 /* CSVError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVError.swift; sourceTree = "<group>"; };
+		ABD3C5F329C3B66F000B5107 /* CSVKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVKey.swift; sourceTree = "<group>"; };
+		ABD3C5F529C3B6F6000B5107 /* CSVHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVHelper.swift; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
@@ -646,9 +650,11 @@
 		AB01096A24D73BDE001BEF39 /* CSV */ = {
 			isa = PBXGroup;
 			children = (
-				AB54940425FD41B90072745B /* CSVManager.swift */,
+				AB54940425FD41B90072745B /* CSVExporter.swift */,
 				ABD3C5F129C3A9B1000B5107 /* CSVError.swift */,
 				ABD3C5EF29C39F71000B5107 /* CSVImporter.swift */,
+				ABD3C5F329C3B66F000B5107 /* CSVKey.swift */,
+				ABD3C5F529C3B6F6000B5107 /* CSVHelper.swift */,
 			);
 			path = CSV;
 			sourceTree = "<group>";
@@ -1630,6 +1636,7 @@
 				ABCE335D286DA8BB00FB481A /* MediaMenu+ActionsSection.swift in Sources */,
 				AB097F74284BF65700E559E7 /* FilterSetting+CoreDataProperties.swift in Sources */,
 				ABD8647828174801001A1F7C /* LookupView.swift in Sources */,
+				ABD3C5F629C3B6F6000B5107 /* CSVHelper.swift in Sources */,
 				AB5AA48729B3E06500DEB37B /* Schema.swift in Sources */,
 				AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */,
 				ABCE335B286DA8B000FB481A /* MediaMenu+AddToSection.swift in Sources */,
@@ -1664,7 +1671,7 @@
 				ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */,
 				AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */,
 				ABE6B70729C0A34400E5B54B /* Schema+ParentalRating.swift in Sources */,
-				AB54940525FD41B90072745B /* CSVManager.swift in Sources */,
+				AB54940525FD41B90072745B /* CSVExporter.swift in Sources */,
 				AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */,
 				ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */,
 				ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */,
@@ -1680,6 +1687,7 @@
 				AB5493D625FAB0850072745B /* LibraryList.swift in Sources */,
 				ABCE3358286DA68200FB481A /* MediaMenu.swift in Sources */,
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,
+				ABD3C5F429C3B66F000B5107 /* CSVKey.swift in Sources */,
 				ABEBA2C723957F59003BF187 /* JFConfig.swift in Sources */,
 				ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */,
 				AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */,

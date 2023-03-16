@@ -38,27 +38,27 @@ class CSVCoderTests: XCTestCase {
     
     func testEncode() throws {
         let sortedSamples = testingUtils.mediaSamples.sorted(on: \.title, by: <)
-        let csv = CSVManager.createCSV(from: sortedSamples)
-        let lines = csv.components(separatedBy: CSVManager.lineSeparator)
+        let csv = CSVExporter.createCSV(from: sortedSamples)
+        let lines = csv.components(separatedBy: CSVExporter.lineSeparator)
         // We should get an extra line for the header
         XCTAssertEqual(lines.count, sortedSamples.count + 1)
         
         // MARK: Header
-        let csvHeaders = lines.first!.components(separatedBy: CSVManager.separator)
-        XCTAssertEqual(csvHeaders.count, CSVManager.exportKeys.count)
-        for i in 0..<CSVManager.exportKeys.count {
-            let header = CSVManager.exportKeys[i]
+        let csvHeaders = lines.first!.components(separatedBy: CSVExporter.separator)
+        XCTAssertEqual(csvHeaders.count, CSVExporter.exportKeys.count)
+        for i in 0..<CSVExporter.exportKeys.count {
+            let header = CSVExporter.exportKeys[i]
             let csvHeader = csvHeaders[i]
             XCTAssertEqual(header.rawValue, csvHeader)
         }
         
         // Map the values to their headers to make a dictionary
-        let components: [[String]] = lines.dropFirst().map { $0.components(separatedBy: CSVManager.separator) }
-        var dictionaries: [[CSVManager.CSVKey: String]] = []
+        let components: [[String]] = lines.dropFirst().map { $0.components(separatedBy: CSVExporter.separator) }
+        var dictionaries: [[CSVExporter.CSVKey: String]] = []
         for line in components {
-            XCTAssertEqual(line.count, CSVManager.exportKeys.count)
-            let pairs = (0..<CSVManager.exportKeys.count).map { i -> (CSVManager.CSVKey, String) in
-                let header = CSVManager.exportKeys[i]
+            XCTAssertEqual(line.count, CSVExporter.exportKeys.count)
+            let pairs = (0..<CSVExporter.exportKeys.count).map { i -> (CSVExporter.CSVKey, String) in
+                let header = CSVExporter.exportKeys[i]
                 let value = line[i]
                 return (header, value)
             }
@@ -110,7 +110,7 @@ class CSVCoderTests: XCTestCase {
             samples.append(media)
         }
         samples.sort(by: \.title)
-        let csv = CSVManager.createCSV(from: samples)
+        let csv = CSVExporter.createCSV(from: samples)
         XCTAssertEqual(csv.components(separatedBy: .newlines).count, samples.count + 1)
         
         // Wait a bit to ensure that the current time is different from the creationTime of the samples
@@ -193,14 +193,14 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(isoFormatter.string(from: date1), isoFormatter.string(from: date2))
     }
     
-    private func testEncodedMedia(_ data: [CSVManager.CSVKey: String], encodedMedia media: Media) throws {
+    private func testEncodedMedia(_ data: [CSVExporter.CSVKey: String], encodedMedia media: Media) throws {
         // data[key] never returns nil, since every value is read from CSV and nil-values in CSV are empty strings
         // If data[key] returns nil, that means, that the CSV value was never read/written and therefore is a bug in the CSVCoder!
         XCTAssertEqual(data[.id], media.id?.uuidString)
         XCTAssertEqual(data[.mediaType], media.type.rawValue)
         XCTAssertEqual(data[.personalRating], media.personalRating.rawValue.description)
         let tagNames = media.tags.map(\.name)
-        XCTAssertEqual(data[.tags], tagNames.sorted().joined(separator: CSVManager.arraySeparator))
+        XCTAssertEqual(data[.tags], tagNames.sorted().joined(separator: CSVExporter.arraySeparator))
         // data[key] always returns a string, so we have to map the boolean to its csv-representation (nil == "")
         XCTAssertEqual(data[.watchAgain], media.watchAgain?.description ?? "")
         XCTAssertEqual(data[.notes], media.notes)
@@ -209,7 +209,7 @@ class CSVCoderTests: XCTestCase {
         XCTAssertEqual(data[.title], media.title)
         XCTAssertEqual(data[.originalTitle], media.originalTitle)
         let genreNames = media.genres.map(\.name)
-        XCTAssertEqual(data[.genres], genreNames.sorted().joined(separator: CSVManager.arraySeparator))
+        XCTAssertEqual(data[.genres], genreNames.sorted().joined(separator: CSVExporter.arraySeparator))
         print("Comparing:")
         print(data[.overview]!)
         print(media.overview!)
@@ -221,7 +221,7 @@ class CSVCoderTests: XCTestCase {
             // Movie exclusive
             XCTAssertEqual(data[.movieWatched], movie.watched?.rawValue ?? "")
             if let releaseDate = movie.releaseDate {
-                XCTAssertEqual(data[.releaseDate], CSVManager.dateFormatter.string(from: releaseDate))
+                XCTAssertEqual(data[.releaseDate], CSVExporter.dateFormatter.string(from: releaseDate))
             } else {
                 XCTAssertEqual(data[.releaseDate], "")
             }
@@ -234,12 +234,12 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(data[.lastSeasonWatched], show.watched?.season.description ?? "")
             XCTAssertEqual(data[.lastEpisodeWatched], show.watched?.episode?.description ?? "")
             if let firstAirDate = show.firstAirDate {
-                XCTAssertEqual(data[.firstAirDate], CSVManager.dateFormatter.string(from: firstAirDate))
+                XCTAssertEqual(data[.firstAirDate], CSVExporter.dateFormatter.string(from: firstAirDate))
             } else {
                 XCTAssertEqual(data[.firstAirDate], "")
             }
             if let lastAirDate = show.lastAirDate {
-                XCTAssertEqual(data[.lastAirDate], CSVManager.dateFormatter.string(from: lastAirDate))
+                XCTAssertEqual(data[.lastAirDate], CSVExporter.dateFormatter.string(from: lastAirDate))
             } else {
                 XCTAssertEqual(data[.lastAirDate], "")
             }
@@ -253,18 +253,18 @@ class CSVCoderTests: XCTestCase {
     
     func testEncodeMediaWithIllegalCharacters() throws {
         let media1 = testingUtils.matrixMovie
-        let newName = "Illegal\(CSVManager.separator) Tag"
+        let newName = "Illegal\(CSVExporter.separator) Tag"
         let tagWithSeparator = Tag(name: newName, context: testingUtils.context)
         media1.tags.insert(tagWithSeparator)
-        media1.notes = "This note contains:\(CSVManager.separator)\(CSVManager.arraySeparator)"
+        media1.notes = "This note contains:\(CSVExporter.separator)\(CSVExporter.arraySeparator)"
         let media2 = testingUtils.fightClubMovie
         media2.notes = "This note contains:\nnewlines"
-        let csv = CSVManager.createCSV(from: [media1, media2])
-        let lines = csv.components(separatedBy: CSVManager.lineSeparator)
+        let csv = CSVExporter.createCSV(from: [media1, media2])
+        let lines = csv.components(separatedBy: CSVExporter.lineSeparator)
         // Additional line for the header and the line break in the note
         XCTAssertEqual(lines.count, 3)
         // Fields with illegal characters in the CSV output will be encased in quotation marks
-        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:;,\";watched;;;\(media1.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media1.creationDate));\(media1.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
-        XCTAssertEqual(lines[2], "550;movie;0;;Dark,Violent;This note contains: newlines;notWatched;;;\(media2.id?.uuidString ?? "");Mischief. Mayhem. Soap.;Fight Club;Fight Club;Drama;A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"\"fight clubs\"\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.;Released;1999-10-15;139;63000000;100853753;false;;;;;;;\(CSVManager.dateTimeFormatter.string(from: media2.creationDate));\(media2.modificationDate.map { CSVManager.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[1], "603;movie;5;false;\"Conspiracy,Dark,Future,Illegal; Tag\";\"This note contains:;,\";watched;;;\(media1.id?.uuidString ?? "");Welcome to the Real World.;The Matrix;The Matrix;Action,Science Fiction;Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.;Released;1999-03-30;136;63000000;463517383;false;;;;;;;\(CSVExporter.dateTimeFormatter.string(from: media1.creationDate));\(media1.modificationDate.map { CSVExporter.dateTimeFormatter.string(from: $0) } ?? "")")
+        XCTAssertEqual(lines[2], "550;movie;0;;Dark,Violent;This note contains: newlines;notWatched;;;\(media2.id?.uuidString ?? "");Mischief. Mayhem. Soap.;Fight Club;Fight Club;Drama;A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"\"fight clubs\"\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.;Released;1999-10-15;139;63000000;100853753;false;;;;;;;\(CSVExporter.dateTimeFormatter.string(from: media2.creationDate));\(media2.modificationDate.map { CSVExporter.dateTimeFormatter.string(from: $0) } ?? "")")
     }
 }

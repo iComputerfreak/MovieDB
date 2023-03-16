@@ -13,5 +13,5 @@ enum CSVError: Error {
     case noTMDBID
     case noMediaType
     case mediaAlreadyExists
-    case requiredHeaderMissing(CSVManager.CSVKey)
+    case requiredHeaderMissing(CSVKey)
 }
