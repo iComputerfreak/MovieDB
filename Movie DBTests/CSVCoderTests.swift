@@ -11,6 +11,7 @@ import CSVImporter
 import JFUtils
 @testable import Movie_DB
 import os.log
+import SwiftCSV
 import XCTest
 
 // swiftlint:disable line_length
@@ -69,6 +70,17 @@ class CSVCoderTests: XCTestCase {
         for i in 0..<sortedSamples.count {
             try testEncodedMedia(dictionaries[i], encodedMedia: sortedSamples[i])
         }
+    }
+    
+    func testEscapedLineBreaks() async throws {
+        let csvString = """
+        header1;header2;header3
+        value1;"value2 goes
+        over two lines";value3
+        """
+        let csv = try CSV<Named>(string: csvString, delimiter: .semicolon)
+        XCTAssertEqual(csv.header.count, 3)
+        XCTAssertEqual(csv.rows.count, 1)
     }
         
     func testEncodeDecode() async throws {

@@ -75,12 +75,13 @@ actor TagImporter {
             log(message, level: .critical)
         }
         
-        func log(_ message: String, level: LogLevel) {
+        func log(_ message: String, level: LogLevel?) {
             log(contentsOf: [message], level: level)
         }
         
-        func log(contentsOf log: [String], level: LogLevel) {
-            _log.append(contentsOf: log.map { "[\(level.rawValue.uppercased())] \($0)" })
+        func log(contentsOf log: [String], level: LogLevel?) {
+            let levelString = level.map { "[\($0.rawValue.uppercased())]" } ?? ""
+            _log.append(contentsOf: log.map { "\(levelString) \($0)" })
         }
     }
 }

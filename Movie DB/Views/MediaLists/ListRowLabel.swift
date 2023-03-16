@@ -11,6 +11,12 @@ import SwiftUI
 
 struct ListRowLabel: View {
     let list: any MediaListProtocol
+    let iconColor: Color?
+    
+    init(list: any MediaListProtocol, iconColor: Color? = nil) {
+        self.list = list
+        self.iconColor = iconColor
+    }
     
     var body: some View {
         Label(title: {
@@ -18,6 +24,7 @@ struct ListRowLabel: View {
         }, icon: {
             Image(systemName: list.iconName)
                 .symbolRenderingMode(.multicolor)
+                .foregroundColor(iconColor)
         })
     }
 }
@@ -26,7 +33,7 @@ struct ListRowLabel_Previews: PreviewProvider {
     static var previews: some View {
         List {
             ListRowLabel(list: PlaceholderData.Lists.favorites)
-            ListRowLabel(list: PlaceholderData.Lists.newSeasons)
+            ListRowLabel(list: PlaceholderData.Lists.newSeasons, iconColor: .mint)
         }
     }
 }

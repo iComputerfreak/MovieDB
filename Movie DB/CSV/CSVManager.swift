@@ -92,6 +92,8 @@ struct CSVManager {
     // This is a static helper class. We do not need to make instances of it.
     private init() {}
     
+    // TODO: Move into CSVImporter?
+    
     // swiftlint:disable cyclomatic_complexity function_body_length
     /// Creates a ``Media`` object from the given key-value-pairs.
     /// - Parameters:
@@ -127,7 +129,6 @@ struct CSVManager {
         let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
         
         // From now on, we are working with media, so we need to be on the context's thread
-        
         await context.perform {
             // Setting values with PartialKeyPaths is not possible, so we have to do it manually
             // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
@@ -344,12 +345,6 @@ struct CSVManager {
         
         case creationDate = "creation_date"
         case modificationDate = "modification_date"
-    }
-    
-    enum CSVError: Error {
-        case noTMDBID
-        case noMediaType
-        case mediaAlreadyExists
     }
 }
 

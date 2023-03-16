@@ -43,19 +43,21 @@ struct ImportExportSection: View {
     // Generic import function with a custom handler, does not save the changes.
     static func `import`(
         isLoading: Binding<Bool>,
-        handler: @escaping (NSManagedObjectContext) throws -> Void
+        handler: @escaping (NSManagedObjectContext) async throws -> Void
     ) {
         // Use iOS file picker
         Logger.importExport.debug("Starting an import...")
         isLoading.wrappedValue = true
         
-        // Perform the import into a separate context on a background thread
-        PersistenceController.shared.container.performBackgroundTask { (importContext: NSManagedObjectContext) in
-            // Set the merge policy to not override existing data
-            importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-            importContext.type = .backgroundContext
+        // Create a new background context for importing the objects
+        let importContext = PersistenceController.viewContext.newBackgroundContext()
+        // Set the merge policy to not override existing data
+        importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+        
+        // Do the async work in a background task, but give it high priority, since the user is waiting for it to finish
+        Task(priority: .high) {
             do {
-                try handler(importContext)
+                try await handler(importContext)
             } catch {
                 Logger.importExport.error("Error during import: \(error, privacy: .public)")
                 AlertHandler.showError(

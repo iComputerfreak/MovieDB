@@ -84,10 +84,10 @@ extension Strings {
             localized: "settings.actions.exportTags.label",
             comment: "The label for the 'export tags' action in the settings view"
         )
-        static func loadingTextMediaImport(_ progress: Int) -> String {
+        static func loadingTextMediaImport(_ progress: Int, _ maxCount: Int) -> String {
             String(
-                localized: "settings.import.progressText \(progress)",
-                comment: "The label of the overlay progress view that shows the user how many media objects have been imported already"
+                localized: "settings.import.progressText \(progress) \(maxCount)",
+                comment: "The label of the overlay progress view that shows the user how many media objects have been imported already. The first parameter is the number of objects already imported, the second parameter is the number of objects to import in total."
             )
         }
         

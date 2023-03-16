@@ -1,24 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "csvimporter",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Flinesoft/CSVImporter.git",
-      "state" : {
-        "revision" : "63755302a3d3ad81d62607dba4a97f06a62eab1b",
-        "version" : "1.9.1"
-      }
-    },
-    {
-      "identity" : "handyswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Flinesoft/HandySwift.git",
-      "state" : {
-        "revision" : "f736ec0ab264269cd4df91d6a685b4c78292cd76",
-        "version" : "2.8.0"
-      }
-    },
-    {
       "identity" : "jfswiftui",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iComputerfreak/JFSwiftUI.git",
@@ -37,24 +19,6 @@
       }
     },
     {
-      "identity" : "nimble",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Quick/Nimble.git",
-      "state" : {
-        "revision" : "e9d769113660769a4d9dd3afb855562c0b7ae7b0",
-        "version" : "7.3.4"
-      }
-    },
-    {
-      "identity" : "quick",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Quick/Quick.git",
-      "state" : {
-        "revision" : "f2b5a06440ea87eba1a167cab37bf6496646c52e",
-        "version" : "1.3.4"
-      }
-    },
-    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
@@ -70,6 +34,15 @@
       "state" : {
         "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
         "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swiftcsv",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftcsv/SwiftCSV",
+      "state" : {
+        "revision" : "96fa14b92e88e0befdbc8bc31c7c2c9594a30060",
+        "version" : "0.8.1"
       }
     }
   ],

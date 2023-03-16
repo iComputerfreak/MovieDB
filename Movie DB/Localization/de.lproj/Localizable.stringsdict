@@ -308,12 +308,21 @@
 			<string>%lld Medien wurden</string>
 		</dict>
 	</dict>
-	<key>settings.import.progressText %lld</key>
+	<key>settings.import.progressText %lld %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>Lade
-%#@count@...</string>
+		<string>Loading
+%#@count@ / %#@max@</string>
 		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%lld</string>
+		</dict>
+		<key>max</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>

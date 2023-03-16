@@ -75,7 +75,7 @@ struct MediaListsRootView: View {
                     NavigationLink {
                         NewSeasonsMediaList(selectedMedia: $selectedMedia)
                     } label: {
-                        ListRowLabel(list: PredicateMediaList.newSeasons)
+                        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
                     }
                 }
                 .disabled(editMode?.wrappedValue.isEditing ?? false)

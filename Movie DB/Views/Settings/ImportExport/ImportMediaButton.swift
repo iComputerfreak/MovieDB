@@ -39,60 +39,56 @@ struct ImportMediaButton: View {
         // Initialize the logger
         self.config.importLogger = .init()
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
-            importContext.type = .backgroundContext
-            
-            // Parse the CSV data
-            let csvString = try String(contentsOf: url)
+            // Import using CSVImporter
+            let importer = try CSVImporter(url: url)
             Logger.importExport.debug("Successfully read CSV file. Trying to import into library...")
-            CSVHelper.importMediaObjects(
-                csvString: csvString,
-                importContext: importContext,
-                onProgress: { progress in
-                    // Update the loading view
-                    self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress)
-                }, onFail: { log in
-                    config.importLogger?.log(contentsOf: log, level: .info)
-                    config.importLogger?.critical("Importing failed!")
+            
+            let medias: [Media]! // swiftlint:disable:this implicitly_unwrapped_optional
+            do {
+                medias = try await importer.decodeMediaObjects(importContext: importContext) { progress in
+                    self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress, importer.rowCount)
+                } log: { message in
+                    // TODO: Replace with other logger?
+                    self.config.importLogger?.log(message, level: .none)
+                }
+            } catch {
+                self.config.importLogShowing = true
+                // Rethrow
+                throw error
+            }
+            
+            await MainActor.run {
+                let controller = UIAlertController(
+                    title: Strings.Settings.Alert.importMediaConfirmTitle,
+                    message: Strings.Settings.Alert.importMediaConfirmMessage(medias.count),
+                    preferredStyle: .alert
+                )
+                controller.addAction(UIAlertAction(
+                    title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
+                    style: .destructive
+                ) { _ in
+                    // Reset all the work we have just done
+                    importContext.reset()
+                    config.importLogger?.info("Undoing import. All imported objects removed.")
                     self.config.importLogShowing = true
-                }, onFinish: { mediaObjects, log in
-                    config.importLogger?.log(contentsOf: log, level: .info)
-                    // Presenting will change UI
+                })
+                controller.addAction(.okayAction { _ in
                     Task(priority: .userInitiated) {
+                        // Make the changes to this context permanent by saving them to the
+                        // main context and then to disk
+                        await PersistenceController.saveContext(importContext)
+                        await PersistenceController.saveContext(PersistenceController.viewContext)
                         await MainActor.run {
-                            let controller = UIAlertController(
-                                title: Strings.Settings.Alert.importMediaConfirmTitle,
-                                message: Strings.Settings.Alert.importMediaConfirmMessage(mediaObjects.count),
-                                preferredStyle: .alert
-                            )
-                            controller.addAction(UIAlertAction(
-                                title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
-                                style: .destructive
-                            ) { _ in
-                                // Reset all the work we have just done
-                                importContext.reset()
-                                config.importLogger?.info("Undoing import. All imported objects removed.")
-                                self.config.importLogShowing = true
-                            })
-                            controller.addAction(.okayAction { _ in
-                                Task(priority: .userInitiated) {
-                                    // Make the changes to this context permanent by saving them to the
-                                    // main context and then to disk
-                                    await PersistenceController.saveContext(importContext)
-                                    await PersistenceController.saveContext(PersistenceController.viewContext)
-                                    await MainActor.run {
-                                        self.config.importLogger?.info("Import complete.")
-                                        self.config.importLogShowing = true
-                                    }
-                                }
-                            })
-                            self.config.isLoading = false
-                            // Reset the loading text
-                            self.config.loadingText = nil
-                            AlertHandler.presentAlert(alert: controller)
+                            self.config.importLogger?.info("Import complete.")
+                            self.config.importLogShowing = true
                         }
                     }
-                }
-            )
+                })
+                self.config.isLoading = false
+                // Reset the loading text
+                self.config.loadingText = nil
+                AlertHandler.presentAlert(alert: controller)
+            }
         }
     }
 }
