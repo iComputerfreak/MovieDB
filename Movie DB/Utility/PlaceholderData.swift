@@ -197,5 +197,14 @@ enum PlaceholderData {
             iconName: "star.fill",
             predicate: NSPredicate(format: "%K == TRUE", Schema.Media.isFavorite.rawValue)
         )
+        static let newSeasons = PredicateMediaList(
+            name: Strings.Lists.defaultListNameNewSeasons,
+            iconName: "sparkles.tv",
+            predicate: NSCompoundPredicate(type: .and, subpredicates: [
+                NSPredicate(format: "type = %@", MediaType.show.rawValue),
+                ShowWatchState.showsWatchedAnyPredicate,
+                NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
+            ])
+        )
     }
 }

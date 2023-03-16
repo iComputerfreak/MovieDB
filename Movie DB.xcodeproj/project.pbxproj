@@ -531,6 +531,7 @@
 		ABD3C5E429C130C1000B5107 /* FilterMediaStatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMediaStatusPicker.swift; sourceTree = "<group>"; };
 		ABD3C5E729C130FC000B5107 /* FilterShowTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShowTypePicker.swift; sourceTree = "<group>"; };
 		ABD3C5E929C13119000B5107 /* FilterNumberOfSeasonsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNumberOfSeasonsPicker.swift; sourceTree = "<group>"; };
+		ABD3C5EB29C39CF3000B5107 /* Movie DB v12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v12.xcdatamodel"; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
@@ -2355,6 +2356,7 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				ABD3C5EB29C39CF3000B5107 /* Movie DB v12.xcdatamodel */,
 				ABE6B6FC29C0A08400E5B54B /* Movie DB v11.xcdatamodel */,
 				ABEF108529BF7DD30047E4B9 /* Movie DB v10.xcdatamodel */,
 				AB5AA49E29B3EE6200DEB37B /* Movie DB v9.xcdatamodel */,

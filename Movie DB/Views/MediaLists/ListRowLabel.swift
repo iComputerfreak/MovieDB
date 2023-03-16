@@ -13,13 +13,20 @@ struct ListRowLabel: View {
     let list: any MediaListProtocol
     
     var body: some View {
-        Label(list.name, systemImage: list.iconName)
-            .symbolRenderingMode(.multicolor)
+        Label(title: {
+            Text(list.name)
+        }, icon: {
+            Image(systemName: list.iconName)
+                .symbolRenderingMode(.multicolor)
+        })
     }
 }
 
 struct ListRowLabel_Previews: PreviewProvider {
     static var previews: some View {
-        ListRowLabel(list: PlaceholderData.Lists.favorites)
+        List {
+            ListRowLabel(list: PlaceholderData.Lists.favorites)
+            ListRowLabel(list: PlaceholderData.Lists.newSeasons)
+        }
     }
 }
