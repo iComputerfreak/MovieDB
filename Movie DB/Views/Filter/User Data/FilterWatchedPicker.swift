@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// TODO: After consolidating MovieWatchState and ShowWatchState, we should update the type in FilterSetting and here
 struct FilterWatchedPicker: View {
     @EnvironmentObject private var filterSetting: FilterSetting
     

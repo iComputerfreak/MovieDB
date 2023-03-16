@@ -121,7 +121,7 @@ public extension FilterSetting {
     /// The media list that uses this filter setting
     @NSManaged var mediaList: DynamicMediaList?
     
-    internal var rating: ClosedRange<StarRating>? {
+    var rating: ClosedRange<StarRating>? {
         get {
             guard
                 let rawMinRating = minRating, let minRating = StarRating(rawValue: rawMinRating),
@@ -137,7 +137,7 @@ public extension FilterSetting {
         }
     }
     
-    internal var year: ClosedRange<Int>? {
+    var year: ClosedRange<Int>? {
         get {
             guard let minYear, let maxYear else {
                 return nil
@@ -150,7 +150,7 @@ public extension FilterSetting {
         }
     }
     
-    internal var numberOfSeasons: ClosedRange<Int>? {
+    var numberOfSeasons: ClosedRange<Int>? {
         get {
             guard
                 let minNumberOfSeasons,

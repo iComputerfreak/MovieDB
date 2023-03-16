@@ -10,6 +10,7 @@ import CoreData
 import CSVImporter
 import JFUtils
 @testable import Movie_DB
+import os.log
 import XCTest
 
 // swiftlint:disable line_length
@@ -26,6 +27,7 @@ class CSVCoderTests: XCTestCase {
     override func setUp() {
         super.setUp()
         testingUtils = TestingUtils()
+        continueAfterFailure = true
     }
     
     override func tearDown() {
@@ -34,7 +36,7 @@ class CSVCoderTests: XCTestCase {
     }
     
     func testEncode() throws {
-        let sortedSamples = testingUtils.mediaSamples.sorted(by: \.title)
+        let sortedSamples = testingUtils.mediaSamples.sorted(on: \.title, by: <)
         let csv = CSVManager.createCSV(from: sortedSamples)
         let lines = csv.components(separatedBy: CSVManager.lineSeparator)
         // We should get an extra line for the header
@@ -71,6 +73,7 @@ class CSVCoderTests: XCTestCase {
         
     func testEncodeDecode() async throws {
         // MARK: Encode
+        let bgContext = testingUtils.context.newBackgroundContext()
         // TODO: Add Tags
         let sampleData: [(Int, MediaType, StarRating, WatchState, Bool?, String)] = [
             (603, .movie, .threeStars, MovieWatchState.watched, false, "A classic."), // Matrix
@@ -81,15 +84,17 @@ class CSVCoderTests: XCTestCase {
         var samples: [Media] = []
         let api = TMDBAPI.shared
         for (tmdbID, type, rating, watchState, watchAgain, notes) in sampleData {
-            let media = try await api.media(for: tmdbID, type: type, context: testingUtils.context)
-            media.personalRating = rating
-            if let watchState = watchState as? MovieWatchState, let movie = media as? Movie {
-                movie.watched = watchState
-            } else if let watchState = watchState as? ShowWatchState, let show = media as? Show {
-                show.watched = watchState
+            let media = try await api.media(for: tmdbID, type: type, context: bgContext)
+            bgContext.performAndWait {
+                media.personalRating = rating
+                if let watchState = watchState as? MovieWatchState, let movie = media as? Movie {
+                    movie.watched = watchState
+                } else if let watchState = watchState as? ShowWatchState, let show = media as? Show {
+                    show.watched = watchState
+                }
+                media.watchAgain = watchAgain
+                media.notes = notes
             }
-            media.watchAgain = watchAgain
-            media.notes = notes
             samples.append(media)
         }
         samples.sort(by: \.title)
@@ -102,49 +107,55 @@ class CSVCoderTests: XCTestCase {
         // MARK: Decode
         let expectation = expectation(description: "Decode CSV")
         let disposableContext = PersistenceController.createDisposableContext()
-        CSVHelper.importMediaObjects(csvString: csv, importContext: disposableContext) { _ in
-            // onProgress
-        } onFail: { importLog in
-            XCTFail("CSVHelper failed importing the media objects.")
-            print(importLog.joined(separator: "\n"))
-            expectation.fulfill()
-        } onFinish: { mediaObjects, _ in
-            do {
-                XCTAssertEqual(mediaObjects.count, samples.count)
-                
-                for i in 0..<mediaObjects.count {
-                    let media = try XCTUnwrap(mediaObjects[i])
-                    let sample = try XCTUnwrap(samples[i])
+        
+        await bgContext.perform {
+            CSVHelper.importMediaObjects(csvString: csv, importContext: disposableContext) { _ in
+                // onProgress
+            } onFail: { importLog in
+                XCTFail("CSVHelper failed importing the media objects.")
+                print(importLog.joined(separator: "\n"))
+                expectation.fulfill()
+            } onFinish: { mediaObjects, _ in
+                defer { expectation.fulfill() }
+                do {
+                    XCTAssertEqual(mediaObjects.count, samples.count)
                     
-                    XCTAssertEqual(media.type, sample.type)
-                    XCTAssertEqual(media.tmdbID, sample.tmdbID)
-                    XCTAssertEqual(media.title, sample.title)
-                    XCTAssertEqual(media.personalRating, sample.personalRating)
-                    XCTAssertEqual(media.watchAgain, sample.watchAgain)
-                    XCTAssertEqual(media.tags.map(\.name).sorted(), sample.tags.map(\.name).sorted())
-                    XCTAssertEqual(media.notes, sample.notes.replacing(/\n+/, with: { _ in " " }))
-                    XCTAssertEqual(media.originalTitle, sample.originalTitle)
-                    XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
-                    XCTAssertEqual(media.missingInformation(), sample.missingInformation())
-                    self.datesEqual(media.creationDate, sample.creationDate)
-                    self.datesEqual(media.modificationDate, sample.modificationDate)
-                    
-                    if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
-                        XCTAssertEqual(movie.isAdult, movieSample.isAdult)
-                        XCTAssertEqual(movie.watched, movieSample.watched)
-                        // TODO: More properties
-                    } else if media.type == .show, let show = media as? Show, let showSample = sample as? Show {
-                        XCTAssertEqual(show.showType, showSample.showType)
-                        XCTAssertEqual(show.watched, showSample.watched)
-                        // TODO: More properties
-                    } else {
-                        XCTFail("Media is neither a movie, nor a show")
+                    for i in 0..<mediaObjects.count {
+                        let media = try XCTUnwrap(mediaObjects[i])
+                        let sample = try XCTUnwrap(samples[i])
+                        
+                        XCTAssertNotNil(media.managedObjectContext)
+                        disposableContext.perform {
+                            XCTAssertEqual(media.type, sample.type)
+                            XCTAssertEqual(media.tmdbID, sample.tmdbID)
+                            XCTAssertEqual(media.title, sample.title)
+                            XCTAssertEqual(media.personalRating, sample.personalRating)
+                            XCTAssertEqual(media.watchAgain, sample.watchAgain)
+                            XCTAssertEqual(media.tags.map(\.name).sorted(), sample.tags.map(\.name).sorted())
+                            XCTAssertEqual(media.notes, sample.notes.replacing(/\n+/, with: { _ in " " }))
+                            XCTAssertEqual(media.originalTitle, sample.originalTitle)
+                            XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
+                            XCTAssertEqual(media.missingInformation(), sample.missingInformation())
+                            self.datesEqual(media.creationDate, sample.creationDate)
+                            self.datesEqual(media.modificationDate, sample.modificationDate)
+                            
+                            if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
+                                XCTAssertEqual(movie.isAdult, movieSample.isAdult)
+                                XCTAssertEqual(movie.watched, movieSample.watched)
+                                // TODO: More properties
+                            } else if media.type == .show, let show = media as? Show, let showSample = sample as? Show {
+                                XCTAssertEqual(show.showType, showSample.showType)
+                                XCTAssertEqual(show.watched, showSample.watched)
+                                // TODO: More properties
+                            } else {
+                                XCTFail("Media is neither a movie, nor a show")
+                            }
+                        }
                     }
+                } catch {
+                    XCTFail(error.localizedDescription)
                 }
-            } catch {
-                XCTFail(error.localizedDescription)
             }
-            expectation.fulfill()
         }
         
         // Wait for decoding tests to finish

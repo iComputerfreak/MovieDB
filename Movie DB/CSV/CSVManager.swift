@@ -123,79 +123,78 @@ struct CSVManager {
             throw CSVError.mediaAlreadyExists
         }
         
-        // Create the media
+        // Create the media (TMDBAPI is an actor, so our thread does not matter here)
         let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
         
-        // Setting values with PartialKeyPaths is not possible, so we have to do it manually
-        // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
-        if
-            let rawRating = values[.personalRating],
-            let intRep = Int(rawRating),
-            let personalRating = StarRating(integerRepresentation: intRep)
-        {
-            media.personalRating = personalRating
-        }
-        if let rawWatchAgain = values[.watchAgain], let watchAgain = Bool(rawWatchAgain) {
-            media.watchAgain = watchAgain
-        }
-        if let rawTags = values[.tags] {
-            var tags: [Tag] = []
-            let tagNames = rawTags.split(separator: arraySeparator).map(String.init)
-            if !tagNames.isEmpty {
-                for name in tagNames {
-                    // Create the tag if it does not exist yet
-                    let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
-                    fetchRequest.fetchLimit = 1
-                    if let tag = try? context.fetch(fetchRequest).first {
-                        assert(tag.managedObjectContext == context)
-                        tags.append(tag)
-                    } else {
-                        // Create a new tag with the name
-                        let tag = Tag(name: name, context: context)
-                        tags.append(tag)
+        // From now on, we are working with media, so we need to be on the context's thread
+        
+        await context.perform {
+            // Setting values with PartialKeyPaths is not possible, so we have to do it manually
+            // Specifying ReferenceWritableKeyPaths in the dictionary with the converters is not possible, since the dictionary Value type would not be identical then
+            if
+                let personalRating = values[.personalRating]
+                    .flatMap(Int.init)
+                    .flatMap(StarRating.init(integerRepresentation:))
+            {
+                media.personalRating = personalRating
+            }
+            if let watchAgain = values[.watchAgain].flatMap(Bool.init) {
+                media.watchAgain = watchAgain
+            }
+            if let rawTags = values[.tags] {
+                var tags: [Tag] = []
+                let tagNames = rawTags.split(separator: arraySeparator).map(String.init)
+                if !tagNames.isEmpty {
+                    // TODO: Replace with Tag.fetchOrCreate
+                    for name in tagNames {
+                        // Create the tag if it does not exist yet
+                        let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
+                        fetchRequest.fetchLimit = 1
+                        if let tag = try? context.fetch(fetchRequest).first {
+                            assert(tag.managedObjectContext == context)
+                            tags.append(tag)
+                        } else {
+                            // Create a new tag with the name
+                            let tag = Tag(name: name, context: context)
+                            tags.append(tag)
+                        }
                     }
+                    media.tags = Set(tags)
                 }
-                media.tags = Set(tags)
             }
-        }
-        if let notes = values[.notes] {
-            media.notes = notes
-        }
-        if let rawWatched = values[.movieWatched], let watched = MovieWatchState(rawValue: rawWatched) {
-            assert(mediaType == .movie)
-            if let movie = media as? Movie {
-                movie.watched = watched
+            if let notes = values[.notes] {
+                media.notes = notes
             }
-        }
-        // Legacy show watch state import
-        if let rawWatched = values[.showWatched], let watched = ShowWatchState(rawValue: rawWatched) {
-            assert(mediaType == .show)
-            if let show = media as? Show {
-                show.watched = watched
+            if let watched = values[.movieWatched].flatMap(MovieWatchState.init(rawValue:)) {
+                assert(mediaType == .movie)
+                if let movie = media as? Movie {
+                    movie.watched = watched
+                }
             }
-        }
-        // New show watch state import
-        if let rawLastSeasonWatched = values[.lastSeasonWatched], let lastSeasonWatched = Int(rawLastSeasonWatched) {
-            let rawLastEpisodeWatched = values[.lastEpisodeWatched]
-            let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
-            
-            assert(mediaType == .show)
-            if let show = media as? Show {
-                show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
+            // Legacy show watch state import
+            if let watched = values[.showWatched].flatMap(ShowWatchState.init(rawValue:)) {
+                assert(mediaType == .show)
+                if let show = media as? Show {
+                    show.watched = watched
+                }
             }
-        }
-        if
-            let rawCreationDate = values[.creationDate],
-            let creationDate = dateTimeFormatter.date(from: rawCreationDate)
-        {
-            media.creationDate = creationDate
-        }
-        if
-            let rawModificationDate = values[.modificationDate],
-            let modificationDate = dateTimeFormatter.date(from: rawModificationDate)
-        {
-            media.modificationDate = modificationDate
+            // New show watch state import
+            if let lastSeasonWatched = values[.lastSeasonWatched].flatMap(Int.init) {
+                let rawLastEpisodeWatched = values[.lastEpisodeWatched]
+                let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
+                
+                assert(mediaType == .show)
+                if let show = media as? Show {
+                    show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
+                }
+            }
+            if let creationDate = values[.creationDate].flatMap(dateFormatter.date(from:)) {
+                media.creationDate = creationDate
+            }
+            if let modificationDate = values[.modificationDate].map(dateTimeFormatter.date(from:)) {
+                media.modificationDate = modificationDate
+            }
         }
         
         media.loadThumbnail()

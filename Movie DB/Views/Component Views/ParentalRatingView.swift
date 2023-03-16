@@ -24,12 +24,12 @@ struct ParentalRatingView_Preview: PreviewProvider {
         VStack {
             HStack {
                 Text(verbatim: "Rating: ")
-                ParentalRatingView(
-                    rating: .init(context: context,
+                ParentalRatingView(rating: .init(
+                    context: context,
                     countryCode: "US",
                     label: "R",
-                    color: UIColor(named: "US-Movie-R"))
-                )
+                    color: UIColor(named: "US-Movie-R")
+                ))
             }
             HStack {
                 Text(verbatim: "Rating: ")
