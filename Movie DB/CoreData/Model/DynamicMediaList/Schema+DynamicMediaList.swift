@@ -19,5 +19,6 @@ extension Schema {
         
         // MARK: Relationships
         case filterSetting
+        case iconColor
     }
 }

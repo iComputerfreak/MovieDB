@@ -13,7 +13,7 @@ import os.log
 struct ReloadLibraryMigration: Migration {
     // Increase the version number of the key to force devices that have already run this migration to run it again
     // e.g., when we add other changes that require another reload
-    let migrationKey = "migration_reloadLibrary_v1"
+    let migrationKey = "migration_reloadLibrary_v2"
     
     func run() async throws {
         _ = try await MediaLibrary.shared.reloadAll()

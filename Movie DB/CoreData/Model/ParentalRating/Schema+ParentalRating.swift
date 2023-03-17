@@ -22,5 +22,6 @@ extension Schema {
         
         // MARK: Relationships
         case medias
+        case color
     }
 }

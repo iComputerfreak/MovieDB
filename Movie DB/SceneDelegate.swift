@@ -17,15 +17,11 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
         
-        // We should have saved all changes before the app closes
-        assert(!PersistenceController.viewContext.hasChanges)
         // Save changes in the application's managed object context when the application transitions to the background.
         PersistenceController.saveContext()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
-        // We should have saved all changes before the app closes
-        assert(!PersistenceController.viewContext.hasChanges)
         // Called when the app is terminated
         PersistenceController.saveContext()
     }

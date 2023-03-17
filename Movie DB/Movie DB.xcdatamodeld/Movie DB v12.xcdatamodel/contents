@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="v11">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="v12">
+    <entity name="CDColor" representedClassName="CDColor" syncable="YES">
+        <attribute name="alphaComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="blueComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="greenComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="redComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="dynamicMediaLists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DynamicMediaList" inverseName="iconColor" inverseEntity="DynamicMediaList"/>
+        <relationship name="parentalRatings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentalRating" inverseName="color" inverseEntity="ParentalRating"/>
+        <relationship name="userMediaLists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserMediaList" inverseName="iconColor" inverseEntity="UserMediaList"/>
+    </entity>
     <entity name="DynamicMediaList" representedClassName="DynamicMediaList" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -7,6 +16,7 @@
         <attribute name="sortingDirection" optional="YES" attributeType="String"/>
         <attribute name="sortingOrder" optional="YES" attributeType="String"/>
         <relationship name="filterSetting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="FilterSetting" inverseName="mediaList" inverseEntity="FilterSetting"/>
+        <relationship name="iconColor" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="dynamicMediaLists" inverseEntity="CDColor"/>
     </entity>
     <entity name="FilterSetting" representedClassName="FilterSetting" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -76,13 +86,10 @@
         <attribute name="watchedState" optional="YES" attributeType="String"/>
     </entity>
     <entity name="ParentalRating" representedClassName="ParentalRating" syncable="YES">
-        <attribute name="alphaComponent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="blueComponent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="countryCode" optional="YES" attributeType="String"/>
-        <attribute name="greenComponent" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="label" optional="YES" attributeType="String"/>
-        <attribute name="redComponent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="color" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="parentalRatings" inverseEntity="CDColor"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="parentalRating" inverseEntity="Media"/>
     </entity>
     <entity name="ProductionCompany" representedClassName="ProductionCompany" syncable="YES">
@@ -131,6 +138,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sortingDirection" optional="YES" attributeType="String"/>
         <attribute name="sortingOrder" optional="YES" attributeType="String"/>
+        <relationship name="iconColor" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="userMediaLists" inverseEntity="CDColor"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="userLists" inverseEntity="Media"/>
     </entity>
     <entity name="Video" representedClassName="Video" syncable="YES">

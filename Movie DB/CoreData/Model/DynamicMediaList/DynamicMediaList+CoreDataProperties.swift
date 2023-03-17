@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import UIKit
 
 public extension DynamicMediaList {
     /// The internal library id
@@ -30,6 +31,17 @@ public extension DynamicMediaList {
     
     /// The filter setting of this media list
     @NSManaged var filterSetting: FilterSetting?
+    
+    /// The color of the icon
+    private var _iconColor: CDColor? {
+        get { getOptional(forKey: Schema.DynamicMediaList.iconColor) }
+        set { setOptional(newValue, forKey: Schema.DynamicMediaList.iconColor) }
+    }
+    
+    var iconColor: UIColor? {
+        get { _iconColor.map { UIColor(cdColor: $0) } }
+        set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
+    }
 
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<DynamicMediaList> {

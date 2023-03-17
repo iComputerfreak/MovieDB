@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import UIKit
 
 public extension UserMediaList {
     /// The internal library id
@@ -31,6 +32,16 @@ public extension UserMediaList {
     }
 
     @NSManaged var medias: Set<Media>
+    
+    private var _iconColor: CDColor? {
+        get { getOptional(forKey: Schema.UserMediaList.iconColor) }
+        set { setOptional(newValue, forKey: Schema.UserMediaList.iconColor) }
+    }
+    
+    var iconColor: UIColor? {
+        get { _iconColor.map(UIColor.init(cdColor:)) }
+        set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
+    }
 
     @nonobjc
     static func fetchRequest() -> NSFetchRequest<UserMediaList> {

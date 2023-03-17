@@ -19,7 +19,7 @@ class MigrationManager {
     
     func run() {
         // Do the migrations on a background task
-        Task(priority: .background) {
+        Task(priority: .medium) {
             Logger.migrations.info("Running migrations...")
             // Instantiate and run the migrations
             for migration in migrations.map({ $0.init() }) where !migration.hasRun {
