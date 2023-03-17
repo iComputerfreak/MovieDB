@@ -101,7 +101,8 @@ struct ExtendedInfo: View {
                 Text(mediaObject.popularity.formatted(format))
                     .headline(Strings.Detail.popularityHeadline)
                 // MARK: Score
-                let avg = Double(mediaObject.voteAverage)
+                // The localized string only shows as many fraction digits as needed, so we can round to at most 2 fraction digits here
+                let avg = (Double(mediaObject.voteAverage) * 100).rounded() / 100
                 let max: Double = 10
                 let count = mediaObject.voteCount
                 Text(Strings.Detail.scoringValueLabel(avg, max, count))

@@ -55,6 +55,11 @@ struct MediaDetail: View {
                     MediaMenu(mediaObject: mediaObject)
                 }
             }
+            .onDisappear {
+                if mediaObject.hasChanges {
+                    PersistenceController.saveContext()
+                }
+            }
         }
     }
 }

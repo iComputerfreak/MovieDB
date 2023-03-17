@@ -39,7 +39,7 @@
 	<key>detail.extendedInfo.scoring %lf %lf %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@points@/%#@max@ von %#@voteCount@</string>
+		<string>%#@points@/%#@max@ von %#@voteCount@ auf TheMovieDatabase.org</string>
 		<key>max</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

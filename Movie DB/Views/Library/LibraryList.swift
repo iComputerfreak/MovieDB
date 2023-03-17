@@ -71,6 +71,7 @@ struct LibraryList: View {
                                     )
                                     // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
                                     self.managedObjectContext.delete(mediaObject)
+                                    PersistenceController.saveContext(self.managedObjectContext)
                                 }
                             }
                             .contextMenu {
