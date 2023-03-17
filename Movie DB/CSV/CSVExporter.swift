@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import os.log
 import RegexBuilder
 
 /// Represents a static helper class to export media objects to and from CSV
@@ -71,7 +72,7 @@ class CSVExporter {
             } else {
                 Logger.importExport.critical(
                     // swiftlint:disable:next line_length
-                    "The key \(key, privacy: .public) has no assigned KeyPath. Please add the key to one of the following dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths."
+                    "The key \(key.rawValue, privacy: .public) has no assigned KeyPath. Please add the key to one of the following dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths."
                 )
                 fatalError("The key \(key) has no assigned KeyPath. Please add the key to one of the following " +
                     "dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
