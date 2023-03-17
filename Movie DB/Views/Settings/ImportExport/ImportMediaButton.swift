@@ -28,6 +28,7 @@ struct ImportMediaButton: View {
             }
     }
     
+    // swiftlint:disable:next function_body_length
     func importMedia(url: URL) {
         if !Utils.purchasedPro() {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0

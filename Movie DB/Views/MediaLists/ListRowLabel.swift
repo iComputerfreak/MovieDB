@@ -9,11 +9,11 @@
 import Foundation
 import SwiftUI
 
-struct ListRowLabel: View {
-    let list: any MediaListProtocol
+struct ListRowLabel<List: MediaListProtocol>: View {
+    @ObservedObject var list: List
     let iconColor: Color?
     
-    init(list: any MediaListProtocol, iconColor: Color? = nil) {
+    init(list: List, iconColor: Color? = nil) {
         self.list = list
         self.iconColor = iconColor
     }

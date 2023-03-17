@@ -236,7 +236,7 @@ class CSVCoderTests: XCTestCase {
     
     func testEncodeMediaWithIllegalCharacters() throws {
         let exporter = CSVExporter()
-        let media1 = testingUtils.matrixMovie
+        let media1 = testingUtils.matrixMovie // Statically loaded from JSON
         let newName = "Illegal\(exporter.separator) Tag"
         let tagWithSeparator = Tag(name: newName, context: testingUtils.context)
         media1.tags.insert(tagWithSeparator)
