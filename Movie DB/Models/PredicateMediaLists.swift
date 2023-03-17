@@ -33,8 +33,10 @@ extension PredicateMediaList {
             NSCompoundPredicate(type: .or, subpredicates: [
                 // We don't include movies that are marked as 'not watched'
                 NSPredicate(
-                    format: "type = %@ AND watchedState != %@",
+                    format: "%K = %@ AND %K != %@",
+                    Schema.Media.type.rawValue,
                     MediaType.movie.rawValue,
+                    Schema.Movie.watchedState.rawValue,
                     MovieWatchState.notWatched.rawValue
                 ),
                 // We don't include shows that are marked as explicitly 'not watched'

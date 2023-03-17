@@ -69,6 +69,10 @@ class CSVExporter {
                     tuple = ("", nil)
                 }
             } else {
+                Logger.importExport.critical(
+                    // swiftlint:disable:next line_length
+                    "The key \(key, privacy: .public) has no assigned KeyPath. Please add the key to one of the following dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths."
+                )
                 fatalError("The key \(key) has no assigned KeyPath. Please add the key to one of the following " +
                     "dictionaries: keyPaths, movieExclusiveKeyPaths or showExclusiveKeyPaths.")
             }
