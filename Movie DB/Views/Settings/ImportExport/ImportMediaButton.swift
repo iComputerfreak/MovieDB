@@ -82,6 +82,18 @@ struct ImportMediaButton: View {
                             self.config.importLogger?.info("Import complete.")
                             self.config.importLogShowing = true
                         }
+                        // Load the thumbnails now
+                        Task(priority: .userInitiated) {
+                            do {
+                                try PersistenceController.viewContext.fetch(Media.fetchRequest())
+                                    .forEach { $0.loadThumbnail() }
+                            } catch {
+                                Logger.library.error(
+                                    // swiftlint:disable:next line_length
+                                    "Error fetching medias for loading thumbnail after import: \(error, privacy: .public)"
+                                )
+                            }
+                        }
                     }
                 })
                 self.config.isLoading = false
