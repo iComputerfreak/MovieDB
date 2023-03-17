@@ -231,6 +231,11 @@
 		ABD3C5F429C3B66F000B5107 /* CSVKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F329C3B66F000B5107 /* CSVKey.swift */; };
 		ABD3C5F629C3B6F6000B5107 /* CSVHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F529C3B6F6000B5107 /* CSVHelper.swift */; };
 		ABD3C5F829C4B96F000B5107 /* ProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5F729C4B96F000B5107 /* ProviderView.swift */; };
+		ABD3C60429C4C8FC000B5107 /* CDColor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C60229C4C8FC000B5107 /* CDColor+CoreDataProperties.swift */; };
+		ABD3C60529C4C8FC000B5107 /* CDColor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C60329C4C8FC000B5107 /* CDColor+CoreDataClass.swift */; };
+		ABD3C60729C4C929000B5107 /* Schema+CDColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C60629C4C929000B5107 /* Schema+CDColor.swift */; };
+		ABD3C60929C4C9A1000B5107 /* UIColor+CDColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C60829C4C9A1000B5107 /* UIColor+CDColor.swift */; };
+		ABD3C60B29C4CE9A000B5107 /* Optional+CDColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C60A29C4CE9A000B5107 /* Optional+CDColor.swift */; };
 		ABD7CB5B2375D6BB0049E236 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5A2375D6BB0049E236 /* TitleView.swift */; };
 		ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */; };
 		ABD8647828174801001A1F7C /* LookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647728174801001A1F7C /* LookupView.swift */; };
@@ -541,6 +546,11 @@
 		ABD3C5F329C3B66F000B5107 /* CSVKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVKey.swift; sourceTree = "<group>"; };
 		ABD3C5F529C3B6F6000B5107 /* CSVHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVHelper.swift; sourceTree = "<group>"; };
 		ABD3C5F729C4B96F000B5107 /* ProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderView.swift; sourceTree = "<group>"; };
+		ABD3C60229C4C8FC000B5107 /* CDColor+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDColor+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		ABD3C60329C4C8FC000B5107 /* CDColor+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDColor+CoreDataClass.swift"; sourceTree = "<group>"; };
+		ABD3C60629C4C929000B5107 /* Schema+CDColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+CDColor.swift"; sourceTree = "<group>"; };
+		ABD3C60829C4C9A1000B5107 /* UIColor+CDColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CDColor.swift"; sourceTree = "<group>"; };
+		ABD3C60A29C4CE9A000B5107 /* Optional+CDColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+CDColor.swift"; sourceTree = "<group>"; };
 		ABD7CB5A2375D6BB0049E236 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextView.swift; sourceTree = "<group>"; };
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
@@ -701,6 +711,7 @@
 		AB1433CC25CDA3A100AA304F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ABD3C60129C4C8FC000B5107 /* CDColor */,
 				ABE6B70129C0A18300E5B54B /* ParentalRating */,
 				AB097F70284BF64300E559E7 /* FilterSetting */,
 				AB097F5A284A994000E559E7 /* DynamicMediaList */,
@@ -1181,6 +1192,18 @@
 				ABD3C5E929C13119000B5107 /* FilterNumberOfSeasonsPicker.swift */,
 			);
 			path = "Show Specific";
+			sourceTree = "<group>";
+		};
+		ABD3C60129C4C8FC000B5107 /* CDColor */ = {
+			isa = PBXGroup;
+			children = (
+				ABD3C60329C4C8FC000B5107 /* CDColor+CoreDataClass.swift */,
+				ABD3C60229C4C8FC000B5107 /* CDColor+CoreDataProperties.swift */,
+				ABD3C60629C4C929000B5107 /* Schema+CDColor.swift */,
+				ABD3C60829C4C9A1000B5107 /* UIColor+CDColor.swift */,
+				ABD3C60A29C4CE9A000B5107 /* Optional+CDColor.swift */,
+			);
+			path = CDColor;
 			sourceTree = "<group>";
 		};
 		ABD864752817478A001A1F7C /* Components */ = {
@@ -1701,6 +1724,8 @@
 				ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */,
 				AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultRow.swift in Sources */,
+				ABD3C60929C4C9A1000B5107 /* UIColor+CDColor.swift in Sources */,
+				ABD3C60B29C4CE9A000B5107 /* Optional+CDColor.swift in Sources */,
 				AB6D9C8D283BC1E800AF655C /* Strings+ShowType.swift in Sources */,
 				ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */,
 				ABEEB0D22814318F00230F0B /* LibraryActionsSection.swift in Sources */,
@@ -1759,6 +1784,7 @@
 				AB995616285638E300C3D063 /* ContactSection.swift in Sources */,
 				ABA13D5B2382D29E00E885DD /* Extensions.swift in Sources */,
 				ABEF108429BF7A3B0047E4B9 /* ReloadLibraryMigration.swift in Sources */,
+				ABD3C60529C4C8FC000B5107 /* CDColor+CoreDataClass.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
@@ -1816,10 +1842,12 @@
 				ABEF108029BF6DC80047E4B9 /* WatchProvider+CoreDataProperties.swift in Sources */,
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
+				ABD3C60429C4C8FC000B5107 /* CDColor+CoreDataProperties.swift in Sources */,
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
 				AB6D9C85283BC17C00AF655C /* Strings+Generic.swift in Sources */,
 				AB097F5D284A996300E559E7 /* DynamicMediaList+CoreDataClass.swift in Sources */,
 				ABADB86229A3D0A300853F56 /* Persistence+Convenience.swift in Sources */,
+				ABD3C60729C4C929000B5107 /* Schema+CDColor.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */,
 				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
@@ -2385,7 +2413,7 @@
 				ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */,
 				AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */,
 			);
-			currentVersion = ABE6B6FC29C0A08400E5B54B /* Movie DB v11.xcdatamodel */;
+			currentVersion = ABD3C5EB29C39CF3000B5107 /* Movie DB v12.xcdatamodel */;
 			path = "Movie DB.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

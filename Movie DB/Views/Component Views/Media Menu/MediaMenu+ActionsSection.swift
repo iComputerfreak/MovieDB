@@ -21,6 +21,7 @@ extension MediaMenu {
                     Task(priority: .userInitiated) {
                         do {
                             try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
+                            await PersistenceController.saveContext(managedObjectContext)
                             notificationProxy.show(
                                 title: Strings.Detail.reloadCompleteNotificationTitle,
                                 systemImage: "checkmark"

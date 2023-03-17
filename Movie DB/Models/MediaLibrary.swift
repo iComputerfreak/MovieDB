@@ -155,6 +155,8 @@ struct MediaLibrary {
             try await group.waitForAll()
             // Save the reloaded media into the parent context (viewContext)
             await PersistenceController.saveContext(reloadContext)
+            // Save the view context
+            await PersistenceController.saveContext(PersistenceController.viewContext)
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
