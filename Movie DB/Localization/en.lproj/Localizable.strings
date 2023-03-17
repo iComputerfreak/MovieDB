@@ -829,3 +829,9 @@
 "lists.watchlist.watchState.watchedSeasonOfMax %lld %lld" = "Season %lld of %lld";
 "lists.defaultListName.newSeasons" = "New Seasons";
 "detail.cast.roleNameLabel %@" = "as %@";
+
+"library.filter.watchStateWatchedFully" = "Watched Fully";
+"library.filter.watchStateWatched" = "Watched";
+"library.filter.watchStateWatchedPartially" = "Watched Partially";
+"library.filter.watchStateNotWatched" = "Not Watched";
+"library.filter.watchStateUnknown" = "Unknown";

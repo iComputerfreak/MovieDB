@@ -11,7 +11,29 @@ import CoreData
 import Foundation
 
 public extension FilterSetting {
+    enum FilterWatchState: String, CaseIterable {
+        case watched
+        case watchedFully
+        // MovieWatchState.partially or lastSeasonWatched < numberOfSeasons
+        case partially
+        case notWatched
+        case unknown
+        
+        var localized: String {
+            // swiftlint:disable switch_case_on_newline
+            switch self {
+            case .watched: return Strings.Library.Filter.watchStateWatched
+            case .watchedFully: return Strings.Library.Filter.watchStateWatchedFully
+            case .partially: return Strings.Library.Filter.watchStateWatchedPartially
+            case .notWatched: return Strings.Library.Filter.watchStateNotWatched
+            case .unknown: return Strings.Library.Filter.watchStateUnknown
+            }
+            // swiftlint:enable switch_case_on_newline
+        }
+    }
+    
     @NSManaged var id: UUID?
+    
     var isAdult: Bool? {
         get { getOptional(forKey: Schema.FilterSetting.isAdult) }
         set { setOptional(newValue, forKey: Schema.FilterSetting.watchAgain) }
@@ -103,10 +125,12 @@ public extension FilterSetting {
         }
         set { setOptionalInt(newValue, forKey: Schema.FilterSetting.maxNumberOfSeasons) }
     }
-
-    var watched: Bool? {
-        get { getOptional(forKey: Schema.FilterSetting.watched) }
-        set { setOptional(newValue, forKey: Schema.FilterSetting.watched) }
+    
+    // nil means unknown
+    /// Represents a generalized watch state that can be applied to both movies and shows
+    var watched: FilterWatchState? {
+        get { getOptionalEnum(forKey: Schema.FilterSetting.watchState) }
+        set { setOptionalEnum(newValue, forKey: Schema.FilterSetting.watchState) }
     }
 
     var watchAgain: Bool? {

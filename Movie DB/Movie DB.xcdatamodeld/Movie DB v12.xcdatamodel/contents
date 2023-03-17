@@ -31,7 +31,7 @@
         <attribute name="showTypes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="statuses" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="watched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchState" optional="YES" attributeType="String"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="filterSettings" inverseEntity="Genre"/>
         <relationship name="mediaList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DynamicMediaList" inverseName="filterSetting" inverseEntity="DynamicMediaList"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="filterSettings" inverseEntity="Tag"/>

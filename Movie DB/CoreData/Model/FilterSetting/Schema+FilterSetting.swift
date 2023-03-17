@@ -23,7 +23,7 @@ extension Schema {
         case showTypes
         case statuses
         case watchAgain
-        case watched
+        case watchState
         
         // MARK: Relationships
         case genres
