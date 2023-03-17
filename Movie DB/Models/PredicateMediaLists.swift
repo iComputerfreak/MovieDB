@@ -61,7 +61,7 @@ extension PredicateMediaList {
                 // Watched missing (Movie)
                 NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
                 // Last watched missing (Show)
-                ShowWatchState.showsWatchedUnknown,
+                ShowWatchState.showsWatchedUnknownPredicate,
             ]),
         ])
     )
@@ -70,10 +70,6 @@ extension PredicateMediaList {
     static let newSeasons = PredicateMediaList(
         name: Strings.Lists.defaultListNameNewSeasons,
         iconName: "sparkles.tv",
-        predicate: NSCompoundPredicate(type: .and, subpredicates: [
-            NSPredicate(format: "type = %@", MediaType.show.rawValue),
-            ShowWatchState.showsWatchedAnyPredicate,
-            NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
-        ])
+        predicate: ShowWatchState.showsWatchedPartiallyPredicate
     )
 }

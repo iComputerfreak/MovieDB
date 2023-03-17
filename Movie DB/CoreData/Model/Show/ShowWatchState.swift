@@ -21,20 +21,34 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
         MediaType.show.rawValue
     )
     /// A predicate that filters for all shows that have been watched up to a specific episode (not counting shows that have been watched up to a specific season)
-    static let showsWatchedEpisode = NSPredicate(
+    static let showsWatchedEpisodePredicate = NSPredicate(
         format: "type == %@ AND lastSeasonWatched > 0 AND lastEpisodeWatched > 0",
         MediaType.show.rawValue
     )
     /// A predicate that filters for all shows that have been watched up to a specific season (and that season has been finished, i.e. all episodes of that season watched)
-    static let showsWatchedSeason = NSPredicate(
+    static let showsWatchedSeasonPredicate = NSPredicate(
         format: "type == %@ AND lastSeasonWatched > 0 AND (lastEpisodeWatched == nil OR lastEpisodeWatched == 0)",
         MediaType.show.rawValue
     )
     /// A predicate that filters for all shows that have an unknown watch state
-    static let showsWatchedUnknown = NSPredicate(
+    static let showsWatchedUnknownPredicate = NSPredicate(
         format: "type == %@ AND lastSeasonWatched < 0",
         MediaType.show.rawValue
     )
+    // Filters for medias where the latest available season has been watched completely
+    private static let watchedAllSeasonsPredicate = NSPredicate(
+        format: "lastSeasonWatched >= numberOfSeasons AND lastEpisodeWatched <= 0"
+    )
+    /// A predicate that filters for all shows that have a partial watch state (watched some, but not all seasons/episodes)
+    static let showsWatchedPartiallyPredicate = NSCompoundPredicate(type: .and, subpredicates: [
+        showsWatchedAnyPredicate,
+        watchedAllSeasonsPredicate.negated(),
+    ])
+    /// A predicate that filters for all shows where the user watched all available seasons
+    static let showsWatchedAllSeasonsPredicate = NSCompoundPredicate(type: .and, subpredicates: [
+        showsWatchedAnyPredicate,
+        watchedAllSeasonsPredicate,
+    ])
     
     case season(Int)
     case episode(season: Int, episode: Int)

@@ -74,7 +74,7 @@ public class FilterSetting: NSManagedObject {
         statuses: [MediaStatus] = [],
         showTypes: [ShowType] = [],
         numberOfSeasons: ClosedRange<Int>? = nil,
-        watched: Bool? = nil,
+        watched: FilterWatchState? = nil,
         watchAgain: Bool? = nil,
         genres: Set<Genre> = [],
         tags: Set<Tag> = []
@@ -243,39 +243,55 @@ extension FilterSetting {
                 NSPredicate(format: "%K == %@", Schema.Media.type.rawValue, MediaType.movie.rawValue),
             ]))
         }
+        func movieWatchState(for watchState: FilterWatchState) -> MovieWatchState? {
+            // swiftlint:disable switch_case_on_newline
+            switch watchState {
+            case .watched: return .watched
+            case .watchedFully: return .watched
+            case .partially: return .partially
+            case .notWatched: return .notWatched
+            case .unknown: return nil
+            }
+            // swiftlint:enable switch_case_on_newline
+        }
         // We need to cast Bool to NSNumber for the predicate to work
         if let watched {
-            predicates.append(NSCompoundPredicate(type: .or, subpredicates: [
-                // Movie
-                NSPredicate(
+            // MARK: Movie
+            // swiftlint:disable:next implicitly_unwrapped_optional
+            let moviePredicate: NSPredicate!
+            if let movieWatchState = movieWatchState(for: watched) {
+                moviePredicate = NSPredicate(
                     format: "%K == %@ AND %K == %@",
                     Schema.Media.type.rawValue,
                     MediaType.movie.rawValue,
                     Schema.Movie.watchedState.rawValue,
-                    watched ? MovieWatchState.watched.rawValue : MovieWatchState.notWatched.rawValue
-                ),
-                // Show
-                // watched == true && showsWatchedAny
-                NSCompoundPredicate(type: .and, subpredicates: [
-                    NSPredicate(
-                        format: "%K == %@ AND %@ == TRUE",
-                        Schema.Media.type.rawValue, // ==
-                        MediaType.show.rawValue,
-                        watched as NSNumber // == TRUE
-                    ),
-                    ShowWatchState.showsWatchedAnyPredicate,
-                ]),
-                // watched == false && showsNotWatched
-                NSCompoundPredicate(type: .and, subpredicates: [
-                    NSPredicate(
-                        format: "%K == %@ AND %@ == FALSE",
-                        Schema.Media.type.rawValue, // ==
-                        MediaType.show.rawValue,
-                        watched as NSNumber // == FALSE
-                    ),
-                    ShowWatchState.showsNotWatchedPredicate,
-                ]),
-            ]))
+                    movieWatchState.rawValue
+                )
+            } else {
+                moviePredicate = NSPredicate(
+                    format: "%K == %@ AND %K == nil",
+                    Schema.Media.type.rawValue,
+                    MediaType.movie.rawValue,
+                    Schema.Movie.watchedState.rawValue
+                )
+            }
+            
+            let showPredicate: NSPredicate = {
+                switch watched {
+                case .notWatched:
+                    return ShowWatchState.showsNotWatchedPredicate
+                case .unknown:
+                    return ShowWatchState.showsWatchedUnknownPredicate
+                case .watched:
+                    return ShowWatchState.showsWatchedAnyPredicate
+                case .watchedFully:
+                    return ShowWatchState.showsWatchedAllSeasonsPredicate
+                case .partially:
+                    return ShowWatchState.showsWatchedPartiallyPredicate
+                }
+            }()
+            
+            predicates.append(NSCompoundPredicate(type: .or, subpredicates: [moviePredicate, showPredicate]))
         }
         if let watchAgain = watchAgain as NSNumber? {
             predicates.append(NSPredicate(format: "%K == %@", Schema.Media.watchAgain.rawValue, watchAgain))

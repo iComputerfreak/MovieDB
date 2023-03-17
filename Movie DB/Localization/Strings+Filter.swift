@@ -137,5 +137,30 @@ extension Strings.Library {
                 comment: "The label for the range of season counts in the filter settings"
             )
         }
+        
+        static let watchStateWatchedFully = String(
+            localized: "library.filter.watchStateWatchedFully",
+            comment: "The picker value for a generic watch state of either a movie or a show that indicates that the user has watched this media completely."
+        )
+        
+        static let watchStateWatched = String(
+            localized: "library.filter.watchStateWatched",
+            comment: "The picker value for a generic watch state of either a movie or a show that indicates that the user has watched this media either completely or partially."
+        )
+        
+        static let watchStateWatchedPartially = String(
+            localized: "library.filter.watchStateWatchedPartially",
+            comment: "The picker value for a generic watch state of either a movie or a show that indicates that the user has watched this media partially."
+        )
+        
+        static let watchStateNotWatched = String(
+            localized: "library.filter.watchStateNotWatched",
+            comment: "The picker value for a generic watch state of either a movie or a show that indicates that the user has not watched this media completely."
+        )
+        
+        static let watchStateUnknown = String(
+            localized: "library.filter.watchStateUnknown",
+            comment: "The picker value for a generic watch state of either a movie or a show that indicates that the watch state of this media is unknown."
+        )
     }
 }
