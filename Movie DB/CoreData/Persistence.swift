@@ -46,6 +46,12 @@ class PersistenceController {
     /// * enable persistent history tracking
     /// * enable query generations
     private init(forTesting: Bool = false, usePersistentHistory: Bool = true) {
+        // swiftlint:disable:previous function_body_length
+        assert(
+            Thread.isMainThread,
+            "Calling PersistenceController.init from a background thread. This may cause a deadlock " +
+            "if the main thread is waiting for the initialization to complete."
+        )
         // If we already have an existing model, reuse it
         if let model = Self.model {
             // Use the existing model
