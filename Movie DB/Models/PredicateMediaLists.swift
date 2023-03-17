@@ -48,7 +48,12 @@ extension PredicateMediaList {
             // If any of these applies, information is missing
             NSCompoundPredicate(type: .or, subpredicates: [
                 // Personal Rating missing
-                NSPredicate(format: "personalRating = nil"),
+                NSPredicate(
+                    format: "%K = nil OR %K = %lld",
+                    Schema.Media.personalRating.rawValue,
+                    Schema.Media.personalRating.rawValue,
+                    StarRating.noRating.rawValue
+                ),
                 // WatchAgain missing
                 NSPredicate(format: "watchAgain = nil"),
                 // Tags missing
@@ -56,13 +61,7 @@ extension PredicateMediaList {
                 // Watched missing (Movie)
                 NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
                 // Last watched missing (Show)
-                NSCompoundPredicate(type: .and, subpredicates: [
-                    NSPredicate(
-                        format: "type = %@",
-                        MediaType.show.rawValue
-                    ),
-                    ShowWatchState.showsWatchedUnknown,
-                ]),
+                ShowWatchState.showsWatchedUnknown,
             ]),
         ])
     )

@@ -199,7 +199,7 @@ class PredicateTests: XCTestCase {
         
         problemsMedias.append({
             let movie = baseMovie()
-            movie.title = "movieMissingRating"
+            movie.title = "movieMissingRating1"
             movie.personalRating = .noRating
             movie.watched = .watched
             movie.watchAgain = true

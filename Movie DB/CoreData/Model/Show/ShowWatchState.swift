@@ -32,7 +32,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     )
     /// A predicate that filters for all shows that have an unknown watch state
     static let showsWatchedUnknown = NSPredicate(
-        format: "type == %@ AND lastSeasonWatched == nil",
+        format: "type == %@ AND lastSeasonWatched < 0",
         MediaType.show.rawValue
     )
     

@@ -243,7 +243,7 @@ class CSVImporter {
                     show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
                 }
             }
-            if let creationDate = values[.creationDate].flatMap(self.dateFormatter.date(from:)) {
+            if let creationDate = values[.creationDate].flatMap(self.dateTimeFormatter.date(from:)) {
                 media.creationDate = creationDate
             }
             if let modificationDate = values[.modificationDate].map(self.dateTimeFormatter.date(from:)) {
