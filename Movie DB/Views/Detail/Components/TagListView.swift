@@ -11,6 +11,10 @@ import os.log
 import SwiftUI
 
 struct TagListView: View {
+    private enum NavigationDestination {
+        case editing
+    }
+    
     @Binding var tags: Set<Tag>
     @Environment(\.isEditing) private var isEditing
     
@@ -21,11 +25,14 @@ struct TagListView: View {
     
     var body: some View {
         if isEditing {
-            NavigationLink {
-                EditView(tags: $tags)
-            } label: {
+            // !!!: For some reason, using NavigationLink(destination:label:) here, causes an infinite rendering loop,
+            // !!!: so we use a navigationDestination with a private enum as a workaround.
+            NavigationLink(value: NavigationDestination.editing) {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
+            }
+            .navigationDestination(for: NavigationDestination.self) { _ in
+                EditView(tags: $tags)
             }
         } else {
             TagListViewLabel(tags: tags)
