@@ -71,6 +71,9 @@ extension PredicateMediaList {
     static let newSeasons = PredicateMediaList(
         name: Strings.Lists.defaultListNameNewSeasons,
         iconName: "sparkles.tv",
-        predicate: ShowWatchState.showsWatchedPartiallyPredicate
+        predicate: NSCompoundPredicate(type: .and, subpredicates: [
+            ShowWatchState.showsWatchedAnyPredicate,
+            NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
+        ])
     )
 }
