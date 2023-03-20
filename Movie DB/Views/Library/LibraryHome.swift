@@ -44,7 +44,7 @@ struct LibraryHome: View {
     var body: some View {
         // Currently, when using a NavigationStack for example, going into editing mode and accessing the Tags
         // NavigationLink, the app hangs. Using a NavigationView as a workaround seems to work.
-        NavigationView {
+        NavigationStack {
             // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
             // This way, the fetchRequest inside LibraryList.init will be re-built every time the searchText changes
             LibraryList(

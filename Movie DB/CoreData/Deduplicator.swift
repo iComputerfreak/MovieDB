@@ -105,6 +105,7 @@ class Deduplicator {
             if let id = tag.id {
                 deduplicateObject(
                     tag,
+                    chooseWinner: { $0.min(on: \.name, by: <)! },
                     uniquePropertyName: Schema.Tag.id.rawValue,
                     uniquePropertyValue: id.uuidString
                 )
@@ -112,6 +113,7 @@ class Deduplicator {
             // Deduplicate on name
             deduplicateObject(
                 tag,
+                chooseWinner: { $0.min(on: \.id, by: <)! },
                 uniquePropertyName: Schema.Tag.name.rawValue,
                 uniquePropertyValue: tag.name
             )
@@ -119,8 +121,9 @@ class Deduplicator {
             let genre: Genre = castObject()
             deduplicateObject(
                 genre,
+                chooseWinner: { $0.min(on: \.id, by: <)! },
                 uniquePropertyName: Schema.Genre.name.rawValue,
-                uniquePropertyValue: genre.id as NSNumber
+                uniquePropertyValue: genre.name
             )
         case .userMediaList:
             let list: UserMediaList = castObject()
@@ -135,6 +138,7 @@ class Deduplicator {
             let list: DynamicMediaList = castObject()
             deduplicateObject(
                 list,
+                chooseWinner: { $0.min(on: \.name, by: <)! },
                 uniquePropertyName: Schema.DynamicMediaList.id.rawValue,
                 uniquePropertyValue: list.id.uuidString
             )
@@ -150,7 +154,7 @@ class Deduplicator {
             deduplicateObject(
                 company,
                 // Use the first company with a non-empty name
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
+                chooseWinner: { $0.min(on: \.name, by: <)! },
                 uniquePropertyName: Schema.ProductionCompany.id.rawValue,
                 uniquePropertyValue: company.id as NSNumber
             )
@@ -159,7 +163,7 @@ class Deduplicator {
             deduplicateObject(
                 season,
                 // Use the first season with a non-empty name
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
+                chooseWinner: { $0.min(on: \.name, by: <)! },
                 uniquePropertyName: Schema.Season.id.rawValue,
                 uniquePropertyValue: season.id as NSNumber
             )
@@ -168,7 +172,7 @@ class Deduplicator {
             deduplicateObject(
                 video,
                 // Use the first video with a non-empty name
-                chooseWinner: { $0.first(where: { !$0.name.isEmpty }) ?? $0.first! },
+                chooseWinner: { $0.min(on: \.name, by: <)! },
                 uniquePropertyName: Schema.Video.key.rawValue,
                 uniquePropertyValue: video.key
             )

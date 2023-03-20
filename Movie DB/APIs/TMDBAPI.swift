@@ -83,17 +83,14 @@ actor TMDBAPI {
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
         assert(media.managedObjectContext == context || context.parent == media.managedObjectContext)
-        let oldImagePath = media.imagePath
         let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
         // Update the media in the correct thread
         await context.perform {
             // Update the media object and thumbnail
             media.update(tmdbData: tmdbData)
         }
-        // If the thumbnail image changed, reload it
-        if tmdbData.imagePath != oldImagePath {
-            media.loadThumbnail(force: true)
-        }
+        // We have to always reload the thumbnail, because an iCloud sync could potentially update the imagePath, leaving the loaded thumbnail in an inconsistent state
+        media.loadThumbnail(force: true)
     }
     
     /// Loads the TMDB IDs of all media objects changed in the given timeframe

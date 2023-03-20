@@ -54,13 +54,11 @@ struct LibraryList: View {
     }
     
     var body: some View {
-        List(selection: $selectedMediaObjects) {
+        // TODO: Reactivate when using NavigationSplitView
+        List(/*selection: $selectedMediaObjects*/) {
             Section(footer: footerText) {
                 ForEach(filteredMedia) { mediaObject in
-                    NavigationLink {
-                        MediaDetail()
-                            .environmentObject(mediaObject)
-                    } label: {
+                    NavigationLink(value: mediaObject) {
                         LibraryRow()
                             .environmentObject(mediaObject)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -83,6 +81,10 @@ struct LibraryList: View {
             }
         }
         .listStyle(.grouped)
+        .navigationDestination(for: Media.self) { mediaObject in
+            MediaDetail()
+                .environmentObject(mediaObject)
+        }
     }
     
     var footerText: Text {
