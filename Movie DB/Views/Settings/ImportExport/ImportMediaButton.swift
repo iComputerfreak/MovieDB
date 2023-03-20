@@ -41,7 +41,11 @@ struct ImportMediaButton: View {
         self.config.importLogger = .init()
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
             // Import using CSVImporter
+            guard url.startAccessingSecurityScopedResource() else {
+                throw ImportError.noPermissions
+            }
             let importer = try CSVImporter(url: url)
+            url.stopAccessingSecurityScopedResource()
             Logger.importExport.debug("Successfully read CSV file. Trying to import into library...")
             
             let medias: [Media]! // swiftlint:disable:this implicitly_unwrapped_optional

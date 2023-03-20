@@ -33,7 +33,11 @@ struct ImportTagsButton: View {
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
             importContext.type = .backgroundContext
             
+            guard url.startAccessingSecurityScopedResource() else {
+                throw ImportError.noPermissions
+            }
             let importData = try String(contentsOf: url)
+            url.stopAccessingSecurityScopedResource()
             Logger.importExport.debug("Successfully read tags file. Trying to import into library.")
             // Count the non-empty tags
             let count = importData.components(separatedBy: "\n").filter { !$0.isEmpty }.count
