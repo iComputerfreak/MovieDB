@@ -101,8 +101,8 @@ class FilterTests: XCTestCase {
     }
     
     func testFilterWatched() throws {
-        XCTAssertEqual(try fetch(.init(with: testContext, watched: true)), ["Good Movie", "Bad Movie", "Good Show"].sorted())
-        XCTAssertEqual(try fetch(.init(with: testContext, watched: false)), ["Unwatched Movie", "Bad Show"].sorted())
+        XCTAssertEqual(try fetch(.init(with: testContext, watched: .watched)), ["Good Movie", "Bad Movie", "Good Show"].sorted())
+        XCTAssertEqual(try fetch(.init(with: testContext, watched: .notWatched)), ["Unwatched Movie", "Bad Show"].sorted())
         XCTAssertEqual(try fetch(.init(with: testContext, watched: nil)), .allMedias)
     }
     

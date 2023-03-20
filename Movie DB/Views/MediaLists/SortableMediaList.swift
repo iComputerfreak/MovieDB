@@ -55,6 +55,12 @@ struct SortableMediaList<RowContent: View>: View {
                 .listStyle(.grouped)
             }
         }
+        .onAppear {
+            print("Problem medias:")
+            for media in medias.sorted(on: \.title, by: <) {
+                print(media.title)
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {

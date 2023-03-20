@@ -264,6 +264,12 @@ class PredicateTests: XCTestCase {
         }())
         
         problemsMedias.append({
+            let movie = baseMovie()
+            movie.title = "movieMissingAll2"
+            return movie
+        }())
+        
+        problemsMedias.append({
             let show = baseShow()
             show.title = "showMissingAll"
             show.personalRating = .noRating
@@ -342,6 +348,10 @@ class PredicateTests: XCTestCase {
         
         let predicate = PredicateMediaList.problems.predicate
         
+        let fetchRequest = Media.fetchRequest()
+        fetchRequest.predicate = predicate
+        let fetchedProblems = try context.fetch(fetchRequest)
+        
         // swiftlint:disable:next force_cast
         let problems = NSArray(array: problemsMedias + noProblemsMedias).filtered(using: predicate) as! [Media]
         
@@ -350,9 +360,17 @@ class PredicateTests: XCTestCase {
             XCTAssert(problems.contains(media), "\(media.title) is not identified as a problem.")
         }
         
+        for media in problemsMedias {
+            XCTAssert(fetchedProblems.contains(media), "\(media.title) is not identified as a problem when fetching.")
+        }
+        
         // All medias that are not problematic should not be included
         for media in noProblemsMedias {
             XCTAssert(!problems.contains(media), "\(media.title) is wrongfully identified as a problem.")
+        }
+        
+        for media in noProblemsMedias {
+            XCTAssert(!fetchedProblems.contains(media), "\(media.title) is wrongfully identified as a problem when fetching.")
         }
     }
     
