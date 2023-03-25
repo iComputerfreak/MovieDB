@@ -78,8 +78,6 @@ class DetailUITests: XCTestCase {
             .wait()
             .tap()
         // Go into edit mode
-        let navBar = app.navigationBars.element
-        navBar.buttons["More"].tap()
         app.buttons["Edit"].tap()
         
         app.cells.containing(.staticText, identifier: "Personal Rating")
@@ -127,7 +125,6 @@ class DetailUITests: XCTestCase {
         app.goBack()
         
         // Stop Editing
-        navBar.buttons["More"].tap()
         app.buttons["Done"].tap()
         
         // Assertions
@@ -193,10 +190,10 @@ class DetailUITests: XCTestCase {
         addTag("Tag 2", app)
         // Delete Tag 1
         app.cells.containing(.staticText, identifier: "Tag 1").firstMatch.swipeLeft()
-        app.cells.buttons["Delete"].tap()
+        app.buttons["Delete"].tap()
         app.wait(1)
         // Check if it worked
-        XCTAssertFalse(app.cells.staticTexts["Tag 1"].wait().exists)
+        XCTAssertFalse(app.cells.staticTexts["Tag 1"].exists)
     }
     
     func goToTags(mediaName: String, app: XCUIApplication) {

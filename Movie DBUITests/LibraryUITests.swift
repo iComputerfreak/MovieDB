@@ -25,7 +25,7 @@ class LibraryUITests: XCTestCase {
     
     func testAddMovie() {
         app.launch()
-        app.addMedia("Matrix", name: "The Matrix", type: .movie)
+        app.addMedia("The Matrix", name: "The Matrix", type: .movie)
     }
     
     func testAddShow() {
