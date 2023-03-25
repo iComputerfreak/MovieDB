@@ -8,125 +8,148 @@
 
 import Combine
 import CoreData
+import os.log
 import SwiftUI
 
 struct LibraryHome: View {
-    @StateObject private var filterSetting = FilterSetting.shared
-    
-    @State private var activeSheet: ActiveSheet?
     @Environment(\.managedObjectContext) private var managedObjectContext
     @State private var selectedMediaObjects: Set<Media> = .init()
     
+    @State private var config = LibraryViewConfig()
+    @ObservedObject private var filterSetting = FilterSetting.shared
+    
     @State private var searchText: String = ""
     
-    @State private var sortingOrder: SortingOrder = {
-        if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingOrder) {
-            return SortingOrder(rawValue: rawValue) ?? .default
-        }
-        return .default
-    }() {
-        didSet {
-            UserDefaults.standard.set(self.sortingOrder.rawValue, forKey: JFLiterals.Keys.sortingOrder)
-        }
+    var totalMediaItems: Int {
+        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        return (try? managedObjectContext.count(for: fetchRequest)) ?? 0
     }
-
-    @State private var sortingDirection: SortingDirection = {
-        if let rawValue = UserDefaults.standard.string(forKey: JFLiterals.Keys.sortingDirection) {
-            return SortingDirection(rawValue: rawValue) ?? SortingOrder.default.defaultDirection
+    
+    var sortDescriptors: [SortDescriptor<Media>] {
+        config.sortingOrder.createSortDescriptors(with: config.sortingDirection)
+    }
+    
+    var predicate: NSPredicate {
+        var predicates: [NSPredicate] = []
+        if !searchText.isEmpty {
+            predicates.append(NSPredicate(
+                format: "(%K CONTAINS[cd] %@) OR (%K CONTAINS[cd] %@)",
+                Schema.Media.title.rawValue,
+                searchText,
+                Schema.Media.originalTitle.rawValue,
+                searchText
+            ))
         }
-        return SortingOrder.default.defaultDirection
-    }() {
-        didSet {
-            UserDefaults.standard.set(self.sortingDirection.rawValue, forKey: JFLiterals.Keys.sortingDirection)
-        }
+        predicates.append(filterSetting.buildPredicate())
+        return NSCompoundPredicate(type: .and, subpredicates: predicates)
+    }
+    
+    @FetchRequest(fetchRequest: Media.fetchRequest())
+    var filteredMedia: FetchedResults<Media>
+    
+    init() {
+        _filteredMedia = FetchRequest(
+            sortDescriptors: config.sortingOrder.createSortDescriptors(with: config.sortingDirection),
+            predicate: predicate
+        )
     }
     
     var body: some View {
-        // Currently, when using a NavigationStack for example, going into editing mode and accessing the Tags
-        // NavigationLink, the app hangs. Using a NavigationView as a workaround seems to work.
         NavigationStack {
-            // We don't provide the searchText as a Binding to force a re-creation of the list whenever the searchText changes.
-            // This way, the fetchRequest inside LibraryList.init will be re-built every time the searchText changes
-            LibraryList(
-                searchText: searchText,
-                filterSetting: filterSetting,
-                sortingOrder: sortingOrder,
-                sortingDirection: sortingDirection,
-                selectedMediaObjects: $selectedMediaObjects
-            )
+            // TODO: Reactivate when using NavigationSplitView
+            // List(selection: $selectedMediaObjects) {
+            List {
+                Section(footer: footerText) {
+                    ForEach(filteredMedia) { mediaObject in
+                        NavigationLink(value: mediaObject) {
+                            LibraryRow()
+                                .environmentObject(mediaObject)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(Strings.Library.swipeActionDelete, role: .destructive) {
+                                        Logger.coreData.info(
+                                            // swiftlint:disable:next line_length
+                                            "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
+                                        )
+                                        // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
+                                        self.managedObjectContext.delete(mediaObject)
+                                        PersistenceController.saveContext(self.managedObjectContext)
+                                    }
+                                }
+                                .contextMenu {
+                                    MediaMenu.AddToSection(mediaObject: mediaObject)
+                                    MediaMenu.ActionsSection(mediaObject: mediaObject)
+                                }
+                        }
+                        .navigationDestination(for: Media.self) { mediaObject in
+                            MediaDetail()
+                                .environmentObject(mediaObject)
+                        }
+                    }
+                }
+            }
+            .listStyle(.grouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
+            // Update the fetch request if anything changes
+            .onChange(of: searchText) { _ in
+                filteredMedia.nsPredicate = predicate
+            }
+            .onReceive(filterSetting.objectWillChange) {
+                filteredMedia.nsPredicate = predicate
+            }
+            .onChange(of: config.sortingOrder) { _ in
+                filteredMedia.sortDescriptors = sortDescriptors
+            }
+            .onChange(of: config.sortingDirection) { _ in
+                filteredMedia.sortDescriptors = sortDescriptors
+            }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
             .autocorrectionDisabled()
-            .background(.thinMaterial)
             
             // Display the currently active sheet
-            .sheet(item: $activeSheet) { sheet in
+            .sheet(item: $config.activeSheet) { sheet in
                 switch sheet {
                 case .addMedia:
-                    // FUTURE: Open new item in editing mode
                     AddMediaView()
-                        .environment(\.managedObjectContext, managedObjectContext)
                 case .filter:
                     FilterView()
-                        .environmentObject(filterSetting)
-                        .environment(\.managedObjectContext, managedObjectContext)
                 }
             }
-            
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Menu {
-                        Section {
-                            let filterImageReset = "line.horizontal.3.decrease.circle"
-                            let filterImageSet = "line.horizontal.3.decrease.circle.fill"
-                            let filterImage = self.filterSetting.isReset ? filterImageReset : filterImageSet
-                            Button(action: showFilter) {
-                                Label(
-                                    Strings.Library.menuButtonFilter,
-                                    systemImage: filterImage
-                                )
-                            }
-                        }
-                        // MARK: Sorting Options
-                        SortingMenuSection(sortingOrder: $sortingOrder, sortingDirection: $sortingDirection)
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
-                }
-                // Reactivate when actions and multiselection is implemented
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        self.activeSheet = .addMedia
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    .accessibilityIdentifier("add-media")
-                }
+                LibraryToolbar(config: $config)
             }
             .navigationTitle(Strings.TabView.libraryLabel)
-            // FUTURE: Disable when no longer bugging around
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.large)
         }
+        .environmentObject(filterSetting)
     }
     
-    func showFilter() {
-        activeSheet = .filter
-    }
-    
-    enum ActiveSheet: Identifiable {
-        case addMedia
-        case filter
+    var footerText: Text {
+        guard !filteredMedia.isEmpty else {
+            return Text(verbatim: "")
+        }
+        let objCount = filteredMedia.count
         
-        var id: Int { hashValue }
+        // Showing all media
+        if objCount == totalMediaItems {
+            return Text(Strings.Library.footerTotal(objCount))
+        } else {
+            // Only showing a subset of the total medias
+            return Text(Strings.Library.footer(objCount))
+        }
     }
 }
 
 struct LibraryHome_Previews: PreviewProvider {
     static var previews: some View {
         LibraryHome()
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .onAppear {
+                // Create some samples
+                _ = [
+                    PlaceholderData.movie,
+                    PlaceholderData.show,
+                ]
+            }
     }
 }

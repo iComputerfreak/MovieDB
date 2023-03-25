@@ -35,7 +35,7 @@ struct SortableMediaList<RowContent: View>: View {
         // Update the sorting of the fetchRequest and use it to display the media
         let order = sortingOrder.wrappedValue
         let direction = sortingDirection.wrappedValue
-        fetchRequest.sortDescriptors = order.createSortDescriptors(with: direction)
+        fetchRequest.sortDescriptors = order.createNSSortDescriptors(with: direction)
         _medias = FetchRequest(fetchRequest: fetchRequest, animation: .default)
     }
     
