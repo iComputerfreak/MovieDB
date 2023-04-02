@@ -49,6 +49,6 @@ extension MediaMenu {
 
 struct ActionsSection_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu.ActionsSection(mediaObject: PlaceholderData.movie)
+        MediaMenu.ActionsSection(mediaObject: PlaceholderData.preview.staticMovie)
     }
 }

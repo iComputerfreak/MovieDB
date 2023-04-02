@@ -115,11 +115,11 @@ struct WatchStateLabel_Previews: PreviewProvider {
     static func create(_ type: MediaType, watchState: WatchState?) -> Media {
         switch type {
         case .movie:
-            let movie = PlaceholderData.createMovie()
+            let movie = PlaceholderData.preview.createStaticMovie()
             movie.watched = watchState as? MovieWatchState
             return movie
         case .show:
-            let show = PlaceholderData.createShow()
+            let show = PlaceholderData.preview.createStaticShow()
             show.watched = watchState as? ShowWatchState
             return show
         }

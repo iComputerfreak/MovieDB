@@ -70,7 +70,7 @@ extension MediaMenu {
 struct AddToSection_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading, spacing: 8) {
-            MediaMenu.AddToSection(mediaObject: PlaceholderData.movie)
+            MediaMenu.AddToSection(mediaObject: PlaceholderData.preview.staticMovie)
         }
     }
 }

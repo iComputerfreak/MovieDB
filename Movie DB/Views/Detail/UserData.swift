@@ -81,18 +81,18 @@ struct UserData_Previews: PreviewProvider {
     static var previews: some View {
         List {
             UserData()
-                .environmentObject(PlaceholderData.movie as Media)
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
             UserData()
-                .environmentObject(PlaceholderData.movie as Media)
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
                 .environment(\.isEditing, true)
         }
         .previewDisplayName("Movie")
         
         List {
             UserData()
-                .environmentObject(PlaceholderData.show as Media)
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
             UserData()
-                .environmentObject(PlaceholderData.show as Media)
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
                 .environment(\.isEditing, true)
         }
         .previewDisplayName("Show")

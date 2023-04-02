@@ -117,10 +117,10 @@ struct ExtendedInfo_Previews: PreviewProvider {
         List {
             ExtendedInfo()
         }
-        .environmentObject(PlaceholderData.movie as Media)
+        .environmentObject(PlaceholderData.preview.staticMovie as Media)
         List {
             ExtendedInfo()
         }
-        .environmentObject(PlaceholderData.show as Media)
+        .environmentObject(PlaceholderData.preview.staticShow as Media)
     }
 }

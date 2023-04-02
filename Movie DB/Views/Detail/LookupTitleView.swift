@@ -62,6 +62,6 @@ struct LookupTitleView: View {
 
 struct LookupTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        LookupTitleView(media: PlaceholderData.movie)
+        LookupTitleView(media: PlaceholderData.preview.staticMovie)
     }
 }

@@ -79,13 +79,13 @@ struct LibraryRow_Previews: PreviewProvider {
     }
     
     static func show(for watchState: ShowWatchState) -> Show {
-        let show = PlaceholderData.createShow()
+        let show = PlaceholderData.preview.createStaticShow()
         show.watched = watchState
         return show
     }
     
     static func movie(for watchState: MovieWatchState) -> Movie {
-        let movie = PlaceholderData.createMovie()
+        let movie = PlaceholderData.preview.createStaticMovie()
         movie.watched = watchState
         return movie
     }

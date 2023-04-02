@@ -64,7 +64,7 @@ struct WatchProvidersInfo_Previews: PreviewProvider {
     static var previews: some View {
         List {
             WatchProvidersInfo()
-                .environmentObject(PlaceholderData.movie as Media)
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
                 .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }

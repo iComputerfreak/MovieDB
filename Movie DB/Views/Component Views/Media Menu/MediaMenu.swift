@@ -25,6 +25,6 @@ struct MediaMenu: View {
 
 struct MediaMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MediaMenu(mediaObject: PlaceholderData.movie)
+        MediaMenu(mediaObject: PlaceholderData.preview.staticMovie)
     }
 }

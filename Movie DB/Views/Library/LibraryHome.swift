@@ -145,11 +145,7 @@ struct LibraryHome_Previews: PreviewProvider {
         LibraryHome()
             .environment(\.managedObjectContext, PersistenceController.previewContext)
             .onAppear {
-                // Create some samples
-                _ = [
-                    PlaceholderData.movie,
-                    PlaceholderData.show,
-                ]
+                PlaceholderData.preview.populateSamples()
             }
     }
 }

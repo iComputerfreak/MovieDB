@@ -42,7 +42,7 @@ struct ProblemsLibraryRow_Previews: PreviewProvider {
         NavigationStack {
             List {
                 ProblemsLibraryRow()
-                    .environmentObject(PlaceholderData.problemShow as Media)
+                    .environmentObject(PlaceholderData.preview.staticProblemShow as Media)
             }
             .navigationTitle(Text(verbatim: "Library"))
         }

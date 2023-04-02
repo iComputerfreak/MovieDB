@@ -8,46 +8,80 @@
 
 import CoreData
 import Foundation
+import os.log
 import UIKit
 
-// swiftlint:disable function_body_length
-enum PlaceholderData {
-    static let context = PersistenceController.previewContext
+// swiftlint:disable function_body_length type_body_length
+class PlaceholderData {
+    static let preview: PlaceholderData = .init(context: PersistenceController.previewContext)
     
-    static let allMedia: [Media] = fetchAll()
-    static let movie: Movie = createMovie()
-    static let show: Show = createShow()
-    static let problemMovie: Movie = {
-        let m = createMovie()
-        m.watched = .watched
-        m.personalRating = .noRating
-        m.tags = []
-        return m
-    }()
-
-    // A media with some missing information
-    static let problemShow: Show = {
-        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
-        let s = Show(context: context, tmdbData: tmdbData)
-        s.notes = "A masterpiece!"
-        s.watched = .season(7)
-        s.parentalRating = fskRating(16, context: context)
-        return s
-    }()
+    static let api = TMDBAPI.shared
     
-    static func fskRatings(in context: NSManagedObjectContext) -> [ParentalRating] {
+    let context: NSManagedObjectContext
+    
+    var medias: [Media] = []
+    
+    let staticMovie: Movie
+    let staticShow: Show
+    let staticProblemShow: Show
+    
+    var fskRatings: [ParentalRating] {
         [
-            fskRating(0, context: context),
-            fskRating(6, context: context),
-            fskRating(12, context: context),
-            fskRating(16, context: context),
-            fskRating(18, context: context),
+            Self.fskRating(0, context: context),
+            Self.fskRating(6, context: context),
+            Self.fskRating(12, context: context),
+            Self.fskRating(16, context: context),
+            Self.fskRating(18, context: context),
         ]
+    }
+    
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        self.staticMovie = Self.createStaticMovie(in: context)
+        self.staticShow = Self.createStaticShow(in: context)
+        self.staticProblemShow = Self.createStaticProblemShow(in: context)
+    }
+    
+    func populateSamples() {
+        Task(priority: .userInitiated) {
+            do {
+                // MARK: Matrix
+                medias.append(try await createMovie(
+                    603,
+                    personalRating: .twoAndAHalfStars,
+                    tags: ["Future", "Conspiracy", "Dark"],
+                    notes: "",
+                    watched: .watched,
+                    watchAgain: false
+                ))
+                
+                // MARK: The Blacklist
+                medias.append(try await createShow(
+                    46952,
+                    personalRating: .fiveStars,
+                    tags: ["Conspiracy", "Crime", "Gangsters", "Heist", "Highly Talented", "Prison", "Terrorist"],
+                    notes: "A masterpiece!",
+                    watched: .season(9),
+                    watchAgain: true
+                ))
+                
+                // MARK: Vikings (Missing information)
+                medias.append(try await createShow(
+                    44217, personalRating: .threeStars, tags: [], notes: "", watched: nil, watchAgain: false
+                ))
+            } catch {
+                Logger.preview.error("\(error)")
+            }
+        }
     }
         
     private static func fskRating(_ age: Int, context: NSManagedObjectContext) -> ParentalRating {
         let color = Utils.parentalRatingColor(for: "DE", label: "\(age)", in: context)
         return ParentalRating(context: context, countryCode: "DE", label: "\(age)", color: color)
+    }
+    
+    func mapTags(_ tagNames: [String]) -> Set<Tag> {
+        Self.mapTags(tagNames, in: self.context)
     }
     
     static func mapTags(_ tagNames: [String], in context: NSManagedObjectContext) -> Set<Tag> {
@@ -66,11 +100,72 @@ enum PlaceholderData {
         return tags
     }
     
-    static func createMovie(in context: NSManagedObjectContext = context) -> Movie {
-        let tmdbData: TMDBData = Self.load("Matrix.json", mediaType: .movie, into: context)
+    func createMovie(
+        _ tmdbID: Int,
+        personalRating: StarRating = .noRating,
+        tags: [String] = [],
+        notes: String = "",
+        watched: MovieWatchState? = nil,
+        watchAgain: Bool? = nil
+    ) async throws -> Movie {
+        let movie = try await createMedia(
+            type: .movie,
+            tmdbID: tmdbID,
+            personalRating: personalRating,
+            tags: tags,
+            notes: notes,
+            watchAgain: watchAgain
+        ) as! Movie // swiftlint:disable:this force_cast
+        movie.watched = watched
+        return movie
+    }
+    
+    func createShow(
+        _ tmdbID: Int,
+        personalRating: StarRating = .noRating,
+        tags: [String] = [],
+        notes: String = "",
+        watched: ShowWatchState? = nil,
+        watchAgain: Bool? = nil
+    ) async throws -> Show {
+        let show = try await createMedia(
+            type: .movie,
+            tmdbID: tmdbID,
+            personalRating: personalRating,
+            tags: tags,
+            notes: notes,
+            watchAgain: watchAgain
+        ) as! Show // swiftlint:disable:this force_cast
+        show.watched = watched
+        return show
+    }
+    
+    // swiftlint:disable:next function_parameter_count
+    private func createMedia(
+        type: MediaType,
+        tmdbID: Int,
+        personalRating: StarRating,
+        tags: [String],
+        notes: String,
+        watchAgain: Bool?
+    ) async throws -> Media {
+        let media = try await Self.api.media(for: tmdbID, type: type, context: context)
+        media.personalRating = personalRating
+        media.tags = mapTags(tags)
+        media.notes = notes
+        media.watchAgain = watchAgain
+        return media
+    }
+    
+    func createStaticMovie() -> Movie {
+        Self.createStaticMovie(in: self.context)
+    }
+    
+    static func createStaticMovie(in context: NSManagedObjectContext) -> Movie {
+        let tmdbData: TMDBData = load("Matrix.json", mediaType: .movie, into: context)
         let m = Movie(context: context, tmdbData: tmdbData)
         m.personalRating = .twoAndAHalfStars
-        m.tags = mapTags(["Future", "Conspiracy", "Dark"], in: context)
+        m.tags = Self.mapTags(["Future", "Conspiracy", "Dark"], in: context)
         m.notes = ""
         m.watched = .watched
         m.watchAgain = false
@@ -136,8 +231,12 @@ enum PlaceholderData {
         return m
     }
     
-    static func createShow(in context: NSManagedObjectContext = context) -> Show {
-        let tmdbData: TMDBData = Self.load("Blacklist.json", mediaType: .show, into: context)
+    func createStaticShow() -> Show {
+        Self.createStaticShow(in: self.context)
+    }
+    
+    static func createStaticShow(in context: NSManagedObjectContext) -> Show {
+        let tmdbData: TMDBData = load("Blacklist.json", mediaType: .show, into: context)
         let s = Show(context: context, tmdbData: tmdbData)
         s.personalRating = .fiveStars
         s.tags = mapTags(["Gangsters", "Conspiracy", "Terrorist"], in: context)
@@ -148,18 +247,21 @@ enum PlaceholderData {
         return s
     }
     
-    private static func fetchFirst<T: NSManagedObject>() -> T {
-        fetchAll().first!
+    func createStaticProblemShow() -> Show {
+        Self.createStaticProblemShow(in: self.context)
     }
     
-    private static func fetchAll<T: NSManagedObject>() -> [T] {
-        let fetchRequest: NSFetchRequest<T> = NSFetchRequest(entityName: T.entity().name!)
-        // Only used in Previews
-        // swiftlint:disable:next force_try
-        return try! context.fetch(fetchRequest)
+    static func createStaticProblemShow(in context: NSManagedObjectContext) -> Show {
+        let show = createStaticShow(in: context)
+        show.personalRating = .noRating
+        show.tags = []
+        show.notes = ""
+        show.watchAgain = nil
+        show.watched = nil
+        return show
     }
     
-    static func load<T: Decodable>(
+    private static func load<T: Decodable>(
         _ filename: String,
         mediaType: MediaType? = nil,
         into context: NSManagedObjectContext,
@@ -189,22 +291,5 @@ enum PlaceholderData {
         } catch {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
-    }
-    
-    enum Lists {
-        static let favorites = PredicateMediaList(
-            name: "Favorites",
-            iconName: "star.fill",
-            predicate: NSPredicate(format: "%K == TRUE", Schema.Media.isFavorite.rawValue)
-        )
-        static let newSeasons = PredicateMediaList(
-            name: Strings.Lists.defaultListNameNewSeasons,
-            iconName: "sparkles.tv",
-            predicate: NSCompoundPredicate(type: .and, subpredicates: [
-                NSPredicate(format: "type = %@", MediaType.show.rawValue),
-                ShowWatchState.showsWatchedAnyPredicate,
-                NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
-            ])
-        )
     }
 }

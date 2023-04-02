@@ -111,6 +111,8 @@
 		AB6718F622C113F800F429E4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* Utils.swift */; };
 		AB68250629CF7C8F0086034B /* LibraryViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250529CF7C8F0086034B /* LibraryViewConfig.swift */; };
 		AB68250829CF7CD40086034B /* LibraryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250729CF7CD40086034B /* LibraryToolbar.swift */; };
+		AB68250A29D06FDE0086034B /* SettingsViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250929D06FDE0086034B /* SettingsViewConfig.swift */; };
+		AB68250C29D070C20086034B /* UITestingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250B29D070C20086034B /* UITestingUtils.swift */; };
 		AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */; };
 		AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */; };
 		AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */; };
@@ -424,6 +426,8 @@
 		AB6718F522C113F800F429E4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AB68250529CF7C8F0086034B /* LibraryViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewConfig.swift; sourceTree = "<group>"; };
 		AB68250729CF7CD40086034B /* LibraryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryToolbar.swift; sourceTree = "<group>"; };
+		AB68250929D06FDE0086034B /* SettingsViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewConfig.swift; sourceTree = "<group>"; };
+		AB68250B29D070C20086034B /* UITestingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingUtils.swift; sourceTree = "<group>"; };
 		AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotData.swift; sourceTree = "<group>"; };
 		AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMediaButton.swift; sourceTree = "<group>"; };
 		AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTagsButton.swift; sourceTree = "<group>"; };
@@ -900,6 +904,7 @@
 			children = (
 				AB99560E2850F52E00C3D063 /* .swiftlint.yml */,
 				AB99560C2850F1F200C3D063 /* UITestingHelper.swift */,
+				AB68250B29D070C20086034B /* UITestingUtils.swift */,
 				AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */,
 				AB99561128511FEB00C3D063 /* FilterUITests.swift */,
 				AB9956082850F1D300C3D063 /* DetailUITests.swift */,
@@ -1287,6 +1292,7 @@
 			isa = PBXGroup;
 			children = (
 				AB50944C238D63FD003A81DB /* SettingsView.swift */,
+				AB68250929D06FDE0086034B /* SettingsViewConfig.swift */,
 				ABEEB0CD2814316E00230F0B /* PreferencesSection.swift */,
 				ABEEB0D32814324700230F0B /* LanguagePickerView.swift */,
 				ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */,
@@ -1654,6 +1660,7 @@
 				AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */,
 				AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */,
 				AB99560B2850F1DA00C3D063 /* SettingsUITests.swift in Sources */,
+				AB68250C29D070C20086034B /* UITestingUtils.swift in Sources */,
 				AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */,
 				AB99560D2850F1F200C3D063 /* UITestingHelper.swift in Sources */,
 				AB9956092850F1D300C3D063 /* DetailUITests.swift in Sources */,
@@ -1711,6 +1718,7 @@
 				ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */,
 				AB6D9C95283BC20D00AF655C /* Strings+MediaStatus.swift in Sources */,
 				ABD3C5E329C130A9000B5107 /* FilterReleaseYearPicker.swift in Sources */,
+				AB68250A29D06FDE0086034B /* SettingsViewConfig.swift in Sources */,
 				AB2226EA29A534FD009EF7BE /* Deduplicator.swift in Sources */,
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
@@ -1993,7 +2001,7 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = Movie_DBUITests.TestSetup;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2013,7 +2021,7 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = Movie_DBUITests.TestSetup;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

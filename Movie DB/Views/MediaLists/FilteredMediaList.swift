@@ -69,7 +69,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
 
 struct FilteredMediaList_Previews: PreviewProvider {
     static let dynamicList: DynamicMediaList = {
-        _ = PlaceholderData.createMovie()
+        PlaceholderData.preview.populateSamples()
         let l = DynamicMediaList(context: PersistenceController.previewContext)
         l.name = "Dynamic List"
         l.iconName = "gear"

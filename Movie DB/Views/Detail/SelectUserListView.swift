@@ -46,23 +46,8 @@ struct SelectUserListView: View {
 }
 
 struct SelectUserListView_Previews: PreviewProvider {
-    static let context: NSManagedObjectContext = {
-        let context = PersistenceController.previewContext
-        context.reset()
-        let m = PlaceholderData.createMovie()
-        let l1 = UserMediaList(context: context)
-        l1.iconName = "trash"
-        l1.name = "Trash List"
-        l1.medias.insert(m)
-        let l2 = UserMediaList(context: context)
-        l2.iconName = "star.fill"
-        l2.name = "Star List"
-        return context
-    }()
-    
     static var previews: some View {
-        // swiftlint:disable:next force_try
-        SelectUserListView(mediaObject: try! context.fetch(Media.fetchRequest()).first!)
-            .environment(\.managedObjectContext, context)
+        SelectUserListView(mediaObject: PlaceholderData.preview.staticMovie)
+            .environment(\.managedObjectContext, PlaceholderData.preview.context)
     }
 }

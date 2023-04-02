@@ -55,7 +55,7 @@ struct TitleView_Previews: PreviewProvider {
         NavigationStack {
             List {
                 Section {
-                    TitleView(media: PlaceholderData.movie)
+                    TitleView(media: PlaceholderData.preview.staticMovie)
                 }
             }
             .listStyle(.grouped)

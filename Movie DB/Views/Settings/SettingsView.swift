@@ -11,29 +11,6 @@ import JFSwiftUI
 import os.log
 import SwiftUI
 
-struct SettingsViewConfig {
-    var showingProgress = false
-    private(set) var progressText: String = ""
-    var isLoading = false
-    var loadingText: String?
-    var languageChanged = false
-    var regionChanged = false
-    var isShowingProInfo = false
-    var isShowingReloadCompleteNotification = false
-    var importLogShowing = false
-    var importLogger: TagImporter.BasicLogger?
-    
-    mutating func showProgress(_ text: String) {
-        showingProgress = true
-        progressText = text
-    }
-    
-    mutating func hideProgress() {
-        showingProgress = false
-        progressText = ""
-    }
-}
-
 struct SettingsView: View {
     // Reference to the config instance
     @ObservedObject private var preferences = JFConfig.shared
