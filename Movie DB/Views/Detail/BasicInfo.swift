@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct BasicInfo: View {
@@ -136,6 +137,11 @@ struct BasicInfo: View {
                         Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
                             .headline(Strings.Detail.seasonsHeadline)
                     }
+                } else {
+                    EmptyView()
+                        .onAppear {
+                            Logger.detail.debug("Show \(mediaObject.title) has no seasons to display.")
+                        }
                 }
                 // MARK: Cast
                 NavigationLink {

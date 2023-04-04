@@ -93,7 +93,6 @@ struct WatchedShowView: View {
             return Text("detail.showWatchState.seasonWarning \(maxSeason ?? 0)")
         }
         
-        // TODO: Check spacing
         @ViewBuilder var warningFooter: some View {
             if let warningText {
                 HStack(spacing: 4) {

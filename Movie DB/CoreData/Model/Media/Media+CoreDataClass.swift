@@ -45,9 +45,6 @@ public class Media: NSManagedObject {
     
     deinit {
         if let loadThumbnailTask {
-            Logger.lifeCycle.debug(
-                "De-initializing media object with running thumbnail download. Cancelling download..."
-            )
             loadThumbnailTask.cancel()
         }
     }
