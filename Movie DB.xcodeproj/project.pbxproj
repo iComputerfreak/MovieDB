@@ -66,6 +66,7 @@
 		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
+		AB4203B429D9F584002F95F0 /* DefaultWatchStatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */; };
 		AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */; };
 		AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */; };
 		AB4CD56824D4664F005FAF20 /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD56724D4664F005FAF20 /* CodableTests.swift */; };
@@ -375,6 +376,7 @@
 		AB3648BE22C3DDA70096FE39 /* AddMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaView.swift; sourceTree = "<group>"; };
 		AB4085412663A7BA008C559B /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
 		AB4085472663B325008C559B /* ProInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProInfoView.swift; sourceTree = "<group>"; };
+		AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWatchStatePicker.swift; sourceTree = "<group>"; };
 		AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryUITests.swift; sourceTree = "<group>"; };
 		AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -1299,6 +1301,7 @@
 				AB995615285638E300C3D063 /* ContactSection.swift */,
 				ABEEB0D5281434E600230F0B /* ProSection.swift */,
 				AB4085472663B325008C559B /* ProInfoView.swift */,
+				AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */,
 				AB6B86C02972F8C900E36AE6 /* ImportExport */,
 				ABEEB0D72814356F00230F0B /* ImportLogViewer.swift */,
 				ABEEB0D12814318F00230F0B /* LibraryActionsSection.swift */,
@@ -1678,6 +1681,7 @@
 				ABD3C5F629C3B6F6000B5107 /* CSVHelper.swift in Sources */,
 				AB5AA48729B3E06500DEB37B /* Schema.swift in Sources */,
 				AB11008A2826BFB5001507B5 /* MovieWatchState.swift in Sources */,
+				AB4203B429D9F584002F95F0 /* DefaultWatchStatePicker.swift in Sources */,
 				ABCE335B286DA8B000FB481A /* MediaMenu+AddToSection.swift in Sources */,
 				AB14340C25CDD9DF00AA304F /* Video+CoreDataProperties.swift in Sources */,
 				AB624D2B296CB63000A0CF27 /* ListConfigurationButton.swift in Sources */,

@@ -28,6 +28,21 @@ public class Show: Media {
         initMedia(type: .show, tmdbData: tmdbData)
     }
     
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set the default watched state according to the user setting
+        switch JFConfig.shared.defaultWatchState {
+        case .watched:
+            self.watched = .season(1)
+        case .notWatched:
+            self.watched = .notWatched
+        case .partiallyWatched:
+            self.watched = .episode(season: 1, episode: 1)
+        case .unknown:
+            self.watched = nil
+        }
+    }
+    
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
         super.initMedia(type: type, tmdbData: tmdbData)
         setTMDBShowData(tmdbData)

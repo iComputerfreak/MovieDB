@@ -80,6 +80,7 @@ struct LibraryHome: View {
                                     MediaMenu.ActionsSection(mediaObject: mediaObject)
                                 }
                         }
+                        // TODO: For some reason, moving this down (outside of the ForEach) makes all NavigationLinks activate simultaneously
                         .navigationDestination(for: Media.self) { mediaObject in
                             MediaDetail()
                                 .environmentObject(mediaObject)

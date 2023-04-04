@@ -108,6 +108,27 @@ extension Strings {
             comment: "The feedback button in the settings that opens a new e-mail"
         )
         
+        static let defaultWatchStatePickerLabel = String(
+            localized: "settings.defaultWatchState.label",
+            comment: "The label of the picker that lets the user choose the default watch state for newly added media"
+        )
+        static let defaultWatchStatePickerLabelUnknown = String(
+            localized: "settings.defaultWatchState.unknown",
+            comment: "The label of the picker option for an 'unknown' watch state in the settings"
+        )
+        static let defaultWatchStatePickerLabelWatched = String(
+            localized: "settings.defaultWatchState.watched",
+            comment: "The label of the picker option for an 'watched' watch state in the settings"
+        )
+        static let defaultWatchStatePickerLabelNotWatched = String(
+            localized: "settings.defaultWatchState.notWatched",
+            comment: "The label of the picker option for an 'not watched' watch state in the settings"
+        )
+        static let defaultWatchStatePickerLabelPartiallyWatched = String(
+            localized: "settings.defaultWatchState.partiallyWatched",
+            comment: "The label of the picker option for an 'partially watched' watch state in the settings"
+        )
+        
         enum Alert {
             static let reloadCompleteTitle = String(
                 localized: "settings.alert.reloadCompleted.title",
