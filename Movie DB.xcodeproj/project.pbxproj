@@ -67,6 +67,7 @@
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
 		AB4203B429D9F584002F95F0 /* DefaultWatchStatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */; };
+		AB4203B629DC61FA002F95F0 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AB4203B529DC61FA002F95F0 /* .swiftlint.yml */; };
 		AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */; };
 		AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */; };
 		AB4CD56824D4664F005FAF20 /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4CD56724D4664F005FAF20 /* CodableTests.swift */; };
@@ -377,6 +378,7 @@
 		AB4085412663A7BA008C559B /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
 		AB4085472663B325008C559B /* ProInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProInfoView.swift; sourceTree = "<group>"; };
 		AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWatchStatePicker.swift; sourceTree = "<group>"; };
+		AB4203B529DC61FA002F95F0 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB48BD6B2816CE3C00E53135 /* LibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryUITests.swift; sourceTree = "<group>"; };
 		AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_DBUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -1057,6 +1059,7 @@
 		AB6D9C79283BC0C000AF655C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
+				AB4203B529DC61FA002F95F0 /* .swiftlint.yml */,
 				ABEA7AB6261BB9620060B5D2 /* Localizable.stringsdict */,
 				ABEA7AAC261BB8B80060B5D2 /* Localizable.strings */,
 				AB0DA97A283BA75D0038E4B9 /* Strings.swift */,
@@ -1455,8 +1458,9 @@
 		AB6718B522C0312A00F429E4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Jonas Frey";
 				TargetAttributes = {
 					AB48BD682816CE3C00E53135 = {
@@ -1517,6 +1521,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB4203B629DC61FA002F95F0 /* .swiftlint.yml in Resources */,
 				ABEEB0C52813084D00230F0B /* Matrix.json in Resources */,
 				ABEEB0C22813084D00230F0B /* SearchResults-2.json in Resources */,
 				ABEA7AAA261BB8B80060B5D2 /* Localizable.strings in Resources */,

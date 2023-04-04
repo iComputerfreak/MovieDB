@@ -9,13 +9,13 @@
 import Foundation
 import SwiftUI
 
-// swiftlint:disable redundant_type_annotation
 /// Represents all the config values that the user can change
 class JFConfig: ObservableObject {
     static let shared = JFConfig()
     
     // MARK: - Settings
     
+    // swiftlint:disable redundant_type_annotation
     @AppStorage("showAdults")
     var showAdults: Bool = false
 
@@ -27,7 +27,8 @@ class JFConfig: ObservableObject {
     var region: String = Locale.current.region?.identifier ?? ""
 
     // TODO: Does not work with @AppStorage yet.
-    @ConfigValue(.availableLanguages, defaultValue: []) var availableLanguages: [String] {
+    @ConfigValue(.availableLanguages, defaultValue: [])
+    var availableLanguages: [String] {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
@@ -35,6 +36,8 @@ class JFConfig: ObservableObject {
     
     @AppStorage("defaultWatchState")
     var defaultWatchState: GenericWatchState = .unknown
+    
+    // swiftlint:enable redundant_type_annotation
     
     private init() {}
     

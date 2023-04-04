@@ -12,7 +12,6 @@ struct NotesView: View {
     @Binding var notes: String
     @Environment(\.isEditing) private var isEditing
     
-    // swiftlint:disable:next type_contents_order
     init(_ notes: Binding<String>) {
         _notes = notes
     }

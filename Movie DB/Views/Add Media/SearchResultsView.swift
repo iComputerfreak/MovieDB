@@ -32,7 +32,6 @@ struct SearchResultsView<RowContent: View>: View {
     /// The action to execute when one of the results is pressed
     let content: (TMDBSearchResult) -> RowContent
     
-    // swiftlint:disable:next type_contents_order
     init(selection: Binding<TMDBSearchResult?>, @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent) {
         self.content = content
         self._selection = selection

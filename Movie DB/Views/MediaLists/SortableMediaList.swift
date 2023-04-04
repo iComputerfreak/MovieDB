@@ -14,12 +14,10 @@ struct SortableMediaList<RowContent: View>: View {
     @Binding var sortingDirection: SortingDirection
     let rowContent: (Media) -> RowContent
     
-    @FetchRequest
-    private var medias: FetchedResults<Media>
+    @FetchRequest private var medias: FetchedResults<Media>
     
     @Binding var selectedMedia: Media?
     
-    // swiftlint:disable:next type_contents_order
     init(
         sortingOrder: Binding<SortingOrder>,
         sortingDirection: Binding<SortingDirection>,

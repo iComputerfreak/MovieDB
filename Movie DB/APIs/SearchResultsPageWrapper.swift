@@ -31,9 +31,9 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
             // Decide based on the media type which type to use for decoding
             switch mediaType {
             case MediaType.movie.rawValue:
-                results.append(try arrayContainer2.decode(TMDBMovieSearchResult.self))
+                try results.append(arrayContainer2.decode(TMDBMovieSearchResult.self))
             case MediaType.show.rawValue:
-                results.append(try arrayContainer2.decode(TMDBShowSearchResult.self))
+                try results.append(arrayContainer2.decode(TMDBShowSearchResult.self))
             default:
                 // Skip the entry (probably type person)
                 _ = try? arrayContainer2.decode(Empty.self)

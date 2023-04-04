@@ -11,6 +11,7 @@ import Foundation
 import os.log
 import UIKit
 
+// swiftlint:disable:next blanket_disable_command
 // swiftlint:disable function_body_length type_body_length
 class PlaceholderData {
     static let preview: PlaceholderData = .init(context: PersistenceController.previewContext)
@@ -46,7 +47,7 @@ class PlaceholderData {
         Task(priority: .userInitiated) {
             do {
                 // MARK: Matrix
-                medias.append(try await createMovie(
+                try await medias.append(createMovie(
                     603,
                     personalRating: .twoAndAHalfStars,
                     tags: ["Future", "Conspiracy", "Dark"],
@@ -56,7 +57,7 @@ class PlaceholderData {
                 ))
                 
                 // MARK: The Blacklist
-                medias.append(try await createShow(
+                try await medias.append(createShow(
                     46952,
                     personalRating: .fiveStars,
                     tags: ["Conspiracy", "Crime", "Gangsters", "Heist", "Highly Talented", "Prison", "Terrorist"],
@@ -66,7 +67,7 @@ class PlaceholderData {
                 ))
                 
                 // MARK: Vikings (Missing information)
-                medias.append(try await createShow(
+                try await medias.append(createShow(
                     44217, personalRating: .threeStars, tags: [], notes: "", watched: nil, watchAgain: false
                 ))
             } catch {

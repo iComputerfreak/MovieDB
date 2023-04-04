@@ -61,6 +61,18 @@ public class Tag: NSManagedObject {
         case id
         case name
     }
+    
+    static func fetchOrCreate(name: String, in context: NSManagedObjectContext) -> Tag {
+        let fetchRequest = Self.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
+        fetchRequest.fetchLimit = 1
+        if let tag = try? context.fetch(fetchRequest).first {
+            return tag
+        } else {
+            // Create a new tag
+            return Tag(name: name, context: context)
+        }
+    }
 }
 
 extension Collection<Tag> {

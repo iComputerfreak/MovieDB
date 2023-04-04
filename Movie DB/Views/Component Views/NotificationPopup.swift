@@ -25,7 +25,6 @@ struct NotificationPopup: View {
     // Padding is applied additionally to the popupSize! The final size will be `popupSize + 2 2 * padding`
     private let padding: Double = 6
     
-    // swiftlint:disable:next type_contents_order
     init(isPresented: Binding<Bool>, imageBuilder: () -> Image, title: String, subtitle: String? = nil) {
         self._isPresented = isPresented
         self.image = imageBuilder()
@@ -33,7 +32,6 @@ struct NotificationPopup: View {
         self.subtitle = subtitle
     }
     
-    // swiftlint:disable:next type_contents_order
     init(isPresented: Binding<Bool>, systemImage: String, title: String, subtitle: String? = nil) {
         self.init(
             isPresented: isPresented,

@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: Make ObservableObject?
 struct SettingsViewConfig {
     var showingProgress = false
     private(set) var progressText: String = ""

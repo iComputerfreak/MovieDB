@@ -13,7 +13,6 @@ import os.log
 import SwiftCSV
 import XCTest
 
-// swiftlint:disable line_length
 class CSVCoderTests: XCTestCase {
     // swiftlint:disable:next implicitly_unwrapped_optional
     var testingUtils: TestingUtils!

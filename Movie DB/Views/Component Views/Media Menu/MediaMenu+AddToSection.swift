@@ -16,7 +16,8 @@ extension MediaMenu {
         @FetchRequest(
             entity: UserMediaList.entity(),
             sortDescriptors: [NSSortDescriptor(key: Schema.UserMediaList.name.rawValue, ascending: true)]
-        ) var userLists: FetchedResults<UserMediaList>
+        )
+        var userLists: FetchedResults<UserMediaList>
         
         var body: some View {
             Section {

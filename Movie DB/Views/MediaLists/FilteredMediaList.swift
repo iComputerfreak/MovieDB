@@ -27,7 +27,6 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         (try? managedObjectContext.count(for: list.buildFetchRequest())) ?? 0
     }
     
-    // swiftlint:disable:next type_contents_order
     init(list: ListType, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
         self.rowContent = rowContent
         self.list = list

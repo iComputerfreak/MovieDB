@@ -1,0 +1,6 @@
+disabled_rules:
+  - line_length
+  - superfluous_disable_command
+  - nesting
+  - file_length
+  - type_body_length

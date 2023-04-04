@@ -9,8 +9,6 @@
 import CoreData
 import Foundation
 
-// swiftlint:disable type_contents_order
-
 protocol CoreDataDummy: Hashable {
     associatedtype Entity: NSManagedObject
     

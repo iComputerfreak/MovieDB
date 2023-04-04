@@ -18,7 +18,6 @@ struct MediaLookupDetail: View {
     @StateObject private var mediaObject: Media
     @State private var finishedLoading = false
     
-    // swiftlint:disable:next type_contents_order
     init(tmdbID: Int, mediaType: MediaType) {
         localContext = PersistenceController.createDisposableViewContext()
         self.tmdbID = tmdbID

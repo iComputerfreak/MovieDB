@@ -8,8 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable superfluous_disable_command nesting line_length file_length type_body_length
-
 extension Strings {
     enum ProInfo {
         static let navBarTitle = String(

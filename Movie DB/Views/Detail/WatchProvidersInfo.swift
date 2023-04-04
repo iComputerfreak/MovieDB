@@ -45,16 +45,14 @@ struct WatchProvidersInfo: View {
         }
     }
     
-    @ViewBuilder
-    var header: some View {
+    @ViewBuilder var header: some View {
         HStack {
             Image(systemName: "tv")
             Text(Strings.Detail.watchProvidersSectionHeader)
         }
     }
     
-    @ViewBuilder
-    var footer: some View {
+    @ViewBuilder var footer: some View {
         let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
         Text(attribution ?? "Powered by JustWatch.com")
     }

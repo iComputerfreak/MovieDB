@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable:next blanket_disable_command
 // swiftlint:disable type_body_length trailing_comma file_length
 
 struct SymbolCategory {

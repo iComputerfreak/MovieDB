@@ -199,20 +199,10 @@ class CSVImporter {
                 var tags: [Tag] = []
                 let tagNames = rawTags.split(separator: self.arraySeparator).map(String.init)
                 if !tagNames.isEmpty {
-                    // TODO: Replace with Tag.fetchOrCreate
                     for name in tagNames {
-                        // Create the tag if it does not exist yet
-                        let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
-                        fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.Tag.name.rawValue, name)
-                        fetchRequest.fetchLimit = 1
-                        if let tag = try? context.fetch(fetchRequest).first {
-                            assert(tag.managedObjectContext == context)
-                            tags.append(tag)
-                        } else {
-                            // Create a new tag with the name
-                            let tag = Tag(name: name, context: context)
-                            tags.append(tag)
-                        }
+                        let tag = Tag.fetchOrCreate(name: name, in: context)
+                        assert(tag.managedObjectContext == context)
+                        tags.append(tag)
                     }
                     media.tags = Set(tags)
                 }

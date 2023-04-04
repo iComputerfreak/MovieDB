@@ -99,7 +99,6 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
         }
     }
     
-    // swiftlint:disable type_contents_order
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {
