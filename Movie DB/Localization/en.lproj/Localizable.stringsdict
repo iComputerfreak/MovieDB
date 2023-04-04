@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>detail.showWatchState.seasonWarning %@ %lld</key>
+	<key>detail.showWatchState.seasonWarning %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%@ This show only has %#@count@.</string>
+		<string>This show only has %#@count@.</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

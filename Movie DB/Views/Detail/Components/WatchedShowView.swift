@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import SwiftUI
 
 struct WatchedShowView: View {
@@ -47,6 +48,7 @@ struct WatchedShowView: View {
     struct EditView: View {
         @Binding var watched: ShowWatchState?
         let maxSeason: Int?
+        @EnvironmentObject private var mediaObject: Media
         
         @State private var season: Int
         @State private var episode: Int
@@ -67,13 +69,37 @@ struct WatchedShowView: View {
             return season <= maxSeason
         }
         
-        var warningFooter: Text {
-            if seasonIsValid {
-                return Text(verbatim: "")
-            } else {
-                let image = Image(systemName: "exclamationmark.triangle.fill")
-                // Not using Strings.Detail..., because we cannot return a String with an interpolated Image
-                return Text("detail.showWatchState.seasonWarning \(image) \(maxSeason ?? 0)")
+        var warningText: Text? {
+            guard !seasonIsValid else {
+                // No warning
+                return nil
+            }
+            guard let show = mediaObject as? Show else {
+                assertionFailure("EnvironmentObject of \(String(describing: Self.self)) is not a Show")
+                return nil
+            }
+            
+            // MARK: Option 1: The entered seasons does not have episodes out yet
+            if let season = show.seasons.first(where: { $0.seasonNumber == self.season }) {
+                assert(
+                    season.episodeCount == 0,
+                    "There exists a season with count > 0, so seasonIsValid should be true"
+                )
+                // Warning: Selected season does not have any episodes
+                return Text("detail.showWatchState.seasonWarningNoEpisodes \(season)")
+            }
+            
+            // MARK: Option 2: The entered season does not exist
+            return Text("detail.showWatchState.seasonWarning \(maxSeason ?? 0)")
+        }
+        
+        // TODO: Check spacing
+        @ViewBuilder var warningFooter: some View {
+            if let warningText {
+                HStack(spacing: 4) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    warningText
+                }
             }
         }
         
@@ -155,6 +181,7 @@ struct WatchedShowView_Previews: PreviewProvider {
             maxSeason: 1
         )
         WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
-            .previewDisplayName("Edit View")
+            .previewDisplayName("Edit View (Non-existent season)")
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
     }
 }

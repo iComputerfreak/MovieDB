@@ -833,3 +833,5 @@
 "settings.defaultWatchState.watched" = "Angeschaut";
 "settings.defaultWatchState.notWatched" = "Nicht Angeschaut";
 "settings.defaultWatchState.partiallyWatched" = "Teilweise Angeschaut";
+
+"detail.showWatchState.seasonWarningNoEpisodes %lld" = "Staffel %lld hat keine Episoden.";

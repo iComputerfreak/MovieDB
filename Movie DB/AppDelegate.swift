@@ -173,7 +173,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // MARK: Schedule
             let request = BGAppRefreshTaskRequest(identifier: taskID)
             // Re-scheduled each time it is executed
-            let timeBetweenBackgroundTasks: Double = 7 * 24 * 60 * 60 // 7 days
+            // TODO: Change back to 7 days after debugging background fetch
+            let timeBetweenBackgroundTasks: Double = 1 * 24 * 60 * 60 // 7 days
             request.earliestBeginDate = Date(timeIntervalSinceNow: timeBetweenBackgroundTasks)
             do {
                 try BGTaskScheduler.shared.submit(request)

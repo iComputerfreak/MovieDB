@@ -67,6 +67,16 @@ public extension Show {
         get { getOptionalInt(forKey: Schema.Show.numberOfSeasons) }
         set { setOptionalInt(newValue, forKey: Schema.Show.numberOfSeasons) }
     }
+    
+    /// The season number of the latest season that has episodes
+    var latestNonEmptySeasonNumber: Int? {
+        self.seasons
+            .filter { season in
+                season.episodeCount > 0
+            }
+            .map(\.seasonNumber)
+            .max()
+    }
 
     /// The number of episodes, the show has
     var numberOfEpisodes: Int {

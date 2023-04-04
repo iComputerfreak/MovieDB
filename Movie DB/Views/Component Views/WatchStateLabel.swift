@@ -27,7 +27,10 @@ struct WatchStateLabel: View {
             } else if let show = mediaObject as? Show, show.watched != nil {
                 switch show.watched! {
                 case let .season(s):
-                    if let maxSeason = show.numberOfSeasons, s < maxSeason {
+                    if
+                        let maxSeason = show.latestNonEmptySeasonNumber ?? show.numberOfSeasons,
+                        s < maxSeason
+                    {
                         // Show as partially watched, since there are further seasons available
                         self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonOfMax(
                             season: s,

@@ -28,13 +28,13 @@ struct UserData: View {
                     .headline(Strings.Detail.personalRatingHeadline)
                 // MARK: Watched field
                 if mediaObject.type == .movie {
+                    // swiftlint:disable:next force_cast
+                    let movie = mediaObject as! Movie
                     SimpleValueView<MovieWatchState?>(
                         values: MovieWatchState.allCases + [nil],
                         value: .init(
-                            // swiftlint:disable force_cast
-                            get: { (self.mediaObject as! Movie).watched },
-                            set: { (self.mediaObject as! Movie).watched = $0 }
-                            // swiftlint:enable force_cast
+                            get: { movie.watched },
+                            set: { movie.watched = $0 }
                         ),
                         label: { state in
                             if let state {
@@ -53,15 +53,15 @@ struct UserData: View {
                     .headline(Strings.Detail.watchedHeadline)
                 } else {
                     // Has watched show field
-                    // swiftlint:disable force_cast
+                    // swiftlint:disable:next force_cast
+                    let show = mediaObject as! Show
                     WatchedShowView(
                         watched: .init(
-                            get: { (mediaObject as! Show).watched },
-                            set: { (mediaObject as! Show).watched = $0 }
+                            get: { show.watched },
+                            set: { show.watched = $0 }
                         ),
-                        maxSeason: (mediaObject as! Show).numberOfSeasons
+                        maxSeason: show.latestNonEmptySeasonNumber ?? show.numberOfSeasons
                     )
-                    // swiftlint:enable force_cast
                 }
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
