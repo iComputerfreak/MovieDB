@@ -171,11 +171,11 @@ struct BasicInfo_Previews: PreviewProvider {
         List {
             BasicInfo()
         }
-        .environmentObject(PlaceholderData.movie as Media)
+        .environmentObject(PlaceholderData.preview.staticMovie as Media)
         
         List {
             BasicInfo()
         }
-        .environmentObject(PlaceholderData.show as Media)
+        .environmentObject(PlaceholderData.preview.staticShow as Media)
     }
 }

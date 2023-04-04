@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable:next blanket_disable_command
 // swiftlint:disable superfluous_disable_command nesting line_length file_length type_body_length
 
 enum Strings {

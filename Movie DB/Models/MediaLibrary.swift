@@ -15,7 +15,9 @@ struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     
     let context: NSManagedObjectContext
-    @AppStorage(JFLiterals.Keys.lastLibraryUpdate) var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
+    
+    @AppStorage(JFLiterals.Keys.lastLibraryUpdate)
+    var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
     
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
@@ -106,7 +108,7 @@ struct MediaLibrary {
                 fetchRequest = Show.fetchRequest()
             }
             fetchRequest.predicate = NSPredicate(format: "type = %@ AND tmdbID IN %@", type.rawValue, changedIDs[type]!)
-            medias.append(contentsOf: try context.fetch(fetchRequest))
+            try medias.append(contentsOf: context.fetch(fetchRequest))
         }
         Logger.library.info("Updating \(medias.count) media objects.")
         

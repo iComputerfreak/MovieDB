@@ -12,6 +12,7 @@
 //            the new SnapshotHelper.swift
 // -----------------------------------------------------
 
+// swiftlint:disable:next blanket_disable_command
 // swiftlint:disable all
 // swiftformat:disable all
 

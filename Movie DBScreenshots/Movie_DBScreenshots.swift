@@ -8,6 +8,7 @@
 
 import XCTest
 
+// swiftlint:disable:next blanket_disable_command
 // swiftlint:disable implicitly_unwrapped_optional
 final class Movie_DBScreenshots: XCTestCase {
     var app: XCUIApplication!

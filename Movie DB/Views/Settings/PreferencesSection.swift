@@ -32,6 +32,7 @@ struct PreferencesSection: View {
                     Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
                     self.config.regionChanged = true
                 }
+            DefaultWatchStatePicker()
         }
         .alert(
             Text(Strings.Settings.Alert.reloadLibraryTitle),

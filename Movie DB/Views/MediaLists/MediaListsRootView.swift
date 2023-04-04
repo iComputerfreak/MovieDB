@@ -25,12 +25,14 @@ struct MediaListsRootView: View {
     // MARK: Dynamic Lists (predicate-based)
     @FetchRequest(
         sortDescriptors: [SortDescriptor(\.name, order: .forward)]
-    ) private var dynamicLists: FetchedResults<DynamicMediaList>
+    )
+    private var dynamicLists: FetchedResults<DynamicMediaList>
     
     // MARK: User Lists (single objects)
     @FetchRequest(
         sortDescriptors: [SortDescriptor(\.name, order: .forward)]
-    ) private var userLists: FetchedResults<UserMediaList>
+    )
+    private var userLists: FetchedResults<UserMediaList>
     
     var allLists: [any MediaListProtocol] {
         var lists: [any MediaListProtocol] = defaultLists
@@ -148,7 +150,8 @@ struct MediaListsRootView: View {
         PersistenceController.saveContext(managedObjectContext)
     }
     
-    @ToolbarContentBuilder private func toolbar() -> some ToolbarContent {
+    @ToolbarContentBuilder
+    private func toolbar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             // !!!: Only used for deleting lists (maybe later reordering), not configuring them!
             EditButton()

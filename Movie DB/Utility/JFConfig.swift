@@ -14,39 +14,37 @@ class JFConfig: ObservableObject {
     static let shared = JFConfig()
     
     // MARK: - Settings
-    @ConfigValue(.showAdults, defaultValue: false) var showAdults: Bool {
-        willSet {
-            DispatchQueue.main.async { self.objectWillChange.send() }
-        }
-    }
+    
+    // swiftlint:disable redundant_type_annotation
+    @AppStorage("showAdults")
+    var showAdults: Bool = false
 
     /// The regionspecific language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code separated by a dash
-    @ConfigValue(.language, defaultValue: "") var language: String {
-        willSet {
-            DispatchQueue.main.async { self.objectWillChange.send() }
-        }
-    }
+    @AppStorage("language")
+    var language: String = ""
 
-    @ConfigValue(.region, defaultValue: Locale.current.region?.identifier ?? "") var region: String {
-        willSet {
-            DispatchQueue.main.async { self.objectWillChange.send() }
-        }
-    }
+    @AppStorage("region")
+    var region: String = Locale.current.region?.identifier ?? ""
 
-    @ConfigValue(.availableLanguages, defaultValue: []) var availableLanguages: [String] {
+    // TODO: Does not work with @AppStorage yet.
+    @ConfigValue(.availableLanguages, defaultValue: [])
+    var availableLanguages: [String] {
         willSet {
             DispatchQueue.main.async { self.objectWillChange.send() }
         }
     }
+    
+    @AppStorage("defaultWatchState")
+    var defaultWatchState: GenericWatchState = .unknown
+    
+    // swiftlint:enable redundant_type_annotation
     
     private init() {}
     
+    // TODO: Remove when @AppStorage works with [String]
+    
     enum ConfigKey: String {
-        case showAdults
-        case region
-        case language
         case availableLanguages
-        case availableRegions
     }
     
     /// Wraps a config value with a mechanism to load and save the value with the given key from/to `UserDefaults`

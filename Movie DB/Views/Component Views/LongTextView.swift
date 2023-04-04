@@ -20,7 +20,7 @@ struct LongTextView: View {
     /// - Parameters:
     ///   - headline: The headline of the new full text view
     ///   - text: The full text
-    init( // swiftlint:disable:this type_contents_order
+    init(
         _ text: String,
         headline: String
     ) {

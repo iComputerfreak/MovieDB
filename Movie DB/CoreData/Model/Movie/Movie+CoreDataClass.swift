@@ -28,6 +28,21 @@ public class Movie: Media {
         initMedia(type: .movie, tmdbData: tmdbData)
     }
     
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set the default watched state according to the user setting
+        switch JFConfig.shared.defaultWatchState {
+        case .watched:
+            self.watched = .watched
+        case .notWatched:
+            self.watched = .notWatched
+        case .partiallyWatched:
+            self.watched = .partially
+        case .unknown:
+            self.watched = nil
+        }
+    }
+    
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
         super.initMedia(type: type, tmdbData: tmdbData)
         setTMDBMovieData(tmdbData)

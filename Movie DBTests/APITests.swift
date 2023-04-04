@@ -25,6 +25,7 @@ class APITests: XCTestCase {
     var blacklist: TMDBData!
     var gameOfThrones: TMDBData!
     var brokenMedia: Movie!
+    // swiftlint:enable implicitly_unwrapped_optional
     
     override func setUp() {
         super.setUp()

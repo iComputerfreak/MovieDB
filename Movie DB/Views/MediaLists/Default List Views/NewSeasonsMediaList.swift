@@ -13,7 +13,6 @@ struct NewSeasonsMediaList: View {
     
     var body: some View {
         FilteredMediaList(list: PredicateMediaList.newSeasons, selectedMedia: $selectedMedia) { media in
-            // TODO: Rework navigation (maybe the cause, why those lists are so buggy)
             NavigationLink(value: media) {
                 LibraryRow()
                     .environmentObject(media)
@@ -24,6 +23,7 @@ struct NewSeasonsMediaList: View {
 
 struct NewSeasonsMediaList_Previews: PreviewProvider {
     static var previews: some View {
-        NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.movie))
+        NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

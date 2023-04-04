@@ -12,9 +12,8 @@ import XCTest
 
 // TODO: Assertions for watch providers
 
-// swiftlint:disable line_length
-// swiftlint:disable function_body_length
-// swiftlint:disable type_body_length
+// swiftlint:disable:next blanket_disable_command
+// swiftlint:disable line_length function_body_length type_body_length
 class CodableTests: XCTestCase {
     let api = TMDBAPI.shared
     // swiftlint:disable:next implicitly_unwrapped_optional
@@ -184,7 +183,6 @@ class CodableTests: XCTestCase {
                         overview: "In the two years following the death of Elizabeth Keen, Raymond Reddington and the members of the FBI Task Force have disbanded – their lives now changed in unexpected ways and with Reddington’s whereabouts unknown. Finding themselves each at a crossroads, a common purpose compels them to renew their original mission: to take down dangerous, vicious and eccentric Blacklisters. In the process, they begin to uncover lethal adversaries, unimaginable conspiracies and surprising betrayals that will threaten alliances and spur vengeance for the past, led by the most devious criminal of them all – Raymond Reddington.",
                         imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", airDate: Utils.tmdbDateFormatter.date(from: "2021-10-21")),
         ]
-        // swiftlint:enable vertical_parameter_alignment_on_call
         // swiftlint:enable multiline_arguments
         // swiftlint:enable multiline_arguments_brackets
         

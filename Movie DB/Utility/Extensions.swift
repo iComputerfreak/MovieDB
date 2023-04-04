@@ -46,7 +46,7 @@ public extension UnkeyedDecodingContainer {
         var returnValues = [T]()
         
         while !isAtEnd {
-            returnValues.append(try decode(T.self))
+            try returnValues.append(decode(T.self))
         }
         
         return returnValues

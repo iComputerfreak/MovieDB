@@ -16,7 +16,6 @@ struct NotificationView<Content: View>: View {
     
     @StateObject private var proxy = NotificationProxy()
     
-    // swiftlint:disable:next type_contents_order
     init(contentBuilder: @escaping (NotificationProxy) -> Content) {
         self.contentBuilder = contentBuilder
     }

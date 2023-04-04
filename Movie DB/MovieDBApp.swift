@@ -10,7 +10,9 @@ import SwiftUI
 
 @main
 struct MovieDBApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate
+    
     @ObservedObject private var config = JFConfig.shared
 
     var body: some Scene {

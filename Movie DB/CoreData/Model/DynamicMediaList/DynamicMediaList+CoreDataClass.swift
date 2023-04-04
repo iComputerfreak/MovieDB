@@ -23,7 +23,7 @@ public class DynamicMediaList: NSManagedObject, MediaListProtocol {
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = filterSetting?.buildPredicate() ?? NSPredicate(value: true)
-        fetch.sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
+        fetch.sortDescriptors = sortingOrder.createNSSortDescriptors(with: sortingDirection)
         return fetch
     }
     

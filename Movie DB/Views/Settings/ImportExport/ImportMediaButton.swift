@@ -53,7 +53,7 @@ struct ImportMediaButton: View {
                 medias = try await importer.decodeMediaObjects(importContext: importContext) { progress in
                     self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress, importer.rowCount)
                 } log: { message in
-                    // TODO: Replace with other logger?
+                    // TODO: Replace with other logger when reworking import view
                     self.config.importLogger?.log(message, level: .none)
                 }
             } catch {

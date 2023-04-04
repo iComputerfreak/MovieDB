@@ -56,6 +56,6 @@ struct CastInfo: View {
 struct CastInfo_Previews: PreviewProvider {
     static var previews: some View {
         CastInfo()
-            .environmentObject(PlaceholderData.movie as Media)
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
     }
 }

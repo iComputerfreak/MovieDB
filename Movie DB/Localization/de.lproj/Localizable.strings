@@ -827,3 +827,9 @@
 "library.filter.watchStateWatchedPartially" = "Teilweise Angeschaut";
 "library.filter.watchStateNotWatched" = "Nicht Angeschaut";
 "library.filter.watchStateUnknown" = "Unbekannt";
+
+"settings.defaultWatchState.label" = "Standard 'Angeschaut?' Zustand";
+"settings.defaultWatchState.unknown" = "Unbekannt";
+"settings.defaultWatchState.watched" = "Angeschaut";
+"settings.defaultWatchState.notWatched" = "Nicht Angeschaut";
+"settings.defaultWatchState.partiallyWatched" = "Teilweise Angeschaut";

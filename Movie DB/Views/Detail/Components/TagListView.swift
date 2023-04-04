@@ -18,7 +18,6 @@ struct TagListView: View {
     @Binding var tags: Set<Tag>
     @Environment(\.isEditing) private var isEditing
     
-    // swiftlint:disable:next type_contents_order
     init(_ tags: Binding<Set<Tag>>) {
         _tags = tags
     }

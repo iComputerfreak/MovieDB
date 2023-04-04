@@ -90,6 +90,8 @@ struct AppStoreScreenshotData {
         drwho.isFavorite = true
     }
     
+    // swiftlint:enable force_cast
+    
     private func getTags(_ tags: [TagName]) -> Set<Tag> {
         Set(tags.map { self.tags[$0]! })
     }

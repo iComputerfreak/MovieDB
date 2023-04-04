@@ -46,7 +46,6 @@ struct LibraryActionsSection: View {
         .disabled(self.config.showingProgress)
     }
     
-    // swiftlint:disable:next type_contents_order
     struct FooterView: View {
         @Binding var showingProgress: Bool
         let progressText: String

@@ -42,7 +42,6 @@ class TMDBShowSearchResult: TMDBSearchResult {
         )
     }
     
-    // swiftlint:disable type_contents_order
     // MARK: - Codable Conformance
     
     required init(from decoder: Decoder) throws {

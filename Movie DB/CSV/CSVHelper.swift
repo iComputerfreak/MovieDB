@@ -39,7 +39,6 @@ enum CSVHelper {
         .personalRating, .watchAgain, .tags, .notes, .movieWatched, .lastSeasonWatched, .lastEpisodeWatched,
         .creationDate, .modificationDate,
     ]
-    // swiftlint:enable multiline_literal_brackets
     /// The properties/CSV keys that will be included in the export CSV data (do not include the legacy `showWatched` key)
     static let exportKeys: [CSVKey] = CSVKey.allCases.filter { $0 != .showWatched }
     

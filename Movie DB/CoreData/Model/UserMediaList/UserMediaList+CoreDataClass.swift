@@ -23,7 +23,7 @@ public class UserMediaList: NSManagedObject, MediaListProtocol {
     func buildFetchRequest() -> NSFetchRequest<Media> {
         let fetch = Media.fetchRequest()
         fetch.predicate = NSPredicate(format: "%@ in %K", self, Schema.Media.userLists.rawValue)
-        fetch.sortDescriptors = sortingOrder.createSortDescriptors(with: sortingDirection)
+        fetch.sortDescriptors = sortingOrder.createNSSortDescriptors(with: sortingDirection)
         return fetch
     }
     

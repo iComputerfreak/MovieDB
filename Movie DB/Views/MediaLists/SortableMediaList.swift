@@ -14,12 +14,10 @@ struct SortableMediaList<RowContent: View>: View {
     @Binding var sortingDirection: SortingDirection
     let rowContent: (Media) -> RowContent
     
-    @FetchRequest
-    private var medias: FetchedResults<Media>
+    @FetchRequest private var medias: FetchedResults<Media>
     
     @Binding var selectedMedia: Media?
     
-    // swiftlint:disable:next type_contents_order
     init(
         sortingOrder: Binding<SortingOrder>,
         sortingDirection: Binding<SortingDirection>,
@@ -35,7 +33,7 @@ struct SortableMediaList<RowContent: View>: View {
         // Update the sorting of the fetchRequest and use it to display the media
         let order = sortingOrder.wrappedValue
         let direction = sortingDirection.wrappedValue
-        fetchRequest.sortDescriptors = order.createSortDescriptors(with: direction)
+        fetchRequest.sortDescriptors = order.createNSSortDescriptors(with: direction)
         _medias = FetchRequest(fetchRequest: fetchRequest, animation: .default)
     }
     
@@ -78,7 +76,7 @@ struct SortableMediaList<RowContent: View>: View {
 
 struct SortableMediaList_Previews: PreviewProvider {
     static let dynamicList: DynamicMediaList = {
-        _ = PlaceholderData.createMovie()
+        PlaceholderData.preview.populateSamples()
         let l = DynamicMediaList(context: PersistenceController.previewContext)
         l.name = "Dynamic List"
         l.iconName = "gear"

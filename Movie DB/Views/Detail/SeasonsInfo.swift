@@ -68,7 +68,7 @@ struct SeasonsInfo: View {
                         // Fail silently
                         return (0, nil)
                     }
-                    return (season.id, try? await Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize))
+                    return await (season.id, try? Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize))
                 }
             }
             
@@ -114,6 +114,6 @@ struct SeasonInfo: View {
 struct SeasonsInfo_Previews: PreviewProvider {
     static var previews: some View {
         SeasonsInfo()
-            .environmentObject(PlaceholderData.show as Media)
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
     }
 }

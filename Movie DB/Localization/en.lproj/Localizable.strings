@@ -835,3 +835,9 @@
 "library.filter.watchStateWatchedPartially" = "Watched Partially";
 "library.filter.watchStateNotWatched" = "Not Watched";
 "library.filter.watchStateUnknown" = "Unknown";
+
+"settings.defaultWatchState.label" = "Default Watch State";
+"settings.defaultWatchState.unknown" = "Unknown";
+"settings.defaultWatchState.watched" = "Watched";
+"settings.defaultWatchState.notWatched" = "Not Watched";
+"settings.defaultWatchState.partiallyWatched" = "Partially Watched";

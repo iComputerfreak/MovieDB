@@ -68,13 +68,13 @@ struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.movie as Media)
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
         }
         .previewDisplayName("Movie")
         
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.show as Media)
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
         }
         .previewDisplayName("Show")
     }

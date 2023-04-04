@@ -93,7 +93,7 @@ actor TMDBImageService {
         // Check if the image already exists on disk (does not matter if force is true)
         if let fileURL, !force, FileManager.default.fileExists(atPath: fileURL.path()) {
             // File already downloaded, return the file on disk
-            return UIImage(data: try Data(contentsOf: fileURL))
+            return try UIImage(data: Data(contentsOf: fileURL))
         } else {
             // Download the poster image in thumbnail size
             let downloadTask = Task {

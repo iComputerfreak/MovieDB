@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+@testable import Movie_DB
 import XCTest
 
 extension XCUIApplication {
@@ -76,10 +77,6 @@ extension XCUIElement {
         }
         return self
     }
-}
-
-enum MediaType {
-    case movie, show
 }
 
 extension XCUIElementQuery {

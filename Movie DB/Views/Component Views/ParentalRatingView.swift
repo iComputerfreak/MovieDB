@@ -42,7 +42,7 @@ struct ParentalRatingView_Preview: PreviewProvider {
             }
             HStack {
                 Text(verbatim: "Rating: ")
-                ForEach(PlaceholderData.fskRatings(in: context), id: \.label) { rating in
+                ForEach(PlaceholderData.preview.fskRatings, id: \.label) { rating in
                     ParentalRatingView(rating: rating)
                 }
             }

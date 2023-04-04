@@ -14,7 +14,8 @@ struct FilterTagsPicker: View {
     @FetchRequest(
         entity: Tag.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)]
-    ) var allTags: FetchedResults<Tag>
+    )
+    var allTags: FetchedResults<Tag>
     
     var body: some View {
         FilterMultiPicker(

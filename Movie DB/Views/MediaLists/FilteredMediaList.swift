@@ -27,7 +27,6 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         (try? managedObjectContext.count(for: list.buildFetchRequest())) ?? 0
     }
     
-    // swiftlint:disable:next type_contents_order
     init(list: ListType, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
         self.rowContent = rowContent
         self.list = list
@@ -69,7 +68,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
 
 struct FilteredMediaList_Previews: PreviewProvider {
     static let dynamicList: DynamicMediaList = {
-        _ = PlaceholderData.createMovie()
+        PlaceholderData.preview.populateSamples()
         let l = DynamicMediaList(context: PersistenceController.previewContext)
         l.name = "Dynamic List"
         l.iconName = "gear"

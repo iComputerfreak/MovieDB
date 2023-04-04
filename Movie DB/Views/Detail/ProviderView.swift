@@ -46,6 +46,6 @@ struct ProviderView: View {
 
 struct ProviderView_Previews: PreviewProvider {
     static var previews: some View {
-        ProviderView(provider: PlaceholderData.movie.watchProviders.sorted(on: \.name, by: <).first!)
+        ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
     }
 }

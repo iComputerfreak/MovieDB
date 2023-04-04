@@ -43,30 +43,34 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
         }
     }
     
-    func createSortDescriptors(with direction: SortingDirection) -> [NSSortDescriptor] {
-        var sortDescriptors = [NSSortDescriptor]()
+    func createNSSortDescriptors(with direction: SortingDirection) -> [NSSortDescriptor] {
+        createSortDescriptors(with: direction).map(NSSortDescriptor.init)
+    }
+    
+    func createSortDescriptors(with direction: SortingDirection) -> [SortDescriptor<Media>] {
+        let order = {
+            switch direction {
+            case .ascending:
+                return SortOrder.forward
+            case .descending:
+                return SortOrder.reverse
+            }
+        }()
+        
+        var sortDescriptors = [SortDescriptor<Media>]()
         switch self {
         case .name:
-            // Name sort descriptor gets appended at the end as a tie breaker
+            // Name sort descriptor gets appended at the end as a tie breaker already
             break
         case .created:
-            sortDescriptors.append(NSSortDescriptor(
-                keyPath: \Media.creationDate,
-                ascending: direction == .ascending
-            ))
+            sortDescriptors.append(SortDescriptor(\.creationDate, order: order))
         case .releaseDate:
-            sortDescriptors.append(NSSortDescriptor(
-                key: Schema.Media.releaseDateOrFirstAired.rawValue,
-                ascending: direction == .ascending
-            ))
+            sortDescriptors.append(SortDescriptor(\.releaseDateOrFirstAired, order: order))
         case .rating:
-            sortDescriptors.append(NSSortDescriptor(
-                key: Schema.Media.personalRating.rawValue,
-                ascending: direction == .ascending
-            ))
+            sortDescriptors.append(SortDescriptor(\.personalRating.integerRepresentation, order: order))
         }
         // Append the name sort descriptor as a second alternative
-        sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: direction == .ascending))
+        sortDescriptors.append(SortDescriptor(\.title, order: order))
         return sortDescriptors
     }
 }
