@@ -44,7 +44,7 @@ public class Show: Media {
         
         // TODO: Remove after debugging missing seasons button in detail
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            assert(!self.seasons.isEmpty)
+            _ = true
         }
     }
     

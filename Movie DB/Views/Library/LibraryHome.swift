@@ -79,12 +79,6 @@ struct LibraryHome: View {
                                     MediaMenu.AddToSection(mediaObject: mediaObject)
                                     MediaMenu.ActionsSection(mediaObject: mediaObject)
                                 }
-                                // TODO: Remove after debugging the missing seasons button in detail
-                                .onAppear {
-                                    if let show = mediaObject as? Show {
-                                        assert(!show.seasons.isEmpty)
-                                    }
-                                }
                         }
                     }
                 }
