@@ -43,6 +43,13 @@ struct SettingsView: View {
                             LegalView()
                         }
                     }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        NavigationLink {
+                            DebugView()
+                        } label: {
+                            Text(verbatim: "Debug")
+                        }
+                    }
                 }
                 .notificationPopup(
                     isPresented: $config.isShowingReloadCompleteNotification,

@@ -170,6 +170,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             forTaskWithIdentifier: taskID,
             using: nil
         ) { task in
+            // Save the date of the fetch
+            UserDefaults.standard.set(Date.now.timeIntervalSince1970, forKey: "debug_lastBGFetchTime")
+            UserDefaults.standard.set(false, forKey: "debug_lastBGFetchCancelled")
             // MARK: Schedule
             let request = BGAppRefreshTaskRequest(identifier: taskID)
             // Re-scheduled each time it is executed
@@ -178,7 +181,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             request.earliestBeginDate = Date(timeIntervalSinceNow: timeBetweenBackgroundTasks)
             do {
                 try BGTaskScheduler.shared.submit(request)
+                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
+                Logger.background.info("Successfully scheduled background fetch request.")
             } catch {
+                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
                 Logger.background.error("Could not schedule app refresh: \(error, privacy: .public)")
             }
             
@@ -188,9 +194,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                     Logger.background.info("Updating Library from background fetch...")
                     let updatedCount = try await MediaLibrary.shared.update()
                     Logger.background.info("Updated \(updatedCount) media objects.")
+                    UserDefaults.standard.set(updatedCount > 0, forKey: "debug_lastBGFetchResult")
                     task.setTaskCompleted(success: updatedCount > 0)
                 } catch {
                     Logger.background.error("Error executing background fetch: \(error, privacy: .public)")
+                    UserDefaults.standard.set(false, forKey: "debug_lastBGFetchResult")
                     task.setTaskCompleted(success: false)
                 }
             }
@@ -198,6 +206,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // MARK: Expiration Handler
             task.expirationHandler = {
                 Logger.background.info("Cancelling background task...")
+                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchCancelled")
                 operation.cancel()
             }
         }

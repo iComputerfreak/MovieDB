@@ -41,29 +41,42 @@ struct DebugView: View {
     }
     
     var body: some View {
-        NavigationView {
-            List {
-                Section("Core Data") {
-                    describe(mediaCount, mediaICloud, label: "Medias")
-                    describe(genreCount, genreICloud, label: "Genres")
-                    describe(tagCount, tagICloud, label: "Tags")
-                    describe(pcCount, pcICloud, label: "PCs")
-                    describe(videoCount, videoICloud, label: "Videos")
-                    describe(seasonCount, seasonICloud, label: "Seasons")
-                    describe(castCount, castICloud, label: "Cast Members")
-                }
-                Section("Duplicates") {
-                    let (duplicateID, duplicateTmdbID, duplicateObjectID) = duplicates
-                    Text("There are \(duplicateID) media object with identical IDs.")
-                    Text("There are \(duplicateTmdbID) media object with identical TMDB IDs.")
-                    Text("There are \(duplicateObjectID) media object with identical Object IDs.")
-                }
+        List {
+            Section("Core Data") {
+                describe(mediaCount, mediaICloud, label: "Medias")
+                describe(genreCount, genreICloud, label: "Genres")
+                describe(tagCount, tagICloud, label: "Tags")
+                describe(pcCount, pcICloud, label: "PCs")
+                describe(videoCount, videoICloud, label: "Videos")
+                describe(seasonCount, seasonICloud, label: "Seasons")
+                describe(castCount, castICloud, label: "Cast Members")
             }
-            .refreshable {
-                self.update()
+            Section("Duplicates") {
+                let (duplicateID, duplicateTmdbID, duplicateObjectID) = duplicates
+                Text("There are \(duplicateID) media object with identical IDs.")
+                Text("There are \(duplicateTmdbID) media object with identical TMDB IDs.")
+                Text("There are \(duplicateObjectID) media object with identical Object IDs.")
             }
-            .navigationTitle("Debug")
+            Section("Background Fetch") {
+                let time = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "debug_lastBGFetchTime"))
+                let cancelled = UserDefaults.standard.bool(forKey: "debug_lastBGFetchCancelled")
+                let rescheduleResult = UserDefaults.standard.bool(forKey: "debug_lastBGFetchRescheduleResult")
+                let result = UserDefaults.standard.bool(forKey: "debug_lastBGFetchResult")
+                // swiftlint:disable:next line_length
+                Text(
+                    """
+                    Last BG Fetch was at \(time, format: .iso8601)
+                    Cancelled: \(cancelled ? "Yes" : "No")
+                    Rescheduled: \(rescheduleResult ? "Yes" : "No")
+                    Result: \(result ? "success" : "failure")
+                    """
+                )
+            }
         }
+        .refreshable {
+            self.update()
+        }
+        .navigationTitle("Debug")
     }
     
     func update() {
