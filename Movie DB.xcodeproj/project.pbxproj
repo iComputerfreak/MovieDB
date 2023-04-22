@@ -81,6 +81,8 @@
 		AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */; };
 		AB54A6E6299EE1D7002C3044 /* CapsuleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */; };
 		AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5612552970045B0039850B /* ListConfigurationView.swift */; };
+		AB59BF2F29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59BF2E29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift */; };
+		AB59BF3129F417BE005E0C7E /* EntityCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59BF3029F417BE005E0C7E /* EntityCount.swift */; };
 		AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59E3BE281D68EF00436853 /* SceneDelegate.swift */; };
 		AB5AA48729B3E06500DEB37B /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5AA48629B3E06500DEB37B /* Schema.swift */; };
 		AB5AA48929B3E08B00DEB37B /* Schema+Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5AA48829B3E08B00DEB37B /* Schema+Media.swift */; };
@@ -393,6 +395,8 @@
 		AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSeasonsMediaList.swift; sourceTree = "<group>"; };
 		AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabelView.swift; sourceTree = "<group>"; };
 		AB5612552970045B0039850B /* ListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurationView.swift; sourceTree = "<group>"; };
+		AB59BF2E29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFetchDebugSection.swift; sourceTree = "<group>"; };
+		AB59BF3029F417BE005E0C7E /* EntityCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCount.swift; sourceTree = "<group>"; };
 		AB59E3BE281D68EF00436853 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AB5AA48629B3E06500DEB37B /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		AB5AA48829B3E08B00DEB37B /* Schema+Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+Media.swift"; sourceTree = "<group>"; };
@@ -888,6 +892,7 @@
 				ABEEB0DC2815824300230F0B /* Detail */,
 				AB097F5F284BA44000E559E7 /* MediaLists */,
 				ABEEB0CC2814314400230F0B /* Settings */,
+				AB59BF2D29ED7ADD005E0C7E /* Debug */,
 				AB25099F238B2ACB00F7A411 /* Component Views */,
 				AB3648C022C3FAEE0096FE39 /* Support Views */,
 			);
@@ -925,6 +930,16 @@
 				ABAA99EB2863100200234E62 /* UserMediaListView.swift */,
 			);
 			path = "User List Views";
+			sourceTree = "<group>";
+		};
+		AB59BF2D29ED7ADD005E0C7E /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				ABADB85A29A173F500853F56 /* DebugView.swift */,
+				AB59BF3029F417BE005E0C7E /* EntityCount.swift */,
+				AB59BF2E29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift */,
+			);
+			path = Debug;
 			sourceTree = "<group>";
 		};
 		AB6718B422C0312A00F429E4 = {
@@ -1352,7 +1367,6 @@
 				AB98EA37264D770F0048B8CC /* LanguageChooser.swift */,
 				AB6718C422C0312B00F429E4 /* ContentView.swift */,
 				ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */,
-				ABADB85A29A173F500853F56 /* DebugView.swift */,
 			);
 			path = "Top Level";
 			sourceTree = "<group>";
@@ -1863,8 +1877,10 @@
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				AB1434AA25CEE53A00AA304F /* Season+CoreDataClass.swift in Sources */,
+				AB59BF3129F417BE005E0C7E /* EntityCount.swift in Sources */,
 				ABEEB0DF2815941400230F0B /* SerializableColor.swift in Sources */,
 				ABEF108029BF6DC80047E4B9 /* WatchProvider+CoreDataProperties.swift in Sources */,
+				AB59BF2F29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift in Sources */,
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				ABD3C60429C4C8FC000B5107 /* CDColor+CoreDataProperties.swift in Sources */,
