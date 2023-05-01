@@ -14,6 +14,14 @@ import UIKit
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 actor TMDBAPI {
+    // TODO: Implement proper rate limiting (time-based)
+    private let urlSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        // Limit the number of concurrent TMDB connections as a low-effort form of rate limiting
+        configuration.httpMaximumConnectionsPerHost = 20
+        return URLSession(configuration: configuration)
+    }()
+    
     static let shared = TMDBAPI()
     
     private let apiKey: String = Secrets.tmdbAPIKey
@@ -367,7 +375,8 @@ actor TMDBAPI {
         components.queryItems = parameters.map(URLQueryItem.init)
         
         // MARK: Execute Request
-        let (data, response) = try await Utils.request(from: components.url!)
+        // Use this instance's URLSession to limit the maximum concurrent requests
+        let (data, response) = try await Utils.request(from: components.url!, session: self.urlSession)
         
         // MARK: Handle Errors
         
