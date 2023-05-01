@@ -290,6 +290,7 @@
 		ABEF108429BF7A3B0047E4B9 /* ReloadLibraryMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF108329BF7A3B0047E4B9 /* ReloadLibraryMigration.swift */; };
 		ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */; };
 		ABF1A171297C235E00A7E6ED /* ParentalRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */; };
+		ABFADEFB2A004AF0004F94B1 /* BackgroundHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -625,6 +626,7 @@
 		ABEF108529BF7DD30047E4B9 /* Movie DB v10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v10.xcdatamodel"; sourceTree = "<group>"; };
 		ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOldPosterFilesMigration.swift; sourceTree = "<group>"; };
 		ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRatingView.swift; sourceTree = "<group>"; };
+		ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -973,6 +975,7 @@
 			isa = PBXGroup;
 			children = (
 				AB6718C022C0312B00F429E4 /* AppDelegate.swift */,
+				ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
 				ABBC782A29B7DB82004F322E /* Environment.swift */,
@@ -1913,6 +1916,7 @@
 				AB097F59284A974500E559E7 /* FilteredMediaList.swift in Sources */,
 				AB5F7E41238AF0AC0007A3FE /* JFLiterals.swift in Sources */,
 				AB3434DF281D475400459673 /* MovieDBApp.swift in Sources */,
+				ABFADEFB2A004AF0004F94B1 /* BackgroundHandler.swift in Sources */,
 				AB3190DF297E07CD004BA53A /* CastMemberRow.swift in Sources */,
 				AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */,
 				AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */,

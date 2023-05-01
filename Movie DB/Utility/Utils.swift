@@ -26,7 +26,7 @@ struct Utils {
     /// Executes an HTTP request with the given URL
     /// - Parameter url: The URL to request
     /// - Returns: The data and URLResponse
-    static func request(from url: URL) async throws -> (Data, URLResponse) {
+    static func request(from url: URL, session: URLSession = .shared) async throws -> (Data, URLResponse) {
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         Logger.network.info("Making GET Request to \(request.url?.absoluteString ?? "nil", privacy: .private)")
@@ -34,7 +34,7 @@ struct Utils {
             // In Debug mode, always load the URL, never use the cache
             request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         #endif
-        return try await URLSession.shared.data(for: request)
+        return try await session.data(for: request)
     }
     
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
