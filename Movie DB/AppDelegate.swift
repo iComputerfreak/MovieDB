@@ -71,7 +71,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
         // MARK: Background Fetch
-        setupBackgroundFetch(application: application)
+        // No need to keep a persistent reference
+        let backgroundHandler = BackgroundHandler()
+        backgroundHandler.setupBackgroundFetch()
         
         // MARK: Run Migrations
         
@@ -162,53 +164,5 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         StoreManager.shared.getProducts(productIDs: JFLiterals.inAppPurchaseIDs)
         // Add store manager as observer for changes
         SKPaymentQueue.default().add(StoreManager.shared)
-    }
-    
-    private func setupBackgroundFetch(application: UIApplication) {
-        let taskID = "de.JonasFrey.Movie-DB.updateLibrary"
-        BGTaskScheduler.shared.register(
-            forTaskWithIdentifier: taskID,
-            using: nil
-        ) { task in
-            // Save the date of the fetch
-            UserDefaults.standard.set(Date.now.timeIntervalSince1970, forKey: "debug_lastBGFetchTime")
-            UserDefaults.standard.set(false, forKey: "debug_lastBGFetchCancelled")
-            // MARK: Schedule
-            let request = BGAppRefreshTaskRequest(identifier: taskID)
-            // Re-scheduled each time it is executed
-            // TODO: Change back to 7 days after debugging background fetch
-            let timeBetweenBackgroundTasks: Double = 1 * 24 * 60 * 60 // 7 days
-            request.earliestBeginDate = Date(timeIntervalSinceNow: timeBetweenBackgroundTasks)
-            do {
-                try BGTaskScheduler.shared.submit(request)
-                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
-                Logger.background.info("Successfully scheduled background fetch request.")
-            } catch {
-                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
-                Logger.background.error("Could not schedule app refresh: \(error, privacy: .public)")
-            }
-            
-            // MARK: Create Operation
-            let operation = Task {
-                do {
-                    Logger.background.info("Updating Library from background fetch...")
-                    let updatedCount = try await MediaLibrary.shared.update()
-                    Logger.background.info("Updated \(updatedCount) media objects.")
-                    UserDefaults.standard.set(updatedCount > 0, forKey: "debug_lastBGFetchResult")
-                    task.setTaskCompleted(success: updatedCount > 0)
-                } catch {
-                    Logger.background.error("Error executing background fetch: \(error, privacy: .public)")
-                    UserDefaults.standard.set(false, forKey: "debug_lastBGFetchResult")
-                    task.setTaskCompleted(success: false)
-                }
-            }
-            
-            // MARK: Expiration Handler
-            task.expirationHandler = {
-                Logger.background.info("Cancelling background task...")
-                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchCancelled")
-                operation.cancel()
-            }
-        }
     }
 }
