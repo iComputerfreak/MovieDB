@@ -57,7 +57,7 @@ class TMDBMovieSearchResult: TMDBSearchResult {
         // We use decodeIfPresent here, because it could be possible, that the API response does not contains the key
         // (had this once)
         let rawReleaseDate = try container.decodeIfPresent(String.self, forKey: .rawReleaseDate) ?? ""
-        releaseDate = Utils.tmdbDateFormatter.date(from: rawReleaseDate)
+        releaseDate = Utils.tmdbUTCDateFormatter.date(from: rawReleaseDate)
         
         try super.init(from: decoder)
     }

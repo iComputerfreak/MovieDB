@@ -165,7 +165,7 @@ extension SeasonDummy {
         imagePath: String?,
         rawAirDate: String?
     ) {
-        let airDate = rawAirDate.map { Utils.tmdbDateFormatter.date(from: $0) }
+        let airDate = rawAirDate.map { Utils.tmdbUTCDateFormatter.date(from: $0) }
         self.init(
             id: id,
             seasonNumber: seasonNumber,

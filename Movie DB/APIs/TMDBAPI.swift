@@ -144,8 +144,8 @@ actor TMDBAPI {
         
         // Construct the request parameters for the date range
         let dateRangeParameters: [String: String?] = [
-            "end_date": Utils.tmdbDateFormatter.string(from: endDate),
-            "start_date": Utils.tmdbDateFormatter.string(from: startDate),
+            "end_date": Utils.tmdbCurrentDateFormatter.string(from: endDate),
+            "start_date": Utils.tmdbCurrentDateFormatter.string(from: startDate),
         ]
         // Do both fetch requests concurrently using a task group
         let newResults = try await withThrowingTaskGroup(
@@ -370,7 +370,10 @@ actor TMDBAPI {
         ]
         // Overwrite existing keys
         parameters.merge(additionalParameters)
-        components.queryItems = parameters.map(URLQueryItem.init)
+        // Sort, just for better log readability
+        components.queryItems = parameters
+            .map(URLQueryItem.init)
+            .sorted(on: \.name, by: <)
         
         // MARK: Execute Request
         // Time to wait between each request
