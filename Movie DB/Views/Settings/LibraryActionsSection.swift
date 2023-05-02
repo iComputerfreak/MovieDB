@@ -18,10 +18,7 @@ struct LibraryActionsSection: View {
     let reloadHandler: () -> Void
     
     var body: some View {
-        Section(footer: FooterView(
-            showingProgress: $config.showingProgress,
-            progressText: config.progressText
-        )) {
+        Section(footer: FooterView()) {
             Button(Strings.Settings.updateLibraryLabel, action: self.updateMedia)
             Button(Strings.Settings.reloadLibraryLabel, action: self.reloadHandler)
             Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
@@ -43,25 +40,14 @@ struct LibraryActionsSection: View {
                 }
             #endif
         }
-        .disabled(self.config.showingProgress)
+        .disabled(self.config.isLoading)
     }
     
     struct FooterView: View {
-        @Binding var showingProgress: Bool
-        let progressText: String
-        
         var body: some View {
             HStack {
                 Spacer()
                 VStack(alignment: .center) {
-                    // Update Progress
-                    HStack(spacing: 5) {
-                        ProgressView()
-                        Text(progressText)
-                    }
-                    .hidden(condition: !showingProgress)
-                    .padding(.bottom, showingProgress ? 4 : 0)
-                    .frame(height: showingProgress ? nil : 0)
                     // Made with love footer
                     Text(Strings.Settings.madeWithLoveFooter)
                         .bold()
@@ -77,7 +63,7 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        config.showProgress(Strings.Settings.ProgressView.updateMedia)
+        config.beginLoading(Strings.Settings.ProgressView.updateMedia)
         // Execute the update in the background
         Task(priority: .userInitiated) {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded
@@ -89,7 +75,7 @@ struct LibraryActionsSection: View {
                 
                 // Report back the result to the user on the main thread
                 await MainActor.run {
-                    self.config.hideProgress()
+                    self.config.stopLoading()
                     AlertHandler.showSimpleAlert(
                         title: Strings.Settings.Alert.updateMediaTitle,
                         message: Strings.Settings.Alert.updateMediaMessage(updateCount)
@@ -103,7 +89,7 @@ struct LibraryActionsSection: View {
                         title: Strings.Settings.Alert.libraryUpdateErrorTitle,
                         error: error
                     )
-                    self.config.hideProgress()
+                    self.config.stopLoading()
                 }
             }
         }
@@ -120,7 +106,7 @@ struct LibraryActionsSection: View {
             title: Strings.Settings.Alert.resetLibraryConfirmButtonDelete,
             style: .destructive
         ) { _ in
-            config.showProgress(Strings.Settings.ProgressView.resetLibrary)
+            config.beginLoading(Strings.Settings.ProgressView.resetLibrary)
             Task(priority: .userInitiated) {
                 do {
                     Logger.library.info("Resetting Library...")
@@ -133,7 +119,7 @@ struct LibraryActionsSection: View {
                     )
                 }
                 await MainActor.run {
-                    self.config.hideProgress()
+                    self.config.stopLoading()
                 }
             }
         })
@@ -152,13 +138,13 @@ struct LibraryActionsSection_Previews: PreviewProvider {
             }
         }
         Group {
-            VStack {
-                LibraryActionsSection.FooterView(showingProgress: .constant(true), progressText: "Loading...")
-                    .background(.cyan)
-                LibraryActionsSection.FooterView(showingProgress: .constant(false), progressText: "Loading...")
-                    .background(.cyan)
+            List {
+                LibraryActionsSection(
+                    config: .constant(SettingsViewConfig(isLoading: true, loadingText: "Loading...")),
+                    reloadHandler: {}
+                )
             }
         }
-        .previewDisplayName("Footer Loading View")
+        .previewDisplayName("Loading")
     }
 }

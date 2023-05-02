@@ -382,7 +382,7 @@ actor TMDBAPI {
         var timeSinceLastRequest = calculateTimeSinceLastRequest()
         while timeSinceLastRequest < cooldownTime {
             let waitingTime = cooldownTime - timeSinceLastRequest
-            try await Task.sleep(for: .milliseconds(Int(cooldownTime * 1000)))
+            try await Task.sleep(for: .milliseconds(Int(waitingTime * 1000)))
             timeSinceLastRequest = calculateTimeSinceLastRequest()
         }
         lastRequestDate = .now

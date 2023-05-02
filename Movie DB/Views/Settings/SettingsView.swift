@@ -62,7 +62,7 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        config.showProgress(Strings.Settings.ProgressView.reloadLibrary)
+        config.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
@@ -71,7 +71,7 @@ struct SettingsView: View {
                 // Reload and show the result
                 try await self.library.reloadAll()
                 await MainActor.run {
-                    self.config.hideProgress()
+                    self.config.stopLoading()
                     AlertHandler.showSimpleAlert(
                         title: Strings.Settings.Alert.reloadCompleteTitle,
                         message: Strings.Settings.Alert.reloadCompleteMessage
@@ -80,7 +80,7 @@ struct SettingsView: View {
             } catch {
                 Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
                 await MainActor.run {
-                    self.config.hideProgress()
+                    self.config.stopLoading()
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.reloadErrorTitle,
                         error: error

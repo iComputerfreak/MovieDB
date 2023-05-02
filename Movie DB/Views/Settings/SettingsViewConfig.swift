@@ -9,8 +9,6 @@
 import Foundation
 
 struct SettingsViewConfig {
-    var showingProgress = false
-    private(set) var progressText: String = ""
     var isLoading = false
     var loadingText: String?
     var languageChanged = false
@@ -20,13 +18,13 @@ struct SettingsViewConfig {
     var importLogShowing = false
     var importLogger: TagImporter.BasicLogger?
     
-    mutating func showProgress(_ text: String) {
-        showingProgress = true
-        progressText = text
+    mutating func beginLoading(_ text: String) {
+        self.isLoading = true
+        self.loadingText = text
     }
     
-    mutating func hideProgress() {
-        showingProgress = false
-        progressText = ""
+    mutating func stopLoading() {
+        self.isLoading = false
+        self.loadingText = nil
     }
 }
