@@ -13,6 +13,8 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+github_repo = "iComputerfreak/MovieDB"
+
 default_platform(:ios)
 
 platform :ios do
@@ -30,5 +32,27 @@ platform :ios do
     	skip_app_version_update: true,
     	overwrite_screenshots: true
     )
+  end
+  
+  desc "Deploy a new version to GitHub"
+  lane :deploy do
+   	ensure_git_status_clean(show_uncommitted_changes: true)
+  	current_version = get_version_number
+  	new_version = prompt(text: "Current version: " + current_version + ". What version would you like to update to? ")
+  	increment_version_number_in_xcodeproj(version_number: new_version)
+  	increment_version_number(version_number: new_version)
+  	increment_build_number
+  	git_commit(path: ".", message: "Bumped version to " + new_version)
+  	add_git_tag(tag: "v" + new_version)
+  	push_to_git_remote
+  	push_git_tags
+  	changelog = prompt(text: "Changelog:", multi_line_end_keyword: "END")
+  	github_release = set_github_release(
+	  repository_name: github_repo,
+	  api_token: ENV["GITHUB_TOKEN"],
+	  name: "Version " + new_version,
+	  tag_name: "v" + new_version,
+	  description: changelog
+	)
   end
 end

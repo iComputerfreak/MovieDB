@@ -36,17 +36,17 @@ class PredicateTests: XCTestCase {
             NSPredicate(format: "lastSeasonWatched > 0 AND lastSeasonWatched < numberOfSeasons"),
         ])
         
-        let media1 = PlaceholderData.createShow(in: testingUtils.context)
+        let media1 = PlaceholderData.createStaticShow(in: testingUtils.context)
         media1.title = "Media 1"
         media1.numberOfSeasons = 11
         media1.watched = .season(11)
         
-        let media2 = PlaceholderData.createShow(in: testingUtils.context)
+        let media2 = PlaceholderData.createStaticShow(in: testingUtils.context)
         media2.title = "Media 2"
         media2.numberOfSeasons = 1
         media2.watched = .season(11)
         
-        let media3 = PlaceholderData.createShow(in: testingUtils.context)
+        let media3 = PlaceholderData.createStaticShow(in: testingUtils.context)
         media3.title = "Media 3"
         media3.numberOfSeasons = 11
         media3.watched = .season(1)
@@ -375,7 +375,7 @@ class PredicateTests: XCTestCase {
     }
     
     func testAnyPredicate() throws {
-        let show = PlaceholderData.createShow(in: testingUtils.context)
+        let show = PlaceholderData.createStaticShow(in: testingUtils.context)
         show.watched = .season(1)
         show.numberOfSeasons = 2
         

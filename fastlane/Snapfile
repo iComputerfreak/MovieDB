@@ -32,3 +32,5 @@ override_status_bar(true)
 
 stop_after_first_error(true)
 number_of_retries(0)
+
+reinstall_app(true)

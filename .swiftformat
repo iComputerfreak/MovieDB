@@ -67,5 +67,5 @@
 --wraptypealiases preserve
 --xcodeindentation disabled
 --yodaswap always
---disable blankLinesAroundMark,redundantRawValues,redundantSelf,redundantNilInit,indent
+--disable blankLinesAroundMark,redundantRawValues,redundantSelf,redundantNilInit,indent,numberFormatting
 --enable isEmpty
