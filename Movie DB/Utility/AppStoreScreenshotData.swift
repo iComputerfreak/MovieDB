@@ -61,35 +61,33 @@ struct AppStoreScreenshotData {
         let drwho = try await api.media(for: 57243, type: .show, context: context) as! Show
         
         // MARK: Configure properties
-        await MainActor.run {
-            matrix.personalRating = .fourStars
-            matrix.watched = .watched
-            matrix.watchAgain = true
-            matrix.tags = getTags([.future, .conspiracy])
-            matrix.notes = "A pretty good movie!"
-            
-            loki.personalRating = .fiveStars
-            loki.watched = .notWatched
-            loki.watchAgain = nil
-            loki.tags = getTags([.comedy])
-            loki.notes = "Can't wait for another season!"
-            loki.isOnWatchlist = true
-            
-            expanse.personalRating = .fourAndAHalfStars
-            expanse.watched = .episode(season: 5, episode: 3)
-            expanse.watchAgain = false
-            expanse.tags = getTags([.future, .space])
-            expanse.notes = ""
-            expanse.isFavorite = true
-            
-            drwho.personalRating = .fiveStars
-            drwho.watched = .season(12)
-            drwho.watchAgain = true
-            drwho.tags = getTags([.future, .timeTravel, .space])
-            drwho.notes = ""
-            drwho.isOnWatchlist = true
-            drwho.isFavorite = true
-        }
+        matrix.personalRating = .fourStars
+        matrix.watched = .watched
+        matrix.watchAgain = true
+        matrix.tags = getTags([.future, .conspiracy])
+        matrix.notes = "A pretty good movie!"
+        
+        loki.personalRating = .fiveStars
+        loki.watched = .notWatched
+        loki.watchAgain = nil
+        loki.tags = getTags([.comedy])
+        loki.notes = "Can't wait for another season!"
+        loki.isOnWatchlist = true
+        
+        expanse.personalRating = .fourAndAHalfStars
+        expanse.watched = .episode(season: 5, episode: 3)
+        expanse.watchAgain = false
+        expanse.tags = getTags([.future, .space])
+        expanse.notes = ""
+        expanse.isFavorite = true
+        
+        drwho.personalRating = .fiveStars
+        drwho.watched = .season(12)
+        drwho.watchAgain = true
+        drwho.tags = getTags([.future, .timeTravel, .space])
+        drwho.notes = ""
+        drwho.isOnWatchlist = true
+        drwho.isFavorite = true
     }
     
     // swiftlint:enable force_cast
