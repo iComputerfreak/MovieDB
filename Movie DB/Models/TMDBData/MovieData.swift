@@ -12,7 +12,7 @@ extension TMDBData {
     struct MovieData: Decodable, Hashable {
         var rawReleaseDate: String
         var releaseDate: Date? {
-            Utils.tmdbDateFormatter.date(from: rawReleaseDate)
+            Utils.tmdbUTCDateFormatter.date(from: rawReleaseDate)
         }
 
         var runtime: Int?

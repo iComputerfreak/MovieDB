@@ -215,9 +215,7 @@ struct Utils {
     }
     
     static func purchasedPro() -> Bool {
-        true
-        // TODO: Re-enable for release
-//        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
+        UserDefaults.standard.bool(forKey: JFLiterals.inAppPurchaseIDPro)
     }
     
     /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string
@@ -285,13 +283,17 @@ extension Utils {
     /// The list of TMDB image paths to not download
     static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
     
-    /// The `DateFormatter` for translating to and from TMDB date representation
-    static var tmdbDateFormatter: DateFormatter = {
+    /// The `DateFormatter` for translating to and from TMDB date representation (using the UTC time zone)
+    static var tmdbUTCDateFormatter: DateFormatter = createTMDBDateFormatter(in: .utc)
+    /// The `DateFormatter` for translating to and from TMDB date representation (using the current time zone)
+    static var tmdbCurrentDateFormatter: DateFormatter = createTMDBDateFormatter(in: .current)
+    
+    private static func createTMDBDateFormatter(in timeZone: TimeZone) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.timeZone = .utc
+        formatter.timeZone = timeZone
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
-    }()
+    }
     
     /// Builds the URL for an TMDB image
     /// - Parameters:

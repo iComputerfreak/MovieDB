@@ -18,41 +18,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // MARK: Prepare for UI testing
+        // MARK: Prepare for UI testing or screenshots
         #if DEBUG
-            if CommandLine.arguments.contains("--uitesting") {
-                // Prepare a fresh container to do the UI testing in
-                PersistenceController.prepareForUITesting()
-                JFConfig.shared.region = "DE"
-                JFConfig.shared.language = "en-US"
-                // Make sure the app does not ask for a rating during UI testing
-                UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
-            } else if CommandLine.arguments.contains("--screenshots") {
-                // Make sure the app does not ask for a rating during UI testing
-                UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
-                // Prepare with sample data for taking screenshots
-                PersistenceController.prepareForUITesting()
-                JFConfig.shared.region = Locale.current.region?.identifier ?? ""
-                // Combining language and region can lead to invalid language/region pairs (e.g. if the device language
-                // is "English" and the device region is "Germany", the pair will be "en-DE", on the other hand, if the
-                // device language is "English (Australia)" and the region is "Germany", the pair will correctly be
-                // "en-AU".
-                let lang = Locale.current.language.languageCode!.identifier
-                let region = Locale.current.language.region!.identifier
-                JFConfig.shared.language = "\(lang)-\(region)"
-                
-                let bgContext = PersistenceController.viewContext.newBackgroundContext()
-                // Add sample data
-                Task {
-                    // swiftlint:disable:next force_try
-                    try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
-                    await MainActor.run {
-                        // Commit to parent store (view context)
-                        // swiftlint:disable:next force_try
-                        try! bgContext.save()
-                    }
-                }
-            }
+            handleDebugParameters()
         #endif
         
         // MARK: Register transformers
@@ -165,4 +133,46 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Add store manager as observer for changes
         SKPaymentQueue.default().add(StoreManager.shared)
     }
+    
+    #if DEBUG
+    private func handleDebugParameters() {
+        if CommandLine.arguments.contains("--uitesting") {
+            // Prepare a fresh container to do the UI testing in
+            PersistenceController.prepareForUITesting()
+            JFConfig.shared.region = "DE"
+            JFConfig.shared.language = "en-US"
+            // Make sure the app does not ask for a rating during UI testing
+            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+        } else if CommandLine.arguments.contains("--screenshots") {
+            // Make sure the app does not ask for a rating during UI testing
+            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            // Prepare with sample data for taking screenshots
+            PersistenceController.prepareForUITesting()
+            JFConfig.shared.region = Locale.current.region?.identifier ?? ""
+            // Combining language and region can lead to invalid language/region pairs (e.g. if the device language
+            // is "English" and the device region is "Germany", the pair will be "en-DE", on the other hand, if the
+            // device language is "English (Australia)" and the region is "Germany", the pair will correctly be
+            // "en-AU".
+            let lang = Locale.current.language.languageCode!.identifier
+            let region = Locale.current.language.region!.identifier
+            JFConfig.shared.language = "\(lang)-\(region)"
+            
+            let bgContext = PersistenceController.viewContext.newBackgroundContext()
+            // Add sample data
+            Task(priority: .userInitiated) {
+                // swiftlint:disable:next force_try
+                try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
+                await MainActor.run {
+                    // Commit to parent store (view context)
+                    // swiftlint:disable force_try
+                    try! bgContext.save()
+                    try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
+                        media.loadThumbnail(force: true)
+                    }
+                    // swiftlint:enable force_try
+                }
+            }
+        }
+    }
+    #endif
 }

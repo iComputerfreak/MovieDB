@@ -16,7 +16,7 @@ public class Episode: NSObject, NSCoding, NSSecureCoding, Decodable {
         guard let rawAirDate else {
             return nil
         }
-        return Utils.tmdbDateFormatter.date(from: rawAirDate)
+        return Utils.tmdbUTCDateFormatter.date(from: rawAirDate)
     }
 
     var episodeNumber: Int

@@ -146,7 +146,7 @@ struct SeasonDummy: CoreDataDummy, Decodable {
         self.overview = try container.decode(String?.self, forKey: .overview)
         self.imagePath = try container.decode(String?.self, forKey: .imagePath)
         let rawAirDate = try container.decode(String?.self, forKey: .airDate)
-        self.airDate = Utils.tmdbDateFormatter.date(from: rawAirDate ?? "")
+        self.airDate = Utils.tmdbUTCDateFormatter.date(from: rawAirDate ?? "")
     }
     
     enum CodingKeys: String, CodingKey {

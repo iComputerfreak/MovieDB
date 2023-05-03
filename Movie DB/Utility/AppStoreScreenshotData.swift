@@ -53,16 +53,20 @@ struct AppStoreScreenshotData {
         // MARK: Create Movies and Shows
         let api = TMDBAPI.shared
         
+        // MARK: Fetch medias
         // Matrix
         let matrix = try await api.media(for: 603, type: .movie, context: context) as! Movie
+        let loki = try await api.media(for: 84958, type: .show, context: context) as! Show
+        let expanse = try await api.media(for: 63639, type: .show, context: context) as! Show
+        let drwho = try await api.media(for: 57243, type: .show, context: context) as! Show
+        
+        // MARK: Configure properties
         matrix.personalRating = .fourStars
         matrix.watched = .watched
         matrix.watchAgain = true
         matrix.tags = getTags([.future, .conspiracy])
         matrix.notes = "A pretty good movie!"
         
-        // Loki
-        let loki = try await api.media(for: 84958, type: .show, context: context) as! Show
         loki.personalRating = .fiveStars
         loki.watched = .notWatched
         loki.watchAgain = nil
@@ -70,8 +74,6 @@ struct AppStoreScreenshotData {
         loki.notes = "Can't wait for another season!"
         loki.isOnWatchlist = true
         
-        // The Expanse
-        let expanse = try await api.media(for: 63639, type: .show, context: context) as! Show
         expanse.personalRating = .fourAndAHalfStars
         expanse.watched = .episode(season: 5, episode: 3)
         expanse.watchAgain = false
@@ -79,8 +81,6 @@ struct AppStoreScreenshotData {
         expanse.notes = ""
         expanse.isFavorite = true
         
-        // The Expanse
-        let drwho = try await api.media(for: 57243, type: .show, context: context) as! Show
         drwho.personalRating = .fiveStars
         drwho.watched = .season(12)
         drwho.watchAgain = true

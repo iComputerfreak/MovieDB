@@ -35,8 +35,8 @@ final class Movie_DBScreenshots: XCTestCase {
     func testScreenshots() throws {
         app.launch()
         
-        // Give the app a second to load the sample data
-        _ = app.wait(for: .runningBackground, timeout: 1)
+        // Give the app a second to load the sample data and thumbnails
+        _ = app.wait(for: .runningBackground, timeout: 3)
         snapshot("Library")
         
         app.navigationBars.firstMatch.buttons["add-media"].tap()
@@ -51,13 +51,13 @@ final class Movie_DBScreenshots: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         // Add dynamic list
-        app.navigationBars.buttons["new-list"].tap() // New...
+        app.navigationBars.buttons["new-list"].forceTap() // New...
         app.buttons["new-dynamic-list"].tap()
         app.typeText("5-star Movies")
         app.alerts.buttons.element(boundBy: 1).tap() // Add
         
         // Add custom list
-        app.navigationBars.buttons["new-list"].tap()
+        app.navigationBars.buttons["new-list"].forceTap()
         app.buttons["new-custom-list"].tap()
         app.typeText("Recommend to Ben")
         app.alerts.buttons.element(boundBy: 1).tap()
@@ -92,5 +92,11 @@ final class Movie_DBScreenshots: XCTestCase {
     private func snapshot(_ name: String) {
         Snapshot.snapshot("\(String(format: "%02d", snapshotCounter))_\(name)")
         snapshotCounter += 1
+    }
+}
+
+extension XCUIElement {
+    func forceTap() {
+        coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).tap()
     }
 }

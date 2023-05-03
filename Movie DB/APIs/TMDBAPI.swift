@@ -14,15 +14,13 @@ import UIKit
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 actor TMDBAPI {
-    // TODO: Implement proper rate limiting (time-based)
-    private let urlSession: URLSession = {
-        let configuration = URLSessionConfiguration.default
-        // Limit the number of concurrent TMDB connections as a low-effort form of rate limiting
-        configuration.httpMaximumConnectionsPerHost = 20
-        return URLSession(configuration: configuration)
-    }()
-    
     static let shared = TMDBAPI()
+    /// The maximum number of requests that can be executed in one second. Used to calculate a cooldown period between requests
+    static let maxRequestsPerSecond = 20
+    /// The URLSession used by the API
+    private let urlSession: URLSession = .shared
+    /// The non-persistent date of our last request. Used for rate-limiting
+    private var lastRequestDate: Date = .distantPast
     
     private let apiKey: String = Secrets.tmdbAPIKey
     /// The language identifier consisting of an ISO 639-1 language code and an ISO 3166-1 region code
@@ -146,8 +144,8 @@ actor TMDBAPI {
         
         // Construct the request parameters for the date range
         let dateRangeParameters: [String: String?] = [
-            "end_date": Utils.tmdbDateFormatter.string(from: endDate),
-            "start_date": Utils.tmdbDateFormatter.string(from: startDate),
+            "end_date": Utils.tmdbCurrentDateFormatter.string(from: endDate),
+            "start_date": Utils.tmdbCurrentDateFormatter.string(from: startDate),
         ]
         // Do both fetch requests concurrently using a task group
         let newResults = try await withThrowingTaskGroup(
@@ -372,9 +370,26 @@ actor TMDBAPI {
         ]
         // Overwrite existing keys
         parameters.merge(additionalParameters)
-        components.queryItems = parameters.map(URLQueryItem.init)
+        // Sort, just for better log readability
+        components.queryItems = parameters
+            .map(URLQueryItem.init)
+            .sorted(on: \.name, by: <)
         
         // MARK: Execute Request
+        // Time to wait between each request
+        let cooldownTime = 1.0 / Double(Self.maxRequestsPerSecond)
+        // Do a while-loop, in case another request woke up while we waited
+        func calculateTimeSinceLastRequest() -> TimeInterval {
+            self.lastRequestDate.distance(to: .now)
+        }
+        var timeSinceLastRequest = calculateTimeSinceLastRequest()
+        while timeSinceLastRequest < cooldownTime {
+            let waitingTime = cooldownTime - timeSinceLastRequest
+            try await Task.sleep(for: .milliseconds(Int(waitingTime * 1000)))
+            timeSinceLastRequest = calculateTimeSinceLastRequest()
+        }
+        lastRequestDate = .now
+        
         // Use this instance's URLSession to limit the maximum concurrent requests
         let (data, response) = try await Utils.request(from: components.url!, session: self.urlSession)
         

@@ -15,7 +15,7 @@ extension TMDBData {
             guard let rawFirstAirDate else {
                 return nil
             }
-            return Utils.tmdbDateFormatter.date(from: rawFirstAirDate)
+            return Utils.tmdbUTCDateFormatter.date(from: rawFirstAirDate)
         }
 
         var rawLastAirDate: String?
@@ -23,7 +23,7 @@ extension TMDBData {
             guard let rawLastAirDate else {
                 return nil
             }
-            return Utils.tmdbDateFormatter.date(from: rawLastAirDate)
+            return Utils.tmdbUTCDateFormatter.date(from: rawLastAirDate)
         }
 
         var lastEpisodeToAir: Episode?
