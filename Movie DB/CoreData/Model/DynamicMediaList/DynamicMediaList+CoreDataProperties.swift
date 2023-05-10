@@ -13,7 +13,7 @@ import UIKit
 
 public extension DynamicMediaList {
     /// The internal library id
-    @NSManaged var id: UUID! // swiftlint:disable:this implicitly_unwrapped_optional
+    @NSManaged var id: UUID?
     /// The name of the list
     @NSManaged var name: String
     /// The name of the SF Symbol to use as an icon for this list

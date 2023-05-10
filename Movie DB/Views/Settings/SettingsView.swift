@@ -43,6 +43,7 @@ struct SettingsView: View {
                             LegalView()
                         }
                     }
+                    #if DEBUG
                     ToolbarItem(placement: .navigationBarLeading) {
                         NavigationLink {
                             DebugView()
@@ -50,6 +51,7 @@ struct SettingsView: View {
                             Text(verbatim: "Debug")
                         }
                     }
+                    #endif
                 }
                 .notificationPopup(
                     isPresented: $config.isShowingReloadCompleteNotification,

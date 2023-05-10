@@ -136,19 +136,23 @@ class Deduplicator {
             )
         case .dynamicMediaList:
             let list: DynamicMediaList = castObject()
-            deduplicateObject(
-                list,
-                chooseWinner: { $0.min(on: \.name, by: <)! },
-                uniquePropertyName: Schema.DynamicMediaList.id.rawValue,
-                uniquePropertyValue: list.id.uuidString
-            )
+            if let id = list.id {
+                deduplicateObject(
+                    list,
+                    chooseWinner: { $0.min(on: \.name, by: <)! },
+                    uniquePropertyName: Schema.DynamicMediaList.id.rawValue,
+                    uniquePropertyValue: id.uuidString
+                )
+            }
         case .filterSetting:
             let filterSetting: FilterSetting = castObject()
-            deduplicateObject(
-                filterSetting,
-                uniquePropertyName: Schema.FilterSetting.id.rawValue,
-                uniquePropertyValue: filterSetting.id!.uuidString
-            )
+            if let id = filterSetting.id {
+                deduplicateObject(
+                    filterSetting,
+                    uniquePropertyName: Schema.FilterSetting.id.rawValue,
+                    uniquePropertyValue: id.uuidString
+                )
+            }
         case .productionCompany:
             let company: ProductionCompany = castObject()
             deduplicateObject(

@@ -15,12 +15,14 @@ struct BackgroundFetchDebugSection: View {
             let cancelled = UserDefaults.standard.bool(forKey: "debug_lastBGFetchCancelled")
             let rescheduleResult = UserDefaults.standard.bool(forKey: "debug_lastBGFetchRescheduleResult")
             let result = UserDefaults.standard.bool(forKey: "debug_lastBGFetchResult")
+            let lastLibraryUpdate = Date(timeIntervalSince1970: MediaLibrary.shared.lastUpdated)
             Text(
                 """
                 Last BG Fetch was at \(time, format: .iso8601)
                 Cancelled: \(cancelled ? "Yes" : "No")
                 Rescheduled: \(rescheduleResult ? "Yes" : "No")
                 Result: \(result ? "success" : "failure")
+                Last Library Update: \(lastLibraryUpdate)
                 """
             )
         }
