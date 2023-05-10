@@ -63,7 +63,7 @@ class BackgroundHandler {
         scheduleBackgroundFetch()
         
         // MARK: Create Operation
-        let operation = Task {
+        let operation = Task(priority: .high) {
             do {
                 Logger.background.info("Updating Library from background fetch...")
                 let updatedCount = try await MediaLibrary.shared.update()

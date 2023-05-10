@@ -118,7 +118,11 @@ actor TMDBAPI {
             let days = distance / .day
             // Round to compensate for rounding errors, the result should always be close to full numbers,
             // since we erased the time of both dates
-            assert(abs(days - days.rounded()) < 0.01)
+            assert(
+                abs(days - days.rounded()) < 0.01,
+                // swiftlint:disable:next line_length
+                "Distance between time-erased startDate (\(startDate)) and time-erased endDate (\(endDate)) is \(days) days."
+            )
             return Int(days.rounded())
         }
         

@@ -16,7 +16,7 @@ public class DynamicMediaList: NSManagedObject, MediaListProtocol {
         if isFault {
             return "\(String(describing: Self.self))(isFault: true, objectID: \(objectID))"
         } else {
-            return "\(String(describing: Self.self))(id: \(id.uuidString), name: \(name))"
+            return "\(String(describing: Self.self))(id: \(id?.uuidString ?? "nil"), name: \(name))"
         }
     }
     
