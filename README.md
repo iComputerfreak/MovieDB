@@ -3,7 +3,7 @@
 An app to keep track of all the movies and shows you watched.
 
 
-**Download now via [TestFlight](https://testflight.apple.com/join/yI9GMaOD)!**
+**Download now via the [App Store](https://apps.apple.com/de/app/movie-organizer/id1552079477)!**
 
 Movie DB is the ultimate app for movie and TV show enthusiasts. With this app, you can easily keep track of all the movies and shows you've watched or want to watch and rate them with 0 to 5 stars. You can also mark them as watched and whether you would watch them again.
 
