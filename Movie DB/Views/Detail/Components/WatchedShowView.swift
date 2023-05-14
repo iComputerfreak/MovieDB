@@ -14,6 +14,7 @@ struct WatchedShowView: View {
     @Binding var watched: ShowWatchState?
     let maxSeason: Int?
     @Environment(\.isEditing) private var isEditing
+    @EnvironmentObject private var mediaObject: Media
     
     private var episodeString: String {
         guard let watched else {
@@ -35,6 +36,7 @@ struct WatchedShowView: View {
         if isEditing {
             NavigationLink {
                 EditView(watched: $watched, maxSeason: maxSeason)
+                    .environmentObject(mediaObject)
             } label: {
                 Text(episodeString)
                     .headline(Strings.Detail.watchedHeadline)
