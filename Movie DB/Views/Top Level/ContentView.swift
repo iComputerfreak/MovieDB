@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var problems = MediaLibrary.shared.problems()
     
     var body: some View {
+        // TODO: Use!
         NotificationView { notificationProxy in
             TabView {
                 LibraryHome()
@@ -50,5 +51,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }
