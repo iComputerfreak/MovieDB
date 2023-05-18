@@ -12,30 +12,30 @@ import os.log
 import SwiftUI
 
 struct SettingsView: View {
-    // Reference to the config instance
-    @ObservedObject private var preferences = JFConfig.shared
     @State private var library: MediaLibrary = .shared
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
+    @EnvironmentObject private var storeManager: StoreManager
+    @EnvironmentObject private var config: JFConfig
     
-    @State private var config = SettingsViewConfig()
+    @State private var viewModel = SettingsViewModel()
     
     var body: some View {
         LoadingView(
-            isShowing: $config.isLoading,
-            text: config.loadingText ?? Strings.Settings.loadingPlaceholder
+            isShowing: $viewModel.isLoading,
+            text: viewModel.loadingText ?? Strings.Settings.loadingPlaceholder
         ) {
             NavigationStack {
                 Form {
-                    PreferencesSection(config: $config, reloadHandler: self.reloadMedia)
-                    if !Utils.purchasedPro() {
-                        ProSection(config: $config)
+                    PreferencesSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    if !storeManager.hasPurchasedPro {
+                        ProSection(config: $viewModel)
                     }
-                    ImportExportSection(config: $config)
-                    ContactSection(config: $config)
-                    LibraryActionsSection(config: $config, reloadHandler: self.reloadMedia)
+                    ImportExportSection(config: $viewModel)
+                    ContactSection(config: $viewModel)
+                    LibraryActionsSection(config: $viewModel, reloadHandler: self.reloadMedia)
                 }
-                .environmentObject(preferences)
+                .environmentObject(config)
                 .navigationTitle(Strings.TabView.settingsLabel)
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
@@ -54,7 +54,7 @@ struct SettingsView: View {
                     #endif
                 }
                 .notificationPopup(
-                    isPresented: $config.isShowingReloadCompleteNotification,
+                    isPresented: $viewModel.isShowingReloadCompleteNotification,
                     systemImage: "checkmark",
                     title: "Reload complete",
                     subtitle: nil
@@ -64,7 +64,7 @@ struct SettingsView: View {
     }
     
     func reloadMedia() {
-        config.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
+        viewModel.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
@@ -73,7 +73,7 @@ struct SettingsView: View {
                 // Reload and show the result
                 try await self.library.reloadAll()
                 await MainActor.run {
-                    self.config.stopLoading()
+                    self.viewModel.stopLoading()
                     AlertHandler.showSimpleAlert(
                         title: Strings.Settings.Alert.reloadCompleteTitle,
                         message: Strings.Settings.Alert.reloadCompleteMessage
@@ -82,7 +82,7 @@ struct SettingsView: View {
             } catch {
                 Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
                 await MainActor.run {
-                    self.config.stopLoading()
+                    self.viewModel.stopLoading()
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.reloadErrorTitle,
                         error: error

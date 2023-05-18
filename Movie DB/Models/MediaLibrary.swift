@@ -62,7 +62,7 @@ struct MediaLibrary {
             throw UserError.mediaAlreadyAdded
         }
         // Pro limitations
-        guard Utils.purchasedPro() || (mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
+        guard StoreManager.shared.hasPurchasedPro || (mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
             throw UserError.noPro
         }
         

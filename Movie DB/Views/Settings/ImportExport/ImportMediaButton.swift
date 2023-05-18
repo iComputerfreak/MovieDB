@@ -11,9 +11,10 @@ import os.log
 import SwiftUI
 
 struct ImportMediaButton: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     @State private var isImportingMedia = false
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
+    @EnvironmentObject private var storeManager: StoreManager
     
     var body: some View {
         Button(Strings.Settings.importMediaLabel, action: { isImportingMedia = true })
@@ -30,7 +31,7 @@ struct ImportMediaButton: View {
     
     // swiftlint:disable:next function_body_length
     func importMedia(url: URL) {
-        if !Utils.purchasedPro() {
+        if !storeManager.hasPurchasedPro {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
             guard mediaCount < JFLiterals.nonProMediaLimit else {
                 config.isShowingProInfo = true

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SettingsViewConfig {
+struct SettingsViewModel {
     var isLoading = false
     var loadingText: String?
     var languageChanged = false

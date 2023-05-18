@@ -115,7 +115,7 @@
 		AB6718F622C113F800F429E4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6718F522C113F800F429E4 /* Utils.swift */; };
 		AB68250629CF7C8F0086034B /* LibraryViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250529CF7C8F0086034B /* LibraryViewConfig.swift */; };
 		AB68250829CF7CD40086034B /* LibraryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250729CF7CD40086034B /* LibraryToolbar.swift */; };
-		AB68250A29D06FDE0086034B /* SettingsViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250929D06FDE0086034B /* SettingsViewConfig.swift */; };
+		AB68250A29D06FDE0086034B /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB68250929D06FDE0086034B /* SettingsViewModel.swift */; };
 		AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */; };
 		AB6B86C22972F8DB00E36AE6 /* ImportMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */; };
 		AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */; };
@@ -434,7 +434,7 @@
 		AB6718F522C113F800F429E4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AB68250529CF7C8F0086034B /* LibraryViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewConfig.swift; sourceTree = "<group>"; };
 		AB68250729CF7CD40086034B /* LibraryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryToolbar.swift; sourceTree = "<group>"; };
-		AB68250929D06FDE0086034B /* SettingsViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewConfig.swift; sourceTree = "<group>"; };
+		AB68250929D06FDE0086034B /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotData.swift; sourceTree = "<group>"; };
 		AB6B86C12972F8DB00E36AE6 /* ImportMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMediaButton.swift; sourceTree = "<group>"; };
 		AB6B86C32972F93300E36AE6 /* ImportTagsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTagsButton.swift; sourceTree = "<group>"; };
@@ -1312,7 +1312,7 @@
 			isa = PBXGroup;
 			children = (
 				AB50944C238D63FD003A81DB /* SettingsView.swift */,
-				AB68250929D06FDE0086034B /* SettingsViewConfig.swift */,
+				AB68250929D06FDE0086034B /* SettingsViewModel.swift */,
 				ABEEB0CD2814316E00230F0B /* PreferencesSection.swift */,
 				ABEEB0D32814324700230F0B /* LanguagePickerView.swift */,
 				ABEEB0E0281598CC00230F0B /* RegionPickerView.swift */,
@@ -1740,7 +1740,7 @@
 				ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */,
 				AB6D9C95283BC20D00AF655C /* Strings+MediaStatus.swift in Sources */,
 				ABD3C5E329C130A9000B5107 /* FilterReleaseYearPicker.swift in Sources */,
-				AB68250A29D06FDE0086034B /* SettingsViewConfig.swift in Sources */,
+				AB68250A29D06FDE0086034B /* SettingsViewModel.swift in Sources */,
 				AB2226EA29A534FD009EF7BE /* Deduplicator.swift in Sources */,
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,

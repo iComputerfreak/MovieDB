@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct ProSection: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     
     var body: some View {
         Section {
@@ -25,7 +25,7 @@ struct ProSection: View {
 struct ProSection_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            ProSection(config: .constant(SettingsViewConfig()))
+            ProSection(config: .constant(SettingsViewModel()))
         }
     }
 }

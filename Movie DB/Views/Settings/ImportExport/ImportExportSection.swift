@@ -12,7 +12,7 @@ import os.log
 import SwiftUI
 
 struct ImportExportSection: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
@@ -124,7 +124,7 @@ struct ImportExportSection: View {
 struct ImportExportSection_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            ImportExportSection(config: .constant(SettingsViewConfig()))
+            ImportExportSection(config: .constant(SettingsViewModel()))
         }
     }
 }

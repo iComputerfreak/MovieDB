@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PreferencesSection: View {
     @EnvironmentObject var preferences: JFConfig
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     // We need to know how to reload the library if the language changes
     // swiftformat:disable:next spaceAroundParens
     let reloadHandler: @MainActor () -> Void
@@ -61,7 +61,7 @@ struct PreferencesSection_Previews: PreviewProvider {
     static var previews: some View {
         List {
             PreferencesSection(
-                config: .constant(SettingsViewConfig()),
+                config: .constant(SettingsViewModel()),
                 reloadHandler: {}
             )
             .environmentObject(JFConfig.shared)

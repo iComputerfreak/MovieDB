@@ -16,6 +16,7 @@ enum PurchaseError: Error {
 struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var storeManager: StoreManager
     
     var body: some View {
         NavigationStack {
@@ -28,6 +29,7 @@ struct ProInfoView: View {
                 Spacer()
                 buyButton
             }
+            .padding()
             .navigationTitle(Strings.ProInfo.navBarTitle)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -35,7 +37,7 @@ struct ProInfoView: View {
                         Logger.appStore.info("Restoring Purchases")
                         Task {
                             do {
-                                try await StoreManager.shared.restorePurchases()
+                                try await storeManager.restorePurchases()
                             } catch {
                                 AlertHandler.showSimpleAlert(
                                     title: Strings.ProInfo.Alert.restoreFailedTitle,
@@ -56,13 +58,12 @@ struct ProInfoView: View {
     
     @ViewBuilder
     var buyButton: some View {
-        if StoreManager.shared.hasPurchasedPro {
+        if storeManager.hasPurchasedPro {
             Button(Strings.ProInfo.buyButtonLabelDisabled) {}
                 .buttonStyle(.borderedProminent)
                 .disabled(true)
         } else {
-            let manager = StoreManager.shared
-            let product = manager.products.first { $0.id == JFLiterals.inAppPurchaseIDPro }
+            let product = storeManager.products.first { $0.id == JFLiterals.inAppPurchaseIDPro }
             let displayPrice = product?.displayPrice ?? ""
             Button(Strings.ProInfo.buyButtonLabel(displayPrice)) {
                 Task(priority: .userInitiated) {
@@ -83,14 +84,14 @@ struct ProInfoView: View {
     
     func buyPro() async throws {
         Logger.appStore.info("Buying Pro")
-        guard let proProduct = StoreManager.shared.products.first(where: { product in
+        guard let proProduct = storeManager.products.first(where: { product in
             product.id == JFLiterals.inAppPurchaseIDPro
         }) else {
             throw PurchaseError.productNotFound
         }
         
         // Execute the purchase
-        let result = try await StoreManager.shared.purchase(proProduct)
+        let result = try await storeManager.purchase(proProduct)
         
         // Dismiss on a successful purchase
         if result != nil {
@@ -102,5 +103,6 @@ struct ProInfoView: View {
 struct ProInfoView_Previews: PreviewProvider {
     static var previews: some View {
         ProInfoView()
+            .previewEnvironment()
     }
 }

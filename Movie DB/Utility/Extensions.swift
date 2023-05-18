@@ -156,3 +156,13 @@ extension UIColor {
         return [red, green, blue, alpha]
     }
 }
+
+extension View {
+    /// Prepares the view for executing in a preview environment
+    func previewEnvironment() -> some View {
+        self
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .environmentObject(JFConfig.shared)
+            .environmentObject(StoreManager.shared)
+    }
+}

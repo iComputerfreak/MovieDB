@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ExportTagsButton: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     
     var body: some View {
         Button(Strings.Settings.exportTagsLabel, action: self.exportTags)

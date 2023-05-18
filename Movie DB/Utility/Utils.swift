@@ -214,10 +214,6 @@ struct Utils {
         }
     }
     
-    static func purchasedPro() -> Bool {
-        return StoreManager.shared.hasPurchasedPro
-    }
-    
     /// Returns the human readable language name from the given locale string consisting of an ISO-639-1 language string and possibly an ISO-3166-1 region string
     ///
     ///     languageString("pt-BR") // Returns "Portuguese (Brazil)"
