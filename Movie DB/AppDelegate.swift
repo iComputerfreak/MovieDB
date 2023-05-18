@@ -30,9 +30,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // MARK: Update Poster Deny List
         loadDenyList()
         
-        // MARK: Set up In App Purchases
-        setupIAP()
-        
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
@@ -125,13 +122,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // Save the deny list
             UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
         }
-    }
-    
-    private func setupIAP() {
-        // Load available products
-        StoreManager.shared.getProducts(productIDs: JFLiterals.inAppPurchaseIDs)
-        // Add store manager as observer for changes
-        SKPaymentQueue.default().add(StoreManager.shared)
     }
     
     #if DEBUG

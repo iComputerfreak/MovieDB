@@ -9,6 +9,10 @@
 import os.log
 import SwiftUI
 
+enum PurchaseError: Error {
+    case productNotFound
+}
+
 struct ProInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.dismiss) private var dismiss
@@ -22,45 +26,23 @@ struct ProInfoView: View {
                     Spacer()
                 }
                 Spacer()
-                if Utils.purchasedPro() {
-                    Button(Strings.ProInfo.buyButtonLabelDisabled) {}
-                        .buttonStyle(.borderedProminent)
-                        .disabled(true)
-                } else {
-                    let manager = StoreManager.shared
-                    let product = manager.products.first { $0.productIdentifier == JFLiterals.inAppPurchaseIDPro }
-                    let price = Double(truncating: product?.price ?? 0)
-                    let priceLocale = product?.priceLocale.currency ?? Locale.current.currency
-                    let priceString = price > 0 ? price.formatted(
-                        .currency(code: priceLocale?.identifier ?? "").precision(.fractionLength(2))
-                    ) : ""
-                    Button(Strings.ProInfo.buyButtonLabel(priceString)) {
-                        Logger.appStore.info("Buying Pro")
-                        let manager = StoreManager.shared
-                        guard let product = manager.products.first(where: { product in
-                            product.productIdentifier == JFLiterals.inAppPurchaseIDPro
-                        }) else {
-                            AlertHandler.showSimpleAlert(
-                                title: Strings.ProInfo.Alert.buyProErrorMessage,
-                                message: Strings.ProInfo.Alert.buyProErrorMessage
-                            )
-                            return
-                        }
-                        // Execute the purchase
-                        StoreManager.shared.purchase(product: product) {
-                            // on success:
-                            dismiss()
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
+                buyButton
             }
             .navigationTitle(Strings.ProInfo.navBarTitle)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button(Strings.ProInfo.restoreButtonLabel) {
                         Logger.appStore.info("Restoring Purchases")
-                        StoreManager.shared.restorePurchases()
+                        Task {
+                            do {
+                                try await StoreManager.shared.restorePurchases()
+                            } catch {
+                                AlertHandler.showSimpleAlert(
+                                    title: Strings.ProInfo.Alert.restoreFailedTitle,
+                                    message: Strings.ProInfo.Alert.restoreFailedMessage(error.localizedDescription)
+                                )
+                            }
+                        }
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
@@ -69,6 +51,50 @@ struct ProInfoView: View {
                     }
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    var buyButton: some View {
+        if StoreManager.shared.hasPurchasedPro {
+            Button(Strings.ProInfo.buyButtonLabelDisabled) {}
+                .buttonStyle(.borderedProminent)
+                .disabled(true)
+        } else {
+            let manager = StoreManager.shared
+            let product = manager.products.first { $0.id == JFLiterals.inAppPurchaseIDPro }
+            let displayPrice = product?.displayPrice ?? ""
+            Button(Strings.ProInfo.buyButtonLabel(displayPrice)) {
+                Task(priority: .userInitiated) {
+                    do {
+                        try await buyPro()
+                    } catch {
+                        AlertHandler.showSimpleAlert(
+                            title: Strings.ProInfo.Alert.buyProErrorMessage,
+                            message: Strings.ProInfo.Alert.buyProErrorMessage
+                        )
+                    }
+                }
+            }
+            // TODO: Use custom buy button style hat incorporates the above if-case (see Apple's project)
+                .buttonStyle(.borderedProminent)
+        }
+    }
+    
+    func buyPro() async throws {
+        Logger.appStore.info("Buying Pro")
+        guard let proProduct = StoreManager.shared.products.first(where: { product in
+            product.id == JFLiterals.inAppPurchaseIDPro
+        }) else {
+            throw PurchaseError.productNotFound
+        }
+        
+        // Execute the purchase
+        let result = try await StoreManager.shared.purchase(proProduct)
+        
+        // Dismiss on a successful purchase
+        if result != nil {
+            dismiss()
         }
     }
 }

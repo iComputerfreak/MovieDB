@@ -86,6 +86,16 @@ extension Strings {
                 localized: "settings.alert.cannotMakePayments.message",
                 comment: "Message of an alert informing the user that his account cannot make payments"
             )
+            static let restoreFailedTitle = String(
+                localized: "proInfo.alert.restoreFailed.title",
+                comment: "Title of an alert informing the user about an error that occurred during restoration of his purchases"
+            )
+            static func restoreFailedMessage(_ localizedError: String) -> String {
+                String(
+                    localized: "proInfo.alert.restoreFailed.message \(localizedError)",
+                    comment: "Message of an alert informing the user about an error that occurred during restoration of his purchases"
+                )
+            }
         }
     }
 }
