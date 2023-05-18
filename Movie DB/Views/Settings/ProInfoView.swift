@@ -63,7 +63,7 @@ struct ProInfoView: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(true)
         } else {
-            let product = storeManager.products.first { $0.id == JFLiterals.inAppPurchaseIDPro }
+            let product = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
             let displayPrice = product?.displayPrice ?? ""
             Button(Strings.ProInfo.buyButtonLabel(displayPrice)) {
                 Task(priority: .userInitiated) {
@@ -84,9 +84,7 @@ struct ProInfoView: View {
     
     func buyPro() async throws {
         Logger.appStore.info("Buying Pro")
-        guard let proProduct = storeManager.products.first(where: { product in
-            product.id == JFLiterals.inAppPurchaseIDPro
-        }) else {
+        guard let proProduct = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
             throw PurchaseError.productNotFound
         }
         

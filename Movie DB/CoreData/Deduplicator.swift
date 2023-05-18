@@ -229,7 +229,7 @@ class Deduplicator {
             "There are duplicates with identical objectIDs! The below selection algorithm will not work."
         )
         let winner = chooseWinner(duplicates)
-        guard let winnerIndex = duplicates.firstIndex(where: { $0.objectID == winner.objectID }) else {
+        guard let winnerIndex = duplicates.firstIndex(where: \.objectID, equals: winner.objectID) else {
             Logger.coreData.error("The selected deduplication winner is not part of the provided duplicates.")
             return
         }

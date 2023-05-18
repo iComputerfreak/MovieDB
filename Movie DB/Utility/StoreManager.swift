@@ -24,7 +24,7 @@ class StoreManager: ObservableObject {
     
     /// Whether the user has purchased the pro version of the app
     var hasPurchasedPro: Bool {
-        guard let proProduct = self.products.first(where: { $0.id == JFLiterals.inAppPurchaseIDPro }) else {
+        guard let proProduct = self.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
             return false
         }
         return self.isPurchased(proProduct)
@@ -147,7 +147,7 @@ class StoreManager: ObservableObject {
                 // Check whether the transaction is verified. If it isn’t, catch `failedVerification` error.
                 let transaction = try checkVerified(result)
                 
-                if let product = products.first(where: { $0.id == transaction.productID }) {
+                if let product = products.first(where: \.id, equals: transaction.productID) {
                     purchasedProducts.append(product)
                 }
             } catch {

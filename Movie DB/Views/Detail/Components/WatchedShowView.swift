@@ -82,7 +82,7 @@ struct WatchedShowView: View {
             }
             
             // MARK: Option 1: The entered seasons does not have episodes out yet
-            if let season = show.seasons.first(where: { $0.seasonNumber == self.season }) {
+            if let season = show.seasons.first(where: \.seasonNumber, equals: self.season) {
                 assert(
                     season.episodeCount == 0,
                     "There exists a season with count > 0, so seasonIsValid should be true"
