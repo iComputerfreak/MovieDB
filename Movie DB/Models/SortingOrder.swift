@@ -44,33 +44,30 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
     }
     
     func createNSSortDescriptors(with direction: SortingDirection) -> [NSSortDescriptor] {
-        createSortDescriptors(with: direction).map(NSSortDescriptor.init)
+        createSortDescriptors(with: direction) // .map(NSSortDescriptor.init)
     }
     
-    func createSortDescriptors(with direction: SortingDirection) -> [SortDescriptor<Media>] {
-        let order = {
-            switch direction {
-            case .ascending:
-                return SortOrder.forward
-            case .descending:
-                return SortOrder.reverse
-            }
-        }()
+    func createSortDescriptors(with direction: SortingDirection) -> [NSSortDescriptor] {
+        let ascending = direction == .ascending
         
-        var sortDescriptors = [SortDescriptor<Media>]()
+        var sortDescriptors = [NSSortDescriptor]()
         switch self {
         case .name:
             // Name sort descriptor gets appended at the end as a tie breaker already
             break
         case .created:
-            sortDescriptors.append(SortDescriptor(\.creationDate, order: order))
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate, ascending: ascending))
         case .releaseDate:
-            sortDescriptors.append(SortDescriptor(\.releaseDateOrFirstAired, order: order))
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.releaseDateOrFirstAired, ascending: ascending))
         case .rating:
-            sortDescriptors.append(SortDescriptor(\.personalRating.integerRepresentation, order: order))
+            // !!!: Using SortDescriptor<Media> here fails at runtime, because Media must be introspectable by the
+            // !!!: objective-c runtime in order to use it as the base type of a `SortDescriptor` when using
+            // !!!: Media.personalRating.integerRepresentation / .rawValue (just .personalRating does not work due to
+            // !!!: SortDescriptor's initializers)
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.personalRating, ascending: ascending))
         }
         // Append the name sort descriptor as a second alternative
-        sortDescriptors.append(SortDescriptor(\.title, order: order))
+        sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: ascending))
         return sortDescriptors
     }
 }

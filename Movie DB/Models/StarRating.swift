@@ -8,7 +8,8 @@
 
 import Foundation
 
-public enum StarRating: Int, Strideable, Codable {
+@objc
+public enum StarRating: Int, Strideable, Codable, Comparable {
     case noRating = 0
     case halfStar
     case oneStar

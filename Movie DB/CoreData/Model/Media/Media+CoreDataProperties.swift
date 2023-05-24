@@ -22,7 +22,7 @@ public extension Media {
     }
 
     /// A rating between 0 and 10 (no Rating and 5 stars)
-    var personalRating: StarRating {
+    @objc var personalRating: StarRating {
         get { getEnum(forKey: Schema.Media.personalRating, defaultValue: .noRating) }
         set { setEnum(newValue, forKey: Schema.Media.personalRating) }
     }

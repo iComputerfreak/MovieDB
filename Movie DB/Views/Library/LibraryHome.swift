@@ -25,7 +25,7 @@ struct LibraryHome: View {
         return (try? managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
-    var sortDescriptors: [SortDescriptor<Media>] {
+    var sortDescriptors: [NSSortDescriptor] {
         config.sortingOrder.createSortDescriptors(with: config.sortingDirection)
     }
     
@@ -91,10 +91,10 @@ struct LibraryHome: View {
                 filteredMedia.nsPredicate = predicate
             }
             .onChange(of: config.sortingOrder) { _ in
-                filteredMedia.sortDescriptors = sortDescriptors
+                filteredMedia.nsSortDescriptors = sortDescriptors
             }
             .onChange(of: config.sortingDirection) { _ in
-                filteredMedia.sortDescriptors = sortDescriptors
+                filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
