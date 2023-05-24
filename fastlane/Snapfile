@@ -31,6 +31,6 @@ override_status_bar(true)
 # fastlane action snapshot
 
 stop_after_first_error(true)
-number_of_retries(0)
+number_of_retries(1)
 
 reinstall_app(true)
