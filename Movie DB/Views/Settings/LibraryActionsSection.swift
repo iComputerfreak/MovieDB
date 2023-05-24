@@ -12,7 +12,7 @@ import os.log
 import SwiftUI
 
 struct LibraryActionsSection: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     @EnvironmentObject var preferences: JFConfig
     @State private var library: MediaLibrary = .shared
     let reloadHandler: () -> Void
@@ -132,7 +132,7 @@ struct LibraryActionsSection_Previews: PreviewProvider {
         Group {
             List {
                 LibraryActionsSection(
-                    config: .constant(SettingsViewConfig()),
+                    config: .constant(SettingsViewModel()),
                     reloadHandler: {}
                 )
             }
@@ -140,7 +140,7 @@ struct LibraryActionsSection_Previews: PreviewProvider {
         Group {
             List {
                 LibraryActionsSection(
-                    config: .constant(SettingsViewConfig(isLoading: true, loadingText: "Loading...")),
+                    config: .constant(SettingsViewModel(isLoading: true, loadingText: "Loading...")),
                     reloadHandler: {}
                 )
             }

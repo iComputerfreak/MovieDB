@@ -61,7 +61,7 @@ struct AlertHandler {
             .compactMap { $0 as? UIWindowScene }
             .first?
             .windows
-            .first { $0.isKeyWindow }
+            .first(where: \.isKeyWindow, equals: true)
     }
 
     private static func topMostViewController() -> UIViewController? {

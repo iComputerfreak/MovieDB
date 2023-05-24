@@ -46,7 +46,7 @@ struct MediaListsRootView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             List {
                 // MARK: - Default Lists (disabled during editing)
                 Section(Strings.Lists.defaultListsHeader) {

@@ -19,12 +19,12 @@ Don't miss out on keeping track of your movie and TV show collection!
 This product uses the TMDB API but is not endorsed or certified by TMDB.
 
 <p align="center">
-  <img src="./readme_images/01_Library.png" width="16%" />
-  <img src="./readme_images/02_AddMedia.png" width="16%" />
-  <img src="./readme_images/03_Lists.png" width="16%" />
-  <img src="./readme_images/04_Watchlist.png" width="16%" />
-  <img src="./readme_images/05_ListConfiguration.png" width="16%" />
-  <img src="./readme_images/06_Settings.png" width="16%" />
+  <img src="./readme_images/01_Library_framed.png" width="16%" />
+  <img src="./readme_images/02_AddMedia_framed.png" width="16%" />
+  <img src="./readme_images/03_Lists_framed.png" width="16%" />
+  <img src="./readme_images/04_WList_framed.png" width="16%" />
+  <img src="./readme_images/05_ListConfiguration_framed.png" width="16%" />
+  <img src="./readme_images/06_Settings_framed.png" width="16%" />
 </p>
 
 

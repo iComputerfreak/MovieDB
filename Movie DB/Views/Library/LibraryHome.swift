@@ -25,7 +25,7 @@ struct LibraryHome: View {
         return (try? managedObjectContext.count(for: fetchRequest)) ?? 0
     }
     
-    var sortDescriptors: [SortDescriptor<Media>] {
+    var sortDescriptors: [NSSortDescriptor] {
         config.sortingOrder.createSortDescriptors(with: config.sortingDirection)
     }
     
@@ -55,10 +55,8 @@ struct LibraryHome: View {
     }
     
     var body: some View {
-        NavigationStack {
-            // TODO: Reactivate when using NavigationSplitView
-            // List(selection: $selectedMediaObjects) {
-            List {
+        NavigationSplitView {
+             List(selection: $selectedMediaObjects) {
                 Section(footer: footerText) {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
@@ -93,10 +91,10 @@ struct LibraryHome: View {
                 filteredMedia.nsPredicate = predicate
             }
             .onChange(of: config.sortingOrder) { _ in
-                filteredMedia.sortDescriptors = sortDescriptors
+                filteredMedia.nsSortDescriptors = sortDescriptors
             }
             .onChange(of: config.sortingDirection) { _ in
-                filteredMedia.sortDescriptors = sortDescriptors
+                filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
@@ -120,7 +118,21 @@ struct LibraryHome: View {
                 MediaDetail()
                     .environmentObject(mediaObject)
             }
+        } detail: {
+            NavigationStack {
+                if selectedMediaObjects.isEmpty {
+                    EmptyView()
+                } else if selectedMediaObjects.count == 1 {
+                    let media = selectedMediaObjects.first!
+                    MediaDetail()
+                        .environmentObject(media)
+                } else {
+                    // TODO: Localize
+                    Text("Multiple objects selected")
+                }
+            }
         }
+        .navigationSplitViewStyle(.balanced)
         .environmentObject(filterSetting)
     }
     

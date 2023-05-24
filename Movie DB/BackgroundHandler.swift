@@ -13,8 +13,7 @@ import UIKit
 
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"
-    // TODO: Change back to 7 days after debugging background fetch
-    static let bgTaskInterval: TimeInterval = 1 * .day
+    static let bgTaskInterval: TimeInterval = 3 * .day
     
     init() {}
     

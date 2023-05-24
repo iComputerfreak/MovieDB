@@ -39,7 +39,7 @@ class FilterTests: XCTestCase {
     }
     
     private func getTags(_ names: [String]) -> Set<Tag> {
-        Set(names.map { name in self.tags.first(where: { $0.name == name })! })
+        Set(names.map { name in self.tags.first(where: \.name, equals: name)! })
     }
     
     private func getGenres(_ names: [String]) throws -> Set<Genre> {

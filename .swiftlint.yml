@@ -10,7 +10,6 @@ disabled_rules:
 opt_in_rules:
   - anonymous_argument_in_multiline_closure
   - array_init
-  - attributes
   - balanced_xctest_lifecycle
   - collection_alignment
   - conditional_returns_on_newline
@@ -22,8 +21,6 @@ opt_in_rules:
   - discouraged_assert
   - discouraged_none_name
   - discouraged_object_literal
-#  - discouraged_optional_boolean
-#  - discouraged_optional_collection
   - empty_collection_literal
   - empty_string
   - enum_case_associated_values_count
@@ -33,8 +30,6 @@ opt_in_rules:
   - file_name_no_space
   - first_where
   - flatmap_over_map_reduce
-#  - force_unwrapping
-  - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - last_where
@@ -65,7 +60,6 @@ opt_in_rules:
   - static_operator
   - switch_case_on_newline
   - toggle_bool
-#  - type_contents_order
   - unneeded_parentheses_in_closure_argument
   - unavailable_function
   - vertical_parameter_alignment_on_call

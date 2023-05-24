@@ -11,7 +11,7 @@ import os.log
 import SwiftUI
 
 struct ImportTagsButton: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     @State private var isImportingTags = false
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     

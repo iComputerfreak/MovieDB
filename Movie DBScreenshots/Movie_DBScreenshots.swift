@@ -47,6 +47,14 @@ final class Movie_DBScreenshots: XCTestCase {
         app.navigationBars.firstMatch.buttons.firstMatch.tap() // Cancel button
         app.navigationBars.firstMatch.buttons.firstMatch.tap() // Close button
         
+        // Go into detail
+        app.cells.buttons.element(boundBy: 0).forceTap()
+        snapshot("Detail")
+        app.swipeUp()
+        // Wait for scrolling to finish
+        XCTAssertFalse(app.wait(for: .runningBackground, timeout: 2))
+        snapshot("Detail2")
+        
         // Go to lists
         app.tabBars.buttons.element(boundBy: 1).tap()
         
@@ -65,7 +73,7 @@ final class Movie_DBScreenshots: XCTestCase {
         
         // Go into Watchlist
         app.cells.buttons.element(boundBy: 2).tap()
-        snapshot("Watchlist")
+        snapshot("WList")
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             app.navigationBars.buttons.firstMatch.tap() // Back

@@ -28,6 +28,7 @@ struct SearchResultsView<RowContent: View>: View {
     @StateObject private var model: SearchResultsModel = .init()
     
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @EnvironmentObject private var config: JFConfig
     
     /// The action to execute when one of the results is pressed
     let content: (TMDBSearchResult) -> RowContent
@@ -119,7 +120,7 @@ struct SearchResultsView<RowContent: View>: View {
             do {
                 let (results, totalPages) = try await TMDBAPI.shared.searchMedia(
                     model.searchText,
-                    includeAdult: JFConfig.shared.showAdults,
+                    includeAdult: config.showAdults,
                     from: self.pagesLoaded + 1,
                     to: self.pagesLoaded + 2
                 )
@@ -135,7 +136,7 @@ struct SearchResultsView<RowContent: View>: View {
                         // If we are showing adult movies, there is nothing to filter
                         // If the result is not a movie, we cannot check if it is "adult"
                         guard
-                            JFConfig.shared.showAdults,
+                            config.showAdults,
                             let movieResult = result as? TMDBMovieSearchResult
                         else {
                             return true

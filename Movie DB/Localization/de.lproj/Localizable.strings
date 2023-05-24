@@ -835,3 +835,9 @@
 "settings.defaultWatchState.partiallyWatched" = "Teilweise Angeschaut";
 
 "detail.showWatchState.seasonWarningNoEpisodes %lld" = "Staffel %lld hat keine Episoden.";
+
+"settings.alert.purchaseComplete.title" = "Kauf Abgeschlossen";
+"settings.alert.purchaseComplete.message" = "Vielen Dank, dass Sie die App unterstützen.";
+
+"proInfo.alert.restoreFailed.title" = "Fehler";
+"proInfo.alert.restoreFailed.message %@" = "Fehler beim Wiederherstellen der Käufe. %@";

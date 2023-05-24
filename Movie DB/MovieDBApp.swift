@@ -14,15 +14,19 @@ struct MovieDBApp: App {
     var appDelegate
     
     @ObservedObject private var config = JFConfig.shared
+    @ObservedObject private var storeManager = StoreManager.shared
 
     var body: some Scene {
         WindowGroup {
             if config.language.isEmpty {
                 LanguageChooser()
                     .environment(\.managedObjectContext, PersistenceController.viewContext)
+                    .environmentObject(config)
             } else {
                 ContentView()
                     .environment(\.managedObjectContext, PersistenceController.viewContext)
+                    .environmentObject(storeManager)
+                    .environmentObject(config)
             }
         }
     }

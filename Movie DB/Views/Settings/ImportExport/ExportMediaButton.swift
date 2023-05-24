@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ExportMediaButton: View {
-    @Binding var config: SettingsViewConfig
+    @Binding var config: SettingsViewModel
     
     var body: some View {
         Button(Strings.Settings.exportMediaLabel, action: self.exportMedia)

@@ -156,3 +156,28 @@ extension UIColor {
         return [red, green, blue, alpha]
     }
 }
+
+extension View {
+    /// Prepares the view for executing in a preview environment
+    func previewEnvironment() -> some View {
+        self
+            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .environmentObject(JFConfig.shared)
+            .environmentObject(StoreManager.shared)
+    }
+}
+
+// TODO: Move into JFUtils
+extension Collection {
+    func first<T: Equatable>(where keyPath: KeyPath<Element, T>, equals other: T) -> Element? {
+        return first { element in
+            element[keyPath: keyPath] == other
+        }
+    }
+    
+    func firstIndex<T: Equatable>(where keyPath: KeyPath<Element, T>, equals other: T) -> Index? {
+        return firstIndex { element in
+            element[keyPath: keyPath] == other
+        }
+    }
+}

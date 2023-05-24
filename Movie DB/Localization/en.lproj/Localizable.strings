@@ -843,3 +843,6 @@
 "settings.defaultWatchState.partiallyWatched" = "Partially Watched";
 
 "detail.showWatchState.seasonWarningNoEpisodes %lld" = "Season %lld has no episodes.";
+
+"proInfo.alert.restoreFailed.title" = "Error";
+"proInfo.alert.restoreFailed.message %@" = "Error restoring purchases. %@";

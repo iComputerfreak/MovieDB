@@ -109,10 +109,7 @@ struct TestingUtils {
     
     static func getPreviewTags(_ tagNames: [String], of tags: Set<Tag>) -> Set<Tag> {
         Set(tagNames.map { name in
-            let tag = tags.first { tag in
-                tag.name == name
-            }
-            guard let tag else {
+            guard let tag = tags.first(where: \.name, equals: name) else {
                 fatalError("Preview Tag \(name) does not exist.")
             }
             return tag
