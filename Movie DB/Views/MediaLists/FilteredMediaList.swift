@@ -48,11 +48,8 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         VStack {
             // Show a warning when the filter is reset
             if (list as? DynamicMediaList)?.filterSetting?.isReset ?? false {
-                HStack {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .symbolRenderingMode(.multicolor)
-                    Text(Strings.Lists.filteredListResetWarning)
-                }
+                CalloutView(text: Strings.Lists.filteredListResetWarning, type: .warning)
+                    .padding(.horizontal, 8)
             }
             // Will be recreated every time the sorting order or direction changes
             SortableMediaList(
