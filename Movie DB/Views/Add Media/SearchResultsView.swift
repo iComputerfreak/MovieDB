@@ -21,6 +21,7 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
     @Binding var selection: TMDBSearchResult?
+    let prompt: Text?
     
     // We use an observable model to store the searchText and publisher
     // This way, we can access the publisher of the @Published searchText property directly to
@@ -33,8 +34,13 @@ struct SearchResultsView<RowContent: View>: View {
     /// The action to execute when one of the results is pressed
     let content: (TMDBSearchResult) -> RowContent
     
-    init(selection: Binding<TMDBSearchResult?>, @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent) {
+    init(
+        selection: Binding<TMDBSearchResult?>,
+        prompt: Text? = nil,
+        @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
+    ) {
         self.content = content
+        self.prompt = prompt
         self._selection = selection
     }
     
@@ -67,7 +73,7 @@ struct SearchResultsView<RowContent: View>: View {
             }
         }
         .onAppear(perform: onAppear)
-        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
     }
     
     func onAppear() {

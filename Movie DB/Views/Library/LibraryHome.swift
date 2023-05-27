@@ -74,8 +74,19 @@ struct LibraryHome: View {
                                     }
                                 }
                                 .contextMenu {
-                                    MediaMenu.AddToSection(mediaObject: mediaObject)
-                                    MediaMenu.ActionsSection(mediaObject: mediaObject)
+                                    Menu {
+                                        Section {
+                                            AddToFavoritesButton()
+                                            AddToWatchlistButton()
+                                            AddToListMenu()
+                                        }
+                                        Section {
+                                            ReloadMediaButton()
+                                            DeleteMediaButton()
+                                        }
+                                    } label: {
+                                        MediaMenuLabel()
+                                    }
                                 }
                         }
                     }

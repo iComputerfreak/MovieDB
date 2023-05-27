@@ -45,17 +45,25 @@ struct MediaDetail: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(isEditing ? Strings.Generic.editButtonLabelDone : Strings.Generic.editButtonLabelEdit) {
-                        withAnimation(.easeInOut) {
-                            isEditing.toggle()
-                        }
-                    }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    CustomEditButton(isEditing: $isEditing)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject) {
-                        // On delete, dismiss
-                        dismiss()
+                    Menu {
+                        Section {
+                            AddToFavoritesButton()
+                            AddToWatchlistButton()
+                            AddToListMenu()
+                        }
+                        Section {
+                            ReloadMediaButton()
+                            DeleteMediaButton {
+                                // Dismiss after deleting
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        MediaMenuLabel()
                     }
                 }
             }
@@ -72,13 +80,13 @@ struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
+                .previewEnvironment()
         }
         .previewDisplayName("Movie")
         
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
+                .previewEnvironment()
         }
         .previewDisplayName("Show")
     }
