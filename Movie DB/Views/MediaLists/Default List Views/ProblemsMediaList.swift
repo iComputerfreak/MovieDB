@@ -12,7 +12,11 @@ struct ProblemsMediaList: View {
     @Binding var selectedMedia: Media?
     
     var body: some View {
-        FilteredMediaList(list: PredicateMediaList.problems, selectedMedia: $selectedMedia) { media in
+        FilteredMediaList(
+            list: PredicateMediaList.problems,
+            selectedMedia: $selectedMedia,
+            description: Strings.Lists.problemsDescription
+        ) { media in
             NavigationLink(value: media) {
                 ProblemsLibraryRow()
                     .environmentObject(media)

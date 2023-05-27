@@ -12,7 +12,11 @@ struct WatchlistMediaList: View {
     @Binding var selectedMedia: Media?
     
     var body: some View {
-        FilteredMediaList(list: PredicateMediaList.watchlist, selectedMedia: $selectedMedia) { media in
+        FilteredMediaList(
+            list: PredicateMediaList.watchlist,
+            selectedMedia: $selectedMedia,
+            description: Strings.Lists.watchlistDescription
+        ) { media in
             // TODO: Rework navigation
             NavigationLink(value: media) {
                 LibraryRow()

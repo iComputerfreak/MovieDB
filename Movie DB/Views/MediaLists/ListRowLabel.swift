@@ -11,9 +11,9 @@ import SwiftUI
 
 struct ListRowLabel<List: MediaListProtocol>: View {
     @ObservedObject var list: List
-    let iconColor: Color?
+    let iconColor: Color
     
-    init(list: List, iconColor: Color? = nil) {
+    init(list: List, iconColor: Color = .accentColor) {
         self.list = list
         self.iconColor = iconColor
     }
@@ -24,7 +24,7 @@ struct ListRowLabel<List: MediaListProtocol>: View {
         }, icon: {
             Image(systemName: list.iconName)
                 .symbolRenderingMode(.multicolor)
-                .foregroundColor(iconColor)
+                .foregroundStyle(iconColor)
         })
     }
 }

@@ -12,12 +12,15 @@ import SwiftUI
 struct FilteredMediaList<RowContent: View, ListType>: View where ListType: MediaListProtocol & ObservableObject {
     let rowContent: (Media) -> RowContent
     @ObservedObject var list: ListType
+    let description: String?
     
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
 
     // Mirrors the respective property of the list for view updates
     @State private var sortingDirection: SortingDirection
+    
+    @State private var showingInfo = false
     
     @Binding var selectedMedia: Media?
     
@@ -27,9 +30,15 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         (try? managedObjectContext.count(for: list.buildFetchRequest())) ?? 0
     }
     
-    init(list: ListType, selectedMedia: Binding<Media?>, rowContent: @escaping (Media) -> RowContent) {
+    init(
+        list: ListType,
+        selectedMedia: Binding<Media?>,
+        description: String? = nil,
+        rowContent: @escaping (Media) -> RowContent
+    ) {
         self.rowContent = rowContent
         self.list = list
+        self.description = description
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
         _selectedMedia = selectedMedia
@@ -62,6 +71,20 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 list.sortingDirection = newValue
             }
         }
+        .toolbar {
+            if let description {
+                Button {
+                    self.showingInfo = true
+                } label: {
+                    Label("Info", systemImage: "info.circle")
+                }
+                .alert(list.name, isPresented: $showingInfo) {
+                    Button("Ok") {}
+                } message: {
+                    Text(description)
+                }
+            }
+        }
         .navigationTitle(list.name)
     }
 }
@@ -76,13 +99,12 @@ struct FilteredMediaList_Previews: PreviewProvider {
     }()
     
     static var previews: some View {
-        let list = dynamicList
         NavigationStack {
-            FilteredMediaList(list: list, selectedMedia: .constant(nil)) { media in
+            FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil), description: "Test") { media in
                 LibraryRow()
                     .environmentObject(media)
             }
-            .navigationTitle(list.name)
+            .navigationTitle(dynamicList.name)
             .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }

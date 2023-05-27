@@ -75,7 +75,7 @@ struct MediaListsRootView: View {
                     NavigationLink {
                         NewSeasonsMediaList(selectedMedia: $selectedMedia)
                     } label: {
-                        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
+                        ListRowLabel(list: PredicateMediaList.newSeasons)
                     }
                 }
                 .disabled(editMode?.wrappedValue.isEditing ?? false)
@@ -90,7 +90,6 @@ struct MediaListsRootView: View {
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
-                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete
@@ -106,7 +105,6 @@ struct MediaListsRootView: View {
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
-                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete

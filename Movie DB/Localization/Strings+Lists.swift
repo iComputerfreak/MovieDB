@@ -156,5 +156,25 @@ extension Strings {
             localized: "lists.detail.configure",
             comment: "The button label for the toolbar button to configure an opened view."
         )
+        
+        static let favoritesDescription = String(
+            localized: "lists.descriptions.favorites",
+            comment: "The description of the favorites list that is displayed to the user when tapping the info button."
+        )
+        
+        static let watchlistDescription = String(
+            localized: "lists.descriptions.watchlist",
+            comment: "The description of the watchlist list that is displayed to the user when tapping the info button."
+        )
+        
+        static let problemsDescription = String(
+            localized: "lists.descriptions.problems",
+            comment: "The description of the problems list that is displayed to the user when tapping the info button."
+        )
+        
+        static let newSeasonsDescription = String(
+            localized: "lists.descriptions.newSeasons",
+            comment: "The description of the new seasons list that is displayed to the user when tapping the info button."
+        )
     }
 }

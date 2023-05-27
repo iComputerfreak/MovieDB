@@ -20,6 +20,7 @@ struct SFSymbolPicker: View {
                 spacing: 5,
                 pinnedViews: .sectionHeaders
             ) {
+                // TODO: Hand pick some symbols. Don't use all
                 ForEach(SFSymbolNames.categories, id: \.name) { category in
                     Section {
                         ForEach(category.symbols, id: \.self) { symbol in
@@ -32,6 +33,7 @@ struct SFSymbolPicker: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
+                                    .foregroundColor(.accentColor)
                             }
                             .buttonStyle(.plain)
                         }

@@ -841,3 +841,8 @@
 
 "proInfo.alert.restoreFailed.title" = "Fehler";
 "proInfo.alert.restoreFailed.message %@" = "Fehler beim Wiederherstellen der Käufe. %@";
+
+"lists.descriptions.favorites" = "Diese Liste zeigt alle Medien, die Sie mit einem Herz markiert haben.";
+"lists.descriptions.watchlist" = "Diese Liste zeigt alle Medien, die Sie mit einem Lesezeichen markiert haben.";
+"lists.descriptions.problems" = "Diese Liste zeigt alle Medien, bei denen Informationen fehlen (z.B. fehlende Bewertung oder Schlüsselwörter).";
+"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angeschaute Episoden verfügbar sind. Serien, bei denen Sie \"Nochmal ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
