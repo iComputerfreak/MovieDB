@@ -130,7 +130,7 @@ class PlaceholderData {
         watchAgain: Bool? = nil
     ) async throws -> Show {
         let show = try await createMedia(
-            type: .movie,
+            type: .show,
             tmdbID: tmdbID,
             personalRating: personalRating,
             tags: tags,

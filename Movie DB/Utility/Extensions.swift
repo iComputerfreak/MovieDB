@@ -158,12 +158,17 @@ extension UIColor {
 }
 
 extension View {
-    /// Prepares the view for executing in a preview environment
+    /// Prepares the view for executing in a preview environment.
+    ///
+    /// **Not intended for production use!**
     func previewEnvironment() -> some View {
         self
             .environment(\.managedObjectContext, PersistenceController.previewContext)
             .environmentObject(JFConfig.shared)
             .environmentObject(StoreManager.shared)
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+        // Will not work, but will prevent the preview from crashing
+            .environmentObject(NotificationProxy())
     }
 }
 

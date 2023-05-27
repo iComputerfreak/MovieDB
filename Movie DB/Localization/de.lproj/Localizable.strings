@@ -341,7 +341,7 @@
 "languageChooser.loadingText" = "Sprachen werden geladen...";
 
 /* The navigation bar title for the language chooser view */
-"languageChooser.navBar.title" = "Sprache";
+"languageChooser.navBar.title" = "API Sprache Wählen";
 
 /* The attribution for the app icon. The parameter is the attribution link. */
 "legal.appIconAttribution %@" = "App Icon: %@";
@@ -841,3 +841,14 @@
 
 "proInfo.alert.restoreFailed.title" = "Fehler";
 "proInfo.alert.restoreFailed.message %@" = "Fehler beim Wiederherstellen der Käufe. %@";
+
+"lists.descriptions.favorites" = "Diese Liste zeigt alle Medien, die Sie mit einem Herz markiert haben.";
+"lists.descriptions.watchlist" = "Diese Liste zeigt alle Medien, die Sie mit einem Lesezeichen markiert haben.";
+"lists.descriptions.problems" = "Diese Liste zeigt alle Medien, bei denen Informationen fehlen (z.B. fehlende Bewertung oder Schlüsselwörter).";
+"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angeschaute Episoden verfügbar sind. Serien, bei denen Sie \"Nochmal ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
+
+"addMedia.searchPrompt" = "Suchen, um Medien zur Mediathek hinzuzufügen";
+
+"detail.mediaMenu.label" = "Menü";
+
+"languageChooser.callout" = "Bitte wählen Sie die Sprache, die für die Medien-Informationen (z.B. Titel und Beschreibung) verwendet werden soll.";

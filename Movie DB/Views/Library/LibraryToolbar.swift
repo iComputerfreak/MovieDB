@@ -10,7 +10,8 @@ import Foundation
 import SwiftUI
 
 struct LibraryToolbar: ToolbarContent {
-    @Binding var config: LibraryViewConfig
+    // TODO: Use @EnvironmentObject
+    @Binding var config: LibraryViewModel
     @EnvironmentObject private var filterSetting: FilterSetting
     
     var body: some ToolbarContent {
@@ -35,10 +36,10 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "ellipsis.circle")
             }
         }
-        // Reactivate when actions and multiselection is implemented
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
+        // TODO: Reactivate when actions for multiselection are implemented
+//        ToolbarItem(placement: .navigationBarTrailing) {
+//            EditButton()
+//        }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 config.activeSheet = .addMedia

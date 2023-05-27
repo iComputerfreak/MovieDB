@@ -45,6 +45,12 @@ struct MediaListsRootView: View {
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
+    @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
+    private var problemsMedias: FetchedResults<Media>
+    
+    @FetchRequest(fetchRequest: PredicateMediaList.newSeasons.buildFetchRequest())
+    private var newSeasonsMedias: FetchedResults<Media>
+    
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             List {
@@ -69,16 +75,18 @@ struct MediaListsRootView: View {
                         ProblemsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
+                            .badge(problemsMedias.count)
                     }
                     
                     // MARK: New Seasons
                     NavigationLink {
                         NewSeasonsMediaList(selectedMedia: $selectedMedia)
                     } label: {
-                        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
+                        ListRowLabel(list: PredicateMediaList.newSeasons)
+                            .badge(newSeasonsMedias.count)
                     }
                 }
-                .disabled(editMode?.wrappedValue.isEditing ?? false)
+                .deleteDisabled(true)
                 
                 // MARK: - Dynamic Lists
                 if !dynamicLists.isEmpty {
@@ -90,7 +98,6 @@ struct MediaListsRootView: View {
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
-                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete
@@ -106,7 +113,6 @@ struct MediaListsRootView: View {
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(list: list)
-                                    .foregroundColor(.primary)
                             }
                         }
                         // List delete

@@ -72,8 +72,17 @@ extension PredicateMediaList {
         name: Strings.Lists.defaultListNameNewSeasons,
         iconName: "sparkles.tv",
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
+            // Only shows that have been started watching
             ShowWatchState.showsWatchedAnyPredicate,
+            // More seasons available than watched
             NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
+            // Don't include shows marked as "Watch Again?" = false
+            NSPredicate(
+                format: "%K = %@ OR %K = nil",
+                Schema.Media.watchAgain,
+                true as NSNumber,
+                Schema.Media.watchAgain
+            ),
         ])
     )
 }

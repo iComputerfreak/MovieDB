@@ -6,9 +6,15 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
-protocol SchemaEntityKey {
+protocol SchemaEntityKey: CVarArg {
     static var _entityName: String { get }
     var rawValue: String { get }
+}
+
+extension SchemaEntityKey {
+    var _cVarArgEncoding: [Int] {
+        self.rawValue._cVarArgEncoding
+    }
 }
 
 extension Schema {

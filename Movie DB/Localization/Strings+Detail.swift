@@ -325,6 +325,11 @@ extension Strings {
             )
         }
         
+        static let mediaMenuLabel = String(
+            localized: "detail.mediaMenu.label",
+            comment: "The (invisible) label for the media menu that shows actions to be performed on a single media object."
+        )
+        
         // MARK: Metadata
         static let metadataSectionHeader = String(
             localized: "detail.metadata.header",

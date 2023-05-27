@@ -12,6 +12,10 @@ import SwiftUI
 struct LanguageChooser: View {
     @EnvironmentObject private var config: JFConfig
     
+    var proxy: Binding<String?> {
+        .init(get: { config.language }, set: { config.language = $0 ?? "" })
+    }
+    
     var body: some View {
         NavigationStack {
             if config.availableLanguages.isEmpty {
@@ -28,10 +32,19 @@ struct LanguageChooser: View {
                     }
                     .navigationTitle(Strings.LanguageChooser.navBarTitle)
             } else {
-                let proxy = Binding<String?>(get: { config.language }, set: { config.language = $0 ?? "" })
-                List(config.availableLanguages, id: \.self, selection: proxy) { (code: String) in
-                    Text(Locale.current.localizedString(forIdentifier: code) ?? code)
-                        .tag(code)
+                VStack {
+                    // TODO: Make a CalloutView that displays an icon (e.g. info.circle in blue) next to the text on a gray rounded rect background
+                    Text(Strings.LanguageChooser.callout)
+                        .font(.callout)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical)
+                        .padding(.horizontal, 16)
+                    List(selection: proxy) {
+                        ForEach(config.availableLanguages, id: \.self) { (code: String) in
+                            Text(Locale.current.localizedString(forIdentifier: code) ?? code)
+                                .tag(code)
+                        }
+                    }
                 }
                 .environment(\.editMode, .constant(.active))
                 .onChange(of: config.language) { _ in
@@ -46,5 +59,6 @@ struct LanguageChooser: View {
 struct LanguageChooser_Previews: PreviewProvider {
     static var previews: some View {
         LanguageChooser()
+            .previewEnvironment()
     }
 }

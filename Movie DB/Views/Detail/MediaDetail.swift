@@ -16,6 +16,7 @@ struct MediaDetail: View {
     // !!!: We cannot use @Environment's \.editMode here since that is meant for list editing (delete, move)
     // !!!: and therefore would disable all NavigationLinks
     @State private var isEditing = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         if mediaObject.isFault {
@@ -44,15 +45,26 @@ struct MediaDetail: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(isEditing ? Strings.Generic.editButtonLabelDone : Strings.Generic.editButtonLabelEdit) {
-                        withAnimation(.easeInOut) {
-                            isEditing.toggle()
-                        }
-                    }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    CustomEditButton(isEditing: $isEditing)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject)
+                    Menu {
+                        Section {
+                            AddToFavoritesButton()
+                            AddToWatchlistButton()
+                            AddToListMenu()
+                        }
+                        Section {
+                            ReloadMediaButton()
+                            DeleteMediaButton {
+                                // Dismiss after deleting
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        MediaMenuLabel()
+                    }
                 }
             }
             .onDisappear {
@@ -68,13 +80,13 @@ struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
+                .previewEnvironment()
         }
         .previewDisplayName("Movie")
         
         NavigationStack {
             MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
+                .previewEnvironment()
         }
         .previewDisplayName("Show")
     }

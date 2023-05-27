@@ -20,6 +20,10 @@ extension Strings {
             localized: "addMedia.detail.placeholder",
             comment: "The placeholder text displayed in the detail column of the search results view when no search result is selected"
         )
+        static let searchPrompt = String(
+            localized: "addMedia.searchPrompt",
+            comment: "The prompt text in the search field when adding media."
+        )
         
         enum Alert {
             static let alreadyAddedTitle = String(

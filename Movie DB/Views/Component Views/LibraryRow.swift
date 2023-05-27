@@ -19,8 +19,8 @@ struct LibraryRow: View {
     
     var body: some View {
         if mediaObject.isFault {
-            // This will be displayed while the object is being deleted
-            EmptyView()
+            // This will be displayed while the object is being deleted or is unavailable
+            ProgressView()
         } else {
             HStack {
                 Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)

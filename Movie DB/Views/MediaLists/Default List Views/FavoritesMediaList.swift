@@ -12,8 +12,11 @@ struct FavoritesMediaList: View {
     @Binding var selectedMedia: Media?
     
     var body: some View {
-        FilteredMediaList(list: PredicateMediaList.favorites, selectedMedia: $selectedMedia) { media in
-            // TODO: Rework navigation
+        FilteredMediaList(
+            list: PredicateMediaList.favorites,
+            selectedMedia: $selectedMedia,
+            description: Strings.Lists.favoritesDescription
+        ) { media in
             NavigationLink(value: media) {
                 LibraryRow()
                     .environmentObject(media)

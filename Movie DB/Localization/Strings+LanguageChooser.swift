@@ -16,6 +16,10 @@ extension Strings {
             localized: "languageChooser.loadingText",
             comment: "Placeholder text to display while loading the available languages in the language chooser onboarding screen"
         )
+        static let callout = String(
+            localized: "languageChooser.callout",
+            comment: "The callout text that explains what the language in the language chooser is used for."
+        )
         
         enum Alert {
             static let errorLoadingTitle = String(
