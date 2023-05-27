@@ -849,11 +849,11 @@
 
 "lists.descriptions.favorites" = "This list shows all medias that you have marked with a heart.";
 "lists.descriptions.watchlist" = "This list shows all medias that you have marked with the bookmark symbol.";
-"lists.descriptions.problems" = "This list shows all medias that have missing information (e.g. a missing rating or missing tags).";
+"lists.descriptions.problems" = "This list shows all medias that have missing information (e.g., a missing rating or missing tags).";
 "lists.descriptions.newSeasons" = "This list shows all TV shows you have watched that have new unwatched episodes available. Shows for which you specified \"Watch again\" as \"No\" don't appear here.";
 
 "addMedia.searchPrompt" = "Search to add medias to your library";
 
 "detail.mediaMenu.label" = "Menu";
 
-"languageChooser.callout" = "Select the language in which your media information (e.g. title and description) is displayed.";
+"languageChooser.callout" = "Select the language in which your media information (e.g., title and description) is displayed.";

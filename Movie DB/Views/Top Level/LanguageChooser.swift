@@ -33,12 +33,8 @@ struct LanguageChooser: View {
                     .navigationTitle(Strings.LanguageChooser.navBarTitle)
             } else {
                 VStack {
-                    // TODO: Make a CalloutView that displays an icon (e.g. info.circle in blue) next to the text on a gray rounded rect background
-                    Text(Strings.LanguageChooser.callout)
-                        .font(.callout)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical)
-                        .padding(.horizontal, 16)
+                    CalloutView(text: Strings.LanguageChooser.callout, type: .info)
+                        .padding()
                     List(selection: proxy) {
                         ForEach(config.availableLanguages, id: \.self) { (code: String) in
                             Text(Locale.current.localizedString(forIdentifier: code) ?? code)

@@ -56,12 +56,13 @@ struct CalloutView: View {
                 .foregroundColor(type.foregroundColor)
                 .frame(maxWidth: iconSize, maxHeight: iconSize)
             Text(text)
+                .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10)
-                .fill(.quaternary)
+                .fill(Color("CalloutBackground"))
         }
     }
 }
@@ -74,11 +75,14 @@ struct CalloutView_Previews: PreviewProvider {
                     .padding()
             }
         }
-    }
-}
-
-extension String {
-    func repeating(_ times: Int, separator: String = "") -> String {
-        Array(repeating: self, count: times).joined(separator: separator)
+        .previewDisplayName("Short Text")
+        
+        VStack {
+            ForEach(CalloutType.allCases, id: \.hashValue) { type in
+                CalloutView(text: "This is a very long callout text that wraps multiple lines.", type: type)
+                    .padding()
+            }
+        }
+        .previewDisplayName("Multiline")
     }
 }
