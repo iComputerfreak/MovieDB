@@ -33,8 +33,8 @@ struct ProviderView: View {
     }
     
     func placeholderView(for provider: WatchProvider) -> some View {
-        AutoInvertingColor(whiteValue: 0.9, darkSchemeOffset: -0.1)
-            .cornerRadius(10)
+        RoundedRectangle(cornerRadius: 10)
+            .fill(.quaternary)
             .shadow(radius: 1, y: 1.5)
             .overlay {
                 Text(provider.name)
@@ -46,6 +46,9 @@ struct ProviderView: View {
 
 struct ProviderView_Previews: PreviewProvider {
     static var previews: some View {
-        ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
+        HStack {
+            ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
+            ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).last!)
+        }
     }
 }

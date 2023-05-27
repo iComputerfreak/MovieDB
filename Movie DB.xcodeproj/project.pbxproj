@@ -70,6 +70,7 @@
 		AB3EE7EA2A224C6700C120F2 /* DeleteMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7E92A224C6700C120F2 /* DeleteMediaButton.swift */; };
 		AB3EE7EC2A224DF300C120F2 /* MediaMenuLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7EB2A224DF300C120F2 /* MediaMenuLabel.swift */; };
 		AB3EE7EE2A22566500C120F2 /* CustomEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7ED2A22566500C120F2 /* CustomEditButton.swift */; };
+		AB3EE7F02A226AC400C120F2 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */; };
 		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
@@ -203,7 +204,6 @@
 		ABADB86429A3D4DF00853F56 /* ContextType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86329A3D4DF00853F56 /* ContextType.swift */; };
 		ABADB86829A50B0900853F56 /* DeduplicationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABADB86729A50B0900853F56 /* DeduplicationEntity.swift */; };
 		ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */; };
-		ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB64491297171A10024BD80 /* AutoInvertingColor.swift */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABB64496297176D60024BD80 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = ABB64495297176A40024BD80 /* Products.storekit */; };
 		ABB6449E2971C10D0024BD80 /* Movie_DBScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB6449D2971C10D0024BD80 /* Movie_DBScreenshots.swift */; };
@@ -388,6 +388,7 @@
 		AB3EE7E92A224C6700C120F2 /* DeleteMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMediaButton.swift; sourceTree = "<group>"; };
 		AB3EE7EB2A224DF300C120F2 /* MediaMenuLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMenuLabel.swift; sourceTree = "<group>"; };
 		AB3EE7ED2A22566500C120F2 /* CustomEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditButton.swift; sourceTree = "<group>"; };
+		AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		AB4085412663A7BA008C559B /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
 		AB4085472663B325008C559B /* ProInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProInfoView.swift; sourceTree = "<group>"; };
 		AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWatchStatePicker.swift; sourceTree = "<group>"; };
@@ -534,7 +535,6 @@
 		ABADB86329A3D4DF00853F56 /* ContextType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextType.swift; sourceTree = "<group>"; };
 		ABADB86729A50B0900853F56 /* DeduplicationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeduplicationEntity.swift; sourceTree = "<group>"; };
 		ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBImageService.swift; sourceTree = "<group>"; };
-		ABB64491297171A10024BD80 /* AutoInvertingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoInvertingColor.swift; sourceTree = "<group>"; };
 		ABB644932971760A0024BD80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABB64495297176A40024BD80 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBScreenshots.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -880,12 +880,12 @@
 				AB700E0328C7A974005E31B5 /* NotificationPopup.swift */,
 				ABA726BE28CB935B002F5FCB /* NotificationView.swift */,
 				AB624D2A296CB63000A0CF27 /* ListConfigurationButton.swift */,
-				ABB64491297171A10024BD80 /* AutoInvertingColor.swift */,
 				ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */,
 				AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */,
 				AB9190E3297E054900324520 /* WatchedLabel.swift */,
 				AB5E298228B998F300C3ACB8 /* LibraryRow.swift */,
 				AB979324299AD01700B20EC8 /* WatchStateLabel.swift */,
+				AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1718,6 +1718,7 @@
 				AB711FB8281D8EA6003ED045 /* MovieData.swift in Sources */,
 				ABADB86829A50B0900853F56 /* DeduplicationEntity.swift in Sources */,
 				AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */,
+				AB3EE7F02A226AC400C120F2 /* CalloutView.swift in Sources */,
 				AB4CF8E22823DBD4006F2F81 /* TagEditRow.swift in Sources */,
 				AB1433F925CDB6F600AA304F /* Show+CoreDataProperties.swift in Sources */,
 				ABAD15F428E774330092497F /* FavoritesMediaList.swift in Sources */,
@@ -1853,7 +1854,6 @@
 				AB7DE5DF28217FC6007B59A2 /* FilterUserDataSection.swift in Sources */,
 				ABEBA2CB23959D77003BF187 /* MultiPicker.swift in Sources */,
 				ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */,
-				ABB64492297171A10024BD80 /* AutoInvertingColor.swift in Sources */,
 				AB6D9C97283BC21800AF655C /* Strings+MediaSearch.swift in Sources */,
 				AB5493DC25FBDD990072745B /* Persistence.swift in Sources */,
 				AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */,

@@ -341,7 +341,7 @@
 "languageChooser.loadingText" = "Sprachen werden geladen...";
 
 /* The navigation bar title for the language chooser view */
-"languageChooser.navBar.title" = "Sprache";
+"languageChooser.navBar.title" = "API Sprache Wählen";
 
 /* The attribution for the app icon. The parameter is the attribution link. */
 "legal.appIconAttribution %@" = "App Icon: %@";
@@ -850,3 +850,5 @@
 "addMedia.searchPrompt" = "Suchen, um Medien zur Mediathek hinzuzufügen";
 
 "detail.mediaMenu.label" = "Menü";
+
+"languageChooser.callout" = "Bitte wählen Sie die Sprache, die für die Medien-Informationen (z.B. Titel und Beschreibung) verwendet werden soll.";

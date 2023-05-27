@@ -341,7 +341,7 @@
 "languageChooser.loadingText" = "Loading Languages...";
 
 /* The navigation bar title for the language chooser view */
-"languageChooser.navBar.title" = "Select Language";
+"languageChooser.navBar.title" = "Select API Language";
 
 /* The attribution for the app icon. The parameter is the attribution link. */
 "legal.appIconAttribution %@" = "App Icon: %@";
@@ -855,3 +855,5 @@
 "addMedia.searchPrompt" = "Search to add medias to your library";
 
 "detail.mediaMenu.label" = "Menu";
+
+"languageChooser.callout" = "Select the language in which your media information (e.g. title and description) is displayed.";
