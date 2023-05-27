@@ -15,7 +15,7 @@ struct LibraryHome: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @State private var selectedMediaObjects: Set<Media> = .init()
     
-    @State private var config = LibraryViewConfig()
+    @State private var viewModel = LibraryViewModel()
     @ObservedObject private var filterSetting = FilterSetting.shared
     
     @State private var searchText: String = ""
@@ -26,7 +26,7 @@ struct LibraryHome: View {
     }
     
     var sortDescriptors: [NSSortDescriptor] {
-        config.sortingOrder.createSortDescriptors(with: config.sortingDirection)
+        viewModel.sortingOrder.createSortDescriptors(with: viewModel.sortingDirection)
     }
     
     var predicate: NSPredicate {
@@ -49,7 +49,7 @@ struct LibraryHome: View {
     
     init() {
         _filteredMedia = FetchRequest(
-            sortDescriptors: config.sortingOrder.createSortDescriptors(with: config.sortingDirection),
+            sortDescriptors: sortDescriptors,
             predicate: predicate
         )
     }
@@ -90,10 +90,10 @@ struct LibraryHome: View {
             .onReceive(filterSetting.objectWillChange) {
                 filteredMedia.nsPredicate = predicate
             }
-            .onChange(of: config.sortingOrder) { _ in
+            .onChange(of: viewModel.sortingOrder) { _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
-            .onChange(of: config.sortingDirection) { _ in
+            .onChange(of: viewModel.sortingDirection) { _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
@@ -101,7 +101,7 @@ struct LibraryHome: View {
             .autocorrectionDisabled()
             
             // Display the currently active sheet
-            .sheet(item: $config.activeSheet) { sheet in
+            .sheet(item: $viewModel.activeSheet) { sheet in
                 switch sheet {
                 case .addMedia:
                     AddMediaView()
@@ -110,7 +110,7 @@ struct LibraryHome: View {
                 }
             }
             .toolbar {
-                LibraryToolbar(config: $config)
+                LibraryToolbar(config: $viewModel)
             }
             .navigationTitle(Strings.TabView.libraryLabel)
             .navigationBarTitleDisplayMode(.large)

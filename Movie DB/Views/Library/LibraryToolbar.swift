@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct LibraryToolbar: ToolbarContent {
-    @Binding var config: LibraryViewConfig
+    @Binding var config: LibraryViewModel
     @EnvironmentObject private var filterSetting: FilterSetting
     
     var body: some ToolbarContent {

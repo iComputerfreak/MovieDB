@@ -9,14 +9,17 @@
 import SwiftUI
 
 struct MediaMenu: View {
+    // TODO: Make @EnvironmentObject?
     var mediaObject: Media
+    
+    var onDelete: (() -> Void)? = nil
     
     var body: some View {
         Menu {
             // MARK: Favorite / Add to
             AddToSection(mediaObject: mediaObject)
             // MARK: Actions
-            ActionsSection(mediaObject: mediaObject)
+            ActionsSection(mediaObject: mediaObject, onDelete: onDelete)
         } label: {
             Image(systemName: "ellipsis.circle")
         }

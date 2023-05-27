@@ -16,6 +16,7 @@ struct MediaDetail: View {
     // !!!: We cannot use @Environment's \.editMode here since that is meant for list editing (delete, move)
     // !!!: and therefore would disable all NavigationLinks
     @State private var isEditing = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         if mediaObject.isFault {
@@ -52,7 +53,10 @@ struct MediaDetail: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    MediaMenu(mediaObject: mediaObject)
+                    MediaMenu(mediaObject: mediaObject) {
+                        // On delete, dismiss
+                        dismiss()
+                    }
                 }
             }
             .onDisappear {

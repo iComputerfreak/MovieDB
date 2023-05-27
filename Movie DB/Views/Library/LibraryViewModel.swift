@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct LibraryViewConfig {
+struct LibraryViewModel {
     enum ActiveSheet: Identifiable {
         case addMedia
         case filter

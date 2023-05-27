@@ -15,6 +15,8 @@ extension MediaMenu {
         @EnvironmentObject var notificationProxy: NotificationProxy
         @Environment(\.managedObjectContext) private var managedObjectContext
         
+        var onDelete: (() -> Void)? = nil
+        
         var body: some View {
             Section {
                 Button {
@@ -41,6 +43,13 @@ extension MediaMenu {
                     }
                 } label: {
                     Label(Strings.Library.mediaActionReload, systemImage: "arrow.clockwise")
+                }
+                Button(role: .destructive) {
+                    // Delete the media
+                    self.managedObjectContext.delete(mediaObject)
+                    onDelete?()
+                } label: {
+                    Label(Strings.Library.swipeActionDelete, systemImage: "trash")
                 }
             }
         }
