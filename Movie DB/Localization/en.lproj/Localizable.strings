@@ -211,6 +211,8 @@
 /* The headline for the 'watch again' property in the detail view */
 "detail.userData.headline.watchAgain" = "Watch again?";
 
+"detail.userData.headline.watchAgain.show" = "Watch again / continue?";
+
 /* The headline for the 'watched' property in the detail view */
 "detail.userData.headline.watched" = "Watched?";
 
@@ -404,7 +406,7 @@
 "library.filter.userData.label.tags" = "Tags";
 
 /* The label for the 'watch again' picker in the library's filter view */
-"library.filter.userData.label.watchAgain" = "Watch again?";
+"library.filter.userData.label.watchAgain" = "Watch again / continue?";
 
 /* The label of the picker in the filter view to select whether the media should be marked as watched or not */
 "library.filter.userData.label.watched" = "Watched?";
@@ -413,7 +415,7 @@
 "library.filter.value.any" = "Any";
 
 /* The navigation bar title for the watchAgain? field in the library's filter view */
-"library.filter.watchAgain.navBar.title" = "Watch Again?";
+"library.filter.watchAgain.navBar.title" = "Watch Again / Continue?";
 
 /* The navigation bar title for the watched? field in the library's filter view */
 "library.filter.watched.navBar.title" = "Watched?";
@@ -500,7 +502,7 @@
 "mediaInformation.tags" = "tags";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
-"mediaInformation.watchAgain" = "watch again";
+"mediaInformation.watchAgain" = "watch again / continue";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
 "mediaInformation.watched" = "watched";

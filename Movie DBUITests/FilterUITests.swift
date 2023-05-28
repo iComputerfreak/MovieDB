@@ -6,7 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import JFUtils
+import JFTestingUtils
 import XCTest
 
 class FilterUITests: XCTestCase {

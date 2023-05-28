@@ -146,21 +146,24 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             let lang = Locale.current.language.languageCode!.identifier
             let region = Locale.current.language.region!.identifier
             JFConfig.shared.language = "\(lang)-\(region)"
-            
-            let bgContext = PersistenceController.viewContext.newBackgroundContext()
-            // Add sample data
-            Task(priority: .userInitiated) {
-                // swiftlint:disable:next force_try
-                try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
-                await MainActor.run {
-                    // Commit to parent store (view context)
-                    // swiftlint:disable force_try
-                    try! bgContext.save()
-                    try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
-                        media.loadThumbnail(force: true)
-                    }
-                    // swiftlint:enable force_try
+            prepareSamples()
+        }
+    }
+    
+    private func prepareSamples() {
+        let bgContext = PersistenceController.viewContext.newBackgroundContext()
+        // Add sample data
+        Task(priority: .userInitiated) {
+            // swiftlint:disable:next force_try
+            try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
+            await MainActor.run {
+                // Commit to parent store (view context)
+                // swiftlint:disable force_try
+                try! bgContext.save()
+                try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
+                    media.loadThumbnail(force: true)
                 }
+                // swiftlint:enable force_try
             }
         }
     }

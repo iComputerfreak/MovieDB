@@ -71,7 +71,6 @@
 		AB3EE7EC2A224DF300C120F2 /* MediaMenuLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7EB2A224DF300C120F2 /* MediaMenuLabel.swift */; };
 		AB3EE7EE2A22566500C120F2 /* CustomEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7ED2A22566500C120F2 /* CustomEditButton.swift */; };
 		AB3EE7F02A226AC400C120F2 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */; };
-		AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = AB3FA4FD280B035900FA3C75 /* JFUtils */; };
 		AB4085422663A7BA008C559B /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085412663A7BA008C559B /* LegalView.swift */; };
 		AB4085482663B325008C559B /* ProInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4085472663B325008C559B /* ProInfoView.swift */; };
 		AB4203B429D9F584002F95F0 /* DefaultWatchStatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4203B329D9F584002F95F0 /* DefaultWatchStatePicker.swift */; };
@@ -227,7 +226,10 @@
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
 		ABD248FA2A2384D0002DEB3D /* LastNameComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */; };
-		ABD248FC2A2389DB002DEB3D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD248FB2A2389DB002DEB3D /* XCTest.framework */; };
+		ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249022A2394CC002DEB3D /* JFUtils */; };
+		ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249072A23955F002DEB3D /* JFTestingUtils */; };
+		ABD2490A2A239562002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249092A239562002DEB3D /* JFTestingUtils */; };
+		ABD2490C2A239565002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD2490B2A239565002DEB3D /* JFTestingUtils */; };
 		ABD3C5D629C12F07000B5107 /* FilterWatchedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */; };
 		ABD3C5D829C12F3F000B5107 /* FilterWatchAgainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */; };
 		ABD3C5DA29C12F6F000B5107 /* FilterTagsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */; };
@@ -644,6 +646,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD2490A2A239562002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,12 +654,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABD248FC2A2389DB002DEB3D /* XCTest.framework in Frameworks */,
 				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
-				AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
+				ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */,
 				ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -665,6 +667,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD2490C2A239565002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +675,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1417,6 +1421,9 @@
 				AB48BD702816CE3C00E53135 /* PBXTargetDependency */,
 			);
 			name = "Movie DBUITests";
+			packageProductDependencies = (
+				ABD249092A239562002DEB3D /* JFTestingUtils */,
+			);
 			productName = "Movie DBUITests";
 			productReference = AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -1441,9 +1448,9 @@
 			name = "Movie DB";
 			packageProductDependencies = (
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
-				AB3FA4FD280B035900FA3C75 /* JFUtils */,
 				ABE17B6C284FA4A100879C30 /* Algorithms */,
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
+				ABD249022A2394CC002DEB3D /* JFUtils */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -1463,6 +1470,9 @@
 				AB6718D522C0312B00F429E4 /* PBXTargetDependency */,
 			);
 			name = "Movie DBTests";
+			packageProductDependencies = (
+				ABD2490B2A239565002DEB3D /* JFTestingUtils */,
+			);
 			productName = "Movie DBTests";
 			productReference = AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1481,6 +1491,9 @@
 				ABB644A22971C10D0024BD80 /* PBXTargetDependency */,
 			);
 			name = "Movie DBScreenshots";
+			packageProductDependencies = (
+				ABD249072A23955F002DEB3D /* JFTestingUtils */,
+			);
 			productName = "Movie DBScreenshots";
 			productReference = ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -1525,9 +1538,9 @@
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
 				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
-				ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */,
 				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
+				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -2420,6 +2433,14 @@
 				minimumVersion = 1.0.6;
 			};
 		};
+		ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iComputerfreak/JFUtils";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftcsv/SwiftCSV";
@@ -2436,26 +2457,33 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/iComputerfreak/JFUtils";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB3FA4FD280B035900FA3C75 /* JFUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */;
-			productName = JFUtils;
-		};
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
+		};
+		ABD249022A2394CC002DEB3D /* JFUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFUtils;
+		};
+		ABD249072A23955F002DEB3D /* JFTestingUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFTestingUtils;
+		};
+		ABD249092A239562002DEB3D /* JFTestingUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFTestingUtils;
+		};
+		ABD2490B2A239565002DEB3D /* JFTestingUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFTestingUtils;
 		};
 		ABD3C5ED29C39F56000B5107 /* SwiftCSV */ = {
 			isa = XCSwiftPackageProductDependency;

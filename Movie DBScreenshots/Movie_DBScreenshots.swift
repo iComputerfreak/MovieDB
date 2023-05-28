@@ -6,7 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
-import JFUtils
+import JFTestingUtils
 import XCTest
 
 // swiftlint:disable:next blanket_disable_command

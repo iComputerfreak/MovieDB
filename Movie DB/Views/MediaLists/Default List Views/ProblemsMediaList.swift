@@ -28,5 +28,6 @@ struct ProblemsMediaList: View {
 struct ProblemsMediaList_Previews: PreviewProvider {
     static var previews: some View {
         ProblemsMediaList(selectedMedia: .constant(nil))
+            .previewEnvironment()
     }
 }

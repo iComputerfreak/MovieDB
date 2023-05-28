@@ -216,6 +216,6 @@ struct MediaListsRootView: View {
 struct UserListsViews_Previews: PreviewProvider {
     static var previews: some View {
         MediaListsRootView()
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .previewEnvironment()
     }
 }

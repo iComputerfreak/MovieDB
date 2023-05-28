@@ -7,7 +7,7 @@
 //
 
 import CoreData
-import JFUtils
+import JFTestingUtils
 @testable import Movie_DB
 import os.log
 import SwiftCSV

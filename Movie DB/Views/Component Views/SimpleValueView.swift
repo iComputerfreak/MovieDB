@@ -45,7 +45,7 @@ struct SimpleValueView<T: Hashable>: View {
                     }
                     return Strings.Generic.pickerValueNo
                 } else {
-                    return "-"
+                    return "—"
                 }
             }
         )
