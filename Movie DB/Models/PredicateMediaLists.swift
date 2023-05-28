@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import JFUtils
 
 extension PredicateMediaList {
     // MARK: Favorites
