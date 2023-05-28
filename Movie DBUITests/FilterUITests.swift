@@ -16,22 +16,12 @@ class FilterUITests: XCTestCase {
         try super.setUpWithError()
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments = ["--uitesting"]
+        app.arguments = [.uiTesting, .prepareSamples]
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         app = nil
-    }
-    
-    func addSampleMedias() {
-        app.addMatrix()
-        app.swipeUp()
-        app.addBlacklist()
-        app.swipeUp()
-        app.addMedia("Fight Club", name: "Fight Club", type: .movie)
-        app.swipeUp()
-        app.addMedia("Stranger Things", name: "Stranger Things", type: .show)
     }
     
     func configureFilter(_ key: String, configureValue: () -> Void) {
@@ -48,31 +38,15 @@ class FilterUITests: XCTestCase {
     func testFilterMediaType() {
         app.launch()
         
-        addSampleMedias()
-        
         configureFilter("Media Type") {
             app.buttons["Movie"].tap()
         }
         
         app.wait(1)
         
-        XCTAssert(app.cells.staticTexts["Fight Club"].exists)
         XCTAssert(app.cells.staticTexts["The Matrix"].exists)
-        XCTAssert(app.staticTexts["2 objects"].exists)
-    }
-        
-    func goToTags(mediaName: String, app: XCUIApplication) {
-        app.cells.staticTexts[mediaName].tap()
-        app.navigationBars[mediaName].buttons["Edit"].wait().tap()
-        app.cells.first(hasPrefix: "Tags").staticTexts.firstMatch.wait().tap()
+        XCTAssert(app.staticTexts["1 object"].exists)
     }
     
-    func addTag(_ name: String, _ app: XCUIApplication) {
-        let navBar = app.navigationBars["Tags"]
-        navBar.buttons["Add"].tap()
-        app.textFields.element.typeText(name)
-        app.alerts.buttons["Add"].tap()
-        // Check if it worked
-        XCTAssertTrue(app.cells.staticTexts[name].wait().exists)
-    }
+    // TODO: Test other filter settings
 }

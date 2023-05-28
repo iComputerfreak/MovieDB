@@ -230,6 +230,9 @@
 		ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249072A23955F002DEB3D /* JFTestingUtils */; };
 		ABD2490A2A239562002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249092A239562002DEB3D /* JFTestingUtils */; };
 		ABD2490C2A239565002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD2490B2A239565002DEB3D /* JFTestingUtils */; };
+		ABD2490E2A23A465002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD2490D2A23A465002DEB3D /* JFUtils */; };
+		ABD249102A23A46A002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD2490F2A23A46A002DEB3D /* JFUtils */; };
+		ABD249122A23A46E002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249112A23A46E002DEB3D /* JFUtils */; };
 		ABD3C5D629C12F07000B5107 /* FilterWatchedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */; };
 		ABD3C5D829C12F3F000B5107 /* FilterWatchAgainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */; };
 		ABD3C5DA29C12F6F000B5107 /* FilterTagsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */; };
@@ -646,6 +649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD249102A23A46A002DEB3D /* JFUtils in Frameworks */,
 				ABD2490A2A239562002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +671,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD2490E2A23A465002DEB3D /* JFUtils in Frameworks */,
 				ABD2490C2A239565002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,6 +680,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD249122A23A46E002DEB3D /* JFUtils in Frameworks */,
 				ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1423,6 +1429,7 @@
 			name = "Movie DBUITests";
 			packageProductDependencies = (
 				ABD249092A239562002DEB3D /* JFTestingUtils */,
+				ABD2490F2A23A46A002DEB3D /* JFUtils */,
 			);
 			productName = "Movie DBUITests";
 			productReference = AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */;
@@ -1472,6 +1479,7 @@
 			name = "Movie DBTests";
 			packageProductDependencies = (
 				ABD2490B2A239565002DEB3D /* JFTestingUtils */,
+				ABD2490D2A23A465002DEB3D /* JFUtils */,
 			);
 			productName = "Movie DBTests";
 			productReference = AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */;
@@ -1493,6 +1501,7 @@
 			name = "Movie DBScreenshots";
 			packageProductDependencies = (
 				ABD249072A23955F002DEB3D /* JFTestingUtils */,
+				ABD249112A23A46E002DEB3D /* JFUtils */,
 			);
 			productName = "Movie DBScreenshots";
 			productReference = ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */;
@@ -2484,6 +2493,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
 			productName = JFTestingUtils;
+		};
+		ABD2490D2A23A465002DEB3D /* JFUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFUtils;
+		};
+		ABD2490F2A23A46A002DEB3D /* JFUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFUtils;
+		};
+		ABD249112A23A46E002DEB3D /* JFUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */;
+			productName = JFUtils;
 		};
 		ABD3C5ED29C39F56000B5107 /* SwiftCSV */ = {
 			isa = XCSwiftPackageProductDependency;

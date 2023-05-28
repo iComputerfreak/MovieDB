@@ -126,14 +126,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     #if DEBUG
     private func handleDebugParameters() {
-        if CommandLine.arguments.contains("--uitesting") {
+        if CommandLine.launchArguments.contains(.uiTesting) {
             // Prepare a fresh container to do the UI testing in
             PersistenceController.prepareForUITesting()
             JFConfig.shared.region = "DE"
             JFConfig.shared.language = "en-US"
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
-        } else if CommandLine.arguments.contains("--screenshots") {
+        } else if CommandLine.launchArguments.contains(.screenshots) {
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
             // Prepare with sample data for taking screenshots
@@ -146,6 +146,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             let lang = Locale.current.language.languageCode!.identifier
             let region = Locale.current.language.region!.identifier
             JFConfig.shared.language = "\(lang)-\(region)"
+            prepareSamples()
+        }
+        if CommandLine.launchArguments.contains(.prepareSamples) {
             prepareSamples()
         }
     }
@@ -168,4 +171,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
     #endif
+}
+
+public extension CommandLine {
+    enum LaunchArgument: String {
+        case screenshots
+        case prepareSamples = "prepare-samples"
+        case uiTesting = "uitesting"
+    }
+    
+    static var launchArguments: [LaunchArgument] {
+        get {
+            arguments.map { $0.removingPrefix("--") }.compactMap(LaunchArgument.init(rawValue:))
+        }
+        set {
+            arguments = newValue.map(\.rawValue).map { "--\($0)" }
+        }
+    }
 }

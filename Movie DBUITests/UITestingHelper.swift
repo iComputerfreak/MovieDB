@@ -6,9 +6,27 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import JFUtils
 import JFTestingUtils
 @testable import Movie_DB
 import XCTest
+
+public extension XCUIApplication {
+    enum LaunchArgument: String {
+        case screenshots
+        case prepareSamples = "prepare-samples"
+        case uiTesting = "uitesting"
+    }
+    
+    var arguments: [LaunchArgument] {
+        get {
+            launchArguments.map { $0.removingPrefix("--") }.compactMap(LaunchArgument.init(rawValue:))
+        }
+        set {
+            launchArguments = newValue.map(\.rawValue).map { "--\($0)" }
+        }
+    }
+}
 
 extension XCUIApplication {
     var libraryNavBar: XCUIElement { navigationBars["Library"] }

@@ -15,7 +15,7 @@ class LibraryUITests: XCTestCase {
         try super.setUpWithError()
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments = ["--uitesting"]
+        app.arguments = [.uiTesting]
     }
 
     override func tearDownWithError() throws {
@@ -68,16 +68,17 @@ class LibraryUITests: XCTestCase {
     }
     
     func testSearch() {
+        app.arguments.append(.prepareSamples)
         app.launch()
-        
-        app.addMatrixAndBlacklist()
         
         // Search for 'Blacklist'
         app.libraryNavBar.searchFields.element.wait().tap()
-        app.libraryNavBar.searchFields.element.typeText("Blacklist")
+        app.libraryNavBar.searchFields.element.typeText("Expanse")
         
         // Check results
-        XCTAssertTrue(app.cells.staticTexts["The Blacklist"].exists)
+        XCTAssertTrue(app.cells.staticTexts["The Expanse"].exists)
+        XCTAssertFalse(app.cells.staticTexts["Doctor Who"].exists)
+        XCTAssertFalse(app.cells.staticTexts["Loki"].exists)
         XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
     }
 }
