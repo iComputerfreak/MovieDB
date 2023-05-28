@@ -60,7 +60,8 @@ class PredicateTests: XCTestCase {
     }
     
     func testProblemsPredicate() async throws {
-        let context = PersistenceController.createDisposableContext()
+        let context = testingUtils.context
+        context.reset()
         
         // MARK: Create sample medias
         let movieTMDBData = try await TMDBAPI.shared.tmdbData(for: 603, type: .movie, context: context)
@@ -85,290 +86,303 @@ class PredicateTests: XCTestCase {
         
         // MARK: No Problems
         
-        noProblemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieComplete1"
-            movie.personalRating = .fiveStars
-            movie.watched = .watched
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
+        context.performAndWait {
+            noProblemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieComplete1"
+                movie.personalRating = .fiveStars
+                movie.watched = .watched
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            noProblemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieComplete2"
+                movie.personalRating = .halfStar
+                movie.watched = .partially
+                movie.watchAgain = false
+                movie.tags = [sampleTags.first!]
+                movie.notes = ""
+                return movie
+            }())
+            
+            noProblemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingNote"
+                movie.personalRating = .fiveStars
+                movie.watched = .watched
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = ""
+                return movie
+            }())
+            
+            noProblemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingAllIsNotWatched"
+                movie.personalRating = .noRating
+                movie.watched = .notWatched
+                movie.watchAgain = nil
+                movie.tags = []
+                movie.notes = ""
+                return movie
+            }())
+            
+            noProblemsMedias.append({
+                let show = baseShow()
+                show.title = "showComplete1"
+                show.personalRating = .fiveStars
+                show.watched = .season(show.numberOfSeasons!)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            noProblemsMedias.append({
+                let show = baseShow()
+                show.title = "showComplete2"
+                show.personalRating = .fiveStars
+                show.watched = .season(show.numberOfSeasons! - 1)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            noProblemsMedias.append({
+                let show = baseShow()
+                show.title = "showComplete3"
+                show.personalRating = .fiveStars
+                show.watched = .episode(season: 1, episode: 3)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            noProblemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingNote"
+                show.personalRating = .fiveStars
+                show.watched = .season(show.numberOfSeasons!)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = ""
+                return show
+            }())
+            
+            noProblemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingAllIsNotWatched"
+                show.personalRating = .noRating
+                show.watched = .notWatched
+                show.watchAgain = nil
+                show.tags = []
+                show.notes = ""
+                return show
+            }())
+            
+            // MARK: Problems
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingWatched"
+                movie.personalRating = .fiveStars
+                movie.watched = nil
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingRating1"
+                movie.personalRating = .noRating
+                movie.watched = .watched
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingRating2"
+                movie.personalRating = .noRating
+                movie.watched = .partially
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingRatingWatched"
+                movie.personalRating = .noRating
+                movie.watched = nil
+                movie.watchAgain = true
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingWatchAgain"
+                movie.personalRating = .fiveStars
+                movie.watched = .watched
+                movie.watchAgain = nil
+                movie.tags = sampleTags
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingTags"
+                movie.personalRating = .fiveStars
+                movie.watched = .watched
+                movie.watchAgain = true
+                movie.tags = []
+                movie.notes = "Note"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingAll"
+                movie.personalRating = .noRating
+                movie.watched = nil
+                movie.watchAgain = nil
+                movie.tags = []
+                movie.notes = ""
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let movie = baseMovie()
+                movie.title = "movieMissingAll2"
+                return movie
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingAll"
+                show.personalRating = .noRating
+                show.watched = nil
+                show.watchAgain = nil
+                show.tags = []
+                show.notes = ""
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingRating1"
+                show.personalRating = .noRating
+                show.watched = .season(show.numberOfSeasons!)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingRating2"
+                show.personalRating = .noRating
+                show.watched = .episode(season: 1, episode: 3)
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingWatched"
+                show.personalRating = .fiveStars
+                show.watched = nil
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingWatchedRating"
+                show.personalRating = .noRating
+                show.watched = nil
+                show.watchAgain = true
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingWatchAgain"
+                show.personalRating = .fiveStars
+                show.watched = .season(show.numberOfSeasons!)
+                show.watchAgain = nil
+                show.tags = sampleTags
+                show.notes = "Note"
+                return show
+            }())
+            
+            problemsMedias.append({
+                let show = baseShow()
+                show.title = "showMissingTags"
+                show.personalRating = .fiveStars
+                show.watched = .season(show.numberOfSeasons!)
+                show.watchAgain = true
+                show.tags = []
+                show.notes = "Note"
+                return show
+            }())
+        }
         
-        noProblemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieComplete2"
-            movie.personalRating = .halfStar
-            movie.watched = .partially
-            movie.watchAgain = false
-            movie.tags = [sampleTags.first!]
-            movie.notes = ""
-            return movie
-        }())
+        context.performAndWait {
+            context.processPendingChanges()
+        }
         
-        noProblemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingNote"
-            movie.personalRating = .fiveStars
-            movie.watched = .watched
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = ""
-            return movie
-        }())
-        
-        noProblemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingAllIsNotWatched"
-            movie.personalRating = .noRating
-            movie.watched = .notWatched
-            movie.watchAgain = nil
-            movie.tags = []
-            movie.notes = ""
-            return movie
-        }())
-        
-        noProblemsMedias.append({
-            let show = baseShow()
-            show.title = "showComplete1"
-            show.personalRating = .fiveStars
-            show.watched = .season(show.numberOfSeasons!)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        noProblemsMedias.append({
-            let show = baseShow()
-            show.title = "showComplete2"
-            show.personalRating = .fiveStars
-            show.watched = .season(show.numberOfSeasons! - 1)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        noProblemsMedias.append({
-            let show = baseShow()
-            show.title = "showComplete3"
-            show.personalRating = .fiveStars
-            show.watched = .episode(season: 1, episode: 3)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        noProblemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingNote"
-            show.personalRating = .fiveStars
-            show.watched = .season(show.numberOfSeasons!)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = ""
-            return show
-        }())
-        
-        noProblemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingAllIsNotWatched"
-            show.personalRating = .noRating
-            show.watched = .notWatched
-            show.watchAgain = nil
-            show.tags = []
-            show.notes = ""
-            return show
-        }())
-        
-        // MARK: Problems
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingWatched"
-            movie.personalRating = .fiveStars
-            movie.watched = nil
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingRating1"
-            movie.personalRating = .noRating
-            movie.watched = .watched
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingRating2"
-            movie.personalRating = .noRating
-            movie.watched = .partially
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingRatingWatched"
-            movie.personalRating = .noRating
-            movie.watched = nil
-            movie.watchAgain = true
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingWatchAgain"
-            movie.personalRating = .fiveStars
-            movie.watched = .watched
-            movie.watchAgain = nil
-            movie.tags = sampleTags
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingTags"
-            movie.personalRating = .fiveStars
-            movie.watched = .watched
-            movie.watchAgain = true
-            movie.tags = []
-            movie.notes = "Note"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingAll"
-            movie.personalRating = .noRating
-            movie.watched = nil
-            movie.watchAgain = nil
-            movie.tags = []
-            movie.notes = ""
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let movie = baseMovie()
-            movie.title = "movieMissingAll2"
-            return movie
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingAll"
-            show.personalRating = .noRating
-            show.watched = nil
-            show.watchAgain = nil
-            show.tags = []
-            show.notes = ""
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingRating1"
-            show.personalRating = .noRating
-            show.watched = .season(show.numberOfSeasons!)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingRating2"
-            show.personalRating = .noRating
-            show.watched = .episode(season: 1, episode: 3)
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingWatched"
-            show.personalRating = .fiveStars
-            show.watched = nil
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingWatchedRating"
-            show.personalRating = .noRating
-            show.watched = nil
-            show.watchAgain = true
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingWatchAgain"
-            show.personalRating = .fiveStars
-            show.watched = .season(show.numberOfSeasons!)
-            show.watchAgain = nil
-            show.tags = sampleTags
-            show.notes = "Note"
-            return show
-        }())
-        
-        problemsMedias.append({
-            let show = baseShow()
-            show.title = "showMissingTags"
-            show.personalRating = .fiveStars
-            show.watched = .season(show.numberOfSeasons!)
-            show.watchAgain = true
-            show.tags = []
-            show.notes = "Note"
-            return show
-        }())
+        // Check if all movies/shows have been properly created
+        let allObjects = try context.fetch(Media.fetchRequest())
+        XCTAssertEqual(allObjects.count, problemsMedias.count + noProblemsMedias.count, "There are missing/duplicated medias in the context.")
         
         let predicate = PredicateMediaList.problems.predicate
         
         let fetchRequest = Media.fetchRequest()
         fetchRequest.predicate = predicate
+        
         let fetchedProblems = try context.fetch(fetchRequest)
         
         // swiftlint:disable:next force_cast
         let problems = NSArray(array: problemsMedias + noProblemsMedias).filtered(using: predicate) as! [Media]
         
+        // MARK: Problems
         // All medias that are problematic should be included in the filtered results
         for media in problemsMedias {
             XCTAssert(problems.contains(media), "\(media.title) is not identified as a problem.")
         }
-        
+        // Fetched results:
         for media in problemsMedias {
             XCTAssert(fetchedProblems.contains(media), "\(media.title) is not identified as a problem when fetching.")
         }
         
+        // MARK: No Problems
         // All medias that are not problematic should not be included
         for media in noProblemsMedias {
             XCTAssert(!problems.contains(media), "\(media.title) is wrongfully identified as a problem.")
         }
-        
+        // Fetched results:
         for media in noProblemsMedias {
             XCTAssert(!fetchedProblems.contains(media), "\(media.title) is wrongfully identified as a problem when fetching.")
         }

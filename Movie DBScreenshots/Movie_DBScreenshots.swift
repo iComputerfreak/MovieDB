@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import JFUtils
 import XCTest
 
 // swiftlint:disable:next blanket_disable_command
@@ -100,11 +101,5 @@ final class Movie_DBScreenshots: XCTestCase {
     private func snapshot(_ name: String) {
         Snapshot.snapshot("\(String(format: "%02d", snapshotCounter))_\(name)")
         snapshotCounter += 1
-    }
-}
-
-extension XCUIElement {
-    func forceTap() {
-        coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).tap()
     }
 }

@@ -32,6 +32,7 @@ extension PredicateMediaList {
             // To be included, the movie/show must not be marked as "not watched"
             NSCompoundPredicate(type: .or, subpredicates: [
                 // We don't include movies that are marked as 'not watched'
+                // type == .movie && (watched == nil || watched != .notWatched)
                 NSPredicate(
                     format: "%K = %@ AND (%K = nil OR %K != %@)",
                     Schema.Media.type.rawValue,
@@ -41,6 +42,7 @@ extension PredicateMediaList {
                     MovieWatchState.notWatched.rawValue
                 ),
                 // We don't include shows that are marked as explicitly 'not watched'
+                // type == .show && !(show.notWatched)
                 NSCompoundPredicate(type: .and, subpredicates: [
                     NSPredicate(format: "type = %@", MediaType.show.rawValue),
                     ShowWatchState.showsNotWatchedPredicate.negated(),
@@ -50,6 +52,7 @@ extension PredicateMediaList {
             NSCompoundPredicate(type: .or, subpredicates: [
                 // Personal Rating missing
                 NSPredicate(
+                    // personalRating == nil || personalRating == .noRating
                     format: "%K = nil OR %K = %lld",
                     Schema.Media.personalRating.rawValue,
                     Schema.Media.personalRating.rawValue,

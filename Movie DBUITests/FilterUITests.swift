@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import JFUtils
 import XCTest
 
 class FilterUITests: XCTestCase {
@@ -36,7 +37,7 @@ class FilterUITests: XCTestCase {
     func configureFilter(_ key: String, configureValue: () -> Void) {
         // We start at the library view
         let navBar = app.navigationBars["Library"]
-        navBar.buttons["More"].tap()
+        navBar.buttons["More"].forceTap()
         app.buttons["Filter"].tap()
         // Change the desired filter setting
         app.cells.staticTexts[key].tap()

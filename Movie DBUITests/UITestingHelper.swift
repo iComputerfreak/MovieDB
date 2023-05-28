@@ -50,37 +50,4 @@ extension XCUIApplication {
         XCTAssertTrue(addMediaButton.waitForHittable(self).isHittable)
         addBlacklist()
     }
-    
-    func wait(_ timeout: TimeInterval = 1) {
-        XCTAssertFalse(wait(for: .runningBackground, timeout: timeout))
-    }
-}
-
-extension XCUIElement {
-    @discardableResult
-    func wait() -> XCUIElement {
-        if !exists {
-            XCTAssertTrue(waitForExistence(timeout: 5))
-        }
-        return self
-    }
-    
-    func waitForHittable(_ app: XCUIApplication, timeout: TimeInterval = 5.0) -> XCUIElement {
-        var waited: TimeInterval = 0
-        while waited < timeout {
-            guard !isHittable else {
-                return self
-            }
-            // We should not actually go into background. We just use this function to wait
-            XCTAssertFalse(app.wait(for: .runningBackground, timeout: 0.5))
-            waited += 0.5
-        }
-        return self
-    }
-}
-
-extension XCUIElementQuery {
-    func first(where key: String = "label", hasPrefix prefix: String) -> XCUIElement {
-        matching(NSPredicate(format: "%K BEGINSWITH %@", key, prefix)).firstMatch
-    }
 }

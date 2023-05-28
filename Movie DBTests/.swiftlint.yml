@@ -9,3 +9,4 @@ disabled_rules:
   - inclusive_language
   - function_parameter_count
   - large_tuple
+  - file_length

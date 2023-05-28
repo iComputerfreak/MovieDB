@@ -226,6 +226,8 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
+		ABD248FA2A2384D0002DEB3D /* LastNameComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */; };
+		ABD248FC2A2389DB002DEB3D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD248FB2A2389DB002DEB3D /* XCTest.framework */; };
 		ABD3C5D629C12F07000B5107 /* FilterWatchedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */; };
 		ABD3C5D829C12F3F000B5107 /* FilterWatchAgainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */; };
 		ABD3C5DA29C12F6F000B5107 /* FilterTagsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */; };
@@ -553,6 +555,8 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastNameComparator.swift; sourceTree = "<group>"; };
+		ABD248FB2A2389DB002DEB3D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchedPicker.swift; sourceTree = "<group>"; };
 		ABD3C5D729C12F3F000B5107 /* FilterWatchAgainPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchAgainPicker.swift; sourceTree = "<group>"; };
 		ABD3C5D929C12F6F000B5107 /* FilterTagsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTagsPicker.swift; sourceTree = "<group>"; };
@@ -647,6 +651,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABD248FC2A2389DB002DEB3D /* XCTest.framework in Frameworks */,
 				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				AB3FA4FE280B035900FA3C75 /* JFUtils in Frameworks */,
@@ -864,6 +869,7 @@
 				AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */,
 				AB6B86BE2971CDBD00E36AE6 /* AppStoreScreenshotData.swift */,
 				ABB194CC29AFDEBA0041DFFA /* TMDBImageService.swift */,
+				ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1117,6 +1123,7 @@
 		AB79E99C25C9F1850050BD8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABD248FB2A2389DB002DEB3D /* XCTest.framework */,
 				ABB644932971760A0024BD80 /* StoreKit.framework */,
 				ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */,
 				ABE17B68284FA05600879C30 /* CloudKit.framework */,
@@ -1517,9 +1524,9 @@
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
-				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */,
+				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
 				ABFFE80828099DCE00598356 /* XCRemoteSwiftPackageReference "JFUtils" */,
-				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */,
+				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
@@ -1928,6 +1935,7 @@
 				AB5F7E41238AF0AC0007A3FE /* JFLiterals.swift in Sources */,
 				AB3434DF281D475400459673 /* MovieDBApp.swift in Sources */,
 				ABFADEFB2A004AF0004F94B1 /* BackgroundHandler.swift in Sources */,
+				ABD248FA2A2384D0002DEB3D /* LastNameComparator.swift in Sources */,
 				AB3190DF297E07CD004BA53A /* CastMemberRow.swift in Sources */,
 				AB14342C25CDEE9B00AA304F /* ProductionCompany+CoreDataClass.swift in Sources */,
 				AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */,
@@ -2404,7 +2412,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */ = {
+		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFSwiftUI.git";
 			requirement = {
@@ -2420,7 +2428,7 @@
 				minimumVersion = 0.8.1;
 			};
 		};
-		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */ = {
+		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
@@ -2446,7 +2454,7 @@
 		};
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */;
+			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
 		};
 		ABD3C5ED29C39F56000B5107 /* SwiftCSV */ = {
@@ -2456,7 +2464,7 @@
 		};
 		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */;
+			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
