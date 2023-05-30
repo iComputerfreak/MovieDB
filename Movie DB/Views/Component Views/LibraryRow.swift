@@ -23,9 +23,11 @@ struct LibraryRow: View {
             ProgressView()
         } else {
             HStack {
+                // MARK: Thumbnail
                 Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                     .thumbnail()
                 VStack(alignment: .leading, spacing: 4) {
+                    // MARK: Title
                     Text(mediaObject.title)
                         .lineLimit(2)
                         .font(.headline)
@@ -49,7 +51,7 @@ struct LibraryRow: View {
                         }
                     }
                     .font(.subheadline)
-                    
+                    // MARK: WatchStateLabel
                     WatchStateLabel()
                 }
             }
