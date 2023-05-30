@@ -48,9 +48,15 @@ struct MediaListsRootView: View {
     
     @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
     private var problemsMedias: FetchedResults<Media>
+    private var problemsMediasCount: Int {
+        problemsMedias.filter(PredicateMediaList.problems.filter ?? { _ in true }).count
+    }
     
     @FetchRequest(fetchRequest: PredicateMediaList.newSeasons.buildFetchRequest())
     private var newSeasonsMedias: FetchedResults<Media>
+    private var newSeasonsMediasCount: Int {
+        newSeasonsMedias.filter(PredicateMediaList.newSeasons.filter ?? { _ in true }).count
+    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -76,7 +82,7 @@ struct MediaListsRootView: View {
                         ProblemsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
-                            .badge(problemsMedias.count)
+                            .badge(problemsMediasCount)
                     }
                     
                     // MARK: New Seasons
@@ -84,7 +90,7 @@ struct MediaListsRootView: View {
                         NewSeasonsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
-                            .badge(newSeasonsMedias.count)
+                            .badge(newSeasonsMediasCount)
                     }
                 }
                 .deleteDisabled(true)

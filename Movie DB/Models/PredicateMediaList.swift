@@ -15,6 +15,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     let name: String
     let iconName: String
     let predicate: NSPredicate
+    let filter: ((Media) -> Bool)?
     
     var sortingOrder: SortingOrder {
         didSet {
@@ -30,11 +31,13 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         }
     }
     
-    init(name: String, iconName: String, predicate: NSPredicate) {
+    init(name: String, iconName: String, predicate: NSPredicate, filter: ((Media) -> Bool)? = nil) {
         self.name = name
         self.iconName = iconName
         self.predicate = predicate
-        // We know that the name is unique, because we only have a predefined set of names
+        self.filter = filter
+        // We know that the name is unique, because we only have a predefined set of names and the user cannot create
+        // their own
         let orderKey = Self.userDefaultsKey(for: name, type: .sortingOrder)
         if
             let sortingOrderRawValue = UserDefaults.standard.string(forKey: orderKey),
@@ -76,6 +79,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     
     // MARK: - Hashable Conformance
     
+    // TODO: We cannot include `filter` in the Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(iconName)

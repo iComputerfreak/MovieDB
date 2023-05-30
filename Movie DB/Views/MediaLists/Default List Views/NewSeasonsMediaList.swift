@@ -15,13 +15,14 @@ struct NewSeasonsMediaList: View {
         FilteredMediaList(
             list: PredicateMediaList.newSeasons,
             selectedMedia: $selectedMedia,
-            description: Strings.Lists.newSeasonsDescription
-        ) { media in
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .environmentObject(media)
+            description: Strings.Lists.newSeasonsDescription,
+            rowContent: { media in
+                NavigationLink(value: media) {
+                    LibraryRow()
+                        .environmentObject(media)
+                }
             }
-        }
+        )
     }
 }
 

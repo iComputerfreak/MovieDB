@@ -100,6 +100,18 @@ extension PredicateMediaList {
                 true as NSNumber,
                 Schema.Media.watchAgain
             ),
-        ])
+        ]),
+        filter: { media in
+            if
+                let show = media as? Show,
+                let latestNonEmptySeasonNumber = show.latestNonEmptySeasonNumber,
+                let watched = show.watched
+            {
+                // Only include shows where the latestNonEmptySeasonNumber has not been watched yet
+                return watched < ShowWatchState.season(latestNonEmptySeasonNumber)
+            }
+            // Results that are not shows or have missing data are not filtered out
+            return true
+        }
     )
 }

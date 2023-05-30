@@ -6,8 +6,8 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import JFUtils
 import JFTestingUtils
+import JFUtils
 @testable import Movie_DB
 import XCTest
 

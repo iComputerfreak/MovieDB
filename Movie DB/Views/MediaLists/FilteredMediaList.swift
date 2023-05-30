@@ -13,6 +13,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     let rowContent: (Media) -> RowContent
     @ObservedObject var list: ListType
     let description: String?
+    let filter: ((Media) -> Bool)?
     
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
@@ -39,6 +40,11 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         self.rowContent = rowContent
         self.list = list
         self.description = description
+        if let predicateList = list as? PredicateMediaList {
+            self.filter = predicateList.filter
+        } else {
+            self.filter = nil
+        }
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
         _selectedMedia = selectedMedia
@@ -57,6 +63,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 sortingDirection: $sortingDirection,
                 fetchRequest: list.buildFetchRequest(),
                 selectedMedia: $selectedMedia,
+                filter: self.filter,
                 rowContent: self.rowContent
             )
             .onChange(of: sortingOrder) { newValue in

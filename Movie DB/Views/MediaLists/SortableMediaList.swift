@@ -13,6 +13,7 @@ struct SortableMediaList<RowContent: View>: View {
     @Binding var sortingOrder: SortingOrder
     @Binding var sortingDirection: SortingDirection
     let rowContent: (Media) -> RowContent
+    let filter: (Media) -> Bool
     
     @FetchRequest private var medias: FetchedResults<Media>
     
@@ -23,11 +24,13 @@ struct SortableMediaList<RowContent: View>: View {
         sortingDirection: Binding<SortingDirection>,
         fetchRequest: NSFetchRequest<Media>,
         selectedMedia: Binding<Media?>,
+        filter: ((Media) -> Bool)? = nil,
         rowContent: @escaping (Media) -> RowContent
     ) {
         self._sortingOrder = sortingOrder
         self._sortingDirection = sortingDirection
         self._selectedMedia = selectedMedia
+        self.filter = filter ?? { _ in true }
         self.rowContent = rowContent
         
         // Update the sorting of the fetchRequest and use it to display the media
@@ -39,14 +42,15 @@ struct SortableMediaList<RowContent: View>: View {
     
     var body: some View {
         Group {
-            if medias.isEmpty {
+            // Filtered media should not be empty
+            if !medias.contains(where: self.filter) {
                 HStack {
                     Spacer()
                     Text(Strings.Lists.filteredListEmptyMessage)
                     Spacer()
                 }
             } else {
-                List(medias, selection: $selectedMedia) { media in
+                List(medias.filter(self.filter), selection: $selectedMedia) { media in
                     self.rowContent(media)
                         .tag(media)
                 }
