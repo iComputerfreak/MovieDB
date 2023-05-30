@@ -225,6 +225,8 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
+		ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */; };
+		ABCEF11D2A26761600295EB6 /* PredicateMediaList+Problems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */; };
 		ABD248FA2A2384D0002DEB3D /* LastNameComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */; };
 		ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249022A2394CC002DEB3D /* JFUtils */; };
 		ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249072A23955F002DEB3D /* JFTestingUtils */; };
@@ -560,6 +562,8 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+NewSeasons.swift"; sourceTree = "<group>"; };
+		ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+Problems.swift"; sourceTree = "<group>"; };
 		ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastNameComparator.swift; sourceTree = "<group>"; };
 		ABD248FB2A2389DB002DEB3D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchedPicker.swift; sourceTree = "<group>"; };
@@ -1057,8 +1061,7 @@
 			children = (
 				AB98EA39264DB6DD0048B8CC /* AggregateCastMember.swift */,
 				AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */,
-				AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */,
-				AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */,
+				ABCEF1192A2675C600295EB6 /* PredicateMediaList */,
 				ABD8648328183E2B001A1F7C /* Problem.swift */,
 				ABD86487281933BC001A1F7C /* MediaLibrary.swift */,
 				ABED3B03239324E000F4C327 /* TMDBData */,
@@ -1217,6 +1220,17 @@
 				AB3EE7E92A224C6700C120F2 /* DeleteMediaButton.swift */,
 			);
 			path = "Media Menu";
+			sourceTree = "<group>";
+		};
+		ABCEF1192A2675C600295EB6 /* PredicateMediaList */ = {
+			isa = PBXGroup;
+			children = (
+				AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */,
+				AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */,
+				ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */,
+				ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */,
+			);
+			path = PredicateMediaList;
 			sourceTree = "<group>";
 		};
 		ABD3C5D429C12EF5000B5107 /* User Data */ = {
@@ -1831,6 +1845,7 @@
 				ABEEB0D02814317B00230F0B /* ImportExportSection.swift in Sources */,
 				AB840C4A29A7B0AE00637C2A /* Migration.swift in Sources */,
 				AB68250629CF7C8F0086034B /* LibraryViewModel.swift in Sources */,
+				ABCEF11D2A26761600295EB6 /* PredicateMediaList+Problems.swift in Sources */,
 				AB2E53DC22D0F6F400F722A3 /* MediaDetail.swift in Sources */,
 				AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */,
 				ABD3C5EA29C13119000B5107 /* FilterNumberOfSeasonsPicker.swift in Sources */,
@@ -1965,6 +1980,7 @@
 				ABD3C5F829C4B96F000B5107 /* ProviderView.swift in Sources */,
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
+				ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
 				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
