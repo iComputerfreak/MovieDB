@@ -13,10 +13,10 @@ import SwiftUI
 /// Represents a media list that fetches its media objects by a fixed predicate
 class PredicateMediaList: ObservableObject, MediaListProtocol {
     let name: String
-    let description: String
+    let listDescription: String?
     let iconName: String
     let predicate: NSPredicate
-    let filter: ((Media) -> Bool)?
+    let customFilter: ((Media) -> Bool)?
     
     var sortingOrder: SortingOrder {
         didSet {
@@ -38,13 +38,13 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         iconName: String,
         defaultSortingOrder: SortingOrder? = nil,
         predicate: NSPredicate,
-        filter: ((Media) -> Bool)? = nil
+        customFilter: ((Media) -> Bool)? = nil
     ) {
         self.name = name
-        self.description = description
+        self.listDescription = description
         self.iconName = iconName
         self.predicate = predicate
-        self.filter = filter
+        self.customFilter = customFilter
         // We know that the name is unique, because we only have a predefined set of names and the user cannot create
         // their own
         let orderKey = Self.userDefaultsKey(for: name, type: .sortingOrder)

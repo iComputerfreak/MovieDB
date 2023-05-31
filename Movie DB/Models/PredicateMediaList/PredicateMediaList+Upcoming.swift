@@ -48,7 +48,7 @@ extension PredicateMediaList {
                 ),
             ]),
         ]),
-        filter: { media in
+        customFilter: { media in
             if let show = media as? Show {
                 // Only include shows where at least one season is in the future
                 return show.seasons.compactMap(\.airDate).contains { $0 > .now }

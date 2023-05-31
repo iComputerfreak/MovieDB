@@ -49,19 +49,19 @@ struct MediaListsRootView: View {
     @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
     private var problemsMedias: FetchedResults<Media>
     private var problemsMediasCount: Int {
-        problemsMedias.filter(PredicateMediaList.problems.filter ?? { _ in true }).count
+        problemsMedias.filter(PredicateMediaList.problems.customFilter ?? { _ in true }).count
     }
     
     @FetchRequest(fetchRequest: PredicateMediaList.newSeasons.buildFetchRequest())
     private var newSeasonsMedias: FetchedResults<Media>
     private var newSeasonsMediasCount: Int {
-        newSeasonsMedias.filter(PredicateMediaList.newSeasons.filter ?? { _ in true }).count
+        newSeasonsMedias.filter(PredicateMediaList.newSeasons.customFilter ?? { _ in true }).count
     }
     
     @FetchRequest(fetchRequest: PredicateMediaList.upcoming.buildFetchRequest())
     private var upcomingMedias: FetchedResults<Media>
     private var upcomingMediasCount: Int {
-        upcomingMedias.filter(PredicateMediaList.upcoming.filter ?? { _ in true }).count
+        upcomingMedias.filter(PredicateMediaList.upcoming.customFilter ?? { _ in true }).count
     }
     
     var body: some View {

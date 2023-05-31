@@ -11,8 +11,16 @@ import Foundation
 
 protocol MediaListProtocol: ObservableObject, Hashable {
     var name: String { get }
+    // We cannot call it `description`, as it would clash with the `CustomStringConvertible`'s `description`
+    var listDescription: String? { get }
     var iconName: String { get }
     var sortingOrder: SortingOrder { get set }
     var sortingDirection: SortingDirection { get set }
+    var customFilter: ((Media) -> Bool)? { get }
     func buildFetchRequest() -> NSFetchRequest<Media>
+}
+
+extension MediaListProtocol {
+    var listDescription: String? { nil }
+    var customFilter: ((Media) -> Bool)? { nil }
 }

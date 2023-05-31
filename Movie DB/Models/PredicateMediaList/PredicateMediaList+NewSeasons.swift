@@ -44,7 +44,7 @@ extension PredicateMediaList {
                 Schema.Media.watchAgain
             ),
         ]),
-        filter: { media in
+        customFilter: { media in
             if
                 let show = media as? Show,
                 let latestNonEmptySeasonNumber = show.latestNonEmptySeasonNumber,

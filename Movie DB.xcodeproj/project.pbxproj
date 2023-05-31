@@ -231,6 +231,7 @@
 		ABCEF1212A267AB800295EB6 /* UpcomingLibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF1202A267AB800295EB6 /* UpcomingLibraryRow.swift */; };
 		ABCEF1232A267FED00295EB6 /* BaseLibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF1222A267FED00295EB6 /* BaseLibraryRow.swift */; };
 		ABCEF1262A2784DA00295EB6 /* UpcomingMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF1252A2784DA00295EB6 /* UpcomingMediaList.swift */; };
+		ABCEF1292A27E5B100295EB6 /* MediaListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF1282A27E5B100295EB6 /* MediaListTests.swift */; };
 		ABD248FA2A2384D0002DEB3D /* LastNameComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */; };
 		ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249022A2394CC002DEB3D /* JFUtils */; };
 		ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249072A23955F002DEB3D /* JFTestingUtils */; };
@@ -271,7 +272,6 @@
 		ABD8648428183E2B001A1F7C /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648328183E2B001A1F7C /* Problem.swift */; };
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
 		ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */; };
-		ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE060C228EE550E005EE10E /* SortableMediaList.swift */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
 		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70229C0A18300E5B54B /* ParentalRating+CoreDataClass.swift */; };
@@ -573,6 +573,7 @@
 		ABCEF1222A267FED00295EB6 /* BaseLibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLibraryRow.swift; sourceTree = "<group>"; };
 		ABCEF1252A2784DA00295EB6 /* UpcomingMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingMediaList.swift; sourceTree = "<group>"; };
 		ABCEF1272A2791CA00295EB6 /* Movie DB v13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v13.xcdatamodel"; sourceTree = "<group>"; };
+		ABCEF1282A27E5B100295EB6 /* MediaListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListTests.swift; sourceTree = "<group>"; };
 		ABD248F92A2384D0002DEB3D /* LastNameComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastNameComparator.swift; sourceTree = "<group>"; };
 		ABD248FB2A2389DB002DEB3D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		ABD3C5D529C12F07000B5107 /* FilterWatchedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterWatchedPicker.swift; sourceTree = "<group>"; };
@@ -608,7 +609,6 @@
 		ABD86487281933BC001A1F7C /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvidersInfo.swift; sourceTree = "<group>"; };
 		ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v2.xcdatamodel"; sourceTree = "<group>"; };
-		ABE060C228EE550E005EE10E /* SortableMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortableMediaList.swift; sourceTree = "<group>"; };
 		ABE17B68284FA05600879C30 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCloudKit.tbd; path = usr/lib/swift/libswiftCloudKit.tbd; sourceTree = SDKROOT; };
 		ABE6B6FC29C0A08400E5B54B /* Movie DB v11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v11.xcdatamodel"; sourceTree = "<group>"; };
@@ -743,7 +743,6 @@
 				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
 				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
-				ABE060C228EE550E005EE10E /* SortableMediaList.swift */,
 				AB5612552970045B0039850B /* ListConfigurationView.swift */,
 				AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */,
 			);
@@ -955,6 +954,7 @@
 				AB99561128511FEB00C3D063 /* FilterUITests.swift */,
 				AB9956082850F1D300C3D063 /* DetailUITests.swift */,
 				AB99560A2850F1DA00C3D063 /* SettingsUITests.swift */,
+				ABCEF1282A27E5B100295EB6 /* MediaListTests.swift */,
 				AB48BD6D2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift */,
 			);
 			path = "Movie DBUITests";
@@ -1758,6 +1758,7 @@
 				AB48BD6E2816CE3C00E53135 /* Movie_DBUITestsLaunchTests.swift in Sources */,
 				AB48BD6C2816CE3C00E53135 /* LibraryUITests.swift in Sources */,
 				AB99560B2850F1DA00C3D063 /* SettingsUITests.swift in Sources */,
+				ABCEF1292A27E5B100295EB6 /* MediaListTests.swift in Sources */,
 				AB99561228511FEB00C3D063 /* FilterUITests.swift in Sources */,
 				AB99560D2850F1F200C3D063 /* UITestingHelper.swift in Sources */,
 				AB9956092850F1D300C3D063 /* DetailUITests.swift in Sources */,
@@ -1974,7 +1975,6 @@
 				ABD3C60729C4C929000B5107 /* Schema+CDColor.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */,
-				ABE060C328EE550E005EE10E /* SortableMediaList.swift in Sources */,
 				ABD3C5DD29C12FD0000B5107 /* FilterMediaTypePicker.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
