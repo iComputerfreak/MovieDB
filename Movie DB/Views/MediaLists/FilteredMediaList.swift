@@ -34,16 +34,16 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     init(
         list: ListType,
         selectedMedia: Binding<Media?>,
-        description: String? = nil,
         rowContent: @escaping (Media) -> RowContent
     ) {
         self.rowContent = rowContent
         self.list = list
-        self.description = description
         if let predicateList = list as? PredicateMediaList {
             self.filter = predicateList.filter
+            self.description = predicateList.description
         } else {
             self.filter = nil
+            self.description = nil
         }
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
@@ -104,7 +104,7 @@ struct FilteredMediaList_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack {
-            FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil), description: "Test") { media in
+            FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil)) { media in
                 LibraryRow()
                     .environmentObject(media)
             }

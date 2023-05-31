@@ -13,6 +13,7 @@ extension PredicateMediaList {
     // MARK: Favorites
     static let favorites = PredicateMediaList(
         name: Strings.Lists.defaultListNameFavorites,
+        description: Strings.Lists.favoritesDescription,
         iconName: "heart.fill",
         predicate: NSPredicate(
             format: "%K = %@",
@@ -24,6 +25,7 @@ extension PredicateMediaList {
     // MARK: Watchlist
     static let watchlist = PredicateMediaList(
         name: Strings.Lists.defaultListNameWatchlist,
+        description: Strings.Lists.watchlistDescription,
         iconName: "bookmark.fill",
         predicate: NSPredicate(
             format: "%K = %@",

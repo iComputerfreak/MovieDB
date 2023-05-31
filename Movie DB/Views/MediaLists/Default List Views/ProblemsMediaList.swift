@@ -14,8 +14,7 @@ struct ProblemsMediaList: View {
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.problems,
-            selectedMedia: $selectedMedia,
-            description: Strings.Lists.problemsDescription
+            selectedMedia: $selectedMedia
         ) { media in
             NavigationLink(value: media) {
                 ProblemsLibraryRow()

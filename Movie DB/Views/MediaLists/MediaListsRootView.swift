@@ -58,6 +58,12 @@ struct MediaListsRootView: View {
         newSeasonsMedias.filter(PredicateMediaList.newSeasons.filter ?? { _ in true }).count
     }
     
+    @FetchRequest(fetchRequest: PredicateMediaList.upcoming.buildFetchRequest())
+    private var upcomingMedias: FetchedResults<Media>
+    private var upcomingMediasCount: Int {
+        upcomingMedias.filter(PredicateMediaList.upcoming.filter ?? { _ in true }).count
+    }
+    
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             List {
@@ -91,6 +97,14 @@ struct MediaListsRootView: View {
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
                             .badge(newSeasonsMediasCount)
+                    }
+                    
+                    // MARK: Upcoming
+                    NavigationLink {
+                        UpcomingMediaList(selectedMedia: $selectedMedia)
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.upcoming)
+                            .badge(upcomingMediasCount)
                     }
                 }
                 .deleteDisabled(true)

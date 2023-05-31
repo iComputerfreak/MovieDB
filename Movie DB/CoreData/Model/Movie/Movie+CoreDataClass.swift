@@ -73,4 +73,8 @@ public class Movie: Media {
         }
         return missing
     }
+    
+    override func getNextOrLatestReleaseDate() -> Date? {
+        return self.releaseDate
+    }
 }

@@ -847,10 +847,18 @@
 "lists.descriptions.favorites" = "Diese Liste zeigt alle Medien, die Sie mit einem Herz markiert haben.";
 "lists.descriptions.watchlist" = "Diese Liste zeigt alle Medien, die Sie mit einem Lesezeichen markiert haben.";
 "lists.descriptions.problems" = "Diese Liste zeigt alle Medien, bei denen Informationen fehlen (z.B. fehlende Bewertung oder Schlüsselwörter).";
-"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angesehene Episoden verfügbar sind. Serien, bei denen Sie \"weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
+"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angesehene Episoden verfügbar sind. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
 
 "addMedia.searchPrompt" = "Suchen, um Medien zur Mediathek hinzuzufügen";
 
 "detail.mediaMenu.label" = "Menü";
 
 "languageChooser.callout" = "Bitte wählen Sie die Sprache, die für die Medien-Informationen (z.B. Titel und Beschreibung) verwendet werden soll.";
+
+"lists.defaultListName.upcoming" = "Bevorstehend";
+"lists.descriptions.upcoming" = "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
+
+"lists.upcoming.subtitle.movie" = "Erscheint in ";
+"lists.upcoming.subtitle.show %lld" = "Staffel %lld in ";
+
+"sortingOrder.nextRelease" = "Nächste Veröffentlichung";

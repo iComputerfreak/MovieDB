@@ -97,7 +97,8 @@ public extension Media {
     @NSManaged var creationDate: Date
     /// The date the media object was last modified
     @NSManaged var modificationDate: Date?
-    /// The date the media object was released or first aired
+    /// The date the media object was released or first aired.
+    /// - Important: Should only be updated from within this class or its subclasses.
     @NSManaged var releaseDateOrFirstAired: Date?
     /// The parental rating of this media (e.g. FSK 16)
     @NSManaged var parentalRating: ParentalRating?
@@ -114,6 +115,8 @@ public extension Media {
     
     /// Whether the result is a movie and is for adults only
     internal var isAdultMovie: Bool? {
+        // TODO: We shouldn't know about our subclasses
+        // TODO: We also probably don't need this property
         (self as? Movie)?.isAdult
     }
     
@@ -127,6 +130,10 @@ public extension Media {
             return cal.component(.year, from: airDate)
         }
         return nil
+    }
+    
+    @objc internal var nextOrLatestReleaseDate: Date {
+        self.getNextOrLatestReleaseDate() ?? .distantPast
     }
     
     @nonobjc

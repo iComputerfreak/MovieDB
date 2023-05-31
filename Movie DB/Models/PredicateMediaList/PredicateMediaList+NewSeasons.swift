@@ -12,6 +12,7 @@ extension PredicateMediaList {
     /// A media list that features shows with new unwatched seasons
     static let newSeasons = PredicateMediaList(
         name: Strings.Lists.defaultListNameNewSeasons,
+        description: Strings.Lists.newSeasonsDescription,
         iconName: "sparkles.tv",
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
             // Only shows that have been started watching

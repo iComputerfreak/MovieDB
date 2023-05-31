@@ -94,4 +94,20 @@ public class Show: Media {
         }
         return missing
     }
+    
+    override func getNextOrLatestReleaseDate() -> Date? {
+        // If there are multiple future release dates, we only return the next one
+        let airDates = self.seasons.compactMap(\.airDate)
+        let futureAirDate = airDates.filter { $0 > .now }
+        if let next = futureAirDate.min() {
+            // Return the nearest future air date
+            return next
+        } else if let latest = airDates.max() {
+            // No future seasons => return the latest season air date
+            return latest
+        } else {
+            // No air dates available
+            return nil
+        }
+    }
 }

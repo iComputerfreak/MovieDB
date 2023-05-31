@@ -24,5 +24,9 @@ extension Strings {
             localized: "sortingOrder.rating",
             comment: "A type of sorting order (name, release date, ...)"
         )
+        static let nextRelease = String(
+            localized: "sortingOrder.nextRelease",
+            comment: "A type of sorting order that sorts the media objects by their next upcoming release or their latest release."
+        )
     }
 }

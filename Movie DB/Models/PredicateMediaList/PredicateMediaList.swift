@@ -13,6 +13,7 @@ import SwiftUI
 /// Represents a media list that fetches its media objects by a fixed predicate
 class PredicateMediaList: ObservableObject, MediaListProtocol {
     let name: String
+    let description: String
     let iconName: String
     let predicate: NSPredicate
     let filter: ((Media) -> Bool)?
@@ -31,8 +32,16 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         }
     }
     
-    init(name: String, iconName: String, predicate: NSPredicate, filter: ((Media) -> Bool)? = nil) {
+    init(
+        name: String,
+        description: String,
+        iconName: String,
+        defaultSortingOrder: SortingOrder? = nil,
+        predicate: NSPredicate,
+        filter: ((Media) -> Bool)? = nil
+    ) {
         self.name = name
+        self.description = description
         self.iconName = iconName
         self.predicate = predicate
         self.filter = filter
@@ -45,7 +54,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         {
             sortingOrder = order
         } else {
-            sortingOrder = .default
+            sortingOrder = defaultSortingOrder ?? .default
         }
         
         let directionKey = Self.userDefaultsKey(for: name, type: .sortingDirection)
