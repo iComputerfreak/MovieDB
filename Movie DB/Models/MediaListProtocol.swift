@@ -17,10 +17,12 @@ protocol MediaListProtocol: ObservableObject, Hashable {
     var sortingOrder: SortingOrder { get set }
     var sortingDirection: SortingDirection { get set }
     var customFilter: ((Media) -> Bool)? { get }
+    var customSorting: ((Media, Media) -> Bool)? { get }
     func buildFetchRequest() -> NSFetchRequest<Media>
 }
 
 extension MediaListProtocol {
     var listDescription: String? { nil }
     var customFilter: ((Media) -> Bool)? { nil }
+    var customSorting: ((Media, Media) -> Bool)? { nil }
 }

@@ -25,6 +25,20 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     @FetchRequest
     private var medias: FetchedResults<Media>
     
+    // The filtered and sorted medias
+    var filteredMedias: [Media] {
+        var medias = Array(medias)
+        // If the list defines a custom filter, apply it
+        if let filter = list.customFilter {
+            medias = medias.filter(filter)
+        }
+        // If the list overrides the sorting options, use the custom sorting
+        if let sorting = list.customSorting {
+            medias = medias.sorted(by: sorting)
+        }
+        return medias
+    }
+    
     init(
         list: ListType,
         selectedMedia: Binding<Media?>,
@@ -39,28 +53,25 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         _medias = FetchRequest(fetchRequest: list.buildFetchRequest())
     }
     
-    // TODO: Add search function
-    
     var body: some View {
         VStack {
             // Show a warning when the filter of a dynamic list is reset
             emptyDynamicListWarning
             // Filtered media should not be empty
-            if !medias.contains(where: self.filter) {
+            if filteredMedias.isEmpty {
                 HStack {
                     Spacer()
                     Text(Strings.Lists.filteredListEmptyMessage)
                     Spacer()
                 }
             } else {
-                List(medias.filter(self.filter), selection: $selectedMedia) { media in
+                List(filteredMedias, selection: $selectedMedia) { media in
                     self.rowContent(media)
                         .tag(media)
                 }
                 .listStyle(.grouped)
             }
         }
-        // MARK: Propagate UI updates to the underlying list and fetch request
         .onChange(of: sortingOrder) { newValue in
             // Update the actual list (either a CoreData entity or a default list)
             list.sortingOrder = newValue
@@ -106,14 +117,17 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     
     @ToolbarContentBuilder
     var toolbarSortingButton: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Menu {
-                SortingMenuSection(
-                    sortingOrder: $sortingOrder,
-                    sortingDirection: $sortingDirection
-                )
-            } label: {
-                Image(systemName: "arrow.up.arrow.down.circle")
+        // Only show the user the option to sort, if the list does not define a static sorting
+        if list.customSorting == nil {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    SortingMenuSection(
+                        sortingOrder: $sortingOrder,
+                        sortingDirection: $sortingDirection
+                    )
+                } label: {
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                }
             }
         }
     }

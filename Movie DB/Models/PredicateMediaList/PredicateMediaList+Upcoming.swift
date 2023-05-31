@@ -56,6 +56,17 @@ extension PredicateMediaList {
             
             // Include all fetched movies
             return true
+        },
+        customSorting: { media1, media2 in
+            // If any or all release dates are nil, only return true, if media1's is non-nil and media2's is nil
+            // Otherwise they are equal or in the wrong order
+            guard
+                let release1 = media1.nextOrLatestReleaseDate,
+                let release2 = media2.nextOrLatestReleaseDate
+            else {
+                return media1.nextOrLatestReleaseDate != nil && media2.nextOrLatestReleaseDate == nil
+            }
+            return release1 < release2
         }
     )
 }

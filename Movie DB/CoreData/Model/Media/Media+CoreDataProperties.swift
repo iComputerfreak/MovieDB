@@ -132,8 +132,8 @@ public extension Media {
         return nil
     }
     
-    @objc internal var nextOrLatestReleaseDate: Date {
-        self.getNextOrLatestReleaseDate() ?? .distantPast
+    @objc internal var nextOrLatestReleaseDate: Date? {
+        self.getNextOrLatestReleaseDate()
     }
     
     @nonobjc
