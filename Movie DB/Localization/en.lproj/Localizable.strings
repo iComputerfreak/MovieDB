@@ -864,6 +864,6 @@
 "lists.descriptions.upcoming" = "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. Shows for which you specified \"Watch again / continue?\" as \"No\" don't appear here.";
 
 "lists.upcoming.subtitle.movie" = "Releases in ";
-"lists.upcoming.subtitle.show %lld" = "Season %lld in ";
+"lists.upcoming.subtitle.show %lld" = "Season %lld releases in ";
 
 "sortingOrder.nextRelease" = "Next Release";

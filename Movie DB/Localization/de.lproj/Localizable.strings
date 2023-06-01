@@ -859,6 +859,6 @@
 "lists.descriptions.upcoming" = "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
 
 "lists.upcoming.subtitle.movie" = "Erscheint in ";
-"lists.upcoming.subtitle.show %lld" = "Staffel %lld in ";
+"lists.upcoming.subtitle.show %lld" = "Staffel %lld erscheint in ";
 
 "sortingOrder.nextRelease" = "Nächste Veröffentlichung";
