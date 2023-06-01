@@ -25,7 +25,7 @@ struct UserMediaListView: View {
                     .environmentObject(media)
                     // Media delete
                     .swipeActions {
-                        Button(Strings.Lists.deleteLabel) {
+                        Button(Strings.Lists.removeMediaLabel) {
                             list.medias.remove(media)
                             PersistenceController.saveContext()
                         }

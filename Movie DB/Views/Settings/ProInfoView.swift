@@ -14,9 +14,14 @@ enum PurchaseError: Error {
 }
 
 struct ProInfoView: View {
+    let showCancelButton: Bool
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var storeManager: StoreManager
+    
+    init(showCancelButton: Bool = true) {
+        self.showCancelButton = showCancelButton
+    }
     
     var body: some View {
         NavigationStack {
@@ -47,9 +52,11 @@ struct ProInfoView: View {
                         }
                     }
                 }
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(Strings.ProInfo.navBarButtonCancelLabel) {
-                        self.presentationMode.wrappedValue.dismiss()
+                if showCancelButton {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(Strings.ProInfo.navBarButtonCancelLabel) {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 }
             }

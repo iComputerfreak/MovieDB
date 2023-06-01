@@ -101,7 +101,11 @@ struct MediaListsRootView: View {
                     
                     // MARK: Upcoming
                     NavigationLink {
-                        UpcomingMediaList(selectedMedia: $selectedMedia)
+                        if StoreManager.shared.hasPurchasedPro {
+                            UpcomingMediaList(selectedMedia: $selectedMedia)
+                        } else {
+                            ProInfoView(showCancelButton: false)
+                        }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.upcoming)
                             .badge(upcomingMediasCount)
