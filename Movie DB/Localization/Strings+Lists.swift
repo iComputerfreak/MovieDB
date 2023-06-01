@@ -108,6 +108,10 @@ extension Strings {
             localized: "lists.defaultListName.newSeasons",
             comment: "The name of the default 'New Seasons' list"
         )
+        static let defaultListNameUpcoming = String(
+            localized: "lists.defaultListName.upcoming",
+            comment: "The name of the default 'Upcoming' list"
+        )
         static let watchlistRowLabelWatchlistStateWatched = String(
             localized: "lists.watchlist.watchState.watched",
             comment: "The label of movies in library rows that have been watched."
@@ -176,5 +180,22 @@ extension Strings {
             localized: "lists.descriptions.newSeasons",
             comment: "The description of the new seasons list that is displayed to the user when tapping the info button."
         )
+        
+        static let upcomingDescription = String(
+            localized: "lists.descriptions.upcoming",
+            comment: "The description of the upcoming list that is displayed to the user when tapping the info button."
+        )
+        
+        static let upcomingSubtitleMovie = String(
+            localized: "lists.upcoming.subtitle.movie",
+            comment: "The subtitle string for a movie in the 'Upcoming' list."
+        )
+        
+        static func upcomingSubtitleShow(_ seasonNumber: Int) -> String {
+            String(
+                localized: "lists.upcoming.subtitle.show \(seasonNumber)",
+                comment: "The subtitle string for a show in the 'Upcoming' list."
+            )
+        }
     }
 }

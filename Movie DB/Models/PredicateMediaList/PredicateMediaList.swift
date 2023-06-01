@@ -13,8 +13,11 @@ import SwiftUI
 /// Represents a media list that fetches its media objects by a fixed predicate
 class PredicateMediaList: ObservableObject, MediaListProtocol {
     let name: String
+    let listDescription: String?
     let iconName: String
     let predicate: NSPredicate
+    let customFilter: ((Media) -> Bool)?
+    let customSorting: ((Media, Media) -> Bool)?
     
     var sortingOrder: SortingOrder {
         didSet {
@@ -30,11 +33,23 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         }
     }
     
-    init(name: String, iconName: String, predicate: NSPredicate) {
+    init(
+        name: String,
+        description: String,
+        iconName: String,
+        defaultSortingOrder: SortingOrder? = nil,
+        predicate: NSPredicate,
+        customFilter: ((Media) -> Bool)? = nil,
+        customSorting: ((Media, Media) -> Bool)? = nil
+    ) {
         self.name = name
+        self.listDescription = description
         self.iconName = iconName
         self.predicate = predicate
-        // We know that the name is unique, because we only have a predefined set of names
+        self.customFilter = customFilter
+        self.customSorting = customSorting
+        // We know that the name is unique, because we only have a predefined set of names and the user cannot create
+        // their own
         let orderKey = Self.userDefaultsKey(for: name, type: .sortingOrder)
         if
             let sortingOrderRawValue = UserDefaults.standard.string(forKey: orderKey),
@@ -42,7 +57,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         {
             sortingOrder = order
         } else {
-            sortingOrder = .default
+            sortingOrder = defaultSortingOrder ?? .default
         }
         
         let directionKey = Self.userDefaultsKey(for: name, type: .sortingDirection)
@@ -76,6 +91,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     
     // MARK: - Hashable Conformance
     
+    // TODO: We cannot include `filter` in the Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(iconName)

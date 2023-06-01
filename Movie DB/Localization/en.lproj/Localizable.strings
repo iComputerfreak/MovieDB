@@ -211,6 +211,8 @@
 /* The headline for the 'watch again' property in the detail view */
 "detail.userData.headline.watchAgain" = "Watch again?";
 
+"detail.userData.headline.watchAgain.show" = "Watch again / continue?";
+
 /* The headline for the 'watched' property in the detail view */
 "detail.userData.headline.watched" = "Watched?";
 
@@ -404,7 +406,7 @@
 "library.filter.userData.label.tags" = "Tags";
 
 /* The label for the 'watch again' picker in the library's filter view */
-"library.filter.userData.label.watchAgain" = "Watch again?";
+"library.filter.userData.label.watchAgain" = "Watch again / continue?";
 
 /* The label of the picker in the filter view to select whether the media should be marked as watched or not */
 "library.filter.userData.label.watched" = "Watched?";
@@ -413,7 +415,7 @@
 "library.filter.value.any" = "Any";
 
 /* The navigation bar title for the watchAgain? field in the library's filter view */
-"library.filter.watchAgain.navBar.title" = "Watch Again?";
+"library.filter.watchAgain.navBar.title" = "Watch Again / Continue?";
 
 /* The navigation bar title for the watched? field in the library's filter view */
 "library.filter.watched.navBar.title" = "Watched?";
@@ -422,7 +424,7 @@
 "library.list.movieSymbolText" = "Movie";
 
 /* A SF Symbols name describing a series/tv show (e.g. 's.square'). Used in the library list beneath the name. */
-"library.list.showSymbolText" = "TV";
+"library.list.showSymbolText" = "TV Show";
 
 /* The label for the delete swipe action in the library list */
 "library.list.swipe.delete" = "Delete";
@@ -500,7 +502,7 @@
 "mediaInformation.tags" = "tags";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
-"mediaInformation.watchAgain" = "watch again";
+"mediaInformation.watchAgain" = "watch again / continue";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
 "mediaInformation.watched" = "watched";
@@ -850,10 +852,18 @@
 "lists.descriptions.favorites" = "This list shows all medias that you have marked with a heart.";
 "lists.descriptions.watchlist" = "This list shows all medias that you have marked with the bookmark symbol.";
 "lists.descriptions.problems" = "This list shows all medias that have missing information (e.g., a missing rating or missing tags).";
-"lists.descriptions.newSeasons" = "This list shows all TV shows you have watched that have new unwatched episodes available. Shows for which you specified \"Watch again\" as \"No\" don't appear here.";
+"lists.descriptions.newSeasons" = "This list shows all TV shows you have watched that have new unwatched episodes available. Shows for which you specified \"Watch again / continue?\" as \"No\" don't appear here.";
 
 "addMedia.searchPrompt" = "Search to add medias to your library";
 
 "detail.mediaMenu.label" = "Menu";
 
 "languageChooser.callout" = "Select the language in which your media information (e.g., title and description) is displayed.";
+
+"lists.defaultListName.upcoming" = "Upcoming";
+"lists.descriptions.upcoming" = "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. Shows for which you specified \"Watch again / continue?\" as \"No\" don't appear here.";
+
+"lists.upcoming.subtitle.movie" = "Releases in ";
+"lists.upcoming.subtitle.show %lld" = "Season %lld releases in ";
+
+"sortingOrder.nextRelease" = "Next Release";

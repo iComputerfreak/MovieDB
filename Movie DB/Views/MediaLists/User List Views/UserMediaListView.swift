@@ -20,15 +20,17 @@ struct UserMediaListView: View {
         // Default destination
         FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
             // NavigationLink to the detail
-            LibraryRow()
-                .environmentObject(media)
-                // Media delete
-                .swipeActions {
-                    Button(Strings.Lists.deleteLabel) {
-                        list.medias.remove(media)
-                        PersistenceController.saveContext()
+            NavigationLink(value: media) {
+                LibraryRow()
+                    .environmentObject(media)
+                    // Media delete
+                    .swipeActions {
+                        Button(Strings.Lists.removeMediaLabel) {
+                            list.medias.remove(media)
+                            PersistenceController.saveContext()
+                        }
                     }
-                }
+            }
         }
         .toolbar {
             ListConfigurationButton($isShowingConfiguration)

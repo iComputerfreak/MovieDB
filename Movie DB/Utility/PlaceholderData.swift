@@ -25,6 +25,8 @@ class PlaceholderData {
     let staticMovie: Movie
     let staticShow: Show
     let staticProblemShow: Show
+    let staticUpcomingShow: Show
+    let staticUpcomingMovie: Movie
     
     var fskRatings: [ParentalRating] {
         [
@@ -41,6 +43,8 @@ class PlaceholderData {
         self.staticMovie = Self.createStaticMovie(in: context)
         self.staticShow = Self.createStaticShow(in: context)
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
+        self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
+        self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
     }
     
     func populateSamples() {
@@ -260,6 +264,49 @@ class PlaceholderData {
         show.watchAgain = nil
         show.watched = nil
         return show
+    }
+    
+    func createStaticUpcomingShow() -> Show {
+        Self.createStaticUpcomingShow(in: self.context)
+    }
+    
+    static func createStaticUpcomingShow(in context: NSManagedObjectContext) -> Show {
+        let show = createStaticShow(in: context)
+        show.personalRating = .noRating
+        show.tags = []
+        show.notes = ""
+        show.watchAgain = true
+        assert(!show.seasons.isEmpty)
+        let latestSeason = show.seasons.map(\.seasonNumber).max() ?? 0
+        show.watched = latestSeason > 0 ? .season(latestSeason) : .notWatched
+        let upcomingSeason = context.importDummies([
+            SeasonDummy(
+                id: 999,
+                seasonNumber: latestSeason + 1,
+                episodeCount: 100,
+                name: "Upcoming Season",
+                overview: nil,
+                imagePath: nil,
+                airDate: .now.addingTimeInterval(.day * 7).timeErased()
+            ),
+        ]).first!
+        show.seasons.insert(upcomingSeason)
+        return show
+    }
+    
+    func createStaticUpcomingMovie() -> Show {
+        Self.createStaticUpcomingShow(in: self.context)
+    }
+    
+    static func createStaticUpcomingMovie(in context: NSManagedObjectContext) -> Movie {
+        let movie = createStaticMovie(in: context)
+        movie.personalRating = .noRating
+        movie.watched = .notWatched
+        movie.tags = []
+        movie.notes = ""
+        movie.watchAgain = true
+        movie.releaseDate = .now.addingTimeInterval(.day * 7).timeErased()
+        return movie
     }
     
     private static func load<T: Decodable>(

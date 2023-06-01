@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import JFUtils
 import UIKit
 
 @objc(CDColor)

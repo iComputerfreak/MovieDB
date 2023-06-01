@@ -15,7 +15,7 @@ class SettingsUITests: XCTestCase {
         try super.setUpWithError()
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments = ["--uitesting"]
+        app.arguments = [.uiTesting, .prepareSamples]
     }
 
     override func tearDownWithError() throws {
@@ -26,7 +26,7 @@ class SettingsUITests: XCTestCase {
     func testResetMedia() {
         app.launch()
         
-        app.addMatrixAndBlacklist()
+        app.addBlacklist()
         
         // Add a few tags
         goToTags(mediaName: "The Matrix", app: app)
@@ -55,12 +55,6 @@ class SettingsUITests: XCTestCase {
         app.wait(2)
         
         app.tabBar["Library"].tap()
-        
-        // TODO: Remove when fixed
-        // Workaround for refreshing the library
-//        XCUIDevice.shared.press(XCUIDevice.Button.home)
-//        XCTAssertFalse(app.wait(for: .unknown, timeout: 1))
-//        app.launch()
         
         app.wait(3)
         

@@ -14,8 +14,7 @@ struct WatchlistMediaList: View {
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.watchlist,
-            selectedMedia: $selectedMedia,
-            description: Strings.Lists.watchlistDescription
+            selectedMedia: $selectedMedia
         ) { media in
             // TODO: Rework navigation
             NavigationLink(value: media) {

@@ -15,7 +15,7 @@ class DetailUITests: XCTestCase {
         try super.setUpWithError()
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments = ["--uitesting"]
+        app.arguments = [.uiTesting, .prepareSamples]
     }
 
     override func tearDownWithError() throws {
@@ -25,7 +25,6 @@ class DetailUITests: XCTestCase {
         
     func testShowMovieDetail() {
         app.launch()
-        app.addMatrix()
         app.cells.staticTexts["The Matrix"]
             .wait()
             .tap()
@@ -44,12 +43,11 @@ class DetailUITests: XCTestCase {
     
     func testShowShowDetail() {
         app.launch()
-        app.addBlacklist()
-        app.cells.staticTexts["The Blacklist"]
+        app.cells.staticTexts["The Expanse"]
             .wait()
             .tap()
         // Title cell
-        app.cells.staticTexts["The Blacklist"]
+        app.cells.staticTexts["The Expanse"]
             .wait()
             .tap()
         let detailBackButton = app.navigationBars.element.buttons.firstMatch
@@ -88,7 +86,7 @@ class DetailUITests: XCTestCase {
             .wait()
             .tap()
         // Toggle "Unknown"
-        app.switches["Unknown"].tap()
+        app.switches["Unknown"].switches.firstMatch.tap()
         // Increase season to 3
         app.steppers.firstMatch.buttons["Increment"]
             .tap(withNumberOfTaps: 3, numberOfTouches: 1)
@@ -99,7 +97,7 @@ class DetailUITests: XCTestCase {
             .tap(withNumberOfTaps: 5, numberOfTouches: 1)
         app.goBack()
         
-        app.cells.containing(.staticText, identifier: "Watch again?")
+        app.cells.containing(.staticText, identifier: "Watch again / continue?")
             .buttons["No"]
             .tap()
         
@@ -141,7 +139,7 @@ class DetailUITests: XCTestCase {
             "Season 3, Episode 15"
         )
         XCTAssertEqual(
-            app.cells.containing(.staticText, identifier: "Watch again?").staticTexts.element(boundBy: 1).label,
+            app.cells.containing(.staticText, identifier: "Watch again / continue?").staticTexts.element(boundBy: 1).label,
             "No"
         )
         XCTAssertEqual(
@@ -184,7 +182,6 @@ class DetailUITests: XCTestCase {
     
     func testDeleteTag() {
         app.launch()
-        app.addMatrix()
         goToTags(mediaName: "The Matrix", app: app)
         addTag("Tag 1", app)
         addTag("Tag 2", app)

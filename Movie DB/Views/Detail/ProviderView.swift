@@ -12,6 +12,8 @@ struct ProviderView: View {
     @ObservedObject var provider: WatchProvider
     @Environment(\.colorScheme) var colorScheme
     
+    let iconSize: CGFloat = 45
+    
     var body: some View {
         VStack {
             Group {
@@ -24,7 +26,7 @@ struct ProviderView: View {
                     placeholderView(for: provider)
                 }
             }
-            .frame(width: 50, height: 50)
+            .frame(width: iconSize, height: iconSize)
             .padding(2)
             
             Text(provider.type?.localized ?? "")

@@ -1,23 +1,23 @@
 //
-//  NewSeasonsMediaList.swift
+//  UpcomingMediaList.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 16.02.23.
+//  Created by Jonas Frey on 31.05.23.
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
 import SwiftUI
 
-struct NewSeasonsMediaList: View {
+struct UpcomingMediaList: View {
     @Binding var selectedMedia: Media?
     
     var body: some View {
         FilteredMediaList(
-            list: PredicateMediaList.newSeasons,
+            list: PredicateMediaList.upcoming,
             selectedMedia: $selectedMedia,
             rowContent: { media in
                 NavigationLink(value: media) {
-                    LibraryRow()
+                    UpcomingLibraryRow()
                         .environmentObject(media)
                 }
             }
@@ -25,10 +25,10 @@ struct NewSeasonsMediaList: View {
     }
 }
 
-struct NewSeasonsMediaList_Previews: PreviewProvider {
+struct UpcomingMediaList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+            UpcomingMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
                 .environment(\.managedObjectContext, PersistenceController.previewContext)
         }
     }

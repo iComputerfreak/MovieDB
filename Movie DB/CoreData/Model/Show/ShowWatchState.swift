@@ -165,3 +165,46 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
         !rawValue.matches(of: /notWatched/).isEmpty
     }
 }
+
+// TODO: Implement test cases
+extension ShowWatchState: Comparable {
+    public static func < (lhs: ShowWatchState, rhs: ShowWatchState) -> Bool {
+        switch lhs {
+        case .season(let s1):
+            switch rhs {
+            case .season(let s2):
+                return s1 < s2
+            case .episode(let season, _):
+                // Case 1: s1 < season => lhs < rhs
+                // Case 2: s1 == season (.season(1) and .episode(1, 1)) => lhs > rhs
+                // Case 3: s1 > season => lhs > rhs
+                // => s1 < season <=> lhs < rhs
+                return s1 < season
+            case .notWatched:
+                return false
+            }
+        case .episode(let season, let episode):
+            switch rhs {
+            case .season(let s2):
+                // .episode(s, e) < .season(s2) is true, iff s <= s2
+                return season <= s2
+            case .episode(let s2, let e2):
+                if season != s2 {
+                    return season < s2
+                } else if episode != e2 {
+                    return episode < e2
+                } else {
+                    // Equal
+                    return false
+                }
+            case .notWatched:
+                // .episode > .notWatched
+                return false
+            }
+        case .notWatched:
+            // As .notWatched is our minimal element, we can never
+            // .notWatched < rhs is only false for rhs == .notWatched
+            return rhs != .notWatched
+        }
+    }
+}

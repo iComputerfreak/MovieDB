@@ -245,7 +245,7 @@
 	<key>proInfo.introText %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>Remove the limit of %#@count@ by buying the Pro version of the app.</string>
+		<string>Remove the limit of %#@count@ and unlock the &apos;Upcoming&apos; media list by buying the Pro version of the app.</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

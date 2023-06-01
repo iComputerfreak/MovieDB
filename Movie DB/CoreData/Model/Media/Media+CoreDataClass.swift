@@ -138,6 +138,12 @@ public class Media: NSManagedObject {
         case noData
         case encodingFailed(String)
     }
+    
+    @objc
+    internal func getNextOrLatestReleaseDate() -> Date? {
+        assertionFailure("Implement in subclasses!")
+        return nil
+    }
 }
 
 // MARK: - Core Data

@@ -209,10 +209,12 @@
 "detail.userData.headline.tags" = "Schlüsselwörter";
 
 /* The headline for the 'watch again' property in the detail view */
-"detail.userData.headline.watchAgain" = "Nochmal anschauen?";
+"detail.userData.headline.watchAgain" = "Nochmal ansehen?";
+
+"detail.userData.headline.watchAgain.show" = "Nochmal/weiter ansehen?";
 
 /* The headline for the 'watched' property in the detail view */
-"detail.userData.headline.watched" = "Angeschaut?";
+"detail.userData.headline.watched" = "Angesehen?";
 
 /* Label in the detail view of a media object that describes the absence of any user-provided notes. */
 "detail.userData.noNotes" = "Keine Notizen";
@@ -230,7 +232,7 @@
 "detail.userData.watched.picker.watched" = "Ja";
 
 /* The header in the editing view where the user specifies up to which season/episode they watched. */
-"detail.userData.watchedShow.header" = "Bis zu welcher Episode haben Sie geschaut?";
+"detail.userData.watchedShow.header" = "Bis zu welcher Episode haben Sie angesehen?";
 
 /* The label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the user watched all episodes of the season. */
 "detail.userData.watchedShow.label.allEpisodes" = "Alle Episoden";
@@ -242,7 +244,7 @@
 "detail.userData.watchedShow.label.no" = "Nein";
 
 /* The label of the picker in the detail view where the user specifies up to which season they watched. Label specifies that the user did not watch the show. */
-"detail.userData.watchedShow.label.notWatched" = "Nicht Angeschaut";
+"detail.userData.watchedShow.label.notWatched" = "Nicht Angesehen";
 
 /* The label in the detail view describing that the user has watched up to a specific season of the show. The parameter is the season number. */
 "detail.userData.watchedShow.label.season %lld" = "Staffel %lld";
@@ -404,19 +406,19 @@
 "library.filter.userData.label.tags" = "Schlüsselwörter";
 
 /* The label for the 'watch again' picker in the library's filter view */
-"library.filter.userData.label.watchAgain" = "Nochmal ansehen?";
+"library.filter.userData.label.watchAgain" = "Nochmal/weiter ansehen?";
 
 /* The label of the picker in the filter view to select whether the media should be marked as watched or not */
-"library.filter.userData.label.watched" = "Angeschaut?";
+"library.filter.userData.label.watched" = "Angesehen?";
 
 /* A string describing that the value of a specific media property does not matter in regards of filtering the library list and that the property may have 'any' value. */
 "library.filter.value.any" = "Egal";
 
 /* The navigation bar title for the watchAgain? field in the library's filter view */
-"library.filter.watchAgain.navBar.title" = "Nochmal anschauen?";
+"library.filter.watchAgain.navBar.title" = "Nochmal/Weiter Ansehen?";
 
 /* The navigation bar title for the watched? field in the library's filter view */
-"library.filter.watched.navBar.title" = "Angeschaut?";
+"library.filter.watched.navBar.title" = "Angesehen?";
 
 /* A SF Symbols name describing a movie (e.g. 'm.square'). Used in the library list beneath the name. */
 "library.list.movieSymbolText" = "Film";
@@ -503,10 +505,10 @@
 "mediaInformation.tags" = "Tags";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
-"mediaInformation.watchAgain" = "Nochmal ansehen";
+"mediaInformation.watchAgain" = "Nochmal/weiter ansehen";
 
 /* A type of missing media information, i.e. some kind of information that the user did not provide. */
-"mediaInformation.watched" = "Angeschaut";
+"mediaInformation.watched" = "Angesehen";
 
 /* Title of an alert reporting an error during the search of a media object */
 "mediaSearch.alert.error.title" = "Fehler beim Suchen";
@@ -796,9 +798,9 @@
 "lists.defaultListName.watchlist" = "Watchlist";
 "lists.defaultListName.problems" = "Probleme";
 
-"lists.watchlist.watchState.watched" = "Angeschaut";
-"lists.watchlist.watchState.partiallyWatched" = "Teilweise Angeschaut";
-"lists.watchlist.watchState.notWatched" = "Nicht Angeschaut";
+"lists.watchlist.watchState.watched" = "Angesehen";
+"lists.watchlist.watchState.partiallyWatched" = "Teilweise Angesehen";
+"lists.watchlist.watchState.notWatched" = "Nicht Angesehen";
 "lists.watchlist.watchState.watchedSeason %lld" = "Staffel %lld";
 "lists.watchlist.watchState.watchedSeasonEpisode %lld %lld" = "Staffel %lld, Folge %lld";
 
@@ -822,17 +824,17 @@
 "lists.defaultListName.newSeasons" = "Neue Staffeln";
 "detail.cast.roleNameLabel %@" = "als %@";
 
-"library.filter.watchStateWatchedFully" = "Vollständig Angeschaut";
-"library.filter.watchStateWatched" = "Angeschaut";
-"library.filter.watchStateWatchedPartially" = "Teilweise Angeschaut";
-"library.filter.watchStateNotWatched" = "Nicht Angeschaut";
+"library.filter.watchStateWatchedFully" = "Vollständig Angesehen";
+"library.filter.watchStateWatched" = "Angesehen";
+"library.filter.watchStateWatchedPartially" = "Teilweise Angesehen";
+"library.filter.watchStateNotWatched" = "Nicht Angesehen";
 "library.filter.watchStateUnknown" = "Unbekannt";
 
-"settings.defaultWatchState.label" = "Standard 'Angeschaut?' Zustand";
+"settings.defaultWatchState.label" = "Standard 'Angesehen?' Zustand";
 "settings.defaultWatchState.unknown" = "Unbekannt";
-"settings.defaultWatchState.watched" = "Angeschaut";
-"settings.defaultWatchState.notWatched" = "Nicht Angeschaut";
-"settings.defaultWatchState.partiallyWatched" = "Teilweise Angeschaut";
+"settings.defaultWatchState.watched" = "Angesehen";
+"settings.defaultWatchState.notWatched" = "Nicht Angesehen";
+"settings.defaultWatchState.partiallyWatched" = "Teilweise Angesehen";
 
 "detail.showWatchState.seasonWarningNoEpisodes %lld" = "Staffel %lld hat keine Episoden.";
 
@@ -845,10 +847,18 @@
 "lists.descriptions.favorites" = "Diese Liste zeigt alle Medien, die Sie mit einem Herz markiert haben.";
 "lists.descriptions.watchlist" = "Diese Liste zeigt alle Medien, die Sie mit einem Lesezeichen markiert haben.";
 "lists.descriptions.problems" = "Diese Liste zeigt alle Medien, bei denen Informationen fehlen (z.B. fehlende Bewertung oder Schlüsselwörter).";
-"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angeschaute Episoden verfügbar sind. Serien, bei denen Sie \"Nochmal ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
+"lists.descriptions.newSeasons" = "Diese Liste zeigt alle Medien, die Sie angesehen haben und von denen neue, noch nicht angesehene Episoden verfügbar sind. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
 
 "addMedia.searchPrompt" = "Suchen, um Medien zur Mediathek hinzuzufügen";
 
 "detail.mediaMenu.label" = "Menü";
 
 "languageChooser.callout" = "Bitte wählen Sie die Sprache, die für die Medien-Informationen (z.B. Titel und Beschreibung) verwendet werden soll.";
+
+"lists.defaultListName.upcoming" = "Bevorstehend";
+"lists.descriptions.upcoming" = "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt.";
+
+"lists.upcoming.subtitle.movie" = "Erscheint in ";
+"lists.upcoming.subtitle.show %lld" = "Staffel %lld erscheint in ";
+
+"sortingOrder.nextRelease" = "Nächste Veröffentlichung";

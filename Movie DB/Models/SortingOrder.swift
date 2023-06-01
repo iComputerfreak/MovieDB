@@ -66,7 +66,7 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
             // !!!: SortDescriptor's initializers)
             sortDescriptors.append(NSSortDescriptor(keyPath: \Media.personalRating, ascending: ascending))
         }
-        // Append the name sort descriptor as a second alternative
+        // Append the name sort descriptor as a second alternative / tie breaker
         sortDescriptors.append(NSSortDescriptor(keyPath: \Media.title, ascending: ascending))
         return sortDescriptors
     }

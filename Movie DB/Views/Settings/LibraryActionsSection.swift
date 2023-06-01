@@ -28,12 +28,13 @@ struct LibraryActionsSection: View {
                     Button("Debug") {
                         // swiftlint:disable force_try
                         // Do debugging things here
-                        let images = try! FileManager.default.contentsOfDirectory(
-                            at: Utils.imagesDirectory()!,
-                            includingPropertiesForKeys: nil
-                        )
-                        images.forEach { image in
-                            try! FileManager.default.removeItem(at: image)
+                        var shows = try! PersistenceController.viewContext.fetch(Show.fetchRequest())
+                        shows = shows.filter { show in
+                            show.seasons.max(on: \.seasonNumber, by: <)?.episodeCount == 0
+                        }
+                        for show in shows {
+                            let seasons = show.seasons.map { "\($0.seasonNumber),\($0.episodeCount)" }.sorted()
+                            print("\(show.title) (\(show.numberOfSeasons ?? -1) != \(show.seasons.count)): \(seasons)")
                         }
                         // swiftlint:enable force_try
                     }

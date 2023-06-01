@@ -20,8 +20,10 @@ struct DynamicMediaListView: View {
     var body: some View {
         // Default destination
         FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-            LibraryRow()
-                .environmentObject(media)
+            NavigationLink(value: media) {
+                LibraryRow()
+                    .environmentObject(media)
+            }
         }
         .toolbar {
             ListConfigurationButton($isShowingConfiguration)

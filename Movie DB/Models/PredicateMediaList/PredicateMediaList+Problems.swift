@@ -1,31 +1,18 @@
 //
-//  PredicateMediaLists.swift
+//  PredicateMediaList+Problems.swift
 //  Movie DB
 //
-//  Created by Jonas Frey on 30.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
+//  Created by Jonas Frey on 30.05.23.
+//  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
 import Foundation
 
 extension PredicateMediaList {
-    // MARK: Favorites
-    static let favorites = PredicateMediaList(
-        name: Strings.Lists.defaultListNameFavorites,
-        iconName: "heart.fill",
-        predicate: NSPredicate(format: "isFavorite = TRUE")
-    )
-    
-    // MARK: Watchlist
-    static let watchlist = PredicateMediaList(
-        name: Strings.Lists.defaultListNameWatchlist,
-        iconName: "bookmark.fill",
-        predicate: NSPredicate(format: "isOnWatchlist = TRUE")
-    )
-    
-    // MARK: Problems
+    /// A media list that shows medias with problems (i.e. missing information)
     static let problems = PredicateMediaList(
         name: Strings.Lists.defaultListNameProblems,
+        description: Strings.Lists.problemsDescription,
         iconName: "exclamationmark.triangle.fill",
         // This predicate looks for movies or shows that are incomplete / have problems
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
@@ -44,7 +31,11 @@ extension PredicateMediaList {
                 // We don't include shows that are marked as explicitly 'not watched'
                 // type == .show && !(show.notWatched)
                 NSCompoundPredicate(type: .and, subpredicates: [
-                    NSPredicate(format: "type = %@", MediaType.show.rawValue),
+                    NSPredicate(
+                        format: "%K = %@",
+                        Schema.Media.type,
+                        MediaType.show.rawValue
+                    ),
                     ShowWatchState.showsNotWatchedPredicate.negated(),
                 ]),
             ]),
@@ -59,33 +50,19 @@ extension PredicateMediaList {
                     StarRating.noRating.rawValue
                 ),
                 // WatchAgain missing
-                NSPredicate(format: "watchAgain = nil"),
+                NSPredicate(format: "%K = nil", Schema.Media.watchAgain),
                 // Tags missing
                 NSPredicate(format: "tags.@count = 0"),
                 // Watched missing (Movie)
-                NSPredicate(format: "type = %@ AND watchedState = nil", MediaType.movie.rawValue),
+                NSPredicate(
+                    format: "%K = %@ AND %K = nil",
+                    Schema.Media.type,
+                    MediaType.movie.rawValue,
+                    Schema.Movie.watchedState
+                ),
                 // Last watched missing (Show)
                 ShowWatchState.showsWatchedUnknownPredicate,
             ]),
-        ])
-    )
-    
-    // MARK: New Seasons
-    static let newSeasons = PredicateMediaList(
-        name: Strings.Lists.defaultListNameNewSeasons,
-        iconName: "sparkles.tv",
-        predicate: NSCompoundPredicate(type: .and, subpredicates: [
-            // Only shows that have been started watching
-            ShowWatchState.showsWatchedAnyPredicate,
-            // More seasons available than watched
-            NSPredicate(format: "lastSeasonWatched < numberOfSeasons"),
-            // Don't include shows marked as "Watch Again?" = false
-            NSPredicate(
-                format: "%K = %@ OR %K = nil",
-                Schema.Media.watchAgain,
-                true as NSNumber,
-                Schema.Media.watchAgain
-            ),
         ])
     )
 }

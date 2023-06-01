@@ -42,6 +42,8 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 * Parental Ratings
 * Streaming service availability (powered by [JustWatch.com](https://justwatch.com))
 * Marking media as Favorite and creating custom lists
+* A list that contains all shows where new unwatched seasons are available
+* A list that contains all movies and shows with upcoming release dates
 
 ## Planned Features
 * Embedded trailers
@@ -50,7 +52,7 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 ## Building
 * To build the project, you need to first install [GYB](https://github.com/apple/swift/blob/main/utils/gyb.py) (e.g. via `brew install nshipster/formulae/gyb`)
     * GYB also requires python 2.7 to be installed
-* You then need to request your own API key from [TheMovieDB](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication))
+* You then need to request your own API key from [TheMovieDB.org](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication))
 * Finally you must provide this API key as a `TMDB_API_KEY` environment variable during build time or as a local file "TMDB_API_KEY" in your project root.
 * When you build the project, GYB will read your API key and obfuscate it into a Swift file `Secrets.swift`. You can then access your API key from code with `Secrets.tmdbAPIKey`
 

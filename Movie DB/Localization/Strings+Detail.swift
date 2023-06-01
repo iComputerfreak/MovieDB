@@ -64,6 +64,10 @@ extension Strings {
             localized: "detail.userData.headline.watchAgain",
             comment: "The headline for the 'watch again' property in the detail view"
         )
+        static let watchAgainHeadlineShow = String(
+            localized: "detail.userData.headline.watchAgain.show",
+            comment: "The headline for the 'watch again' property in the detail view of a show"
+        )
         static let tagsHeadline = String(
             localized: "detail.userData.headline.tags",
             comment: "The headline for the 'tags' property in the detail view"

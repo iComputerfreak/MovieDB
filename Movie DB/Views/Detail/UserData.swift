@@ -65,7 +65,10 @@ struct UserData: View {
                 }
                 // MARK: Watch again field
                 SimpleValueView<Bool>.createYesNo(value: $mediaObject.watchAgain)
-                    .headline(Strings.Detail.watchAgainHeadline)
+                    .headline(
+                        // swiftlint:disable:next line_length
+                        mediaObject.type == .show ? Strings.Detail.watchAgainHeadlineShow : Strings.Detail.watchAgainHeadline
+                    )
                 // MARK: Taglist
                 TagListView($mediaObject.tags)
                 // MARK: Notes

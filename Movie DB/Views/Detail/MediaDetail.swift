@@ -34,7 +34,7 @@ struct MediaDetail: View {
                 ExtendedInfo()
                 MetadataInfo()
             }
-            .listStyle(.grouped)
+            .listStyle(.insetGrouped)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(mediaObject.title)
             .task(priority: .userInitiated) {
@@ -80,12 +80,14 @@ struct MediaDetail_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             MediaDetail()
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
                 .previewEnvironment()
         }
         .previewDisplayName("Movie")
         
         NavigationStack {
             MediaDetail()
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
                 .previewEnvironment()
         }
         .previewDisplayName("Show")

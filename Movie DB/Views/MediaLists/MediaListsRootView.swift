@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import JFUtils
 import SwiftUI
 
 struct MediaListsRootView: View {
@@ -47,9 +48,21 @@ struct MediaListsRootView: View {
     
     @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
     private var problemsMedias: FetchedResults<Media>
+    private var problemsMediasCount: Int {
+        problemsMedias.filter(PredicateMediaList.problems.customFilter ?? { _ in true }).count
+    }
     
     @FetchRequest(fetchRequest: PredicateMediaList.newSeasons.buildFetchRequest())
     private var newSeasonsMedias: FetchedResults<Media>
+    private var newSeasonsMediasCount: Int {
+        newSeasonsMedias.filter(PredicateMediaList.newSeasons.customFilter ?? { _ in true }).count
+    }
+    
+    @FetchRequest(fetchRequest: PredicateMediaList.upcoming.buildFetchRequest())
+    private var upcomingMedias: FetchedResults<Media>
+    private var upcomingMediasCount: Int {
+        upcomingMedias.filter(PredicateMediaList.upcoming.customFilter ?? { _ in true }).count
+    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -75,7 +88,7 @@ struct MediaListsRootView: View {
                         ProblemsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
-                            .badge(problemsMedias.count)
+                            .badge(problemsMediasCount)
                     }
                     
                     // MARK: New Seasons
@@ -83,7 +96,19 @@ struct MediaListsRootView: View {
                         NewSeasonsMediaList(selectedMedia: $selectedMedia)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
-                            .badge(newSeasonsMedias.count)
+                            .badge(newSeasonsMediasCount)
+                    }
+                    
+                    // MARK: Upcoming
+                    NavigationLink {
+                        if StoreManager.shared.hasPurchasedPro {
+                            UpcomingMediaList(selectedMedia: $selectedMedia)
+                        } else {
+                            ProInfoView(showCancelButton: false)
+                        }
+                    } label: {
+                        ListRowLabel(list: PredicateMediaList.upcoming)
+                            .badge(upcomingMediasCount)
                     }
                 }
                 .deleteDisabled(true)
@@ -215,6 +240,6 @@ struct MediaListsRootView: View {
 struct UserListsViews_Previews: PreviewProvider {
     static var previews: some View {
         MediaListsRootView()
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .previewEnvironment()
     }
 }
