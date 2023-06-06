@@ -72,15 +72,15 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 .listStyle(.grouped)
             }
         }
-        .onChange(of: sortingOrder) { newValue in
+        .onChange(of: sortingOrder) {
             // Update the actual list (either a CoreData entity or a default list)
-            list.sortingOrder = newValue
-            $medias.nsSortDescriptors.wrappedValue = newValue.createNSSortDescriptors(with: self.sortingDirection)
+            list.sortingOrder = sortingOrder
+            $medias.nsSortDescriptors.wrappedValue = sortingOrder.createNSSortDescriptors(with: self.sortingDirection)
         }
-        .onChange(of: sortingDirection) { newValue in
+        .onChange(of: sortingDirection) {
             // Update the actual list (either a CoreData entity or a default list)
-            list.sortingDirection = newValue
-            $medias.nsSortDescriptors.wrappedValue = self.sortingOrder.createNSSortDescriptors(with: newValue)
+            list.sortingDirection = sortingDirection
+            $medias.nsSortDescriptors.wrappedValue = self.sortingOrder.createNSSortDescriptors(with: sortingDirection)
         }
         .toolbar {
             toolbarInfoButton

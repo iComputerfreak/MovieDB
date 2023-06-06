@@ -225,6 +225,7 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
+		ABCEC9352A2FAAA00008D2D8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEC9342A2FAAA00008D2D8 /* Tag.swift */; };
 		ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */; };
 		ABCEF11D2A26761600295EB6 /* PredicateMediaList+Problems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */; };
 		ABCEF11F2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11E2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift */; };
@@ -566,6 +567,7 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		ABCEC9342A2FAAA00008D2D8 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+NewSeasons.swift"; sourceTree = "<group>"; };
 		ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+Problems.swift"; sourceTree = "<group>"; };
 		ABCEF11E2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+Upcoming.swift"; sourceTree = "<group>"; };
@@ -1018,6 +1020,7 @@
 				AB25099C238B1EE000F7A411 /* Utility */,
 				AB6718F222C110F500F429E4 /* APIs */,
 				AB01096A24D73BDE001BEF39 /* CSV */,
+				ABCEC9332A2FAA7F0008D2D8 /* Swift Data */,
 				AB14340225CDD83E00AA304F /* CoreData */,
 				AB6718E222C0314100F429E4 /* Models */,
 				AB3648BD22C3DD8B0096FE39 /* Views */,
@@ -1232,6 +1235,14 @@
 				AB3EE7E92A224C6700C120F2 /* DeleteMediaButton.swift */,
 			);
 			path = "Media Menu";
+			sourceTree = "<group>";
+		};
+		ABCEC9332A2FAA7F0008D2D8 /* Swift Data */ = {
+			isa = PBXGroup;
+			children = (
+				ABCEC9342A2FAAA00008D2D8 /* Tag.swift */,
+			);
+			path = "Swift Data";
 			sourceTree = "<group>";
 		};
 		ABCEF1192A2675C600295EB6 /* PredicateMediaList */ = {
@@ -1550,7 +1561,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Jonas Frey";
 				TargetAttributes = {
 					AB48BD682816CE3C00E53135 = {
@@ -1847,6 +1858,7 @@
 				ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */,
 				ABEEB0D22814318F00230F0B /* LibraryActionsSection.swift in Sources */,
 				AB97F42328BAB38A00F1D8C3 /* ListRowLabel.swift in Sources */,
+				ABCEC9352A2FAAA00008D2D8 /* Tag.swift in Sources */,
 				AB1433FD25CDB6F600AA304F /* Media+CoreDataProperties.swift in Sources */,
 				ABEF108229BF6E4E0047E4B9 /* Schema+WatchProvider.swift in Sources */,
 				AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */,
@@ -2150,6 +2162,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2184,6 +2197,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2213,6 +2227,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2247,6 +2262,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

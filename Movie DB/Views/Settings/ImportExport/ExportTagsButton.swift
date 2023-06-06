@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 struct ExportTagsButton: View {
@@ -16,11 +17,23 @@ struct ExportTagsButton: View {
     }
     
     func exportTags() {
-        ImportExportSection.export(
-            filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
-            isLoading: $config.isLoading
-        ) { context in
-            try TagImporter.export(context: context)
+        Task(priority: .high) {
+            // TODO: Maybe declare isLoading as @MainActor? Or even config?
+            await MainActor.run {
+                self.config.isLoading = true
+            }
+            do {
+                try await ImportExportSection.export(
+                    filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt"
+                ) { context in
+                    try TagImporter.export(context: context)
+                }
+            } catch {
+                Logger.importExport.error("Error writing export file: \(error, privacy: .public)")
+            }
+            await MainActor.run {
+                self.config.isLoading = false
+            }
         }
     }
 }

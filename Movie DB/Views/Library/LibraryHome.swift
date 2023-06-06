@@ -96,16 +96,16 @@ struct LibraryHome: View {
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
-            .onChange(of: searchText) { _ in
+            .onChange(of: searchText) {
                 filteredMedia.nsPredicate = predicate
             }
             .onReceive(filterSetting.objectWillChange) {
                 filteredMedia.nsPredicate = predicate
             }
-            .onChange(of: viewModel.sortingOrder) { _ in
+            .onChange(of: viewModel.sortingOrder) {
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
-            .onChange(of: viewModel.sortingDirection) { _ in
+            .onChange(of: viewModel.sortingDirection) {
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning

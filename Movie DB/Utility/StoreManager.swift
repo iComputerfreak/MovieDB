@@ -51,7 +51,9 @@ class StoreManager: ObservableObject {
     }
     
     /// Handles the result of an In App Purchase by unwrapping it, throwing any errors, verifying and finishing the transaction and returning the result.
-    func handleInAppPurchaseResult(_ result: Result<Product.PurchaseResult, Error>) async throws -> Product.PurchaseResult {
+    func handleInAppPurchaseResult(
+        _ result: Result<Product.PurchaseResult, Error>
+    ) async throws -> Product.PurchaseResult {
         let purchaseResult = try result.get()
         
         switch purchaseResult {

@@ -42,81 +42,43 @@ struct ImportExportSection: View {
     
     // Generic import function with a custom handler, does not save the changes.
     static func `import`(
-        isLoading: Binding<Bool>,
         handler: @escaping (NSManagedObjectContext) async throws -> Void
-    ) {
+    ) async rethrows {
         // Use iOS file picker
         Logger.importExport.debug("Starting an import...")
-        isLoading.wrappedValue = true
-        
         // Create a new background context for importing the objects
         let importContext = PersistenceController.viewContext.newBackgroundContext()
         // Set the merge policy to not override existing data
         importContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
         
         // Do the async work in a background task, but give it high priority, since the user is waiting for it to finish
-        Task(priority: .high) {
-            do {
-                try await handler(importContext)
-            } catch {
-                Logger.importExport.error("Error during import: \(error, privacy: .public)")
-                AlertHandler.showError(
-                    title: Strings.Settings.Alert.genericImportErrorTitle,
-                    error: error
-                )
-                Task(priority: .userInitiated) {
-                    await MainActor.run {
-                        isLoading.wrappedValue = false
-                    }
-                }
-            }
-        }
+        try await handler(importContext)
     }
     
     static func export(
         filename: String,
-        isLoading: Binding<Bool>,
         content: @escaping (NSManagedObjectContext) throws -> String
-    ) {
+    ) async throws {
         Logger.importExport.debug("Exporting \(filename, privacy: .public)...")
-        isLoading.wrappedValue = true
         
-        Task(priority: .userInitiated) {
-            await PersistenceController.shared.container.performBackgroundTask { context in
-                context.type = .backgroundContext
-                do {
-                    // Get the content to export
-                    let exportData: String = try content(context)
-                    // Save as a file to share it
-                    guard let url = Utils.documentsPath?.appendingPathComponent(filename) else {
-                        Task(priority: .userInitiated) {
-                            await MainActor.run {
-                                AlertHandler.showSimpleAlert(
-                                    title: Strings.Settings.Alert.genericExportErrorTitle,
-                                    message: Strings.Settings.Alert.genericExportErrorMessage
-                                )
-                            }
-                        }
-                        return
-                    }
-                    try exportData.write(to: url, atomically: true, encoding: .utf8)
-                    Utils.share(items: [url])
-                } catch {
-                    Logger.importExport.error("Error writing export file: \(error, privacy: .public)")
-                    // Stop the loading animation
-                    Task(priority: .userInitiated) {
-                        await MainActor.run {
-                            isLoading.wrappedValue = false
-                        }
-                    }
-                    return
-                }
+        try await PersistenceController.shared.container.performBackgroundTask { context in
+            context.type = .backgroundContext
+            // Get the content to export
+            let exportData: String = try content(context)
+            // Save as a file to share it
+            guard let url = Utils.documentsPath?.appendingPathComponent(filename) else {
                 Task(priority: .userInitiated) {
                     await MainActor.run {
-                        isLoading.wrappedValue = false
+                        AlertHandler.showSimpleAlert(
+                            title: Strings.Settings.Alert.genericExportErrorTitle,
+                            message: Strings.Settings.Alert.genericExportErrorMessage
+                        )
                     }
                 }
+                return
             }
+            try exportData.write(to: url, atomically: true, encoding: .utf8)
+            Utils.share(items: [url])
         }
     }
 }

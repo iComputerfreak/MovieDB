@@ -50,9 +50,12 @@ struct AddMediaView: View {
     
     func addMedia(_ result: TMDBSearchResult) async {
         Logger.library.info("Adding \(result.title, privacy: .public) to library")
+        await MainActor.run {
+            self.isLoading = true
+        }
         // Add the media object to the library
         do {
-            try await library.addMedia(result, isLoading: $isLoading)
+            try await library.addMedia(result)
             // Dismiss the AddMediaView on success
             self.presentationMode.wrappedValue.dismiss()
         } catch UserError.mediaAlreadyAdded {
@@ -65,16 +68,18 @@ struct AddMediaView: View {
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
-            self.isShowingProPopup = true
+            await MainActor.run {
+                self.isShowingProPopup = true
+            }
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")
-            await MainActor.run {
-                AlertHandler.showError(
-                    title: Strings.AddMedia.Alert.errorLoadingTitle,
-                    error: error
-                )
-                self.isLoading = false
-            }
+            AlertHandler.showError(
+                title: Strings.AddMedia.Alert.errorLoadingTitle,
+                error: error
+            )
+        }
+        await MainActor.run {
+            self.isLoading = false
         }
     }
 }

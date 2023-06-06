@@ -134,11 +134,11 @@ struct WatchedShowView: View {
                         .disabled(unknown)
                     }
                 }
-                .onChange(of: self.season) { newSeason in
+                .onChange(of: self.season) {
                     // season < 0 means "unknown"
-                    if newSeason < 0 {
+                    if season < 0 {
                         self.watched = nil
-                    } else if newSeason == 0 {
+                    } else if season == 0 {
                         // season == 0 means "not watched"
                         self.watched = .notWatched
                     } else {
@@ -146,25 +146,25 @@ struct WatchedShowView: View {
                         
                         // episode > 0 means .episode
                         if episode > 0 {
-                            self.watched = .episode(season: newSeason, episode: episode)
+                            self.watched = .episode(season: season, episode: episode)
                         } else {
                             // episode <= 0 means .season
-                            self.watched = .season(newSeason)
+                            self.watched = .season(season)
                         }
                     }
                 }
-                .onChange(of: self.episode) { newEpisode in
+                .onChange(of: self.episode) {
                     // episode <= 0 means .season
-                    if newEpisode <= 0 {
+                    if episode <= 0 {
                         self.watched = .season(season)
                     } else {
                         // episode > 0 means .episode
-                        self.watched = .episode(season: season, episode: newEpisode)
+                        self.watched = .episode(season: season, episode: episode)
                     }
                 }
-                .onChange(of: unknown) { newValue in
+                .onChange(of: unknown) {
                     // If the new state is "unknown"
-                    if newValue {
+                    if unknown {
                         self.watched = nil
                     } else {
                         // If the new state if known

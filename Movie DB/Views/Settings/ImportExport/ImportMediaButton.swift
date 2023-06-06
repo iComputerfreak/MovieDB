@@ -29,6 +29,7 @@ struct ImportMediaButton: View {
             }
     }
     
+    // TODO: Function too long!
     // swiftlint:disable:next function_body_length
     func importMedia(url: URL) {
         if !storeManager.hasPurchasedPro {
@@ -40,72 +41,92 @@ struct ImportMediaButton: View {
         }
         // Initialize the logger
         self.config.importLogger = .init()
-        ImportExportSection.import(isLoading: $config.isLoading) { importContext in
-            // Import using CSVImporter
-            guard url.startAccessingSecurityScopedResource() else {
-                throw ImportError.noPermissions
+        Task(priority: .high) {
+            await MainActor.run {
+                self.config.isLoading = true
             }
-            let importer = try CSVImporter(url: url)
-            url.stopAccessingSecurityScopedResource()
-            Logger.importExport.debug("Successfully read CSV file. Trying to import into library...")
-            
-            let medias: [Media]! // swiftlint:disable:this implicitly_unwrapped_optional
             do {
-                medias = try await importer.decodeMediaObjects(importContext: importContext) { progress in
-                    self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress, importer.rowCount)
-                } log: { message in
-                    // TODO: Replace with other logger when reworking import view
-                    self.config.importLogger?.log(message, level: .none)
+                try await ImportExportSection.import { importContext in
+                    // Import using CSVImporter
+                    guard url.startAccessingSecurityScopedResource() else {
+                        throw ImportError.noPermissions
+                    }
+                    let importer = try CSVImporter(url: url)
+                    url.stopAccessingSecurityScopedResource()
+                    Logger.importExport.debug("Successfully read CSV file. Trying to import into library...")
+                    
+                    let medias: [Media]! // swiftlint:disable:this implicitly_unwrapped_optional
+                    do {
+                        medias = try await importer.decodeMediaObjects(importContext: importContext) { progress in
+                            self.config.loadingText = Strings.Settings.loadingTextMediaImport(
+                                progress,
+                                importer.rowCount
+                            )
+                        } log: { message in
+                            // TODO: Replace with other logger when reworking import view
+                            self.config.importLogger?.log(message, level: .none)
+                        }
+                    } catch {
+                        self.config.importLogShowing = true
+                        // Rethrow
+                        throw error
+                    }
+                    
+                    await MainActor.run {
+                        let controller = UIAlertController(
+                            title: Strings.Settings.Alert.importMediaConfirmTitle,
+                            message: Strings.Settings.Alert.importMediaConfirmMessage(medias.count),
+                            preferredStyle: .alert
+                        )
+                        controller.addAction(UIAlertAction(
+                            title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
+                            style: .destructive
+                        ) { _ in
+                            // Reset all the work we have just done
+                            importContext.reset()
+                            config.importLogger?.info("Undoing import. All imported objects removed.")
+                            self.config.importLogShowing = true
+                        })
+                        controller.addAction(.okayAction { _ in
+                            Task(priority: .userInitiated) {
+                                // Make the changes to this context permanent by saving them to the
+                                // main context and then to disk
+                                await PersistenceController.saveContext(importContext)
+                                await PersistenceController.saveContext(PersistenceController.viewContext)
+                                await MainActor.run {
+                                    self.config.importLogger?.info("Import complete.")
+                                    self.config.importLogShowing = true
+                                }
+                                // Load the thumbnails now
+                                Task(priority: .userInitiated) {
+                                    do {
+                                        try PersistenceController.viewContext.fetch(Media.fetchRequest())
+                                            .forEach { $0.loadThumbnail() }
+                                    } catch {
+                                        Logger.library.error(
+                                            // swiftlint:disable:next line_length
+                                            "Error fetching medias for loading thumbnail after import: \(error, privacy: .public)"
+                                        )
+                                    }
+                                }
+                            }
+                        })
+                        self.config.isLoading = false
+                        // Reset the loading text
+                        self.config.loadingText = nil
+                        AlertHandler.presentAlert(alert: controller)
+                    }
                 }
             } catch {
-                self.config.importLogShowing = true
-                // Rethrow
-                throw error
-            }
-            
-            await MainActor.run {
-                let controller = UIAlertController(
-                    title: Strings.Settings.Alert.importMediaConfirmTitle,
-                    message: Strings.Settings.Alert.importMediaConfirmMessage(medias.count),
-                    preferredStyle: .alert
+                Logger.importExport.error("Error during media import: \(error, privacy: .public)")
+                AlertHandler.showError(
+                    // TODO: Replace with correct title.
+                    title: Strings.Settings.Alert.genericImportErrorTitle,
+                    error: error
                 )
-                controller.addAction(UIAlertAction(
-                    title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
-                    style: .destructive
-                ) { _ in
-                    // Reset all the work we have just done
-                    importContext.reset()
-                    config.importLogger?.info("Undoing import. All imported objects removed.")
-                    self.config.importLogShowing = true
-                })
-                controller.addAction(.okayAction { _ in
-                    Task(priority: .userInitiated) {
-                        // Make the changes to this context permanent by saving them to the
-                        // main context and then to disk
-                        await PersistenceController.saveContext(importContext)
-                        await PersistenceController.saveContext(PersistenceController.viewContext)
-                        await MainActor.run {
-                            self.config.importLogger?.info("Import complete.")
-                            self.config.importLogShowing = true
-                        }
-                        // Load the thumbnails now
-                        Task(priority: .userInitiated) {
-                            do {
-                                try PersistenceController.viewContext.fetch(Media.fetchRequest())
-                                    .forEach { $0.loadThumbnail() }
-                            } catch {
-                                Logger.library.error(
-                                    // swiftlint:disable:next line_length
-                                    "Error fetching medias for loading thumbnail after import: \(error, privacy: .public)"
-                                )
-                            }
-                        }
-                    }
-                })
+            }
+            await MainActor.run {
                 self.config.isLoading = false
-                // Reset the loading text
-                self.config.loadingText = nil
-                AlertHandler.presentAlert(alert: controller)
             }
         }
     }

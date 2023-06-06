@@ -97,7 +97,7 @@ struct MediaLibrary {
     ///   - result: The search result including the tmdbID and mediaType
     ///   - isLoading: A binding that is updated while the function is loading the new object
     ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
-    func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>) async throws {
+    func addMedia(_ result: TMDBSearchResult) async throws {
         // There should be no media objects with this tmdbID in the library
         guard !mediaExists(result.id, in: context) else {
             throw UserError.mediaAlreadyAdded
@@ -108,9 +108,6 @@ struct MediaLibrary {
         }
         
         // Otherwise we can begin to load
-        await MainActor.run {
-            isLoading.wrappedValue = true
-        }
         
         // Run async
         // Try fetching the media object
@@ -123,10 +120,6 @@ struct MediaLibrary {
         )
         await PersistenceController.saveContext(context)
         // fetchMedia already created the Media object in a child context and saved it into the view context
-        // All we need to do now is to load the thumbnail and update the UI
-        await MainActor.run {
-            isLoading.wrappedValue = false
-        }
     }
     
     /// Updates the media library by updaing every media object with API calls again.

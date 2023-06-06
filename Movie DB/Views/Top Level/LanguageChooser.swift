@@ -43,7 +43,7 @@ struct LanguageChooser: View {
                     }
                 }
                 .environment(\.editMode, .constant(.active))
-                .onChange(of: config.language) { _ in
+                .onChange(of: config.language) {
                     Logger.settings.info("Language changed to \(config.language, privacy: .public)")
                 }
                 .navigationTitle(Strings.LanguageChooser.navBarTitle)

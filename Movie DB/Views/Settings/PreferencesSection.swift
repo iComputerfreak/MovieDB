@@ -23,13 +23,13 @@ struct PreferencesSection: View {
         Section {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
             LanguagePickerView()
-                .onChange(of: preferences.language) { languageCode in
-                    Logger.settings.info("Language changed to \(languageCode, privacy: .public)")
+                .onChange(of: preferences.language) {
+                    Logger.settings.info("Language changed to \(preferences.language, privacy: .public)")
                     self.config.languageChanged = true
                 }
             RegionPickerView()
-                .onChange(of: preferences.region) { regionCode in
-                    Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
+                .onChange(of: preferences.region) {
+                    Logger.settings.info("Region changed to \(preferences.region, privacy: .public)")
                     self.config.regionChanged = true
                 }
             DefaultWatchStatePicker()
