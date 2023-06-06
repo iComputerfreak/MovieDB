@@ -50,6 +50,31 @@ class StoreManager: ObservableObject {
         updateListenerTask?.cancel()
     }
     
+    /// Handles the result of an In App Purchase by unwrapping it, throwing any errors, verifying and finishing the transaction and returning the result.
+    func handleInAppPurchaseResult(_ result: Result<Product.PurchaseResult, Error>) async throws -> Product.PurchaseResult {
+        let purchaseResult = try result.get()
+        
+        switch purchaseResult {
+        case .success(let verification):
+            // Check whether the transaction is verified. If it isn't,
+            // this function rethrows the verification error.
+            let transaction = try checkVerified(verification)
+            
+            // The transaction is verified. Deliver content to the user.
+            await updateCustomerProductStatus()
+            
+            // Always finish a transaction.
+            await transaction.finish()
+        case .userCancelled, .pending:
+            // Do nothing if the user cancelled
+            break
+        @unknown default:
+            assertionFailure("Unknown purchase result \(purchaseResult)")
+        }
+        
+        return purchaseResult
+    }
+    
     /// Starts listening for transactions in the background
     /// - Returns: The background task performing the listening
     func listenForTransactions() -> Task<Void, Error> {

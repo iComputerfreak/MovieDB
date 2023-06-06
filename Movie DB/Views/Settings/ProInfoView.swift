@@ -7,6 +7,7 @@
 //
 
 import os.log
+import StoreKit
 import SwiftUI
 
 enum PurchaseError: Error {
@@ -63,29 +64,44 @@ struct ProInfoView: View {
         }
     }
     
+    var proProduct: Product? {
+        storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
+    }
+    
     @ViewBuilder
     var buyButton: some View {
-        if storeManager.hasPurchasedPro {
-            Button(Strings.ProInfo.buyButtonLabelDisabled) {}
-                .buttonStyle(.borderedProminent)
-                .disabled(true)
-        } else {
-            let product = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
-            let displayPrice = product?.displayPrice ?? ""
-            Button(Strings.ProInfo.buyButtonLabel(displayPrice)) {
-                Task(priority: .userInitiated) {
-                    do {
-                        try await buyPro()
-                    } catch {
-                        AlertHandler.showSimpleAlert(
-                            title: Strings.ProInfo.Alert.buyProErrorMessage,
-                            message: Strings.ProInfo.Alert.buyProErrorMessage
-                        )
+        if let product = proProduct {
+            GroupBox {
+                ProductView(product, prefersPromotionalIcon: true)
+                    .productViewStyle(.large)
+                    .frame(maxWidth: .infinity)
+                    .onInAppPurchaseCompletion { _, result in
+                        handleInAppPurchaseResult(result)
                     }
-                }
             }
-            // TODO: Use custom buy button style hat incorporates the above if-case (see Apple's project)
-                .buttonStyle(.borderedProminent)
+        }
+    }
+    
+    func handleInAppPurchaseResult(_ result: Result<Product.PurchaseResult, Error>) {
+        Task(priority: .userInitiated) {
+            do {
+                let purchaseResult = try await storeManager.handleInAppPurchaseResult(result)
+                switch purchaseResult {
+                case .success, .pending:
+                    dismiss()
+                case .userCancelled:
+                    break
+                @unknown default:
+                    assertionFailure("Unknown purchase result \(purchaseResult)")
+                }
+                dismiss()
+            } catch {
+                print(error)
+                AlertHandler.showSimpleAlert(
+                    title: Strings.ProInfo.Alert.buyProErrorMessage,
+                    message: Strings.ProInfo.Alert.buyProErrorMessage
+                )
+            }
         }
     }
     
@@ -105,9 +121,7 @@ struct ProInfoView: View {
     }
 }
 
-struct ProInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProInfoView()
-            .previewEnvironment()
-    }
+#Preview {
+    ProInfoView()
+        .previewEnvironment()
 }
