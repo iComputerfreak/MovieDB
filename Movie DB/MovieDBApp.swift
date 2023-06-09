@@ -15,7 +15,7 @@ struct MovieDBApp: App {
     
     @ObservedObject private var config = JFConfig.shared
     @ObservedObject private var storeManager = StoreManager.shared
-
+    
     var body: some Scene {
         WindowGroup {
             if config.language.isEmpty {

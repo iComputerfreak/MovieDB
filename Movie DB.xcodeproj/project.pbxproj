@@ -1240,9 +1240,33 @@
 		ABCEC9332A2FAA7F0008D2D8 /* Swift Data */ = {
 			isa = PBXGroup;
 			children = (
+				ABCEC9382A2FBC4C0008D2D8 /* Helper */,
+				ABCEC9372A2FBC440008D2D8 /* Lists */,
+				ABCEC9362A2FBC400008D2D8 /* Media */,
 				ABCEC9342A2FAAA00008D2D8 /* Tag.swift */,
 			);
 			path = "Swift Data";
+			sourceTree = "<group>";
+		};
+		ABCEC9362A2FBC400008D2D8 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		ABCEC9372A2FBC440008D2D8 /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Lists;
+			sourceTree = "<group>";
+		};
+		ABCEC9382A2FBC4C0008D2D8 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		ABCEF1192A2675C600295EB6 /* PredicateMediaList */ = {
