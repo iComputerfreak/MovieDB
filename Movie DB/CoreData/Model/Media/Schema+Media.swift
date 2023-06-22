@@ -47,6 +47,7 @@ extension Schema {
         case releaseDateOrFirstAired
         case isFavorite
         case isOnWatchlist
+        case watchDate
         
         // MARK: Relationships
         case genres

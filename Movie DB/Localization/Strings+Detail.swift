@@ -68,6 +68,14 @@ extension Strings {
             localized: "detail.userData.headline.watchAgain.show",
             comment: "The headline for the 'watch again' property in the detail view of a show"
         )
+        static let watchDateHeadline = String(
+            localized: "detail.userData.headline.watchDate",
+            comment: "The headline for the 'watch date' property in the detail view"
+        )
+        static let watchDateKnownToggleLabel = String(
+            localized: "detail.userData.watchDate.dateKnownToggle.label",
+            comment: "The label of the toggle in the user data section of the detail view where the user specifies whether the watch date of the media is known"
+        )
         static let tagsHeadline = String(
             localized: "detail.userData.headline.tags",
             comment: "The headline for the 'tags' property in the detail view"
