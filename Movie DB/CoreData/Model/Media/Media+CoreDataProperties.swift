@@ -110,6 +110,8 @@ public extension Media {
     @NSManaged var isOnWatchlist: Bool
     /// The user lists this media is associated with
     @NSManaged var userLists: Set<UserMediaList>
+    /// The date the user watched the media
+    @NSManaged var watchDate: Date?
     
     // MARK: - Computed Properties
     

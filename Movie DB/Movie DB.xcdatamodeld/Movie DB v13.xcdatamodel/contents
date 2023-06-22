@@ -68,6 +68,7 @@
         <attribute name="voteAverage" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
         <relationship name="parentalRating" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentalRating" inverseName="medias" inverseEntity="ParentalRating"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>

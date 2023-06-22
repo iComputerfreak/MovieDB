@@ -69,6 +69,8 @@ struct UserData: View {
                         // swiftlint:disable:next line_length
                         mediaObject.type == .show ? Strings.Detail.watchAgainHeadlineShow : Strings.Detail.watchAgainHeadline
                     )
+                // MARK: Watch Date
+                WatchDateView()
                 // MARK: Taglist
                 TagListView($mediaObject.tags)
                 // MARK: Notes

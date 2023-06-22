@@ -13,6 +13,7 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
     case created
     case releaseDate
     case rating
+    case watchDate
     
     /// The default sorting order
     static var `default`: Self { .created }
@@ -27,6 +28,8 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
             return .descending
         case .rating:
             return .descending
+        case .watchDate:
+            return .descending
         }
     }
     
@@ -40,6 +43,8 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
             return Strings.SortingOrder.releaseDate
         case .rating:
             return Strings.SortingOrder.rating
+        case .watchDate:
+            return Strings.SortingOrder.watchDate
         }
     }
     
@@ -59,6 +64,8 @@ public enum SortingOrder: String, Equatable, CaseIterable, Codable {
             sortDescriptors.append(NSSortDescriptor(keyPath: \Media.creationDate, ascending: ascending))
         case .releaseDate:
             sortDescriptors.append(NSSortDescriptor(keyPath: \Media.releaseDateOrFirstAired, ascending: ascending))
+        case .watchDate:
+            sortDescriptors.append(NSSortDescriptor(keyPath: \Media.watchDate, ascending: ascending))
         case .rating:
             // !!!: Using SortDescriptor<Media> here fails at runtime, because Media must be introspectable by the
             // !!!: objective-c runtime in order to use it as the base type of a `SortDescriptor` when using

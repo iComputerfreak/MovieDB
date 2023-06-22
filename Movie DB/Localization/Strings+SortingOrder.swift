@@ -26,7 +26,11 @@ extension Strings {
         )
         static let nextRelease = String(
             localized: "sortingOrder.nextRelease",
-            comment: "A type of sorting order that sorts the media objects by their next upcoming release or their latest release."
+            comment: "A type of sorting order that sorts the media objects by their next upcoming release or their latest release"
+        )
+        static let watchDate = String(
+            localized: "sortingOrder.watchDate",
+            comment: "A type of sorting order that sorts the media objects by the date the user watched them"
         )
     }
 }

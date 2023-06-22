@@ -867,3 +867,7 @@
 "lists.upcoming.subtitle.show %lld" = "Season %lld releases in ";
 
 "sortingOrder.nextRelease" = "Next Release";
+"sortingOrder.watchDate" = "Watch Date";
+
+"detail.userData.headline.watchDate" = "Watch Date";
+"detail.userData.watchDate.dateKnownToggle.label" = "Date Known";

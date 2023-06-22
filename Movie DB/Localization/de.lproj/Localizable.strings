@@ -862,3 +862,6 @@
 "lists.upcoming.subtitle.show %lld" = "Staffel %lld erscheint in ";
 
 "sortingOrder.nextRelease" = "Nächste Veröffentlichung";
+"sortingOrder.watchDate" = "Angeschaut am";
+"detail.userData.headline.watchDate" = "Angeschaut am";
+"detail.userData.watchDate.dateKnownToggle.label" = "Datum bekannt";
