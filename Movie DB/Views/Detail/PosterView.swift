@@ -13,7 +13,7 @@ struct PosterView: View {
     let imagePath: String?
     
     var url: URL? {
-        imagePath.map { Utils.getTMDBImageURL(path: $0, size: nil) }
+        imagePath.map { Utils.getTMDBImageURL(path: $0, size: nil) } ?? nil
     }
     
     var body: some View {

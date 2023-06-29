@@ -100,7 +100,11 @@ actor TMDBImageService {
                 Logger.imageService.debug(
                     "Downloading image for downloadID \(String(describing: downloadID), privacy: .public)"
                 )
-                let webURL = Utils.getTMDBImageURL(path: imagePath, size: imageSize)
+                guard let webURL = Utils.getTMDBImageURL(path: imagePath, size: imageSize) else {
+                    Logger.imageService.error("Unable to get TMDB image URL for imagePath '\(imagePath)'")
+                    // TODO: We should actually throw here and handle it
+                    return UIImage(named: JFLiterals.posterPlaceholderName)!
+                }
                 return try await Utils.loadImage(from: webURL)
             }
             

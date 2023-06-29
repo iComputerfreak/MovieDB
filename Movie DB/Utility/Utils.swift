@@ -295,7 +295,7 @@ extension Utils {
     /// - Parameters:
     ///   - path: The path of the image
     ///   - size: The size of the image. Must be a size supported by the TMDB API
-    static func getTMDBImageURL(path: String, size: Int?) -> URL {
+    static func getTMDBImageURL(path: String, size: Int?) -> URL? {
         // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
         guard !posterDenyList.contains(path) else {
             Logger.network.warning("Poster path \(path, privacy: .public) is on deny list. Denying url fetch.")
@@ -308,7 +308,7 @@ extension Utils {
             return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
         }
         let sizeString = size != nil ? "w\(size!)" : "original"
-        return URL(string: "https://image.tmdb.org/t/p/\(sizeString)/\(path)")!
+        return URL(string: "https://image.tmdb.org/t/p/\(sizeString)/\(path)")
     }
     
     @discardableResult
@@ -334,8 +334,11 @@ extension Utils {
     /// Downloads an image using the given TMDB image path
     /// - Parameter imagePath: The TMDB image path
     /// - Returns: The downloaded UIImage
-    static func loadImage(with imagePath: String, size: Int?) async throws -> UIImage {
-        try await loadImage(from: Self.getTMDBImageURL(path: imagePath, size: size))
+    static func loadImage(with imagePath: String, size: Int?) async throws -> UIImage? {
+        if let url = Self.getTMDBImageURL(path: imagePath, size: size) {
+            return try await loadImage(from: url)
+        }
+        return nil
     }
 }
 
