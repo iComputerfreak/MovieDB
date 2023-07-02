@@ -13,7 +13,6 @@ struct WatchDateView: View {
     @Environment(\.isEditing) private var isEditing
     
     var body: some View {
-        // TODO: Localize
         if isEditing {
             EditingView()
                 .headline(Strings.Detail.watchDateHeadline)

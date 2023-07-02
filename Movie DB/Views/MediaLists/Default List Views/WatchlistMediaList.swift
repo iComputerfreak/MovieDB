@@ -16,7 +16,6 @@ struct WatchlistMediaList: View {
             list: PredicateMediaList.watchlist,
             selectedMedia: $selectedMedia
         ) { media in
-            // TODO: Rework navigation
             NavigationLink(value: media) {
                 LibraryRow()
                     .environmentObject(media)
