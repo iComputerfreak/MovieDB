@@ -303,9 +303,7 @@ extension Utils {
                 "This should have been prevented from being called for poster paths on the deny list " +
                 "in the first place."
             )
-            // TODO: Should probably return nil here and not even make the fetch
-            // As a fallback, load the placeholder as thumbnail
-            return URL(string: "https://www.jonasfrey.de/appdata/PosterPlaceholder.png")!
+            return nil
         }
         let sizeString = size != nil ? "w\(size!)" : "original"
         return URL(string: "https://image.tmdb.org/t/p/\(sizeString)/\(path)")

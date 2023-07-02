@@ -91,8 +91,6 @@ struct LibraryHome: View {
                     }
                 }
             }
-            // TODO: Maybe remove a bit of inset of the thumbnails themselves now that the whole list is inset
-            // TODO: Or give the thumbnails rounded corners to fit into the top left corner? (should not be necessary)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
@@ -139,8 +137,7 @@ struct LibraryHome: View {
                     MediaDetail()
                         .environmentObject(media)
                 } else {
-                    // TODO: Localize
-                    Text("Multiple objects selected")
+                    Text(Strings.Generic.multipleObjectsSelected)
                 }
             }
         }

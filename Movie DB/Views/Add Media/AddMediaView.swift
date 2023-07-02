@@ -39,7 +39,7 @@ struct AddMediaView: View {
                 .navigationBarItems(trailing: Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Text(Strings.AddMedia.navBarButtonClose)
+                    Text(Strings.Generic.dismissViewDone)
                 }))
             }
         }

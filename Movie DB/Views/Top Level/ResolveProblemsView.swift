@@ -11,6 +11,7 @@ import SwiftUI
 struct ResolveProblemsView: View {
     @Binding var problems: [Problem]
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.dismiss) private var dismiss
     
     @State private var selectedMedia: Media?
     
@@ -37,6 +38,11 @@ struct ResolveProblemsView: View {
                 }
             }
             .navigationTitle(Strings.ResolveProblems.navBarTitle)
+            .toolbar {
+                Button(Strings.ResolveProblems.resolveLater, role: .cancel) {
+                    self.dismiss()
+                }
+            }
         } detail: {
             if let selectedMedia {
                 MediaDetail()

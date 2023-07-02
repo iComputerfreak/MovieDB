@@ -13,7 +13,6 @@ import SwiftUI
 /// An actor, resposible for downloading and caching media posters from themoviedatabase.org
 actor TMDBImageService {
     static let mediaThumbnails = TMDBImageService(imageSize: JFLiterals.thumbnailTMDBSize)
-    // TODO: Test if this actually fetches the maximum size or if we can use a bigger size for sharper logos
     static let watchProviderLogos = TMDBImageService(imageSize: nil)
     
     let imageSize: Int?

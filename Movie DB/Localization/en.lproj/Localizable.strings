@@ -871,3 +871,7 @@
 
 "detail.userData.headline.watchDate" = "Watch Date";
 "detail.userData.watchDate.dateKnownToggle.label" = "Date Known";
+
+"resolveProblems.toolbar.resolveLater" = "Resolve later";
+
+"generic.multipleObjectsSelected" = "Multiple objects selected";

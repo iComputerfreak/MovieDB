@@ -115,13 +115,6 @@ public extension Media {
     
     // MARK: - Computed Properties
     
-    /// Whether the result is a movie and is for adults only
-    internal var isAdultMovie: Bool? {
-        // TODO: We shouldn't know about our subclasses
-        // TODO: We also probably don't need this property
-        (self as? Movie)?.isAdult
-    }
-    
     /// The year of the release or first airing of the media
     internal var year: Int? {
         var cal = Calendar.current

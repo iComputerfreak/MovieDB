@@ -865,3 +865,7 @@
 "sortingOrder.watchDate" = "Angeschaut am";
 "detail.userData.headline.watchDate" = "Angeschaut am";
 "detail.userData.watchDate.dateKnownToggle.label" = "Datum bekannt";
+
+"resolveProblems.toolbar.resolveLater" = "Später beheben";
+
+"generic.multipleObjectsSelected" = "Mehrere Objekte ausgewählt";

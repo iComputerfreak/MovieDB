@@ -102,6 +102,7 @@ class PersistenceController {
             // Only initialize, if the last init was longer than an hour ago
             if (abs(lastInitSeconds) < 0.001) || lastInit.distance(to: .now) < 12 * 3600 {
                 do {
+                    Logger.coreData.info("Initializing CloudKit schema...")
                     // Use the container to initialize the development schema.
                     let cloudKitContainer = container as? NSPersistentCloudKitContainer
                     try cloudKitContainer?.initializeCloudKitSchema()

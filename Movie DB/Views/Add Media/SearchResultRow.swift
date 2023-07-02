@@ -21,7 +21,7 @@ struct SearchResultRow: View {
                 Text(verbatim: "\(result.title)")
                     .bold()
                 HStack {
-                    if result.isAdultMovie ?? false {
+                    if let movie = result as? TMDBMovieSearchResult, movie.isAdult {
                         Image(systemName: "a.square")
                     }
                     switch result.mediaType {
@@ -80,7 +80,6 @@ struct SearchResultView_Previews: PreviewProvider {
                             isAdult: true,
                             releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
                         ))
-                        .background(Color.red)
                     }
                 }
                 .navigationTitle(Text(verbatim: "Search Results"))
@@ -100,7 +99,6 @@ struct SearchResultView_Previews: PreviewProvider {
                 isAdult: true,
                 releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
             ))
-            .background(Color.red)
             .previewLayout(.fixed(width: 300, height: 100))
         }
     }
