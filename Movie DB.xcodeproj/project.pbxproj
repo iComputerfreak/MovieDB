@@ -273,6 +273,9 @@
 		ABD8648428183E2B001A1F7C /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648328183E2B001A1F7C /* Problem.swift */; };
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
 		ABD8648C281966A2001A1F7C /* WatchProvidersInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */; };
+		ABDC93712A52E81100DF4084 /* DeleteMediaSwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93702A52E81100DF4084 /* DeleteMediaSwipeAction.swift */; };
+		ABDC93732A52E83100DF4084 /* MediaSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93722A52E83100DF4084 /* MediaSwipeActions.swift */; };
+		ABDC93752A52E87800DF4084 /* MediaContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93742A52E87800DF4084 /* MediaContextMenu.swift */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
 		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70229C0A18300E5B54B /* ParentalRating+CoreDataClass.swift */; };
@@ -611,6 +614,9 @@
 		ABD86487281933BC001A1F7C /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProvidersInfo.swift; sourceTree = "<group>"; };
 		ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v2.xcdatamodel"; sourceTree = "<group>"; };
+		ABDC93702A52E81100DF4084 /* DeleteMediaSwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMediaSwipeAction.swift; sourceTree = "<group>"; };
+		ABDC93722A52E83100DF4084 /* MediaSwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSwipeActions.swift; sourceTree = "<group>"; };
+		ABDC93742A52E87800DF4084 /* MediaContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaContextMenu.swift; sourceTree = "<group>"; };
 		ABE17B68284FA05600879C30 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		ABE17B88284FD52800879C30 /* libswiftCloudKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCloudKit.tbd; path = usr/lib/swift/libswiftCloudKit.tbd; sourceTree = SDKROOT; };
 		ABE6B6FC29C0A08400E5B54B /* Movie DB v11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v11.xcdatamodel"; sourceTree = "<group>"; };
@@ -1401,6 +1407,9 @@
 				AB11C30B22CA3E1A0057105A /* LibraryHome.swift */,
 				AB68250529CF7C8F0086034B /* LibraryViewModel.swift */,
 				AB68250729CF7CD40086034B /* LibraryToolbar.swift */,
+				ABDC93702A52E81100DF4084 /* DeleteMediaSwipeAction.swift */,
+				ABDC93722A52E83100DF4084 /* MediaSwipeActions.swift */,
+				ABDC93742A52E87800DF4084 /* MediaContextMenu.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1854,10 +1863,12 @@
 				ABEF108229BF6E4E0047E4B9 /* Schema+WatchProvider.swift in Sources */,
 				AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */,
 				ABD7CB5F2375D7AD0049E236 /* LongTextView.swift in Sources */,
+				ABDC93732A52E83100DF4084 /* MediaSwipeActions.swift in Sources */,
 				ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
 				ABD3C5DF29C12FFC000B5107 /* FilterGenresPicker.swift in Sources */,
+				ABDC93752A52E87800DF4084 /* MediaContextMenu.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
 				ABBC782D29B7F7EF004F322E /* Logging.swift in Sources */,
 				AB6B86C82972FA4A00E36AE6 /* ExportTagsButton.swift in Sources */,
@@ -1962,6 +1973,7 @@
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
+				ABDC93712A52E81100DF4084 /* DeleteMediaSwipeAction.swift in Sources */,
 				AB1434AA25CEE53A00AA304F /* Season+CoreDataClass.swift in Sources */,
 				AB59BF3129F417BE005E0C7E /* EntityCount.swift in Sources */,
 				ABEEB0DF2815941400230F0B /* SerializableColor.swift in Sources */,

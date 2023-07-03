@@ -18,12 +18,13 @@ struct WatchlistMediaList: View {
         ) { media in
             NavigationLink(value: media) {
                 LibraryRow()
-                    .environmentObject(media)
                     .swipeActions {
                         Button(Strings.Lists.removeMediaLabel) {
                             media.isOnWatchlist = false
                         }
                     }
+                    .mediaContextMenu()
+                    .environmentObject(media)
             }
         }
     }

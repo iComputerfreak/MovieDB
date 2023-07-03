@@ -61,32 +61,9 @@ struct LibraryHome: View {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
                             LibraryRow()
+                                .mediaSwipeActions()
+                                .mediaContextMenu()
                                 .environmentObject(mediaObject)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(Strings.Library.swipeActionDelete, role: .destructive) {
-                                        Logger.coreData.info(
-                                            // swiftlint:disable:next line_length
-                                            "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
-                                        )
-                                        // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
-                                        self.managedObjectContext.delete(mediaObject)
-                                        PersistenceController.saveContext(self.managedObjectContext)
-                                    }
-                                }
-                                .contextMenu {
-                                    Group {
-                                        Section {
-                                            AddToFavoritesButton()
-                                            AddToWatchlistButton()
-                                            AddToListMenu()
-                                        }
-                                        Section {
-                                            ReloadMediaButton()
-                                            DeleteMediaButton()
-                                        }
-                                    }
-                                    .environmentObject(mediaObject)
-                                }
                         }
                     }
                 }

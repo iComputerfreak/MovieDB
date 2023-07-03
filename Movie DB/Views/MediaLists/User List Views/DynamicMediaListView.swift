@@ -22,6 +22,8 @@ struct DynamicMediaListView: View {
         FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
             NavigationLink(value: media) {
                 LibraryRow()
+                    .mediaSwipeActions()
+                    .mediaContextMenu()
                     .environmentObject(media)
             }
         }

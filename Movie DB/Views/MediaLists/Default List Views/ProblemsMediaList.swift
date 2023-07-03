@@ -18,6 +18,8 @@ struct ProblemsMediaList: View {
         ) { media in
             NavigationLink(value: media) {
                 ProblemsLibraryRow()
+                    .mediaSwipeActions()
+                    .mediaContextMenu()
                     .environmentObject(media)
             }
         }
