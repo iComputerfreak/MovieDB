@@ -61,6 +61,9 @@ struct MediaDetail: View {
                                 // Dismiss after deleting
                                 dismiss()
                             }
+                            ShareLink(item: URL(
+                                string: "https://movieorganizer.de/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)"
+                            )!)
                         }
                     } label: {
                         MediaMenuLabel()

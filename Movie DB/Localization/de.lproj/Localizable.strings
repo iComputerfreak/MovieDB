@@ -869,3 +869,7 @@
 "resolveProblems.toolbar.resolveLater" = "Später beheben";
 
 "generic.multipleObjectsSelected" = "Mehrere Objekte ausgewählt";
+
+"shareDetail.errorLoadingMedia" = "Fehler beim Anzeigen des Mediums.";
+"generic.retryLoading" = "Neu laden";
+"lookup.errorLoadingMedia %@" = "Fehler beim Laden: %@";

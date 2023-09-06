@@ -105,5 +105,9 @@ extension Strings {
             localized: "generic.multipleObjectsSelected",
             comment: "A text that is displayed when there are multiple objects selected, but the user is supposed to only select one"
         )
+        static let retryLoading = String(
+            localized: "generic.retryLoading",
+            comment: "A button label indicating an action to retry loading something"
+        )
     }
 }

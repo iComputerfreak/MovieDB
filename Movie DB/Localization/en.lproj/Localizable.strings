@@ -875,3 +875,7 @@
 "resolveProblems.toolbar.resolveLater" = "Resolve later";
 
 "generic.multipleObjectsSelected" = "Multiple objects selected";
+
+"shareDetail.errorLoadingMedia" = "Error displaying media.";
+"generic.retryLoading" = "Retry";
+"lookup.errorLoadingMedia %@" = "Error loading media: %@";

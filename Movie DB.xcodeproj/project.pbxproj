@@ -220,6 +220,8 @@
 		ABC1E2692816C3120039CA84 /* SearchResults-2.json in Resources */ = {isa = PBXBuildFile; fileRef = ABEEB0B82813078900230F0B /* SearchResults-2.json */; };
 		ABC1E26B2816C3910039CA84 /* TestingPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC1E26A2816C3910039CA84 /* TestingPlayground.swift */; };
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
+		ABCB4E282AA8E68B006638A7 /* OpenShareURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E272AA8E68B006638A7 /* OpenShareURL.swift */; };
+		ABCB4E2A2AA8E723006638A7 /* Strings+ShareDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
 		ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */; };
 		ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */; };
@@ -565,6 +567,8 @@
 		ABBFCA622618CD5F00B4D92E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		ABC1E26A2816C3910039CA84 /* TestingPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingPlayground.swift; sourceTree = "<group>"; };
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
+		ABCB4E272AA8E68B006638A7 /* OpenShareURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenShareURL.swift; sourceTree = "<group>"; };
+		ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+ShareDetail.swift"; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicInfo.swift; sourceTree = "<group>"; };
 		ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedInfo.swift; sourceTree = "<group>"; };
@@ -1021,6 +1025,7 @@
 				ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */,
 				AB59E3BE281D68EF00436853 /* SceneDelegate.swift */,
 				AB3434DE281D475400459673 /* MovieDBApp.swift */,
+				ABCB4E272AA8E68B006638A7 /* OpenShareURL.swift */,
 				ABBC782A29B7DB82004F322E /* Environment.swift */,
 				ABBC782C29B7F7EF004F322E /* Logging.swift */,
 				AB25099C238B1EE000F7A411 /* Utility */,
@@ -1143,6 +1148,7 @@
 				AB6D9CA2283D1CC700AF655C /* Strings+ProInfo.swift */,
 				AB6D9C8E283BC1EE00AF655C /* Strings+ResolveProblems.swift */,
 				AB6D9CA0283D1A0D00AF655C /* Strings+Settings.swift */,
+				ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */,
 				AB6D9C8C283BC1E800AF655C /* Strings+ShowType.swift */,
 				AB6D9C9E283BC42B00AF655C /* Strings+SortingDirection.swift */,
 				AB6D9C8A283BC1DE00AF655C /* Strings+SortingOrder.swift */,
@@ -1848,6 +1854,7 @@
 				AB97D2B0238C194900418E36 /* AlertHandler.swift in Sources */,
 				ABED3B072393263E00F4C327 /* ShowType.swift in Sources */,
 				AB6D9C99283BC21E00AF655C /* Strings+MediaInformation.swift in Sources */,
+				ABCB4E2A2AA8E723006638A7 /* Strings+ShareDetail.swift in Sources */,
 				AB12C9BE2859CACA0073F751 /* ShowWatchState.swift in Sources */,
 				ABADB86429A3D4DF00853F56 /* ContextType.swift in Sources */,
 				ABEEB0E1281598CC00230F0B /* RegionPickerView.swift in Sources */,
@@ -1972,6 +1979,7 @@
 				AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
+				ABCB4E282AA8E68B006638A7 /* OpenShareURL.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
 				ABDC93712A52E81100DF4084 /* DeleteMediaSwipeAction.swift in Sources */,
 				AB1434AA25CEE53A00AA304F /* Season+CoreDataClass.swift in Sources */,

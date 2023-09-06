@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import os.log
 import SwiftUI
 
 @main
@@ -15,19 +16,23 @@ struct MovieDBApp: App {
     
     @ObservedObject private var config = JFConfig.shared
     @ObservedObject private var storeManager = StoreManager.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            if config.language.isEmpty {
-                LanguageChooser()
-                    .environment(\.managedObjectContext, PersistenceController.viewContext)
-                    .environmentObject(config)
-            } else {
-                ContentView()
-                    .environment(\.managedObjectContext, PersistenceController.viewContext)
-                    .environmentObject(storeManager)
-                    .environmentObject(config)
+            Group {
+                if config.language.isEmpty {
+                    LanguageChooser()
+                        .environment(\.managedObjectContext, PersistenceController.viewContext)
+                        .environmentObject(config)
+                } else {
+                    ContentView()
+                        .environment(\.managedObjectContext, PersistenceController.viewContext)
+                        .environmentObject(storeManager)
+                        .environmentObject(config)
+                }
             }
+            // Respond to universal links
+            .openShareURLModifier()
         }
     }
 }

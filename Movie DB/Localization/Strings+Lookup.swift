@@ -8,6 +8,13 @@
 
 extension Strings {
     enum Lookup {
+        static func errorLoadingMedia(_ localizedDescription: String) -> String {
+            String(
+                localized: "lookup.errorLoadingMedia %@",
+                comment: "An error message indicating some error while loading a media object. The parameter is the error description."
+            )
+        }
+        
         enum Alert {
             static let errorLoadingTitle = String(
                 localized: "lookup.alert.errorLoading.title",

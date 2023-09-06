@@ -11,70 +11,83 @@ import os.log
 import SwiftUI
 
 struct MediaLookupDetail: View {
+    enum LoadingState {
+        case loading
+        case loaded(Media)
+        case error(Error)
+    }
+    
     let tmdbID: Int
     let mediaType: MediaType
     
     private let localContext: NSManagedObjectContext
-    @StateObject private var mediaObject: Media
-    @State private var finishedLoading = false
+    @State private var state: LoadingState = .loading
     
     init(tmdbID: Int, mediaType: MediaType) {
         localContext = PersistenceController.createDisposableViewContext()
         self.tmdbID = tmdbID
         self.mediaType = mediaType
-        
-        let media: Media
-        switch mediaType {
-        case .movie:
-            media = Movie(context: localContext)
-            media.type = .movie
-        case .show:
-            media = Show(context: localContext)
-            media.type = .show
-        }
-        _mediaObject = StateObject(wrappedValue: media)
     }
     
     var body: some View {
-        if finishedLoading, !mediaObject.isFault {
-            List {
-                LookupTitleView(media: mediaObject)
-                BasicInfo()
-                if !mediaObject.watchProviders.isEmpty {
-                    WatchProvidersInfo()
-                }
-                ExtendedInfo()
-            }
-            .listStyle(.grouped)
-            .navigationTitle(mediaObject.title)
-            .navigationBarTitleDisplayMode(.inline)
-            .environmentObject(mediaObject)
-        } else {
+        switch state {
+        case .loading:
             ProgressView()
                 .navigationTitle(Strings.Generic.navBarLoadingTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .task(priority: .userInitiated) {
                     // Load the media
                     do {
-                        let tmdbData = try await TMDBAPI.shared.tmdbData(
+                        let media = try await TMDBAPI.shared.media(
                             for: tmdbID,
                             type: mediaType,
                             context: localContext
                         )
                         await MainActor.run {
                             // Update the relevant information
-                            self.mediaObject.update(tmdbData: tmdbData)
                             // No need to load the thumbnail, since it will be loaded by the AsyncImage in LookupTitleView
-                            self.finishedLoading = true
+                            self.state = .loaded(media)
                         }
                     } catch {
                         Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
-                        AlertHandler.showError(
-                            title: Strings.Lookup.Alert.errorLoadingTitle,
-                            error: error
-                        )
+                        // Just change the state. Error will be displayed automatically
+                        await MainActor.run {
+                            self.state = .error(error)
+                        }
                     }
                 }
+        case .loaded(let media):
+            DetailView()
+                .environmentObject(media)
+        case .error(let error):
+            VStack {
+                Text(Strings.Lookup.errorLoadingMedia(error.localizedDescription))
+                Button(Strings.Generic.retryLoading) {
+                    self.state = .loading
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }
+    }
+    
+    struct DetailView: View {
+        @EnvironmentObject private var mediaObject: Media
+        
+        var body: some View {
+            NavigationStack {
+                List {
+                    LookupTitleView(media: mediaObject)
+                    BasicInfo()
+                    if !mediaObject.watchProviders.isEmpty {
+                        WatchProvidersInfo()
+                    }
+                    ExtendedInfo()
+                }
+                .listStyle(.grouped)
+                .navigationTitle(mediaObject.title)
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .environmentObject(mediaObject)
         }
     }
 }
