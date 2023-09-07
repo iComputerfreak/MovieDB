@@ -222,6 +222,8 @@
 		ABC483C52396CD090004D389 /* RangeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC483C42396CD090004D389 /* RangeEditingView.swift */; };
 		ABCB4E282AA8E68B006638A7 /* OpenShareURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E272AA8E68B006638A7 /* OpenShareURL.swift */; };
 		ABCB4E2A2AA8E723006638A7 /* Strings+ShareDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */; };
+		ABCB4E2C2AAA3D62006638A7 /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */; };
+		ABCB4E2E2AAA3DEE006638A7 /* AddMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
 		ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */; };
 		ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */; };
@@ -569,6 +571,8 @@
 		ABC483C42396CD090004D389 /* RangeEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeEditingView.swift; sourceTree = "<group>"; };
 		ABCB4E272AA8E68B006638A7 /* OpenShareURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenShareURL.swift; sourceTree = "<group>"; };
 		ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+ShareDetail.swift"; sourceTree = "<group>"; };
+		ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
+		ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaButton.swift; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicInfo.swift; sourceTree = "<group>"; };
 		ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedInfo.swift; sourceTree = "<group>"; };
@@ -927,6 +931,8 @@
 				ABCEF1222A267FED00295EB6 /* BaseLibraryRow.swift */,
 				AB979324299AD01700B20EC8 /* WatchStateLabel.swift */,
 				AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */,
+				ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */,
+				ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1999,6 +2005,7 @@
 				ABD3C60729C4C929000B5107 /* Schema+CDColor.swift in Sources */,
 				AB14340425CDD84B00AA304F /* CoreDataExtensions.swift in Sources */,
 				AB2226E829A53472009EF7BE /* HistoryManager.swift in Sources */,
+				ABCB4E2E2AAA3DEE006638A7 /* AddMediaButton.swift in Sources */,
 				ABD3C5DD29C12FD0000B5107 /* FilterMediaTypePicker.swift in Sources */,
 				ABEEB0DA281455AB00230F0B /* DecodingHelper.swift in Sources */,
 				AB6D9CA5283D2C2A00AF655C /* Strings+Legal.swift in Sources */,
@@ -2030,6 +2037,7 @@
 				AB2742562389D95200744B83 /* RatingView.swift in Sources */,
 				AB711FBC281D8ECF003ED045 /* TMDBDataHelpers.swift in Sources */,
 				ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */,
+				ABCB4E2C2AAA3D62006638A7 /* DismissButton.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
 				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,

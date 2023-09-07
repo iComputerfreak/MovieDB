@@ -879,3 +879,6 @@
 "shareDetail.errorLoadingMedia" = "Error displaying media.";
 "generic.retryLoading" = "Retry";
 "lookup.errorLoadingMedia %@" = "Error loading media: %@";
+
+"addMedia.addMediaButton.addToLibrary" = "Add";
+"addMedia.addMediaButton.alreadyAdded" = "Added";

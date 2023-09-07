@@ -873,3 +873,6 @@
 "shareDetail.errorLoadingMedia" = "Fehler beim Anzeigen des Mediums.";
 "generic.retryLoading" = "Neu laden";
 "lookup.errorLoadingMedia %@" = "Fehler beim Laden: %@";
+"addMedia.addMediaButton.addToLibrary" = "Hinzufügen";
+"addMedia.addMediaButton.alreadyAdded" = "Hinzugefügt";
+
