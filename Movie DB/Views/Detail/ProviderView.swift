@@ -41,7 +41,8 @@ struct ProviderView: View {
             .overlay {
                 Text(provider.name)
                     .multilineTextAlignment(.center)
-                    .font(.caption2)
+                    .font(.system(size: 9))
+                    .padding(1)
             }
     }
 }
