@@ -224,6 +224,7 @@
 		ABCB4E2A2AA8E723006638A7 /* Strings+ShareDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */; };
 		ABCB4E2C2AAA3D62006638A7 /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */; };
 		ABCB4E2E2AAA3DEE006638A7 /* AddMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */; };
+		ABCB4E302AAA8768006638A7 /* RuntimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB4E2F2AAA8768006638A7 /* RuntimeInfoView.swift */; };
 		ABCEA494238D1FCD00D92B95 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA48F238D1FCD00D92B95 /* UserData.swift */; };
 		ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */; };
 		ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */; };
@@ -572,6 +573,8 @@
 		ABCB4E292AA8E723006638A7 /* Strings+ShareDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+ShareDetail.swift"; sourceTree = "<group>"; };
 		ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaButton.swift; sourceTree = "<group>"; };
+		ABCB4E2F2AAA8768006638A7 /* RuntimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeInfoView.swift; sourceTree = "<group>"; };
+		ABCB4E312AAA90A5006638A7 /* Movie DB v14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v14.xcdatamodel"; sourceTree = "<group>"; };
 		ABCEA48F238D1FCD00D92B95 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicInfo.swift; sourceTree = "<group>"; };
 		ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedInfo.swift; sourceTree = "<group>"; };
@@ -1327,6 +1330,7 @@
 				AB5F7E1C238ADF400007A3FE /* TagListView.swift */,
 				AB4CF8E12823DBD4006F2F81 /* TagEditRow.swift */,
 				AB3347592A447C1E00B20BF7 /* WatchDateView.swift */,
+				ABCB4E2F2AAA8768006638A7 /* RuntimeInfoView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1913,6 +1917,7 @@
 				AB5AA49129B3E8ED00DEB37B /* Schema+Tag.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
 				AB6718C122C0312B00F429E4 /* AppDelegate.swift in Sources */,
+				ABCB4E302AAA8768006638A7 /* RuntimeInfoView.swift in Sources */,
 				AB6D9C8F283BC1EE00AF655C /* Strings+ResolveProblems.swift in Sources */,
 				AB01096224D5C31C001BEF39 /* TMDBMovieSearchResult.swift in Sources */,
 				AB5AA49529B3E9A700DEB37B /* Schema+Genre.swift in Sources */,
@@ -2600,6 +2605,7 @@
 		AB1433B925CD9DAC00AA304F /* Movie DB.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				ABCB4E312AAA90A5006638A7 /* Movie DB v14.xcdatamodel */,
 				ABCEF1272A2791CA00295EB6 /* Movie DB v13.xcdatamodel */,
 				ABD3C5EB29C39CF3000B5107 /* Movie DB v12.xcdatamodel */,
 				ABE6B6FC29C0A08400E5B54B /* Movie DB v11.xcdatamodel */,
@@ -2614,7 +2620,7 @@
 				ABD8648D281A86B4001A1F7C /* Movie DB v2.xcdatamodel */,
 				AB1433BA25CD9DAC00AA304F /* Movie DB.xcdatamodel */,
 			);
-			currentVersion = ABCEF1272A2791CA00295EB6 /* Movie DB v13.xcdatamodel */;
+			currentVersion = ABCB4E312AAA90A5006638A7 /* Movie DB v14.xcdatamodel */;
 			path = "Movie DB.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

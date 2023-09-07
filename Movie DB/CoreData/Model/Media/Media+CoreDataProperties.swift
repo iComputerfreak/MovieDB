@@ -112,6 +112,8 @@ public extension Media {
     @NSManaged var userLists: Set<UserMediaList>
     /// The date the user watched the media
     @NSManaged var watchDate: Date?
+    /// The director(s) of the media
+    @NSManaged var directors: [String]
     
     // MARK: - Computed Properties
     

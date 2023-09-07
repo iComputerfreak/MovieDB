@@ -8,6 +8,8 @@
 
 import Foundation
 
+// swiftlint:disable nesting
+
 extension TMDBData {
     enum TMDBDataError: Error {
         case noDecodingContext
@@ -30,7 +32,6 @@ extension TMDBData {
     struct Translation: Codable, Hashable {
         var language: String
         
-        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case language = "english_name"
         }
@@ -40,7 +41,6 @@ extension TMDBData {
     struct Keyword: Codable, Hashable {
         var keyword: String
         
-        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case keyword = "name"
         }
@@ -53,7 +53,6 @@ extension TMDBData {
         let gender: Int?
         let profilePath: String?
         
-        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case id
             case creditID = "credit_id"
@@ -63,14 +62,53 @@ extension TMDBData {
         }
     }
     
+    /// Represents a crew member decoded from the `/credits` api call
+    struct CrewMemberDummy: Decodable {
+        let isAdult: Bool
+        let gender: Gender
+        let knownForDepartment: String
+        let name: String
+        let originalName: String
+        let popularity: Double
+        let imagePath: String?
+        let creditID: String
+        let department: String
+        let job: String
+        
+        enum Gender: Int, Decodable {
+            case unknown = 0
+            case female = 1
+            case male = 2
+            case nonbinary = 3
+        }
+        
+        enum CodingKeys: String, CodingKey {
+            case isAdult = "adult"
+            case gender
+            case knownForDepartment = "known_for_department"
+            case name
+            case originalName = "original_name"
+            case popularity
+            case imagePath = "profile_path"
+            case creditID = "credit_id"
+            case department
+            case job
+        }
+    }
+    
+    enum CreditsCodingKeys: CodingKey {
+        case crew
+    }
+    
     struct ProductionCountry: Decodable {
         let iso3166: String
         let name: String?
         
-        // swiftlint:disable:next nesting
         enum CodingKeys: String, CodingKey {
             case iso3166 = "iso_3166_1"
             case name
         }
     }
 }
+
+// swiftlint:enable nesting
