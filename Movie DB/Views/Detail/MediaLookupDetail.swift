@@ -57,7 +57,7 @@ struct MediaLookupDetail: View {
                     }
                 }
         case .loaded(let media):
-            DetailView()
+            LookupDetailView()
                 .environmentObject(media)
         case .error(let error):
             VStack {
@@ -70,8 +70,15 @@ struct MediaLookupDetail: View {
         }
     }
     
-    struct DetailView: View {
+    struct LookupDetailView: View {
         @EnvironmentObject private var mediaObject: Media
+        
+        var alreadyAdded: Bool {
+            MediaLibrary.shared.mediaExists(mediaObject.tmdbID, mediaType: mediaObject.type)
+        }
+        
+        // TODO: Replace workaround with some other view update.
+        @State private var justAdded = false
         
         var body: some View {
             NavigationStack {
@@ -86,6 +93,38 @@ struct MediaLookupDetail: View {
                 .listStyle(.grouped)
                 .navigationTitle(mediaObject.title)
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    // TODO: Localize
+                    Button {
+                        Task(priority: .userInitiated) {
+                            do {
+                                try await MediaLibrary.shared.addMedia(
+                                    tmdbID: mediaObject.tmdbID,
+                                    mediaType: mediaObject.type
+                                )
+                                // Re-render the view by changing the state variable
+                                await MainActor.run {
+                                    justAdded = true
+                                }
+                            } catch {
+                                Logger.addMedia.error("Error adding a lookup media object: \(error, privacy: .public)")
+                                await MainActor.run {
+                                    AlertHandler.showError(title: Strings.Generic.alertErrorTitle, error: error)
+                                }
+                            }
+                        }
+                    } label: {
+                        if alreadyAdded {
+                            Text("Already Added")
+                        } else if justAdded {
+                            // Never triggers because we always re-evaluate "alreadyAdded" first
+                            Image(systemName: "checkmark.circle")
+                        } else {
+                            Text("Add to Library")
+                        }
+                    }
+                    .disabled(alreadyAdded)
+                }
             }
             .environmentObject(mediaObject)
         }
@@ -94,6 +133,7 @@ struct MediaLookupDetail: View {
 
 struct MediaLookupDetail_Previews: PreviewProvider {
     static var previews: some View {
-        MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+        MediaLookupDetail(tmdbID: 611, mediaType: .movie)
+            .previewEnvironment()
     }
 }

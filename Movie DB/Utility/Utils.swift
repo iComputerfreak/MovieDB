@@ -340,9 +340,11 @@ extension Utils {
     }
 }
 
-enum UserError: Error {
+enum UserError: LocalizedError {
     case noPro
     case mediaAlreadyAdded
+    
+    // TODO: Localize error message
 }
 
 enum HTTPError: Error {
