@@ -13,6 +13,7 @@ struct PosterView: View {
     let imagePath: String?
     
     var url: URL? {
+        // swiftlint:disable:next redundant_nil_coalescing
         imagePath.map { Utils.getTMDBImageURL(path: $0, size: nil) } ?? nil
     }
     

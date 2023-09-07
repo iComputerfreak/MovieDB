@@ -15,6 +15,7 @@ struct CastMemberRow: View {
         HStack(spacing: 16) {
             AsyncImage(url: castMember.imagePath.map { imagePath in
                 Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
+                // swiftlint:disable:next redundant_nil_coalescing
             } ?? nil) { image in
                 image
                     .thumbnail()

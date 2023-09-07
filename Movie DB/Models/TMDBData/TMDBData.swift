@@ -63,8 +63,8 @@ struct TMDBData: Decodable {
         videos: [VideoDummy],
         parentalRating: ParentalRatingDummy? = nil,
         watchProviders: [WatchProviderDummy],
-        movieData: TMDBData.MovieData? = nil,
-        showData: TMDBData.ShowData? = nil
+        movieData: Self.MovieData? = nil,
+        showData: Self.ShowData? = nil
     ) {
         self.id = id
         self.title = title
