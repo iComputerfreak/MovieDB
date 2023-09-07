@@ -19,15 +19,17 @@ struct MediaLookupDetail: View {
     
     let tmdbID: Int
     let mediaType: MediaType
+    let showingDismissButton: Bool
     
     private let localContext: NSManagedObjectContext
     @State private var state: LoadingState = .loading
     @Environment(\.dismiss) private var dismiss
     
-    init(tmdbID: Int, mediaType: MediaType) {
+    init(tmdbID: Int, mediaType: MediaType, showingDismissButton: Bool = false) {
         localContext = PersistenceController.createDisposableViewContext()
         self.tmdbID = tmdbID
         self.mediaType = mediaType
+        self.showingDismissButton = showingDismissButton
     }
     
     var body: some View {
@@ -58,7 +60,7 @@ struct MediaLookupDetail: View {
                     }
                 }
         case .loaded(let media):
-            LookupDetailView(dismissAction: dismiss)
+            LookupDetailView(showingDismissButton: showingDismissButton)
                 .environmentObject(media)
         case .error(let error):
             VStack {
@@ -73,12 +75,12 @@ struct MediaLookupDetail: View {
     
     struct LookupDetailView: View {
         @EnvironmentObject private var mediaObject: Media
-        let dismissAction: DismissAction
+        let showingDismissButton: Bool
         
         var body: some View {
             NavigationStack {
                 List {
-                    LookupTitleView(media: mediaObject)
+                    TitleView(media: mediaObject)
                     BasicInfo()
                     if !mediaObject.watchProviders.isEmpty {
                         WatchProvidersInfo()
@@ -92,8 +94,10 @@ struct MediaLookupDetail: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         AddMediaButton()
                     }
-                    ToolbarItem(placement: .topBarLeading) {
-                        DismissButton()
+                    if showingDismissButton {
+                        ToolbarItem(placement: .topBarLeading) {
+                            DismissButton()
+                        }
                     }
                 }
             }

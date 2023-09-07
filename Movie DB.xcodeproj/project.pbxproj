@@ -271,8 +271,7 @@
 		ABD8647828174801001A1F7C /* LookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647728174801001A1F7C /* LookupView.swift */; };
 		ABD8647A2818141B001A1F7C /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD864792818141B001A1F7C /* SearchResultsView.swift */; };
 		ABD8647C28182B89001A1F7C /* MediaLookupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */; };
-		ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647D28183177001A1F7C /* LookupTitleView.swift */; };
-		ABD864802818319B001A1F7C /* PosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647F2818319B001A1F7C /* PosterView.swift */; };
+		ABD864802818319B001A1F7C /* PosterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8647F2818319B001A1F7C /* PosterDetailView.swift */; };
 		ABD8648228183E03001A1F7C /* ResolveProblemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */; };
 		ABD8648428183E2B001A1F7C /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD8648328183E2B001A1F7C /* Problem.swift */; };
 		ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD86487281933BC001A1F7C /* MediaLibrary.swift */; };
@@ -615,8 +614,7 @@
 		ABD8647728174801001A1F7C /* LookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupView.swift; sourceTree = "<group>"; };
 		ABD864792818141B001A1F7C /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 		ABD8647B28182B89001A1F7C /* MediaLookupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLookupDetail.swift; sourceTree = "<group>"; };
-		ABD8647D28183177001A1F7C /* LookupTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTitleView.swift; sourceTree = "<group>"; };
-		ABD8647F2818319B001A1F7C /* PosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterView.swift; sourceTree = "<group>"; };
+		ABD8647F2818319B001A1F7C /* PosterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterDetailView.swift; sourceTree = "<group>"; };
 		ABD8648128183E03001A1F7C /* ResolveProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveProblemsView.swift; sourceTree = "<group>"; };
 		ABD8648328183E2B001A1F7C /* Problem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
 		ABD86487281933BC001A1F7C /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
@@ -1434,8 +1432,7 @@
 				AB2E53DB22D0F6F400F722A3 /* MediaDetail.swift */,
 				ABAA99E0286304F300234E62 /* SelectUserListView.swift */,
 				ABD7CB5A2375D6BB0049E236 /* TitleView.swift */,
-				ABD8647F2818319B001A1F7C /* PosterView.swift */,
-				ABD8647D28183177001A1F7C /* LookupTitleView.swift */,
+				ABD8647F2818319B001A1F7C /* PosterDetailView.swift */,
 				ABCEA48F238D1FCD00D92B95 /* UserData.swift */,
 				ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */,
 				ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */,
@@ -1825,7 +1822,7 @@
 				AB3EE7E22A224AAE00C120F2 /* AddToFavoritesButton.swift in Sources */,
 				ABCEF1262A2784DA00295EB6 /* UpcomingMediaList.swift in Sources */,
 				ABD8647A2818141B001A1F7C /* SearchResultsView.swift in Sources */,
-				ABD864802818319B001A1F7C /* PosterView.swift in Sources */,
+				ABD864802818319B001A1F7C /* PosterDetailView.swift in Sources */,
 				AB5AA49329B3E96D00DEB37B /* Schema+Season.swift in Sources */,
 				AB5AA48929B3E08B00DEB37B /* Schema+Media.swift in Sources */,
 				AB6B86BF2971CDBD00E36AE6 /* AppStoreScreenshotData.swift in Sources */,
@@ -1968,7 +1965,6 @@
 				AB700E0428C7A974005E31B5 /* NotificationPopup.swift in Sources */,
 				ABAA99EC2863100200234E62 /* UserMediaListView.swift in Sources */,
 				ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */,
-				ABD8647E28183177001A1F7C /* LookupTitleView.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				ABE6B70529C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift in Sources */,

@@ -71,7 +71,7 @@ struct ShareDetailView: View {
         // FIX: For some reason, using a NavigationStack here makes the MediaLookupDetail view load indefinitely.
         // NavigationStack {
         if let presentedTMDBID, let presentedTMDBMediaType {
-            MediaLookupDetail(tmdbID: presentedTMDBID, mediaType: presentedTMDBMediaType)
+            MediaLookupDetail(tmdbID: presentedTMDBID, mediaType: presentedTMDBMediaType, showingDismissButton: true)
         } else {
             // TODO: Localize
             Text(Strings.ShareDetail.errorLoadingMedia)
