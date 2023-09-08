@@ -73,7 +73,6 @@ struct ShareDetailView: View {
         if let presentedTMDBID, let presentedTMDBMediaType {
             MediaLookupDetail(tmdbID: presentedTMDBID, mediaType: presentedTMDBMediaType, showingDismissButton: true)
         } else {
-            // TODO: Localize
             Text(Strings.ShareDetail.errorLoadingMedia)
                 .onAppear {
                     Logger.scenes.error(

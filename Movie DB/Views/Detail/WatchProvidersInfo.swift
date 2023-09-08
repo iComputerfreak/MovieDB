@@ -42,7 +42,7 @@ struct WatchProvidersInfo: View {
                         // No providers available
                         HStack {
                             Spacer()
-                            Text("There is no watch provider information available.")
+                            Text(Strings.Detail.watchProvidersNoneAvailable)
                                 .multilineTextAlignment(.center)
                             Spacer()
                         }
@@ -75,6 +75,7 @@ struct WatchProvidersInfo_Previews: PreviewProvider {
             WatchProvidersInfo()
                 .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
         }
+        .previewEnvironment()
         .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

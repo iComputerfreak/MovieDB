@@ -118,8 +118,10 @@ struct BasicInfo: View {
                 // MARK: Directors
                 if !mediaObject.directors.isEmpty {
                     Text(mediaObject.directors.joined(separator: ", "))
-                    // TODO: Localize
-                        .headline("Directors")
+                        .headline(
+                            // swiftlint:disable:next line_length
+                            mediaObject.directors.count == 1 ? Strings.Detail.directorLabel : Strings.Detail.directorsLabel
+                        )
                 }
                 // MARK: Cast
                 NavigationLink {

@@ -884,3 +884,7 @@
 "addMedia.addMediaButton.alreadyAdded" = "Added";
 
 "detail.trailers.label" = "Trailers";
+"detail.basicInfo.directors" = "Directors";
+"detail.basicInfo.director" = "Director";
+"detail.watchProviders.noneAvailable" = "There is no watch provider information available.";
+"detail.trailers.noneAvailable" = "There are no trailers available.";

@@ -877,3 +877,8 @@
 "addMedia.addMediaButton.alreadyAdded" = "Hinzugefügt";
 
 "detail.trailers.label" = "Trailer";
+
+"detail.basicInfo.directors" = "Regisseure";
+"detail.basicInfo.director" = "Regisseur";
+"detail.watchProviders.noneAvailable" = "Keine Informationen verfügbar";
+"detail.trailers.noneAvailable" = "Keine Trailer verfügbar";

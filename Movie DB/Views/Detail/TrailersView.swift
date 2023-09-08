@@ -29,9 +29,7 @@ struct TrailersView: View {
                         // No providers available
                         HStack {
                             Spacer()
-                            // TODO: Localize
-                            // TODO: Localize WatchProvidersInfo also
-                            Text("There are no trailers available.")
+                            Text(Strings.Detail.trailersNoneAvailable)
                                 .multilineTextAlignment(.center)
                             Spacer()
                         }
