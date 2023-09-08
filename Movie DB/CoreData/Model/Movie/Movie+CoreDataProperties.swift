@@ -49,6 +49,8 @@ public extension Movie {
     @NSManaged var isAdult: Bool
     /// The id of the media on IMDB.com
     @NSManaged var imdbID: String?
+    /// The director(s) of the media
+    @NSManaged var directors: [String]
     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Movie> {

@@ -153,6 +153,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
     
+    /// Loads the view context with screenshot samples
     private func prepareSamples() {
         let bgContext = PersistenceController.viewContext.newBackgroundContext()
         // Add sample data

@@ -115,12 +115,24 @@ struct BasicInfo: View {
                             Logger.detail.debug("Show \(mediaObject.title) has no seasons to display.")
                         }
                 }
-                // MARK: Directors
-                if !mediaObject.directors.isEmpty {
-                    Text(mediaObject.directors.joined(separator: ", "))
+                // MARK: Directors and Created By
+                if mediaObject.type == .show, let show = mediaObject as? Show, !show.createdBy.isEmpty {
+                    // Sort by last name
+                    Text(
+                        show.createdBy
+                            .sorted(using: LastNameComparator(order: .forward))
+                            .formatted()
+                    )
+                    .headline(Strings.Detail.createdByHeadline)
+                }
+                if mediaObject.type == .movie, let movie = mediaObject as? Movie, !movie.directors.isEmpty {
+                    Text(
+                        movie.directors
+                            .sorted(using: LastNameComparator(order: .forward))
+                            .formatted()
+                    )
                         .headline(
-                            // swiftlint:disable:next line_length
-                            mediaObject.directors.count == 1 ? Strings.Detail.directorLabel : Strings.Detail.directorsLabel
+                            movie.directors.count == 1 ? Strings.Detail.directorLabel : Strings.Detail.directorsLabel
                         )
                 }
                 // MARK: Cast

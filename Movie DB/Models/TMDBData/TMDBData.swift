@@ -38,7 +38,6 @@ struct TMDBData: Decodable {
     var videos: [VideoDummy]
     var parentalRating: ParentalRatingDummy?
     var watchProviders: [WatchProviderDummy]
-    var directors: [String]
     
     var movieData: MovieData?
     var showData: ShowData?
@@ -88,7 +87,6 @@ struct TMDBData: Decodable {
         self.videos = videos
         self.parentalRating = parentalRating
         self.watchProviders = watchProviders
-        self.directors = directors
         self.movieData = movieData
         self.showData = showData
     }
@@ -144,13 +142,6 @@ struct TMDBData: Decodable {
         // Get the correct providers for the configured region
         let result = results[JFConfig.shared.region]
         self.watchProviders = result?.providers ?? []
-        
-        // Load the director(s)
-        let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .credits)
-        let crew = try creditsContainer.decode([CrewMemberDummy].self, forKey: .crew)
-        // We only store the director(s) for now
-        let directors = crew.filter { $0.job == "Director" }
-        self.directors = directors.map(\.name)
         
         // MARK: Movie/Show specific
         
