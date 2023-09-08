@@ -44,7 +44,6 @@
     </entity>
     <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="directors" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="homepageURL" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imagePath" optional="YES" attributeType="String"/>
@@ -80,6 +79,7 @@
     </entity>
     <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
         <attribute name="budget" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="directors" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="imdbID" optional="YES" attributeType="String"/>
         <attribute name="isAdult" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

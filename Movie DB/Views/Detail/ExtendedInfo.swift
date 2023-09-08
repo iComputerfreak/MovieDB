@@ -85,16 +85,6 @@ struct ExtendedInfo: View {
                         )
                         .headline(Strings.Detail.networksHeadline)
                     }
-                    // MARK: Created By
-                    if !show.createdBy.isEmpty {
-                        // Sort by last name
-                        Text(
-                            show.createdBy
-                                .sorted(using: LastNameComparator(order: .forward))
-                                .formatted()
-                        )
-                        .headline(Strings.Detail.createdByHeadline)
-                    }
                 }
                 let format: FloatingPointFormatStyle<Float> = .number.precision(.fractionLength(2))
                 // MARK: Popularity
