@@ -28,9 +28,7 @@ struct MediaDetail: View {
                 UserData()
                     .environment(\.isEditing, isEditing)
                 BasicInfo()
-                if !mediaObject.watchProviders.isEmpty {
-                    WatchProvidersInfo()
-                }
+                WatchProvidersInfo()
                 TrailersView()
                 // TODO: Embed trailers
                 ExtendedInfo()

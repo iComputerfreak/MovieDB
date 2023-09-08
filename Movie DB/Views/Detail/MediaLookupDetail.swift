@@ -82,9 +82,8 @@ struct MediaLookupDetail: View {
                 List {
                     TitleView(media: mediaObject)
                     BasicInfo()
-                    if !mediaObject.watchProviders.isEmpty {
-                        WatchProvidersInfo()
-                    }
+                    WatchProvidersInfo()
+                    TrailersView()
                     ExtendedInfo()
                 }
                 .listStyle(.grouped)
