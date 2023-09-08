@@ -24,6 +24,14 @@ extension Strings {
             localized: "addMedia.searchPrompt",
             comment: "The prompt text in the search field when adding media."
         )
+        static let addMediaButtonAlreadyAdded = String(
+            localized: "addMedia.addMediaButton.alreadyAdded",
+            comment: "The button label that is shown when the media object already exists in the library"
+        )
+        static let addMediaButtonAddToLibrary = String(
+            localized: "addMedia.addMediaButton.addToLibrary",
+            comment: "The button label that is shown when the media object can be added to the library"
+        )
         
         enum Alert {
             static let alreadyAddedTitle = String(

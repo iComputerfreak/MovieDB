@@ -93,6 +93,28 @@ class PersistenceController {
             }
         }
         
+        // Only initialize the iCloud schema when building the app with the
+        // Debug build configuration.
+        #if DEBUG
+            let lastInitKey = "lastICloudSchemaInitialization"
+            let lastInitSeconds = UserDefaults.standard.double(forKey: lastInitKey)
+            let lastInit = Date(timeIntervalSince1970: lastInitSeconds)
+            // Only initialize, if the last init was longer than an hour ago
+            if (abs(lastInitSeconds) < 0.001) || lastInit.distance(to: .now) < 12 * 3600 {
+                do {
+                    Logger.coreData.info("Initializing CloudKit schema...")
+                    // Use the container to initialize the development schema.
+                    let cloudKitContainer = container as? NSPersistentCloudKitContainer
+                    try cloudKitContainer?.initializeCloudKitSchema()
+                    UserDefaults.standard.set(Date.now.timeIntervalSince1970, forKey: lastInitKey)
+                } catch {
+                    // Handle any errors.
+                    // No fatalError() because it will make the app crash if there is no iCloud Account set up
+                    Logger.coreData.fault("Error initializing iCloud schema: \(error, privacy: .public)")
+                }
+            }
+        #endif
+        
         // MARK: Context configuration
         Self.configureViewContext(
             container.viewContext,
@@ -110,26 +132,6 @@ class PersistenceController {
                 using: historyManager.fetchChanges(_:)
             )
         }
-        
-        // Only initialize the iCloud schema when building the app with the
-        // Debug build configuration.
-        #if DEBUG
-            let lastInitKey = "lastICloudSchemaInitialization"
-            let lastInitSeconds = UserDefaults.standard.double(forKey: lastInitKey)
-            let lastInit = Date(timeIntervalSince1970: lastInitSeconds)
-            // Only initialize, if the last init was longer than an hour ago
-            if abs(lastInit.distance(to: .now)) < 12 * 3600 {
-                do {
-                    // Use the container to initialize the development schema.
-                    let cloudKitContainer = container as? NSPersistentCloudKitContainer
-                    try cloudKitContainer?.initializeCloudKitSchema(options: [])
-                } catch {
-                    // Handle any errors.
-                    // No fatalError() because it will make the app crash if there is no iCloud Account set up
-                    Logger.coreData.fault("Error initializing iCloud schema: \(error, privacy: .public)")
-                }
-            }
-        #endif
     }
     
     static func prepareForUITesting() {

@@ -38,6 +38,7 @@ struct TMDBData: Decodable {
     var videos: [VideoDummy]
     var parentalRating: ParentalRatingDummy?
     var watchProviders: [WatchProviderDummy]
+    var directors: [String]
     
     var movieData: MovieData?
     var showData: ShowData?
@@ -52,19 +53,20 @@ struct TMDBData: Decodable {
         overview: String? = nil,
         status: MediaStatus,
         originalLanguage: String,
-        productionCompanies: [ProductionCompanyDummy],
+        productionCompanies: [ProductionCompanyDummy] = [],
         homepageURL: String? = nil,
-        productionCountries: [String],
-        popularity: Float,
-        voteAverage: Float,
-        voteCount: Int,
-        keywords: [String],
-        translations: [String],
-        videos: [VideoDummy],
+        productionCountries: [String] = [],
+        popularity: Float = 0,
+        voteAverage: Float = 0,
+        voteCount: Int = 0,
+        keywords: [String] = [],
+        translations: [String] = [],
+        videos: [VideoDummy] = [],
         parentalRating: ParentalRatingDummy? = nil,
-        watchProviders: [WatchProviderDummy],
-        movieData: TMDBData.MovieData? = nil,
-        showData: TMDBData.ShowData? = nil
+        watchProviders: [WatchProviderDummy] = [],
+        directors: [String] = [],
+        movieData: Self.MovieData? = nil,
+        showData: Self.ShowData? = nil
     ) {
         self.id = id
         self.title = title
@@ -86,6 +88,7 @@ struct TMDBData: Decodable {
         self.videos = videos
         self.parentalRating = parentalRating
         self.watchProviders = watchProviders
+        self.directors = directors
         self.movieData = movieData
         self.showData = showData
     }
@@ -141,6 +144,13 @@ struct TMDBData: Decodable {
         // Get the correct providers for the configured region
         let result = results[JFConfig.shared.region]
         self.watchProviders = result?.providers ?? []
+        
+        // Load the director(s)
+        let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .credits)
+        let crew = try creditsContainer.decode([CrewMemberDummy].self, forKey: .crew)
+        // We only store the director(s) for now
+        let directors = crew.filter { $0.job == "Director" }
+        self.directors = directors.map(\.name)
         
         // MARK: Movie/Show specific
         
@@ -238,5 +248,6 @@ struct TMDBData: Decodable {
         case releaseDates = "release_dates"
         case contentCertifications = "content_ratings"
         case watchProviders = "watch/providers"
+        case credits
     }
 }

@@ -10,22 +10,6 @@ import os.log
 import SwiftUI
 
 struct BasicInfo: View {
-    // The formatter used to display the runtime of the movie in minutes (e.g. "130 minutes")
-    private static let minutesFormatter: DateComponentsFormatter = {
-        let f = DateComponentsFormatter()
-        f.allowedUnits = [.minute]
-        f.unitsStyle = .full
-        return f
-    }()
-    
-    // The formatter used to display the runtime of the movie in hours and minutes (e.g. "2h 10m")
-    private static let hoursFormatter: DateComponentsFormatter = {
-        let f = DateComponentsFormatter()
-        f.allowedUnits = [.hour, .minute]
-        f.unitsStyle = .abbreviated
-        return f
-    }()
-    
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
@@ -63,19 +47,7 @@ struct BasicInfo: View {
                             .headline(Strings.Detail.releaseDateHeadline)
                     }
                     // MARK: Runtime
-                    if let runtime = movie.runtime {
-                        if runtime > 60 {
-                            let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
-                            let minutesString = Self.minutesFormatter.string(from: components)!
-                            let hoursString = Self.hoursFormatter.string(from: components)!
-                            Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
-                                .headline(Strings.Detail.runtimeHeadline)
-                        } else {
-                            let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
-                            Text(Self.minutesFormatter.string(from: components)!)
-                                .headline(Strings.Detail.runtimeHeadline)
-                        }
-                    }
+                    RuntimeInfoView()
                 }
                 // Show exclusive data
                 if mediaObject.type == .show, let show = mediaObject as? Show {
@@ -142,6 +114,14 @@ struct BasicInfo: View {
                         .onAppear {
                             Logger.detail.debug("Show \(mediaObject.title) has no seasons to display.")
                         }
+                }
+                // MARK: Directors
+                if !mediaObject.directors.isEmpty {
+                    Text(mediaObject.directors.joined(separator: ", "))
+                        .headline(
+                            // swiftlint:disable:next line_length
+                            mediaObject.directors.count == 1 ? Strings.Detail.directorLabel : Strings.Detail.directorsLabel
+                        )
                 }
                 // MARK: Cast
                 NavigationLink {

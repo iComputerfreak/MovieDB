@@ -34,6 +34,7 @@ extension Logger {
     static let lifeCycle = Logger("lifeCycle")
     static let imageService = Logger("imageService")
     static let preview = Logger("preview")
+    static let scenes = Logger("scenes")
     
     /*
      * Log Levels:

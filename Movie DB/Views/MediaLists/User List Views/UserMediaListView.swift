@@ -22,14 +22,14 @@ struct UserMediaListView: View {
             // NavigationLink to the detail
             NavigationLink(value: media) {
                 LibraryRow()
-                    .environmentObject(media)
-                    // Media delete
                     .swipeActions {
                         Button(Strings.Lists.removeMediaLabel) {
                             list.medias.remove(media)
                             PersistenceController.saveContext()
                         }
                     }
+                    .mediaContextMenu()
+                    .environmentObject(media)
             }
         }
         .toolbar {

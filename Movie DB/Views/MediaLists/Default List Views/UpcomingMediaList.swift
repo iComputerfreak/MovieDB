@@ -18,6 +18,8 @@ struct UpcomingMediaList: View {
             rowContent: { media in
                 NavigationLink(value: media) {
                     UpcomingLibraryRow()
+                        .mediaSwipeActions()
+                        .mediaContextMenu()
                         .environmentObject(media)
                 }
             }

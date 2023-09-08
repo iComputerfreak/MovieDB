@@ -6,6 +6,7 @@ disabled_rules:
   - cyclomatic_complexity
   - trailing_comma
   - redundant_optional_initialization
+  - unneeded_synthesized_initializer
 
 opt_in_rules:
   - anonymous_argument_in_multiline_closure

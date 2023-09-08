@@ -42,11 +42,11 @@ public enum StarRating: Int, Strideable, Codable, Comparable {
         self = rating
     }
     
-    public func advanced(by n: Int) -> StarRating {
+    public func advanced(by n: Int) -> Self {
         Self(rawValue: rawValue + n)!
     }
     
-    public func distance(to other: StarRating) -> Int {
+    public func distance(to other: Self) -> Int {
         other.rawValue - rawValue
     }
 }

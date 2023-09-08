@@ -865,3 +865,20 @@
 "sortingOrder.watchDate" = "Angeschaut am";
 "detail.userData.headline.watchDate" = "Angeschaut am";
 "detail.userData.watchDate.dateKnownToggle.label" = "Datum bekannt";
+
+"resolveProblems.toolbar.resolveLater" = "Später beheben";
+
+"generic.multipleObjectsSelected" = "Mehrere Objekte ausgewählt";
+
+"shareDetail.errorLoadingMedia" = "Fehler beim Anzeigen des Mediums.";
+"generic.retryLoading" = "Neu laden";
+"lookup.errorLoadingMedia %@" = "Fehler beim Laden: %@";
+"addMedia.addMediaButton.addToLibrary" = "Hinzufügen";
+"addMedia.addMediaButton.alreadyAdded" = "Hinzugefügt";
+
+"detail.trailers.label" = "Trailer";
+
+"detail.basicInfo.directors" = "Regisseure";
+"detail.basicInfo.director" = "Regisseur";
+"detail.watchProviders.noneAvailable" = "Keine Informationen verfügbar";
+"detail.trailers.noneAvailable" = "Keine Trailer verfügbar";

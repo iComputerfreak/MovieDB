@@ -19,17 +19,16 @@ struct WatchProvidersInfo: View {
                 let providerPriority = provider.priority
                 // Multiply the type priority by 1000 to give it more weight
                 return typePriority * 1000 + providerPriority
-            }, by: <)
-            .reversed()
+            }, by: >)
     }
     
     var body: some View {
         if self.mediaObject.isFault {
             EmptyView()
         } else {
-            if !providers.isEmpty {
-                Section(header: header, footer: footer) {
-                    VStack {
+            Section(header: header, footer: footer) {
+                VStack {
+                    if !providers.isEmpty {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(providers, id: \.id) { provider in
@@ -39,6 +38,14 @@ struct WatchProvidersInfo: View {
                         }
                         .padding(.top, 8)
                         .padding(.bottom, 3)
+                    } else {
+                        // No providers available
+                        HStack {
+                            Spacer()
+                            Text(Strings.Detail.watchProvidersNoneAvailable)
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -63,7 +70,12 @@ struct WatchProvidersInfo_Previews: PreviewProvider {
         List {
             WatchProvidersInfo()
                 .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                .environment(\.managedObjectContext, PersistenceController.previewContext)
+            WatchProvidersInfo()
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
+            WatchProvidersInfo()
+                .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
         }
+        .previewEnvironment()
+        .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

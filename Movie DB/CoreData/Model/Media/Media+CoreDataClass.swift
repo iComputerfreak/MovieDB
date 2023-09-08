@@ -79,6 +79,7 @@ public class Media: NSManagedObject {
                 self.parentalRating = managedObjectContext.importDummy(rating)
             }
             self.watchProviders = Set(managedObjectContext.importDummies(tmdbData.watchProviders))
+            self.directors = tmdbData.directors
         }
     }
     

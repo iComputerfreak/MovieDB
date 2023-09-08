@@ -18,6 +18,8 @@ struct NewSeasonsMediaList: View {
             rowContent: { media in
                 NavigationLink(value: media) {
                     LibraryRow()
+                        .mediaSwipeActions()
+                        .mediaContextMenu()
                         .environmentObject(media)
                 }
             }

@@ -871,3 +871,20 @@
 
 "detail.userData.headline.watchDate" = "Watch Date";
 "detail.userData.watchDate.dateKnownToggle.label" = "Date Known";
+
+"resolveProblems.toolbar.resolveLater" = "Resolve later";
+
+"generic.multipleObjectsSelected" = "Multiple objects selected";
+
+"shareDetail.errorLoadingMedia" = "Error displaying media.";
+"generic.retryLoading" = "Retry";
+"lookup.errorLoadingMedia %@" = "Error loading media: %@";
+
+"addMedia.addMediaButton.addToLibrary" = "Add";
+"addMedia.addMediaButton.alreadyAdded" = "Added";
+
+"detail.trailers.label" = "Trailers";
+"detail.basicInfo.directors" = "Directors";
+"detail.basicInfo.director" = "Director";
+"detail.watchProviders.noneAvailable" = "There is no watch provider information available.";
+"detail.trailers.noneAvailable" = "There are no trailers available.";

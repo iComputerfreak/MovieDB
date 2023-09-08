@@ -304,7 +304,8 @@ actor TMDBAPI {
         let parameters = [
             // release_dates only for movies
             // content_ratings only for tv
-            "append_to_response": "keywords,translations,videos,watch/providers" +
+            // credits are only used for decoding the director(s)
+            "append_to_response": "keywords,translations,videos,watch/providers,credits" +
                 (type == .movie ? ",release_dates" : ",content_ratings"),
         ]
         return try await decodeAPIURL(

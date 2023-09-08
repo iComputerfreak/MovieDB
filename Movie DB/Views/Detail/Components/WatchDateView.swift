@@ -13,7 +13,6 @@ struct WatchDateView: View {
     @Environment(\.isEditing) private var isEditing
     
     var body: some View {
-        // TODO: Localize
         if isEditing {
             EditingView()
                 .headline(Strings.Detail.watchDateHeadline)
@@ -46,23 +45,24 @@ struct WatchDateView: View {
                 }
                 .padding(.trailing)
                 
-                DatePicker(
-                    selection: Binding(
-                        get: {
-                            mediaObject.watchDate ?? Date()
-                        }, set: { newValue in
-                            mediaObject.watchDate = newValue
-                        }
-                    ),
-                    in: Date.distantPast...Date(),
-                    displayedComponents: .date
-                ) {
-                    Text(Strings.Detail.watchDateHeadline)
+                if mediaObject.watchDate != nil {
+                    DatePicker(
+                        selection: Binding(
+                            get: {
+                                mediaObject.watchDate ?? Date()
+                            }, set: { newValue in
+                                mediaObject.watchDate = newValue
+                            }
+                        ),
+                        in: Date.distantPast...Date(),
+                        displayedComponents: .date
+                    ) {
+                        Text(Strings.Detail.watchDateHeadline)
+                    }
+                    .datePickerStyle(.compact)
+                    .animation(.easeIn(duration: 1), value: mediaObject.watchDate == nil)
+                    .labelsHidden()
                 }
-                .datePickerStyle(.graphical)
-                .animation(.easeIn(duration: 1), value: mediaObject.watchDate == nil)
-                .labelsHidden()
-                .disabled(mediaObject.watchDate == nil)
             }
         }
     }

@@ -244,6 +244,16 @@ extension Strings {
                 comment: "A string that describes the number of seasons of a tv show in the media detail"
             )
         }
+        
+        static let directorsLabel = String(
+            localized: "detail.basicInfo.directors",
+            comment: "The headline for the 'directors' property in the detail view (if there are multiple directors)"
+        )
+        
+        static let directorLabel = String(
+            localized: "detail.basicInfo.director",
+            comment: "The headline for the 'directors' property in the detail view (if there is a single director)"
+        )
 
         static let castLabel = String(
             localized: "detail.basicInfo.cast",
@@ -279,6 +289,20 @@ extension Strings {
         static let watchProvidersAttribution = String(
             localized: "detail.watchProviders.attribution",
             comment: "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com"
+        )
+        static let watchProvidersNoneAvailable = String(
+            localized: "detail.watchProviders.noneAvailable",
+            comment: "The text displayed when there are no watch providers available to display"
+        )
+        
+        // MARK: Trailers
+        static let trailersSectionHeader = String(
+            localized: "detail.trailers.label",
+            comment: "The label/heading of the trailers panel in the media detail"
+        )
+        static let trailersNoneAvailable = String(
+            localized: "detail.trailers.noneAvailable",
+            comment: "The text displayed when there are no trailers available to display"
         )
         
         // MARK: Extended Information

@@ -35,7 +35,7 @@ struct PosterDetailView: View {
     }
 }
 
-struct PosterView_Previews: PreviewProvider {
+struct PosterDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PosterDetailView(imagePath: nil)
     }

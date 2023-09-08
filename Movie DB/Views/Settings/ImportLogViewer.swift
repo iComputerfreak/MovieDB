@@ -29,7 +29,7 @@ struct ImportLogViewer: View {
             .navigationTitle(Strings.Settings.importLogNavBarTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(Strings.Settings.importLogNavBarButtonClose) {
+                    Button(Strings.Generic.dismissViewDone) {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }

@@ -12,7 +12,6 @@ struct ContentView: View {
     @State private var problems = MediaLibrary.shared.problems()
     
     var body: some View {
-        // TODO: Use!
         NotificationView { notificationProxy in
             TabView {
                 LibraryHome()

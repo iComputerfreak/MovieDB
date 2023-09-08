@@ -18,13 +18,14 @@ struct FavoritesMediaList: View {
         ) { media in
             NavigationLink(value: media) {
                 LibraryRow()
-                    .environmentObject(media)
                     .swipeActions {
                         Button(Strings.Detail.menuButtonUnfavorite) {
                             assert(media.isFavorite)
                             media.isFavorite = false
                         }
                     }
+                    .mediaContextMenu()
+                    .environmentObject(media)
             }
         }
     }

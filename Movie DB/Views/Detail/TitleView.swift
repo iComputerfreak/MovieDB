@@ -16,7 +16,7 @@ struct TitleView: View {
             self.titleView
         } else {
             NavigationLink {
-                PosterView(imagePath: media.imagePath)
+                PosterDetailView(imagePath: media.imagePath)
             } label: {
                 self.titleView
             }

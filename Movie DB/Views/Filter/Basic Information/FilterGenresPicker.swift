@@ -17,9 +17,9 @@ struct FilterGenresPicker: View {
             Array(filterSetting.genres).sorted(on: \.name, by: <)
         } set: { newValue in
             // We need to move the Genres into the filterSetting context first
-            // TODO: Implement. Maybe use this:
-            //                newValue.map(\.objectID).map { self.managedObjectContext.object(with: $0) }
-            filterSetting.genres = Set(newValue)
+            filterSetting.genres = Set(newValue.compactMap { genre in
+                self.managedObjectContext.object(with: genre.objectID) as? Genre
+            })
         }
     }
     

@@ -28,9 +28,9 @@ struct MediaDetail: View {
                 UserData()
                     .environment(\.isEditing, isEditing)
                 BasicInfo()
-                if !mediaObject.watchProviders.isEmpty {
-                    WatchProvidersInfo()
-                }
+                WatchProvidersInfo()
+                TrailersView()
+                // TODO: Embed trailers
                 ExtendedInfo()
                 MetadataInfo()
             }
@@ -61,6 +61,9 @@ struct MediaDetail: View {
                                 // Dismiss after deleting
                                 dismiss()
                             }
+                            ShareLink(item: URL(
+                                string: "https://movieorganizer.de/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)"
+                            )!)
                         }
                     } label: {
                         MediaMenuLabel()

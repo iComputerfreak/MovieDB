@@ -16,5 +16,9 @@ extension Strings {
             localized: "resolveProblems.detail.placeholder",
             comment: "The placeholder text displayed in the detail column of the resolve problems view when no media is selected"
         )
+        static let resolveLater = String(
+            localized: "resolveProblems.toolbar.resolveLater",
+            comment: "The toolbar button that dismisses the view and to resolve the problems later"
+        )
     }
 }

@@ -73,33 +73,46 @@ struct MediaLibrary {
         return []
     }
     
+    func media(for tmdbID: Int, mediaType: MediaType, in context: NSManagedObjectContext) throws -> Media? {
+        let fetchRequest = Media.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K = %d AND %K = %@",
+            Schema.Media.tmdbID,
+            tmdbID,
+            Schema.Media.type,
+            mediaType.rawValue
+        )
+        fetchRequest.fetchLimit = 1
+        return try context.fetch(fetchRequest).first
+    }
+    
     /// Checks whether a media object matching the given tmdbID already exists in the given context
     /// - Parameters:
     ///   - tmdbID: The tmdbID of the media
     ///   - context: The context to check in
     /// - Returns: Whether the media already exists
-    func mediaExists(_ tmdbID: Int, in context: NSManagedObjectContext) -> Bool {
-        let existingFetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        existingFetchRequest.predicate = NSPredicate(format: "%K = %d", Schema.Media.tmdbID.rawValue, tmdbID)
-        existingFetchRequest.fetchLimit = 1
-        let existingObjects: Int
-        do {
-            existingObjects = try context.count(for: existingFetchRequest)
-        } catch {
-            assertionFailure("Error fetching media count for tmdbID '\(tmdbID)': \(error)")
-            existingObjects = 0
-        }
-        return existingObjects > 0
+    func mediaExists(_ tmdbID: Int, mediaType: MediaType, in context: NSManagedObjectContext? = nil) -> Bool {
+        return (try? media(for: tmdbID, mediaType: mediaType, in: context ?? self.context)) != nil
     }
     
     /// Creates a new media object with the given data
     /// - Parameters:
     ///   - result: The search result including the tmdbID and mediaType
     ///   - isLoading: A binding that is updated while the function is loading the new object
-    ///   - isShowingProPopup: A binding that is updated when the adding failed due to the user not having bought pro
     func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>) async throws {
+        try await addMedia(tmdbID: result.id, mediaType: result.mediaType, isLoading: isLoading)
+    }
+    
+    // TODO: Replace Binding with other means of notifying
+    /// Creates a new media object with the given data
+    /// - Parameters:
+    ///   - tmdbID: The ID on themoviedb.org
+    ///   - mediaType: The type of media
+    ///   - isLoading: A binding that is updated while the function is loading the new object
+    func addMedia(tmdbID: Int, mediaType: MediaType, isLoading: Binding<Bool>? = nil) async throws {
+        Logger.addMedia.debug("Trying to add media \(tmdbID) with type \(mediaType.rawValue)...")
         // There should be no media objects with this tmdbID in the library
-        guard !mediaExists(result.id, in: context) else {
+        guard !mediaExists(tmdbID, mediaType: mediaType, in: context) else {
             throw UserError.mediaAlreadyAdded
         }
         // Pro limitations
@@ -109,7 +122,7 @@ struct MediaLibrary {
         
         // Otherwise we can begin to load
         await MainActor.run {
-            isLoading.wrappedValue = true
+            isLoading?.wrappedValue = true
         }
         
         // Run async
@@ -117,15 +130,15 @@ struct MediaLibrary {
         // Will be called on a background thread automatically, because TMDBAPI is an actor
         // We don't need to store the result. Creating it is enough for Core Data
         _ = try await TMDBAPI.shared.media(
-            for: result.id,
-            type: result.mediaType,
+            for: tmdbID,
+            type: mediaType,
             context: context
         )
         await PersistenceController.saveContext(context)
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
         await MainActor.run {
-            isLoading.wrappedValue = false
+            isLoading?.wrappedValue = false
         }
     }
     

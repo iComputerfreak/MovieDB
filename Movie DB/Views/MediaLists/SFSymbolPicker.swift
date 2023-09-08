@@ -12,18 +12,29 @@ struct SFSymbolPicker: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var symbol: String
     
+    let gridItemSize: CGFloat = 40
+    
     var body: some View {
         ScrollView {
             LazyVGrid(
-                columns: [.init(.adaptive(minimum: 30, maximum: 30), spacing: 5, alignment: .center)],
-                alignment: .leading,
+                columns: [
+                    .init(
+                        .adaptive(
+                            minimum: gridItemSize,
+                            maximum: gridItemSize
+                        ),
+                        spacing: 8,
+                        alignment: .center
+                    ),
+                ],
+                alignment: .center,
                 spacing: 5,
                 pinnedViews: .sectionHeaders
             ) {
                 // TODO: Hand pick some symbols. Don't use all
-                ForEach(SFSymbolNames.categories, id: \.name) { category in
-                    Section {
-                        ForEach(category.symbols, id: \.self) { symbol in
+//                ForEach(SFSymbolNames.categories, id: \.name) { category in
+//                    Section {
+                ForEach(SFSymbolNames.curatedSymbols, id: \.self) { symbol in
                             Button {
                                 self.symbol = symbol
                                 self.dismiss()
@@ -32,21 +43,22 @@ struct SFSymbolPicker: View {
                                     .symbolRenderingMode(.multicolor)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 30, height: 30)
+                                    .frame(width: gridItemSize, height: gridItemSize)
                                     .foregroundColor(.accentColor)
+                                    .padding(2)
                             }
                             .buttonStyle(.plain)
                         }
-                    } header: {
-                        VStack(alignment: .leading) {
-                            Spacer()
-                            Label(category.name, systemImage: category.iconName)
-                                .font(.headline.bold())
-                            Divider()
-                        }
-                        .background(Color.systemBackground)
-                    }
-                }
+//                    } header: {
+//                        VStack(alignment: .leading) {
+//                            Spacer()
+//                            Label(category.name, systemImage: category.iconName)
+//                                .font(.headline.bold())
+//                            Divider()
+//                        }
+//                        .background(Color.systemBackground)
+//                    }
+//                }
             }
         }
         .padding(.horizontal)

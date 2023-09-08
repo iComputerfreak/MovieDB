@@ -16,15 +16,15 @@ struct WatchlistMediaList: View {
             list: PredicateMediaList.watchlist,
             selectedMedia: $selectedMedia
         ) { media in
-            // TODO: Rework navigation
             NavigationLink(value: media) {
                 LibraryRow()
-                    .environmentObject(media)
                     .swipeActions {
                         Button(Strings.Lists.removeMediaLabel) {
                             media.isOnWatchlist = false
                         }
                     }
+                    .mediaContextMenu()
+                    .environmentObject(media)
             }
         }
     }

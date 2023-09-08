@@ -112,15 +112,10 @@ public extension Media {
     @NSManaged var userLists: Set<UserMediaList>
     /// The date the user watched the media
     @NSManaged var watchDate: Date?
+    /// The director(s) of the media
+    @NSManaged var directors: [String]
     
     // MARK: - Computed Properties
-    
-    /// Whether the result is a movie and is for adults only
-    internal var isAdultMovie: Bool? {
-        // TODO: We shouldn't know about our subclasses
-        // TODO: We also probably don't need this property
-        (self as? Movie)?.isAdult
-    }
     
     /// The year of the release or first airing of the media
     internal var year: Int? {

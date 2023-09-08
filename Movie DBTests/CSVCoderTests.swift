@@ -136,7 +136,6 @@ class CSVCoderTests: XCTestCase {
             XCTAssertEqual(media.tags.map(\.name).sorted(), sample.tags.map(\.name).sorted())
             XCTAssertEqual(media.notes, sample.notes.replacing(/\n+/, with: { _ in " " }))
             XCTAssertEqual(media.originalTitle, sample.originalTitle)
-            XCTAssertEqual(media.isAdultMovie, sample.isAdultMovie)
             XCTAssertEqual(media.missingInformation(), sample.missingInformation())
             self.datesEqual(media.creationDate, sample.creationDate)
             self.datesEqual(media.modificationDate, sample.modificationDate)

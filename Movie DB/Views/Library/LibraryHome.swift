@@ -61,38 +61,13 @@ struct LibraryHome: View {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
                             LibraryRow()
+                                .mediaSwipeActions()
+                                .mediaContextMenu()
                                 .environmentObject(mediaObject)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(Strings.Library.swipeActionDelete, role: .destructive) {
-                                        Logger.coreData.info(
-                                            // swiftlint:disable:next line_length
-                                            "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
-                                        )
-                                        // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
-                                        self.managedObjectContext.delete(mediaObject)
-                                        PersistenceController.saveContext(self.managedObjectContext)
-                                    }
-                                }
-                                .contextMenu {
-                                    Group {
-                                        Section {
-                                            AddToFavoritesButton()
-                                            AddToWatchlistButton()
-                                            AddToListMenu()
-                                        }
-                                        Section {
-                                            ReloadMediaButton()
-                                            DeleteMediaButton()
-                                        }
-                                    }
-                                    .environmentObject(mediaObject)
-                                }
                         }
                     }
                 }
             }
-            // TODO: Maybe remove a bit of inset of the thumbnails themselves now that the whole list is inset
-            // TODO: Or give the thumbnails rounded corners to fit into the top left corner? (should not be necessary)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
@@ -139,8 +114,7 @@ struct LibraryHome: View {
                     MediaDetail()
                         .environmentObject(media)
                 } else {
-                    // TODO: Localize
-                    Text("Multiple objects selected")
+                    Text(Strings.Generic.multipleObjectsSelected)
                 }
             }
         }
