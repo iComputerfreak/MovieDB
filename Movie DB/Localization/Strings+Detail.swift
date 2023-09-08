@@ -281,6 +281,12 @@ extension Strings {
             comment: "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com"
         )
         
+        // MARK: Trailers
+        static let trailersSectionHeader = String(
+            localized: "detail.trailers.label",
+            comment: "The label/heading of the trailers panel in the media detail"
+        )
+        
         // MARK: Extended Information
         static let extendedInfoSectionHeader = String(
             localized: "detail.extendedInfo.header",

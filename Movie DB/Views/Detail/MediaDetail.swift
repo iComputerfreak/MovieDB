@@ -31,6 +31,8 @@ struct MediaDetail: View {
                 if !mediaObject.watchProviders.isEmpty {
                     WatchProvidersInfo()
                 }
+                TrailersView()
+                // TODO: Embed trailers
                 ExtendedInfo()
                 MetadataInfo()
             }

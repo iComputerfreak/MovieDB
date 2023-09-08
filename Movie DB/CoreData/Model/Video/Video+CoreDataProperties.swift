@@ -32,6 +32,16 @@ public extension Video {
     /// The media this video belongs to
     @NSManaged var media: Media?
     
+    /// Returns an URL that describes the video location
+    /// Currently only supports YouTube videos
+    var videoURL: URL? {
+        if site.lowercased() == "youtube" {
+            return URL(string: "https://youtube.com/watch?v=\(key)")
+        } else {
+            return nil
+        }
+    }
+    
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Video> {
         NSFetchRequest<Video>(entityName: Schema.Video._entityName)

@@ -882,3 +882,5 @@
 
 "addMedia.addMediaButton.addToLibrary" = "Add";
 "addMedia.addMediaButton.alreadyAdded" = "Added";
+
+"detail.trailers.label" = "Trailers";

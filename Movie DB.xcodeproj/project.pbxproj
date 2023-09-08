@@ -314,6 +314,8 @@
 		ABEF108429BF7A3B0047E4B9 /* ReloadLibraryMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF108329BF7A3B0047E4B9 /* ReloadLibraryMigration.swift */; };
 		ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */; };
 		ABF1A171297C235E00A7E6ED /* ParentalRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */; };
+		ABF37BF02AAB616700675356 /* TrailersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF37BEF2AAB616700675356 /* TrailersView.swift */; };
+		ABF37BF22AAB644C00675356 /* TrailerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF37BF12AAB644C00675356 /* TrailerView.swift */; };
 		ABFADEFB2A004AF0004F94B1 /* BackgroundHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */; };
 /* End PBXBuildFile section */
 
@@ -671,6 +673,8 @@
 		ABEF108529BF7DD30047E4B9 /* Movie DB v10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v10.xcdatamodel"; sourceTree = "<group>"; };
 		ABEF144229B2415400114948 /* DeleteOldPosterFilesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOldPosterFilesMigration.swift; sourceTree = "<group>"; };
 		ABF1A170297C235E00A7E6ED /* ParentalRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentalRatingView.swift; sourceTree = "<group>"; };
+		ABF37BEF2AAB616700675356 /* TrailersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersView.swift; sourceTree = "<group>"; };
+		ABF37BF12AAB644C00675356 /* TrailerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerView.swift; sourceTree = "<group>"; };
 		ABFADEFA2A004AF0004F94B1 /* BackgroundHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1440,6 +1444,8 @@
 				ABCEA48F238D1FCD00D92B95 /* UserData.swift */,
 				ABCEA490238D1FCD00D92B95 /* BasicInfo.swift */,
 				ABD8648B281966A2001A1F7C /* WatchProvidersInfo.swift */,
+				ABF37BEF2AAB616700675356 /* TrailersView.swift */,
+				ABF37BF12AAB644C00675356 /* TrailerView.swift */,
 				ABD3C5F729C4B96F000B5107 /* ProviderView.swift */,
 				ABCEA491238D1FCD00D92B95 /* ExtendedInfo.swift */,
 				ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */,
@@ -1913,6 +1919,7 @@
 				ABCEA495238D1FCD00D92B95 /* BasicInfo.swift in Sources */,
 				AB6B86C42972F93300E36AE6 /* ImportTagsButton.swift in Sources */,
 				ABD3C5E529C130C1000B5107 /* FilterMediaStatusPicker.swift in Sources */,
+				ABF37BF02AAB616700675356 /* TrailersView.swift in Sources */,
 				AB2ACF5124DB1FFF002C5F41 /* APIError.swift in Sources */,
 				AB5AA49129B3E8ED00DEB37B /* Schema+Tag.swift in Sources */,
 				AB5F7E1D238ADF400007A3FE /* TagListView.swift in Sources */,
@@ -1939,6 +1946,7 @@
 				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
 				ABBC782B29B7DB82004F322E /* Environment.swift in Sources */,
+				ABF37BF22AAB644C00675356 /* TrailerView.swift in Sources */,
 				AB6D9C7F283BC10C00AF655C /* Strings+Library.swift in Sources */,
 				AB6D9C83283BC15B00AF655C /* Strings+APIError.swift in Sources */,
 				AB6D9C8B283BC1DE00AF655C /* Strings+SortingOrder.swift in Sources */,
