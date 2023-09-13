@@ -15,7 +15,6 @@ enum PurchaseError: Error {
 
 struct ProInfoView: View {
     let showCancelButton: Bool
-    @Environment(\.presentationMode) private var presentationMode
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var storeManager: StoreManager
     
@@ -32,7 +31,7 @@ struct ProInfoView: View {
                     Spacer()
                 }
                 Spacer()
-                buyButton
+                BuyProButton()
             }
             .padding()
             .navigationTitle(Strings.ProInfo.navBarTitle)
@@ -55,53 +54,11 @@ struct ProInfoView: View {
                 if showCancelButton {
                     ToolbarItem(placement: .cancellationAction) {
                         Button(Strings.ProInfo.navBarButtonCancelLabel) {
-                            self.presentationMode.wrappedValue.dismiss()
+                            self.dismiss()
                         }
                     }
                 }
             }
-        }
-    }
-    
-    @ViewBuilder
-    var buyButton: some View {
-        if storeManager.hasPurchasedPro {
-            Button(Strings.ProInfo.buyButtonLabelDisabled) {}
-                .buttonStyle(.borderedProminent)
-                .disabled(true)
-        } else {
-            let product = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
-            let displayPrice = product?.displayPrice ?? ""
-            Button(Strings.ProInfo.buyButtonLabel(displayPrice)) {
-                Task(priority: .userInitiated) {
-                    do {
-                        try await buyPro()
-                    } catch {
-                        AlertHandler.showSimpleAlert(
-                            title: Strings.ProInfo.Alert.buyProErrorMessage,
-                            message: Strings.ProInfo.Alert.buyProErrorMessage
-                        )
-                    }
-                }
-            }
-            // TODO: Use custom buy button style hat incorporates the above if-case (see Apple's project)
-            // OR: Implement custom BuyProButton view
-                .buttonStyle(.borderedProminent)
-        }
-    }
-    
-    func buyPro() async throws {
-        Logger.appStore.info("Buying Pro")
-        guard let proProduct = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
-            throw PurchaseError.productNotFound
-        }
-        
-        // Execute the purchase
-        let result = try await storeManager.purchase(proProduct)
-        
-        // Dismiss on a successful purchase
-        if result != nil {
-            dismiss()
         }
     }
 }

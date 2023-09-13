@@ -196,6 +196,7 @@
 		ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */; };
 		ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */; };
 		ABAACD032AB1EA08006ADF8A /* Strings+UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD022AB1EA08006ADF8A /* Strings+UserError.swift */; };
+		ABAACD052AB22836006ADF8A /* BuyProButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD042AB22836006ADF8A /* BuyProButton.swift */; };
 		ABAD15F428E774330092497F /* FavoritesMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F328E774330092497F /* FavoritesMediaList.swift */; };
 		ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F528E774690092497F /* WatchlistMediaList.swift */; };
 		ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */; };
@@ -553,6 +554,7 @@
 		ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddToList.swift"; sourceTree = "<group>"; };
 		ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareMediaButton.swift; sourceTree = "<group>"; };
 		ABAACD022AB1EA08006ADF8A /* Strings+UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+UserError.swift"; sourceTree = "<group>"; };
+		ABAACD042AB22836006ADF8A /* BuyProButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyProButton.swift; sourceTree = "<group>"; };
 		ABAD15F328E774330092497F /* FavoritesMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F528E774690092497F /* WatchlistMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsMediaList.swift; sourceTree = "<group>"; };
@@ -942,6 +944,7 @@
 				AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */,
 				ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */,
 				ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */,
+				ABAACD042AB22836006ADF8A /* BuyProButton.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -2011,6 +2014,7 @@
 				AB59BF2F29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift in Sources */,
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,
 				AB3EE7EE2A22566500C120F2 /* CustomEditButton.swift in Sources */,
+				ABAACD052AB22836006ADF8A /* BuyProButton.swift in Sources */,
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				ABD3C60429C4C8FC000B5107 /* CDColor+CoreDataProperties.swift in Sources */,
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
