@@ -40,6 +40,7 @@ struct ImportExportSection: View {
         }
     }
     
+    // TODO: Should be an async function without `isLoading`
     // Generic import function with a custom handler, does not save the changes.
     static func `import`(
         isLoading: Binding<Bool>,

@@ -22,7 +22,15 @@ extension TMDBData {
         var imdbID: String?
         var directors: [String]
         
-        init(rawReleaseDate: String, runtime: Int? = nil, budget: Int, revenue: Int, isAdult: Bool, imdbID: String? = nil, directors: [String]) {
+        init(
+            rawReleaseDate: String,
+            runtime: Int? = nil,
+            budget: Int,
+            revenue: Int,
+            isAdult: Bool,
+            imdbID: String? = nil,
+            directors: [String]
+        ) {
             self.rawReleaseDate = rawReleaseDate
             self.runtime = runtime
             self.budget = budget
@@ -60,6 +68,7 @@ extension TMDBData {
             case credits
         }
         
+        // swiftlint:disable:next nesting
         enum CreditsCodingKeys: CodingKey {
             case crew
         }
