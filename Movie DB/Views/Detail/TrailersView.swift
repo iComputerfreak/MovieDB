@@ -14,7 +14,7 @@ struct TrailersView: View {
     var trailers: [Video] {
         mediaObject
             .videos
-            .filter { $0.type == "Trailer" }
+            .filter { $0.type == JFLiterals.trailerVideoType }
             // Only use trailers we can build a valid URL for
             .filter { $0.videoURL != nil }
     }

@@ -22,6 +22,9 @@ struct MediaSwipeActionsModifier: ViewModifier {
         content
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 DeleteMediaSwipeAction()
+                AddToWatchlistButton()
+                    .labelStyle(.iconOnly)
+                    .tint(.blue)
             }
     }
 }

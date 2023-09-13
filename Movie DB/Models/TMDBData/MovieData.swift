@@ -53,7 +53,7 @@ extension TMDBData {
             let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .credits)
             let crew = try creditsContainer.decode([CrewMemberDummy].self, forKey: .crew)
             // We only store the director(s) for now
-            let directors = crew.filter { $0.job == "Director" }
+            let directors = crew.filter { $0.job == JFLiterals.directorJobString }
             self.directors = directors.map(\.name)
         }
         

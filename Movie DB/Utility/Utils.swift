@@ -234,21 +234,21 @@ struct Utils {
             // Germany: FSK Ratings
         case "DE":
             switch label {
-            case "0": return UIColor(named: "NoRestriction")
-            case "6": return UIColor(named: "AgeSix")
-            case "12": return UIColor(named: "AgeTwelve")
-            case "16": return UIColor(named: "AgeSixteen")
-            case "18": return UIColor(named: "AgeEighteen")
+            case "0": return UIColor.noRestriction
+            case "6": return UIColor.ageSix
+            case "12": return UIColor.ageTwelve
+            case "16": return UIColor.ageSixteen
+            case "18": return UIColor.ageEighteen
             default: return nil
             }
         case "US":
             switch label {
-            case "NR": return UIColor(named: "US-Movie-NR")
-            case "G": return UIColor(named: "US-Movie-G")
-            case "PG": return UIColor(named: "US-Movie-PG")
-            case "PG-13": return UIColor(named: "US-Movie-PG-13")
-            case "R": return UIColor(named: "US-Movie-R")
-            case "NC-17": return UIColor(named: "US-Movie-NC-17")
+            case "NR": return UIColor.usMovieNR
+            case "G": return UIColor.usMovieG
+            case "PG": return UIColor.usMoviePG
+            case "PG-13": return UIColor.usMoviePG13
+            case "R": return UIColor.usMovieR
+            case "NC-17": return UIColor.usMovieNC17
             default: return nil
             }
         default:

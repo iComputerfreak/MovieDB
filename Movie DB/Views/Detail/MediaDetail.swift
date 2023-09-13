@@ -56,11 +56,11 @@ struct MediaDetail: View {
                         }
                         Section {
                             ReloadMediaButton()
+                            ShareMediaButton()
                             DeleteMediaButton {
                                 // Dismiss after deleting
                                 dismiss()
                             }
-                            ShareMediaButton()
                         }
                     } label: {
                         MediaMenuLabel()

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LegalView: View {
     var tmdbLogo: some View {
-        Image("TMDb Logo", bundle: .main)
+        Image(uiImage: UIImage.tmDbLogo)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: 20)

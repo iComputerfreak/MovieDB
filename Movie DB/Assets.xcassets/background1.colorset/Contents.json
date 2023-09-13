@@ -5,7 +5,7 @@
         "color-space" : "extended-gray",
         "components" : {
           "alpha" : "1.000",
-          "white" : "0xFF"
+          "white" : "0xF2"
         }
       },
       "idiom" : "universal"
