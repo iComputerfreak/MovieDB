@@ -85,6 +85,7 @@ struct ProInfoView: View {
                 }
             }
             // TODO: Use custom buy button style hat incorporates the above if-case (see Apple's project)
+            // OR: Implement custom BuyProButton view
                 .buttonStyle(.borderedProminent)
         }
     }

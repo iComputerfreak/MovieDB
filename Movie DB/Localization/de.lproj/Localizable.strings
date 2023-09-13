@@ -882,3 +882,6 @@
 "detail.basicInfo.director" = "Regisseur";
 "detail.watchProviders.noneAvailable" = "Keine Informationen verfügbar";
 "detail.trailers.noneAvailable" = "Keine Trailer verfügbar";
+
+"userError.mediaAlreadyAdded" = "Medium existiert bereits in Mediathek.";
+"userError.noPro" = "Movie DB Pro benötigt.";

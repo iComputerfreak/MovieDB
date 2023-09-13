@@ -76,7 +76,6 @@ class StoreManager: ObservableObject {
     /// Fetches all available products from App Store Connect and updates this `StoreManager`'s `products`
     func requestProducts() async {
         do {
-            // TODO: We should store a list (maybe plist) of IDs somewhere else
             // Request products from the App Store.
             let storeProducts = try await Product.products(for: [JFLiterals.inAppPurchaseIDPro])
             

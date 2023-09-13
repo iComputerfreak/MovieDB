@@ -31,34 +31,21 @@ struct SFSymbolPicker: View {
                 spacing: 5,
                 pinnedViews: .sectionHeaders
             ) {
-                // TODO: Hand pick some symbols. Don't use all
-//                ForEach(SFSymbolNames.categories, id: \.name) { category in
-//                    Section {
                 ForEach(SFSymbolNames.curatedSymbols, id: \.self) { symbol in
-                            Button {
-                                self.symbol = symbol
-                                self.dismiss()
-                            } label: {
-                                Image(systemName: symbol)
-                                    .symbolRenderingMode(.multicolor)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: gridItemSize, height: gridItemSize)
-                                    .foregroundColor(.accentColor)
-                                    .padding(2)
-                            }
-                            .buttonStyle(.plain)
-                        }
-//                    } header: {
-//                        VStack(alignment: .leading) {
-//                            Spacer()
-//                            Label(category.name, systemImage: category.iconName)
-//                                .font(.headline.bold())
-//                            Divider()
-//                        }
-//                        .background(Color.systemBackground)
-//                    }
-//                }
+                    Button {
+                        self.symbol = symbol
+                        self.dismiss()
+                    } label: {
+                        Image(systemName: symbol)
+                            .symbolRenderingMode(.multicolor)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: gridItemSize, height: gridItemSize)
+                            .foregroundColor(.accentColor)
+                            .padding(2)
+                    }
+                    .buttonStyle(.plain)
+                }
             }
         }
         .padding(.horizontal)

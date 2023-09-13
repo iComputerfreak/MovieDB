@@ -344,7 +344,14 @@ enum UserError: LocalizedError {
     case noPro
     case mediaAlreadyAdded
     
-    // TODO: Localize error message
+    var errorDescription: String? {
+        switch self {
+        case .noPro:
+            Strings.UserError.noPro
+        case .mediaAlreadyAdded:
+            Strings.UserError.mediaAlreadyAdded
+        }
+    }
 }
 
 enum HTTPError: Error {

@@ -888,3 +888,5 @@
 "detail.basicInfo.director" = "Director";
 "detail.watchProviders.noneAvailable" = "There is no watch provider information available.";
 "detail.trailers.noneAvailable" = "There are no trailers available.";
+"userError.mediaAlreadyAdded" = "The media already exists in the library.";
+"userError.noPro" = "Movie DB Pro required.";

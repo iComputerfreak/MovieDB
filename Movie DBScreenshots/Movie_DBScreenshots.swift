@@ -52,7 +52,8 @@ final class Movie_DBScreenshots: XCTestCase {
         app.cells.buttons.element(boundBy: 0).forceTap()
         snapshot("Detail")
         // TODO: Scroll faster to show the trailers section
-        app.swipeUp()
+        // TODO: Test if .fast is ok
+        app.swipeUp(velocity: .fast)
         // Wait for scrolling to finish
         XCTAssertFalse(app.wait(for: .runningBackground, timeout: 2))
         snapshot("Detail2")

@@ -41,18 +41,11 @@ public class Show: Media {
         case .unknown:
             self.watched = nil
         }
-        
-        // TODO: Remove after debugging missing seasons button in detail
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            _ = true
-        }
     }
     
     override func initMedia(type: MediaType, tmdbData: TMDBData) {
         super.initMedia(type: type, tmdbData: tmdbData)
         setTMDBShowData(tmdbData)
-        // TODO: Remove after debugging missing seasons button in detail
-        assert(!self.seasons.isEmpty)
     }
     
     override func update(tmdbData: TMDBData) {
@@ -60,8 +53,6 @@ public class Show: Media {
         super.update(tmdbData: tmdbData)
         // Set Show specific TMDBData only
         setTMDBShowData(tmdbData)
-        // TODO: Remove after debugging missing seasons button in detail
-        assert(!self.seasons.isEmpty)
     }
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {

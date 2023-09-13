@@ -103,7 +103,6 @@ struct MediaLibrary {
         try await addMedia(tmdbID: result.id, mediaType: result.mediaType)
     }
     
-    // TODO: Replace Binding with other means of notifying
     /// Creates a new media object with the given data
     /// - Parameters:
     ///   - tmdbID: The ID on themoviedb.org
