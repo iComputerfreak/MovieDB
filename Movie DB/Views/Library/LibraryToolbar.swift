@@ -36,10 +36,6 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "ellipsis.circle")
             }
         }
-        // TODO: Reactivate when actions for multiselection are implemented
-//        ToolbarItem(placement: .navigationBarTrailing) {
-//            EditButton()
-//        }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 config.activeSheet = .addMedia

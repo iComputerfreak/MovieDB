@@ -20,7 +20,7 @@ struct CastMemberRow: View {
                 image
                     .thumbnail()
             } placeholder: {
-                Image(JFLiterals.posterPlaceholderName)
+                Image(uiImage: UIImage.posterPlaceholder)
                     .thumbnail()
             }
             VStack(alignment: .leading) {

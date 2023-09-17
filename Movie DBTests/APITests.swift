@@ -81,8 +81,14 @@ class APITests: XCTestCase {
     
     func testAPIFailure() async {
         // TODO: How to test throwing of async functions?
-//        XCTAssertThrowsError(try await api.fetchMedia(for: -1, type: .movie, context: testContext))
-//        XCTAssertThrowsError(try await api.updateMedia(brokenMedia, context: testContext))
+        do {
+            _ = try await api.media(for: -1, type: .movie, context: testContext)
+            XCTFail("Invalid API call should have resulted in an error being thrown.")
+        } catch {}
+        do {
+            try await api.updateMedia(brokenMedia, context: testContext)
+            XCTFail("Calling update on a broken media should have resulted in an error being thrown.")
+        } catch {}
     }
     
     func testSearch() async throws {

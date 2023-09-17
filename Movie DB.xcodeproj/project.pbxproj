@@ -194,6 +194,9 @@
 		ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */; };
 		ABAA99F02863402A00234E62 /* Strings+Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EF2863402A00234E62 /* Strings+Lists.swift */; };
 		ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */; };
+		ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */; };
+		ABAACD032AB1EA08006ADF8A /* Strings+UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD022AB1EA08006ADF8A /* Strings+UserError.swift */; };
+		ABAACD052AB22836006ADF8A /* BuyProButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD042AB22836006ADF8A /* BuyProButton.swift */; };
 		ABAD15F428E774330092497F /* FavoritesMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F328E774330092497F /* FavoritesMediaList.swift */; };
 		ABAD15F628E774690092497F /* WatchlistMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F528E774690092497F /* WatchlistMediaList.swift */; };
 		ABAD15F928E774CE0092497F /* ProblemsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */; };
@@ -549,6 +552,9 @@
 		ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListEditingSection.swift; sourceTree = "<group>"; };
 		ABAA99EF2863402A00234E62 /* Strings+Lists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Lists.swift"; sourceTree = "<group>"; };
 		ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddToList.swift"; sourceTree = "<group>"; };
+		ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareMediaButton.swift; sourceTree = "<group>"; };
+		ABAACD022AB1EA08006ADF8A /* Strings+UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+UserError.swift"; sourceTree = "<group>"; };
+		ABAACD042AB22836006ADF8A /* BuyProButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyProButton.swift; sourceTree = "<group>"; };
 		ABAD15F328E774330092497F /* FavoritesMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F528E774690092497F /* WatchlistMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMediaList.swift; sourceTree = "<group>"; };
 		ABAD15F828E774CE0092497F /* ProblemsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsMediaList.swift; sourceTree = "<group>"; };
@@ -938,6 +944,7 @@
 				AB3EE7EF2A226AC400C120F2 /* CalloutView.swift */,
 				ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */,
 				ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */,
+				ABAACD042AB22836006ADF8A /* BuyProButton.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1164,6 +1171,7 @@
 				AB6D9C9E283BC42B00AF655C /* Strings+SortingDirection.swift */,
 				AB6D9C8A283BC1DE00AF655C /* Strings+SortingOrder.swift */,
 				AB6D9C88283BC1D800AF655C /* Strings+TabView.swift */,
+				ABAACD022AB1EA08006ADF8A /* Strings+UserError.swift */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -1255,6 +1263,7 @@
 				AB3EE7E52A224B7600C120F2 /* AddToListMenu.swift */,
 				AB3EE7E72A224C0000C120F2 /* ReloadMediaButton.swift */,
 				AB3EE7E92A224C6700C120F2 /* DeleteMediaButton.swift */,
+				ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */,
 			);
 			path = "Media Menu";
 			sourceTree = "<group>";
@@ -1612,8 +1621,8 @@
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
-				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */,
-				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */,
+				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
+				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 			);
@@ -1859,6 +1868,7 @@
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
 				AB9190E4297E054900324520 /* WatchedLabel.swift in Sources */,
 				AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */,
+				ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */,
 				AB4085422663A7BA008C559B /* LegalView.swift in Sources */,
 				AB11C30C22CA3E1A0057105A /* LibraryHome.swift in Sources */,
 				ABD3C5F429C3B66F000B5107 /* CSVKey.swift in Sources */,
@@ -2004,6 +2014,7 @@
 				AB59BF2F29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift in Sources */,
 				AB1433BB25CD9DAC00AA304F /* Movie DB.xcdatamodeld in Sources */,
 				AB3EE7EE2A22566500C120F2 /* CustomEditButton.swift in Sources */,
+				ABAACD052AB22836006ADF8A /* BuyProButton.swift in Sources */,
 				ABEEB0D6281434E600230F0B /* ProSection.swift in Sources */,
 				ABD3C60429C4C8FC000B5107 /* CDColor+CoreDataProperties.swift in Sources */,
 				AB517D2628314665005FFCBC /* StarRating.swift in Sources */,
@@ -2023,6 +2034,7 @@
 				AB4085482663B325008C559B /* ProInfoView.swift in Sources */,
 				AB711FBA281D8EAB003ED045 /* ShowData.swift in Sources */,
 				ABED3B0923932A8F00F4C327 /* FilterView.swift in Sources */,
+				ABAACD032AB1EA08006ADF8A /* Strings+UserError.swift in Sources */,
 				AB6D9C9B283BC22200AF655C /* Strings+Lookup.swift in Sources */,
 				AB6D9C7B283BC0DA00AF655C /* Strings+Detail.swift in Sources */,
 				ABB65EC825D01C50009378EC /* Tag+CoreDataProperties.swift in Sources */,
@@ -2522,7 +2534,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */ = {
+		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFSwiftUI.git";
 			requirement = {
@@ -2546,7 +2558,7 @@
 				minimumVersion = 0.8.1;
 			};
 		};
-		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */ = {
+		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
@@ -2559,7 +2571,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */;
+			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
 		};
 		ABD249022A2394CC002DEB3D /* JFUtils */ = {
@@ -2604,7 +2616,7 @@
 		};
 		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */;
+			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -52,11 +52,18 @@ struct AddMediaView: View {
         Logger.library.info("Adding \(result.title, privacy: .public) to library")
         // Add the media object to the library
         do {
-            try await library.addMedia(result, isLoading: $isLoading)
+            await MainActor.run {
+                isLoading = false
+            }
+            try await library.addMedia(result)
+            await MainActor.run {
+                isLoading = false
+            }
             // Dismiss the AddMediaView on success
             dismiss()
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
+                isLoading = false
                 AlertHandler.showSimpleAlert(
                     title: Strings.AddMedia.Alert.alreadyAddedTitle,
                     message: Strings.AddMedia.Alert.alreadyAddedMessage(result.title)

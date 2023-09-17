@@ -14,7 +14,7 @@ struct DeleteMediaSwipeAction: View {
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
-        Button(Strings.Library.swipeActionDelete, role: .destructive) {
+        Button(role: .destructive) {
             Logger.coreData.info(
                 // swiftlint:disable:next line_length
                 "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"
@@ -22,6 +22,8 @@ struct DeleteMediaSwipeAction: View {
             // Thumbnail on will be deleted automatically by Media::prepareForDeletion()
             self.managedObjectContext.delete(mediaObject)
             PersistenceController.saveContext(self.managedObjectContext)
+        } label: {
+            Image(systemName: "trash")
         }
     }
 }

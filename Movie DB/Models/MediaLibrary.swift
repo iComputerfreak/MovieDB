@@ -99,17 +99,16 @@ struct MediaLibrary {
     /// - Parameters:
     ///   - result: The search result including the tmdbID and mediaType
     ///   - isLoading: A binding that is updated while the function is loading the new object
-    func addMedia(_ result: TMDBSearchResult, isLoading: Binding<Bool>) async throws {
-        try await addMedia(tmdbID: result.id, mediaType: result.mediaType, isLoading: isLoading)
+    func addMedia(_ result: TMDBSearchResult) async throws {
+        try await addMedia(tmdbID: result.id, mediaType: result.mediaType)
     }
     
-    // TODO: Replace Binding with other means of notifying
     /// Creates a new media object with the given data
     /// - Parameters:
     ///   - tmdbID: The ID on themoviedb.org
     ///   - mediaType: The type of media
     ///   - isLoading: A binding that is updated while the function is loading the new object
-    func addMedia(tmdbID: Int, mediaType: MediaType, isLoading: Binding<Bool>? = nil) async throws {
+    func addMedia(tmdbID: Int, mediaType: MediaType) async throws {
         Logger.addMedia.debug("Trying to add media \(tmdbID) with type \(mediaType.rawValue)...")
         // There should be no media objects with this tmdbID in the library
         guard !mediaExists(tmdbID, mediaType: mediaType, in: context) else {
@@ -118,11 +117,6 @@ struct MediaLibrary {
         // Pro limitations
         guard StoreManager.shared.hasPurchasedPro || (mediaCount() ?? 0) < JFLiterals.nonProMediaLimit else {
             throw UserError.noPro
-        }
-        
-        // Otherwise we can begin to load
-        await MainActor.run {
-            isLoading?.wrappedValue = true
         }
         
         // Run async
@@ -137,9 +131,6 @@ struct MediaLibrary {
         await PersistenceController.saveContext(context)
         // fetchMedia already created the Media object in a child context and saved it into the view context
         // All we need to do now is to load the thumbnail and update the UI
-        await MainActor.run {
-            isLoading?.wrappedValue = false
-        }
     }
     
     /// Updates the media library by updaing every media object with API calls again.

@@ -27,7 +27,7 @@ struct PosterDetailView: View {
         } loading: {
             ProgressView()
         } fallback: {
-            Image(JFLiterals.posterPlaceholderName)
+            Image(uiImage: UIImage.posterPlaceholder)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding()

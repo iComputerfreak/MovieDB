@@ -143,11 +143,27 @@ class CSVCoderTests: XCTestCase {
             if media.type == .movie, let movie = media as? Movie, let movieSample = sample as? Movie {
                 XCTAssertEqual(movie.isAdult, movieSample.isAdult)
                 XCTAssertEqual(movie.watched, movieSample.watched)
-                // TODO: More properties
+                XCTAssertEqual(movie.runtime, movieSample.runtime)
+                XCTAssertEqual(movie.releaseDate, movieSample.releaseDate)
+                XCTAssertEqual(movie.budget, movieSample.budget)
+                XCTAssertEqual(movie.revenue, movieSample.revenue)
+                // TODO: Movie IMDB ID into Media
+                XCTAssertEqual(movie.imdbID, movieSample.imdbID)
+                XCTAssertEqual(movie.directors.sorted(), movieSample.directors.sorted())
             } else if media.type == .show, let show = media as? Show, let showSample = sample as? Show {
                 XCTAssertEqual(show.showType, showSample.showType)
                 XCTAssertEqual(show.watched, showSample.watched)
-                // TODO: More properties
+                XCTAssertEqual(show.firstAirDate, showSample.firstAirDate)
+                XCTAssertEqual(show.lastAirDate, showSample.lastAirDate)
+                XCTAssertEqual(show.numberOfSeasons, showSample.numberOfSeasons)
+                XCTAssertEqual(show.numberOfEpisodes, showSample.numberOfEpisodes)
+                XCTAssertEqual(show.episodeRuntime, showSample.episodeRuntime)
+                XCTAssertEqual(show.isInProduction, showSample.isInProduction)
+                XCTAssertEqual(show.seasons.map(\.id).sorted(), showSample.seasons.map(\.id).sorted())
+                XCTAssertEqual(show.networks.map(\.id).sorted(), showSample.networks.map(\.id).sorted())
+                // TODO: Consolidate with directors
+                XCTAssertEqual(show.createdBy.sorted(), showSample.createdBy.sorted())
+                XCTAssertEqual(show.nextEpisodeToAir, showSample.nextEpisodeToAir)
             } else {
                 XCTFail("Media is neither a movie, nor a show")
             }

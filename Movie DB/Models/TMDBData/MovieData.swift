@@ -22,7 +22,15 @@ extension TMDBData {
         var imdbID: String?
         var directors: [String]
         
-        init(rawReleaseDate: String, runtime: Int? = nil, budget: Int, revenue: Int, isAdult: Bool, imdbID: String? = nil, directors: [String]) {
+        init(
+            rawReleaseDate: String,
+            runtime: Int? = nil,
+            budget: Int,
+            revenue: Int,
+            isAdult: Bool,
+            imdbID: String? = nil,
+            directors: [String]
+        ) {
             self.rawReleaseDate = rawReleaseDate
             self.runtime = runtime
             self.budget = budget
@@ -45,7 +53,7 @@ extension TMDBData {
             let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .credits)
             let crew = try creditsContainer.decode([CrewMemberDummy].self, forKey: .crew)
             // We only store the director(s) for now
-            let directors = crew.filter { $0.job == "Director" }
+            let directors = crew.filter { $0.job == JFLiterals.directorJobString }
             self.directors = directors.map(\.name)
         }
         
@@ -60,6 +68,7 @@ extension TMDBData {
             case credits
         }
         
+        // swiftlint:disable:next nesting
         enum CreditsCodingKeys: CodingKey {
             case crew
         }

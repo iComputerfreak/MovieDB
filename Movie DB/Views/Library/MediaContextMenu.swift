@@ -21,6 +21,7 @@ struct MediaContextMenuModifier: ViewModifier {
                     }
                     Section {
                         ReloadMediaButton()
+                        ShareMediaButton()
                         DeleteMediaButton()
                     }
                 }

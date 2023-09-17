@@ -44,11 +44,14 @@ struct SettingsView: View {
                         }
                     }
                     #if DEBUG
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        NavigationLink {
-                            DebugView()
-                        } label: {
-                            Text(verbatim: "Debug")
+                    // Don't show on screenshots
+                    if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            NavigationLink {
+                                DebugView()
+                            } label: {
+                                Text(verbatim: "Debug")
+                            }
                         }
                     }
                     #endif

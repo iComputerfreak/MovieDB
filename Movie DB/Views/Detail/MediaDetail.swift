@@ -30,7 +30,6 @@ struct MediaDetail: View {
                 BasicInfo()
                 WatchProvidersInfo()
                 TrailersView()
-                // TODO: Embed trailers
                 ExtendedInfo()
                 MetadataInfo()
             }
@@ -57,13 +56,11 @@ struct MediaDetail: View {
                         }
                         Section {
                             ReloadMediaButton()
+                            ShareMediaButton()
                             DeleteMediaButton {
                                 // Dismiss after deleting
                                 dismiss()
                             }
-                            ShareLink(item: URL(
-                                string: "https://movieorganizer.de/\(mediaObject.type.rawValue)/\(mediaObject.tmdbID)"
-                            )!)
                         }
                     } label: {
                         MediaMenuLabel()
