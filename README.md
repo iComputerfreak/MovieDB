@@ -32,18 +32,17 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 * Add movies and tv shows from TheMovieDB.org to your library
 * Show Information about your movies / tv shows
 * Rate your movies / tv shows with 0 to 5 stars
-* Mark them as watched
-* Mark whether you would watch them again
-* Add custom tags
-* Add custom notes
+* Mark them as watched, add custom tags and notes
 * Update your entries with new information form TheMovieDB.org
 * CSV Import/Export (Import requires the ID of the media on TheMovieDB.org and the type of media (movie/tv show))
 * iCloud Sync
 * Parental Ratings
 * Streaming service availability (powered by [JustWatch.com](https://justwatch.com))
-* Marking media as Favorite and creating custom lists
+* Marking media as Favorite and organize them in custom lists
 * A list that contains all shows where new unwatched seasons are available
 * A list that contains all movies and shows with upcoming release dates
+* Trailer links
+* Share medias with others using a link
 
 ## Planned Features
 * Embedded trailers
@@ -52,8 +51,8 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 ## Building
 * To build the project, you need to first install [GYB](https://github.com/apple/swift/blob/main/utils/gyb.py) (e.g. via `brew install nshipster/formulae/gyb`)
     * GYB also requires python 2.7 to be installed
-* You then need to request your own API key from [TheMovieDB.org](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication))
-* Finally you must provide this API key as a `TMDB_API_KEY` environment variable during build time or as a local file "TMDB_API_KEY" in your project root.
+* You then need to request your own API key from [TheMovieDB.org](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication) and [API Settings](https://www.themoviedb.org/settings/api))
+* Finally you must provide the Bearer API Key (Read Access Token) as a `TMDB_API_KEY` environment variable during build time or as a local file "TMDB_API_KEY" in your project root.
 * When you build the project, GYB will read your API key and obfuscate it into a Swift file `Secrets.swift`. You can then access your API key from code with `Secrets.tmdbAPIKey`
 
 ---
