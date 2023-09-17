@@ -356,20 +356,16 @@ actor TMDBAPI {
     private func request(path: String, additionalParameters: [String: String?] = [:]) async throws -> Data {
         // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
+        assert(path.starts(with: "/"))
         
         // MARK: Build URL components
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = "/3\(path)"
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: apiKey),
-            URLQueryItem(name: "language", value: locale),
-        ]
         
         // MARK: Collect parameters
         var parameters: [String: String?] = [
-            "api_key": apiKey,
             "language": locale,
             "region": region,
         ]
@@ -395,8 +391,16 @@ actor TMDBAPI {
         }
         lastRequestDate = .now
         
+        var request = URLRequest(url: components.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(self.apiKey)", forHTTPHeaderField: "Authorization")
+        Logger.network.info("Making GET Request to \(request.url?.absoluteString ?? "nil", privacy: .private)")
+        #if DEBUG
+            // In Debug mode, always load the URL, never use the cache
+            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        #endif
         // Use this instance's URLSession to limit the maximum concurrent requests
-        let (data, response) = try await Utils.request(from: components.url!, session: self.urlSession)
+        let (data, response) = try await self.urlSession.data(for: request)
         
         // MARK: Handle Errors
         
