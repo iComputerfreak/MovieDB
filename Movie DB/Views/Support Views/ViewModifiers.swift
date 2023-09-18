@@ -25,26 +25,37 @@ extension Image {
     }
 }
 
-extension View {
-    /// Adds a headline view above this view with the given title
-    /// - Parameter headlineKey: The title to use for the headline
-    func headline(_ title: String) -> some View {
+/// Adds a headline view above the content
+struct HeadlineModifier: ViewModifier {
+    let title: Text
+    
+    func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(title)
+            title
                 .font(.caption)
                 .foregroundColor(.primary)
-            self
+            content
         }
+//        .padding(.vertical, 1)
+    }
+}
+
+extension View {
+    /// Adds a headline view above this view with the given title
+    /// - Parameter title: The title to use for the headline
+    func headline(_ title: String) -> some View {
+        self.modifier(HeadlineModifier(title: Text(title)))
     }
     
     /// Adds a headline view above this view with the given title
-    /// - Parameter headline: The title to use for the headline
-    func headline(verbatim headline: String) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(headline)
-                .font(.caption)
-                .foregroundColor(.primary)
-            self
-        }
+    /// - Parameter title: The title to use for the headline
+    func headline(verbatim title: String) -> some View {
+        self.modifier(HeadlineModifier(title: Text(verbatim: title)))
+    }
+    
+    /// Adds a headline view above this view with the given title
+    /// - Parameter title: The title to use for the headline
+    func headline(_ title: Text) -> some View {
+        self.modifier(HeadlineModifier(title: title))
     }
 }

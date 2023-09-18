@@ -47,7 +47,7 @@ struct UserData: View {
                                     return Strings.Detail.watchedPickerValueNo
                                 }
                             }
-                            return "-"
+                            return "—"
                         }
                     )
                     .headline(Strings.Detail.watchedHeadline)
