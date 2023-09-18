@@ -176,14 +176,15 @@ struct WatchedShowView: View {
     }
 }
 
-struct WatchedShowView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchedShowView(
-            watched: .constant(.episode(season: 2, episode: 5)),
-            maxSeason: 1
-        )
-        WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
-            .previewDisplayName("Edit View (Non-existent season)")
-            .environmentObject(PlaceholderData.preview.staticShow as Media)
-    }
+#Preview {
+    WatchedShowView(
+        watched: .constant(.episode(season: 2, episode: 5)),
+        maxSeason: 1
+    )
+}
+
+#Preview("Editing") {
+    WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
+        .environmentObject(PlaceholderData.preview.staticShow as Media)
+        .previewEnvironment()
 }

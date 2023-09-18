@@ -25,8 +25,6 @@ struct NavigationLinkChevron: View {
     }
 }
 
-struct NavigationLinkChevron_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationLinkChevron()
-    }
+#Preview {
+    NavigationLinkChevron()
 }

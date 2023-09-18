@@ -43,13 +43,7 @@ struct ReloadMediaButton: View {
     }
 }
 
-struct ReloadMediaButton_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationView { proxy in
-            ReloadMediaButton()
-                .environmentObject(PlaceholderData.preview.staticMovie)
-                .environmentObject(proxy)
-                .environment(\.managedObjectContext, PersistenceController.previewContext)
-        }
-    }
+#Preview {
+    ReloadMediaButton()
+        .previewEnvironment()
 }

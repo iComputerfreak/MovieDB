@@ -29,11 +29,9 @@ struct ListRowLabel<List: MediaListProtocol>: View {
     }
 }
 
-struct ListRowLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ListRowLabel(list: PredicateMediaList.favorites)
-            ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
-        }
+#Preview {
+    List {
+        ListRowLabel(list: PredicateMediaList.favorites)
+        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
     }
 }

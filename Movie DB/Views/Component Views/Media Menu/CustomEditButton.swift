@@ -20,11 +20,9 @@ struct CustomEditButton: View {
     }
 }
 
-struct CustomEditButton_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            CustomEditButton(isEditing: .constant(false))
-            CustomEditButton(isEditing: .constant(true))
-        }
+#Preview {
+    VStack {
+        CustomEditButton(isEditing: .constant(false))
+        CustomEditButton(isEditing: .constant(true))
     }
 }

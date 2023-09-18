@@ -24,9 +24,7 @@ struct AddToFavoritesButton: View {
     }
 }
 
-struct MediaMenu_AddToFavorites_Previews: PreviewProvider {
-    static var previews: some View {
-        AddToFavoritesButton()
-            .environmentObject(PlaceholderData.preview.staticMovie)
-    }
+#Preview {
+    AddToFavoritesButton()
+        .previewEnvironment()
 }

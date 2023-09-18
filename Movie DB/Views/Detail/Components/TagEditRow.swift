@@ -59,8 +59,6 @@ struct TagEditRow: View {
     }
 }
 
-struct TagEditRow_Previews: PreviewProvider {
-    static var previews: some View {
-        TagEditRow(tag: Tag(name: "Tag 1", context: PersistenceController.previewContext), tags: .constant([]))
-    }
+#Preview {
+    TagEditRow(tag: Tag(name: "Tag 1", context: PersistenceController.previewContext), tags: .constant([]))
 }

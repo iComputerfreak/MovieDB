@@ -104,9 +104,7 @@ struct MediaLookupDetail: View {
     }
 }
 
-struct MediaLookupDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaLookupDetail(tmdbID: 603, mediaType: .movie)
-            .previewEnvironment()
-    }
+#Preview {
+    MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+        .previewEnvironment()
 }

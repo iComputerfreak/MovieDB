@@ -54,8 +54,6 @@ struct ResolveProblemsView: View {
     }
 }
 
-struct ResolveProblemsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ResolveProblemsView(problems: .constant([]))
-    }
+#Preview {
+    ResolveProblemsView(problems: .constant([]))
 }

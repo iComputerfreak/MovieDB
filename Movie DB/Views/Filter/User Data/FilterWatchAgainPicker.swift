@@ -33,9 +33,7 @@ struct FilterWatchAgainPicker: View {
     }
 }
 
-struct FilterWatchAgainPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterWatchAgainPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterWatchAgainPicker()
+        .previewEnvironment()
 }

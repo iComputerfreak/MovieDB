@@ -65,17 +65,14 @@ struct WatchProvidersInfo: View {
     }
 }
 
-struct WatchProvidersInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            WatchProvidersInfo()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-            WatchProvidersInfo()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-            WatchProvidersInfo()
-                .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
-        }
-        .previewEnvironment()
-        .environment(\.managedObjectContext, PersistenceController.previewContext)
+#Preview {
+    List {
+        WatchProvidersInfo()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+        WatchProvidersInfo()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+        WatchProvidersInfo()
+            .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
     }
+    .previewEnvironment()
 }

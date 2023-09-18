@@ -82,24 +82,22 @@ struct UserData: View {
     }
 }
 
-struct UserData_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            UserData()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-            UserData()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                .environment(\.isEditing, true)
-        }
-        .previewDisplayName("Movie")
-        
-        List {
-            UserData()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-            UserData()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-                .environment(\.isEditing, true)
-        }
-        .previewDisplayName("Show")
+#Preview("Movie") {
+    List {
+        UserData()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+        UserData()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            .environment(\.isEditing, true)
+    }
+}
+
+#Preview("Show") {
+    List {
+        UserData()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+        UserData()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .environment(\.isEditing, true)
     }
 }

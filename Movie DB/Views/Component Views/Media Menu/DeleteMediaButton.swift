@@ -25,10 +25,7 @@ struct DeleteMediaButton: View {
     }
 }
 
-struct DeleteMediaButton_Previews: PreviewProvider {
-    static var previews: some View {
-        DeleteMediaButton()
-            .environmentObject(PlaceholderData.preview.staticMovie)
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
-    }
+#Preview {
+    DeleteMediaButton()
+        .previewEnvironment()
 }

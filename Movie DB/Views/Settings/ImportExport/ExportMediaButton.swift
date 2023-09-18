@@ -27,8 +27,6 @@ struct ExportMediaButton: View {
     }
 }
 
-struct ExportMediaButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ExportMediaButton(config: .constant(.init()))
-    }
+#Preview {
+    ExportMediaButton(config: .constant(.init()))
 }

@@ -27,11 +27,9 @@ struct UpcomingMediaList: View {
     }
 }
 
-struct UpcomingMediaList_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            UpcomingMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
-                .environment(\.managedObjectContext, PersistenceController.previewContext)
-        }
+#Preview {
+    NavigationStack {
+        UpcomingMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+            .previewEnvironment()
     }
 }

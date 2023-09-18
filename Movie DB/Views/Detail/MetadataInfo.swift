@@ -36,11 +36,9 @@ struct MetadataInfo: View {
     }
 }
 
-struct MetadataInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            MetadataInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticMovie as Media)
+#Preview {
+    List {
+        MetadataInfo()
     }
+    .environmentObject(PlaceholderData.preview.staticMovie as Media)
 }

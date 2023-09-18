@@ -57,14 +57,12 @@ struct PreferencesSection: View {
     }
 }
 
-struct PreferencesSection_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            PreferencesSection(
-                config: .constant(SettingsViewModel()),
-                reloadHandler: {}
-            )
-            .environmentObject(JFConfig.shared)
-        }
+#Preview {
+    List {
+        PreferencesSection(
+            config: .constant(SettingsViewModel()),
+            reloadHandler: {}
+        )
+        .previewEnvironment()
     }
 }

@@ -42,9 +42,7 @@ struct FilterNumberOfSeasonsPicker: View {
     }
 }
 
-struct FilterNumberOfSeasonsPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterNumberOfSeasonsPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterNumberOfSeasonsPicker()
+        .previewEnvironment()
 }

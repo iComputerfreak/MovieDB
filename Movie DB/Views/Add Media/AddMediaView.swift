@@ -86,11 +86,10 @@ struct AddMediaView: View {
     }
 }
 
-struct AddMediaView_Previews: PreviewProvider {
-    static var previews: some View {
-        EmptyView()
-            .sheet(isPresented: .constant(true)) {
-                AddMediaView()
-            }
-    }
+#Preview {
+    EmptyView()
+        .sheet(isPresented: .constant(true)) {
+            AddMediaView()
+                .previewEnvironment()
+        }
 }

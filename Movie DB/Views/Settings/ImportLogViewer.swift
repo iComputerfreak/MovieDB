@@ -43,8 +43,8 @@ struct ImportLogViewer: View {
     }
 }
 
-struct ImportLogViewer_Previews: PreviewProvider {
-    static var logger: TagImporter.BasicLogger {
+#Preview {
+    var logger: TagImporter.BasicLogger {
         let l = TagImporter.BasicLogger()
         l.info("Import started")
         l.debug("Progress: 10%")
@@ -60,7 +60,5 @@ struct ImportLogViewer_Previews: PreviewProvider {
         return l
     }
     
-    static var previews: some View {
-        ImportLogViewer(logger: logger)
-    }
+    return ImportLogViewer(logger: logger)
 }

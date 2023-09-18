@@ -24,9 +24,7 @@ struct FilterWatchedPicker: View {
     }
 }
 
-struct FilterWatchedPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterWatchedPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterWatchedPicker()
+        .previewEnvironment()
 }

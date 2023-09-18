@@ -164,16 +164,16 @@ struct BasicInfo: View {
     }
 }
 
-struct BasicInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            BasicInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        
-        List {
-            BasicInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
+#Preview("Movie") {
+    List {
+        BasicInfo()
     }
+    .environmentObject(PlaceholderData.preview.staticMovie as Media)
+}
+
+#Preview("Show") {
+    List {
+        BasicInfo()
+    }
+    .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

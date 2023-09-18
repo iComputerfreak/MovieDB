@@ -46,9 +46,7 @@ struct SelectUserListView: View {
     }
 }
 
-struct SelectUserListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectUserListView(mediaObject: PlaceholderData.preview.staticMovie)
-            .environment(\.managedObjectContext, PlaceholderData.preview.context)
-    }
+#Preview {
+    SelectUserListView(mediaObject: PlaceholderData.preview.staticMovie)
+        .previewEnvironment()
 }

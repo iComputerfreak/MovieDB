@@ -62,15 +62,13 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
     }
 }
 
-struct BaseLibraryRow_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            List {
-                BaseLibraryRow()
-                    .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                BaseLibraryRow()
-                    .environmentObject(PlaceholderData.preview.staticShow as Media)
-            }
+#Preview {
+    NavigationStack {
+        List {
+            BaseLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            BaseLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
         }
     }
 }

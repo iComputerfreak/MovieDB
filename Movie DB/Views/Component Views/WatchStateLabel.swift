@@ -79,43 +79,16 @@ struct WatchStateLabel: View {
     }
 }
 
-struct WatchStateLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            Section(header: Text(verbatim: "Movies")) {
-                WatchStateLabel()
-                    .environmentObject(createMovie(watchState: nil))
-                WatchStateLabel()
-                    .environmentObject(createMovie(watchState: .watched))
-                WatchStateLabel()
-                    .environmentObject(createMovie(watchState: .partially))
-                WatchStateLabel()
-                    .environmentObject(createMovie(watchState: .notWatched))
-            }
-            Section(header: Text(verbatim: "Shows")) {
-                WatchStateLabel()
-                    .environmentObject(createShow(watchState: nil))
-                WatchStateLabel()
-                    .environmentObject(createShow(watchState: .season(9)))
-                WatchStateLabel()
-                    .environmentObject(createShow(watchState: .season(2)))
-                WatchStateLabel()
-                    .environmentObject(createShow(watchState: .episode(season: 1, episode: 3)))
-                WatchStateLabel()
-                    .environmentObject(createShow(watchState: .notWatched))
-            }
-        }
-    }
-    
-    static func createMovie(watchState: MovieWatchState?) -> Media {
+#Preview {
+    func createMovie(watchState: MovieWatchState?) -> Media {
         create(.movie, watchState: watchState)
     }
     
-    static func createShow(watchState: ShowWatchState?) -> Media {
+    func createShow(watchState: ShowWatchState?) -> Media {
         create(.show, watchState: watchState)
     }
     
-    static func create(_ type: MediaType, watchState: WatchState?) -> Media {
+    func create(_ type: MediaType, watchState: WatchState?) -> Media {
         switch type {
         case .movie:
             let movie = PlaceholderData.preview.createStaticMovie()
@@ -125,6 +98,31 @@ struct WatchStateLabel_Previews: PreviewProvider {
             let show = PlaceholderData.preview.createStaticShow()
             show.watched = watchState as? ShowWatchState
             return show
+        }
+    }
+    
+    return List {
+        Section(header: Text(verbatim: "Movies")) {
+            WatchStateLabel()
+                .environmentObject(createMovie(watchState: nil))
+            WatchStateLabel()
+                .environmentObject(createMovie(watchState: .watched))
+            WatchStateLabel()
+                .environmentObject(createMovie(watchState: .partially))
+            WatchStateLabel()
+                .environmentObject(createMovie(watchState: .notWatched))
+        }
+        Section(header: Text(verbatim: "Shows")) {
+            WatchStateLabel()
+                .environmentObject(createShow(watchState: nil))
+            WatchStateLabel()
+                .environmentObject(createShow(watchState: .season(9)))
+            WatchStateLabel()
+                .environmentObject(createShow(watchState: .season(2)))
+            WatchStateLabel()
+                .environmentObject(createShow(watchState: .episode(season: 1, episode: 3)))
+            WatchStateLabel()
+                .environmentObject(createShow(watchState: .notWatched))
         }
     }
 }

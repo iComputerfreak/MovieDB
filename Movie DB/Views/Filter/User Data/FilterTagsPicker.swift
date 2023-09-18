@@ -30,9 +30,7 @@ struct FilterTagsPicker: View {
     }
 }
 
-struct FilterTagsPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterTagsPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterTagsPicker()
+        .previewEnvironment()
 }

@@ -26,48 +26,12 @@ struct RatingView: View {
     }
 }
 
-struct RatingView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            RatingView(rating: .constant(.noRating))
+#Preview {
+    List {
+        ForEach(StarRating.allCases, id: \.rawValue) { rating in
+            RatingView(rating: .constant(rating))
         }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("No Rating")
-        
-        Group {
-            RatingView(rating: .constant(.halfStar))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("Half Star")
-        
-        Group {
-            RatingView(rating: .constant(.oneStar))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("One Star")
-        
-        Group {
-            RatingView(rating: .constant(.twoAndAHalfStars))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("Two and a Half Stars")
-        
-        Group {
-            RatingView(rating: .constant(.fourAndAHalfStars))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("Four and a Half Stars")
-        
-        Group {
-            RatingView(rating: .constant(.fiveStars))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .previewDisplayName("Five Stars")
     }
+    .previewLayout(.sizeThatFits)
+    .padding()
 }

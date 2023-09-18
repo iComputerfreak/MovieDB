@@ -186,14 +186,12 @@ struct SearchResultsView<RowContent: View>: View {
     }
 }
 
-struct SearchResultsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            SearchResultsView(selection: .constant(nil)) { result in
-                SearchResultRow(result: result)
-            }
-            .navigationTitle(Text(verbatim: "Add Media"))
+#Preview {
+    NavigationStack {
+        SearchResultsView(selection: .constant(nil)) { result in
+            SearchResultRow(result: result)
         }
+        .navigationTitle(Text(verbatim: "Add Media"))
     }
 }
 

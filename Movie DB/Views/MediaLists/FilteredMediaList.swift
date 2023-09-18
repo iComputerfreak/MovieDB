@@ -133,8 +133,8 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     }
 }
 
-struct FilteredMediaList_Previews: PreviewProvider {
-    static let dynamicList: DynamicMediaList = {
+#Preview {
+    let dynamicList: DynamicMediaList = {
         PlaceholderData.preview.populateSamples()
         let l = DynamicMediaList(context: PersistenceController.previewContext)
         l.name = "Dynamic List"
@@ -142,14 +142,12 @@ struct FilteredMediaList_Previews: PreviewProvider {
         return l
     }()
     
-    static var previews: some View {
-        NavigationStack {
-            FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil)) { media in
-                LibraryRow()
-                    .environmentObject(media)
-            }
-            .navigationTitle(dynamicList.name)
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+    return NavigationStack {
+        FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil)) { media in
+            LibraryRow()
+                .environmentObject(media)
         }
+        .navigationTitle(dynamicList.name)
+        .environment(\.managedObjectContext, PersistenceController.previewContext)
     }
 }

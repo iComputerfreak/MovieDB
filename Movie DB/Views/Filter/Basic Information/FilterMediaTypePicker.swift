@@ -33,9 +33,7 @@ struct FilterMediaTypePicker: View {
     }
 }
 
-struct FilterMediaTypePicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterMediaTypePicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterMediaTypePicker()
+        .previewEnvironment()
 }

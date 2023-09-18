@@ -128,24 +128,20 @@ struct LibraryActionsSection: View {
     }
 }
 
-struct LibraryActionsSection_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            List {
-                LibraryActionsSection(
-                    config: .constant(SettingsViewModel()),
-                    reloadHandler: {}
-                )
-            }
-        }
-        Group {
-            List {
-                LibraryActionsSection(
-                    config: .constant(SettingsViewModel(isLoading: true, loadingText: "Loading...")),
-                    reloadHandler: {}
-                )
-            }
-        }
-        .previewDisplayName("Loading")
+#Preview {
+    List {
+        LibraryActionsSection(
+            config: .constant(SettingsViewModel()),
+            reloadHandler: {}
+        )
+    }
+}
+
+#Preview("Loading") {
+    List {
+        LibraryActionsSection(
+            config: .constant(SettingsViewModel(isLoading: true, loadingText: "Loading...")),
+            reloadHandler: {}
+        )
     }
 }

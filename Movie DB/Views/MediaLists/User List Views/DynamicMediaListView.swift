@@ -37,8 +37,8 @@ struct DynamicMediaListView: View {
     }
 }
 
-struct DynamicMediaListView_Previews: PreviewProvider {
-    static let previewList: DynamicMediaList = {
+#Preview {
+    let previewList: DynamicMediaList = {
         PersistenceController.previewContext.reset()
         let list = DynamicMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
@@ -48,10 +48,8 @@ struct DynamicMediaListView_Previews: PreviewProvider {
         return list
     }()
     
-    static var previews: some View {
-        NavigationStack {
-            DynamicMediaListView(list: Self.previewList, selectedMedia: .constant(nil))
-                .environment(\.managedObjectContext, PersistenceController.previewContext)
-        }
+    return NavigationStack {
+        DynamicMediaListView(list: previewList, selectedMedia: .constant(nil))
+            .previewEnvironment()
     }
 }

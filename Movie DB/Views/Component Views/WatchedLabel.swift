@@ -23,8 +23,6 @@ struct WatchedLabel: View {
     }
 }
 
-struct WatchedLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchedLabel(labelText: "Watched", systemImage: "checkmark.circle.fill", color: .green)
-    }
+#Preview {
+    WatchedLabel(labelText: "Watched", systemImage: "checkmark.circle.fill", color: .green)
 }

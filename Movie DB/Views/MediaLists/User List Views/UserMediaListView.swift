@@ -44,17 +44,15 @@ struct UserMediaListView: View {
     }
 }
 
-struct UserMediaListView_Previews: PreviewProvider {
-    static let previewList: UserMediaList = {
+#Preview {
+    let previewList: UserMediaList = {
         let list = UserMediaList(context: PersistenceController.previewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         return list
     }()
     
-    static var previews: some View {
-        NavigationStack {
-            UserMediaListView(list: Self.previewList, selectedMedia: .constant(nil))
-        }
+    return NavigationStack {
+        UserMediaListView(list: previewList, selectedMedia: .constant(nil))
     }
 }

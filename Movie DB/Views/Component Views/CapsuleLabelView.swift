@@ -38,17 +38,15 @@ struct CapsuleLabelView<Content>: View where Content: View {
     }
 }
 
-struct SmallLabelView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            CapsuleLabelView(text: "16", color: Color.ageSixteen)
-            CapsuleLabelView(text: "18", color: Color.ageEighteen)
-            CapsuleLabelView(text: "Movie")
-            CapsuleLabelView(text: "TV Show")
-            CapsuleLabelView(text: "2023")
-            CapsuleLabelView {
-                CompactStarRatingView(rating: .threeAndAHalfStars)
-            }
+#Preview {
+    VStack {
+        CapsuleLabelView(text: "16", color: Color.ageSixteen)
+        CapsuleLabelView(text: "18", color: Color.ageEighteen)
+        CapsuleLabelView(text: "Movie")
+        CapsuleLabelView(text: "TV Show")
+        CapsuleLabelView(text: "2023")
+        CapsuleLabelView {
+            CompactStarRatingView(rating: .threeAndAHalfStars)
         }
     }
 }

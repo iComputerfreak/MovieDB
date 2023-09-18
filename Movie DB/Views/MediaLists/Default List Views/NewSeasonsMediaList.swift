@@ -27,11 +27,9 @@ struct NewSeasonsMediaList: View {
     }
 }
 
-struct NewSeasonsMediaList_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
-                .environment(\.managedObjectContext, PersistenceController.previewContext)
-        }
+#Preview {
+    NavigationStack {
+        NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+            .previewEnvironment()
     }
 }

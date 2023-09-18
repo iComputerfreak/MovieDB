@@ -124,24 +124,25 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
     }
 }
 
-struct FilterMultiPicker_Previews: PreviewProvider {
-    @State private static var selection: [String] = ["Value 1"]
+#Preview {
+    @State var selection: [String] = ["Value 1"]
     
-    static var previews: some View {
-        Form {
-            FilterMultiPicker(
-                selection: Self.$selection,
-                label: { Text($0) },
-                values: ["Value 1", "Value 2", "Value 3", "Value 4"],
-                title: Text(verbatim: "Title")
-            )
-        }
-        FilterMultiPicker.EditView(
+    return Form {
+        FilterMultiPicker(
+            selection: $selection,
             label: { Text($0) },
-            title: Text(verbatim: "Title"),
-            values: .constant(["Value 1", "Value 2", "Value 3", "Value 4"]),
-            selectionBinding: .constant(["Value 2"]),
-            selection: .constant(["Value 2"])
+            values: ["Value 1", "Value 2", "Value 3", "Value 4"],
+            title: Text(verbatim: "Title")
         )
     }
+}
+
+#Preview("Editing") {
+    FilterMultiPicker.EditView(
+        label: { Text($0) },
+        title: Text(verbatim: "Title"),
+        values: .constant(["Value 1", "Value 2", "Value 3", "Value 4"]),
+        selectionBinding: .constant(["Value 2"]),
+        selection: .constant(["Value 2"])
+    )
 }

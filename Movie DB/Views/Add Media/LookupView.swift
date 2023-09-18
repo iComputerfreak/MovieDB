@@ -16,6 +16,7 @@ struct LookupView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    // TODO: Where does result come frome? What am I using this view for?
     @State private var result: TMDBSearchResult?
         
     var body: some View {
@@ -37,8 +38,7 @@ struct LookupView: View {
     }
 }
 
-struct LookupView_Previews: PreviewProvider {
-    static var previews: some View {
-        LookupView()
-    }
+#Preview {
+    LookupView()
+        .previewEnvironment()
 }

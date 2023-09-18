@@ -37,14 +37,12 @@ struct ProblemsLibraryRow: View {
     }
 }
 
-struct ProblemsLibraryRow_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            List {
-                ProblemsLibraryRow()
-                    .environmentObject(PlaceholderData.preview.staticProblemShow as Media)
-            }
-            .navigationTitle(Text(verbatim: "Library"))
+#Preview {
+    NavigationStack {
+        List {
+            ProblemsLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticProblemShow as Media)
         }
+        .navigationTitle(Text(verbatim: "Library"))
     }
 }

@@ -29,8 +29,6 @@ struct BackgroundFetchDebugSection: View {
     }
 }
 
-struct BackgroundFetchDebugSection_Previews: PreviewProvider {
-    static var previews: some View {
-        BackgroundFetchDebugSection()
-    }
+#Preview {
+    BackgroundFetchDebugSection()
 }

@@ -111,8 +111,6 @@ struct ImportMediaButton: View {
     }
 }
 
-struct ImportMediaButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ImportMediaButton(config: .constant(.init()))
-    }
+#Preview {
+    ImportMediaButton(config: .constant(.init()))
 }

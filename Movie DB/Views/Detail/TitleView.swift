@@ -50,16 +50,14 @@ struct TitleView: View {
     }
 }
 
-struct TitleView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            List {
-                Section {
-                    TitleView(media: PlaceholderData.preview.staticMovie)
-                }
+#Preview {
+    NavigationStack {
+        List {
+            Section {
+                TitleView(media: PlaceholderData.preview.staticMovie)
             }
-            .listStyle(.grouped)
         }
-        .previewLayout(.fixed(width: 500, height: 250))
+        .listStyle(.grouped)
     }
+    .previewLayout(.fixed(width: 500, height: 250))
 }

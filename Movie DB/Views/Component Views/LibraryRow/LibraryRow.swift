@@ -21,36 +21,34 @@ struct LibraryRow: View {
     }
 }
 
-struct LibraryRow_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            List {
-                ForEach(MovieWatchState.allCases, id: \.rawValue) { watchState in
-                    LibraryRow()
-                        .environmentObject(movie(for: watchState) as Media)
-                }
-                ForEach([
-                    .season(3),
-                    .episode(season: 1, episode: 5),
-                    ShowWatchState.notWatched,
-                ], id: \.rawValue) { watchState in
-                    LibraryRow()
-                        .environmentObject(show(for: watchState) as Media)
-                }
-            }
-            .navigationTitle(Text(verbatim: "Watchlist"))
-        }
-    }
-    
-    static func show(for watchState: ShowWatchState) -> Show {
+#Preview {
+    func show(for watchState: ShowWatchState) -> Show {
         let show = PlaceholderData.preview.createStaticShow()
         show.watched = watchState
         return show
     }
-    
-    static func movie(for watchState: MovieWatchState) -> Movie {
+
+    func movie(for watchState: MovieWatchState) -> Movie {
         let movie = PlaceholderData.preview.createStaticMovie()
         movie.watched = watchState
         return movie
+    }
+    
+    return NavigationStack {
+        List {
+            ForEach(MovieWatchState.allCases, id: \.rawValue) { watchState in
+                LibraryRow()
+                    .environmentObject(movie(for: watchState) as Media)
+            }
+            ForEach([
+                .season(3),
+                .episode(season: 1, episode: 5),
+                ShowWatchState.notWatched,
+            ], id: \.rawValue) { watchState in
+                LibraryRow()
+                    .environmentObject(show(for: watchState) as Media)
+            }
+        }
+        .navigationTitle(Text(verbatim: "Watchlist"))
     }
 }

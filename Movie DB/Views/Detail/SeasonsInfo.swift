@@ -111,9 +111,7 @@ struct SeasonInfo: View {
     }
 }
 
-struct SeasonsInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        SeasonsInfo()
-            .environmentObject(PlaceholderData.preview.staticShow as Media)
-    }
+#Preview {
+    SeasonsInfo()
+        .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

@@ -56,8 +56,6 @@ struct LongTextView: View {
     }
 }
 
-struct LongTextView_Previews: PreviewProvider {
-    static var previews: some View {
-        LongTextView("A very long text", headline: "Description")
-    }
+#Preview {
+    LongTextView("A very long text", headline: "Description")
 }

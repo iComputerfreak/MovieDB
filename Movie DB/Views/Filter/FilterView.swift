@@ -47,9 +47,7 @@ struct FilterView: View {
     }
 }
 
-struct FilterView_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterView()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterView()
+        .previewEnvironment()
 }

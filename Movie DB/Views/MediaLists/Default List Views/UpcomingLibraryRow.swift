@@ -65,16 +65,14 @@ struct UpcomingLibraryRow: View {
     }
 }
 
-struct UpcomingLibraryRow_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            List {
-                UpcomingLibraryRow()
-                    .environmentObject(PlaceholderData.preview.staticUpcomingMovie as Media)
-                UpcomingLibraryRow()
-                    .environmentObject(PlaceholderData.preview.staticUpcomingShow as Media)
-            }
-            .navigationTitle(Text(verbatim: "Upcoming"))
+#Preview {
+    NavigationStack {
+        List {
+            UpcomingLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticUpcomingMovie as Media)
+            UpcomingLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticUpcomingShow as Media)
         }
+        .navigationTitle(Text(verbatim: "Upcoming"))
     }
 }

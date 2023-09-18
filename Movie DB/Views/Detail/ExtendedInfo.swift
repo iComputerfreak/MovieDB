@@ -102,15 +102,16 @@ struct ExtendedInfo: View {
     }
 }
 
-struct ExtendedInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ExtendedInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        List {
-            ExtendedInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
+#Preview("Movie") {
+    List {
+        ExtendedInfo()
     }
+    .environmentObject(PlaceholderData.preview.staticMovie as Media)
+}
+
+#Preview("Show") {
+    List {
+        ExtendedInfo()
+    }
+    .environmentObject(PlaceholderData.preview.staticShow as Media)
 }
