@@ -20,7 +20,6 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
                 contentBuilder(list)
             }
             .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {
                     dismiss()

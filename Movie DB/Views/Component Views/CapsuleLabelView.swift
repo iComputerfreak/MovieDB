@@ -9,20 +9,25 @@
 import JFUtils
 import SwiftUI
 
-struct CapsuleLabelView: View {
-    let text: String
-    let color: Color
+struct CapsuleLabelView<Content>: View where Content: View {
+    @ViewBuilder let content: () -> Content
     @Environment(\.colorScheme) private var colorScheme
     
-    init(text: String, color: Color? = nil) {
-        self.text = text
-        self.color = color ?? .primary
+    init(text: String, color: Color? = nil) where Content == Text {
+        self.content = {
+            Text(text)
+                .font(.caption)
+                .bold()
+                .foregroundColor(color ?? .primary)
+        }
+    }
+    
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
     }
     
     var body: some View {
-        Text(text)
-            .font(.caption)
-            .bold()
+        content()
             .padding(.horizontal, 5)
             .padding(.vertical, 1.5)
             .background(
@@ -30,13 +35,20 @@ struct CapsuleLabelView: View {
                     // Use a gray background, depending on the scheme
                     .fill(colorScheme == .dark ? Color(white: 0.2) : Color(white: 0.9))
             )
-            .foregroundColor(color)
     }
 }
 
 struct SmallLabelView_Previews: PreviewProvider {
     static var previews: some View {
-        CapsuleLabelView(text: "16", color: Color("AgeSixteen"))
-            .previewLayout(.fixed(width: 100, height: 80))
+        VStack {
+            CapsuleLabelView(text: "16", color: Color.ageSixteen)
+            CapsuleLabelView(text: "18", color: Color.ageEighteen)
+            CapsuleLabelView(text: "Movie")
+            CapsuleLabelView(text: "TV Show")
+            CapsuleLabelView(text: "2023")
+            CapsuleLabelView {
+                CompactStarRatingView(rating: .threeAndAHalfStars)
+            }
+        }
     }
 }

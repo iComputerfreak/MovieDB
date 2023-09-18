@@ -43,14 +43,14 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                         case .show:
                             CapsuleLabelView(text: seriesSymbolText)
                         }
+                        // MARK: Year
+                        if let year = mediaObject.year {
+                            CapsuleLabelView(text: year.description)
+                        }
                         // MARK: FSK Rating
                         if let rating = mediaObject.parentalRating {
                             ParentalRatingView(rating: rating)
                                 .font(.caption2)
-                        }
-                        // MARK: Year
-                        if let year = mediaObject.year {
-                            CapsuleLabelView(text: year.description)
                         }
                     }
                     .font(.subheadline)

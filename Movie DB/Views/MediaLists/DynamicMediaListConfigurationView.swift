@@ -39,7 +39,6 @@ struct DynamicMediaListConfigurationView: View {
             }
             .environmentObject(list.filterSetting!)
             .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {
                     dismiss()

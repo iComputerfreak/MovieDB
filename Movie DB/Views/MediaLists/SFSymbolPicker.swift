@@ -49,7 +49,6 @@ struct SFSymbolPicker: View {
             }
         }
         .padding(.horizontal)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

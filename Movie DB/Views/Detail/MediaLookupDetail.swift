@@ -37,7 +37,6 @@ struct MediaLookupDetail: View {
         case .loading:
             ProgressView()
                 .navigationTitle(Strings.Generic.navBarLoadingTitle)
-                .navigationBarTitleDisplayMode(.inline)
                 .task(priority: .userInitiated) {
                     // Load the media
                     do {

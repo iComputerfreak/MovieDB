@@ -89,6 +89,8 @@
 		AB54A6E4299EDF75002C3044 /* NewSeasonsMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */; };
 		AB54A6E6299EE1D7002C3044 /* CapsuleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */; };
 		AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5612552970045B0039850B /* ListConfigurationView.swift */; };
+		AB578F872AB8A919001E488D /* CompactStarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB578F862AB8A919001E488D /* CompactStarRatingView.swift */; };
+		AB578F892AB8A92A001E488D /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB578F882AB8A92A001E488D /* StarRatingView.swift */; };
 		AB59BF2F29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59BF2E29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift */; };
 		AB59BF3129F417BE005E0C7E /* EntityCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59BF3029F417BE005E0C7E /* EntityCount.swift */; };
 		AB59E3BF281D68EF00436853 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59E3BE281D68EF00436853 /* SceneDelegate.swift */; };
@@ -434,6 +436,8 @@
 		AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSeasonsMediaList.swift; sourceTree = "<group>"; };
 		AB54A6E5299EE1D7002C3044 /* CapsuleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabelView.swift; sourceTree = "<group>"; };
 		AB5612552970045B0039850B /* ListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurationView.swift; sourceTree = "<group>"; };
+		AB578F862AB8A919001E488D /* CompactStarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactStarRatingView.swift; sourceTree = "<group>"; };
+		AB578F882AB8A92A001E488D /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		AB59BF2E29ED7AF0005E0C7E /* BackgroundFetchDebugSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFetchDebugSection.swift; sourceTree = "<group>"; };
 		AB59BF3029F417BE005E0C7E /* EntityCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCount.swift; sourceTree = "<group>"; };
 		AB59E3BE281D68EF00436853 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -945,6 +949,8 @@
 				ABCB4E2B2AAA3D62006638A7 /* DismissButton.swift */,
 				ABCB4E2D2AAA3DEE006638A7 /* AddMediaButton.swift */,
 				ABAACD042AB22836006ADF8A /* BuyProButton.swift */,
+				AB578F862AB8A919001E488D /* CompactStarRatingView.swift */,
+				AB578F882AB8A92A001E488D /* StarRatingView.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1884,6 +1890,7 @@
 				AB5612562970045B0039850B /* ListConfigurationView.swift in Sources */,
 				AB6478E222C7D59300F3E14E /* SearchResultRow.swift in Sources */,
 				ABD3C60929C4C9A1000B5107 /* UIColor+CDColor.swift in Sources */,
+				AB578F872AB8A919001E488D /* CompactStarRatingView.swift in Sources */,
 				ABD3C60B29C4CE9A000B5107 /* Optional+CDColor.swift in Sources */,
 				AB6D9C8D283BC1E800AF655C /* Strings+ShowType.swift in Sources */,
 				ABD86488281933BC001A1F7C /* MediaLibrary.swift in Sources */,
@@ -1954,6 +1961,7 @@
 				ABD3C60529C4C8FC000B5107 /* CDColor+CoreDataClass.swift in Sources */,
 				AB1433F825CDB6F600AA304F /* Show+CoreDataClass.swift in Sources */,
 				AB6B86C62972FA3F00E36AE6 /* ExportMediaButton.swift in Sources */,
+				AB578F892AB8A92A001E488D /* StarRatingView.swift in Sources */,
 				AB6D9C91283BC1F300AF655C /* Strings+Problems.swift in Sources */,
 				ABBC782B29B7DB82004F322E /* Environment.swift in Sources */,
 				ABF37BF22AAB644C00675356 /* TrailerView.swift in Sources */,
