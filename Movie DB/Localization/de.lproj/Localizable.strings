@@ -885,3 +885,4 @@
 
 "userError.mediaAlreadyAdded" = "Medium existiert bereits in Mediathek.";
 "userError.noPro" = "Movie DB Pro benötigt.";
+"lookup.searchPrompt" = "Suchen";

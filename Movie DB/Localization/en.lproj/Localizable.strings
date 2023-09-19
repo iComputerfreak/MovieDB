@@ -890,3 +890,4 @@
 "detail.trailers.noneAvailable" = "There are no trailers available.";
 "userError.mediaAlreadyAdded" = "The media already exists in the library.";
 "userError.noPro" = "Movie DB Pro required.";
+"lookup.searchPrompt" = "Search";

@@ -16,13 +16,12 @@ struct LookupView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    // TODO: Where does result come frome? What am I using this view for?
     @State private var result: TMDBSearchResult?
         
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
-                SearchResultsView(selection: $result) { result in
+                SearchResultsView(selection: $result, prompt: Text(Strings.Lookup.searchPrompt)) { result in
                     NavigationLink {
                         MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
                     } label: {

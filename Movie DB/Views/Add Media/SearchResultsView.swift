@@ -21,7 +21,7 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
     @Binding var selection: TMDBSearchResult?
-    let prompt: Text?
+    let prompt: Text
     
     // We use an observable model to store the searchText and publisher
     // This way, we can access the publisher of the @Published searchText property directly to
@@ -36,7 +36,7 @@ struct SearchResultsView<RowContent: View>: View {
     
     init(
         selection: Binding<TMDBSearchResult?>,
-        prompt: Text? = nil,
+        prompt: Text,
         @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
     ) {
         self.content = content
@@ -45,35 +45,38 @@ struct SearchResultsView<RowContent: View>: View {
     }
     
     var body: some View {
-        List(selection: $selection) {
-            if self.results.isEmpty, !self.resultsText.isEmpty {
-                HStack {
-                    Spacer()
-                    Text(self.resultsText)
-                        .italic()
-                    Spacer()
-                }
-            } else {
-                ForEach(self.results) { (result: TMDBSearchResult) in
-                    content(result)
-                }
-                if !self.allPagesLoaded, !self.results.isEmpty {
-                    Button {
-                        loadNextPage()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text(Strings.MediaSearch.loadMore)
-                                .italic()
-                            Spacer()
-                        }
+        VStack {
+            // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
+            JFSearchBar(text: $model.searchText, prompt: prompt)
+            List(selection: $selection) {
+                if self.results.isEmpty, !self.resultsText.isEmpty {
+                    HStack {
+                        Spacer()
+                        Text(self.resultsText)
+                            .italic()
+                        Spacer()
                     }
-                    .foregroundColor(.primary)
+                } else {
+                    ForEach(self.results) { (result: TMDBSearchResult) in
+                        content(result)
+                    }
+                    if !self.allPagesLoaded, !self.results.isEmpty {
+                        Button {
+                            loadNextPage()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text(Strings.MediaSearch.loadMore)
+                                    .italic()
+                                Spacer()
+                            }
+                        }
+                        .foregroundColor(.primary)
+                    }
                 }
             }
         }
         .onAppear(perform: onAppear)
-        .searchable(text: $model.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: prompt)
     }
     
     func onAppear() {
@@ -188,7 +191,7 @@ struct SearchResultsView<RowContent: View>: View {
 
 #Preview {
     NavigationStack {
-        SearchResultsView(selection: .constant(nil)) { result in
+        SearchResultsView(selection: .constant(nil), prompt: Text("Search...")) { result in
             SearchResultRow(result: result)
         }
         .navigationTitle(Text(verbatim: "Add Media"))

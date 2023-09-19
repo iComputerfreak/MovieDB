@@ -17,6 +17,7 @@ struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
     @State private var isLoading = false
+    @State private var searchText = ""
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.dismiss) private var dismiss
@@ -24,23 +25,26 @@ struct AddMediaView: View {
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
-                SearchResultsView(selection: .constant(nil), prompt: Text(Strings.AddMedia.searchPrompt)) { result in
-                    Button {
-                        Task(priority: .userInitiated) {
-                            await self.addMedia(result)
+                VStack {
+                    SearchResultsView(selection: .constant(nil), prompt: Text(Strings.AddMedia.searchPrompt)) { result in
+                        Button {
+                            Task(priority: .userInitiated) {
+                                await self.addMedia(result)
+                            }
+                        } label: {
+                            SearchResultRow(result: result)
                         }
-                    } label: {
-                        SearchResultRow(result: result)
+                        .foregroundColor(.primary)
                     }
-                    .foregroundColor(.primary)
+                    .navigationTitle(Strings.AddMedia.navBarTitle)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarItems(trailing: Button(action: {
+                        dismiss()
+                    }, label: {
+                        Text(Strings.Generic.dismissViewDone)
+                            .bold()
+                    }))
                 }
-                .navigationTitle(Strings.AddMedia.navBarTitle)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(trailing: Button(action: {
-                    dismiss()
-                }, label: {
-                    Text(Strings.Generic.dismissViewDone)
-                }))
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
@@ -87,7 +91,9 @@ struct AddMediaView: View {
 }
 
 #Preview {
-    EmptyView()
+    NavigationStack {
+        Button("Show Sheet") {}
+    }
         .sheet(isPresented: .constant(true)) {
             AddMediaView()
                 .previewEnvironment()
