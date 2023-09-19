@@ -69,6 +69,7 @@ class PlaceholderData {
         self.context = context
         self.staticMovie = Self.createStaticMovie(in: context)
         self.staticMovie.isAdult = true
+        self.staticMovie.isFavorite = true
         self.staticShow = Self.createStaticShow(in: context)
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
         self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
