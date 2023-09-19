@@ -12,7 +12,7 @@ import SwiftUI
 /// Presents various data about the media object, e.g. the thumbnail image, title and year
 /// Requires the displayed media object as an `EnvironmentObject`.
 struct LibraryRow: View {
-    @EnvironmentObject var mediaObject: Media
+    @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
         BaseLibraryRow {

@@ -25,7 +25,8 @@ struct LookupView: View {
                     NavigationLink {
                         MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
                     } label: {
-                        SearchResultRow(result: result)
+                        SearchResultRow()
+                            .environmentObject(result)
                     }
                 }
                 .navigationTitle(Strings.TabView.lookupLabel)

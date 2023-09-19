@@ -192,7 +192,8 @@ struct SearchResultsView<RowContent: View>: View {
 #Preview {
     NavigationStack {
         SearchResultsView(selection: .constant(nil), prompt: Text("Search...")) { result in
-            SearchResultRow(result: result)
+            SearchResultRow()
+                .environmentObject(result)
         }
         .navigationTitle(Text(verbatim: "Add Media"))
     }

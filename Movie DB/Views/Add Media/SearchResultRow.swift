@@ -11,35 +11,52 @@ import SwiftUI
 
 struct SearchResultRow: View {
     /// The search result to display
-    @StateObject var result: TMDBSearchResult
+    @EnvironmentObject private var result: TMDBSearchResult
+    
+    var year: Int? {
+        if let releaseDate = (result as? TMDBMovieSearchResult)?.releaseDate {
+            return releaseDate[.year]
+        } else if let firstAirDate = (result as? TMDBShowSearchResult)?.firstAirDate {
+            return firstAirDate[.year]
+        }
+        return nil
+    }
     
     var body: some View {
         HStack {
+            // MARK: Thumbnail
             Image(uiImage: result.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
                 .thumbnail()
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
+                // MARK: Title
                 Text(verbatim: "\(result.title)")
-                    .bold()
+                    .lineLimit(2)
+                    .font(.headline)
+                // Under the title
                 HStack {
-                    if let movie = result as? TMDBMovieSearchResult, movie.isAdult {
-                        Image(systemName: "a.square")
+                    // MARK: Type
+                    MediaTypeCapsule(mediaType: result.mediaType)
+                    // MARK: Year
+                    if let year {
+                        CapsuleLabelView(text: year.description)
                     }
-                    switch result.mediaType {
-                    case .movie:
-                        Text(Strings.movie)
-                            .italic()
-                    case .show:
-                        Text(Strings.show)
-                            .italic()
+                    // MARK: Adult
+                    if result.isAdultMovie ?? false {
+                        CapsuleLabelView(text: Strings.Library.libraryRowAdultString, color: .red)
                     }
-                    if let date = self.yearFromMediaResult(result) {
-                        Text(verbatim: "(\(date.formatted(.dateTime.year())))")
-                    }
-                    // Make sure the content is left-aligned
-                    Spacer()
                 }
-                // Make sure the SearchResultView stretches on the whole width, so you can tap it anywhere
-                .frame(maxWidth: .infinity)
+                .font(.subheadline)
+                // MARK: Third Line: Already added
+                if MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType) {
+                    Group {
+                        Text(Image(systemName: "checkmark.circle.fill")) +
+                        Text(verbatim: " ") +
+                        Text(Strings.AddMedia.alreadyInLibraryLabelText)
+                    }
+                    .font(.subheadline)
+                    .bold()
+                    .foregroundColor(.green)
+                }
             }
         }
         .onAppear(perform: result.loadThumbnail)
@@ -60,24 +77,18 @@ struct SearchResultRow: View {
     }
 }
 
-#Preview {
+#Preview("List") {
     NavigationStack {
         List {
-            ForEach(0..<5, id: \.self) { _ in
-                SearchResultRow(result: TMDBMovieSearchResult(
-                    id: 0,
-                    title: "The Matrix",
-                    mediaType: .movie,
-                    imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-                    overview: "",
-                    originalTitle: "",
-                    originalLanguage: "",
-                    popularity: 0.0,
-                    voteAverage: 0.0,
-                    voteCount: 0,
-                    isAdult: true,
-                    releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
-                ))
+            ForEach(
+                [
+                    PlaceholderData.preview.searchResultMovie,
+                    PlaceholderData.preview.searchResultShow,
+                ],
+                id: \.id
+            ) { result in
+                SearchResultRow()
+                    .environmentObject(result)
             }
         }
         .navigationTitle(Text(verbatim: "Search Results"))
@@ -85,21 +96,9 @@ struct SearchResultRow: View {
     .previewEnvironment()
 }
 
-#Preview {
-    SearchResultRow(result: TMDBMovieSearchResult(
-        id: 0,
-        title: "The Matrix",
-        mediaType: .movie,
-        imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-        overview: "",
-        originalTitle: "",
-        originalLanguage: "",
-        popularity: 0.0,
-        voteAverage: 0.0,
-        voteCount: 0,
-        isAdult: true,
-        releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
-    ))
-    .previewLayout(.fixed(width: 300, height: 100))
-    .previewEnvironment()
+#Preview("Single") {
+    SearchResultRow()
+        .previewLayout(.fixed(width: 300, height: 100))
+        .previewEnvironment()
+        .environmentObject(PlaceholderData.preview.searchResultMovie)
 }

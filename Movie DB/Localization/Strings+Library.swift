@@ -58,6 +58,10 @@ extension Strings {
             localized: "library.searchPlaceholder",
             comment: "The placeholder text displayed in the search field in the library view"
         )
+        static let libraryRowAdultString = String(
+            localized: "library.list.adultText",
+            comment: "The text that is displayed for adult movies"
+        )
         
         enum Alert {
             static let updateErrorTitle = String(

@@ -22,17 +22,22 @@ struct AddMediaView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.dismiss) private var dismiss
     
+    var prompt: Text {
+        Text(Strings.AddMedia.searchPrompt)
+    }
+    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
                 VStack {
-                    SearchResultsView(selection: .constant(nil), prompt: Text(Strings.AddMedia.searchPrompt)) { result in
+                    SearchResultsView(selection: .constant(nil), prompt: prompt) { result in
                         Button {
                             Task(priority: .userInitiated) {
                                 await self.addMedia(result)
                             }
                         } label: {
-                            SearchResultRow(result: result)
+                            SearchResultRow()
+                                .environmentObject(result)
                         }
                         .foregroundColor(.primary)
                     }

@@ -87,7 +87,8 @@ struct MediaLookupDetail: View {
                 }
                 .listStyle(.grouped)
                 .navigationTitle(mediaObject.title)
-                .navigationBarTitleDisplayMode(.large)
+                // We already have a TitleView that displays the title
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         AddMediaButton()

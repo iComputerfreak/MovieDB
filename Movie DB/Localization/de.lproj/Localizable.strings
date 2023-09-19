@@ -886,3 +886,5 @@
 "userError.mediaAlreadyAdded" = "Medium existiert bereits in Mediathek.";
 "userError.noPro" = "Movie DB Pro benötigt.";
 "lookup.searchPrompt" = "Suchen";
+"library.list.adultText" = "Erwachsene";
+"addMedia.alreadyInLibraryLabel.text" = "Bereits hinzugefügt";

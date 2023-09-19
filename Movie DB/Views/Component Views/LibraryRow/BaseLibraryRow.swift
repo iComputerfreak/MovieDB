@@ -13,9 +13,6 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
     
     @ViewBuilder var subtitleContent: () -> SubtitleContent
     
-    let movieSymbolText = Strings.Library.movieSymbolName
-    let seriesSymbolText = Strings.Library.showSymbolName
-    
     init(@ViewBuilder subtitleContent: @escaping () -> SubtitleContent = { EmptyView() }) {
         self.subtitleContent = subtitleContent
     }
@@ -37,12 +34,7 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                     // Under the title
                     HStack {
                         // MARK: Type
-                        switch mediaObject.type {
-                        case .movie:
-                            CapsuleLabelView(text: movieSymbolText)
-                        case .show:
-                            CapsuleLabelView(text: seriesSymbolText)
-                        }
+                        MediaTypeCapsule(mediaType: mediaObject.type)
                         // MARK: Year
                         if let year = mediaObject.year {
                             CapsuleLabelView(text: year.description)
@@ -51,6 +43,9 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                         if let rating = mediaObject.parentalRating {
                             ParentalRatingView(rating: rating)
                                 .font(.caption2)
+                        }
+                        if (mediaObject as? Movie)?.isAdult ?? false {
+                            CapsuleLabelView(text: Strings.Library.libraryRowAdultString, color: .red)
                         }
                     }
                     .font(.subheadline)

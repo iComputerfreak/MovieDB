@@ -891,3 +891,5 @@
 "userError.mediaAlreadyAdded" = "The media already exists in the library.";
 "userError.noPro" = "Movie DB Pro required.";
 "lookup.searchPrompt" = "Search";
+"library.list.adultText" = "Adult";
+"addMedia.alreadyInLibraryLabel.text" = "Already in Library";
