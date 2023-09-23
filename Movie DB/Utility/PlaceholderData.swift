@@ -27,6 +27,33 @@ class PlaceholderData {
     let staticProblemShow: Show
     let staticUpcomingShow: Show
     let staticUpcomingMovie: Movie
+    let searchResultMovie: TMDBSearchResult = TMDBMovieSearchResult(
+        id: 603,
+        title: "The Matrix",
+        mediaType: .movie,
+        imagePath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+        overview: "",
+        originalTitle: "",
+        originalLanguage: "",
+        popularity: 0.0,
+        voteAverage: 0.0,
+        voteCount: 0,
+        isAdult: true,
+        releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
+    )
+    let searchResultShow: TMDBSearchResult = TMDBShowSearchResult(
+        id: 46953,
+        title: "The Blacklist",
+        mediaType: .show,
+        imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg",
+        overview: "",
+        originalTitle: "",
+        originalLanguage: "",
+        popularity: 0.0,
+        voteAverage: 0.0,
+        voteCount: 0,
+        firstAirDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-23")
+    )
     
     var fskRatings: [ParentalRating] {
         [
@@ -41,6 +68,8 @@ class PlaceholderData {
     init(context: NSManagedObjectContext) {
         self.context = context
         self.staticMovie = Self.createStaticMovie(in: context)
+        self.staticMovie.isAdult = true
+        self.staticMovie.isFavorite = true
         self.staticShow = Self.createStaticShow(in: context)
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
         self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
@@ -59,6 +88,7 @@ class PlaceholderData {
                     watched: .watched,
                     watchAgain: false
                 ))
+                (medias.first as? Movie)?.isAdult = true
                 
                 // MARK: The Blacklist
                 try await medias.append(createShow(

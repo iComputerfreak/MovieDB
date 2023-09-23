@@ -49,14 +49,11 @@ struct SFSymbolPicker: View {
             }
         }
         .padding(.horizontal)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-struct SFSymbolPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            SFSymbolPicker(symbol: .constant("heart.fill"))
-        }
+#Preview {
+    NavigationStack {
+        SFSymbolPicker(symbol: .constant("heart.fill"))
     }
 }

@@ -40,12 +40,7 @@ struct AddToListMenu: View {
     }
 }
 
-struct AddToListMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationView { proxy in
-            AddToListMenu()
-                .environmentObject(PlaceholderData.preview.staticMovie)
-                .environmentObject(proxy)
-        }
-    }
+#Preview {
+    AddToListMenu()
+        .previewEnvironment()
 }

@@ -147,8 +147,6 @@ struct MediaListsRootView: View {
             }
             .toolbar(content: toolbar)
             .navigationTitle(Strings.TabView.listsLabel)
-            // FUTURE: Disable when no longer bugging around
-            .navigationBarTitleDisplayMode(.inline)
         } content: {
             // MARK: List contents showing the medias in the list
             // content is provided by the `NavigationLink`s in the sidebar view
@@ -237,9 +235,7 @@ struct MediaListsRootView: View {
     }
 }
 
-struct UserListsViews_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaListsRootView()
-            .previewEnvironment()
-    }
+#Preview {
+    MediaListsRootView()
+        .previewEnvironment()
 }

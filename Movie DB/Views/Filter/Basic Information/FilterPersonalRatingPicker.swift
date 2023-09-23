@@ -43,9 +43,7 @@ struct FilterPersonalRatingPicker: View {
     }
 }
 
-struct FilterRatingPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterPersonalRatingPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterPersonalRatingPicker()
+        .previewEnvironment()
 }

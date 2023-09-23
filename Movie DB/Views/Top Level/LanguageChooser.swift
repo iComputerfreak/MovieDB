@@ -52,9 +52,7 @@ struct LanguageChooser: View {
     }
 }
 
-struct LanguageChooser_Previews: PreviewProvider {
-    static var previews: some View {
-        LanguageChooser()
-            .previewEnvironment()
-    }
+#Preview {
+    LanguageChooser()
+        .previewEnvironment()
 }

@@ -89,7 +89,7 @@ struct WatchedShowView: View {
                     "There exists a season with count > 0, so seasonIsValid should be true"
                 )
                 // Warning: Selected season does not have any episodes
-                return Text("detail.showWatchState.seasonWarningNoEpisodes \(season)")
+                return Text("detail.showWatchState.seasonWarningNoEpisodes \(season)", comment: "Warning text displayed when selecting a season as watched that does not have any episodes out yet.")
             }
             
             // MARK: Option 2: The entered season does not exist
@@ -176,14 +176,15 @@ struct WatchedShowView: View {
     }
 }
 
-struct WatchedShowView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchedShowView(
-            watched: .constant(.episode(season: 2, episode: 5)),
-            maxSeason: 1
-        )
-        WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
-            .previewDisplayName("Edit View (Non-existent season)")
-            .environmentObject(PlaceholderData.preview.staticShow as Media)
-    }
+#Preview {
+    WatchedShowView(
+        watched: .constant(.episode(season: 2, episode: 5)),
+        maxSeason: 1
+    )
+}
+
+#Preview("Editing") {
+    WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
+        .environmentObject(PlaceholderData.preview.staticShow as Media)
+        .previewEnvironment()
 }

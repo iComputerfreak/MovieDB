@@ -21,6 +21,7 @@ enum DeduplicationEntity: CaseIterable {
     case productionCompany
     case season
     case video
+    case watchProvider
     
     /// Returns the name of the associated Core Data entity
     var entityName: String {
@@ -52,6 +53,8 @@ enum DeduplicationEntity: CaseIterable {
             return Season.self
         case .video:
             return Video.self
+        case .watchProvider:
+            return WatchProvider.self
         }
     }
 }

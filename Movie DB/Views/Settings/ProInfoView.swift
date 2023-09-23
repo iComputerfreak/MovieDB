@@ -63,9 +63,7 @@ struct ProInfoView: View {
     }
 }
 
-struct ProInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProInfoView()
-            .previewEnvironment()
-    }
+#Preview {
+    ProInfoView()
+        .previewEnvironment()
 }

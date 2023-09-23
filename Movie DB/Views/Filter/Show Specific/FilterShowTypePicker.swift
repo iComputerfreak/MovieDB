@@ -21,9 +21,7 @@ struct FilterShowTypePicker: View {
     }
 }
 
-struct FilterShowTypePicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterShowTypePicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterShowTypePicker()
+        .previewEnvironment()
 }

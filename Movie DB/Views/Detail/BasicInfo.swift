@@ -98,6 +98,16 @@ struct BasicInfo: View {
                     )
                     .headline(Strings.Detail.productionCountriesHeadline)
                 }
+                // MARK: Directors and Created By
+                if mediaObject.type == .show, let show = mediaObject as? Show, !show.createdBy.isEmpty {
+                    // Sort by last name
+                    Text(
+                        show.createdBy
+                            .sorted(using: LastNameComparator(order: .forward))
+                            .formatted()
+                    )
+                    .headline(Strings.Detail.createdByHeadline)
+                }
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink {
@@ -114,16 +124,6 @@ struct BasicInfo: View {
                         .onAppear {
                             Logger.detail.debug("Show \(mediaObject.title) has no seasons to display.")
                         }
-                }
-                // MARK: Directors and Created By
-                if mediaObject.type == .show, let show = mediaObject as? Show, !show.createdBy.isEmpty {
-                    // Sort by last name
-                    Text(
-                        show.createdBy
-                            .sorted(using: LastNameComparator(order: .forward))
-                            .formatted()
-                    )
-                    .headline(Strings.Detail.createdByHeadline)
                 }
                 if mediaObject.type == .movie, let movie = mediaObject as? Movie, !movie.directors.isEmpty {
                     Text(
@@ -164,16 +164,16 @@ struct BasicInfo: View {
     }
 }
 
-struct BasicInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            BasicInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        
-        List {
-            BasicInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
+#Preview("Movie") {
+    List {
+        BasicInfo()
     }
+    .environmentObject(PlaceholderData.preview.staticMovie as Media)
+}
+
+#Preview("Show") {
+    List {
+        BasicInfo()
+    }
+    .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

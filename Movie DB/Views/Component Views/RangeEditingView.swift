@@ -109,9 +109,7 @@ extension RangeEditingView where Label == Text, ValueLabel == Text, T: CustomStr
     }
 }
 
-struct RangeEditingView_Previews: PreviewProvider {
-    static var previews: some View {
-//        RangeEditingView()
-        Text(verbatim: "Not implemented")
-    }
+#Preview {
+    //        RangeEditingView()
+    Text(verbatim: "Preview Not implemented")
 }

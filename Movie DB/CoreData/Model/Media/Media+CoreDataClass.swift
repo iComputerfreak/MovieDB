@@ -72,6 +72,7 @@ public class Media: NSManagedObject {
             self.popularity = tmdbData.popularity
             self.voteAverage = tmdbData.voteAverage
             self.voteCount = tmdbData.voteCount
+            self.imdbID = tmdbData.imdbID
             self.keywords = tmdbData.keywords
             self.translations = tmdbData.translations
             self.videos = Set(managedObjectContext.importDummies(tmdbData.videos))

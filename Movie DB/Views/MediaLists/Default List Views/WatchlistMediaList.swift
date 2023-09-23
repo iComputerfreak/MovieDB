@@ -30,8 +30,6 @@ struct WatchlistMediaList: View {
     }
 }
 
-struct WatchlistMediaList_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchlistMediaList(selectedMedia: .constant(nil))
-    }
+#Preview {
+    WatchlistMediaList(selectedMedia: .constant(nil))
 }

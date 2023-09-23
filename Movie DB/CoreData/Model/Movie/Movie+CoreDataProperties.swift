@@ -47,8 +47,6 @@ public extension Movie {
 
     /// Whether the movie is an adult movie
     @NSManaged var isAdult: Bool
-    /// The id of the media on IMDB.com
-    @NSManaged var imdbID: String?
     /// The director(s) of the media
     @NSManaged var directors: [String]
     

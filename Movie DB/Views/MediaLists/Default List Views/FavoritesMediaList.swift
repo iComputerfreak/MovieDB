@@ -31,8 +31,6 @@ struct FavoritesMediaList: View {
     }
 }
 
-struct FavoritesMediaList_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoritesMediaList(selectedMedia: .constant(nil))
-    }
+#Preview {
+    FavoritesMediaList(selectedMedia: .constant(nil))
 }

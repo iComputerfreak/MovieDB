@@ -18,8 +18,6 @@ struct ContactSection: View {
     }
 }
 
-struct ContactSection_Previews: PreviewProvider {
-    static var previews: some View {
-        ContactSection(config: .constant(.init()))
-    }
+#Preview {
+    ContactSection(config: .constant(.init()))
 }

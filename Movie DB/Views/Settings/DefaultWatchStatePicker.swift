@@ -36,10 +36,8 @@ struct DefaultWatchStatePicker: View {
     }
 }
 
-struct NewMediaWatchStatePicker_Previews: PreviewProvider {
-    static var previews: some View {
-        DefaultWatchStatePicker()
-    }
+#Preview {
+    DefaultWatchStatePicker()
 }
 
 enum GenericWatchState: String, CaseIterable, Codable {

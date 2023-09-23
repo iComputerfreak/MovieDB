@@ -24,8 +24,6 @@ struct ListConfigurationButton: View {
     }
 }
 
-struct ListConfigurationButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ListConfigurationButton(.constant(false))
-    }
+#Preview {
+    ListConfigurationButton(.constant(false))
 }

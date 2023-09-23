@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 @objc
-public enum StarRating: Int, Strideable, Codable, Comparable {
+public enum StarRating: Int, Strideable, Codable, Comparable, CaseIterable {
     case noRating = 0
     case halfStar
     case oneStar

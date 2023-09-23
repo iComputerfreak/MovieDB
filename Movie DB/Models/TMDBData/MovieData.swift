@@ -19,7 +19,6 @@ extension TMDBData {
         var budget: Int
         var revenue: Int
         var isAdult: Bool
-        var imdbID: String?
         var directors: [String]
         
         init(
@@ -28,7 +27,6 @@ extension TMDBData {
             budget: Int,
             revenue: Int,
             isAdult: Bool,
-            imdbID: String? = nil,
             directors: [String]
         ) {
             self.rawReleaseDate = rawReleaseDate
@@ -36,7 +34,6 @@ extension TMDBData {
             self.budget = budget
             self.revenue = revenue
             self.isAdult = isAdult
-            self.imdbID = imdbID
             self.directors = directors
         }
         
@@ -47,7 +44,6 @@ extension TMDBData {
             self.budget = try container.decode(Int.self, forKey: .budget)
             self.revenue = try container.decode(Int.self, forKey: .revenue)
             self.isAdult = try container.decode(Bool.self, forKey: .isAdult)
-            self.imdbID = try container.decode(String?.self, forKey: .imdbID)
             
             // Load the director(s)
             let creditsContainer = try container.nestedContainer(keyedBy: CreditsCodingKeys.self, forKey: .credits)
@@ -64,7 +60,6 @@ extension TMDBData {
             case budget
             case revenue
             case isAdult = "adult"
-            case imdbID = "imdb_id"
             case credits
         }
         

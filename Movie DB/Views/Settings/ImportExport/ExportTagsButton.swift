@@ -25,8 +25,6 @@ struct ExportTagsButton: View {
     }
 }
 
-struct ExportTagsButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ExportTagsButton(config: .constant(.init()))
-    }
+#Preview {
+    ExportTagsButton(config: .constant(.init()))
 }

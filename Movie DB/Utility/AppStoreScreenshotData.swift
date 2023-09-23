@@ -65,6 +65,7 @@ struct AppStoreScreenshotData {
             matrix.personalRating = .fourStars
             matrix.watched = .watched
             matrix.watchAgain = true
+            matrix.watchDate = .now
             matrix.tags = getTags([.future, .conspiracy])
             matrix.notes = "A pretty good movie!"
             
@@ -78,6 +79,7 @@ struct AppStoreScreenshotData {
             expanse.personalRating = .fourAndAHalfStars
             expanse.watched = .episode(season: 5, episode: 3)
             expanse.watchAgain = false
+            expanse.watchDate = .now.addingTimeInterval(-12 * .day)
             expanse.tags = getTags([.future, .space])
             expanse.notes = ""
             expanse.isFavorite = true
@@ -85,6 +87,7 @@ struct AppStoreScreenshotData {
             drwho.personalRating = .fiveStars
             drwho.watched = .season(12)
             drwho.watchAgain = true
+            drwho.watchDate = .now.addingTimeInterval(-60 * .day)
             drwho.tags = getTags([.future, .timeTravel, .space])
             drwho.notes = ""
             drwho.isOnWatchlist = true

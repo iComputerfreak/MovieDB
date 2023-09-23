@@ -47,8 +47,7 @@ struct ExtendedInfo: View {
                 }
                 // MARK: IMDB ID
                 if
-                    let movie = mediaObject as? Movie,
-                    let imdbID = movie.imdbID,
+                    let imdbID = mediaObject.imdbID,
                     let url = URL(string: "https://www.imdb.com/title/\(imdbID)")
                 {
                     Link(imdbID, destination: url)
@@ -102,15 +101,16 @@ struct ExtendedInfo: View {
     }
 }
 
-struct ExtendedInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ExtendedInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        List {
-            ExtendedInfo()
-        }
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
+#Preview("Movie") {
+    List {
+        ExtendedInfo()
     }
+    .environmentObject(PlaceholderData.preview.staticMovie as Media)
+}
+
+#Preview("Show") {
+    List {
+        ExtendedInfo()
+    }
+    .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

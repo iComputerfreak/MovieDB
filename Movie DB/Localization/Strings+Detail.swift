@@ -140,6 +140,10 @@ extension Strings {
             localized: "detail.userData.tags.none",
             comment: "The label of the tag list in the user data section of the detail view specifying that there are no tags for this media."
         )
+        static let noListsLabel = String(
+            localized: "detail.userData.lists.none",
+            comment: "The label of the lists field in the user data section of the detail view specifying that this media is on no lists."
+        )
         static func tagsFooter(_ count: Int) -> String {
             String(
                 localized: "detail.tags.footer \(count)",

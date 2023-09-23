@@ -28,8 +28,7 @@ struct DeleteMediaSwipeAction: View {
     }
 }
 
-struct DeleteMediaSwipeAction_Previews: PreviewProvider {
-    static var previews: some View {
-        DeleteMediaSwipeAction()
-    }
+#Preview {
+    DeleteMediaSwipeAction()
+        .previewEnvironment()
 }

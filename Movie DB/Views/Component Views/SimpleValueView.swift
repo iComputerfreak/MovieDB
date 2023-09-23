@@ -52,16 +52,14 @@ struct SimpleValueView<T: Hashable>: View {
     }
 }
 
-struct SimpleValueView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            SimpleValueView(
-                values: [true, false],
-                value: .constant(false),
-                label: { $0 ? "Yes" : "No" }
-            )
-            SimpleValueView<Bool>.createYesNo(value: .constant(true))
-                .environment(\.isEditing, true)
-        }
+#Preview {
+    VStack {
+        SimpleValueView(
+            values: [true, false],
+            value: .constant(false),
+            label: { $0 ? "Yes" : "No" }
+        )
+        SimpleValueView<Bool>.createYesNo(value: .constant(true))
+            .environment(\.isEditing, true)
     }
 }

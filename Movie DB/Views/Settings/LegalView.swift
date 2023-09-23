@@ -47,10 +47,8 @@ struct LegalView: View {
     }
 }
 
-struct LegalView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            LegalView()
-        }
+#Preview {
+    NavigationStack {
+        LegalView()
     }
 }

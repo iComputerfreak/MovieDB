@@ -138,12 +138,10 @@ struct LibraryHome: View {
     }
 }
 
-struct LibraryHome_Previews: PreviewProvider {
-    static var previews: some View {
-        LibraryHome()
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
-            .onAppear {
-                PlaceholderData.preview.populateSamples()
-            }
-    }
+#Preview {
+    LibraryHome()
+        .previewEnvironment()
+        .onAppear {
+            PlaceholderData.preview.populateSamples()
+        }
 }

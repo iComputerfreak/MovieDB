@@ -151,8 +151,6 @@ struct TagListView: View {
     }
 }
 
-struct TagListView_Previews: PreviewProvider {
-    static var previews: some View {
-        TagListView(.constant([]))
-    }
+#Preview {
+    TagListView(.constant([]))
 }

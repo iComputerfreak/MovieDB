@@ -54,24 +54,21 @@ struct NotesView: View {
     }
 }
 
-struct NotesView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            List {
-                NotesView(.constant("This is a simple test note.\nIt has four\nlines\nin total"))
-                    .headline(verbatim: "Notes")
-                NotesView(.constant("This one has only one."))
-                    .headline(verbatim: "Notes")
-                NotesView(.constant(""))
-                    .headline(verbatim: "Notes")
-                    .navigationTitle(Text(verbatim: "Test"))
-            }
-        }
-        Group {
-            NavigationStack {
-                NotesView.EditView(notes: .constant("This one is being edited."))
-            }
-            .previewDisplayName("Editing View")
-        }
+#Preview {
+    List {
+        NotesView(.constant("This is a simple test note.\nIt has four\nlines\nin total"))
+            .headline(verbatim: "Notes")
+        NotesView(.constant("This one has only one."))
+            .headline(verbatim: "Notes")
+        NotesView(.constant(""))
+            .headline(verbatim: "Notes")
+            .navigationTitle(Text(verbatim: "Test"))
     }
+}
+
+#Preview("Editing") {
+    NavigationStack {
+        NotesView.EditView(notes: .constant("This one is being edited."))
+    }
+    .previewDisplayName("Editing View")
 }

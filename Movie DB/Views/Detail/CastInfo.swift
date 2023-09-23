@@ -53,9 +53,7 @@ struct CastInfo: View {
     }
 }
 
-struct CastInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        CastInfo()
-            .previewEnvironment()
-    }
+#Preview {
+    CastInfo()
+        .previewEnvironment()
 }

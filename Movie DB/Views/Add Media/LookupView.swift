@@ -21,16 +21,15 @@ struct LookupView: View {
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
-                SearchResultsView(selection: $result) { result in
+                SearchResultsView(selection: $result, prompt: Text(Strings.Lookup.searchPrompt)) { result in
                     NavigationLink {
                         MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
                     } label: {
-                        SearchResultRow(result: result)
+                        SearchResultRow()
+                            .environmentObject(result)
                     }
                 }
                 .navigationTitle(Strings.TabView.lookupLabel)
-                // FUTURE: Disable when no longer bugging around
-                .navigationBarTitleDisplayMode(.inline)
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
@@ -39,8 +38,7 @@ struct LookupView: View {
     }
 }
 
-struct LookupView_Previews: PreviewProvider {
-    static var previews: some View {
-        LookupView()
-    }
+#Preview {
+    LookupView()
+        .previewEnvironment()
 }

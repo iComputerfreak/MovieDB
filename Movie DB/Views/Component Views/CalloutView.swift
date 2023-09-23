@@ -67,22 +67,20 @@ struct CalloutView: View {
     }
 }
 
-struct CalloutView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            ForEach(CalloutType.allCases, id: \.hashValue) { type in
-                CalloutView(text: "Callout Text", type: type)
-                    .padding()
-            }
+#Preview("Short Text") {
+    VStack {
+        ForEach(CalloutType.allCases, id: \.hashValue) { type in
+            CalloutView(text: "Callout Text", type: type)
+                .padding()
         }
-        .previewDisplayName("Short Text")
-        
-        VStack {
-            ForEach(CalloutType.allCases, id: \.hashValue) { type in
-                CalloutView(text: "This is a very long callout text that wraps multiple lines.", type: type)
-                    .padding()
-            }
+    }
+}
+
+#Preview("Multiline") {
+    VStack {
+        ForEach(CalloutType.allCases, id: \.hashValue) { type in
+            CalloutView(text: "This is a very long callout text that wraps multiple lines.", type: type)
+                .padding()
         }
-        .previewDisplayName("Multiline")
     }
 }

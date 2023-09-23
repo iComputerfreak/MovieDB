@@ -37,7 +37,6 @@ struct MediaLookupDetail: View {
         case .loading:
             ProgressView()
                 .navigationTitle(Strings.Generic.navBarLoadingTitle)
-                .navigationBarTitleDisplayMode(.inline)
                 .task(priority: .userInitiated) {
                     // Load the media
                     do {
@@ -88,7 +87,8 @@ struct MediaLookupDetail: View {
                 }
                 .listStyle(.grouped)
                 .navigationTitle(mediaObject.title)
-                .navigationBarTitleDisplayMode(.large)
+                // We already have a TitleView that displays the title
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         AddMediaButton()
@@ -105,9 +105,7 @@ struct MediaLookupDetail: View {
     }
 }
 
-struct MediaLookupDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaLookupDetail(tmdbID: 603, mediaType: .movie)
-            .previewEnvironment()
-    }
+#Preview {
+    MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+        .previewEnvironment()
 }

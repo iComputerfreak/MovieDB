@@ -122,10 +122,8 @@ struct ImportExportSection: View {
     }
 }
 
-struct ImportExportSection_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ImportExportSection(config: .constant(SettingsViewModel()))
-        }
+#Preview {
+    List {
+        ImportExportSection(config: .constant(SettingsViewModel()))
     }
 }

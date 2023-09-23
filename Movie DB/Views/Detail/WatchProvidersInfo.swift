@@ -14,6 +14,7 @@ struct WatchProvidersInfo: View {
     var providers: [WatchProvider] {
         mediaObject.watchProviders
             .filter { $0.type != .buy }
+            .removingDuplicates(key: \.id)
             .sorted(on: { provider in
                 let typePriority = provider.type?.priority ?? 0
                 let providerPriority = provider.priority
@@ -65,17 +66,14 @@ struct WatchProvidersInfo: View {
     }
 }
 
-struct WatchProvidersInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            WatchProvidersInfo()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-            WatchProvidersInfo()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-            WatchProvidersInfo()
-                .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
-        }
-        .previewEnvironment()
-        .environment(\.managedObjectContext, PersistenceController.previewContext)
+#Preview {
+    List {
+        WatchProvidersInfo()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+        WatchProvidersInfo()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+        WatchProvidersInfo()
+            .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
     }
+    .previewEnvironment()
 }

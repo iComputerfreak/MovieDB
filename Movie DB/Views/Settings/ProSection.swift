@@ -22,10 +22,8 @@ struct ProSection: View {
     }
 }
 
-struct ProSection_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ProSection(config: .constant(SettingsViewModel()))
-        }
+#Preview {
+    List {
+        ProSection(config: .constant(SettingsViewModel()))
     }
 }

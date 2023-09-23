@@ -48,23 +48,21 @@ class NotificationProxy: ObservableObject {
     }
 }
 
-struct NotificationView_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationView { proxy in
-            NavigationStack {
-                List {
-                    ForEach(0..<10) { i in
-                        Text(verbatim: "This is item \(i)")
-                    }
-                    .task {
-                        try? await Task.sleep(nanoseconds: 1_000_000_000)
-                        await MainActor.run {
-                            proxy.show(
-                                title: "Test",
-                                subtitle: "This is a test notification.",
-                                systemImage: "checkmark.circle.fill"
-                            )
-                        }
+#Preview {
+    NotificationView { proxy in
+        NavigationStack {
+            List {
+                ForEach(0..<10) { i in
+                    Text(verbatim: "This is item \(i)")
+                }
+                .task {
+                    try? await Task.sleep(for: .seconds(1))
+                    await MainActor.run {
+                        proxy.show(
+                            title: "Test",
+                            subtitle: "This is a test notification.",
+                            systemImage: "checkmark.circle.fill"
+                        )
                     }
                 }
             }

@@ -10,15 +10,15 @@ import SwiftUI
 
 struct BackgroundFetchDebugSection: View {
     var body: some View {
-        Section("Background Fetch") {
+        Section("Background Fetch" as String) {
             let time = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "debug_lastBGFetchTime"))
             let cancelled = UserDefaults.standard.bool(forKey: "debug_lastBGFetchCancelled")
             let rescheduleResult = UserDefaults.standard.bool(forKey: "debug_lastBGFetchRescheduleResult")
             let result = UserDefaults.standard.bool(forKey: "debug_lastBGFetchResult")
             let lastLibraryUpdate = Date(timeIntervalSince1970: MediaLibrary.shared.lastUpdated)
             Text(
-                """
-                Last BG Fetch was at \(time, format: .iso8601)
+                verbatim: """
+                Last BG Fetch was at \(time.formatted(.iso8601))
                 Cancelled: \(cancelled ? "Yes" : "No")
                 Rescheduled: \(rescheduleResult ? "Yes" : "No")
                 Result: \(result ? "success" : "failure")
@@ -29,8 +29,6 @@ struct BackgroundFetchDebugSection: View {
     }
 }
 
-struct BackgroundFetchDebugSection_Previews: PreviewProvider {
-    static var previews: some View {
-        BackgroundFetchDebugSection()
-    }
+#Preview {
+    BackgroundFetchDebugSection()
 }

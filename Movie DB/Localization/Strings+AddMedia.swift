@@ -32,6 +32,10 @@ extension Strings {
             localized: "addMedia.addMediaButton.addToLibrary",
             comment: "The button label that is shown when the media object can be added to the library"
         )
+        static let alreadyInLibraryLabelText = String(
+            localized: "addMedia.alreadyInLibraryLabel.text",
+            comment: "The text of the label that indicates that the media has already been added to the user's library"
+        )
         
         enum Alert {
             static let alreadyAddedTitle = String(

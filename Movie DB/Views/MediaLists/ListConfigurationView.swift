@@ -20,7 +20,6 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
                 contentBuilder(list)
             }
             .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {
                     dismiss()
@@ -30,10 +29,8 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
     }
 }
 
-struct ListConfigurationView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListConfigurationView(list: UserMediaList(context: PersistenceController.previewContext)) { list in
-            Text(verbatim: "Name: \(list.name)")
-        }
+#Preview {
+    ListConfigurationView(list: UserMediaList(context: PersistenceController.previewContext)) { list in
+        Text(verbatim: "Name: \(list.name)")
     }
 }

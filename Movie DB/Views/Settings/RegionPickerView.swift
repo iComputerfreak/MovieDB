@@ -33,11 +33,9 @@ struct RegionPickerView: View {
     }
 }
 
-struct RegionPickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            RegionPickerView()
-                .environmentObject(JFConfig.shared)
-        }
+#Preview {
+    List {
+        RegionPickerView()
+            .previewEnvironment()
     }
 }

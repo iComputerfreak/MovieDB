@@ -14,8 +14,6 @@ struct MediaMenuLabel: View {
     }
 }
 
-struct MediaMenuLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaMenuLabel()
-    }
+#Preview {
+    MediaMenuLabel()
 }

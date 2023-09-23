@@ -62,7 +62,6 @@ public class Movie: Media {
             self.budget = movieData.budget
             self.revenue = movieData.revenue
             self.isAdult = movieData.isAdult
-            self.imdbID = movieData.imdbID
             self.directors = movieData.directors
         }
     }

@@ -42,9 +42,7 @@ struct FilterReleaseYearPicker: View {
     }
 }
 
-struct FilterReleaseYearPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterReleaseYearPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterReleaseYearPicker()
+        .previewEnvironment()
 }

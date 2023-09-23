@@ -39,7 +39,6 @@ struct DynamicMediaListConfigurationView: View {
             }
             .environmentObject(list.filterSetting!)
             .navigationTitle(list.name)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {
                     dismiss()
@@ -49,8 +48,6 @@ struct DynamicMediaListConfigurationView: View {
     }
 }
 
-struct DynamicMediaListConfigurationView_Previews: PreviewProvider {
-    static var previews: some View {
-        DynamicMediaListConfigurationView(list: DynamicMediaList(context: PersistenceController.previewContext))
-    }
+#Preview {
+    DynamicMediaListConfigurationView(list: DynamicMediaList(context: PersistenceController.previewContext))
 }

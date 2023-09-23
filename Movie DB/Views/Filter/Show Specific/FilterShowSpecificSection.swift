@@ -22,9 +22,7 @@ struct FilterShowSpecificSection: View {
     }
 }
 
-struct FilterShowSpecificSection_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterShowSpecificSection()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterShowSpecificSection()
+        .previewEnvironment()
 }

@@ -76,20 +76,18 @@ struct MediaDetail: View {
     }
 }
 
-struct MediaDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                .previewEnvironment()
-        }
-        .previewDisplayName("Movie")
-        
-        NavigationStack {
-            MediaDetail()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-                .previewEnvironment()
-        }
-        .previewDisplayName("Show")
+#Preview("Movie") {
+    NavigationStack {
+        MediaDetail()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            .previewEnvironment()
+    }
+}
+
+#Preview("Show") {
+    NavigationStack {
+        MediaDetail()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .previewEnvironment()
     }
 }

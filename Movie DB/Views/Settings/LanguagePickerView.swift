@@ -48,11 +48,9 @@ struct LanguagePickerView: View {
     }
 }
 
-struct LanguagePickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            LanguagePickerView()
-                .environmentObject(JFConfig.shared)
-        }
+#Preview {
+    List {
+        LanguagePickerView()
+            .previewEnvironment()
     }
 }

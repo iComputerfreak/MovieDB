@@ -24,9 +24,7 @@ struct AddToWatchlistButton: View {
     }
 }
 
-struct MediaMenu_AddToWatchlist_Previews: PreviewProvider {
-    static var previews: some View {
-        AddToWatchlistButton()
-            .environmentObject(PlaceholderData.preview.staticMovie)
-    }
+#Preview {
+    AddToWatchlistButton()
+        .previewEnvironment()
 }

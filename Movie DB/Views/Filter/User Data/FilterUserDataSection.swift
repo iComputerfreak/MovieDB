@@ -23,9 +23,7 @@ struct FilterUserDataSection: View {
     }
 }
 
-struct FilterUserDataSection_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterUserDataSection()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterUserDataSection()
+        .previewEnvironment()
 }

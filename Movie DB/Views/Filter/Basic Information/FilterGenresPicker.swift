@@ -33,9 +33,7 @@ struct FilterGenresPicker: View {
     }
 }
 
-struct FilterGenresPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterGenresPicker()
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
-    }
+#Preview {
+    FilterGenresPicker()
+        .previewEnvironment()
 }

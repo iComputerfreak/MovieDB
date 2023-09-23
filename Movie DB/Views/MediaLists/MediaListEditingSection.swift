@@ -29,8 +29,6 @@ struct MediaListEditingSection: View {
     }
 }
 
-struct MediaListEditingSection_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaListEditingSection(name: .constant("Test"), iconName: .constant("heart.fill"))
-    }
+#Preview {
+    MediaListEditingSection(name: .constant("Test"), iconName: .constant("heart.fill"))
 }

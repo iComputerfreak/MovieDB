@@ -15,6 +15,11 @@ extension Strings {
             )
         }
         
+        static let searchPrompt = String(
+            localized: "lookup.searchPrompt",
+            comment: "The prompt text that is displayed in the search bar in the Lookup view"
+        )
+        
         enum Alert {
             static let errorLoadingTitle = String(
                 localized: "lookup.alert.errorLoading.title",

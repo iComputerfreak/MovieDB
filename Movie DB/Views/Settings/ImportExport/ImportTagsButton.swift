@@ -74,8 +74,6 @@ struct ImportTagsButton: View {
     }
 }
 
-struct ImportTagsButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ImportTagsButton(config: .constant(.init()))
-    }
+#Preview {
+    ImportTagsButton(config: .constant(.init()))
 }

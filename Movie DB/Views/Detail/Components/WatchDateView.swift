@@ -68,13 +68,11 @@ struct WatchDateView: View {
     }
 }
 
-struct WatchDateView_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            WatchDateView()
-            WatchDateView()
-                .environment(\.isEditing, true)
-        }
-        .previewEnvironment()
+#Preview {
+    List {
+        WatchDateView()
+        WatchDateView()
+            .environment(\.isEditing, true)
     }
+    .previewEnvironment()
 }

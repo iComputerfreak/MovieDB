@@ -12,7 +12,6 @@ extension Schema {
         
         // MARK: Attributes
         case budget
-        case imdbID
         case isAdult
         case releaseDate
         case revenue

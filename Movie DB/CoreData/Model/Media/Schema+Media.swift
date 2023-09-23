@@ -40,6 +40,7 @@ extension Schema {
         case popularity
         case voteAverage
         case voteCount
+        case imdbID
         case keywords
         case translations
         case creationDate

@@ -33,10 +33,8 @@ struct CastMemberRow: View {
     }
 }
 
-struct CastMemberRow_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            CastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
-        }
+#Preview {
+    List {
+        CastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
     }
 }

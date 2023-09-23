@@ -112,37 +112,26 @@ extension View {
     }
 }
 
-struct NotificationPopup_Previews: PreviewProvider {
-    @State static var isActive = true
+#Preview {
+    @State var isActive = true
     
-    static var previews: some View {
-        Preview()
-    }
-}
-
-private struct Preview: View {
-    @State private var isActive = false
-    
-    var body: some View {
-        NavigationStack {
-            List {
-                ForEach(0..<30) { i in
-                    Text(verbatim: "This is Item \(i)")
-                }
+    return NavigationStack {
+        List {
+            ForEach(0..<30) { i in
+                Text(verbatim: "This is Item \(i)")
             }
-            .navigationTitle(Text(verbatim: "Favorites"))
         }
-        .notificationPopup(
-            isPresented: $isActive,
-            systemImage: "plus.circle",
-            title: "Added to Playlist",
-            subtitle: "1 song has been added to \"Discord.\""
-        )
-        .task {
-//            try? await Task.sleep(nanoseconds: 1_000_000_000)
-            await MainActor.run {
-                self.isActive = true
-            }
+        .navigationTitle(Text(verbatim: "Favorites"))
+    }
+    .notificationPopup(
+        isPresented: $isActive,
+        systemImage: "plus.circle",
+        title: "Added to Playlist",
+        subtitle: "1 song has been added to \"Watching.\""
+    )
+    .task {
+        await MainActor.run {
+            isActive = true
         }
     }
 }
