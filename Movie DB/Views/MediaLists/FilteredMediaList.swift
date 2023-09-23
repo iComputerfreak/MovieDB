@@ -104,10 +104,10 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 Button {
                     self.showingInfo = true
                 } label: {
-                    Label("Info", systemImage: "info.circle")
+                    Label(Strings.Lists.infoButtonLabel, systemImage: "info.circle")
                 }
                 .alert(list.name, isPresented: $showingInfo) {
-                    Button("Ok") {}
+                    Button(Strings.Generic.alertButtonOk) {}
                 } message: {
                     Text(description)
                 }

@@ -197,5 +197,10 @@ extension Strings {
                 comment: "The subtitle string for a show in the 'Upcoming' list."
             )
         }
+        
+        static let infoButtonLabel = String(
+            localized: "lists.infoButton.label",
+            comment: "The label for the info button in a default list that explains what the list does."
+        )
     }
 }

@@ -45,32 +45,32 @@ struct DebugView: View {
     
     var body: some View {
         List {
-            Section("Core Data") {
+            Section("Core Data" as String) {
                 ForEach(allCounts, id: \.entityName) { count in
                     VStack(alignment: .leading) {
                         Text(count.entityName)
                         Group {
-                            Text("Local: \(count.localCountDescription)")
-                            Text("Unique Local: \(count.uniqueLocalCountDescription)")
-                            Text("Remote: \(count.remoteCountDescription)")
+                            Text(verbatim: "Local: \(count.localCountDescription)")
+                            Text(verbatim: "Unique Local: \(count.uniqueLocalCountDescription)")
+                            Text(verbatim: "Remote: \(count.remoteCountDescription)")
                         }
                         .font(.caption)
                         .padding(.leading)
                     }
                 }
             }
-            Section("Duplicates") {
+            Section("Duplicates" as String) {
                 let (duplicateID, duplicateTmdbID, duplicateObjectID) = duplicates
-                Text("There are \(duplicateID) media object with identical IDs.")
-                Text("There are \(duplicateTmdbID) media object with identical TMDB IDs.")
-                Text("There are \(duplicateObjectID) media object with identical Object IDs.")
+                Text(verbatim: "There are \(duplicateID) media object with identical IDs.")
+                Text(verbatim: "There are \(duplicateTmdbID) media object with identical TMDB IDs.")
+                Text(verbatim: "There are \(duplicateObjectID) media object with identical Object IDs.")
             }
             BackgroundFetchDebugSection()
         }
         .refreshable {
             self.update()
         }
-        .navigationTitle("Debug")
+        .navigationTitle(Text(verbatim: "Debug"))
     }
     
     func update() {

@@ -40,15 +40,6 @@ extension Strings {
             )
         }
 
-        static let aboutMeHeader = String(
-            localized: "proInfo.aboutMe.header",
-            comment: "The header of the 'about me' paragraph in the pro info view"
-        )
-        static let aboutMeText = String(
-            localized: "proInfo.aboutMe.text",
-            comment: "The 'about me' text in the pro info view"
-        )
-        
         enum Alert {
             static let buyProErrorTitle = String(
                 localized: "settings.alert.errorBuyingPro.title",

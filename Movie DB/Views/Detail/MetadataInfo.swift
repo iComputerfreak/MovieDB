@@ -31,7 +31,7 @@ struct MetadataInfo: View {
             ) {
                 Group {
                     if lists.isEmpty {
-                        Text("None")
+                        Text(Strings.Detail.noListsLabel)
                     } else {
                         WrappingHStack {
                             ForEach(lists, id: \.hashValue) { list in

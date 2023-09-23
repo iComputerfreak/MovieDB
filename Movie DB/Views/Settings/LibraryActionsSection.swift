@@ -25,7 +25,7 @@ struct LibraryActionsSection: View {
             #if DEBUG
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
-                    Button("Debug") {
+                    Button {
                         // swiftlint:disable force_try
                         // Do debugging things here
                         var shows = try! PersistenceController.viewContext.fetch(Show.fetchRequest())
@@ -37,6 +37,8 @@ struct LibraryActionsSection: View {
                             print("\(show.title) (\(show.numberOfSeasons ?? -1) != \(show.seasons.count)): \(seasons)")
                         }
                         // swiftlint:enable force_try
+                    } label: {
+                        Text(verbatim: "Debug")
                     }
                 }
             #endif
