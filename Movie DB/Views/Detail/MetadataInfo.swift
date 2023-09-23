@@ -12,9 +12,11 @@ struct MetadataInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var lists: [any MediaListProtocol] {
-        Array(mediaObject.userLists) +
         (mediaObject.isFavorite ? [PredicateMediaList.favorites] : []) +
-        (mediaObject.isOnWatchlist ? [PredicateMediaList.watchlist] : [])
+        (mediaObject.isOnWatchlist ? [PredicateMediaList.watchlist] : []) +
+        // TODO: Does not update when a list changes
+        // Maybe use a @FetchRequest for the user lists? (but mediaObject is not available at initialization)
+        Array(mediaObject.userLists).sorted(on: \.name, by: <)
     }
     
     var body: some View {
@@ -27,16 +29,22 @@ struct MetadataInfo: View {
                     Text(Strings.Detail.metadataSectionHeader)
                 }
             ) {
-                WrappingHStack {
-                    ForEach(lists, id: \.hashValue) { list in
-                        CapsuleLabelView {
-                            (Text(Image(systemName: list.iconName)) + Text(" ") + Text(list.name))
-                                .font(.caption)
+                Group {
+                    if lists.isEmpty {
+                        Text("None")
+                    } else {
+                        WrappingHStack {
+                            ForEach(lists, id: \.hashValue) { list in
+                                CapsuleLabelView {
+                                    (Text(Image(systemName: list.iconName)) + Text(" ") + Text(list.name))
+                                        .font(.subheadline)
+                                }
+                            }
                         }
                     }
                 }
                 .padding(.top, 5)
-                    .headline("Lists")
+                .headline("Lists")
                 if let id = mediaObject.id {
                     Text(id.uuidString)
                         .headline(Strings.Detail.internalIDHeadline)
