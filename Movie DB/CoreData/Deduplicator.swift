@@ -180,6 +180,14 @@ class Deduplicator {
                 uniquePropertyName: Schema.Video.key.rawValue,
                 uniquePropertyValue: video.key
             )
+        case .watchProvider:
+            let watchProvider: WatchProvider = castObject()
+            deduplicateObject(
+                watchProvider,
+                chooseWinner: { $0.min(on: \.name, by: <)! },
+                uniquePropertyName: Schema.WatchProvider.id.rawValue,
+                uniquePropertyValue: watchProvider.id as NSNumber
+            )
         }
     }
     
@@ -290,6 +298,12 @@ class Deduplicator {
             remove(
                 duplicatedVideos: duplicates as! [Video],
                 winner: winner as! Video,
+                performingContext: performingContext
+            )
+        case .watchProvider:
+            remove(
+                duplicatedWatchProviders: duplicates as! [WatchProvider],
+                winner: winner as! WatchProvider,
                 performingContext: performingContext
             )
         }
@@ -464,6 +478,27 @@ extension Deduplicator {
             if let media = video.media {
                 media.videos.remove(video)
                 media.videos.insert(winner)
+            }
+        }
+    }
+    
+    private func remove(
+        duplicatedWatchProviders: [WatchProvider],
+        winner: WatchProvider,
+        performingContext: NSManagedObjectContext
+    ) {
+        precondition(
+            duplicatedWatchProviders.map(\.id).removingDuplicates().count == 1,
+            "The duplicate videos have different ids"
+        )
+        
+        duplicatedWatchProviders.forEach { watchProvider in
+            defer { performingContext.delete(watchProvider) }
+            
+            Logger.coreData.debug("Removing deduplicated WatchProvider: \(watchProvider)")
+            for media in watchProvider.medias {
+                media.watchProviders.remove(watchProvider)
+                media.watchProviders.insert(winner)
             }
         }
     }

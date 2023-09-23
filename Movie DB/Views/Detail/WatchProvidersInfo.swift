@@ -14,6 +14,7 @@ struct WatchProvidersInfo: View {
     var providers: [WatchProvider] {
         mediaObject.watchProviders
             .filter { $0.type != .buy }
+            .removingDuplicates(key: \.id)
             .sorted(on: { provider in
                 let typePriority = provider.type?.priority ?? 0
                 let providerPriority = provider.priority
