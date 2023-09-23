@@ -44,10 +44,8 @@ class BackgroundHandler {
             request.earliestBeginDate = Date(timeIntervalSinceNow: Self.bgTaskInterval)
             do {
                 try BGTaskScheduler.shared.submit(request)
-                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
                 Logger.background.info("Successfully scheduled background fetch request.")
             } catch {
-                UserDefaults.standard.set(true, forKey: "debug_lastBGFetchRescheduleResult")
                 Logger.background.error("Could not schedule app refresh: \(error, privacy: .public)")
             }
         }
@@ -55,9 +53,6 @@ class BackgroundHandler {
     
     /// Executes the background task and re-schedules it
     private func executeBackgroundFetch(bgTask: BGTask) {
-        // Save the date of the fetch
-        UserDefaults.standard.set(Date.now.timeIntervalSince1970, forKey: "debug_lastBGFetchTime")
-        UserDefaults.standard.set(false, forKey: "debug_lastBGFetchCancelled")
         // MARK: Re-schedule
         scheduleBackgroundFetch()
         
@@ -65,13 +60,11 @@ class BackgroundHandler {
         let operation = Task(priority: .high) {
             do {
                 Logger.background.info("Updating Library from background fetch...")
-                let updatedCount = try await MediaLibrary.shared.update()
-                Logger.background.info("Updated \(updatedCount) media objects.")
-                UserDefaults.standard.set(updatedCount > 0, forKey: "debug_lastBGFetchResult")
-                bgTask.setTaskCompleted(success: updatedCount > 0)
+                try await MediaLibrary.shared.reloadAll()
+                Logger.background.info("Reloaded all media objects.")
+                bgTask.setTaskCompleted(success: true)
             } catch {
                 Logger.background.error("Error executing background fetch: \(error, privacy: .public)")
-                UserDefaults.standard.set(false, forKey: "debug_lastBGFetchResult")
                 bgTask.setTaskCompleted(success: false)
             }
         }
@@ -80,7 +73,6 @@ class BackgroundHandler {
         // MARK: Expiration Handler
         bgTask.expirationHandler = {
             Logger.background.info("Cancelling background task...")
-            UserDefaults.standard.set(true, forKey: "debug_lastBGFetchCancelled")
             operation.cancel()
         }
     }
