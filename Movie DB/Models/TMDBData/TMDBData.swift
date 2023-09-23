@@ -32,6 +32,7 @@ struct TMDBData: Decodable {
     var popularity: Float
     var voteAverage: Float
     var voteCount: Int
+    var imdbID: String?
     
     var keywords: [String]
     var translations: [String]
@@ -58,6 +59,7 @@ struct TMDBData: Decodable {
         popularity: Float = 0,
         voteAverage: Float = 0,
         voteCount: Int = 0,
+        imdbID: String? = nil,
         keywords: [String] = [],
         translations: [String] = [],
         videos: [VideoDummy] = [],
@@ -82,6 +84,7 @@ struct TMDBData: Decodable {
         self.popularity = popularity
         self.voteAverage = voteAverage
         self.voteCount = voteCount
+        self.imdbID = imdbID
         self.keywords = keywords
         self.translations = translations
         self.videos = videos
@@ -112,8 +115,14 @@ struct TMDBData: Decodable {
         voteAverage = try container.decode(Float.self, forKey: .voteAverage)
         voteCount = try container.decode(Int.self, forKey: .voteCount)
         
-        // MARK: Additional data
+        // MARK: IMDB ID
+        let externalIDsContainer = try container.nestedContainer(
+            keyedBy: ExternalIDsCodingKeys.self,
+            forKey: .externalIDs
+        )
+        imdbID = try externalIDsContainer.decode(String?.self, forKey: .imdbID)
         
+        // MARK: Additional data
         // Load keywords.keywords as self.keywords
         let keywordsContainer = try container.nestedContainer(keyedBy: KeywordsCodingKeys.self, forKey: .keywords)
         let keywords = try keywordsContainer.decodeAny([Keyword].self, forKeys: [.keywords, .showKeywords])
@@ -240,5 +249,10 @@ struct TMDBData: Decodable {
         case contentCertifications = "content_ratings"
         case watchProviders = "watch/providers"
         case credits
+        case externalIDs = "external_ids"
+    }
+    
+    enum ExternalIDsCodingKeys: String, CodingKey {
+        case imdbID = "imdb_id"
     }
 }
