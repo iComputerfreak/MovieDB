@@ -89,7 +89,11 @@ struct WatchedShowView: View {
                     "There exists a season with count > 0, so seasonIsValid should be true"
                 )
                 // Warning: Selected season does not have any episodes
-                return Text("detail.showWatchState.seasonWarningNoEpisodes \(season)", comment: "Warning text displayed when selecting a season as watched that does not have any episodes out yet.")
+                return Text(
+                    "detail.showWatchState.seasonWarningNoEpisodes \(season)",
+                    // swiftlint:disable:next line_length
+                    comment: "Warning text displayed when selecting a season as watched that does not have any episodes out yet."
+                )
             }
             
             // MARK: Option 2: The entered season does not exist

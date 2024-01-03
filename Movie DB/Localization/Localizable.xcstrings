@@ -360,6 +360,9 @@
         }
       }
     },
+    "Color Mode" : {
+
+    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -2333,6 +2336,9 @@
         }
       }
     },
+    "Dismiss button does not work in preview due to constant binding." : {
+
+    },
     "generic.alert.button.cancel" : {
       "comment" : "Cancel button to dismiss an alert popup",
       "localizations" : {
@@ -3966,6 +3972,9 @@
         }
       }
     },
+    "List Name" : {
+
+    },
     "lists.alerts.alreadyExists.message %@" : {
       "comment" : "The message of an alert informing the user that the name of a new media list already exists",
       "localizations" : {
@@ -5334,6 +5343,9 @@
         }
       }
     },
+    "Search..." : {
+
+    },
     "settings.actions.buyPro.label" : {
       "comment" : "The label for the button in the settings to buy the pro version of the app",
       "localizations" : {
@@ -6678,6 +6690,9 @@
           }
         }
       }
+    },
+    "Show Sheet" : {
+
     },
     "showType.documentary" : {
       "comment" : "A type of show (e.g. documentary, talk show, scripted)",

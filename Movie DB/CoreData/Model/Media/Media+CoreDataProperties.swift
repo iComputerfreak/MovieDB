@@ -84,6 +84,7 @@ public extension Media {
         get { getInt(forKey: Schema.Media.voteCount) }
         set { setInt(newValue, forKey: Schema.Media.voteCount) }
     }
+    
     /// The ID on IMDB
     @NSManaged var imdbID: String?
     

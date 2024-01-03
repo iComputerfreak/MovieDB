@@ -10,3 +10,4 @@ disabled_rules:
   - function_parameter_count
   - large_tuple
   - file_length
+  - type_body_length

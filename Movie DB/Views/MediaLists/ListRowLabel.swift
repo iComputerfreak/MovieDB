@@ -12,10 +12,12 @@ import SwiftUI
 struct ListRowLabel<List: MediaListProtocol>: View {
     @ObservedObject var list: List
     let iconColor: Color
+    let symbolRenderingMode: SymbolRenderingMode
     
-    init(list: List, iconColor: Color = .accentColor) {
+    init(list: List, iconColor: Color = .accentColor, symbolRenderingMode: SymbolRenderingMode = .multicolor) {
         self.list = list
         self.iconColor = iconColor
+        self.symbolRenderingMode = symbolRenderingMode
     }
     
     var body: some View {
@@ -23,7 +25,7 @@ struct ListRowLabel<List: MediaListProtocol>: View {
             Text(list.name)
         }, icon: {
             Image(systemName: list.iconName)
-                .symbolRenderingMode(.multicolor)
+                .symbolRenderingMode(symbolRenderingMode)
                 .foregroundStyle(iconColor)
         })
     }
@@ -31,7 +33,7 @@ struct ListRowLabel<List: MediaListProtocol>: View {
 
 #Preview {
     List {
-        ListRowLabel(list: PredicateMediaList.favorites)
-        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint)
+        ListRowLabel(list: PredicateMediaList.favorites, symbolRenderingMode: .multicolor)
+        ListRowLabel(list: PredicateMediaList.newSeasons, iconColor: .mint, symbolRenderingMode: .palette)
     }
 }

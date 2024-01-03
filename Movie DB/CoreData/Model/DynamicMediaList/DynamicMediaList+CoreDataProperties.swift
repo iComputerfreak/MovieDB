@@ -42,6 +42,11 @@ public extension DynamicMediaList {
         get { _iconColor.map { UIColor(cdColor: $0) } }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
     }
+    
+    var iconRenderingMode: IconRenderingMode {
+        get { getEnum(forKey: Schema.DynamicMediaList.iconRenderingMode, defaultValue: .multicolor) }
+        set { setEnum(newValue, forKey: Schema.DynamicMediaList.iconRenderingMode) }
+    }
 
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<DynamicMediaList> {

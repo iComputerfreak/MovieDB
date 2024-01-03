@@ -11,12 +11,15 @@ import SwiftUI
 struct MediaListEditingSection: View {
     @Binding var name: String
     @Binding var iconName: String
+    @Binding var iconColor: UIColor
+    @Binding var iconMode: IconRenderingMode
     
     var body: some View {
         Section(Strings.Lists.editingInformationHeader) {
             TextField(Strings.Lists.editingNameLabel, text: $name)
             NavigationLink {
-                SFSymbolPicker(symbol: $iconName)
+//                SFSymbolPicker(symbol: $iconName)
+                ListIconConfigurator(name: $name, iconName: $iconName, iconColor: $iconColor, iconMode: $iconMode)
             } label: {
                 HStack {
                     Text(Strings.Lists.editingIconLabel)
@@ -30,5 +33,10 @@ struct MediaListEditingSection: View {
 }
 
 #Preview {
-    MediaListEditingSection(name: .constant("Test"), iconName: .constant("heart.fill"))
+    MediaListEditingSection(
+        name: .constant("Test"),
+        iconName: .constant("heart.fill"),
+        iconColor: .constant(UIColor.red),
+        iconMode: .constant(.multicolor)
+    )
 }

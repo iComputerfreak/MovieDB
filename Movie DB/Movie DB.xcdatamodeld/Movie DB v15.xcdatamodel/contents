@@ -11,6 +11,7 @@
     </entity>
     <entity name="DynamicMediaList" representedClassName="DynamicMediaList" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
+        <attribute name="iconRenderingMode" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sortingDirection" optional="YES" attributeType="String"/>
@@ -136,6 +137,7 @@
     </entity>
     <entity name="UserMediaList" representedClassName="UserMediaList" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
+        <attribute name="iconRenderingMode" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="sortingDirection" optional="YES" attributeType="String"/>

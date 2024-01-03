@@ -75,18 +75,20 @@ struct WrappingHStack: Layout {
         
         // Place the subviews at the calculated positions
         for (i, row) in rows.enumerated() {
-            let rowWidth = row.enumerated().map { (i, index) -> CGFloat in
-                // i is the index in the current row
-                // index is the index of the subview
-                guard i < row.count - 1 else {
-                    return subviewSizes[index].width
+            let rowWidth = row
+                .enumerated()
+                .map { i, index -> CGFloat in
+                    // i is the index in the current row
+                    // index is the index of the subview
+                    guard i < row.count - 1 else {
+                        return subviewSizes[index].width
+                    }
+                    return subviewSizes[index].width + horizontalSpacings[index]
                 }
-                return subviewSizes[index].width + horizontalSpacings[index]
-            }
-            .reduce(0, +)
+                .reduce(0, +)
             
             // An extra horizontal spacing that is added between all items
-            var extraSpacing: CGFloat = {
+            let extraSpacing: CGFloat = {
                 switch alignment {
                 case .leading, .trailing, .center:
                     // Normal spacing

@@ -30,7 +30,12 @@ struct DynamicMediaListConfigurationView: View {
                 // MARK: List Details
                 // This binding uses the global list property defined in DynamicMediaListView, not the parameter
                 // given into the closure
-                MediaListEditingSection(name: $list.name, iconName: $list.iconName)
+                MediaListEditingSection(
+                    name: $list.name,
+                    iconName: $list.iconName,
+                    iconColor: Binding($list.iconColor, defaultValue: .label),
+                    iconMode: $list.iconRenderingMode
+                )
                 // MARK: Filter Details
                 FilterUserDataSection()
                 FilterInformationSection()

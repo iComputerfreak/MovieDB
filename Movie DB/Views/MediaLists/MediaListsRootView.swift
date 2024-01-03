@@ -122,7 +122,11 @@ struct MediaListsRootView: View {
                                 DynamicMediaListView(list: list, selectedMedia: $selectedMedia)
                                     .environment(\.editMode, self.editMode)
                             } label: {
-                                ListRowLabel(list: list)
+                                ListRowLabel(
+                                    list: list,
+                                    iconColor: Color(list.iconColor ?? .label),
+                                    symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
+                                )
                             }
                         }
                         // List delete
@@ -137,7 +141,11 @@ struct MediaListsRootView: View {
                                 UserMediaListView(list: list, selectedMedia: $selectedMedia)
                                     .environment(\.editMode, self.editMode)
                             } label: {
-                                ListRowLabel(list: list)
+                                ListRowLabel(
+                                    list: list,
+                                    iconColor: Color(list.iconColor ?? .label),
+                                    symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
+                                )
                             }
                         }
                         // List delete
@@ -145,6 +153,7 @@ struct MediaListsRootView: View {
                     }
                 }
             }
+//            .symbolVariant(.fill)
             .toolbar(content: toolbar)
             .navigationTitle(Strings.TabView.listsLabel)
         } content: {
