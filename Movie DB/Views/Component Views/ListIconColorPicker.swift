@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flow
 
 struct ListIconColorPicker: View {
     private static let defaultColors: [UIColor] = [
@@ -22,7 +23,7 @@ struct ListIconColorPicker: View {
     }
     
     var body: some View {
-        WrappingHStack(alignment: .leading) {
+        HFlow(alignment: .top) {
             ForEach(colors, id: \.self) { currentColor in
                 ColorSwatch(color: Color(currentColor))
                     .padding(4)

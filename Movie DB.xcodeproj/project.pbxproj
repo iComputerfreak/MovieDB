@@ -16,6 +16,7 @@
 		AB0176072AC3363D00A72ADD /* ListIconColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176062AC3363D00A72ADD /* ListIconColorPicker.swift */; };
 		AB0176092AC344DD00A72ADD /* IconRenderingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176082AC344DD00A72ADD /* IconRenderingMode.swift */; };
 		AB01AAA32ABF7CE3003CFB17 /* ListIconConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01AAA22ABF7CE3003CFB17 /* ListIconConfigurator.swift */; };
+		AB02A0252B460F05008362D7 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = AB02A0242B460F05008362D7 /* Flow */; };
 		AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E32842A28800041E0B /* CoreDataDummies.swift */; };
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
 		AB05298929A957E800C11B6F /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB05298829A957E800C11B6F /* MigrationManager.swift */; };
@@ -719,6 +720,7 @@
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
+				AB02A0252B460F05008362D7 /* Flow in Frameworks */,
 				ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */,
 				ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */,
 			);
@@ -1559,6 +1561,7 @@
 				ABE17B6C284FA4A100879C30 /* Algorithms */,
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
 				ABD249022A2394CC002DEB3D /* JFUtils */,
+				AB02A0242B460F05008362D7 /* Flow */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -1651,6 +1654,7 @@
 				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
+				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -2544,6 +2548,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tevelee/SwiftUI-Flow";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFSwiftUI.git";
@@ -2579,6 +2591,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AB02A0242B460F05008362D7 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */;
+			productName = Flow;
+		};
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;

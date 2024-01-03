@@ -8,14 +8,29 @@
 
 import SwiftUI
 
-struct ListIconConfigurator: View {
+struct ListIconConfigurator<Content: View>: View {
     @Binding var name: String
     @Binding var iconName: String
     @Binding var iconColor: UIColor
     @Binding var iconMode: IconRenderingMode
+    var configurationSection: Content
     
     var symbolRenderingModes: [SymbolRenderingMode] {
         [.multicolor, .palette, .hierarchical, .monochrome]
+    }
+    
+    init(
+        name: Binding<String>,
+        iconName: Binding<String>,
+        iconColor: Binding<UIColor>,
+        iconMode: Binding<IconRenderingMode>,
+        @ViewBuilder configurationSection: () -> Content = { EmptyView() }
+    ) {
+        self._name = name
+        self._iconName = iconName
+        self._iconColor = iconColor
+        self._iconMode = iconMode
+        self.configurationSection = configurationSection()
     }
     
     var body: some View {
@@ -26,8 +41,12 @@ struct ListIconConfigurator: View {
                     ListIconPreview(name: name, iconName: iconName, iconColor: iconColor)
                         .symbolRenderingMode(iconMode.symbolRenderingMode)
                         .padding(.bottom)
-                    // TODO: Localize
-                    TextField("List Name", text: $name)
+                    TextField(text: $name) {
+                        Text(
+                            "lists.configuration.listName",
+                            comment: "The label of the text field that the user enters a list's name in."
+                        )
+                    }
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(10)
@@ -35,6 +54,7 @@ struct ListIconConfigurator: View {
                 }
                 .padding(.vertical)
             }
+            configurationSection
             Section {
                 Picker(selection: $iconMode) {
                     ForEach(IconRenderingMode.allCases, id: \.rawValue) { mode in
@@ -42,19 +62,29 @@ struct ListIconConfigurator: View {
                             .tag(mode)
                     }
                 } label: {
-                    // TODO: Localize
-                    Text("Color Mode")
+                    Text(
+                        "lists.configuration.iconRenderingMode",
+                        comment: "The label for the picker that the user uses to select an icon rendering mode."
+                    )
                 }
-            }
-            // MARK: Color
-            Section {
+                // MARK: Color
                 ListIconColorPicker(color: $iconColor)
+            } header: {
+                Text(
+                    "lists.configuration.header.iconColor",
+                    comment: "The header of the configuration section that lets the user define the icon color settings."
+                )
             }
-            // MARK: Icon
+            // MARK: Icon Picker
             Section {
                 ListIconPicker(symbolName: $iconName)
                     .symbolRenderingMode(iconMode.symbolRenderingMode)
                     .padding(.horizontal, 0)
+            } header: {
+                Text(
+                    "lists.configuration.header.icon",
+                    comment: "The header of the configuration section that lets the user choose the icon for a list."
+                )
             }
         }
         .symbolVariant(.fill)
@@ -72,5 +102,13 @@ struct ListIconConfigurator: View {
         iconName: $iconName,
         iconColor: Binding($iconColor, defaultValue: .label),
         iconMode: $iconMode
-    )
+    ) {
+        Section {
+            Toggle(isOn: .constant(true)) {
+                Text(verbatim: "Toggle")
+            }
+        } header: {
+            Text(verbatim: "Header")
+        }
+    }
 }

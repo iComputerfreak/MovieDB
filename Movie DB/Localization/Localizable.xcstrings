@@ -360,9 +360,6 @@
         }
       }
     },
-    "Color Mode" : {
-
-    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -2737,6 +2734,50 @@
         }
       }
     },
+    "generic.symbolRenderingMode.hierarchical" : {
+      "comment" : "Represents a rendering mode for an SF Symbol.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hierarchical"
+          }
+        }
+      }
+    },
+    "generic.symbolRenderingMode.monochrome" : {
+      "comment" : "Represents a rendering mode for an SF Symbol.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monochrome"
+          }
+        }
+      }
+    },
+    "generic.symbolRenderingMode.multicolor" : {
+      "comment" : "Represents a rendering mode for an SF Symbol.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multicolor"
+          }
+        }
+      }
+    },
+    "generic.symbolRenderingMode.palette" : {
+      "comment" : "Represents a rendering mode for an SF Symbol.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palette"
+          }
+        }
+      }
+    },
     "generic.unknown" : {
       "comment" : "A generic string describing that a value or some property is unknown",
       "localizations" : {
@@ -3973,7 +4014,15 @@
       }
     },
     "List Name" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List Name"
+          }
+        }
+      }
     },
     "lists.alerts.alreadyExists.message %@" : {
       "comment" : "The message of an alert informing the user that the name of a new media list already exists",
@@ -4076,6 +4125,20 @@
           }
         }
       }
+    },
+    "lists.configuration.iconRenderingMode" : {
+      "comment" : "The label for the picker that the user uses to select an icon rendering mode.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Mode"
+          }
+        }
+      }
+    },
+    "lists.configuration.listName" : {
+      "comment" : "The label of the text field that the user enters a list's name in."
     },
     "lists.defaultListName.favorites" : {
       "comment" : "The name of the default 'favorites' list",
@@ -5344,7 +5407,14 @@
       }
     },
     "Search..." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search ..."
+          }
+        }
+      }
     },
     "settings.actions.buyPro.label" : {
       "comment" : "The label for the button in the settings to buy the pro version of the app",
@@ -6692,7 +6762,14 @@
       }
     },
     "Show Sheet" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Sheet"
+          }
+        }
+      }
     },
     "showType.documentary" : {
       "comment" : "A type of show (e.g. documentary, talk show, scripted)",
