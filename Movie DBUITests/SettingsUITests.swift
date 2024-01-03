@@ -1,5 +1,5 @@
 //
-//  Movie_DBUITests.swift
+//  SettingsUITests.swift
 //  Movie DBUITests
 //
 //  Created by Jonas Frey on 25.04.22.

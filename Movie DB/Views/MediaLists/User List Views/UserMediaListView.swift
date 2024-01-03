@@ -1,5 +1,5 @@
 //
-//  UserMediaListEditingView.swift
+//  UserMediaListView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 22.06.22.

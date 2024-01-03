@@ -1,5 +1,5 @@
 //
-//  PosterService.swift
+//  TMDBImageService.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 01.03.23.

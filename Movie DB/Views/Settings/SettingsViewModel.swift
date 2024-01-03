@@ -1,5 +1,5 @@
 //
-//  SettingsViewConfig.swift
+//  SettingsViewModel.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 26.03.23.

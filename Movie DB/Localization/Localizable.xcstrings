@@ -4126,6 +4126,12 @@
         }
       }
     },
+    "lists.configuration.header.icon" : {
+      "comment" : "The header of the configuration section that lets the user choose the icon for a list."
+    },
+    "lists.configuration.header.iconColor" : {
+      "comment" : "The header of the configuration section that lets the user define the icon color settings."
+    },
     "lists.configuration.iconRenderingMode" : {
       "comment" : "The label for the picker that the user uses to select an icon rendering mode.",
       "localizations" : {

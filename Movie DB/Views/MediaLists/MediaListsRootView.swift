@@ -1,5 +1,5 @@
 //
-//  UserListsView.swift
+//  MediaListsRootView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 03.06.22.

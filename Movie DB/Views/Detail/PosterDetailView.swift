@@ -1,5 +1,5 @@
 //
-//  PosterView.swift
+//  PosterDetailView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 26.04.22.

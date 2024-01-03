@@ -1,5 +1,5 @@
 //
-//  UserInfo.swift
+//  UserData.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 25.11.19.

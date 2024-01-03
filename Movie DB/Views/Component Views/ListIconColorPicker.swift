@@ -6,8 +6,8 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
-import SwiftUI
 import Flow
+import SwiftUI
 
 struct ListIconColorPicker: View {
     private static let defaultColors: [UIColor] = [

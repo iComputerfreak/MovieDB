@@ -1,5 +1,5 @@
 //
-//  SmallLabelView.swift
+//  CapsuleLabelView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 16.02.23.

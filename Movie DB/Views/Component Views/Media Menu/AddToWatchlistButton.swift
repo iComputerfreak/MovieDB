@@ -1,5 +1,5 @@
 //
-//  MediaMenu+AddToWatchlist.swift
+//  AddToWatchlistButton.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 27.05.23.

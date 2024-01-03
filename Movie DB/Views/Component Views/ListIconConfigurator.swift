@@ -72,6 +72,7 @@ struct ListIconConfigurator<Content: View>: View {
             } header: {
                 Text(
                     "lists.configuration.header.iconColor",
+                    // swiftlint:disable:next line_length
                     comment: "The header of the configuration section that lets the user define the icon color settings."
                 )
             }

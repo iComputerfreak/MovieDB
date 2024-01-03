@@ -1,5 +1,5 @@
 //
-//  LibraryViewConfig.swift
+//  LibraryViewModel.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 25.03.23.

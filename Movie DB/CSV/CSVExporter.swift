@@ -1,5 +1,5 @@
 //
-//  CSVManager.swift
+//  CSVExporter.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 13.03.21.
