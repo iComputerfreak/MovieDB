@@ -19,7 +19,7 @@ struct SymbolCategory {
 
 enum SFSymbolNames {
     static let curatedSymbols = [
-        "rectangle.portrait.and.arrow.forward",
+        "list.dash",
         "folder",
         "paperplane",
         "tray",

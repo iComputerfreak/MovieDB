@@ -44,7 +44,7 @@ public extension DynamicMediaList {
     }
     
     var iconRenderingMode: IconRenderingMode {
-        get { getEnum(forKey: Schema.DynamicMediaList.iconRenderingMode, defaultValue: .multicolor) }
+        get { getEnum(forKey: Schema.DynamicMediaList.iconRenderingMode, defaultValue: .hierarchical) }
         set { setEnum(newValue, forKey: Schema.DynamicMediaList.iconRenderingMode) }
     }
 

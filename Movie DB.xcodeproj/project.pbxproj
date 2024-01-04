@@ -202,7 +202,6 @@
 		ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */; };
 		ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */; };
 		ABAA99EC2863100200234E62 /* UserMediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EB2863100200234E62 /* UserMediaListView.swift */; };
-		ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */; };
 		ABAA99F02863402A00234E62 /* Strings+Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EF2863402A00234E62 /* Strings+Lists.swift */; };
 		ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */; };
 		ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */; };
@@ -570,7 +569,6 @@
 		ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABAA99EB2863100200234E62 /* UserMediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMediaListView.swift; sourceTree = "<group>"; };
-		ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListEditingSection.swift; sourceTree = "<group>"; };
 		ABAA99EF2863402A00234E62 /* Strings+Lists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Lists.swift"; sourceTree = "<group>"; };
 		ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddToList.swift"; sourceTree = "<group>"; };
 		ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareMediaButton.swift; sourceTree = "<group>"; };
@@ -784,7 +782,6 @@
 				ABAD15F728E774C00092497F /* Default List Views */,
 				AB5612542970003F0039850B /* User List Views */,
 				AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */,
-				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
 				AB5612552970045B0039850B /* ListConfigurationView.swift */,
 				AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */,
@@ -2022,7 +2019,6 @@
 				AB979323299AB5E000B20EC8 /* WatchState.swift in Sources */,
 				AB700E0428C7A974005E31B5 /* NotificationPopup.swift in Sources */,
 				ABAA99EC2863100200234E62 /* UserMediaListView.swift in Sources */,
-				ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				ABE6B70529C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift in Sources */,

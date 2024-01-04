@@ -44,7 +44,7 @@ public extension UserMediaList {
     }
     
     var iconRenderingMode: IconRenderingMode {
-        get { getEnum(forKey: Schema.UserMediaList.iconRenderingMode, defaultValue: .multicolor) }
+        get { getEnum(forKey: Schema.UserMediaList.iconRenderingMode, defaultValue: .hierarchical) }
         set { setEnum(newValue, forKey: Schema.UserMediaList.iconRenderingMode) }
     }
 

@@ -29,7 +29,6 @@ struct SelectUserListView: View {
                     dismiss()
                 } label: {
                     Label(list.name, systemImage: list.iconName)
-                        .symbolRenderingMode(isDisabled ? .monochrome : .multicolor)
                 }
                 .disabled(isDisabled)
                 .foregroundColor(isDisabled ? .gray : .primary)
