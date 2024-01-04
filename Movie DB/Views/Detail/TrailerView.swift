@@ -20,7 +20,7 @@ struct TrailerView: View {
                     VStack(spacing: 16) {
                         Text(trailer.name)
                             .lineLimit(2, reservesSpace: false)
-                            .frame(width: 150)
+                            .frame(width: 140)
                             .padding(0)
                         Image(systemName: "play.fill")
                             .resizable()
