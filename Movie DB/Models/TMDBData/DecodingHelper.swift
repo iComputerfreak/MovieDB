@@ -1,5 +1,5 @@
 //
-//  ReleaseDatesHelper.swift
+//  DecodingHelper.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 23.04.22.

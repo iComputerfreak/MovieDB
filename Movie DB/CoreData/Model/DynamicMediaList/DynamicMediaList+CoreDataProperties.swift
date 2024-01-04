@@ -1,5 +1,5 @@
 //
-//  MediaList+CoreDataProperties.swift
+//  DynamicMediaList+CoreDataProperties.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 03.06.22.
@@ -39,8 +39,13 @@ public extension DynamicMediaList {
     }
     
     var iconColor: UIColor? {
-        get { _iconColor.map { UIColor(cdColor: $0) } }
+        get { _iconColor.map(UIColor.init(cdColor:)) }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
+    }
+    
+    var iconRenderingMode: IconRenderingMode {
+        get { getEnum(forKey: Schema.DynamicMediaList.iconRenderingMode, defaultValue: .hierarchical) }
+        set { setEnum(newValue, forKey: Schema.DynamicMediaList.iconRenderingMode) }
     }
 
     @nonobjc

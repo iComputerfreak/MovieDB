@@ -1,5 +1,5 @@
 //
-//  List+CoreDataClass.swift
+//  DynamicMediaList+CoreDataClass.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 03.06.22.

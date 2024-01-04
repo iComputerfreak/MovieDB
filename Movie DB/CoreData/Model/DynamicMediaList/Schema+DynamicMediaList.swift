@@ -16,6 +16,7 @@ extension Schema {
         case name
         case sortingDirection
         case sortingOrder
+        case iconRenderingMode
         
         // MARK: Relationships
         case filterSetting

@@ -74,7 +74,7 @@ struct Utils {
     /// Removes the local image for the given media ID
     static func deleteImage(for mediaID: UUID) throws {
         if
-            let fileURL = Self.imageFileURL(for: mediaID),
+            let fileURL = imageFileURL(for: mediaID),
             FileManager.default.fileExists(atPath: fileURL.path())
         {
             try FileManager.default.removeItem(at: fileURL)
@@ -333,7 +333,7 @@ extension Utils {
     /// - Parameter imagePath: The TMDB image path
     /// - Returns: The downloaded UIImage
     static func loadImage(with imagePath: String, size: Int?) async throws -> UIImage? {
-        if let url = Self.getTMDBImageURL(path: imagePath, size: size) {
+        if let url = getTMDBImageURL(path: imagePath, size: size) {
             return try await loadImage(from: url)
         }
         return nil

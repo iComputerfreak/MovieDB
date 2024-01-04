@@ -11,6 +11,20 @@ import SwiftUI
 struct WatchStateLabel: View {
     @EnvironmentObject private var mediaObject: Media
     
+    var maxSeason: Int? {
+        guard let show = mediaObject as? Show else {
+            return nil
+        }
+        return show.latestNonEmptySeasonNumber ?? show.numberOfSeasons
+    }
+    
+    func maxEpisode(for season: Int) -> Int? {
+        guard let show = mediaObject as? Show else {
+            return nil
+        }
+        return show.seasons.first(where: \.seasonNumber, equals: season)?.episodeCount
+    }
+    
     var body: some View {
         Group {
             if let movie = mediaObject as? Movie, movie.watched != nil {
@@ -27,10 +41,7 @@ struct WatchStateLabel: View {
             } else if let show = mediaObject as? Show, show.watched != nil {
                 switch show.watched! {
                 case let .season(s):
-                    if
-                        let maxSeason = show.latestNonEmptySeasonNumber ?? show.numberOfSeasons,
-                        s < maxSeason
-                    {
+                    if let maxSeason, s < maxSeason {
                         // Show as partially watched, since there are further seasons available
                         self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonOfMax(
                             season: s,
@@ -41,10 +52,22 @@ struct WatchStateLabel: View {
                         self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeason(season: s))
                     }
                 case let .episode(season: s, episode: e):
-                    self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
-                        season: s,
-                        episode: e
-                    ))
+                    if
+                        let maxSeason,
+                        let maxEpisode = maxEpisode(for: s),
+                        e >= maxEpisode,
+                        s >= maxSeason
+                    {
+                        // Show as complete, since there are no more episodes and seasons available
+                        self.watchedLabel(
+                            Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(season: s, episode: e)
+                        )
+                    } else {
+                        self.partiallyWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateSeasonEpisode(
+                            season: s,
+                            episode: e
+                        ))
+                    }
                 case .notWatched:
                     self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
                 }

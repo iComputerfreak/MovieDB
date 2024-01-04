@@ -1,5 +1,5 @@
 //
-//  MediaMenu+AddToWatchlist.swift
+//  AddToWatchlistButton.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 27.05.23.
@@ -15,6 +15,7 @@ struct AddToWatchlistButton: View {
         Button {
             mediaObject.isOnWatchlist.toggle()
         } label: {
+            // TODO: I would like this to work, but swipe actions seem to always prefer the .fill variant
             if mediaObject.isOnWatchlist {
                 Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.fill")
             } else {

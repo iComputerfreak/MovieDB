@@ -18,6 +18,7 @@ class TestingPlayground: XCTestCase {
         testingUtils = TestingUtils()
     }
     
+    // swiftlint:disable:next unneeded_override
     override func tearDown() async throws {
         try await super.tearDown()
     }

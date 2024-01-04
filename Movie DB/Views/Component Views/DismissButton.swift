@@ -22,10 +22,10 @@ struct DismissButton: View {
 }
 
 #Preview {
-    Text("")
+    Text(verbatim: "")
         .sheet(isPresented: .constant(true), content: {
             NavigationView {
-                Text("Dismiss button does not work in preview due to constant binding.")
+                Text(verbatim: "Dismiss button does not work in preview due to constant binding.")
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .toolbar {

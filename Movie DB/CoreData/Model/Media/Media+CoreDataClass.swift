@@ -1,5 +1,5 @@
 //
-//  Media.swift
+//  Media+CoreDataClass.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 24.06.19.
@@ -141,7 +141,7 @@ public class Media: NSManagedObject {
     }
     
     @objc
-    internal func getNextOrLatestReleaseDate() -> Date? {
+    func getNextOrLatestReleaseDate() -> Date? {
         assertionFailure("Implement in subclasses!")
         return nil
     }

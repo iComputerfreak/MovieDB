@@ -26,8 +26,10 @@ struct CastMemberRow: View {
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)
                     .bold()
-                Text(Strings.Detail.castMemberRole(castMember.roleName))
-                    .italic()
+                if !castMember.roleName.isEmpty {
+                    Text(Strings.Detail.castMemberRole(castMember.roleName))
+                        .italic()
+                }
             }
         }
     }

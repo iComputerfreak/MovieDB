@@ -19,7 +19,7 @@ struct SymbolCategory {
 
 enum SFSymbolNames {
     static let curatedSymbols = [
-        "rectangle.portrait.and.arrow.forward",
+        "list.dash",
         "folder",
         "paperplane",
         "tray",
@@ -91,6 +91,12 @@ enum SFSymbolNames {
         "wineglass",
         "birthday.cake",
         "atom",
+        "eye.fill",
+        "pencil",
+        "sun.horizon",
+        "moon.fill",
+        "play.house",
+        "balloon.fill",
     ]
     static let categories = [
         SymbolCategory(name: "Multicolor", iconName: "paintpalette", symbols: multicolor),

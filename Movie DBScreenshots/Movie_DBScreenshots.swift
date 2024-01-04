@@ -29,6 +29,7 @@ final class Movie_DBScreenshots: XCTestCase {
         }
     }
     
+    // swiftlint:disable:next unneeded_override
     override func tearDownWithError() throws {
         try super.tearDownWithError()
     }

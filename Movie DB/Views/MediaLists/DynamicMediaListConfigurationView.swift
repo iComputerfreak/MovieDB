@@ -26,18 +26,32 @@ struct DynamicMediaListConfigurationView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                // MARK: List Details
-                // This binding uses the global list property defined in DynamicMediaListView, not the parameter
-                // given into the closure
-                MediaListEditingSection(name: $list.name, iconName: $list.iconName)
-                // MARK: Filter Details
-                FilterUserDataSection()
-                FilterInformationSection()
+            // MARK: List Details
+            ListIconConfigurator(
+                name: $list.name,
+                iconName: $list.iconName,
+                iconColor: $list.iconColor,
+                iconMode: $list.iconRenderingMode
+            ) {
+                NavigationLink {
+                    Form {
+                        // MARK: Filter Details
+                        FilterUserDataSection()
+                        FilterInformationSection()
+                        FilterShowSpecificSection()
+                    }
+                    .navigationTitle(Text(
+                        "lists.configuration.navTitle.filterSettings",
+                        comment: "The navigation title for the list configuration view's filter settings."
+                    ))
                     .environmentObject(list.filterSetting!)
-                FilterShowSpecificSection()
+                } label: {
+                    Text(
+                        "lists.configuration.header.filterSettings",
+                        comment: "The header for the list configuration view's filter settings."
+                    )
+                }
             }
-            .environmentObject(list.filterSetting!)
             .navigationTitle(list.name)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {

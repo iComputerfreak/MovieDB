@@ -1,5 +1,5 @@
 //
-//  DetailThumbnailView.swift
+//  TitleView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 08.11.19.

@@ -97,7 +97,9 @@ struct AddMediaView: View {
 
 #Preview {
     NavigationStack {
-        Button("Show Sheet") {}
+        Button {} label: {
+            Text(verbatim: "Show Sheet")
+        }
     }
         .sheet(isPresented: .constant(true)) {
             AddMediaView()

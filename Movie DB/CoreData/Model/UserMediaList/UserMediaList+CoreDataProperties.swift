@@ -42,6 +42,11 @@ public extension UserMediaList {
         get { _iconColor.map(UIColor.init(cdColor:)) }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
     }
+    
+    var iconRenderingMode: IconRenderingMode {
+        get { getEnum(forKey: Schema.UserMediaList.iconRenderingMode, defaultValue: .hierarchical) }
+        set { setEnum(newValue, forKey: Schema.UserMediaList.iconRenderingMode) }
+    }
 
     @nonobjc
     static func fetchRequest() -> NSFetchRequest<UserMediaList> {

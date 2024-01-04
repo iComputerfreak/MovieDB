@@ -1,5 +1,5 @@
 //
-//  MediaMenu+AddToFavorites.swift
+//  AddToFavoritesButton.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 27.05.23.

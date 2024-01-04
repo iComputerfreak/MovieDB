@@ -54,7 +54,7 @@ struct TagEditRow: View {
             } label: {
                 Image(systemName: "pencil")
             }
-            .foregroundColor(.blue)
+            .foregroundColor(.accentColor)
         }
     }
 }

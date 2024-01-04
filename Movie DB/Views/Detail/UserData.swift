@@ -1,5 +1,5 @@
 //
-//  UserInfo.swift
+//  UserData.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 25.11.19.
@@ -60,7 +60,7 @@ struct UserData: View {
                             get: { show.watched },
                             set: { show.watched = $0 }
                         ),
-                        maxSeason: show.latestNonEmptySeasonNumber ?? show.numberOfSeasons
+                        seasons: show.seasons
                     )
                 }
                 // MARK: Watch again field

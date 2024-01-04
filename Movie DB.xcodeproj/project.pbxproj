@@ -11,6 +11,12 @@
 		AB01096424D5C32A001BEF39 /* TMDBShowSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01096324D5C32A001BEF39 /* TMDBShowSearchResult.swift */; };
 		AB01096724D5C3CC001BEF39 /* SearchResultsPageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01096624D5C3CC001BEF39 /* SearchResultsPageWrapper.swift */; };
 		AB01097424D850A2001BEF39 /* CSVCoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01097324D850A2001BEF39 /* CSVCoderTests.swift */; };
+		AB0176032AC332AD00A72ADD /* ListIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176022AC332AD00A72ADD /* ListIconPicker.swift */; };
+		AB0176052AC3339700A72ADD /* ListIconPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176042AC3339700A72ADD /* ListIconPreview.swift */; };
+		AB0176072AC3363D00A72ADD /* ListIconColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176062AC3363D00A72ADD /* ListIconColorPicker.swift */; };
+		AB0176092AC344DD00A72ADD /* IconRenderingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0176082AC344DD00A72ADD /* IconRenderingMode.swift */; };
+		AB01AAA32ABF7CE3003CFB17 /* ListIconConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01AAA22ABF7CE3003CFB17 /* ListIconConfigurator.swift */; };
+		AB02A0252B460F05008362D7 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = AB02A0242B460F05008362D7 /* Flow */; };
 		AB0318E42842A28800041E0B /* CoreDataDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E32842A28800041E0B /* CoreDataDummies.swift */; };
 		AB0318EA2842BF4500041E0B /* CreditsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0318E92842BF4500041E0B /* CreditsHelpers.swift */; };
 		AB05298929A957E800C11B6F /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB05298829A957E800C11B6F /* MigrationManager.swift */; };
@@ -20,7 +26,6 @@
 		AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */; };
 		AB097F63284BA73700E559E7 /* DynamicMediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* DynamicMediaListView.swift */; };
 		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
-		AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */; };
 		AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */; };
 		AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */; };
 		AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */; };
@@ -197,7 +202,6 @@
 		ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */; };
 		ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */; };
 		ABAA99EC2863100200234E62 /* UserMediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EB2863100200234E62 /* UserMediaListView.swift */; };
-		ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */; };
 		ABAA99F02863402A00234E62 /* Strings+Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99EF2863402A00234E62 /* Strings+Lists.swift */; };
 		ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */; };
 		ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */; };
@@ -355,6 +359,11 @@
 		AB01096324D5C32A001BEF39 /* TMDBShowSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBShowSearchResult.swift; sourceTree = "<group>"; };
 		AB01096624D5C3CC001BEF39 /* SearchResultsPageWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsPageWrapper.swift; sourceTree = "<group>"; };
 		AB01097324D850A2001BEF39 /* CSVCoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVCoderTests.swift; sourceTree = "<group>"; };
+		AB0176022AC332AD00A72ADD /* ListIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconPicker.swift; sourceTree = "<group>"; };
+		AB0176042AC3339700A72ADD /* ListIconPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconPreview.swift; sourceTree = "<group>"; };
+		AB0176062AC3363D00A72ADD /* ListIconColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconColorPicker.swift; sourceTree = "<group>"; };
+		AB0176082AC344DD00A72ADD /* IconRenderingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconRenderingMode.swift; sourceTree = "<group>"; };
+		AB01AAA22ABF7CE3003CFB17 /* ListIconConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconConfigurator.swift; sourceTree = "<group>"; };
 		AB0318BE28411A2300041E0B /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		AB0318E32842A28800041E0B /* CoreDataDummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDummies.swift; sourceTree = "<group>"; };
 		AB0318E82842BE2200041E0B /* Movie DB v6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v6.xcdatamodel"; sourceTree = "<group>"; };
@@ -366,7 +375,6 @@
 		AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB097F62284BA73700E559E7 /* DynamicMediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListView.swift; sourceTree = "<group>"; };
 		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
-		AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolPicker.swift; sourceTree = "<group>"; };
 		AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListProtocol.swift; sourceTree = "<group>"; };
 		AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateMediaList.swift; sourceTree = "<group>"; };
 		AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -561,7 +569,6 @@
 		ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		ABAA99EB2863100200234E62 /* UserMediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMediaListView.swift; sourceTree = "<group>"; };
-		ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListEditingSection.swift; sourceTree = "<group>"; };
 		ABAA99EF2863402A00234E62 /* Strings+Lists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Lists.swift"; sourceTree = "<group>"; };
 		ABAA99F128634E2B00234E62 /* Strings+AddToList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+AddToList.swift"; sourceTree = "<group>"; };
 		ABAACD002AB1DAC1006ADF8A /* ShareMediaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareMediaButton.swift; sourceTree = "<group>"; };
@@ -709,6 +716,7 @@
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
+				AB02A0252B460F05008362D7 /* Flow in Frameworks */,
 				ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */,
 				ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */,
 			);
@@ -774,8 +782,6 @@
 				ABAD15F728E774C00092497F /* Default List Views */,
 				AB5612542970003F0039850B /* User List Views */,
 				AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */,
-				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
-				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
 				AB5612552970045B0039850B /* ListConfigurationView.swift */,
 				AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */,
@@ -954,6 +960,10 @@
 				AB578F882AB8A92A001E488D /* StarRatingView.swift */,
 				AB578F8A2AB9E7C7001E488D /* JFSearchBar.swift */,
 				AB578F8E2AB9F845001E488D /* WrappingHStack.swift */,
+				AB01AAA22ABF7CE3003CFB17 /* ListIconConfigurator.swift */,
+				AB0176042AC3339700A72ADD /* ListIconPreview.swift */,
+				AB0176062AC3363D00A72ADD /* ListIconColorPicker.swift */,
+				AB0176022AC332AD00A72ADD /* ListIconPicker.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -1224,6 +1234,7 @@
 				ABAA99E72863059800234E62 /* UserMediaList+CoreDataClass.swift */,
 				ABAA99E82863059800234E62 /* UserMediaList+CoreDataProperties.swift */,
 				AB5AA48E29B3E8BF00DEB37B /* Schema+UserMediaList.swift */,
+				AB0176082AC344DD00A72ADD /* IconRenderingMode.swift */,
 			);
 			path = UserMediaList;
 			sourceTree = "<group>";
@@ -1544,6 +1555,7 @@
 				ABE17B6C284FA4A100879C30 /* Algorithms */,
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
 				ABD249022A2394CC002DEB3D /* JFUtils */,
+				AB02A0242B460F05008362D7 /* Flow */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -1632,10 +1644,11 @@
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
-				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */,
-				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */,
+				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
+				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
+				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -1864,6 +1877,7 @@
 				ABAA99EA2863059800234E62 /* UserMediaList+CoreDataProperties.swift in Sources */,
 				AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */,
 				ABE6B70729C0A34400E5B54B /* Schema+ParentalRating.swift in Sources */,
+				AB0176092AC344DD00A72ADD /* IconRenderingMode.swift in Sources */,
 				AB54940525FD41B90072745B /* CSVExporter.swift in Sources */,
 				AB5F7E1B238ADF360007A3FE /* NotesView.swift in Sources */,
 				AB899D2B29C8FF33008E670C /* ImportError.swift in Sources */,
@@ -1877,6 +1891,7 @@
 				AB0DA97B283BA75D0038E4B9 /* Strings.swift in Sources */,
 				ABCEF1212A267AB800295EB6 /* UpcomingLibraryRow.swift in Sources */,
 				AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */,
+				AB0176052AC3339700A72ADD /* ListIconPreview.swift in Sources */,
 				AB9190E4297E054900324520 /* WatchedLabel.swift in Sources */,
 				AB14341A25CDE2BD00AA304F /* EnumTransformer.swift in Sources */,
 				ABAACD012AB1DAC1006ADF8A /* ShareMediaButton.swift in Sources */,
@@ -1909,6 +1924,7 @@
 				ABB194CD29AFDEBA0041DFFA /* TMDBImageService.swift in Sources */,
 				ABB65EC725D01C50009378EC /* Tag+CoreDataClass.swift in Sources */,
 				AB6D9C89283BC1D800AF655C /* Strings+TabView.swift in Sources */,
+				AB0176032AC332AD00A72ADD /* ListIconPicker.swift in Sources */,
 				ABD3C5DF29C12FFC000B5107 /* FilterGenresPicker.swift in Sources */,
 				ABDC93752A52E87800DF4084 /* MediaContextMenu.swift in Sources */,
 				AB6D9C93283BC20400AF655C /* Strings+ProblemType.swift in Sources */,
@@ -1976,6 +1992,7 @@
 				AB6D9C83283BC15B00AF655C /* Strings+APIError.swift in Sources */,
 				AB6D9C8B283BC1DE00AF655C /* Strings+SortingOrder.swift in Sources */,
 				ABAA99F228634E2B00234E62 /* Strings+AddToList.swift in Sources */,
+				AB01AAA32ABF7CE3003CFB17 /* ListIconConfigurator.swift in Sources */,
 				AB6718EE22C032AA00F429E4 /* Media+CoreDataClass.swift in Sources */,
 				AB98EA36264C23E30048B8CC /* SortingOrder.swift in Sources */,
 				AB5AA49929B3EA2400DEB37B /* Schema+Video.swift in Sources */,
@@ -2002,7 +2019,6 @@
 				AB979323299AB5E000B20EC8 /* WatchState.swift in Sources */,
 				AB700E0428C7A974005E31B5 /* NotificationPopup.swift in Sources */,
 				ABAA99EC2863100200234E62 /* UserMediaListView.swift in Sources */,
-				ABAA99EE2863106B00234E62 /* MediaListEditingSection.swift in Sources */,
 				AB3648BF22C3DDA70096FE39 /* AddMediaView.swift in Sources */,
 				AB14340B25CDD9DF00AA304F /* Video+CoreDataClass.swift in Sources */,
 				ABE6B70529C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift in Sources */,
@@ -2018,6 +2034,7 @@
 				AB5493E425FBE4CB0072745B /* PlaceholderData.swift in Sources */,
 				AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */,
 				ABCEA496238D1FCD00D92B95 /* ExtendedInfo.swift in Sources */,
+				AB0176072AC3363D00A72ADD /* ListIconColorPicker.swift in Sources */,
 				AB98EA3A264DB6DD0048B8CC /* AggregateCastMember.swift in Sources */,
 				ABCB4E282AA8E68B006638A7 /* OpenShareURL.swift in Sources */,
 				AB6718C522C0312B00F429E4 /* ContentView.swift in Sources */,
@@ -2075,7 +2092,6 @@
 				ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */,
 				ABCB4E2C2AAA3D62006638A7 /* DismissButton.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
-				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */,
 				ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */,
@@ -2338,8 +2354,8 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
 				);
-				MARKETING_VERSION = 2.4.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2524,7 +2540,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */ = {
+		AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tevelee/SwiftUI-Flow";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iComputerfreak/JFSwiftUI.git";
 			requirement = {
@@ -2548,7 +2572,7 @@
 				minimumVersion = 0.8.1;
 			};
 		};
-		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */ = {
+		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
 			requirement = {
@@ -2559,9 +2583,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AB02A0242B460F05008362D7 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */;
+			productName = Flow;
+		};
 		AB6478D722C7B2A300F3E14E /* JFSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI.git" */;
+			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
 		};
 		ABD249022A2394CC002DEB3D /* JFUtils */ = {
@@ -2606,7 +2635,7 @@
 		};
 		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms.git" */;
+			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */

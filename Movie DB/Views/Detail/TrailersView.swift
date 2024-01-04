@@ -17,6 +17,8 @@ struct TrailersView: View {
             .filter { $0.type == JFLiterals.trailerVideoType }
             // Only use trailers we can build a valid URL for
             .filter { $0.videoURL != nil }
+            // Sort to make it consistent
+            .sorted(on: \.key, by: <)
     }
     
     var body: some View {
