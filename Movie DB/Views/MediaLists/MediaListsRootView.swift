@@ -124,7 +124,7 @@ struct MediaListsRootView: View {
                             } label: {
                                 ListRowLabel(
                                     list: list,
-                                    iconColor: Color(list.iconColor ?? .label),
+                                    iconColor: Color(list.iconColor ?? .primaryIcon),
                                     symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
                                 )
                             }
@@ -143,7 +143,7 @@ struct MediaListsRootView: View {
                             } label: {
                                 ListRowLabel(
                                     list: list,
-                                    iconColor: Color(list.iconColor ?? .label),
+                                    iconColor: Color(list.iconColor ?? .primaryIcon),
                                     symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
                                 )
                             }

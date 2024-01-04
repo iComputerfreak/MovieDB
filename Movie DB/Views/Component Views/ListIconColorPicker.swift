@@ -11,6 +11,7 @@ import SwiftUI
 
 struct ListIconColorPicker: View {
     static let defaultColors: [UIColor] = [
+        UIColor.primaryIcon,
         UIColor.redIcon,
         UIColor.orangeIcon,
         UIColor.yellowIcon,
@@ -22,7 +23,7 @@ struct ListIconColorPicker: View {
         UIColor.roseIcon,
         UIColor.brownIcon,
         UIColor.grayIcon,
-        UIColor.lightBrownIcon,
+//        UIColor.lightBrownIcon,
     ]
     
     let colors: [UIColor]

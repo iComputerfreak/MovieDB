@@ -43,7 +43,7 @@ struct ListIconConfigurator<Content: View>: View {
         self.init(
             name: name,
             iconName: iconName,
-            iconColor: Binding(iconColor, defaultValue: ListIconColorPicker.defaultColors.randomElement()!),
+            iconColor: Binding(iconColor, defaultValue: .primaryIcon),
             iconMode: iconMode,
             configurationSection: configurationSection
         )
@@ -106,6 +106,7 @@ struct ListIconConfigurator<Content: View>: View {
             }
         }
         .symbolVariant(.fill)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
