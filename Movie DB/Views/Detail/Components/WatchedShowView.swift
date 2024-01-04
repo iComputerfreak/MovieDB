@@ -13,7 +13,7 @@ import SwiftUI
 
 struct WatchedShowView: View {
     @Binding var watched: ShowWatchState?
-    let maxSeason: Int?
+    let seasons: Set<Season>
     @Environment(\.isEditing) private var isEditing
     @EnvironmentObject private var mediaObject: Media
     
@@ -36,7 +36,7 @@ struct WatchedShowView: View {
     var body: some View {
         if isEditing {
             NavigationLink {
-                EditView(watched: $watched, maxSeason: maxSeason)
+                EditView(watched: $watched, seasons: seasons)
                     .environmentObject(mediaObject)
             } label: {
                 Text(episodeString)
@@ -48,32 +48,93 @@ struct WatchedShowView: View {
         }
     }
     
+    enum WatchStateOption: String, CaseIterable {
+        case unknown
+        case notWatched
+        case season
+        case episode
+        
+        init(showWatchState: ShowWatchState?) {
+            switch showWatchState {
+            case nil:
+                self = .unknown
+            case .season:
+                self = .season
+            case .episode:
+                self = .episode
+            case .notWatched:
+                self = .notWatched
+            }
+        }
+        
+        var localized: String {
+            switch self {
+            case .unknown:
+                return String(
+                    localized: "detail.userData.watchedShow.statusPickerOption.unknown",
+                    // swiftlint:disable:next line_length
+                    comment: "One of the picker options in the show watch state view that indicates that the user does not know if they watched the show."
+                )
+            case .notWatched:
+                return String(
+                    localized: "detail.userData.watchedShow.statusPickerOption.notWatched",
+                    // swiftlint:disable:next line_length
+                    comment: "One of the picker options in the show watch state view that indicates that the user did not watch the show."
+                )
+            case .season:
+                return String(
+                    localized: "detail.userData.watchedShow.statusPickerOption.season",
+                    // swiftlint:disable:next line_length
+                    comment: "One of the picker options in the show watch state view that indicates that the user watched the show up to a specific season."
+                )
+            case .episode:
+                return String(
+                    localized: "detail.userData.watchedShow.statusPickerOption.episode",
+                    // swiftlint:disable:next line_length
+                    comment: "One of the picker options in the show watch state view that indicates that the user watched the show up to a specific episode."
+                )
+            }
+        }
+    }
+    
     struct EditView: View {
         @Binding var watched: ShowWatchState?
-        let maxSeason: Int?
+        let seasons: Set<Season>
         @EnvironmentObject private var mediaObject: Media
+        
+        var maxSeason: Int? {
+            guard let show = mediaObject as? Show else {
+                assertionFailure()
+                return nil
+            }
+            return show.latestNonEmptySeasonNumber
+        }
+        
+        var maxEpisode: Int? {
+            guard let season = seasons.first(where: \.seasonNumber, equals: self.season) else {
+                // If we cannot find a matching season, we cannot say if the episode count is valid
+                return nil
+            }
+            return season.episodeCount
+        }
         
         @State private var season: Int
         @State private var episode: Int
-        @State private var unknown: Bool
         
-        init(watched: Binding<ShowWatchState?>, maxSeason: Int? = nil) {
+        @State private var watchStateOption: WatchStateOption
+        
+        init(watched: Binding<ShowWatchState?>, seasons: Set<Season>) {
             _watched = watched
-            _season = State(wrappedValue: watched.wrappedValue?.season ?? 0)
-            _episode = State(wrappedValue: watched.wrappedValue?.episode ?? 0)
-            _unknown = State(wrappedValue: watched.wrappedValue == nil)
-            self.maxSeason = maxSeason
+            // If a season is 0 (e.g., because the show is marked as .notWatched), we clamp it to 1,
+            // as the "not watched" part is already acomplished by the watchStateOption
+            _season = State(wrappedValue: watched.wrappedValue?.season.clamped(to: 1...1000) ?? 1)
+            _episode = State(wrappedValue: watched.wrappedValue?.episode?.clamped(to: 1...1000) ?? 1)
+            _watchStateOption = .init(wrappedValue: .init(showWatchState: watched.wrappedValue))
+            self.seasons = seasons
         }
         
-        var seasonIsValid: Bool {
-            guard let maxSeason else {
-                return true
-            }
-            return season <= maxSeason
-        }
-        
-        var warningText: Text? {
-            guard !seasonIsValid else {
+        var seasonWarningText: Text? {
+            guard !isSeasonValid else {
                 // No warning
                 return nil
             }
@@ -100,11 +161,43 @@ struct WatchedShowView: View {
             return Text("detail.showWatchState.seasonWarning \(maxSeason ?? 0)")
         }
         
+        var episodeWarningText: Text? {
+            guard !isEpisodeValid else {
+                // No warning
+                return nil
+            }
+            
+            // MARK: The entered episode does not exist
+            return Text("detail.showWatchState.episodeWarning \(maxEpisode ?? 0)")
+        }
+        
+        var isSeasonValid: Bool {
+            guard let maxSeason else {
+                return true
+            }
+            return season <= maxSeason
+        }
+        
+        var isEpisodeValid: Bool {
+            guard let maxEpisode else {
+                return true
+            }
+            return self.episode <= maxEpisode
+        }
+        
         @ViewBuilder var warningFooter: some View {
-            if let warningText {
-                HStack(spacing: 4) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                    warningText
+            VStack {
+                if !isSeasonValid, watchStateOption == .season || watchStateOption == .episode {
+                    HStack(spacing: 4) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                        seasonWarningText
+                    }
+                }
+                if !isEpisodeValid, watchStateOption == .episode {
+                    HStack(spacing: 4) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                        episodeWarningText
+                    }
                 }
             }
         }
@@ -115,64 +208,62 @@ struct WatchedShowView: View {
                     header: Text(Strings.Detail.watchedShowEditingHeader),
                     footer: warningFooter
                 ) {
-                    Toggle(Strings.Detail.watchedShowEditingLabelUnknown, isOn: $unknown)
+                    Picker(selection: $watchStateOption.animation()) {
+                        ForEach(WatchStateOption.allCases, id: \.rawValue) { option in
+                            Text(option.localized)
+                                .tag(option)
+                        }
+                    } label: {
+                        Text(
+                            "detail.userData.watchedShow.statusPickerLabel",
+                            comment: "The label of the picker that lets the user select a show watch state."
+                        )
+                    }
                     // Seasons
-                    Stepper(value: $season, in: 0...1000) {
-                        if self.season > 0 {
+                    if watchStateOption == .season || watchStateOption == .episode {
+                        Stepper(value: $season, in: 1...1000) {
                             Text(Strings.Detail.watchedShowLabelSeason(self.season))
-                                .foregroundColor(seasonIsValid ? .primary : .yellow)
-                        } else {
-                            Text(Strings.Detail.watchedShowEditingLabelNotWatched)
+                                .foregroundColor(isSeasonValid ? .primary : .yellow)
                         }
                     }
-                    .disabled(unknown)
                     // Episodes
-                    if season > 0 {
-                        Stepper(value: $episode, in: 0...1000) {
-                            if self.episode > 0 {
-                                Text(Strings.Detail.watchedShowEditingLabelEpisode(self.episode))
-                            } else {
-                                Text(Strings.Detail.watchedShowEditingLabelAllEpisodes)
-                            }
+                    if watchStateOption == .episode {
+                        Stepper(value: $episode, in: 1...1000) {
+                            Text(Strings.Detail.watchedShowEditingLabelEpisode(self.episode))
+                                .foregroundColor(isEpisodeValid ? .primary : .yellow)
                         }
-                        .disabled(unknown)
                     }
                 }
                 .onChange(of: self.season) { newSeason in
-                    // season < 0 means "unknown"
-                    if newSeason < 0 {
-                        self.watched = nil
-                    } else if newSeason == 0 {
-                        // season == 0 means "not watched"
-                        self.watched = .notWatched
-                    } else {
-                        // season > 0 means either .season or .episode
-                        
-                        // episode > 0 means .episode
-                        if episode > 0 {
-                            self.watched = .episode(season: newSeason, episode: episode)
-                        } else {
-                            // episode <= 0 means .season
-                            self.watched = .season(newSeason)
-                        }
+                    switch watchStateOption {
+                    case .unknown, .notWatched:
+                        // We don't use the season number for those
+                        return
+                    case .season:
+                        self.watched = .season(newSeason)
+                    case .episode:
+                        self.watched = .episode(season: newSeason, episode: self.episode)
                     }
                 }
                 .onChange(of: self.episode) { newEpisode in
-                    // episode <= 0 means .season
-                    if newEpisode <= 0 {
-                        self.watched = .season(season)
-                    } else {
-                        // episode > 0 means .episode
-                        self.watched = .episode(season: season, episode: newEpisode)
+                    switch watchStateOption {
+                    case .unknown, .notWatched, .season:
+                        // We don't use the episode number for those
+                        return
+                    case .episode:
+                        self.watched = .episode(season: self.season, episode: newEpisode)
                     }
                 }
-                .onChange(of: unknown) { newValue in
-                    // If the new state is "unknown"
-                    if newValue {
+                .onChange(of: watchStateOption) { newValue in
+                    switch newValue {
+                    case .unknown:
                         self.watched = nil
-                    } else {
-                        // If the new state if known
-                        self.watched = .init(season: season, episode: episode)
+                    case .notWatched:
+                        self.watched = .notWatched
+                    case .season:
+                        self.watched = .season(self.season)
+                    case .episode:
+                        self.watched = .episode(season: self.season, episode: self.episode)
                     }
                 }
             }
@@ -184,13 +275,13 @@ struct WatchedShowView: View {
     List {
         WatchedShowView(
             watched: .constant(.episode(season: 2, episode: 5)),
-            maxSeason: 1
+            seasons: []
         )
     }
 }
 
 #Preview("Editing") {
-    WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), maxSeason: 1)
+    WatchedShowView.EditView(watched: .constant(.episode(season: 2, episode: 5)), seasons: [])
         .environmentObject(PlaceholderData.preview.staticShow as Media)
         .previewEnvironment()
 }

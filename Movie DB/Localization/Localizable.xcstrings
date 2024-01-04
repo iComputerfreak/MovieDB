@@ -1621,57 +1621,79 @@
         }
       }
     },
-    "detail.showWatchState.seasonWarning %lld" : {
+    "detail.showWatchState.episodeWarning %lld" : {
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Serie hat nur %#@count@."
-          },
-          "substitutions" : {
-            "count" : {
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "1 Staffel"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%arg Staffeln"
-                    }
-                  }
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die Serie hat nur %lld Episode."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die Serie hat nur %lld Episoden."
                 }
               }
             }
           }
         },
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This show only has %#@count@."
-          },
-          "substitutions" : {
-            "count" : {
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "1 season"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%arg seasons"
-                    }
-                  }
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This season only has %lld episode."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This season only has %lld episodes."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "detail.showWatchState.seasonWarning %lld" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die Serie hat nur %lld Staffel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die Serie hat nur %lld Staffeln."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This show only has %lld season."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This show only has %lld seasons."
                 }
               }
             }
@@ -2227,6 +2249,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "detail.userData.watchedShow.statusPickerLabel" : {
+      "comment" : "The label of the picker that lets the user select a show watch state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
+    "detail.userData.watchedShow.statusPickerOption.episode" : {
+      "comment" : "One of the picker options in the show watch state view that indicates that the user watched the show up to a specific episode.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis zu Folge..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to Episode..."
+          }
+        }
+      }
+    },
+    "detail.userData.watchedShow.statusPickerOption.notWatched" : {
+      "comment" : "One of the picker options in the show watch state view that indicates that the user did not watch the show.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht angeschaut"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Watched"
+          }
+        }
+      }
+    },
+    "detail.userData.watchedShow.statusPickerOption.season" : {
+      "comment" : "One of the picker options in the show watch state view that indicates that the user watched the show up to a specific season.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis zu Staffel..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to Season..."
+          }
+        }
+      }
+    },
+    "detail.userData.watchedShow.statusPickerOption.unknown" : {
+      "comment" : "One of the picker options in the show watch state view that indicates that the user does not know if they watched the show.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Angabe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Specified"
           }
         }
       }
