@@ -181,10 +181,12 @@ struct WatchedShowView: View {
 }
 
 #Preview {
-    WatchedShowView(
-        watched: .constant(.episode(season: 2, episode: 5)),
-        maxSeason: 1
-    )
+    List {
+        WatchedShowView(
+            watched: .constant(.episode(season: 2, episode: 5)),
+            maxSeason: 1
+        )
+    }
 }
 
 #Preview("Editing") {
