@@ -18,7 +18,6 @@ struct MediaListEditingSection: View {
         Section(Strings.Lists.editingInformationHeader) {
             TextField(Strings.Lists.editingNameLabel, text: $name)
             NavigationLink {
-//                SFSymbolPicker(symbol: $iconName)
                 ListIconConfigurator(name: $name, iconName: $iconName, iconColor: $iconColor, iconMode: $iconMode)
             } label: {
                 HStack {

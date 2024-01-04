@@ -6,6 +6,7 @@
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
+import JFUtils
 import SwiftUI
 
 extension Binding {
@@ -52,10 +53,10 @@ struct UserMediaListView: View {
         // MARK: Editing View / Configuration View
         .sheet(isPresented: $isShowingConfiguration) {
             ListConfigurationView(list: list) { list in
-                MediaListEditingSection(
+                ListIconConfigurator(
                     name: $list.name,
                     iconName: $list.iconName,
-                    iconColor: Binding($list.iconColor, defaultValue: UIColor.darkText),
+                    iconColor: $list.iconColor,
                     iconMode: $list.iconRenderingMode
                 )
             }

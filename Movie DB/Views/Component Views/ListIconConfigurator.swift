@@ -33,6 +33,22 @@ struct ListIconConfigurator<Content: View>: View {
         self.configurationSection = configurationSection()
     }
     
+    init(
+        name: Binding<String>,
+        iconName: Binding<String>,
+        iconColor: Binding<UIColor?>,
+        iconMode: Binding<IconRenderingMode>,
+        @ViewBuilder configurationSection: () -> Content = { EmptyView() }
+    ) {
+        self.init(
+            name: name,
+            iconName: iconName,
+            iconColor: Binding(iconColor, defaultValue: ListIconColorPicker.defaultColors.randomElement()!),
+            iconMode: iconMode,
+            configurationSection: configurationSection
+        )
+    }
+    
     var body: some View {
         List {
             // MARK: Icon and Name
@@ -69,6 +85,7 @@ struct ListIconConfigurator<Content: View>: View {
                 }
                 // MARK: Color
                 ListIconColorPicker(color: $iconColor)
+                    .frame(maxWidth: .infinity)
             } header: {
                 Text(
                     "lists.configuration.header.iconColor",
@@ -101,7 +118,7 @@ struct ListIconConfigurator<Content: View>: View {
     return ListIconConfigurator(
         name: $listName,
         iconName: $iconName,
-        iconColor: Binding($iconColor, defaultValue: .label),
+        iconColor: $iconColor,
         iconMode: $iconMode
     ) {
         Section {

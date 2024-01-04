@@ -26,6 +26,7 @@ struct ListIconPreview: View {
             Image(systemName: iconName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+            // TODO: This size is not fixed. Maybe we should use a font size instead
                 .frame(maxWidth: 60, maxHeight: 60)
                 .foregroundColor(color)
                 .padding()

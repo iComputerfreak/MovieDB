@@ -191,7 +191,7 @@ struct SearchResultsView<RowContent: View>: View {
 
 #Preview {
     NavigationStack {
-        SearchResultsView(selection: .constant(nil), prompt: Text("Search...")) { result in
+        SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search...")) { result in
             SearchResultRow()
                 .environmentObject(result)
         }

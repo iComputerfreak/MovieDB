@@ -91,6 +91,12 @@ enum SFSymbolNames {
         "wineglass",
         "birthday.cake",
         "atom",
+        "eye.fill",
+        "pencil",
+        "sun.horizon",
+        "moon.fill",
+        "play.house",
+        "balloon.fill",
     ]
     static let categories = [
         SymbolCategory(name: "Multicolor", iconName: "paintpalette", symbols: multicolor),

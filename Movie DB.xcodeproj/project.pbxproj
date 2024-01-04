@@ -26,7 +26,6 @@
 		AB097F5E284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */; };
 		AB097F63284BA73700E559E7 /* DynamicMediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F62284BA73700E559E7 /* DynamicMediaListView.swift */; };
 		AB097F65284BAA0500E559E7 /* SFSymbolNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */; };
-		AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */; };
 		AB097F6B284BE79000E559E7 /* MediaListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */; };
 		AB097F6D284BE7EC00E559E7 /* PredicateMediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */; };
 		AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */; };
@@ -377,7 +376,6 @@
 		AB097F5C284A996300E559E7 /* DynamicMediaList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicMediaList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB097F62284BA73700E559E7 /* DynamicMediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListView.swift; sourceTree = "<group>"; };
 		AB097F64284BAA0500E559E7 /* SFSymbolNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolNames.swift; sourceTree = "<group>"; };
-		AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolPicker.swift; sourceTree = "<group>"; };
 		AB097F6A284BE79000E559E7 /* MediaListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListProtocol.swift; sourceTree = "<group>"; };
 		AB097F6C284BE7EC00E559E7 /* PredicateMediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateMediaList.swift; sourceTree = "<group>"; };
 		AB097F71284BF65700E559E7 /* FilterSetting+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterSetting+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -787,7 +785,6 @@
 				AB5612542970003F0039850B /* User List Views */,
 				AB97F42228BAB38A00F1D8C3 /* ListRowLabel.swift */,
 				ABAA99ED2863106B00234E62 /* MediaListEditingSection.swift */,
-				AB097F66284BB36A00E559E7 /* SFSymbolPicker.swift */,
 				AB097F58284A974500E559E7 /* FilteredMediaList.swift */,
 				AB5612552970045B0039850B /* ListConfigurationView.swift */,
 				AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */,
@@ -2099,7 +2096,6 @@
 				ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */,
 				ABCB4E2C2AAA3D62006638A7 /* DismissButton.swift in Sources */,
 				AB6D9C9F283BC42B00AF655C /* Strings+SortingDirection.swift in Sources */,
-				AB097F67284BB36A00E559E7 /* SFSymbolPicker.swift in Sources */,
 				AB98EA38264D77100048B8CC /* LanguageChooser.swift in Sources */,
 				ABAA99E92863059800234E62 /* UserMediaList+CoreDataClass.swift in Sources */,
 				ABEF144329B2415400114948 /* DeleteOldPosterFilesMigration.swift in Sources */,

@@ -39,7 +39,7 @@ public extension DynamicMediaList {
     }
     
     var iconColor: UIColor? {
-        get { _iconColor.map { UIColor(cdColor: $0) } }
+        get { _iconColor.map(UIColor.init(cdColor:)) }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
     }
     

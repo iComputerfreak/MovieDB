@@ -16,9 +16,7 @@ struct ListConfigurationView<ListType, Content: View>: View where ListType: Medi
     
     var body: some View {
         NavigationStack {
-            Form {
-                contentBuilder(list)
-            }
+            contentBuilder(list)
             .navigationTitle(list.name)
             .toolbar {
                 Button(Strings.Generic.dismissViewDone) {

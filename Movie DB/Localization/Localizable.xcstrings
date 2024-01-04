@@ -2333,9 +2333,6 @@
         }
       }
     },
-    "Dismiss button does not work in preview due to constant binding." : {
-
-    },
     "generic.alert.button.cancel" : {
       "comment" : "Cancel button to dismiss an alert popup",
       "localizations" : {
@@ -2737,6 +2734,12 @@
     "generic.symbolRenderingMode.hierarchical" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hierarchisch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2748,6 +2751,12 @@
     "generic.symbolRenderingMode.monochrome" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monochrom"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2759,6 +2768,12 @@
     "generic.symbolRenderingMode.multicolor" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehrfarbig"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2770,6 +2785,12 @@
     "generic.symbolRenderingMode.palette" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palette"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4013,17 +4034,6 @@
         }
       }
     },
-    "List Name" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "List Name"
-          }
-        }
-      }
-    },
     "lists.alerts.alreadyExists.message %@" : {
       "comment" : "The message of an alert informing the user that the name of a new media list already exists",
       "localizations" : {
@@ -4126,15 +4136,66 @@
         }
       }
     },
+    "lists.configuration.header.filterSettings" : {
+      "comment" : "The header for the list configuration view's filter settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtereinstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter Settings"
+          }
+        }
+      }
+    },
     "lists.configuration.header.icon" : {
-      "comment" : "The header of the configuration section that lets the user choose the icon for a list."
+      "comment" : "The header of the configuration section that lets the user choose the icon for a list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon"
+          }
+        }
+      }
     },
     "lists.configuration.header.iconColor" : {
-      "comment" : "The header of the configuration section that lets the user define the icon color settings."
+      "comment" : "The header of the configuration section that lets the user define the icon color settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbolfarbe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon Color"
+          }
+        }
+      }
     },
     "lists.configuration.iconRenderingMode" : {
       "comment" : "The label for the picker that the user uses to select an icon rendering mode.",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farbmodus"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4144,7 +4205,38 @@
       }
     },
     "lists.configuration.listName" : {
-      "comment" : "The label of the text field that the user enters a list's name in."
+      "comment" : "The label of the text field that the user enters a list's name in.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listen-Name"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List Name"
+          }
+        }
+      }
+    },
+    "lists.configuration.navTitle.filterSettings" : {
+      "comment" : "The navigation title for the list configuration view's filter settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtereinstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter Settings"
+          }
+        }
+      }
     },
     "lists.defaultListName.favorites" : {
       "comment" : "The name of the default 'favorites' list",
@@ -5408,16 +5500,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resolve later"
-          }
-        }
-      }
-    },
-    "Search..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search ..."
           }
         }
       }
@@ -6763,16 +6845,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error displaying media."
-          }
-        }
-      }
-    },
-    "Show Sheet" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Sheet"
           }
         }
       }
