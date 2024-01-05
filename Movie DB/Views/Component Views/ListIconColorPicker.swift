@@ -40,6 +40,7 @@ struct ListIconColorPicker: View {
         HFlow(alignment: .top) {
             ForEach(Array(colors.enumerated()), id: \.1.self) { currentColorIndex, currentColor in
                 ColorSwatch(color: Color(currentColor))
+                    .accessibilityIdentifier("color\(currentColorIndex)")
                     .padding(4)
                     .overlay(
                         Circle()
