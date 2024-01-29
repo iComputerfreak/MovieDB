@@ -47,6 +47,7 @@ public class Media: NSManagedObject {
         if let loadThumbnailTask {
             loadThumbnailTask.cancel()
         }
+        Logger.coreData.debug("Media object \(self.description) is being deinitialized.")
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
@@ -217,6 +218,11 @@ public extension Media {
                 )
             }
         }
+    }
+    
+    override func willTurnIntoFault() {
+        super.willTurnIntoFault()
+        Logger.coreData.debug("Media object \(self.description) will now turn into a fault!")
     }
 }
 

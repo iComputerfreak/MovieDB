@@ -33,41 +33,43 @@ struct MediaLookupDetail: View {
     }
     
     var body: some View {
-        switch state {
-        case .loading:
-            ProgressView()
-                .navigationTitle(Strings.Generic.navBarLoadingTitle)
-                .task(priority: .userInitiated) {
-                    // Load the media
-                    do {
-                        let media = try await TMDBAPI.shared.media(
-                            for: tmdbID,
-                            type: mediaType,
-                            context: localContext
-                        )
-                        await MainActor.run {
-                            // Update the relevant information
-                            // No need to load the thumbnail, since it will be loaded by the AsyncImage in LookupTitleView
-                            self.state = .loaded(media)
-                        }
-                    } catch {
-                        Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
-                        // Just change the state. Error will be displayed automatically
-                        await MainActor.run {
-                            self.state = .error(error)
+        Group {
+            switch state {
+            case .loading:
+                ProgressView()
+                    .navigationTitle(Strings.Generic.navBarLoadingTitle)
+                    .task(priority: .userInitiated) {
+                        // Load the media
+                        do {
+                            let media = try await TMDBAPI.shared.media(
+                                for: tmdbID,
+                                type: mediaType,
+                                context: localContext
+                            )
+                            await MainActor.run {
+                                // Update the relevant information
+                                // No need to load the thumbnail, since it will be loaded by the AsyncImage in LookupTitleView
+                                self.state = .loaded(media)
+                            }
+                        } catch {
+                            Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
+                            // Just change the state. Error will be displayed automatically
+                            await MainActor.run {
+                                self.state = .error(error)
+                            }
                         }
                     }
+            case .loaded(let media):
+                LookupDetailView(showingDismissButton: showingDismissButton)
+                    .environmentObject(media)
+            case .error(let error):
+                VStack {
+                    Text(Strings.Lookup.errorLoadingMedia(error.localizedDescription))
+                    Button(Strings.Generic.retryLoading) {
+                        self.state = .loading
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
-        case .loaded(let media):
-            LookupDetailView(showingDismissButton: showingDismissButton)
-                .environmentObject(media)
-        case .error(let error):
-            VStack {
-                Text(Strings.Lookup.errorLoadingMedia(error.localizedDescription))
-                Button(Strings.Generic.retryLoading) {
-                    self.state = .loading
-                }
-                .buttonStyle(.borderedProminent)
             }
         }
     }
@@ -91,7 +93,7 @@ struct MediaLookupDetail: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        AddMediaButton()
+                        AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
                     }
                     if showingDismissButton {
                         ToolbarItem(placement: .topBarLeading) {
