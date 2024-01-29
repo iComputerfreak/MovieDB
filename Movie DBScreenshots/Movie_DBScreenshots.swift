@@ -25,7 +25,7 @@ final class Movie_DBScreenshots: XCTestCase {
         // Reset snapshot counter
         snapshotCounter = 1
         // If device is iPad, put it into landscape mode
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if isIPad {
             XCUIDevice.shared.orientation = UIDeviceOrientation.landscapeLeft
         }
     }
@@ -34,26 +34,47 @@ final class Movie_DBScreenshots: XCTestCase {
     override func tearDown() async throws {
         try await super.tearDown()
     }
+    
+    var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
 
     func testScreenshots() throws {
         app.launch()
         
         // Give the app a second to load the sample data and thumbnails
         _ = app.wait(for: .runningBackground, timeout: 3)
-        snapshot("Library")
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            // We replace this on iPad with the Detail screenshot
+            snapshot("Library")
+        }
         
         app.navigationBars.firstMatch.buttons["add-media"].tap()
         app.textFields.firstMatch.tap()
         app.typeText("Constantine")
+        
+        if isIPad {
+            // We just took screenshot i - 1 and then increased the counter to i
+            // Take this as screenshot i + 1 instead of i
+            snapshotCounter += 1
+        }
         snapshot("AddMedia")
         
         app.navigationBars.firstMatch.buttons.firstMatch.tap() // Cancel button
-        
         // Go into detail
         app.cells.buttons.element(boundBy: 0).forceTap()
+        
+        if isIPad {
+            // Now the counter is i + 2, but we want it to be i (which we left out earlier)
+            snapshotCounter -= 2
+        }
         snapshot("Detail")
-        // TODO: Scroll faster to show the trailers section
-        // TODO: Test if .fast is ok
+        if isIPad {
+            // We are now at i + 1 again, but we should be at i + 2 for the correct ordering to continue
+            snapshotCounter += 1
+            // In total, we increased by 2 and subtracted by 2, so we are at +/- 0 offset again.
+        }
+        
         app.swipeUp(velocity: .fast)
         // Wait for scrolling to finish
         XCTAssertFalse(app.wait(for: .runningBackground, timeout: 2))
@@ -80,7 +101,6 @@ final class Movie_DBScreenshots: XCTestCase {
         }
         
         // Go into Watchlist
-        // TODO: Fix on iPhone
         app.cells.buttons.element(boundBy: 1).tap()
         snapshot("WList")
         

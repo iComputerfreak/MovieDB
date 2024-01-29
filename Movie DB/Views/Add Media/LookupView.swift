@@ -34,6 +34,7 @@ struct LookupView: View {
         }
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()
+                .environmentObject(StoreManager.shared)
         }
     }
 }

@@ -199,7 +199,7 @@ extension Movie {
         videos: [VideoDummy] = [],
         parentalRating: ParentalRatingDummy? = nil,
         watchProviders: [WatchProviderDummy] = [],
-        movieData: TMDBData.MovieData? = .init(rawReleaseDate: "2022-01-01", budget: 0, revenue: 0, isAdult: false),
+        movieData: TMDBData.MovieData? = .init(rawReleaseDate: "2022-01-01", budget: 0, revenue: 0, isAdult: false, directors: ["John Doe"]),
         showData: TMDBData.ShowData? = nil
     ) {
         self.init(context: context, tmdbData: TMDBData(
