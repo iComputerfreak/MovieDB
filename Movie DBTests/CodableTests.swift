@@ -64,7 +64,7 @@ class CodableTests: XCTestCase {
         // Movie exclusive data
         let movieData = try XCTUnwrap(movie.movieData)
         
-        XCTAssertEqual(movieData.imdbID, "tt0133093")
+        XCTAssertEqual(movie.imdbID, "tt0133093")
         assertEqual(movieData.releaseDate, 1999, 03, 30)
         XCTAssertEqual(movieData.runtime, 136)
         XCTAssertEqual(movieData.budget, 63_000_000)
@@ -119,7 +119,7 @@ class CodableTests: XCTestCase {
         // Movie exclusive data
         let movieData = try XCTUnwrap(movie.movieData)
         
-        XCTAssertEqual(movieData.imdbID, "tt0137523")
+        XCTAssertEqual(movie.imdbID, "tt0137523")
         assertEqual(movieData.releaseDate, 1999, 10, 15)
         XCTAssertEqual(movieData.runtime, 139)
         XCTAssertEqual(movieData.budget, 63_000_000)

@@ -32,6 +32,7 @@ struct ProInfoView: View {
                 }
                 Spacer()
                 BuyProButton()
+                    .environmentObject(storeManager)
             }
             .padding()
             .navigationTitle(Strings.ProInfo.navBarTitle)

@@ -53,6 +53,18 @@ class MediaListTests: XCTestCase {
         assertDoctorWhoBeforeLoki()
     }
     
+    func testConfigurationPopup() {
+        app.launch()
+        
+        app.tabBar["Lists"].tap()
+        app.navigationBars.firstMatch.buttons["New..."].forceTap()
+        app.buttons["new-custom-list"].tap()
+        app.typeText("Test-List")
+        app.alerts.firstMatch.buttons["Add"].tap()
+        app.buttons["Test-List"].tap()
+        app.navigationBars["Test-List"].buttons["Configure..."].forceTap()
+    }
+    
     func testSearch() {
         app.launch()
         

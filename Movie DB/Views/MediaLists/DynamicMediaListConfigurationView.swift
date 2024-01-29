@@ -6,7 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
-import os.log
+import OSLog
 import SwiftUI
 
 struct DynamicMediaListConfigurationView: View {

@@ -11,10 +11,11 @@ import SwiftUI
 
 /// Adds the `Media` in the environment to the user's library
 struct AddMediaButton: View {
-    @EnvironmentObject private var mediaObject: Media
+    let tmdbID: Int
+    let mediaType: MediaType
     
     private var alreadyAdded: Bool {
-        MediaLibrary.shared.mediaExists(mediaObject.tmdbID, mediaType: mediaObject.type)
+        MediaLibrary.shared.mediaExists(tmdbID, mediaType: mediaType)
     }
     
     // TODO: Replace workaround with some other view update.
@@ -25,8 +26,8 @@ struct AddMediaButton: View {
             Task(priority: .userInitiated) {
                 do {
                     try await MediaLibrary.shared.addMedia(
-                        tmdbID: mediaObject.tmdbID,
-                        mediaType: mediaObject.type
+                        tmdbID: tmdbID,
+                        mediaType: mediaType
                     )
                     // Re-render the view by changing the state variable
                     await MainActor.run {

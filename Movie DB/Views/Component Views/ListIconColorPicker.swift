@@ -33,13 +33,17 @@ struct ListIconColorPicker: View {
     init(colors: [UIColor] = Self.defaultColors, color: Binding<UIColor>) {
         self.colors = colors
         self._color = color
-        self._colorIndex = State(wrappedValue: colors.firstIndex(of: color.wrappedValue) ?? 0)
+        // We compare the components, because the colors stored in Core Data have been transformed
+        // and will not be equal to the dynamic instances from the asset catalog
+        let selectedIndex = colors.firstIndex(where: \.components, equals: color.wrappedValue.components)
+        self._colorIndex = State(wrappedValue: selectedIndex ?? 0)
     }
     
     var body: some View {
         HFlow(alignment: .top) {
             ForEach(Array(colors.enumerated()), id: \.1.self) { currentColorIndex, currentColor in
                 ColorSwatch(color: Color(currentColor))
+                    .accessibilityIdentifier("color\(currentColorIndex)")
                     .padding(4)
                     .overlay(
                         Circle()

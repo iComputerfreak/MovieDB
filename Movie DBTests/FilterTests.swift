@@ -51,7 +51,7 @@ class FilterTests: XCTestCase {
     }
     
     private func createMovie(title: String, watched: MovieWatchState, watchAgain: Bool?, tags: [String], notes: String? = nil, genres: [GenreDummy], rating: StarRating, year: Int, status: MediaStatus) {
-        let movie = Movie(context: testContext, title: title, originalTitle: title, genres: genres, status: status, movieData: .init(rawReleaseDate: "\(year.formatted(.number.grouping(.never)))-01-01", budget: 0, revenue: 0, isAdult: false))
+        let movie = Movie(context: testContext, title: title, originalTitle: title, genres: genres, status: status, movieData: .init(rawReleaseDate: "\(year.formatted(.number.grouping(.never)))-01-01", budget: 0, revenue: 0, isAdult: false, directors: ["John Doe"]))
         movie.watched = watched
         movie.watchAgain = watchAgain
         movie.personalRating = rating
