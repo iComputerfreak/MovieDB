@@ -52,14 +52,7 @@ struct UserMediaListView: View {
         }
         // MARK: Editing View / Configuration View
         .sheet(isPresented: $isShowingConfiguration) {
-            ListConfigurationView(list: list) { list in
-                ListIconConfigurator(
-                    name: $list.name,
-                    iconName: $list.iconName,
-                    iconColor: $list.iconColor,
-                    iconMode: $list.iconRenderingMode
-                )
-            }
+            UserMediaListConfigurationView(list: list)
         }
     }
 }

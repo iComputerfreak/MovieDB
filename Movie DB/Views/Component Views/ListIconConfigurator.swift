@@ -24,7 +24,7 @@ struct ListIconConfigurator<Content: View>: View {
         iconName: Binding<String>,
         iconColor: Binding<UIColor>,
         iconMode: Binding<IconRenderingMode>,
-        @ViewBuilder configurationSection: () -> Content = { EmptyView() }
+        @ViewBuilder configurationSection: () -> Content
     ) {
         self._name = name
         self._iconName = iconName
@@ -38,7 +38,7 @@ struct ListIconConfigurator<Content: View>: View {
         iconName: Binding<String>,
         iconColor: Binding<UIColor?>,
         iconMode: Binding<IconRenderingMode>,
-        @ViewBuilder configurationSection: () -> Content = { EmptyView() }
+        @ViewBuilder configurationSection: () -> Content
     ) {
         self.init(
             name: name,
