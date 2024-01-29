@@ -33,8 +33,10 @@ struct ListIconColorPicker: View {
     init(colors: [UIColor] = Self.defaultColors, color: Binding<UIColor>) {
         self.colors = colors
         self._color = color
-        // We compare the components, because the colors stored in Core Data have been transformed and will not be equal to the dynamic instances from the asset catalog
-        self._colorIndex = State(wrappedValue: colors.firstIndex(where: \.components, equals: color.wrappedValue.components) ?? 0)
+        // We compare the components, because the colors stored in Core Data have been transformed
+        // and will not be equal to the dynamic instances from the asset catalog
+        let selectedIndex = colors.firstIndex(where: \.components, equals: color.wrappedValue.components)
+        self._colorIndex = State(wrappedValue: selectedIndex ?? 0)
     }
     
     var body: some View {

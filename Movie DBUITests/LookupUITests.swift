@@ -32,7 +32,7 @@ class LookupUITests: XCTestCase {
         app.wait(1)
         app.cells.firstMatch.tap()
         app.navigationBars.buttons["Add"].tap()
-        // swiftlint:disable:next isEmpty
+        // swiftformat:disable:next isEmpty
         XCTAssert(app.alerts.count == 0)
     }
 }

@@ -12,6 +12,9 @@
 //            the new SnapshotHelper.swift
 // -----------------------------------------------------
 
+// swiftlint:disable all
+// swiftformat:disable all
+
 import Foundation
 import XCTest
 
@@ -307,6 +310,8 @@ private extension CGFloat {
         return numberA...numberB ~= self
     }
 }
+
+// swiftlint:enable all
 
 // Please don't remove the lines below
 // They are used to detect outdated configuration files
