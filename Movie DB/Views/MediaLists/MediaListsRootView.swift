@@ -153,7 +153,7 @@ struct MediaListsRootView: View {
                     }
                 }
             }
-//            .symbolVariant(.fill)
+            .symbolVariant(.fill)
             .toolbar(content: toolbar)
             .navigationTitle(Strings.TabView.listsLabel)
         } content: {
