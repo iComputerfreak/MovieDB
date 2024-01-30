@@ -11,19 +11,29 @@ import SwiftUI
 
 struct UserMediaListConfigurationView: View {
     @ObservedObject var list: UserMediaList
+    @Environment(\.dismiss) private var dismiss
+    
+    @Environment(\.managedObjectContext) private var managedObjectContext
     
     init(list: UserMediaList) {
         self.list = list
     }
     
     var body: some View {
-        ListConfigurationView(list: list) { list in
+        NavigationStack {
+            // MARK: List Details
             ListIconConfigurator(
                 name: $list.name,
                 iconName: $list.iconName,
                 iconColor: $list.iconColor,
                 iconMode: $list.iconRenderingMode
             ) {}
+            .navigationTitle(list.name)
+            .toolbar {
+                Button(Strings.Generic.dismissViewDone) {
+                    dismiss()
+                }
+            }
         }
     }
 }

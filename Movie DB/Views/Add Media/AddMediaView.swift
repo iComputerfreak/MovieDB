@@ -30,7 +30,7 @@ struct AddMediaView: View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
                 VStack {
-                    SearchResultsView(selection: .constant(nil), prompt: prompt) { result in
+                    SearchResultsView(selection: .constant(nil), prompt: prompt, autoFocus: true) { result in
                         Button {
                             Task(priority: .userInitiated) {
                                 await self.addMedia(result)
