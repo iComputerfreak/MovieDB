@@ -22,6 +22,7 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var allPagesLoaded = true
     @Binding var selection: TMDBSearchResult?
     let prompt: Text
+    let autoFocus: Bool
     
     // We use an observable model to store the searchText and publisher
     // This way, we can access the publisher of the @Published searchText property directly to
@@ -37,17 +38,19 @@ struct SearchResultsView<RowContent: View>: View {
     init(
         selection: Binding<TMDBSearchResult?>,
         prompt: Text,
+        autoFocus: Bool = false,
         @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
     ) {
         self.content = content
         self.prompt = prompt
         self._selection = selection
+        self.autoFocus = autoFocus
     }
     
     var body: some View {
         VStack {
             // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
-            JFSearchBar(text: $model.searchText, prompt: prompt)
+            JFSearchBar(text: $model.searchText, prompt: prompt, autoFocus: autoFocus)
             List(selection: $selection) {
                 if self.results.isEmpty, !self.resultsText.isEmpty {
                     HStack {

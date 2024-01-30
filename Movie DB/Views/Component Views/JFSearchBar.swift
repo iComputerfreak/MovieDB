@@ -12,10 +12,17 @@ import SwiftUI
 struct JFSearchBar: View {
     @Binding var text: String
     let prompt: Text
+    @State private var autoFocus: Bool
     @FocusState private var isFocused: Bool
     
     var showingClearButton: Bool {
         isFocused && !text.isEmpty
+    }
+    
+    init(text: Binding<String>, prompt: Text, autoFocus: Bool = false) {
+        self._text = text
+        self.prompt = prompt
+        self.autoFocus = autoFocus
     }
     
     var body: some View {
@@ -50,11 +57,18 @@ struct JFSearchBar: View {
             }
         )
         .padding(.horizontal, 6)
+        .onAppear {
+            if self.autoFocus {
+                self.isFocused = true
+                // Only autofocus once, not every time we appear
+                self.autoFocus = false
+            }
+        }
     }
 }
 
 #Preview {
     @State var text = ""
     
-    return JFSearchBar(text: $text, prompt: Text(Strings.AddMedia.searchPrompt))
+    return JFSearchBar(text: $text, prompt: Text(Strings.AddMedia.searchPrompt), autoFocus: true)
 }
