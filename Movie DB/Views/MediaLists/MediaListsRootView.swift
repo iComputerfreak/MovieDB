@@ -175,14 +175,14 @@ struct MediaListsRootView: View {
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {
-        indexSet.forEach { index in
+        for index in indexSet {
             self.managedObjectContext.delete(dynamicLists[index])
         }
         PersistenceController.saveContext(managedObjectContext)
     }
     
     private func deleteUserList(indexSet: IndexSet) {
-        indexSet.forEach { index in
+        for index in indexSet {
             self.managedObjectContext.delete(userLists[index])
         }
         PersistenceController.saveContext(managedObjectContext)

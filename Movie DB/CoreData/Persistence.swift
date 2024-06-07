@@ -196,7 +196,7 @@ class PersistenceController {
         
         // TODO: For some reason, the tags don't get deleted by the NSBatchDeleteRequest, so we have to do it manually
         let tags = (try? container.viewContext.fetch(Tag.fetchRequest())) ?? []
-        tags.forEach { tag in
+        for tag in tags {
             container.viewContext.delete(tag)
         }
         

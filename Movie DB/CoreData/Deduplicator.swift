@@ -32,7 +32,7 @@ class Deduplicator {
         // Use performAndWait because each step relies on the sequence.
         // Because historyQueue (our caller) runs in the background, waiting won’t block the main queue.
         taskContext.performAndWait {
-            changedObjectIDs.forEach { objectID in
+            for objectID in changedObjectIDs {
                 deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
             }
             // Save the background context to trigger a notification and merge the result into the viewContext.
@@ -325,7 +325,7 @@ extension Deduplicator {
             "The duplicate media objects have different titles"
         )
         
-        duplicatedMedias.forEach { media in
+        for media in duplicatedMedias {
             defer { performingContext.delete(media) }
             
             Logger.coreData.debug("Removing deduplicated Media: \(media)")
@@ -352,7 +352,7 @@ extension Deduplicator {
         )
         precondition(!duplicatedTags.contains(winner), "The duplicated tags must be excluding the winner.")
         
-        duplicatedTags.forEach { tag in
+        for tag in duplicatedTags {
             defer { performingContext.delete(tag) }
             
             Logger.coreData.debug("Removing deduplicated Tag: \(tag)")
@@ -367,7 +367,7 @@ extension Deduplicator {
             "The duplicate genres have different names"
         )
         
-        duplicatedGenres.forEach { genre in
+        for genre in duplicatedGenres {
             defer { performingContext.delete(genre) }
             
             Logger.coreData.debug("Removing deduplicated Genre: \(genre)")
@@ -386,7 +386,7 @@ extension Deduplicator {
             "The duplicate user lists have different names"
         )
         
-        duplicatedUserMediaLists.forEach { list in
+        for list in duplicatedUserMediaLists {
             defer { performingContext.delete(list) }
             
             Logger.coreData.debug("Removing deduplicated UserMediaList: \(list)")
@@ -404,7 +404,7 @@ extension Deduplicator {
             "The duplicate dynamic lists have different names"
         )
         
-        duplicatedDynamicMediaLists.forEach { list in
+        for list in duplicatedDynamicMediaLists {
             defer { performingContext.delete(list) }
             
             Logger.coreData.debug("Removing deduplicated DynamicMediaList: \(list)")
@@ -417,7 +417,7 @@ extension Deduplicator {
         winner: FilterSetting,
         performingContext: NSManagedObjectContext
     ) {
-        duplicatedFilterSettings.forEach { filterSetting in
+        for filterSetting in duplicatedFilterSettings {
             defer { performingContext.delete(filterSetting) }
             
             Logger.coreData.debug("Removing deduplicated FilterSetting: \(filterSetting)")
@@ -439,7 +439,7 @@ extension Deduplicator {
             "The duplicate production companies have different names"
         )
         
-        duplicatedProductionCompanies.forEach { productionCompany in
+        for productionCompany in duplicatedProductionCompanies {
             defer { performingContext.delete(productionCompany) }
             
             Logger.coreData.debug("Removing deduplicated ProductionCompany: \(productionCompany)")
@@ -454,7 +454,7 @@ extension Deduplicator {
             "The duplicate seasons have different season numbers"
         )
         
-        duplicatedSeasons.forEach { season in
+        for season in duplicatedSeasons {
             defer { performingContext.delete(season) }
             
             Logger.coreData.debug("Removing deduplicated Season: \(season)")
@@ -471,7 +471,7 @@ extension Deduplicator {
             "The duplicate videos have different keys"
         )
         
-        duplicatedVideos.forEach { video in
+        for video in duplicatedVideos {
             defer { performingContext.delete(video) }
             
             Logger.coreData.debug("Removing deduplicated Video: \(video)")
@@ -492,7 +492,7 @@ extension Deduplicator {
             "The duplicate videos have different ids"
         )
         
-        duplicatedWatchProviders.forEach { watchProvider in
+        for watchProvider in duplicatedWatchProviders {
             defer { performingContext.delete(watchProvider) }
             
             Logger.coreData.debug("Removing deduplicated WatchProvider: \(watchProvider)")
@@ -528,7 +528,7 @@ extension Deduplicator {
         on propertyKeyPath: KeyPath<T, Set<V>>
     ) {
         // For each item in the given list, remove the duplicate and add the winner
-        duplicate[keyPath: propertyKeyPath].forEach { item in
+        for item in duplicate[keyPath: propertyKeyPath] {
             item[keyPath: referenceKeyPath].remove(duplicate)
             item[keyPath: referenceKeyPath].insert(winner)
         }
