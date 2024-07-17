@@ -107,7 +107,7 @@ class HistoryManager {
                 )
                 
                 // !!!: Alternatively: (update on any change, like we did before)
-                transactions.forEach { transaction in
+                for transaction in transactions {
                     guard let userInfo = transaction.objectIDNotification().userInfo else {
                         assertionFailure("Unable to get userInfo for remote change transaction")
                         return

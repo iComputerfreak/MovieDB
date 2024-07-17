@@ -30,7 +30,7 @@ extension TMDBData {
     
     // Is directly mapped to the language when decoding
     struct Translation: Codable, Hashable {
-        var language: String
+        var language: String?
         
         enum CodingKeys: String, CodingKey {
             case language = "english_name"

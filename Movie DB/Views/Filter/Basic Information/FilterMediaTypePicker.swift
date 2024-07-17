@@ -27,7 +27,6 @@ struct FilterMediaTypePicker: View {
                 .tag(MediaType.movie.rawValue)
             Text(Strings.show)
                 .tag(MediaType.show.rawValue)
-            
                 .navigationTitle(Strings.Library.Filter.mediaTypeNavBarTitle)
         }
     }

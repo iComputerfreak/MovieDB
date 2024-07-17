@@ -27,7 +27,6 @@ struct FilterWatchAgainPicker: View {
                 .tag(true.description)
             Text(Strings.Generic.pickerValueNo)
                 .tag(false.description)
-            
                 .navigationTitle(Strings.Library.Filter.watchAgainNavBarTitle)
         }
     }
