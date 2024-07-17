@@ -136,7 +136,7 @@ struct TMDBData: Decodable {
         )
         let translations = try translationsContainer.decode([Translation].self, forKey: .translations)
         // Only save the languages, not the Translation objects
-        self.translations = translations.map(\.language)
+        self.translations = translations.compactMap(\.language)
         
         // Load videos.results as self.videos
         let videosContainer = try container.nestedContainer(keyedBy: GenericResultsCodingKeys.self, forKey: .videos)
