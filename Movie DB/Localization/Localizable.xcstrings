@@ -11,6 +11,19 @@
         }
       }
     },
+    "\tMovies: %lld" : {
+
+    },
+    "\tTV Shows: %lld (%lld seasons)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "\tTV Shows: %1$lld (%2$lld seasons)"
+          }
+        }
+      }
+    },
     " " : {
       "localizations" : {
         "de" : {
@@ -5297,6 +5310,9 @@
         }
       }
     },
+    "Movies watched: %lld" : {
+
+    },
     "problems.list.missingList %@" : {
       "comment" : "List of missing information on a media. Shown in the problems view. The argument is the formatted list.",
       "localizations" : {
@@ -7211,6 +7227,9 @@
         }
       }
     },
+    "Stats" : {
+
+    },
     "tabView.library.label" : {
       "comment" : "The label of the library tab of the main TabView",
       "localizations" : {
@@ -7292,6 +7311,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "Total Number of Medias: %lld" : {
+
+    },
+    "Total watch time: %@" : {
+
+    },
+    "TV Shows watched: %lld (%lld seasons)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "TV Shows watched: %1$lld (%2$lld seasons)"
           }
         }
       }

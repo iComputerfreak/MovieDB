@@ -43,6 +43,15 @@ struct SettingsView: View {
                             LegalView()
                         }
                     }
+                    
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink {
+                            StatsView()
+                        } label: {
+                            Image(systemName: "info.circle")
+                        }
+                    }
+                    
                     #if DEBUG
                     // Don't show on screenshots
                     if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
@@ -98,4 +107,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .previewEnvironment()
 }
