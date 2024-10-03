@@ -14,19 +14,23 @@ struct LibraryToolbar: ToolbarContent {
     @Binding var config: LibraryViewModel
     @EnvironmentObject private var filterSetting: FilterSetting
     
+    let filterImageReset = "line.horizontal.3.decrease.circle"
+    let filterImageSet = "line.horizontal.3.decrease.circle.fill"
+    
+    var filterImageName: String {
+        filterSetting.isReset ? filterImageReset : filterImageSet
+    }
+    
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
                 Section {
-                    let filterImageReset = "line.horizontal.3.decrease.circle"
-                    let filterImageSet = "line.horizontal.3.decrease.circle.fill"
-                    let filterImage = filterSetting.isReset ? filterImageReset : filterImageSet
                     Button {
                         config.activeSheet = .filter
                     } label: {
                         Label(
                             Strings.Library.menuButtonFilter,
-                            systemImage: filterImage
+                            systemImage: filterImageName
                         )
                     }
                 }

@@ -54,6 +54,7 @@ struct LibraryHome: View {
         )
     }
     
+    // TODO: Break up modifiers
     var body: some View {
         NavigationSplitView {
              List(selection: $selectedMediaObjects) {
@@ -86,7 +87,6 @@ struct LibraryHome: View {
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
             .autocorrectionDisabled()
-            
             // Display the currently active sheet
             .sheet(item: $viewModel.activeSheet) { sheet in
                 switch sheet {
