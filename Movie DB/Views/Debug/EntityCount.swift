@@ -53,7 +53,7 @@ class EntityCount: ObservableObject {
         let request: NSFetchRequest<T> = NSFetchRequest(entityName: T.entity().name!)
         let objects: [T] = (try? PersistenceController.viewContext.fetch(request)) ?? []
         self.localCount = objects.count
-        self.uniqueLocalCount = objects.uniqued(on: { $0[keyPath: keyPath] }).count
+        self.uniqueLocalCount = objects.removingDuplicates(key: keyPath).count
         countiCloud(T.entity().name!, predicate: NSPredicate(value: true)) { result in
             DispatchQueue.main.async {
                 self.remoteCount = result

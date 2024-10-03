@@ -296,7 +296,6 @@
 		ABDC93732A52E83100DF4084 /* MediaSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93722A52E83100DF4084 /* MediaSwipeActions.swift */; };
 		ABDC93752A52E87800DF4084 /* MediaContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93742A52E87800DF4084 /* MediaContextMenu.swift */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
-		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70229C0A18300E5B54B /* ParentalRating+CoreDataClass.swift */; };
 		ABE6B70529C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70329C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift */; };
 		ABE6B70729C0A34400E5B54B /* Schema+ParentalRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70629C0A34400E5B54B /* Schema+ParentalRating.swift */; };
@@ -718,7 +717,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
@@ -1561,7 +1559,6 @@
 			name = "Movie DB";
 			packageProductDependencies = (
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
-				ABE17B6C284FA4A100879C30 /* Algorithms */,
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
 				ABD249022A2394CC002DEB3D /* JFUtils */,
 				AB02A0242B460F05008362D7 /* Flow */,
@@ -1654,7 +1651,6 @@
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
 				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
-				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
@@ -2585,14 +2581,6 @@
 				minimumVersion = 0.8.1;
 			};
 		};
-		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2645,11 +2633,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
 			productName = SwiftCSV;
-		};
-		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 
