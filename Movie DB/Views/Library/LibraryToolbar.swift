@@ -13,6 +13,7 @@ struct LibraryToolbar: ToolbarContent {
     // TODO: Use @EnvironmentObject
     @Binding var config: LibraryViewModel
     @EnvironmentObject private var filterSetting: FilterSetting
+    var editMode: Binding<EditMode>?
     
     let filterImageReset = "line.horizontal.3.decrease.circle"
     let filterImageSet = "line.horizontal.3.decrease.circle.fill"
@@ -21,9 +22,21 @@ struct LibraryToolbar: ToolbarContent {
         filterSetting.isReset ? filterImageReset : filterImageSet
     }
     
+    private var isEditing: Bool { editMode?.wrappedValue.isEditing ?? false }
+    
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
+                Button {
+                    withAnimation {
+                        editMode?.wrappedValue = isEditing ? .inactive : .active
+                    }
+                } label: {
+                    Label(
+                        Strings.Library.menuSelectLabel,
+                        systemImage: isEditing ? "checkmark.circle.fill" : "checkmark.circle"
+                    )
+                }
                 Section {
                     Button {
                         config.activeSheet = .filter
@@ -40,7 +53,19 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "ellipsis.circle")
             }
         }
-        ToolbarItem(placement: .navigationBarTrailing) {
+        if isEditing {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    withAnimation {
+                        editMode?.wrappedValue = .inactive
+                    }
+                } label: {
+                    Text(Strings.Generic.editButtonLabelDone)
+                        .bold()
+                }
+            }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
             Button {
                 config.activeSheet = .addMedia
             } label: {

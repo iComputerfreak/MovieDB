@@ -2237,7 +2237,7 @@
       }
     },
     "detail.userData.watchedShow.label.unknown" : {
-      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show",
+      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show\nThe label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the watch state of the show is unknown.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4103,6 +4103,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filter"
+          }
+        }
+      }
+    },
+    "library.navBar.button.select" : {
+      "comment" : "The text of the multi-selection button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
           }
         }
       }

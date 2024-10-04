@@ -62,6 +62,10 @@ extension Strings {
             localized: "library.list.adultText",
             comment: "The text that is displayed for adult movies"
         )
+        static let menuSelectLabel = String(
+            localized: "library.navBar.button.select",
+            comment: "The text of the multi-selection button in the library menu"
+        )
         
         enum Alert {
             static let updateErrorTitle = String(

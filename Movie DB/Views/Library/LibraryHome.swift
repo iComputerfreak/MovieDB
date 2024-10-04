@@ -13,6 +13,7 @@ import SwiftUI
 
 struct LibraryHome: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.editMode) private var editMode
     @State private var selectedMediaObjects: Set<Media> = .init()
     
     @State private var viewModel = LibraryViewModel()
@@ -57,7 +58,7 @@ struct LibraryHome: View {
     // TODO: Break up modifiers
     var body: some View {
         NavigationSplitView {
-             List(selection: $selectedMediaObjects) {
+            List(selection: $selectedMediaObjects) {
                 Section(footer: footerText) {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
@@ -69,6 +70,7 @@ struct LibraryHome: View {
                     }
                 }
             }
+            .environment(\.editMode, editMode)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
@@ -97,7 +99,7 @@ struct LibraryHome: View {
                 }
             }
             .toolbar {
-                LibraryToolbar(config: $viewModel)
+                LibraryToolbar(config: $viewModel, editMode: editMode)
             }
             .navigationTitle(Strings.TabView.libraryLabel)
             .navigationBarTitleDisplayMode(.large)
@@ -109,8 +111,10 @@ struct LibraryHome: View {
             NavigationStack {
                 if selectedMediaObjects.isEmpty {
                     EmptyView()
-                } else if selectedMediaObjects.count == 1 {
-                    let media = selectedMediaObjects.first!
+                } else if
+                    selectedMediaObjects.count == 1,
+                    let media = selectedMediaObjects.first
+                {
                     MediaDetail()
                         .environmentObject(media)
                 } else {
