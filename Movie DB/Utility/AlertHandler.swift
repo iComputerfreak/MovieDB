@@ -53,6 +53,22 @@ struct AlertHandler {
         presentAlert(alert: controller)
     }
     
+    static func showDeleteAlert(
+        title: String = Strings.Generic.alertDeleteTitle,
+        message: String = Strings.Generic.alertDeleteMessage,
+        deleteButtonTitle: String = Strings.Generic.alertDeleteButtonTitle,
+        onDelete: @escaping () -> Void
+    ) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        controller.addAction(.cancelAction())
+        controller.addAction(UIAlertAction(
+            title: deleteButtonTitle,
+            style: .destructive,
+            handler: { _ in onDelete() }
+        ))
+        presentAlert(alert: controller)
+    }
+    
     // MARK: - Private functions
     
     private static func keyWindow() -> UIWindow? {

@@ -52,7 +52,7 @@ struct MediaDetail: View {
                         Section {
                             AddToFavoritesButton()
                             AddToWatchlistButton()
-                            AddToListMenu()
+                            AddEnvironmentMediaToListMenu()
                         }
                         Section {
                             ReloadMediaButton()

@@ -36,6 +36,18 @@ extension Strings {
             localized: "generic.picker.value.no",
             comment: "An option in a picker view"
         )
+        static let alertDeleteTitle = String(
+            localized: "generic.alert.delete.title",
+            comment: "The title of the delete alert"
+        )
+        static let alertDeleteMessage = String(
+            localized: "generic.alert.delete.message",
+            comment: "The message of the delete alert"
+        )
+        static let alertDeleteButtonTitle = String(
+            localized: "generic.alert.delete.buttonTitle",
+            comment: "The title of the delete button on the delete alert"
+        )
         static let navBarLoadingTitle = String(
             localized: "generic.navBar.loadingTitle",
             comment: "The navigation bar title for a view that is still loading"

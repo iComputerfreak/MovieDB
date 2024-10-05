@@ -66,6 +66,20 @@ extension Strings {
             localized: "library.navBar.button.select",
             comment: "The text of the multi-selection button in the library menu"
         )
+        static func multiDeleteAlertMessage(count: Int) -> String {
+            String(
+                localized: "library.alert.multiDelete.message \(count)",
+                comment: "The message of the delete multiple medias alert"
+            )
+        }
+        static let multiSelectAll = String(
+            localized: "library.navBar.selectAll",
+            comment: "The select all button in the library menu"
+        )
+        static let multiDeselectAll = String(
+            localized: "library.navBar.deselectAll",
+            comment: "The deselect all button in the library menu"
+        )
         
         enum Alert {
             static let updateErrorTitle = String(

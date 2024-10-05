@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : ""
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
@@ -15,7 +21,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : ""
           }
         }
@@ -2508,6 +2514,57 @@
         }
       }
     },
+    "generic.alert.delete.buttonTitle" : {
+      "comment" : "The title of the delete button on the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "generic.alert.delete.message" : {
+      "comment" : "The message of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Aktion kann nicht widerrufen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        }
+      }
+    },
+    "generic.alert.delete.title" : {
+      "comment" : "The title of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen bestätigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Delete"
+          }
+        }
+      }
+    },
     "generic.alert.title.error" : {
       "comment" : "Title of an alert informing the user about an error",
       "localizations" : {
@@ -3140,6 +3197,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error Updating"
+          }
+        }
+      }
+    },
+    "library.alert.multiDelete.message %lld" : {
+      "comment" : "The message of the delete multiple medias alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wollen Sie wirklich %lld Medien löschen? Diese Aktion kann nicht widerrufen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you want to delete %lld media objects? This action cannot be undone."
           }
         }
       }
@@ -4124,6 +4198,23 @@
         }
       }
     },
+    "library.navBar.deselectAll" : {
+      "comment" : "The deselect all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles abwählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect All"
+          }
+        }
+      }
+    },
     "library.navBar.header.sorting" : {
       "comment" : "Heading for the sorting direction picker in the library menu",
       "localizations" : {
@@ -4137,6 +4228,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sorting"
+          }
+        }
+      }
+    },
+    "library.navBar.selectAll" : {
+      "comment" : "The select all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select All"
           }
         }
       }

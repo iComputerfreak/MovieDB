@@ -7,13 +7,19 @@
 //
 
 import Foundation
+import JFUtils
+import OSLog
 import SwiftUI
 
 struct LibraryToolbar: ToolbarContent {
+    @EnvironmentObject private var filterSetting: FilterSetting
+    @Environment(\.managedObjectContext) private var managedObjectContext
+
     // TODO: Use @EnvironmentObject
     @Binding var config: LibraryViewModel
-    @EnvironmentObject private var filterSetting: FilterSetting
     var editMode: Binding<EditMode>?
+    @Binding var selectedMediaObjects: Set<Media>
+    @State private var isShowingDeleteAlert: Bool = false
     
     let filterImageReset = "line.horizontal.3.decrease.circle"
     let filterImageSet = "line.horizontal.3.decrease.circle.fill"
@@ -24,7 +30,26 @@ struct LibraryToolbar: ToolbarContent {
     
     private var isEditing: Bool { editMode?.wrappedValue.isEditing ?? false }
     
+    private var areAllFavorite: Bool {
+        !selectedMediaObjects.isEmpty && selectedMediaObjects.allSatisfy(\.isFavorite)
+    }
+    
+    private var areAllOnWatchlist: Bool {
+        !selectedMediaObjects.isEmpty && selectedMediaObjects.allSatisfy(\.isOnWatchlist)
+    }
+    
+    private var areAllSelected: Bool {
+        !selectedMediaObjects.isEmpty && selectedMediaObjects.count == MediaLibrary.shared.mediaCount()
+    }
+    
     var body: some ToolbarContent {
+        moreMenu
+        multiSelectDoneButton
+        addMediaButton
+    }
+    
+    @ToolbarContentBuilder
+    private var moreMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
                 Button {
@@ -33,9 +58,14 @@ struct LibraryToolbar: ToolbarContent {
                     }
                 } label: {
                     Label(
-                        Strings.Library.menuSelectLabel,
-                        systemImage: isEditing ? "checkmark.circle.fill" : "checkmark.circle"
+                        isEditing ? Strings.Generic.editButtonLabelDone : Strings.Library.menuSelectLabel,
+                        systemImage: "checkmark.circle"
                     )
+                }
+                if isEditing {
+                    Section {
+                        multiSelectActions
+                    }
                 }
                 Section {
                     Button {
@@ -53,6 +83,10 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "ellipsis.circle")
             }
         }
+    }
+    
+    @ToolbarContentBuilder
+    private var multiSelectDoneButton: some ToolbarContent {
         if isEditing {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -65,6 +99,10 @@ struct LibraryToolbar: ToolbarContent {
                 }
             }
         }
+    }
+    
+    @ToolbarContentBuilder
+    private var addMediaButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 config.activeSheet = .addMedia
@@ -72,6 +110,96 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "plus")
             }
             .accessibilityIdentifier("add-media")
+        }
+    }
+}
+
+// MARK: - Multi-Selection Actions
+private extension LibraryToolbar {
+    @ViewBuilder
+    var multiSelectActions: some View {
+        selectAllButton
+        Group {
+            AddMultipleToListMenu(mediaObjects: selectedMediaObjects) {
+                editMode?.wrappedValue = .inactive
+            }
+            addToWatchlistButton
+            addToFavoritesButton
+            deleteButton
+            // TODO: Multi-select for lists details (remove)
+        }
+        .disabled(selectedMediaObjects.isEmpty)
+    }
+    
+    var selectAllButton: some View {
+        Button {
+            do {
+                if areAllSelected {
+                    selectedMediaObjects = []
+                } else {
+                    selectedMediaObjects = Set(try managedObjectContext.fetch(Media.fetchRequest()))
+                }
+            } catch {
+                Logger.coreData.error("Failed to fetch all media objects: \(error)")
+            }
+        } label: {
+            if areAllSelected {
+                Text(Strings.Library.multiDeselectAll)
+            } else {
+                Text(Strings.Library.multiSelectAll)
+            }
+        }
+    }
+    
+    var addToWatchlistButton: some View {
+        Button {
+            let isOnWatchlist = !areAllOnWatchlist
+            for media in selectedMediaObjects {
+                media.isOnWatchlist = isOnWatchlist
+            }
+            editMode?.wrappedValue = .inactive
+        } label: {
+            if areAllOnWatchlist {
+                Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.slash.fill")
+            } else {
+                Label(Strings.Detail.menuButtonAddToWatchlist, systemImage: "bookmark.fill")
+            }
+        }
+    }
+    
+    var addToFavoritesButton: some View {
+        Button {
+            // If there is at least one media which is not favorited yet, favorite all medias
+            let isFavorite = !areAllFavorite
+            for media in selectedMediaObjects {
+                media.isFavorite = isFavorite
+            }
+            editMode?.wrappedValue = .inactive
+        } label: {
+            // Favorite is the default action if the favorite statuses are mixed
+            if areAllFavorite {
+                Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.fill")
+            } else {
+                Label(Strings.Detail.menuButtonFavorite, systemImage: "heart")
+            }
+        }
+    }
+    
+    var deleteButton: some View {
+        Button(role: .destructive) {
+            isShowingDeleteAlert = true
+            AlertHandler.showDeleteAlert(
+                message: Strings.Library.multiDeleteAlertMessage(count: selectedMediaObjects.count)
+            ) {
+                withAnimation {
+                    for media in selectedMediaObjects {
+                        managedObjectContext.delete(media)
+                    }
+                }
+                editMode?.wrappedValue = .inactive
+            }
+        } label: {
+            Label(Strings.Generic.alertDeleteButtonTitle, systemImage: "trash")
         }
     }
 }
