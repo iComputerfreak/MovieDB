@@ -480,7 +480,7 @@
 		AB6478D922C7B8E800F3E14E /* TMDBSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBSearchResult.swift; sourceTree = "<group>"; };
 		AB6478DF22C7C91700F3E14E /* TestingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingUtils.swift; sourceTree = "<group>"; };
 		AB6478E122C7D59300F3E14E /* SearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultRow.swift; sourceTree = "<group>"; };
-		AB6718BD22C0312B00F429E4 /* Movie DB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB (dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6718C022C0312B00F429E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB6718C422C0312B00F429E4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB6718C622C0312B00F429E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1050,7 +1050,7 @@
 		AB6718BE22C0312B00F429E4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB6718BD22C0312B00F429E4 /* Movie DB.app */,
+				AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */,
 				AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */,
 				AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */,
 				ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */,
@@ -1560,7 +1560,7 @@
 				AB02A0242B460F05008362D7 /* Flow */,
 			);
 			productName = "Movie DB";
-			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
+			productReference = AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB6718D222C0312B00F429E4 /* Movie DBTests */ = {
@@ -2297,7 +2297,7 @@
 		AB6718DD22C0312B00F429E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -2309,7 +2309,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB";
+				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB (dev)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2323,8 +2323,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 2.5.3;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=500";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB.debug";
+				PRODUCT_NAME = "$(TARGET_NAME) (dev)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
