@@ -125,6 +125,7 @@ private extension LibraryToolbar {
             }
             addToWatchlistButton
             addToFavoritesButton
+            reloadButton
             deleteButton
             // TODO: Multi-select for lists details (remove)
         }
@@ -182,6 +183,25 @@ private extension LibraryToolbar {
             } else {
                 Label(Strings.Detail.menuButtonFavorite, systemImage: "heart")
             }
+        }
+    }
+    
+    var reloadButton: some View {
+        Button {
+            Task {
+                for media in selectedMediaObjects {
+                    do {
+                        try await TMDBAPI.shared.updateMedia(media, context: managedObjectContext)
+                    } catch {
+                        Logger.api.error("Failed to update media object: \(error)")
+                    }
+                }
+                await MainActor.run {
+                    editMode?.wrappedValue = .inactive
+                }
+            }
+        } label: {
+            Label(Strings.Library.mediaActionReload, systemImage: "arrow.clockwise")
         }
     }
     
