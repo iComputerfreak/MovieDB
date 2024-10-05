@@ -63,7 +63,7 @@ struct CapsuleLabelView<Content>: View where Content: View {
         }
         .font(font)
         .foregroundStyle(color ?? .primary)
-        .padding(.horizontal, 3)
+        .padding(.horizontal, 5)
         .padding(.vertical, 3)
         .background(
             Capsule(style: .continuous)
