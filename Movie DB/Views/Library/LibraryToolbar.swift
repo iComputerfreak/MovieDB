@@ -90,9 +90,7 @@ struct LibraryToolbar: ToolbarContent {
         if isEditing {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    withAnimation {
-                        editMode?.wrappedValue = .inactive
-                    }
+                    dismissEditing()
                 } label: {
                     Text(Strings.Generic.editButtonLabelDone)
                         .bold()
@@ -121,7 +119,7 @@ private extension LibraryToolbar {
         selectAllButton
         Group {
             AddMultipleToListMenu(mediaObjects: selectedMediaObjects) {
-                editMode?.wrappedValue = .inactive
+                dismissEditing()
             }
             addToWatchlistButton
             addToFavoritesButton
@@ -158,7 +156,7 @@ private extension LibraryToolbar {
             for media in selectedMediaObjects {
                 media.isOnWatchlist = isOnWatchlist
             }
-            editMode?.wrappedValue = .inactive
+            dismissEditing()
         } label: {
             if areAllOnWatchlist {
                 Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.slash.fill")
@@ -175,7 +173,7 @@ private extension LibraryToolbar {
             for media in selectedMediaObjects {
                 media.isFavorite = isFavorite
             }
-            editMode?.wrappedValue = .inactive
+            dismissEditing()
         } label: {
             // Favorite is the default action if the favorite statuses are mixed
             if areAllFavorite {
@@ -197,9 +195,7 @@ private extension LibraryToolbar {
                         Logger.api.error("Failed to update media object: \(error)")
                     }
                 }
-                await MainActor.run {
-                    editMode?.wrappedValue = .inactive
-                }
+                dismissEditing()
             }
         } label: {
             Label(Strings.Library.mediaActionReload, systemImage: "arrow.clockwise")
@@ -217,10 +213,18 @@ private extension LibraryToolbar {
                         managedObjectContext.delete(media)
                     }
                 }
-                editMode?.wrappedValue = .inactive
+                dismissEditing()
             }
         } label: {
             Label(Strings.Generic.alertDeleteButtonTitle, systemImage: "trash")
+        }
+    }
+    
+    private func dismissEditing() {
+        DispatchQueue.main.async {
+            withAnimation {
+                editMode?.wrappedValue = .inactive
+            }
         }
     }
 }
