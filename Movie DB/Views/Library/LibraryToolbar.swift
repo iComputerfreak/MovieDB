@@ -192,6 +192,7 @@ private extension LibraryToolbar {
                 for media in selectedMediaObjects {
                     do {
                         try await TMDBAPI.shared.updateMedia(media, context: managedObjectContext)
+                        await PersistenceController.saveContext(managedObjectContext)
                     } catch {
                         Logger.api.error("Failed to update media object: \(error)")
                     }
