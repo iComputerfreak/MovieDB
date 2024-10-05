@@ -67,6 +67,7 @@ struct CapsuleLabelView<Content>: View where Content: View {
         .padding(.vertical, 3)
         .background(
             Capsule(style: .continuous)
+            // TODO: We can use an asset color here
             // Use a gray background, depending on the scheme
                 .fill(colorScheme == .dark ? Color(white: 0.2) : Color(white: 0.9))
         )

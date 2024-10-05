@@ -61,13 +61,13 @@ struct ImportExportSection: View {
                 try await handler(importContext)
             } catch {
                 Logger.importExport.error("Error during import: \(error, privacy: .public)")
-                AlertHandler.showError(
-                    title: Strings.Settings.Alert.genericImportErrorTitle,
-                    error: error
-                )
                 Task(priority: .userInitiated) {
                     await MainActor.run {
                         isLoading.wrappedValue = false
+                        AlertHandler.showError(
+                            title: Strings.Settings.Alert.genericImportErrorTitle,
+                            error: error
+                        )
                     }
                 }
             }

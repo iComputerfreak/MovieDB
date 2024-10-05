@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -21,6 +22,7 @@ struct AlertHandler {
             // UI Changes always have to be on the main thread
             Task(priority: .userInitiated) {
                 await MainActor.run {
+                    Logger.general.debug("Showing alert with title '\(alert.title ?? "")' and message '\(alert.message ?? "")'")
                     controller.present(alert, animated: true)
                 }
             }

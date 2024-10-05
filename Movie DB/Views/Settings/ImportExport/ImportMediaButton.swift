@@ -55,10 +55,13 @@ struct ImportMediaButton: View {
                     self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress, importer.rowCount)
                 } log: { message in
                     // TODO: Replace with other logger when reworking import view
+                    // TODO: Maybe we can stream a specific OSLog logger to a buffer and display it?
                     self.config.importLogger?.log(message, level: .none)
                 }
             } catch {
-                self.config.importLogShowing = true
+                DispatchQueue.main.async {
+                    self.config.importLogShowing = true
+                }
                 // Rethrow
                 throw error
             }
