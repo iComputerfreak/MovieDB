@@ -18,10 +18,10 @@ struct ParentalRatingView: View {
                 .font(.caption)
                 .bold()
                 .foregroundColor(rating.color)
-                .shadow(color: .primary, radius: 0.15, x: 0, y: 0)
-                .shadow(color: .primary, radius: 0.15, x: 0, y: 0)
-                .shadow(color: .primary, radius: 0.15, x: 0, y: 0)
-                .shadow(color: .primary, radius: 0.15, x: 0, y: 0)
+                .shadow(color: .primary, radius: 0.1, x: 0, y: 0)
+                .shadow(color: .primary, radius: 0.1, x: 0, y: 0)
+                .shadow(color: .primary, radius: 0.1, x: 0, y: 0)
+                .shadow(color: .primary, radius: 0.1, x: 0, y: 0)
         }
     }
 }
