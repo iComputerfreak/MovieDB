@@ -9,27 +9,26 @@
 import SwiftUI
 
 struct WatchlistMediaList: View {
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.watchlist,
-            selectedMedia: $selectedMedia
+            selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .swipeActions {
-                        Button(Strings.Lists.removeMediaLabel) {
-                            media.isOnWatchlist = false
-                        }
+            LibraryRow()
+                .swipeActions {
+                    Button(Strings.Lists.removeMediaLabel) {
+                        media.isOnWatchlist = false
                     }
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+                }
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
     }
 }
 
 #Preview {
-    WatchlistMediaList(selectedMedia: .constant(nil))
+    WatchlistMediaList(selectedMediaObjects: .constant([]))
 }

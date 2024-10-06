@@ -24,7 +24,7 @@ struct UserMediaListView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     @ObservedObject var list: UserMediaList
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     @State private var isShowingConfiguration = false
     
     var iconColor: Binding<UIColor>? {
@@ -33,19 +33,17 @@ struct UserMediaListView: View {
     
     var body: some View {
         // Default destination
-        FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-            // NavigationLink to the detail
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .swipeActions {
-                        Button(Strings.Lists.removeMediaLabel) {
-                            list.medias.remove(media)
-                            PersistenceController.saveContext()
-                        }
+        FilteredMediaList(list: list, selectedMediaObjects: $selectedMediaObjects) { media in
+            LibraryRow()
+                .swipeActions {
+                    Button(Strings.Lists.removeMediaLabel) {
+                        list.medias.remove(media)
+                        PersistenceController.saveContext()
                     }
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+                }
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
         .toolbar {
             ListConfigurationButton($isShowingConfiguration)
@@ -66,6 +64,6 @@ struct UserMediaListView: View {
     }()
     
     return NavigationStack {
-        UserMediaListView(list: previewList, selectedMedia: .constant(nil))
+        UserMediaListView(list: previewList, selectedMediaObjects: .constant([]))
     }
 }

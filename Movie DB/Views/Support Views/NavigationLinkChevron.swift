@@ -8,6 +8,16 @@
 
 import SwiftUI
 
+extension View {
+    func navigationLinkChevron() -> some View {
+        HStack {
+            self
+            Spacer()
+            NavigationLinkChevron()
+        }
+    }
+}
+
 struct NavigationLinkChevron: View {
     var body: some View {
         // Imitates a NavigationLink chevron. Does not work with some accessibility settings (e.g. bigger text, bold text, magnification, ...)

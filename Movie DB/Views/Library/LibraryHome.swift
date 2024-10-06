@@ -71,6 +71,7 @@ struct LibraryHome: View {
                 }
             }
             .environment(\.editMode, editMode)
+            .animation(.default, value: editMode?.wrappedValue)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes

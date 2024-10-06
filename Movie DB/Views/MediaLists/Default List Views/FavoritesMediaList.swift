@@ -9,28 +9,27 @@
 import SwiftUI
 
 struct FavoritesMediaList: View {
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.favorites,
-            selectedMedia: $selectedMedia
+            selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .swipeActions {
-                        Button(Strings.Detail.menuButtonUnfavorite) {
-                            assert(media.isFavorite)
-                            media.isFavorite = false
-                        }
+            LibraryRow()
+                .swipeActions {
+                    Button(Strings.Detail.menuButtonUnfavorite) {
+                        assert(media.isFavorite)
+                        media.isFavorite = false
                     }
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+                }
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
     }
 }
 
 #Preview {
-    FavoritesMediaList(selectedMedia: .constant(nil))
+    FavoritesMediaList(selectedMediaObjects: .constant([]))
 }

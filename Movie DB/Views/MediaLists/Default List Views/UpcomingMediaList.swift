@@ -9,19 +9,18 @@
 import SwiftUI
 
 struct UpcomingMediaList: View {
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.upcoming,
-            selectedMedia: $selectedMedia,
+            selectedMediaObjects: $selectedMediaObjects,
             rowContent: { media in
-                NavigationLink(value: media) {
-                    UpcomingLibraryRow()
-                        .mediaSwipeActions()
-                        .mediaContextMenu()
-                        .environmentObject(media)
-                }
+                UpcomingLibraryRow()
+                    .mediaSwipeActions()
+                    .mediaContextMenu()
+                    .environmentObject(media)
+                    .navigationLinkChevron()
             }
         )
     }
@@ -29,7 +28,7 @@ struct UpcomingMediaList: View {
 
 #Preview {
     NavigationStack {
-        UpcomingMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+        UpcomingMediaList(selectedMediaObjects: .constant([PlaceholderData.preview.staticMovie]))
             .previewEnvironment()
     }
 }

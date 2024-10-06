@@ -42,7 +42,7 @@ struct MediaListsRootView: View {
         return lists
     }
     
-    @State private var selectedMedia: Media?
+    @State private var selectedMediaObjects: Set<Media> = []
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
@@ -71,21 +71,21 @@ struct MediaListsRootView: View {
                 Section(Strings.Lists.defaultListsHeader) {
                     // MARK: Favorites
                     NavigationLink {
-                        FavoritesMediaList(selectedMedia: $selectedMedia)
+                        FavoritesMediaList(selectedMediaObjects: $selectedMediaObjects)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.favorites)
                     }
                     
                     // MARK: Watchlist
                     NavigationLink {
-                        WatchlistMediaList(selectedMedia: $selectedMedia)
+                        WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.watchlist)
                     }
                     
                     // MARK: Problems
                     NavigationLink {
-                        ProblemsMediaList(selectedMedia: $selectedMedia)
+                        ProblemsMediaList(selectedMediaObjects: $selectedMediaObjects)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
                             .badge(problemsMediasCount)
@@ -93,7 +93,7 @@ struct MediaListsRootView: View {
                     
                     // MARK: New Seasons
                     NavigationLink {
-                        NewSeasonsMediaList(selectedMedia: $selectedMedia)
+                        NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
                             .badge(newSeasonsMediasCount)
@@ -102,7 +102,7 @@ struct MediaListsRootView: View {
                     // MARK: Upcoming
                     NavigationLink {
                         if StoreManager.shared.hasPurchasedPro {
-                            UpcomingMediaList(selectedMedia: $selectedMedia)
+                            UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
                         } else {
                             ProInfoView(showCancelButton: false)
                         }
@@ -119,7 +119,7 @@ struct MediaListsRootView: View {
                         ForEach(dynamicLists) { list in
                             // NavigationLink for the lists
                             NavigationLink {
-                                DynamicMediaListView(list: list, selectedMedia: $selectedMedia)
+                                DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(
@@ -138,7 +138,7 @@ struct MediaListsRootView: View {
                     Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in
                             NavigationLink {
-                                UserMediaListView(list: list, selectedMedia: $selectedMedia)
+                                UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                                     .environment(\.editMode, self.editMode)
                             } label: {
                                 ListRowLabel(
@@ -163,9 +163,11 @@ struct MediaListsRootView: View {
         } detail: {
             NavigationStack {
                 // MARK: MediaDetail
-                if let selectedMedia {
+                if selectedMediaObjects.count == 1, let selectedMedia = selectedMediaObjects.first {
                     MediaDetail()
                         .environmentObject(selectedMedia)
+                } else if selectedMediaObjects.count > 1 {
+                    Text(Strings.Generic.multipleObjectsSelected)
                 } else {
                     Text(Strings.Lists.detailPlaceholderText)
                 }

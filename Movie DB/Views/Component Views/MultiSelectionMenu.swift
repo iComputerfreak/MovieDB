@@ -126,8 +126,9 @@ private extension MultiSelectionMenu {
                         Logger.api.error("Failed to update media object: \(error)")
                     }
                 }
-                dismissEditing()
             }
+            // Dismiss immediately
+            dismissEditing()
         } label: {
             Label(Strings.Library.mediaActionReload, systemImage: "arrow.clockwise")
         }
@@ -153,6 +154,7 @@ private extension MultiSelectionMenu {
     
     private func dismissEditing() {
         DispatchQueue.main.async {
+            selectedMediaObjects = []
             withAnimation {
                 editMode?.wrappedValue = .inactive
             }

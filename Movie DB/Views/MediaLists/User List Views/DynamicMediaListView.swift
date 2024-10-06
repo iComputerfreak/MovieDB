@@ -14,18 +14,17 @@ struct DynamicMediaListView: View {
     @Environment(\.editMode) private var editMode
     
     @ObservedObject var list: DynamicMediaList
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     @State private var isShowingConfiguration = false
     
     var body: some View {
         // Default destination
-        FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .mediaSwipeActions()
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+        FilteredMediaList(list: list, selectedMediaObjects: $selectedMediaObjects) { media in
+            LibraryRow()
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
         .toolbar {
             ListConfigurationButton($isShowingConfiguration)
@@ -49,7 +48,7 @@ struct DynamicMediaListView: View {
     }()
     
     return NavigationStack {
-        DynamicMediaListView(list: previewList, selectedMedia: .constant(nil))
+        DynamicMediaListView(list: previewList, selectedMediaObjects: .constant([]))
             .previewEnvironment()
     }
 }
