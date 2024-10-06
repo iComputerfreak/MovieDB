@@ -66,6 +66,7 @@ private struct AddToListMenu: View {
         } label: {
             Label(Strings.Library.mediaActionAddToList, systemImage: "text.badge.plus")
         }
+        .disabled(mediaObjects.isEmpty)
     }
 }
 
