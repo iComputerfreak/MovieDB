@@ -23,6 +23,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             handleDebugParameters()
         #endif
         
+        // Initialize now to prevent it happening from a background thread later
+        _ = PersistenceController.shared
+        
         // MARK: Register transformers
         SerializableColorTransformer.register()
         EpisodeTransformer.register()
