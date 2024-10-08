@@ -3205,15 +3205,39 @@
       "comment" : "The message of the delete multiple medias alert",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wollen Sie wirklich %lld Medien löschen? Diese Aktion kann nicht widerrufen werden."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Mediaobjekt löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Medien löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              }
+            }
           }
         },
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Do you want to delete %lld media objects? This action cannot be undone."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media object? This action cannot be undone."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media objects? This action cannot be undone."
+                }
+              }
+            }
           }
         }
       }
