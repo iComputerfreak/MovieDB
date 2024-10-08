@@ -135,7 +135,6 @@ struct MediaListsRootView: View {
                             // NavigationLink for the lists
                             NavigationLink {
                                 DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
-                                    .environment(\.editMode, self.editMode)
                                     .onAppear {
                                         selectedMediaObjects = []
                                     }
@@ -157,7 +156,6 @@ struct MediaListsRootView: View {
                         ForEach(userLists) { list in
                             NavigationLink {
                                 UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
-                                    .environment(\.editMode, self.editMode)
                                     .onAppear {
                                         selectedMediaObjects = []
                                     }
