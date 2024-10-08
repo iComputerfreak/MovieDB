@@ -9,11 +9,26 @@
 import SwiftUI
 
 struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
+    enum LibraryRowCapsule: String {
+        case mediaType
+        case releaseYear
+        case parentalRating
+        case isAdultMedia
+        case isFavorite
+        case isOnWatchlist
+    }
+    
     @EnvironmentObject var mediaObject: Media
     
     @ViewBuilder var subtitleContent: () -> SubtitleContent
     
-    init(@ViewBuilder subtitleContent: @escaping () -> SubtitleContent = { EmptyView() }) {
+    private var capsules: [LibraryRowCapsule]
+    
+    init(
+        capsules: [LibraryRowCapsule] = [.mediaType, .releaseYear, .parentalRating, .isAdultMedia],
+        @ViewBuilder subtitleContent: @escaping () -> SubtitleContent = { EmptyView() }
+    ) {
+        self.capsules = capsules
         self.subtitleContent = subtitleContent
     }
     
@@ -33,24 +48,52 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                         .font(.headline)
                     // Under the title
                     HStack {
-                        // MARK: Type
-                        MediaTypeCapsule(mediaType: mediaObject.type)
-                        // MARK: Year
-                        if let year = mediaObject.year {
-                            CapsuleLabelView(text: year.description)
-                        }
-                        // MARK: FSK Rating
-                        if let rating = mediaObject.parentalRating {
-                            ParentalRatingView(rating: rating)
-                                .font(.caption2)
-                        }
-                        if (mediaObject as? Movie)?.isAdult ?? false {
-                            CapsuleLabelView(text: Strings.Library.libraryRowAdultString, color: .red)
+                        ForEach(capsules, id: \.rawValue) { capsule in
+                            buildView(for: capsule)
                         }
                     }
                     .font(.subheadline)
                     // MARK: 3rd Row
                     subtitleContent()
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func buildView(for capsule: LibraryRowCapsule) -> some View {
+        switch capsule {
+        case .mediaType:
+            MediaTypeCapsule(mediaType: mediaObject.type)
+            
+        case .releaseYear:
+            if let year = mediaObject.year {
+                CapsuleLabelView(text: year.description)
+            }
+            
+        case .parentalRating:
+            if let rating = mediaObject.parentalRating {
+                ParentalRatingView(rating: rating)
+            }
+            
+        case .isAdultMedia:
+            if (mediaObject as? Movie)?.isAdult ?? false {
+                CapsuleLabelView(text: Strings.Library.libraryRowAdultString, color: .red)
+            }
+            
+        case .isFavorite:
+            if mediaObject.isFavorite {
+                CapsuleLabelView(preserveMinimumHeight: true) {
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(.red)
+                }
+            }
+            
+        case .isOnWatchlist:
+            if mediaObject.isOnWatchlist {
+                CapsuleLabelView {
+                    Image(systemName: "bookmark.fill")
+                        .foregroundStyle(.blue)
                 }
             }
         }

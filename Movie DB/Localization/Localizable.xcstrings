@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : ""
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
@@ -15,7 +21,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : ""
           }
         }
@@ -2237,7 +2243,7 @@
       }
     },
     "detail.userData.watchedShow.label.unknown" : {
-      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show",
+      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show\nThe label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the watch state of the show is unknown.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2504,6 +2510,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yes"
+          }
+        }
+      }
+    },
+    "generic.alert.delete.buttonTitle" : {
+      "comment" : "The title of the delete button on the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "generic.alert.delete.message" : {
+      "comment" : "The message of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Aktion kann nicht widerrufen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        }
+      }
+    },
+    "generic.alert.delete.title" : {
+      "comment" : "The title of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen bestätigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Delete"
           }
         }
       }
@@ -3140,6 +3197,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error Updating"
+          }
+        }
+      }
+    },
+    "library.alert.multiDelete.message %lld" : {
+      "comment" : "The message of the delete multiple medias alert",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Mediaobjekt löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Medien löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media object? This action cannot be undone."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media objects? This action cannot be undone."
+                }
+              }
+            }
           }
         }
       }
@@ -4107,6 +4205,40 @@
         }
       }
     },
+    "library.navBar.button.select" : {
+      "comment" : "The text of the multi-selection button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
+          }
+        }
+      }
+    },
+    "library.navBar.deselectAll" : {
+      "comment" : "The deselect all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles abwählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect All"
+          }
+        }
+      }
+    },
     "library.navBar.header.sorting" : {
       "comment" : "Heading for the sorting direction picker in the library menu",
       "localizations" : {
@@ -4120,6 +4252,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sorting"
+          }
+        }
+      }
+    },
+    "library.navBar.selectAll" : {
+      "comment" : "The select all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select All"
           }
         }
       }

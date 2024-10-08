@@ -17,7 +17,7 @@ struct MediaContextMenuModifier: ViewModifier {
                     Section {
                         AddToFavoritesButton()
                         AddToWatchlistButton()
-                        AddToListMenu()
+                        AddEnvironmentMediaToListMenu()
                     }
                     Section {
                         ReloadMediaButton()

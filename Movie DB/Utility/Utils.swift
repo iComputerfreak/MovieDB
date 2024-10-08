@@ -6,7 +6,6 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Algorithms
 import CoreData
 import Foundation
 import JFUtils
@@ -139,14 +138,14 @@ struct Utils {
     /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: Schema.Genre._entityName, context: context)
-            .uniqued(on: \.id)
+            .removingDuplicates(key: \.id)
             .sorted(on: \.name, by: <)
     }
     
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
         allObjects(entityName: Schema.Media._entityName, context: context)
-            .uniqued(on: \.id)
+            .removingDuplicates(key: \.id)
             .sorted(on: \.id, by: <)
     }
     
@@ -255,22 +254,6 @@ struct Utils {
             return nil
         }
         // swiftlint:enable switch_case_on_newline
-    }
-}
-
-// MARK: - Factory
-extension Utils {
-    static func buildEditButton(_ editMode: Binding<EditMode>?) -> Button<Text> {
-        Button {
-            let isEditing = editMode?.wrappedValue == .active
-            editMode?.wrappedValue = isEditing ? .inactive : .active
-        } label: {
-            Text(
-                editMode?.wrappedValue == .active ?
-                    Strings.Generic.editButtonLabelDone :
-                    Strings.Generic.editButtonLabelEdit
-            )
-        }
     }
 }
 

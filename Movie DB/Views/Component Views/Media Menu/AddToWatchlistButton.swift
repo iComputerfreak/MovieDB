@@ -17,9 +17,9 @@ struct AddToWatchlistButton: View {
         } label: {
             // TODO: I would like this to work, but swipe actions seem to always prefer the .fill variant
             if mediaObject.isOnWatchlist {
-                Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.fill")
+                Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.slash.fill")
             } else {
-                Label(Strings.Detail.menuButtonAddToWatchlist, systemImage: "bookmark")
+                Label(Strings.Detail.menuButtonAddToWatchlist, systemImage: "bookmark.fill")
             }
         }
     }

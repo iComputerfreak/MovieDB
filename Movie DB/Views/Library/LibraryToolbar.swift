@@ -7,26 +7,46 @@
 //
 
 import Foundation
+import JFUtils
+import OSLog
 import SwiftUI
 
 struct LibraryToolbar: ToolbarContent {
+    @EnvironmentObject private var filterSetting: FilterSetting
+    @Environment(\.managedObjectContext) private var managedObjectContext
+
     // TODO: Use @EnvironmentObject
     @Binding var config: LibraryViewModel
-    @EnvironmentObject private var filterSetting: FilterSetting
+    var editMode: Binding<EditMode>?
+    @Binding var selectedMediaObjects: Set<Media>
+    var allMediaObjects: Set<Media>
+    
+    let filterImageReset = "line.horizontal.3.decrease.circle"
+    let filterImageSet = "line.horizontal.3.decrease.circle.fill"
+    
+    var filterImageName: String {
+        filterSetting.isReset ? filterImageReset : filterImageSet
+    }
     
     var body: some ToolbarContent {
+        moreMenu
+        multiSelectDoneButton
+        addMediaButton
+    }
+    
+    @ToolbarContentBuilder
+    private var moreMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
+                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: allMediaObjects)
+                    .environment(\.editMode, editMode)
                 Section {
-                    let filterImageReset = "line.horizontal.3.decrease.circle"
-                    let filterImageSet = "line.horizontal.3.decrease.circle.fill"
-                    let filterImage = filterSetting.isReset ? filterImageReset : filterImageSet
                     Button {
                         config.activeSheet = .filter
                     } label: {
                         Label(
                             Strings.Library.menuButtonFilter,
-                            systemImage: filterImage
+                            systemImage: filterImageName
                         )
                     }
                 }
@@ -36,7 +56,27 @@ struct LibraryToolbar: ToolbarContent {
                 Image(systemName: "ellipsis.circle")
             }
         }
-        ToolbarItem(placement: .navigationBarTrailing) {
+    }
+    
+    @ToolbarContentBuilder
+    private var multiSelectDoneButton: some ToolbarContent {
+        if editMode?.wrappedValue.isEditing == true {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    withAnimation {
+                        editMode?.wrappedValue = .inactive
+                    }
+                } label: {
+                    Text(Strings.Generic.editButtonLabelDone)
+                        .bold()
+                }
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private var addMediaButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
             Button {
                 config.activeSheet = .addMedia
             } label: {

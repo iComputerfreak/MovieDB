@@ -14,8 +14,12 @@ struct RegionPickerView: View {
     
     var sortedRegionCodes: [String] {
         Locale.Region.isoRegions.map(\.identifier).sorted { code1, code2 in
-            let name1 = Locale.current.localizedString(forRegionCode: code1)!
-            let name2 = Locale.current.localizedString(forRegionCode: code2)!
+            guard let name1 = Locale.current.localizedString(forRegionCode: code1) else {
+                return false
+            }
+            guard let name2 = Locale.current.localizedString(forRegionCode: code2) else {
+                return true
+            }
             return name1.lexicographicallyPrecedes(name2)
         }
     }

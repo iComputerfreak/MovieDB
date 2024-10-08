@@ -15,7 +15,16 @@ struct LibraryRow: View {
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
-        BaseLibraryRow {
+        BaseLibraryRow(
+            capsules: [
+                .mediaType,
+                .releaseYear,
+                .parentalRating,
+                .isAdultMedia,
+                .isFavorite,
+                .isOnWatchlist
+            ]
+        ) {
             WatchStateLabel()
         }
     }
@@ -31,6 +40,8 @@ struct LibraryRow: View {
     func movie(for watchState: MovieWatchState) -> Movie {
         let movie = PlaceholderData.preview.createStaticMovie()
         movie.watched = watchState
+        movie.isFavorite = watchState == .watched || watchState == .notWatched
+        movie.isOnWatchlist = watchState == .partially || watchState == .notWatched
         return movie
     }
     

@@ -246,6 +246,7 @@
 		ABCEA497238D1FCD00D92B95 /* CastInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA492238D1FCD00D92B95 /* CastInfo.swift */; };
 		ABCEA498238D1FCD00D92B95 /* SeasonsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */; };
 		ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */; };
+		ABCEC2AF2CB290A100B6842E /* MultiSelectionMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEC2AE2CB290A100B6842E /* MultiSelectionMenu.swift */; };
 		ABCEF11B2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */; };
 		ABCEF11D2A26761600295EB6 /* PredicateMediaList+Problems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */; };
 		ABCEF11F2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCEF11E2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift */; };
@@ -296,7 +297,6 @@
 		ABDC93732A52E83100DF4084 /* MediaSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93722A52E83100DF4084 /* MediaSwipeActions.swift */; };
 		ABDC93752A52E87800DF4084 /* MediaContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC93742A52E87800DF4084 /* MediaContextMenu.swift */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
-		ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = ABE17B6C284FA4A100879C30 /* Algorithms */; };
 		ABE6B70429C0A18300E5B54B /* ParentalRating+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70229C0A18300E5B54B /* ParentalRating+CoreDataClass.swift */; };
 		ABE6B70529C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70329C0A18300E5B54B /* ParentalRating+CoreDataProperties.swift */; };
 		ABE6B70729C0A34400E5B54B /* Schema+ParentalRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6B70629C0A34400E5B54B /* Schema+ParentalRating.swift */; };
@@ -481,7 +481,7 @@
 		AB6478D922C7B8E800F3E14E /* TMDBSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBSearchResult.swift; sourceTree = "<group>"; };
 		AB6478DF22C7C91700F3E14E /* TestingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingUtils.swift; sourceTree = "<group>"; };
 		AB6478E122C7D59300F3E14E /* SearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultRow.swift; sourceTree = "<group>"; };
-		AB6718BD22C0312B00F429E4 /* Movie DB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB (dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6718C022C0312B00F429E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB6718C422C0312B00F429E4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB6718C622C0312B00F429E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -561,7 +561,6 @@
 		AB99561128511FEB00C3D063 /* FilterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterUITests.swift; sourceTree = "<group>"; };
 		AB9956132851280700C3D063 /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
 		AB995615285638E300C3D063 /* ContactSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSection.swift; sourceTree = "<group>"; };
-		AB9EC347286C4FA600A2A270 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		AB9EC348286C875900A2A270 /* SortingMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingMenuSection.swift; sourceTree = "<group>"; };
 		ABA0399224D4990200DBF71F /* MediaStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStatus.swift; sourceTree = "<group>"; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -612,6 +611,7 @@
 		ABCEA492238D1FCD00D92B95 /* CastInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastInfo.swift; sourceTree = "<group>"; };
 		ABCEA493238D1FCD00D92B95 /* SeasonsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonsInfo.swift; sourceTree = "<group>"; };
 		ABCEA499238D1FD300D92B95 /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		ABCEC2AE2CB290A100B6842E /* MultiSelectionMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectionMenu.swift; sourceTree = "<group>"; };
 		ABCEF11A2A2675D300295EB6 /* PredicateMediaList+NewSeasons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+NewSeasons.swift"; sourceTree = "<group>"; };
 		ABCEF11C2A26761600295EB6 /* PredicateMediaList+Problems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+Problems.swift"; sourceTree = "<group>"; };
 		ABCEF11E2A2676D000295EB6 /* PredicateMediaList+Upcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PredicateMediaList+Upcoming.swift"; sourceTree = "<group>"; };
@@ -718,7 +718,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABE17B6D284FA4A100879C30 /* Algorithms in Frameworks */,
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
@@ -947,6 +946,7 @@
 			children = (
 				ABCE3359286DA89F00FB481A /* Media Menu */,
 				AB27425F2389E06500744B83 /* SimpleValueView.swift */,
+				ABCEC2AE2CB290A100B6842E /* MultiSelectionMenu.swift */,
 				ABD7CB5E2375D7AD0049E236 /* LongTextView.swift */,
 				ABEBA2CA23959D77003BF187 /* MultiPicker.swift */,
 				ABC483C42396CD090004D389 /* RangeEditingView.swift */,
@@ -1040,7 +1040,6 @@
 			children = (
 				AB0318BE28411A2300041E0B /* TestPlan.xctestplan */,
 				ABEEB07D28104D8800230F0B /* .swiftlint.yml */,
-				AB9EC347286C4FA600A2A270 /* .swiftformat */,
 				ABA13D592381F02A00E885DD /* README.md */,
 				AB6718BF22C0312B00F429E4 /* Movie DB */,
 				AB6718D622C0312B00F429E4 /* Movie DBTests */,
@@ -1054,7 +1053,7 @@
 		AB6718BE22C0312B00F429E4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB6718BD22C0312B00F429E4 /* Movie DB.app */,
+				AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */,
 				AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */,
 				AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */,
 				ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */,
@@ -1547,9 +1546,7 @@
 			buildPhases = (
 				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
-				AB9EC34A286CA0B500A2A270 /* SwiftFormat */,
 				ABEEB07C28104BE100230F0B /* SwiftLint */,
-				AB9EC346286C4CEA00A2A270 /* SwiftFormat Linter */,
 				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
@@ -1561,13 +1558,12 @@
 			name = "Movie DB";
 			packageProductDependencies = (
 				AB6478D722C7B2A300F3E14E /* JFSwiftUI */,
-				ABE17B6C284FA4A100879C30 /* Algorithms */,
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
 				ABD249022A2394CC002DEB3D /* JFUtils */,
 				AB02A0242B460F05008362D7 /* Flow */,
 			);
 			productName = "Movie DB";
-			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
+			productReference = AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB6718D222C0312B00F429E4 /* Movie DBTests */ = {
@@ -1654,7 +1650,6 @@
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
 				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
-				ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
@@ -1744,44 +1739,6 @@
 			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                               \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB9EC346286C4CEA00A2A270 /* SwiftFormat Linter */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "SwiftFormat Linter";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat --lint . --lintonly unusedArguments\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-		AB9EC34A286CA0B500A2A270 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/zsh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  # swiftformat --quiet --rules indent,redundantSelf,sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n    swiftformat --quiet --rules sortedImports,consecutiveBlankLines,blankLinesAtStartOfScope .\n  # Exit with success, even when swiftformat failed\n  exit 0\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -1867,6 +1824,7 @@
 				AB6D9C7D283BC10700AF655C /* Strings+AddMedia.swift in Sources */,
 				ABCEA49A238D1FD300D92B95 /* ViewModifiers.swift in Sources */,
 				AB1434AB25CEE53A00AA304F /* Season+CoreDataProperties.swift in Sources */,
+				ABCEC2AF2CB290A100B6842E /* MultiSelectionMenu.swift in Sources */,
 				AB8B88EC286DD84B00691C11 /* PredicateMediaLists.swift in Sources */,
 				AB14349B25CEE0E000AA304F /* Genre+CoreDataProperties.swift in Sources */,
 				AB14341225CDDB6600AA304F /* MediaType.swift in Sources */,
@@ -2343,7 +2301,7 @@
 		AB6718DD22C0312B00F429E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -2355,7 +2313,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "Movie DB/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB";
+				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB (dev)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2368,8 +2326,9 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 2.5.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=500";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB.debug";
+				PRODUCT_NAME = "$(TARGET_NAME) (dev)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2408,6 +2367,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 2.5.3;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2585,14 +2545,6 @@
 				minimumVersion = 0.8.1;
 			};
 		};
-		ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2645,11 +2597,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
 			productName = SwiftCSV;
-		};
-		ABE17B6C284FA4A100879C30 /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ABE17B6B284FA4A100879C30 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 

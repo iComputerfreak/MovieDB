@@ -14,13 +14,15 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     @ObservedObject var list: ListType
     let filter: (Media) -> Bool
     
+    @Environment(\.editMode) private var editMode
+    
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
     // Mirrors the respective property of the list for view updates
     @State private var sortingDirection: SortingDirection
     
     @State private var showingInfo = false
-    @Binding var selectedMedia: Media?
+    @Binding private var selectedMediaObjects: Set<Media>
     
     @FetchRequest
     private var medias: FetchedResults<Media>
@@ -41,15 +43,15 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     
     init(
         list: ListType,
-        selectedMedia: Binding<Media?>,
-        rowContent: @escaping (Media) -> RowContent
+        selectedMediaObjects: Binding<Set<Media>>,
+        @ViewBuilder rowContent: @escaping (Media) -> RowContent
     ) {
         self.rowContent = rowContent
         self.list = list
         self.filter = list.customFilter ?? { _ in true }
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
-        _selectedMedia = selectedMedia
+        _selectedMediaObjects = selectedMediaObjects
         _medias = FetchRequest(fetchRequest: list.buildFetchRequest())
     }
     
@@ -65,11 +67,12 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                     Spacer()
                 }
             } else {
-                List(filteredMedias, selection: $selectedMedia) { media in
-                    self.rowContent(media)
+                List(filteredMedias, selection: $selectedMediaObjects) { media in
+                    rowContent(media)
                         .tag(media)
                 }
                 .listStyle(.grouped)
+                .animation(.default, value: editMode?.wrappedValue)
             }
         }
         .onChange(of: sortingOrder) { newValue in
@@ -84,7 +87,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         }
         .toolbar {
             toolbarInfoButton
-            toolbarSortingButton
+            toolbarMoreButton
         }
         .navigationTitle(list.name)
     }
@@ -116,18 +119,19 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     }
     
     @ToolbarContentBuilder
-    var toolbarSortingButton: some ToolbarContent {
-        // Only show the user the option to sort, if the list does not define a static sorting
-        if list.customSorting == nil {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
+    var toolbarMoreButton: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: Set(medias))
+                // Only show the user the option to sort, if the list does not define a static sorting
+                if list.customSorting == nil {
                     SortingMenuSection(
                         sortingOrder: $sortingOrder,
                         sortingDirection: $sortingDirection
                     )
-                } label: {
-                    Image(systemName: "arrow.up.arrow.down.circle")
                 }
+            } label: {
+                Image(systemName: "ellipsis.circle")
             }
         }
     }
@@ -142,8 +146,8 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         return l
     }()
     
-    return NavigationStack {
-        FilteredMediaList(list: dynamicList, selectedMedia: .constant(nil)) { media in
+    NavigationStack {
+        FilteredMediaList(list: dynamicList, selectedMediaObjects: .constant([])) { media in
             LibraryRow()
                 .environmentObject(media)
         }

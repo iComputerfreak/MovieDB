@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -21,6 +22,7 @@ struct AlertHandler {
             // UI Changes always have to be on the main thread
             Task(priority: .userInitiated) {
                 await MainActor.run {
+                    Logger.general.debug("Showing alert with title '\(alert.title ?? "")' and message '\(alert.message ?? "")'")
                     controller.present(alert, animated: true)
                 }
             }
@@ -50,6 +52,22 @@ struct AlertHandler {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
         controller.addAction(.yesAction(yesAction))
         controller.addAction(.noAction(noAction))
+        presentAlert(alert: controller)
+    }
+    
+    static func showDeleteAlert(
+        title: String = Strings.Generic.alertDeleteTitle,
+        message: String = Strings.Generic.alertDeleteMessage,
+        deleteButtonTitle: String = Strings.Generic.alertDeleteButtonTitle,
+        onDelete: @escaping () -> Void
+    ) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        controller.addAction(.cancelAction())
+        controller.addAction(UIAlertAction(
+            title: deleteButtonTitle,
+            style: .destructive,
+            handler: { _ in onDelete() }
+        ))
         presentAlert(alert: controller)
     }
     

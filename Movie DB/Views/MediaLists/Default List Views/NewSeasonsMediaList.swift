@@ -9,19 +9,18 @@
 import SwiftUI
 
 struct NewSeasonsMediaList: View {
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.newSeasons,
-            selectedMedia: $selectedMedia,
+            selectedMediaObjects: $selectedMediaObjects,
             rowContent: { media in
-                NavigationLink(value: media) {
-                    LibraryRow()
-                        .mediaSwipeActions()
-                        .mediaContextMenu()
-                        .environmentObject(media)
-                }
+                LibraryRow()
+                    .mediaSwipeActions()
+                    .mediaContextMenu()
+                    .environmentObject(media)
+                    .navigationLinkChevron()
             }
         )
     }
@@ -29,7 +28,7 @@ struct NewSeasonsMediaList: View {
 
 #Preview {
     NavigationStack {
-        NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+        NewSeasonsMediaList(selectedMediaObjects: .constant([PlaceholderData.preview.staticMovie]))
             .previewEnvironment()
     }
 }

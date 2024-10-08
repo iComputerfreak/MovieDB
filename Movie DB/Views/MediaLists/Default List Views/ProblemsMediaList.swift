@@ -9,24 +9,23 @@
 import SwiftUI
 
 struct ProblemsMediaList: View {
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
         FilteredMediaList(
             list: PredicateMediaList.problems,
-            selectedMedia: $selectedMedia
+            selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            NavigationLink(value: media) {
-                ProblemsLibraryRow()
-                    .mediaSwipeActions()
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+            ProblemsLibraryRow()
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
     }
 }
 
 #Preview {
-    ProblemsMediaList(selectedMedia: .constant(nil))
+    ProblemsMediaList(selectedMediaObjects: .constant([]))
         .previewEnvironment()
 }

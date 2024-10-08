@@ -42,7 +42,7 @@ struct MediaListsRootView: View {
         return lists
     }
     
-    @State private var selectedMedia: Media?
+    @State private var selectedMediaObjects: Set<Media> = []
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
@@ -71,21 +71,30 @@ struct MediaListsRootView: View {
                 Section(Strings.Lists.defaultListsHeader) {
                     // MARK: Favorites
                     NavigationLink {
-                        FavoritesMediaList(selectedMedia: $selectedMedia)
+                        FavoritesMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.favorites)
                     }
                     
                     // MARK: Watchlist
                     NavigationLink {
-                        WatchlistMediaList(selectedMedia: $selectedMedia)
+                        WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.watchlist)
                     }
                     
                     // MARK: Problems
                     NavigationLink {
-                        ProblemsMediaList(selectedMedia: $selectedMedia)
+                        ProblemsMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
                             .badge(problemsMediasCount)
@@ -93,7 +102,10 @@ struct MediaListsRootView: View {
                     
                     // MARK: New Seasons
                     NavigationLink {
-                        NewSeasonsMediaList(selectedMedia: $selectedMedia)
+                        NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
                             .badge(newSeasonsMediasCount)
@@ -102,7 +114,10 @@ struct MediaListsRootView: View {
                     // MARK: Upcoming
                     NavigationLink {
                         if StoreManager.shared.hasPurchasedPro {
-                            UpcomingMediaList(selectedMedia: $selectedMedia)
+                            UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
+                                .onAppear {
+                                    selectedMediaObjects = []
+                                }
                         } else {
                             ProInfoView(showCancelButton: false)
                         }
@@ -119,8 +134,10 @@ struct MediaListsRootView: View {
                         ForEach(dynamicLists) { list in
                             // NavigationLink for the lists
                             NavigationLink {
-                                DynamicMediaListView(list: list, selectedMedia: $selectedMedia)
-                                    .environment(\.editMode, self.editMode)
+                                DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
+                                    .onAppear {
+                                        selectedMediaObjects = []
+                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -138,8 +155,10 @@ struct MediaListsRootView: View {
                     Section(Strings.Lists.customListsHeader) {
                         ForEach(userLists) { list in
                             NavigationLink {
-                                UserMediaListView(list: list, selectedMedia: $selectedMedia)
-                                    .environment(\.editMode, self.editMode)
+                                UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
+                                    .onAppear {
+                                        selectedMediaObjects = []
+                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -161,11 +180,14 @@ struct MediaListsRootView: View {
             // content is provided by the `NavigationLink`s in the sidebar view
             Text(Strings.Lists.rootPlaceholderText)
         } detail: {
+            // TODO: We should separate the selected objects from the different lists here
             NavigationStack {
                 // MARK: MediaDetail
-                if let selectedMedia {
+                if selectedMediaObjects.count == 1, let selectedMedia = selectedMediaObjects.first {
                     MediaDetail()
                         .environmentObject(selectedMedia)
+                } else if selectedMediaObjects.count > 1 {
+                    Text(Strings.Generic.multipleObjectsSelected)
                 } else {
                     Text(Strings.Lists.detailPlaceholderText)
                 }

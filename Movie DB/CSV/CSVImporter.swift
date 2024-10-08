@@ -128,6 +128,12 @@ class CSVImporter {
                     // swiftlint:disable:next line_length
                     "Media from line '\(line, privacy: .private)' (line no. \(i + 1)) already exists in library. Skipping line..."
                 )
+            } catch let error as DecodingError {
+                log?("[Error] Error while decoding line \(line). Skipping this line. \(error)")
+                Logger.importExport.error(
+                    // swiftlint:disable:next line_length
+                    "Error while decoding line '\(line, privacy: .private)' (line no. \(i + 1)): \(error, privacy: .public)"
+                )
             } catch {
                 // If any other error occurs, log it and rethrow
                 log?("[Error] Unexpected error: \(error.localizedDescription). Aborting.")
