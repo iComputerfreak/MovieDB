@@ -72,6 +72,9 @@ struct MediaListsRootView: View {
                     // MARK: Favorites
                     NavigationLink {
                         FavoritesMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.favorites)
                     }
@@ -79,6 +82,9 @@ struct MediaListsRootView: View {
                     // MARK: Watchlist
                     NavigationLink {
                         WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.watchlist)
                     }
@@ -86,6 +92,9 @@ struct MediaListsRootView: View {
                     // MARK: Problems
                     NavigationLink {
                         ProblemsMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.problems)
                             .badge(problemsMediasCount)
@@ -94,6 +103,9 @@ struct MediaListsRootView: View {
                     // MARK: New Seasons
                     NavigationLink {
                         NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
+                            .onAppear {
+                                selectedMediaObjects = []
+                            }
                     } label: {
                         ListRowLabel(list: PredicateMediaList.newSeasons)
                             .badge(newSeasonsMediasCount)
@@ -103,6 +115,9 @@ struct MediaListsRootView: View {
                     NavigationLink {
                         if StoreManager.shared.hasPurchasedPro {
                             UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
+                                .onAppear {
+                                    selectedMediaObjects = []
+                                }
                         } else {
                             ProInfoView(showCancelButton: false)
                         }
@@ -121,6 +136,9 @@ struct MediaListsRootView: View {
                             NavigationLink {
                                 DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                                     .environment(\.editMode, self.editMode)
+                                    .onAppear {
+                                        selectedMediaObjects = []
+                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -140,6 +158,9 @@ struct MediaListsRootView: View {
                             NavigationLink {
                                 UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                                     .environment(\.editMode, self.editMode)
+                                    .onAppear {
+                                        selectedMediaObjects = []
+                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -161,6 +182,7 @@ struct MediaListsRootView: View {
             // content is provided by the `NavigationLink`s in the sidebar view
             Text(Strings.Lists.rootPlaceholderText)
         } detail: {
+            // TODO: We should separate the selected objects from the different lists here
             NavigationStack {
                 // MARK: MediaDetail
                 if selectedMediaObjects.count == 1, let selectedMedia = selectedMediaObjects.first {
