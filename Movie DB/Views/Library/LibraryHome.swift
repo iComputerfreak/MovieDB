@@ -100,7 +100,12 @@ struct LibraryHome: View {
                 }
             }
             .toolbar {
-                LibraryToolbar(config: $viewModel, editMode: editMode, selectedMediaObjects: $selectedMediaObjects)
+                LibraryToolbar(
+                    config: $viewModel,
+                    editMode: editMode,
+                    selectedMediaObjects: $selectedMediaObjects,
+                    allMediaObjects: Set(filteredMedia)
+                )
             }
             .navigationTitle(Strings.TabView.libraryLabel)
             .navigationBarTitleDisplayMode(.large)

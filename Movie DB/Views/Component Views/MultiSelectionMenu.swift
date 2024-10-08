@@ -8,6 +8,7 @@ struct MultiSelectionMenu: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     @Binding var selectedMediaObjects: Set<Media>
+    var allMediaObjects: Set<Media>
     @State private var isShowingDeleteAlert: Bool = false
     
     private var isEditing: Bool { editMode?.wrappedValue.isEditing ?? false }
@@ -21,7 +22,7 @@ struct MultiSelectionMenu: View {
     }
     
     private var areAllSelected: Bool {
-        !selectedMediaObjects.isEmpty && selectedMediaObjects.count == MediaLibrary.shared.mediaCount()
+        !selectedMediaObjects.isEmpty && selectedMediaObjects.count == allMediaObjects.count
     }
     
     var body: some View {
@@ -63,14 +64,10 @@ private extension MultiSelectionMenu {
     
     var selectAllButton: some View {
         Button {
-            do {
-                if areAllSelected {
-                    selectedMediaObjects = []
-                } else {
-                    selectedMediaObjects = Set(try managedObjectContext.fetch(Media.fetchRequest()))
-                }
-            } catch {
-                Logger.coreData.error("Failed to fetch all media objects: \(error)")
+            if areAllSelected {
+                selectedMediaObjects = []
+            } else {
+                selectedMediaObjects = allMediaObjects
             }
         } label: {
             if areAllSelected {
@@ -163,7 +160,7 @@ private extension MultiSelectionMenu {
 }
 
 #Preview {
-    MultiSelectionMenu(selectedMediaObjects: .constant([]))
+    MultiSelectionMenu(selectedMediaObjects: .constant([]), allMediaObjects: [])
         .environment(\.editMode, .constant(.active))
         .previewEnvironment()
 }

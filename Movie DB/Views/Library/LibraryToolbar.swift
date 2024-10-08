@@ -19,6 +19,7 @@ struct LibraryToolbar: ToolbarContent {
     @Binding var config: LibraryViewModel
     var editMode: Binding<EditMode>?
     @Binding var selectedMediaObjects: Set<Media>
+    var allMediaObjects: Set<Media>
     
     let filterImageReset = "line.horizontal.3.decrease.circle"
     let filterImageSet = "line.horizontal.3.decrease.circle.fill"
@@ -37,7 +38,7 @@ struct LibraryToolbar: ToolbarContent {
     private var moreMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
-                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects)
+                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: allMediaObjects)
                     .environment(\.editMode, editMode)
                 Section {
                     Button {

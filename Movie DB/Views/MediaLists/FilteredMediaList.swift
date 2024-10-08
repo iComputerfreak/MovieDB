@@ -122,7 +122,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     var toolbarMoreButton: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
-                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects)
+                MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: Set(medias))
                 // Only show the user the option to sort, if the list does not define a static sorting
                 if list.customSorting == nil {
                     SortingMenuSection(
