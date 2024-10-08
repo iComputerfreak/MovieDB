@@ -20,6 +20,19 @@ extension SchemaEntityKey {
 extension Schema {
     enum Media: String, SchemaEntityKey {
         static let _entityName = "Media"
+        /// Returns all keys that can be modified by the user
+        static var userDataKeys: [SchemaEntityKey] {
+            [
+                Schema.Media.personalRating,
+                Schema.Media.watchAgain,
+                Schema.Media.watchDate,
+                Schema.Media.tags,
+                Schema.Media.notes,
+                Schema.Movie.watchedState,
+                Schema.Show.lastSeasonWatched,
+                Schema.Show.lastEpisodeWatched,
+            ]
+        }
         
         // MARK: Attributes
         case id

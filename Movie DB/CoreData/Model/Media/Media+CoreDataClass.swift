@@ -195,7 +195,12 @@ public extension Media {
         // If the change is containing a modificationDate, don't update again to...
         // a) prevent willSave loops
         // b) not update the modificationDate for changes synced from another device
-        guard !changedProperties.contains(Schema.Media.modificationDate.rawValue) else {
+        // Otherwise, we only update the date if a user-ediable property changed
+        // to prevent updating the modification date on automatic background updates.
+        guard
+            !changedProperties.contains(Schema.Media.modificationDate.rawValue),
+            !Set(changedProperties).isDisjoint(with: Schema.Media.userDataKeys.map(\.rawValue))
+        else {
             return
         }
         
