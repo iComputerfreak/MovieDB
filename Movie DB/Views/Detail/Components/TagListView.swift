@@ -11,7 +11,7 @@ import os.log
 import SwiftUI
 
 struct TagListView: View {
-    private enum NavigationDestination {
+    enum NavigationDestination {
         case editing
     }
     
@@ -29,9 +29,6 @@ struct TagListView: View {
             NavigationLink(value: NavigationDestination.editing) {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
-            }
-            .navigationDestination(for: NavigationDestination.self) { _ in
-                EditView(tags: $tags)
             }
         } else {
             TagListViewLabel(tags: tags)

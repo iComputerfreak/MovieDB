@@ -43,6 +43,9 @@ struct MediaDetail: View {
                     mediaObject.loadThumbnail()
                 }
             }
+            .navigationDestination(for: TagListView.NavigationDestination.self) { _ in
+                TagListView.EditView(tags: $mediaObject.tags)
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     CustomEditButton(isEditing: $isEditing)
