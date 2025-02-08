@@ -18,6 +18,7 @@ struct LibraryRow: View {
         case lastModified
         case personalRating
         case watchDate
+        case nothing
         // TODO: Add watch providers option
         // TODO: Add watch providers filter option
     }
@@ -81,6 +82,9 @@ struct LibraryRow: View {
             case .watchDate:
                 Text(Strings.Library.RowSubtitle.watchDate(watchDateDescription))
                     .font(.subheadline)
+
+            case .nothing:
+                EmptyView()
             }
         }
     }
