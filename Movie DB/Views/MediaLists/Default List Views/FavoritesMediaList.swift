@@ -16,8 +16,7 @@ struct FavoritesMediaList: View {
             list: PredicateMediaList.favorites,
             selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            // TODO: Rating
-            LibraryRow(subtitleContent: .watchState)
+            LibraryRow(subtitleContent: .personalRating)
                 .swipeActions {
                     Button(Strings.Detail.menuButtonUnfavorite) {
                         assert(media.isFavorite)

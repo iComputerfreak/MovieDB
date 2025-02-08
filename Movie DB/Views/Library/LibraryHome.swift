@@ -62,8 +62,7 @@ struct LibraryHome: View {
                 Section(footer: footerText) {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
-                            // TODO: Config value
-                            LibraryRow(subtitleContent: .watchState)
+                            LibraryRow()
                                 .mediaSwipeActions()
                                 .mediaContextMenu()
                                 .environmentObject(mediaObject)

@@ -178,7 +178,6 @@
 		AB840C4A29A7B0AE00637C2A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB840C4929A7B0AE00637C2A /* Migration.swift */; };
 		AB899D2B29C8FF33008E670C /* ImportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB899D2A29C8FF33008E670C /* ImportError.swift */; };
 		AB8B88EC286DD84B00691C11 /* PredicateMediaLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */; };
-		AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */; };
 		AB9190E4297E054900324520 /* WatchedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9190E3297E054900324520 /* WatchedLabel.swift */; };
 		AB97932129997D8700B20EC8 /* DynamicMediaListConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */; };
 		AB979323299AB5E000B20EC8 /* WatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB979322299AB5E000B20EC8 /* WatchState.swift */; };
@@ -546,7 +545,6 @@
 		AB840C4929A7B0AE00637C2A /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		AB899D2A29C8FF33008E670C /* ImportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportError.swift; sourceTree = "<group>"; };
 		AB8B88EB286DD84B00691C11 /* PredicateMediaLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateMediaLists.swift; sourceTree = "<group>"; };
-		AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLibraryRow.swift; sourceTree = "<group>"; };
 		AB8B88EF286DDBFC00691C11 /* Movie DB v7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie DB v7.xcdatamodel"; sourceTree = "<group>"; };
 		AB9190E3297E054900324520 /* WatchedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedLabel.swift; sourceTree = "<group>"; };
 		AB97932029997D8700B20EC8 /* DynamicMediaListConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMediaListConfigurationView.swift; sourceTree = "<group>"; };
@@ -1260,7 +1258,6 @@
 				ABAD15F528E774690092497F /* WatchlistMediaList.swift */,
 				AB54A6E3299EDF75002C3044 /* NewSeasonsMediaList.swift */,
 				ABCEF1252A2784DA00295EB6 /* UpcomingMediaList.swift */,
-				AB8B88ED286DDA0900691C11 /* ProblemsLibraryRow.swift */,
 				ABCEF1202A267AB800295EB6 /* UpcomingLibraryRow.swift */,
 			);
 			path = "Default List Views";
@@ -1986,7 +1983,6 @@
 				ABAA99E1286304F300234E62 /* SelectUserListView.swift in Sources */,
 				AB6D9C97283BC21800AF655C /* Strings+MediaSearch.swift in Sources */,
 				AB5493DC25FBDD990072745B /* Persistence.swift in Sources */,
-				AB8B88EE286DDA0900691C11 /* ProblemsLibraryRow.swift in Sources */,
 				AB097F73284BF65700E559E7 /* FilterSetting+CoreDataClass.swift in Sources */,
 				AB5AA48F29B3E8BF00DEB37B /* Schema+UserMediaList.swift in Sources */,
 				AB14349A25CEE0E000AA304F /* Genre+CoreDataClass.swift in Sources */,

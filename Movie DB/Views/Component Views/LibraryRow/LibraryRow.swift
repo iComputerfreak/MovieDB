@@ -12,15 +12,24 @@ import SwiftUI
 /// Presents various data about the media object, e.g. the thumbnail image, title and year
 /// Requires the displayed media object as an `EnvironmentObject`.
 struct LibraryRow: View {
-    enum SubtitleContent {
-        case problems([String])
+    enum SubtitleContent: String, Codable, Hashable {
+        case problems
         case watchState
         case lastModified
+        case personalRating
+        case watchDate
+        // TODO: Add watch providers option
+        // TODO: Add watch providers filter option
     }
 
     @EnvironmentObject private var mediaObject: Media
+    @ObservedObject private var config: JFConfig = .shared
 
-    let subtitleContent: SubtitleContent
+    let subtitleContent: SubtitleContent?
+
+    init(subtitleContent: SubtitleContent? = nil) {
+        self.subtitleContent = subtitleContent
+    }
 
     private var modificationDateDescription: String {
         if let date = mediaObject.modificationDate {
@@ -28,6 +37,20 @@ struct LibraryRow: View {
         } else {
             return Strings.Generic.never
         }
+    }
+
+    private var watchDateDescription: String {
+        if let date = mediaObject.watchDate {
+            return date.formatted(date: .numeric, time: .omitted)
+        } else {
+            return Strings.Generic.unknown
+        }
+    }
+
+    private var problems: [String] {
+        mediaObject.missingInformation()
+            .map(\.localized)
+            .sorted()
     }
 
     var body: some View {
@@ -41,15 +64,22 @@ struct LibraryRow: View {
                 .isOnWatchlist
             ]
         ) {
-            switch subtitleContent {
+            switch subtitleContent ?? config.defaultSubtitleContent {
             case .watchState:
                 WatchStateLabel()
 
-            case let .problems(problems):
+            case .problems:
                 ProblemsLabel(problems: problems)
 
             case .lastModified:
                 Text(Strings.Library.RowSubtitle.lastModified(modificationDateDescription))
+                    .font(.subheadline)
+
+            case .personalRating:
+                StarRatingView(rating: mediaObject.personalRating)
+
+            case .watchDate:
+                Text(Strings.Library.RowSubtitle.watchDate(watchDateDescription))
                     .font(.subheadline)
             }
         }
