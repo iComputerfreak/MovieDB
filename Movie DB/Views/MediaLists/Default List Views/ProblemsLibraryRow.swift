@@ -11,22 +11,15 @@ import SwiftUI
 struct ProblemsLibraryRow: View {
     @EnvironmentObject var mediaObject: Media
     
-    var missing: String {
+    var missing: [String] {
         mediaObject.missingInformation()
             .map(\.localized)
             .sorted()
-            .formatted()
     }
     
     var body: some View {
-        // TODO: Change to "Problems"
         VStack(alignment: .leading) {
-            LibraryRow(subtitleContent: .watchState)
-            // Under the title
-            Group {
-                Text(Strings.Problems.missingListPrefix) + Text(verbatim: " ") + Text(missing).italic()
-            }
-            .font(.caption)
+            LibraryRow(subtitleContent: .problems(missing))
         }
     }
 }

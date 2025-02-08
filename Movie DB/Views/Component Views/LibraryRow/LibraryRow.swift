@@ -13,6 +13,7 @@ import SwiftUI
 /// Requires the displayed media object as an `EnvironmentObject`.
 struct LibraryRow: View {
     enum SubtitleContent {
+        case problems([String])
         case watchState
     }
 
@@ -34,6 +35,9 @@ struct LibraryRow: View {
             switch subtitleContent {
             case .watchState:
                 WatchStateLabel()
+
+            case let .problems(problems):
+                ProblemsLabel(problems: problems)
             }
         }
     }
