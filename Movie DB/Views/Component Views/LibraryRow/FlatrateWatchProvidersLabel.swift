@@ -6,7 +6,10 @@ struct FlatrateWatchProvidersLabel: View {
     let watchProviders: Set<WatchProvider>
 
     private var flatrateWatchProviders: [WatchProvider] {
-        watchProviders.filter(where: \.type, isEqualTo: .flatrate)
+        watchProviders
+            .filter(where: \.type, isNotEqualTo: .buy)
+            .removingDuplicates(key: \.id)
+            .sorted(on: \.priority, by: <)
     }
 
     var body: some View {
