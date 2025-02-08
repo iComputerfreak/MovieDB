@@ -15,6 +15,7 @@ struct WatchProvidersInfo: View {
         mediaObject.watchProviders
             // Only show flatrate and ads providers
             .filter(where: \.type, isNotEqualTo: .buy)
+            .filter(where: \.isHidden, isEqualTo: false)
             .removingDuplicates(key: \.id)
             .sorted(on: \.priority, by: <)
     }

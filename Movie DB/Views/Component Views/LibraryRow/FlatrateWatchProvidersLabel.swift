@@ -8,6 +8,7 @@ struct FlatrateWatchProvidersLabel: View {
     private var flatrateWatchProviders: [WatchProvider] {
         watchProviders
             .filter(where: \.type, isNotEqualTo: .buy)
+            .filter(where: \.isHidden, isEqualTo: false)
             .removingDuplicates(key: \.id)
             .sorted(on: \.priority, by: <)
     }
