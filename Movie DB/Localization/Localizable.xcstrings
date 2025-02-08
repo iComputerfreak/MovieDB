@@ -2913,6 +2913,40 @@
         }
       }
     },
+    "generic.selectAll" : {
+      "comment" : "A button label to select all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        }
+      }
+    },
+    "generic.selectNone" : {
+      "comment" : "A button label to deselect all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select none"
+          }
+        }
+      }
+    },
     "generic.symbolRenderingMode.hierarchical" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
@@ -7255,6 +7289,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show Adult Content"
+          }
+        }
+      }
+    },
+    "settings.watchProvider.label" : {
+      "comment" : "The label of the watch provider settings in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaming Services"
           }
         }
       }

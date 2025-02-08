@@ -147,13 +147,17 @@ extension Strings {
             localized: "settings.defaultSubtitleContent.lastModified",
             comment: "The label of the picker option for the last modified date as the default subtitle content in the settings"
         )
-        static let defaultSubtitleContentPickerLabelWatchProviders: String = String(
+        static let defaultSubtitleContentPickerLabelWatchProviders = String(
             localized: "settings.defaultSubtitleContent.watchProviders",
             comment: "The label of the picker option for the watch providers as the default subtitle content in the settings"
         )
         static let defaultSubtitleContentPickerLabelNothing = String(
             localized: "settings.defaultSubtitleContent.nothing",
             comment: "The label of the picker option for no subtitle content as the default subtitle content in the settings"
+        )
+        static let watchProviderSettingsLabel = String(
+            localized: "settings.watchProvider.label",
+            comment: "The label of the watch provider settings in the settings"
         )
 
         enum Alert {
