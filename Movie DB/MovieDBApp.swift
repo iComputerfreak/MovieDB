@@ -15,8 +15,9 @@ struct MovieDBApp: App {
     var appDelegate
     
     @ObservedObject private var config = JFConfig.shared
-    @ObservedObject private var storeManager = StoreManager.shared
-    
+
+    private let storeManager: StoreManager = .shared
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -27,7 +28,6 @@ struct MovieDBApp: App {
                 } else {
                     ContentView()
                         .environment(\.managedObjectContext, PersistenceController.viewContext)
-                        .environmentObject(storeManager)
                         .environmentObject(config)
                 }
             }

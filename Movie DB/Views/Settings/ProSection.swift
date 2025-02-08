@@ -17,7 +17,6 @@ struct ProSection: View {
             Button(Strings.Settings.buyProLabel, action: { self.config.isShowingProInfo = true })
                 .sheet(isPresented: $config.isShowingProInfo) {
                     ProInfoView()
-                        .environmentObject(StoreManager.shared)
                 }
         }
     }

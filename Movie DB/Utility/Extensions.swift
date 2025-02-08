@@ -21,7 +21,6 @@ extension View {
         self
             .environment(\.managedObjectContext, PersistenceController.previewContext)
             .environmentObject(JFConfig.shared)
-            .environmentObject(StoreManager.shared)
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
         // Will not work, but will prevent the preview from crashing
             .environmentObject(NotificationProxy())

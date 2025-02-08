@@ -15,9 +15,10 @@ struct SettingsView: View {
     @State private var library: MediaLibrary = .shared
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
-    @EnvironmentObject private var storeManager: StoreManager
     @EnvironmentObject private var config: JFConfig
-    
+
+    private let storeManager: StoreManager = .shared
+
     @State private var viewModel = SettingsViewModel()
     
     var body: some View {
