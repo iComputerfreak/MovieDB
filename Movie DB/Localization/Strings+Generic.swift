@@ -121,5 +121,9 @@ extension Strings {
             localized: "generic.retryLoading",
             comment: "A button label indicating an action to retry loading something"
         )
+        static let never = String(
+            localized: "generic.never",
+            comment: "A string indicating that something did never happen"
+        )
     }
 }

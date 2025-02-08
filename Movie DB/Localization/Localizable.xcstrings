@@ -25,7 +25,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@" : {
       "localizations" : {
@@ -2701,6 +2702,23 @@
         }
       }
     },
+    "generic.never" : {
+      "comment" : "A string indicating that something did never happen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
+          }
+        }
+      }
+    },
     "generic.picker.multipleValues %lld" : {
       "comment" : "A picker label that indicates that there are currently multiple values selected. The parameter is the count of selected values.",
       "localizations" : {
@@ -4133,6 +4151,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie"
+          }
+        }
+      }
+    },
+    "library.list.rowSubtitle.lastModified %@" : {
+      "comment" : "The subtitle of a library row, showing the last modified date",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bearbeitet: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modified: %@"
           }
         }
       }

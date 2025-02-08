@@ -15,11 +15,20 @@ struct LibraryRow: View {
     enum SubtitleContent {
         case problems([String])
         case watchState
+        case lastModified
     }
 
     @EnvironmentObject private var mediaObject: Media
 
     let subtitleContent: SubtitleContent
+
+    private var modificationDateDescription: String {
+        if let date = mediaObject.modificationDate {
+            return date.formatted(date: .numeric, time: .shortened)
+        } else {
+            return Strings.Generic.never
+        }
+    }
 
     var body: some View {
         BaseLibraryRow(
@@ -38,6 +47,10 @@ struct LibraryRow: View {
 
             case let .problems(problems):
                 ProblemsLabel(problems: problems)
+
+            case .lastModified:
+                Text(Strings.Library.RowSubtitle.lastModified(modificationDateDescription))
+                    .font(.subheadline)
             }
         }
     }

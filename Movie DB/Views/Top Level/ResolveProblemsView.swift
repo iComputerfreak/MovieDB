@@ -23,8 +23,7 @@ struct ResolveProblemsView: View {
                         Text(problem.type.recovery)
                         ForEach(problem.associatedMedias) { media in
                             NavigationLink(value: media) {
-                                // TODO: Change
-                                LibraryRow(subtitleContent: .watchState)
+                                LibraryRow(subtitleContent: .lastModified)
                                     .environmentObject(media)
                             }
                         }
