@@ -36,10 +36,15 @@ class JFConfig: ObservableObject {
     @AppStorage("defaultWatchState")
     var defaultWatchState: GenericWatchState = .unknown
 
-    @ConfigValue(.defaultSubtitleContent, defaultValue: .watchState)
+    @AppStorage("defaultSubtitleContent")
+    var defaultSubtitleContentRawValue: LibraryRow.SubtitleContent.RawValue = LibraryRow.SubtitleContent.watchState.rawValue
+
     var defaultSubtitleContent: LibraryRow.SubtitleContent {
-        willSet {
-            DispatchQueue.main.async { self.objectWillChange.send() }
+        get {
+            LibraryRow.SubtitleContent(rawValue: defaultSubtitleContentRawValue) ?? .watchState
+        }
+        set {
+            defaultSubtitleContentRawValue = newValue.rawValue
         }
     }
 
@@ -49,7 +54,6 @@ class JFConfig: ObservableObject {
     
     enum ConfigKey: String {
         case availableLanguages
-        case defaultSubtitleContent
     }
     
     /// Wraps a config value with a mechanism to load and save the value with the given key from/to `UserDefaults`
