@@ -25,7 +25,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@" : {
       "localizations" : {
@@ -2701,6 +2702,23 @@
         }
       }
     },
+    "generic.never" : {
+      "comment" : "A string indicating that something did never happen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
+          }
+        }
+      }
+    },
     "generic.picker.multipleValues %lld" : {
       "comment" : "A picker label that indicates that there are currently multiple values selected. The parameter is the count of selected values.",
       "localizations" : {
@@ -4137,6 +4155,40 @@
         }
       }
     },
+    "library.list.rowSubtitle.lastModified %@" : {
+      "comment" : "The subtitle of a library row, showing the last modified date",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeitet: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modified: %@"
+          }
+        }
+      }
+    },
+    "library.list.rowSubtitle.watchDate %@" : {
+      "comment" : "The subtitle of a library row, showing the watch date",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch date: %@"
+          }
+        }
+      }
+    },
     "library.list.showSymbolText" : {
       "comment" : "A short text describing a tv show (e.g. 'TV'). Used in the library list beneath the name.",
       "localizations" : {
@@ -5446,19 +5498,19 @@
         }
       }
     },
-    "problems.list.missingList %@" : {
-      "comment" : "List of missing information on a media. Shown in the problems view. The argument is the formatted list.",
+    "problems.list.missingListPrefix" : {
+      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fehlt: %@"
+            "value" : "Fehlt:"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Missing: %@"
+            "value" : "Missing:"
           }
         }
       }
@@ -6625,6 +6677,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Update Completed"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.label" : {
+      "comment" : "The label of the picker that lets the user choose the default subtitle content for newly added media",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medien-Untertitel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library row subtitle"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.lastModified" : {
+      "comment" : "The label of the picker option for the last modified date as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeitet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last modified"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.nothing" : {
+      "comment" : "The label of the picker option for no subtitle content as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.personalRating" : {
+      "comment" : "The label of the picker option for the personal rating as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persönliche Bewertung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal rating"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.watchDate" : {
+      "comment" : "The label of the picker option for the watch date as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut am"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch date"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.watchState" : {
+      "comment" : "The label of the picker option for the watch state as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch state"
           }
         }
       }

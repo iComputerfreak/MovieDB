@@ -16,7 +16,7 @@ struct WatchlistMediaList: View {
             list: PredicateMediaList.watchlist,
             selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            LibraryRow()
+            LibraryRow(subtitleContent: .watchState)
                 .swipeActions {
                     Button(Strings.Lists.removeMediaLabel) {
                         media.isOnWatchlist = false

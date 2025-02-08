@@ -15,7 +15,6 @@ class JFConfig: ObservableObject {
     
     // MARK: - Settings
     
-    // swiftlint:disable redundant_type_annotation
     @AppStorage("showAdults")
     var showAdults: Bool = false
 
@@ -36,9 +35,19 @@ class JFConfig: ObservableObject {
     
     @AppStorage("defaultWatchState")
     var defaultWatchState: GenericWatchState = .unknown
-    
-    // swiftlint:enable redundant_type_annotation
-    
+
+    @AppStorage("defaultSubtitleContent")
+    var defaultSubtitleContentRawValue: LibraryRow.SubtitleContent.RawValue = LibraryRow.SubtitleContent.watchState.rawValue
+
+    var defaultSubtitleContent: LibraryRow.SubtitleContent {
+        get {
+            LibraryRow.SubtitleContent(rawValue: defaultSubtitleContentRawValue) ?? .watchState
+        }
+        set {
+            defaultSubtitleContentRawValue = newValue.rawValue
+        }
+    }
+
     private init() {}
     
     // TODO: Remove when @AppStorage works with [String]

@@ -16,7 +16,7 @@ struct NewSeasonsMediaList: View {
             list: PredicateMediaList.newSeasons,
             selectedMediaObjects: $selectedMediaObjects,
             rowContent: { media in
-                LibraryRow()
+                LibraryRow(subtitleContent: .watchState)
                     .mediaSwipeActions()
                     .mediaContextMenu()
                     .environmentObject(media)

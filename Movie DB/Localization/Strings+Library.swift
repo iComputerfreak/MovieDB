@@ -8,6 +8,22 @@
 
 extension Strings {
     enum Library {
+        enum RowSubtitle {
+            static func lastModified(_ date: String) -> String {
+                String(
+                    localized: "library.list.rowSubtitle.lastModified \(date)",
+                    comment: "The subtitle of a library row, showing the last modified date"
+                )
+            }
+
+            static func watchDate(_ date: String) -> String {
+                String(
+                    localized: "library.list.rowSubtitle.watchDate \(date)",
+                    comment: "The subtitle of a library row, showing the watch date"
+                )
+            }
+        }
+
         static let menuButtonFilter = String(
             localized: "library.navBar.button.filter",
             comment: "The label of the filter button in the navigation bar's menu"

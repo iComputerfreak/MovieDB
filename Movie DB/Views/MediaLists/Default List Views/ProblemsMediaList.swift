@@ -16,7 +16,7 @@ struct ProblemsMediaList: View {
             list: PredicateMediaList.problems,
             selectedMediaObjects: $selectedMediaObjects
         ) { media in
-            ProblemsLibraryRow()
+            LibraryRow(subtitleContent: .problems)
                 .mediaSwipeActions()
                 .mediaContextMenu()
                 .environmentObject(media)

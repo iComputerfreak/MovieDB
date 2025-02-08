@@ -126,7 +126,32 @@ extension Strings {
             localized: "settings.defaultWatchState.partiallyWatched",
             comment: "The label of the picker option for an 'partially watched' watch state in the settings"
         )
-        
+
+        static let defaultSubtitleContentPickerLabel = String(
+            localized: "settings.defaultSubtitleContent.label",
+            comment: "The label of the picker that lets the user choose the default subtitle content for newly added media"
+        )
+        static let defaultSubtitleContentPickerLabelWatchState = String(
+            localized: "settings.defaultSubtitleContent.watchState",
+            comment: "The label of the picker option for the watch state as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelPersonalRating = String(
+            localized: "settings.defaultSubtitleContent.personalRating",
+            comment: "The label of the picker option for the personal rating as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelWatchDate = String(
+            localized: "settings.defaultSubtitleContent.watchDate",
+            comment: "The label of the picker option for the watch date as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelLastModified = String(
+            localized: "settings.defaultSubtitleContent.lastModified",
+            comment: "The label of the picker option for the last modified date as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelNothing = String(
+            localized: "settings.defaultSubtitleContent.nothing",
+            comment: "The label of the picker option for no subtitle content as the default subtitle content in the settings"
+        )
+
         enum Alert {
             static let reloadCompleteTitle = String(
                 localized: "settings.alert.reloadCompleted.title",
