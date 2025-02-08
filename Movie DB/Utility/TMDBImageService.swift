@@ -30,7 +30,7 @@ actor TMDBImageService {
         guard let mediaID else {
             return nil
         }
-        return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID)
+        return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID, force: force)
     }
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo`` using an optional imagePath.
