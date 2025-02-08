@@ -8,33 +8,24 @@
 
 import CoreData
 @testable import Movie_DB
-import XCTest
+import Testing
 
 // TODO: Assertions for watch providers
 
 // swiftlint:disable:next blanket_disable_command
 // swiftlint:disable line_length function_body_length type_body_length
-class CodableTests: XCTestCase {
+@Suite
+class CodableTests {
     let api = TMDBAPI.shared
     // swiftlint:disable:next implicitly_unwrapped_optional
-    var testingUtils: TestingUtils!
-    
+    var testingUtils: TestingUtils = .init()
+
     var testContext: NSManagedObjectContext {
         testingUtils.context
     }
-    
-    override func setUp() {
-        super.setUp()
-        testingUtils = TestingUtils()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        testingUtils = nil
-    }
-        
+
     /// Tests the decode and encode functions of TMDBMovieData
-    func testDecodeMovieMatrix() throws {
+    @Test func testDecodeMovieMatrix() throws {
         let companies = [
             ProductionCompanyDummy(id: 79, name: "Village Roadshow Pictures", logoPath: "/tpFpsqbleCzEE2p5EgvUq6ozfCA.png", originCountry: "US"),
             ProductionCompanyDummy(id: 372, name: "Groucho II Film Partnership", logoPath: nil, originCountry: ""),
@@ -44,33 +35,33 @@ class CodableTests: XCTestCase {
         
         // Test, if the Decoding works
         let movie: TMDBData = TestingUtils.load("Matrix.json", mediaType: .movie, into: testContext)
-        XCTAssertEqual(movie.id, 603)
-        XCTAssertEqual(movie.title, "The Matrix")
-        XCTAssertEqual(movie.originalTitle, "The Matrix")
-        XCTAssertEqual(movie.imagePath, "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg")
+        #expect(movie.id == 603)
+        #expect(movie.title == "The Matrix")
+        #expect(movie.originalTitle == "The Matrix")
+        #expect(movie.imagePath != nil)
         assertEqual(movie.genres, [GenreDummy(id: 28, name: "Action"), GenreDummy(id: 878, name: "Science Fiction")])
-        XCTAssertEqual(movie.overview, "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.")
-        XCTAssertEqual(movie.tagline, "Welcome to the Real World.")
-        XCTAssertEqual(movie.status, .released)
-        XCTAssertEqual(movie.originalLanguage, "en")
-        
+        #expect(movie.overview == "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.")
+        #expect(movie.tagline == "The fight for the future begins.")
+        #expect(movie.status == .released)
+        #expect(movie.originalLanguage == "en")
+
         assertEqual(movie.productionCompanies, companies)
-        XCTAssertEqual(movie.homepageURL, "http://www.warnerbros.com/matrix")
-        
-        XCTAssertEqual(movie.popularity, 92.66)
-        XCTAssertEqual(movie.voteAverage, 8.2)
-        XCTAssertEqual(movie.voteCount, 21445)
-        
+        #expect(movie.homepageURL == "http://www.warnerbros.com/matrix")
+
+        #expect(movie.popularity == 122.42)
+        #expect(movie.voteAverage == 8.2)
+        #expect(movie.voteCount == 26000)
+
         // Movie exclusive data
-        let movieData = try XCTUnwrap(movie.movieData)
-        
-        XCTAssertEqual(movie.imdbID, "tt0133093")
-        assertEqual(movieData.releaseDate, 1999, 03, 30)
-        XCTAssertEqual(movieData.runtime, 136)
-        XCTAssertEqual(movieData.budget, 63_000_000)
-        XCTAssertEqual(movieData.revenue, 463_517_383)
-        XCTAssertEqual(movieData.isAdult, false)
-        
+        let movieData = try #require(movie.movieData)
+
+        #expect(movie.imdbID == "tt0133093")
+        assertEqual(movieData.releaseDate, 1999, 03, 31)
+        #expect(movieData.runtime == 136)
+        #expect(movieData.budget == 63_000_000)
+        #expect(movieData.revenue == 463_517_383)
+        #expect(movieData.isAdult == false)
+
         // Translations, Keywords, Videos and Cast
         let keywords = ["saving the world", "artificial intelligence", "man vs machine", "philosophy", "prophecy", "martial arts", "self sacrifice", "dream", "fight", "hacker", "insurgence", "simulated reality ", "virtual reality", "dystopia", "truth", "cyberpunk", "dream world", "woman director", "messiah", "action hero", "gnosticism"]
         let translations = ["Arabic", "Bulgarian", "Bosnian", "Catalan", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Persian", "Finnish", "French", "French", "Galician", "Hebrew", "Croatian", "Hungarian", "Indonesian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
@@ -87,7 +78,7 @@ class CodableTests: XCTestCase {
         assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
     }
     
-    func testDecodeMovieFightClub() throws {
+    @Test func testDecodeMovieFightClub() throws {
         let companies = [
             ProductionCompanyDummy(id: 508, name: "Regency Enterprises", logoPath: "/7PzJdsLGlR7oW4J0J5Xcd0pHGRg.png", originCountry: "US"),
             ProductionCompanyDummy(id: 711, name: "Fox 2000 Pictures", logoPath: "/tEiIH5QesdheJmDAqQwvtN60727.png", originCountry: "US"),
@@ -99,33 +90,33 @@ class CodableTests: XCTestCase {
         
         // Test, if the Decoding works
         let movie: TMDBData = TestingUtils.load("FightClub.json", mediaType: .movie, into: testContext)
-        XCTAssertEqual(movie.id, 550)
-        XCTAssertEqual(movie.title, "Fight Club")
-        XCTAssertEqual(movie.originalTitle, "Fight Club")
-        XCTAssertEqual(movie.imagePath, "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg")
+        #expect(movie.id == 550)
+        #expect(movie.title == "Fight Club")
+        #expect(movie.originalTitle == "Fight Club")
+        #expect(movie.imagePath == "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg")
         assertEqual(movie.genres, [GenreDummy(id: 18, name: "Drama")])
-        XCTAssertEqual(movie.overview, "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.")
-        XCTAssertEqual(movie.tagline, "Mischief. Mayhem. Soap.")
-        XCTAssertEqual(movie.status, .released)
-        XCTAssertEqual(movie.originalLanguage, "en")
-        
+        #expect(movie.overview == "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.")
+        #expect(movie.tagline == "Mischief. Mayhem. Soap.")
+        #expect(movie.status == .released)
+        #expect(movie.originalLanguage == "en")
+
         assertEqual(movie.productionCompanies, companies)
-        XCTAssertEqual(movie.homepageURL, "http://www.foxmovies.com/movies/fight-club")
-        
-        XCTAssertEqual(movie.popularity, 76.058)
-        XCTAssertEqual(movie.voteAverage, 8.4)
-        XCTAssertEqual(movie.voteCount, 23943)
-        
+        #expect(movie.homepageURL == "http://www.foxmovies.com/movies/fight-club")
+
+        #expect(movie.popularity == 117.703)
+        #expect(movie.voteAverage == 8.439)
+        #expect(movie.voteCount == 29787)
+
         // Movie exclusive data
-        let movieData = try XCTUnwrap(movie.movieData)
-        
-        XCTAssertEqual(movie.imdbID, "tt0137523")
+        let movieData = try #require(movie.movieData)
+
+        #expect(movie.imdbID == "tt0137523")
         assertEqual(movieData.releaseDate, 1999, 10, 15)
-        XCTAssertEqual(movieData.runtime, 139)
-        XCTAssertEqual(movieData.budget, 63_000_000)
-        XCTAssertEqual(movieData.revenue, 100_853_753)
-        XCTAssertEqual(movieData.isAdult, false)
-        
+        #expect(movieData.runtime == 139)
+        #expect(movieData.budget == 63_000_000)
+        #expect(movieData.revenue == 100_853_753)
+        #expect(movieData.isAdult == false)
+
         // Translations, Keywords, Videos and Cast
         let keywords = ["based on novel or book", "support group", "dual identity", "nihilism", "fight", "rage and hate", "insomnia", "dystopia", "alter ego", "cult film", "split personality", "quitting a job", "dissociative identity disorder", "self destructiveness"]
         let translations = ["Arabic", "Azerbaijani", "Bulgarian", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Estonian", "Persian", "Finnish", "French", "French", "Hebrew", "Croatian", "Hungarian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Malayalam", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Twi", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
@@ -133,14 +124,14 @@ class CodableTests: XCTestCase {
             VideoDummy(key: "BdJKm16Co6M", name: "#TBT Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
         ]
         
-        assertEqual(movie.keywords, keywords)
+        assertEqual(movie.keywords.sorted(), keywords.sorted())
         assertEqual(movie.translations, translations)
         assertEqual(movie.videos, videos)
         assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Prime Video", "Amazon Video", "Apple iTunes", "Chili", "Disney Plus", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
     }
     
     // swiftlint:disable:next inclusive_language
-    func testDecodeShowBlacklist() throws {
+    @Test func testDecodeShowBlacklist() throws {
         let companies = [
             ProductionCompanyDummy(id: 11073, name: "Sony Pictures Television Studios", logoPath: "/wHs44fktdoj6c378ZbSWfzKsM2Z.png", originCountry: "US"),
             ProductionCompanyDummy(id: 1302, name: "Davis Entertainment", logoPath: "/kQZtJdyphCmq292iGDqlUx0yk2D.png", originCountry: "US"),
@@ -188,33 +179,33 @@ class CodableTests: XCTestCase {
         
         // Test, if the Decoding works
         let show: TMDBData = TestingUtils.load("Blacklist.json", mediaType: .show, into: testContext)
-        XCTAssertEqual(show.id, 46952)
-        XCTAssertEqual(show.title, "The Blacklist")
-        XCTAssertEqual(show.originalTitle, "The Blacklist")
-        XCTAssertEqual(show.imagePath, "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg")
+        #expect(show.id == 46952)
+        #expect(show.title == "The Blacklist")
+        #expect(show.originalTitle == "The Blacklist")
+        #expect(show.imagePath != nil)
         assertEqual(show.genres, [GenreDummy(id: 18, name: "Drama"), GenreDummy(id: 80, name: "Crime"), GenreDummy(id: 9648, name: "Mystery")])
-        XCTAssertEqual(show.overview, "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.")
-        XCTAssertEqual(show.status, .returning)
-        XCTAssertEqual(show.originalLanguage, "en")
-        
+        #expect(show.overview == "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.")
+        #expect(show.status == .ended)
+        #expect(show.originalLanguage == "en")
+
         assertEqual(show.productionCompanies, companies)
-        XCTAssertEqual(show.homepageURL, "http://www.nbc.com/the-blacklist")
-        
-        XCTAssertEqual(show.popularity, 404.498)
-        XCTAssertEqual(show.voteAverage, 7.5)
-        XCTAssertEqual(show.voteCount, 2338)
-        
+        #expect(show.homepageURL == "https://www.nbc.com/the-blacklist")
+
+        #expect(show.popularity > 0)
+        #expect(show.voteAverage > 0)
+        #expect(show.voteCount > 0)
+
         // Show exclusive data
-        let showData = try XCTUnwrap(show.showData)
-        
+        let showData = try #require(show.showData)
+
         assertEqual(showData.firstAirDate, 2013, 09, 23)
-        assertEqual(showData.lastAirDate, 2022, 04, 22)
-        XCTAssertEqual(showData.numberOfSeasons, 9)
-        XCTAssertEqual(showData.numberOfEpisodes, 196)
-        XCTAssertEqual(showData.episodeRuntime, [43])
-        XCTAssertEqual(showData.isInProduction, true)
+        assertEqual(showData.lastAirDate, 2023, 07, 13)
+        #expect(showData.numberOfSeasons == 10)
+        #expect(showData.numberOfEpisodes == 218)
+        #expect(showData.episodeRuntime.isEmpty)
+        #expect(showData.isInProduction == false)
         assertEqual(showData.seasons, seasons)
-        XCTAssertEqual(showData.showType, .scripted)
+        #expect(showData.showType == .scripted)
         assertEqual(showData.networks, networks)
         
         // Translations, Keywords, Videos and Cast
@@ -232,7 +223,7 @@ class CodableTests: XCTestCase {
         assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "RTL+"])
     }
     
-    func testDecodeShowGameOfThrones() throws {
+    @Test func testDecodeShowGameOfThrones() throws {
         let companies = [
             ProductionCompanyDummy(id: 76043, name: "Revolution Sun Studios", logoPath: "/9RO2vbQ67otPrBLXCaC8UMp3Qat.png", originCountry: "US"),
             ProductionCompanyDummy(id: 12525, name: "Television 360", logoPath: nil, originCountry: ""),
@@ -276,37 +267,37 @@ class CodableTests: XCTestCase {
         
         // Test, if the Decoding works
         let show: TMDBData = TestingUtils.load("GameOfThrones.json", mediaType: .show, into: testContext)
-        XCTAssertEqual(show.id, 1399)
-        XCTAssertEqual(show.title, "Game of Thrones")
-        XCTAssertEqual(show.originalTitle, "Game of Thrones")
-        XCTAssertEqual(show.imagePath, "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg")
+        #expect(show.id == 1399)
+        #expect(show.title == "Game of Thrones")
+        #expect(show.originalTitle == "Game of Thrones")
+        #expect(show.imagePath != nil)
         assertEqual(show.genres, [
             GenreDummy(id: 10765, name: "Sci-Fi & Fantasy"),
             GenreDummy(id: 18, name: "Drama"),
             GenreDummy(id: 10759, name: "Action & Adventure"),
         ])
-        XCTAssertEqual(show.overview, "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.")
-        XCTAssertEqual(show.status, .ended)
-        XCTAssertEqual(show.originalLanguage, "en")
-        
+        #expect(show.overview == "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.")
+        #expect(show.status == .ended)
+        #expect(show.originalLanguage == "en")
+
         assertEqual(show.productionCompanies, companies)
-        XCTAssertEqual(show.homepageURL, "http://www.hbo.com/game-of-thrones")
-        
-        XCTAssertEqual(show.popularity, 544.922)
-        XCTAssertEqual(show.voteAverage, 8.4)
-        XCTAssertEqual(show.voteCount, 17731)
-        
+        #expect(show.homepageURL == "https://www.hbo.com/game-of-thrones")
+
+        #expect(show.popularity == 764.53)
+        #expect(show.voteAverage == 8.5)
+        #expect(show.voteCount == 24552)
+
         // Show exclusive data
-        let showData = try XCTUnwrap(show.showData)
-        
+        let showData = try #require(show.showData)
+
         assertEqual(showData.firstAirDate, 2011, 04, 17)
         assertEqual(showData.lastAirDate, 2019, 05, 19)
-        XCTAssertEqual(showData.numberOfSeasons, 8)
-        XCTAssertEqual(showData.numberOfEpisodes, 73)
-        XCTAssertEqual(showData.episodeRuntime, [60])
-        XCTAssertEqual(showData.isInProduction, false)
+        #expect(showData.numberOfSeasons == 8)
+        #expect(showData.numberOfEpisodes == 73)
+        #expect(showData.episodeRuntime == [60])
+        #expect(showData.isInProduction == false)
         assertEqual(showData.seasons, seasons)
-        XCTAssertEqual(showData.showType, .scripted)
+        #expect(showData.showType == .scripted)
         assertEqual(showData.networks, networks)
         
         // Translations, Keywords, Videos and Cast

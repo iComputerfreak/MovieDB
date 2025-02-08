@@ -6,14 +6,15 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import CoreData
 @testable import Movie_DB
-import XCTest
+
+import CoreData
+import Testing
 
 struct TestingUtils {
     let context: NSManagedObjectContext
     
-    let previewTags: Set<Tag>
+    let previewTags: Set<Movie_DB.Tag>
     let matrixMovie: Movie
     let fightClubMovie: Movie
     let blacklistShow: Show // swiftlint:disable:this inclusive_language
@@ -23,7 +24,7 @@ struct TestingUtils {
     init() {
         let context = PersistenceController.createTestingContext()
         self.context = context
-        let previewTags: Set<Tag> = [
+        let previewTags: Set<Movie_DB.Tag> = [
             Tag(name: "Future", context: context),
             Tag(name: "Conspiracy", context: context),
             Tag(name: "Dark", context: context),
@@ -107,7 +108,7 @@ struct TestingUtils {
         }
     }
     
-    static func getPreviewTags(_ tagNames: [String], of tags: Set<Tag>) -> Set<Tag> {
+    static func getPreviewTags(_ tagNames: [String], of tags: Set<Movie_DB.Tag>) -> Set<Movie_DB.Tag> {
         Set(tagNames.map { name in
             guard let tag = tags.first(where: \.name, equals: name) else {
                 fatalError("Preview Tag \(name) does not exist.")
@@ -116,7 +117,7 @@ struct TestingUtils {
         })
     }
                      
-    func getPreviewTags(_ tagNames: [String]) -> Set<Tag> {
+    func getPreviewTags(_ tagNames: [String]) -> Set<Movie_DB.Tag> {
         Self.getPreviewTags(tagNames, of: previewTags)
     }
 }
@@ -126,29 +127,29 @@ struct TestingUtils {
 /// Tests each element of the array by itself, to get a more local error
 func assertEqual<T>(_ value1: [T], _ value2: [T]) where T: Equatable {
     guard value1.count == value2.count else {
-        XCTFail("Cannot compare arrays of different lenghts: \(value1.count) and \(value2.count)")
+        #expect(Bool(false), "Cannot compare arrays of different lenghts: \(value1.count) and \(value2.count)")
         return
     }
     for i in 0..<value1.count {
-        XCTAssertEqual(value1[i], value2[i])
+        #expect(value1[i] == value2[i])
     }
 }
 
 /// Tests if a date equals the given components
 func assertEqual(_ date: Date?, _ year: Int, _ month: Int, _ day: Int) {
-    XCTAssertNotNil(date)
+    #expect(date != nil)
     var cal = Calendar.current
     cal.timeZone = TimeZone(secondsFromGMT: 0)!
-    XCTAssertEqual(cal.component(.year, from: date!), year)
-    XCTAssertEqual(cal.component(.month, from: date!), month)
-    XCTAssertEqual(cal.component(.day, from: date!), day)
+    #expect(cal.component(.year, from: date!) == year)
+    #expect(cal.component(.month, from: date!) == month)
+    #expect(cal.component(.day, from: date!) == day)
 }
 
 /// Tests, if the first array is completely part of the other array
 func assertContains<T>(_ value: [T], in other: [T]) where T: Equatable {
-    XCTAssertLessThanOrEqual(value.count, other.count)
+    #expect(value.count <= other.count)
     for element in value {
-        XCTAssertTrue(other.contains(element), "\(element) not found.")
+        #expect(other.contains(element), "\(element) not found.")
     }
 }
 
