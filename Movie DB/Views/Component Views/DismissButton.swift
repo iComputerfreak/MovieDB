@@ -11,12 +11,22 @@ import SwiftUI
 /// Represents a button that dismisses the currently active view (e.g., a sheet)
 struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
-    
+    private let onDismiss: (() -> Void)?
+
+    init(onDismiss: (() -> Void)? = nil) {
+        self.onDismiss = onDismiss
+    }
+
     var body: some View {
         Button {
-            dismiss()
+            if let onDismiss {
+                onDismiss()
+            } else {
+                dismiss()
+            }
         } label: {
             Text(Strings.Generic.dismissViewDone)
+                .bold()
         }
     }
 }
