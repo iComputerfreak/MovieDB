@@ -54,8 +54,6 @@ enum JFLiterals {
         static let posterDenyList = "posterDenyList"
         /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster deny list has last been updated
         static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
-        /// The id of the filter settings used for filtering in the library home
-        static let filterSetting = "filterSetting"
         /// The number of times the app has asked for app store ratings
         static let askedForAppRating = "askedForRating"
         /// The date when the app was first opened

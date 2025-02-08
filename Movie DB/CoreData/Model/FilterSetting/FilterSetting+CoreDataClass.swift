@@ -15,19 +15,8 @@ import SwiftUI
 @objc(FilterSetting)
 public class FilterSetting: NSManagedObject {
     static let shared: FilterSetting = {
-        // Load the filter setting or create a new one
-        if let id = UserDefaults.standard.object(forKey: JFLiterals.Keys.filterSetting) as? String {
-            // Fetch the FilterSetting with the loaded UUID
-            let fetchRequest: NSFetchRequest<FilterSetting> = FilterSetting.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.FilterSetting.id.rawValue, id)
-            fetchRequest.fetchLimit = 1
-            if let result = try? PersistenceController.viewContext.fetch(fetchRequest).first {
-                return result
-            }
-        }
-        // Create a new FilterSetting and store its ID for further retrieval
+        // Create a new FilterSetting (will be saved in the viewContext and cleaned up later at app start)
         let newFilterSetting = FilterSetting(with: PersistenceController.viewContext)
-        UserDefaults.standard.set(newFilterSetting.id?.uuidString, forKey: JFLiterals.Keys.filterSetting)
         PersistenceController.saveContext()
         return newFilterSetting
     }()
