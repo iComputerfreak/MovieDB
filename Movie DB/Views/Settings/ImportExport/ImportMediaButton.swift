@@ -14,8 +14,9 @@ struct ImportMediaButton: View {
     @Binding var config: SettingsViewModel
     @State private var isImportingMedia = false
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
-    @EnvironmentObject private var storeManager: StoreManager
-    
+
+    private let storeManager: StoreManager = .shared
+
     var body: some View {
         Button(Strings.Settings.importMediaLabel, action: { isImportingMedia = true })
             .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in

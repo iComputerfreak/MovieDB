@@ -11,9 +11,10 @@ import StoreKit
 import SwiftUI
 
 struct BuyProButton: View {
-    @EnvironmentObject private var storeManager: StoreManager
     @Environment(\.dismiss) private var dismiss
-    
+
+    private let storeManager: StoreManager = .shared
+
     var product: Product? {
         storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
     }

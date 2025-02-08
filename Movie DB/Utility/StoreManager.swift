@@ -16,12 +16,13 @@ public enum StoreError: Error {
     case failedVerification
 }
 
-class StoreManager: ObservableObject {
+@Observable
+class StoreManager {
     static let shared = StoreManager()
     
-    @Published var products: [Product] = []
-    @Published var purchasedProducts: [Product] = []
-    
+    var products: [Product] = []
+    var purchasedProducts: [Product] = []
+
     /// Whether the user has purchased the pro version of the app
     var hasPurchasedPro: Bool {
         guard let proProduct = self.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {

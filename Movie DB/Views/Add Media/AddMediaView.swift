@@ -54,7 +54,6 @@ struct AddMediaView: View {
         }
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()
-                .environmentObject(StoreManager.shared)
         }
     }
     

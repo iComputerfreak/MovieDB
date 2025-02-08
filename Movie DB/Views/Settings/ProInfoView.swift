@@ -14,10 +14,11 @@ enum PurchaseError: Error {
 }
 
 struct ProInfoView: View {
-    let showCancelButton: Bool
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var storeManager: StoreManager
-    
+
+    let showCancelButton: Bool
+    private let storeManager: StoreManager = .shared
+
     init(showCancelButton: Bool = true) {
         self.showCancelButton = showCancelButton
     }
@@ -32,7 +33,6 @@ struct ProInfoView: View {
                 }
                 Spacer()
                 BuyProButton()
-                    .environmentObject(storeManager)
             }
             .padding()
             .navigationTitle(Strings.ProInfo.navBarTitle)
