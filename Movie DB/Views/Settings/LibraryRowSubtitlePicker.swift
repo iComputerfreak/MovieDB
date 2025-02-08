@@ -5,7 +5,7 @@ import SwiftUI
 struct LibraryRowSubtitlePicker: View {
     @EnvironmentObject private var preferences: JFConfig
 
-    let validOptions: [LibraryRow.SubtitleContent] = [.nothing, .watchState, .personalRating, .watchDate, .lastModified]
+    let validOptions: [LibraryRow.SubtitleContent] = [.nothing, .watchState, .personalRating, .watchDate, .lastModified, .flatrateWatchProviders]
 
     var body: some View {
         Picker(selection: $preferences.defaultSubtitleContent) {
@@ -22,6 +22,8 @@ struct LibraryRowSubtitlePicker: View {
                         Text(Strings.Settings.defaultSubtitleContentPickerLabelLastModified)
                     case .nothing:
                         Text(Strings.Settings.defaultSubtitleContentPickerLabelNothing)
+                    case .flatrateWatchProviders:
+                        Text(Strings.Settings.defaultSubtitleContentPickerLabelWatchProviders)
                     case .problems:
                         // Not a valid option
                         Text(verbatim: "")

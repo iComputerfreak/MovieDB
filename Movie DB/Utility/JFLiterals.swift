@@ -36,7 +36,9 @@ enum JFLiterals {
     static let inAppPurchaseIDs = [inAppPurchaseIDPro]
     /// The IAP ID for the Pro version of the app
     static let inAppPurchaseIDPro = "movie_db_pro"
-    
+    /// The size of the watch provider icons in the library list row
+    static let watchProviderSubtitleIconSize: CGFloat = 24
+
     enum Keys {
         /// The key used for storing the TagLibrary
         static let allTags = "allTags"
