@@ -37,7 +37,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
         }
-        
+
+        Task(priority: .background) {
+            try? await Task.sleep(for: .seconds(3))
+            let viewContext = PersistenceController.viewContext
+            await viewContext.perform {
+                do {
+                    let sharedFilterSettingID = FilterSetting.shared.id ?? UUID()
+                    // Get FilterSettings without a list and delete them
+                    let request = FilterSetting.fetchRequest()
+                    request.predicate = NSPredicate(format: "%K == nil", Schema.FilterSetting.mediaList.rawValue)
+                    let orphanedFilterSettings = try viewContext.fetch(request)
+                        .filter(where: \.id, isNotEqualTo: sharedFilterSettingID)
+                    Logger.coreData.info("Cleaning up \(orphanedFilterSettings.count) orphaned filter settings.")
+                    orphanedFilterSettings.forEach(viewContext.delete)
+                    PersistenceController.saveContext()
+                } catch {
+                    Logger.coreData.error("Error cleaning up filter settings: \(error, privacy: .public)")
+                }
+            }
+        }
+
         // MARK: Background Fetch
         // No need to keep a persistent reference
         let backgroundHandler = BackgroundHandler()
