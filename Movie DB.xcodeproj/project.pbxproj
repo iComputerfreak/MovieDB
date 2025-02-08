@@ -48,7 +48,7 @@
 /* Begin PBXFileReference section */
 		AB0318BE28411A2300041E0B /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB (dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB6718BD22C0312B00F429E4 /* Movie DB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Movie DBTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB79E99D25C9F1850050BD8D /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		ABA13D592381F02A00E885DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 		AB6718BE22C0312B00F429E4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */,
+				AB6718BD22C0312B00F429E4 /* Movie DB.app */,
 				AB6718D322C0312B00F429E4 /* Movie DBTests.xctest */,
 				AB48BD692816CE3C00E53135 /* Movie DBUITests.xctest */,
 				ABB6449B2971C10D0024BD80 /* Movie DBScreenshots.xctest */,
@@ -222,7 +222,7 @@
 				AB02A0242B460F05008362D7 /* Flow */,
 			);
 			productName = "Movie DB";
-			productReference = AB6718BD22C0312B00F429E4 /* Movie DB (dev).app */;
+			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB6718D222C0312B00F429E4 /* Movie DBTests */ = {
@@ -669,7 +669,7 @@
 				MARKETING_VERSION = 2.6.1;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=500";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB.debug";
-				PRODUCT_NAME = "$(TARGET_NAME) (dev)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -739,7 +739,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB (dev).app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB (dev)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB";
 			};
 			name = Debug;
 		};
@@ -761,7 +761,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB (dev).app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB (dev)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB";
 			};
 			name = Release;
 		};
