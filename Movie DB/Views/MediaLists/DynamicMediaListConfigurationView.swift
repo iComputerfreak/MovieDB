@@ -54,8 +54,11 @@ struct DynamicMediaListConfigurationView: View {
             }
             .navigationTitle(list.name)
             .toolbar {
-                Button(Strings.Generic.dismissViewDone) {
+                Button {
                     dismiss()
+                } label: {
+                    Text(Strings.Generic.dismissViewDone)
+                        .bold()
                 }
             }
         }
