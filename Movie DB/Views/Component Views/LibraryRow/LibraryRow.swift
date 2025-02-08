@@ -12,8 +12,14 @@ import SwiftUI
 /// Presents various data about the media object, e.g. the thumbnail image, title and year
 /// Requires the displayed media object as an `EnvironmentObject`.
 struct LibraryRow: View {
+    enum SubtitleContent {
+        case watchState
+    }
+
     @EnvironmentObject private var mediaObject: Media
-    
+
+    let subtitleContent: SubtitleContent
+
     var body: some View {
         BaseLibraryRow(
             capsules: [
@@ -25,30 +31,20 @@ struct LibraryRow: View {
                 .isOnWatchlist
             ]
         ) {
-            WatchStateLabel()
+            switch subtitleContent {
+            case .watchState:
+                WatchStateLabel()
+            }
         }
     }
 }
 
-#Preview {
-    func show(for watchState: ShowWatchState) -> Show {
-        let show = PlaceholderData.preview.createStaticShow()
-        show.watched = watchState
-        return show
-    }
-
-    func movie(for watchState: MovieWatchState) -> Movie {
-        let movie = PlaceholderData.preview.createStaticMovie()
-        movie.watched = watchState
-        movie.isFavorite = watchState == .watched || watchState == .notWatched
-        movie.isOnWatchlist = watchState == .partially || watchState == .notWatched
-        return movie
-    }
-    
-    return NavigationStack {
+#if DEBUG
+#Preview("Watch State") {
+    NavigationStack {
         List {
             ForEach(MovieWatchState.allCases, id: \.rawValue) { watchState in
-                LibraryRow()
+                LibraryRow(subtitleContent: .watchState)
                     .environmentObject(movie(for: watchState) as Media)
             }
             ForEach([
@@ -56,10 +52,25 @@ struct LibraryRow: View {
                 .episode(season: 1, episode: 5),
                 ShowWatchState.notWatched,
             ], id: \.rawValue) { watchState in
-                LibraryRow()
+                LibraryRow(subtitleContent: .watchState)
                     .environmentObject(show(for: watchState) as Media)
             }
         }
         .navigationTitle(Text(verbatim: "Watchlist"))
     }
 }
+
+private func show(for watchState: ShowWatchState) -> Show {
+    let show = PlaceholderData.preview.createStaticShow()
+    show.watched = watchState
+    return show
+}
+
+private func movie(for watchState: MovieWatchState) -> Movie {
+    let movie = PlaceholderData.preview.createStaticMovie()
+    movie.watched = watchState
+    movie.isFavorite = watchState == .watched || watchState == .notWatched
+    movie.isOnWatchlist = watchState == .partially || watchState == .notWatched
+    return movie
+}
+#endif

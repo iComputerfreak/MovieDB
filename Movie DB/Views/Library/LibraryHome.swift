@@ -62,7 +62,8 @@ struct LibraryHome: View {
                 Section(footer: footerText) {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
-                            LibraryRow()
+                            // TODO: Config value
+                            LibraryRow(subtitleContent: .watchState)
                                 .mediaSwipeActions()
                                 .mediaContextMenu()
                                 .environmentObject(mediaObject)
@@ -75,16 +76,16 @@ struct LibraryHome: View {
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
-            .onChange(of: searchText) { _ in
+            .onChange(of: searchText) { _, _ in
                 filteredMedia.nsPredicate = predicate
             }
             .onReceive(filterSetting.objectWillChange) {
                 filteredMedia.nsPredicate = predicate
             }
-            .onChange(of: viewModel.sortingOrder) { _ in
+            .onChange(of: viewModel.sortingOrder) { _, _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
-            .onChange(of: viewModel.sortingDirection) { _ in
+            .onChange(of: viewModel.sortingDirection) { _, _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning

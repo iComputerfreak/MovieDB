@@ -148,7 +148,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     
     NavigationStack {
         FilteredMediaList(list: dynamicList, selectedMediaObjects: .constant([])) { media in
-            LibraryRow()
+            LibraryRow(subtitleContent: .watchState)
                 .environmentObject(media)
         }
         .navigationTitle(dynamicList.name)
