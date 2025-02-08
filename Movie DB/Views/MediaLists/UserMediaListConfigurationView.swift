@@ -30,12 +30,7 @@ struct UserMediaListConfigurationView: View {
             ) {}
             .navigationTitle(list.name)
             .toolbar {
-                Button {
-                    dismiss()
-                } label: {
-                    Text(Strings.Generic.dismissViewDone)
-                        .bold()
-                }
+                DismissButton()
             }
         }
     }

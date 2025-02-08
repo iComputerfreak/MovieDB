@@ -43,12 +43,7 @@ struct AddMediaView: View {
                     }
                     .navigationTitle(Strings.AddMedia.navBarTitle)
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(trailing: Button(action: {
-                        dismiss()
-                    }, label: {
-                        Text(Strings.Generic.dismissViewDone)
-                            .bold()
-                    }))
+                    .navigationBarItems(trailing: DismissButton())
                 }
             }
         }

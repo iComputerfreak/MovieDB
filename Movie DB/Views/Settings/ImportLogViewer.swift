@@ -12,8 +12,6 @@ import SwiftUI
 struct ImportLogViewer: View {
     let logger: TagImporter.BasicLogger
     
-    @Environment(\.presentationMode) var presentationMode
-    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -29,9 +27,7 @@ struct ImportLogViewer: View {
             .navigationTitle(Strings.Settings.importLogNavBarTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(Strings.Generic.dismissViewDone) {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                    DismissButton()
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(Strings.Settings.importLogNavBarButtonCopy) {
