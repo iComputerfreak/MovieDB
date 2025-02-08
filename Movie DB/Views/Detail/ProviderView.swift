@@ -9,18 +9,26 @@
 import SwiftUI
 
 struct ProviderView: View {
-    @ObservedObject var provider: WatchProvider
     @Environment(\.colorScheme) var colorScheme
-    
-    let iconSize: CGFloat = 45
-    
+
+    @ObservedObject var provider: WatchProvider
+
+    let iconSize: CGFloat
+    let showTypeLabel: Bool
+
+    init(provider: WatchProvider, iconSize: CGFloat = 45, showTypeLabel: Bool = true) {
+        self.provider = provider
+        self.iconSize = iconSize
+        self.showTypeLabel = showTypeLabel
+    }
+
     var body: some View {
         VStack {
             Group {
                 if let image = provider.logoImage {
                     Image(uiImage: image)
                         .resizable()
-                        .cornerRadius(10)
+                        .cornerRadius(0.2 * iconSize)
                         .shadow(radius: 1, y: 1.5)
                 } else {
                     placeholderView(for: provider)
@@ -28,9 +36,11 @@ struct ProviderView: View {
             }
             .frame(width: iconSize, height: iconSize)
             .padding(2)
-            
-            Text(provider.type?.localized ?? "")
-                .font(.caption)
+
+            if showTypeLabel {
+                Text(provider.type?.localized ?? "")
+                    .font(.caption)
+            }
         }
     }
     

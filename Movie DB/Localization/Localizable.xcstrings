@@ -2425,7 +2425,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watch Providers"
+            "value" : "Streaming Services"
           }
         }
       }
@@ -2442,7 +2442,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There is no watch provider information available."
+            "value" : "There is no streaming service information available."
           }
         }
       }
@@ -2909,6 +2909,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retry"
+          }
+        }
+      }
+    },
+    "generic.selectAll" : {
+      "comment" : "A button label to select all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        }
+      }
+    },
+    "generic.selectNone" : {
+      "comment" : "A button label to deselect all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select none"
           }
         }
       }
@@ -6766,6 +6800,23 @@
         }
       }
     },
+    "settings.defaultSubtitleContent.watchProviders" : {
+      "comment" : "The label of the picker option for the watch providers as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate Streaminganbieter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate streaming services"
+          }
+        }
+      }
+    },
     "settings.defaultSubtitleContent.watchState" : {
       "comment" : "The label of the picker option for the watch state as the default subtitle content in the settings",
       "localizations" : {
@@ -7238,6 +7289,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show Adult Content"
+          }
+        }
+      }
+    },
+    "settings.watchProvider.label" : {
+      "comment" : "The label of the watch provider settings in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaming Services"
           }
         }
       }

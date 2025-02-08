@@ -13,14 +13,11 @@ struct WatchProvidersInfo: View {
     
     var providers: [WatchProvider] {
         mediaObject.watchProviders
-            .filter { $0.type != .buy }
+            // Only show flatrate and ads providers
+            .filter(where: \.type, isNotEqualTo: .buy)
+            .filter(where: \.isHidden, isEqualTo: false)
             .removingDuplicates(key: \.id)
-            .sorted(on: { provider in
-                let typePriority = provider.type?.priority ?? 0
-                let providerPriority = provider.priority
-                // Multiply the type priority by 1000 to give it more weight
-                return typePriority * 1000 + providerPriority
-            }, by: >)
+            .sorted(on: \.priority, by: <)
     }
     
     var body: some View {

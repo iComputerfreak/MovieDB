@@ -125,5 +125,13 @@ extension Strings {
             localized: "generic.never",
             comment: "A string indicating that something did never happen"
         )
+        static let selectAll = String(
+            localized: "generic.selectAll",
+            comment: "A button label to select all items in a list"
+        )
+        static let selectNone = String(
+            localized: "generic.selectNone",
+            comment: "A button label to deselect all items in a list"
+        )
     }
 }

@@ -23,7 +23,7 @@ public extension WatchProvider {
         set { setOptionalEnum(newValue, forKey: Schema.WatchProvider.type) }
     }
     
-    var priority: Int {
+    @objc var priority: Int {
         get { getInt(forKey: Schema.WatchProvider.priority) }
         set { setInt(newValue, forKey: Schema.WatchProvider.priority) }
     }
@@ -31,9 +31,11 @@ public extension WatchProvider {
     @NSManaged var imagePath: String?
     
     @NSManaged var medias: Set<Media>
-    
+
+    @NSManaged var isHidden: Bool
+
     @NSManaged private var pngData: Data?
-    
+
     /// The logo image of this watch provider
     var logoImage: UIImage? {
         get {
@@ -46,7 +48,7 @@ public extension WatchProvider {
             self.pngData = newValue?.pngData()
         }
     }
-    
+
     enum ProviderType: String {
         case flatrate
         case ads

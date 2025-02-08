@@ -18,6 +18,7 @@ struct LibraryRow: View {
         case lastModified
         case personalRating
         case watchDate
+        case flatrateWatchProviders
         case nothing
         // TODO: Add watch providers option
         // TODO: Add watch providers filter option
@@ -82,6 +83,9 @@ struct LibraryRow: View {
             case .watchDate:
                 Text(Strings.Library.RowSubtitle.watchDate(watchDateDescription))
                     .font(.subheadline)
+
+            case .flatrateWatchProviders:
+                FlatrateWatchProvidersLabel(watchProviders: mediaObject.watchProviders)
 
             case .nothing:
                 EmptyView()

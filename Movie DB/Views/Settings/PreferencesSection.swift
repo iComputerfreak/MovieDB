@@ -34,6 +34,11 @@ struct PreferencesSection: View {
                 }
             DefaultWatchStatePicker()
             LibraryRowSubtitlePicker()
+            NavigationLink {
+                WatchProvidersPicker()
+            } label: {
+                Text(Strings.Settings.watchProviderSettingsLabel)
+            }
         }
         .alert(
             Text(Strings.Settings.Alert.reloadLibraryTitle),
