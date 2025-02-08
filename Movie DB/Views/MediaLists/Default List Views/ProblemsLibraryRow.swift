@@ -19,20 +19,14 @@ struct ProblemsLibraryRow: View {
     }
     
     var body: some View {
-        HStack {
-            Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
-            VStack(alignment: .leading) {
-                Text(mediaObject.title)
-                    .lineLimit(2)
-                    .font(.headline)
-                // Under the title
-                HStack {
-                    Text(Strings.Problems.missingList(missing))
-                        .font(.caption)
-                        .italic()
-                }
+        // TODO: Change to "Problems"
+        VStack(alignment: .leading) {
+            LibraryRow(subtitleContent: .watchState)
+            // Under the title
+            Group {
+                Text(Strings.Problems.missingListPrefix) + Text(verbatim: " ") + Text(missing).italic()
             }
+            .font(.caption)
         }
     }
 }

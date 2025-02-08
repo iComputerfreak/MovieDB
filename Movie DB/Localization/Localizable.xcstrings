@@ -5446,19 +5446,19 @@
         }
       }
     },
-    "problems.list.missingList %@" : {
-      "comment" : "List of missing information on a media. Shown in the problems view. The argument is the formatted list.",
+    "problems.list.missingListPrefix" : {
+      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fehlt: %@"
+            "value" : "Fehlt:"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Missing: %@"
+            "value" : "Missing:"
           }
         }
       }
