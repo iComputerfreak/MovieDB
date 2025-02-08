@@ -45,7 +45,8 @@ struct MediaListsRootView: View {
     @State private var selectedMediaObjects: Set<Media> = []
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
-    
+    @State private var isShowingProPopup: Bool = false
+
     @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
     private var problemsMedias: FetchedResults<Media>
     private var problemsMediasCount: Int {
@@ -112,18 +113,28 @@ struct MediaListsRootView: View {
                     }
                     
                     // MARK: Upcoming
-                    NavigationLink {
-                        if StoreManager.shared.hasPurchasedPro {
+                    if StoreManager.shared.hasPurchasedPro {
+                        NavigationLink {
                             UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
                                 .onAppear {
                                     selectedMediaObjects = []
                                 }
-                        } else {
-                            ProInfoView(showCancelButton: false)
+                        } label: {
+                            ListRowLabel(list: PredicateMediaList.upcoming)
+                                .badge(upcomingMediasCount)
                         }
-                    } label: {
-                        ListRowLabel(list: PredicateMediaList.upcoming)
-                            .badge(upcomingMediasCount)
+                    } else {
+                        Button {
+                            isShowingProPopup = true
+                        } label: {
+                            HStack {
+                                ListRowLabel(list: PredicateMediaList.upcoming)
+                                Spacer()
+                                Image(systemName: "lock")
+                                    .foregroundColor(.secondary)
+                                NavigationLinkChevron()
+                            }
+                        }
                     }
                 }
                 .deleteDisabled(true)
@@ -194,6 +205,9 @@ struct MediaListsRootView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
+        .sheet(isPresented: $isShowingProPopup) {
+            ProInfoView(showCancelButton: true)
+        }
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {
