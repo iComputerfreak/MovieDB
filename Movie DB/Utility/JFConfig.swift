@@ -15,7 +15,6 @@ class JFConfig: ObservableObject {
     
     // MARK: - Settings
     
-    // swiftlint:disable redundant_type_annotation
     @AppStorage("showAdults")
     var showAdults: Bool = false
 
@@ -36,15 +35,21 @@ class JFConfig: ObservableObject {
     
     @AppStorage("defaultWatchState")
     var defaultWatchState: GenericWatchState = .unknown
-    
-    // swiftlint:enable redundant_type_annotation
-    
+
+    @ConfigValue(.defaultSubtitleContent, defaultValue: .watchState)
+    var defaultSubtitleContent: LibraryRow.SubtitleContent {
+        willSet {
+            DispatchQueue.main.async { self.objectWillChange.send() }
+        }
+    }
+
     private init() {}
     
     // TODO: Remove when @AppStorage works with [String]
     
     enum ConfigKey: String {
         case availableLanguages
+        case defaultSubtitleContent
     }
     
     /// Wraps a config value with a mechanism to load and save the value with the given key from/to `UserDefaults`

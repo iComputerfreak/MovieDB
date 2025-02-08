@@ -23,16 +23,17 @@ struct PreferencesSection: View {
         Section {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
             LanguagePickerView()
-                .onChange(of: preferences.language) { languageCode in
+                .onChange(of: preferences.language) { _, languageCode in
                     Logger.settings.info("Language changed to \(languageCode, privacy: .public)")
                     self.config.languageChanged = true
                 }
             RegionPickerView()
-                .onChange(of: preferences.region) { regionCode in
+                .onChange(of: preferences.region) { _, regionCode in
                     Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
                     self.config.regionChanged = true
                 }
             DefaultWatchStatePicker()
+            LibraryRowSubtitlePicker()
         }
         .alert(
             Text(Strings.Settings.Alert.reloadLibraryTitle),
