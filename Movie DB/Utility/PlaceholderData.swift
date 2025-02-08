@@ -347,7 +347,7 @@ class PlaceholderData {
     ) -> T {
         let data: Data
         
-        guard let bundle = Bundle(identifier: "de.JonasFrey.Movie-DB") else {
+        guard let bundle = Bundle(identifier: "de.JonasFrey.Movie-DB") ?? Bundle(identifier: "de.JonasFrey.Movie-DB.debug") else {
             fatalError("Unable to load bundle")
         }
         
