@@ -40,7 +40,8 @@ public class FilterSetting: NSManagedObject {
             self.numberOfSeasons == nil &&
             self.watched == nil &&
             self.watchAgain == nil &&
-            self.tags.isEmpty
+            self.tags.isEmpty &&
+            self.watchProviders.isEmpty
     }
     
     private var parentNotificationSubscription: AnyCancellable?
@@ -66,7 +67,8 @@ public class FilterSetting: NSManagedObject {
         watched: FilterWatchState? = nil,
         watchAgain: Bool? = nil,
         genres: Set<Genre> = [],
-        tags: Set<Tag> = []
+        tags: Set<Tag> = [],
+        watchProviders: Set<WatchProvider> = []
     ) {
         self.init(context: context)
         self.id = id
@@ -84,6 +86,7 @@ public class FilterSetting: NSManagedObject {
         self.watchAgain = watchAgain
         self.genres = genres
         self.tags = tags
+        self.watchProviders = watchProviders
     }
     
     func reset() {
@@ -98,6 +101,7 @@ public class FilterSetting: NSManagedObject {
         watched = nil
         watchAgain = nil
         tags = []
+        watchProviders = []
         assert(isReset, "FilterSetting is not in reset state after calling reset()")
     }
 }
@@ -287,6 +291,10 @@ extension FilterSetting {
         }
         if !tags.isEmpty {
             predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.tags.rawValue, tags))
+        }
+        if !watchProviders.isEmpty {
+            // If any of the media's watch providers is in the filter's watch providers
+            predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.watchProviders.rawValue, watchProviders))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }

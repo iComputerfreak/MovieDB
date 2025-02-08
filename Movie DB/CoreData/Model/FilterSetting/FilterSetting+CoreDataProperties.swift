@@ -144,7 +144,9 @@ public extension FilterSetting {
     @NSManaged var tags: Set<Tag>
     /// The media list that uses this filter setting
     @NSManaged var mediaList: DynamicMediaList?
-    
+    /// The watch providers that are referenced by this filter setting
+    @NSManaged var watchProviders: Set<WatchProvider>
+
     var rating: ClosedRange<StarRating>? {
         get {
             guard

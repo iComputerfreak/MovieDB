@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24C101" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="v12">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24C101" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="v16">
     <entity name="CDColor" representedClassName="CDColor" syncable="YES">
         <attribute name="alphaComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="blueComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -36,6 +36,7 @@
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="filterSettings" inverseEntity="Genre"/>
         <relationship name="mediaList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DynamicMediaList" inverseName="filterSetting" inverseEntity="DynamicMediaList"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="filterSettings" inverseEntity="Tag"/>
+        <relationship name="watchProviders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WatchProvider" inverseName="filterSettings" inverseEntity="WatchProvider"/>
     </entity>
     <entity name="Genre" representedClassName="Genre" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
@@ -162,6 +163,7 @@
         <attribute name="pngData" optional="YES" attributeType="Binary"/>
         <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="watchProviders" inverseEntity="FilterSetting"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="watchProviders" inverseEntity="Media"/>
     </entity>
 </model>
