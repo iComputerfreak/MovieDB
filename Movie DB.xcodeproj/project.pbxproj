@@ -739,7 +739,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB.app/Movie DB";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB (dev).app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB (dev)";
 			};
 			name = Debug;
 		};
@@ -761,7 +761,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB.app/Movie DB";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Movie DB (dev).app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Movie DB (dev)";
 			};
 			name = Release;
 		};
