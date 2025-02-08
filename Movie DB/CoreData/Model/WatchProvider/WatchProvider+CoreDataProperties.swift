@@ -31,9 +31,11 @@ public extension WatchProvider {
     @NSManaged var imagePath: String?
     
     @NSManaged var medias: Set<Media>
-    
+
+    @NSManaged var isHidden: Bool
+
     @NSManaged private var pngData: Data?
-    
+
     /// The logo image of this watch provider
     var logoImage: UIImage? {
         get {
