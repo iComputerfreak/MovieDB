@@ -34,17 +34,8 @@ struct DynamicMediaListConfigurationView: View {
                 iconMode: $list.iconRenderingMode
             ) {
                 NavigationLink {
-                    Form {
-                        // MARK: Filter Details
-                        FilterUserDataSection()
-                        FilterInformationSection()
-                        FilterShowSpecificSection()
-                    }
-                    .navigationTitle(Text(
-                        "lists.configuration.navTitle.filterSettings",
-                        comment: "The navigation title for the list configuration view's filter settings."
-                    ))
-                    .environmentObject(list.filterSetting!)
+                    DynamicMediaListFilterConfigurationView(onDismiss: dismiss)
+                        .environmentObject(list.filterSetting!)
                 } label: {
                     Text(
                         "lists.configuration.header.filterSettings",
@@ -54,12 +45,7 @@ struct DynamicMediaListConfigurationView: View {
             }
             .navigationTitle(list.name)
             .toolbar {
-                Button {
-                    dismiss()
-                } label: {
-                    Text(Strings.Generic.dismissViewDone)
-                        .bold()
-                }
+                DismissButton()
             }
         }
     }
