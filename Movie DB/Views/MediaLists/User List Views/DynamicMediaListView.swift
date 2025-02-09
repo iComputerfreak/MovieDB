@@ -38,8 +38,8 @@ struct DynamicMediaListView: View {
 
 #Preview {
     let previewList: DynamicMediaList = {
-        PersistenceController.previewContext.reset()
-        let list = DynamicMediaList(context: PersistenceController.previewContext)
+        PersistenceController.xcodePreviewContext.reset()
+        let list = DynamicMediaList(context: PersistenceController.xcodePreviewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         list.sortingOrder = .name

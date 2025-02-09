@@ -133,9 +133,7 @@ struct LibraryHome: View {
     }
     
     var footerText: Text {
-        guard !filteredMedia.isEmpty else {
-            return Text(verbatim: "")
-        }
+        guard !filteredMedia.isEmpty else { return Text(verbatim: "") }
         let objCount = filteredMedia.count
         
         // Showing all media

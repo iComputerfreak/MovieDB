@@ -57,7 +57,7 @@ struct UserMediaListView: View {
 
 #Preview {
     let previewList: UserMediaList = {
-        let list = UserMediaList(context: PersistenceController.previewContext)
+        let list = UserMediaList(context: PersistenceController.xcodePreviewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         return list

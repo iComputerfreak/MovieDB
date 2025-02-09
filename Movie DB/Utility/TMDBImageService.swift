@@ -27,9 +27,7 @@ actor TMDBImageService {
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo``
     func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
-        guard let mediaID else {
-            return nil
-        }
+        guard let mediaID else { return nil }
         return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID, force: force)
     }
     
@@ -40,9 +38,7 @@ actor TMDBImageService {
         downloadID: AnyHashable,
         force: Bool = false
     ) async throws -> UIImage? {
-        guard let imagePath, !imagePath.isEmpty else {
-            return nil
-        }
+        guard let imagePath, !imagePath.isEmpty else { return nil }
         return try await image(for: imagePath, to: fileURL, downloadID: downloadID, force: force)
     }
     

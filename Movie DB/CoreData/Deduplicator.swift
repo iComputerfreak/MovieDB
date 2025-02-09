@@ -89,7 +89,7 @@ class Deduplicator {
                         let winner = duplicates
                             .filter({ $0.modificationDate != nil })
                             .max(on: \.modificationDate, by: { $0! < $1! })
-                    { // swiftlint:disable:this opening_brace
+                    {
                         return winner
                     } else {
                         // Use the hashValue as a deterministic way to choose an arbitrary winner

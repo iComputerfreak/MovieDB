@@ -14,7 +14,7 @@ import UIKit
 // swiftlint:disable:next blanket_disable_command
 // swiftlint:disable function_body_length type_body_length
 class PlaceholderData {
-    static let preview: PlaceholderData = .init(context: PersistenceController.previewContext)
+    static let preview: PlaceholderData = .init(context: PersistenceController.xcodePreviewContext)
     
     static let api = TMDBAPI.shared
     
@@ -346,8 +346,12 @@ class PlaceholderData {
         as type: T.Type = T.self
     ) -> T {
         let data: Data
-        
-        guard let bundle = Bundle(identifier: "de.JonasFrey.Movie-DB") ?? Bundle(identifier: "de.JonasFrey.Movie-DB.debug") else {
+
+        guard
+            let bundle = Bundle(
+                identifier: "de.JonasFrey.Movie-DB"
+            ) ?? Bundle(identifier: "de.JonasFrey.Movie-DB.debug")
+        else {
             fatalError("Unable to load bundle")
         }
         

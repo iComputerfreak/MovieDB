@@ -72,7 +72,7 @@ struct ColorSwatch: View {
 }
 
 #Preview {
-    @State var color: UIColor = .red
+    @Previewable @State var color: UIColor = .red
     
     return List {
         HStack {

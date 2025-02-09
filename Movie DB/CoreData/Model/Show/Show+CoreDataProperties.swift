@@ -14,9 +14,7 @@ public extension Show {
     /// The watch state of the show (unknown, not watched or watched up to a spefic season or episode)
     var watched: ShowWatchState? {
         get {
-            guard let lastSeasonWatched else {
-                return nil
-            }
+            guard let lastSeasonWatched else { return nil }
             return .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
         }
         set {

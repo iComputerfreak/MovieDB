@@ -29,17 +29,11 @@ struct LastNameComparator: SortComparator {
     }
     
     private func compareOptional(_ lhs: String?, _ rhs: String?) -> ComparisonResult {
-        guard lhs != rhs else {
-            return .orderedSame
-        }
-        
-        guard let lhs, !lhs.isEmpty else {
-            return .orderedDescending
-        }
-        guard let rhs, !rhs.isEmpty else {
-            return .orderedAscending
-        }
-        
+        guard lhs != rhs else { return .orderedSame }
+
+        guard let lhs, !lhs.isEmpty else { return .orderedDescending }
+        guard let rhs, !rhs.isEmpty else { return .orderedAscending }
+
         return lhs.compare(rhs)
     }
 }

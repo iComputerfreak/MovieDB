@@ -37,7 +37,7 @@ class JFConfig: ObservableObject {
     var defaultWatchState: GenericWatchState = .unknown
 
     @AppStorage("defaultSubtitleContent")
-    var defaultSubtitleContentRawValue: LibraryRow.SubtitleContent.RawValue = LibraryRow.SubtitleContent.watchState.rawValue
+    var defaultSubtitleContentRawValue: String = LibraryRow.SubtitleContent.watchState.rawValue
 
     var defaultSubtitleContent: LibraryRow.SubtitleContent {
         get {

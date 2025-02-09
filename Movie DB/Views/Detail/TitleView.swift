@@ -50,7 +50,7 @@ struct TitleView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .fixedLayout(width: 500, height: 250)) {
     NavigationStack {
         List {
             Section {
@@ -59,5 +59,4 @@ struct TitleView: View {
         }
         .listStyle(.grouped)
     }
-    .previewLayout(.fixed(width: 500, height: 250))
 }

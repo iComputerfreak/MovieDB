@@ -18,9 +18,7 @@ enum ContextType: String {
 extension NSManagedObjectContext {
     var type: ContextType? {
         get {
-            guard let name else {
-                return nil
-            }
+            guard let name else { return nil }
             return ContextType(rawValue: name)
         }
         set {

@@ -113,7 +113,7 @@ extension View {
 }
 
 #Preview {
-    @State var isActive = true
+    @Previewable @State var isActive = true
     
     return NavigationStack {
         List {

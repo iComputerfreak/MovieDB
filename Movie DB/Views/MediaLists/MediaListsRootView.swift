@@ -260,12 +260,8 @@ struct MediaListsRootView: View {
         alert.addTextField { $0.autocapitalizationType = .words }
         alert.addAction(.cancelAction())
         alert.addAction(.init(title: Strings.Lists.Alert.newListButtonAdd, style: .default, handler: { _ in
-            guard let textField = alert.textFields?.first else {
-                return
-            }
-            guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else {
-                return
-            }
+            guard let textField = alert.textFields?.first else { return }
+            guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return }
             // Check on equality, ignoring case
             guard !allLists.map(\.name).map({ $0.lowercased() }).contains(text.lowercased()) else {
                 AlertHandler.showSimpleAlert(

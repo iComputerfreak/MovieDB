@@ -106,9 +106,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     ///   if the user watched the full season or has not watched the show yet.
     init?(season: Int, episode: Int?) {
         // Season numbers < 0 mean "unknown"
-        guard season >= 0 else {
-            return nil
-        }
+        guard season >= 0 else { return nil }
         guard season > 0 else {
             self = .notWatched
             return
@@ -148,9 +146,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
         if let match = rawValue.matches(of: /episode,[0-9]+,[0-9]+/).first {
             // Drop the first 8 characters ("episode,")
             let parameters = String(rawValue[match.range].dropFirst(8)).components(separatedBy: ",")
-            guard parameters.count == 2 else {
-                return nil
-            }
+            guard parameters.count == 2 else { return nil }
             if
                 let season = Int(parameters[0]),
                 let episode = Int(parameters[1])

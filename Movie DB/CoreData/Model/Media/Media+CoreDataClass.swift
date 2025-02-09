@@ -195,9 +195,7 @@ public extension Media {
     /// Updates the modificationDate of this media, if the current update represents a valid change in properties that should trigger a new modificationDate
     private func updateModificationDate() {
         // Only react to inserts and updates
-        guard !isDeleted else {
-            return
-        }
+        guard !isDeleted else { return }
         let changedProperties = self.changedValues().keys
         
         // If the change is containing a modificationDate, don't update again to...
@@ -264,9 +262,7 @@ extension Media {
         // Start loading the thumbnail
         // Use a dedicated overall task to be able to cancel it
         self.loadThumbnailTask = Task(priority: .high) { [managedObjectContext] in
-            guard !Task.isCancelled else {
-                return
-            }
+            guard !Task.isCancelled else { return }
             
             // We need to access the properties on the managedObjectContext's thread
             await managedObjectContext?.perform {
@@ -279,19 +275,15 @@ extension Media {
             var mediaID: Media.ID?
             var imagePath: String?
             
-            guard !Task.isCancelled else {
-                return
-            }
-            
+            guard !Task.isCancelled else { return }
+
             await managedObjectContext?.perform {
                 mediaID = self.id
                 imagePath = self.imagePath
             }
             
             Task { [mediaID, imagePath] in
-                guard !Task.isCancelled, let mediaID else {
-                    return
-                }
+                guard !Task.isCancelled, let mediaID else { return }
                 
                 do {
                     let thumbnail = try await TMDBImageService.mediaThumbnails.thumbnail(

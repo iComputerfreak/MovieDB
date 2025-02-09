@@ -75,12 +75,12 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 .animation(.default, value: editMode?.wrappedValue)
             }
         }
-        .onChange(of: sortingOrder) { newValue in
+        .onChange(of: sortingOrder) { _, newValue in
             // Update the actual list (either a CoreData entity or a default list)
             list.sortingOrder = newValue
             $medias.nsSortDescriptors.wrappedValue = newValue.createNSSortDescriptors(with: self.sortingDirection)
         }
-        .onChange(of: sortingDirection) { newValue in
+        .onChange(of: sortingDirection) { _, newValue in
             // Update the actual list (either a CoreData entity or a default list)
             list.sortingDirection = newValue
             $medias.nsSortDescriptors.wrappedValue = self.sortingOrder.createNSSortDescriptors(with: newValue)
@@ -140,7 +140,7 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
 #Preview {
     let dynamicList: DynamicMediaList = {
         PlaceholderData.preview.populateSamples()
-        let l = DynamicMediaList(context: PersistenceController.previewContext)
+        let l = DynamicMediaList(context: PersistenceController.xcodePreviewContext)
         l.name = "Dynamic List"
         l.iconName = "gear"
         return l
@@ -152,6 +152,6 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 .environmentObject(media)
         }
         .navigationTitle(dynamicList.name)
-        .environment(\.managedObjectContext, PersistenceController.previewContext)
+        .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
     }
 }

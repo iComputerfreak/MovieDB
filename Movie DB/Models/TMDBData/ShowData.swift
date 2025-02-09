@@ -12,17 +12,13 @@ extension TMDBData {
     struct ShowData: Decodable, Hashable {
         var rawFirstAirDate: String?
         var firstAirDate: Date? {
-            guard let rawFirstAirDate else {
-                return nil
-            }
+            guard let rawFirstAirDate else { return nil }
             return Utils.tmdbUTCDateFormatter.date(from: rawFirstAirDate)
         }
 
         var rawLastAirDate: String?
         var lastAirDate: Date? {
-            guard let rawLastAirDate else {
-                return nil
-            }
+            guard let rawLastAirDate else { return nil }
             return Utils.tmdbUTCDateFormatter.date(from: rawLastAirDate)
         }
 

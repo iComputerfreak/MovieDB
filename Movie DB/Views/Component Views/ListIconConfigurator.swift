@@ -111,11 +111,11 @@ struct ListIconConfigurator<Content: View>: View {
 }
 
 #Preview {
-    @State var listName = "Dynamic List"
-    @State var iconName = "music.note"
-    @State var iconColor: UIColor? = nil
-    @State var iconMode: IconRenderingMode = .multicolor
-    
+    @Previewable @State var listName = "Dynamic List"
+    @Previewable @State var iconName = "music.note"
+    @Previewable @State var iconColor: UIColor? = nil
+    @Previewable @State var iconMode: IconRenderingMode = .multicolor
+
     return ListIconConfigurator(
         name: $listName,
         iconName: $iconName,

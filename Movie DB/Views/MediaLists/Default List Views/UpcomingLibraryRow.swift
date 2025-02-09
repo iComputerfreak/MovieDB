@@ -38,9 +38,7 @@ struct UpcomingLibraryRow: View {
     }
     
     var durationString: String? {
-        guard let releaseDate else {
-            return nil
-        }
+        guard let releaseDate else { return nil }
         return Self.durationFormatter.string(from: .now, to: releaseDate)
     }
     
@@ -55,7 +53,7 @@ struct UpcomingLibraryRow: View {
                         .filter({ $0.airDate != nil && $0.airDate! > .now })
                         .map(\.seasonNumber)
                         .min()
-                { // swiftlint:disable:this opening_brace
+                {
                     Text(Strings.Lists.upcomingSubtitleShow(upcomingSeason)) + Text(durationString).bold()
                 } else {
                     EmptyView()

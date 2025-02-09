@@ -37,9 +37,7 @@ public enum StarRating: Int, Strideable, Codable, Comparable, CaseIterable {
     }
     
     init?(integerRepresentation: Int) {
-        guard let rating = Self(rawValue: integerRepresentation) else {
-            return nil
-        }
+        guard let rating = Self(rawValue: integerRepresentation) else { return nil }
         self = rating
     }
     

@@ -37,7 +37,7 @@ extension NSPersistentHistoryTransaction {
     }
 }
 
-extension NSPersistentHistoryChangeType: CustomStringConvertible {
+extension NSPersistentHistoryChangeType: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .insert:

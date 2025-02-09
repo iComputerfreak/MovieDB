@@ -68,7 +68,7 @@ struct JFSearchBar: View {
 }
 
 #Preview {
-    @State var text = ""
+    @Previewable @State var text = ""
     
     return JFSearchBar(text: $text, prompt: Text(Strings.AddMedia.searchPrompt), autoFocus: true)
 }

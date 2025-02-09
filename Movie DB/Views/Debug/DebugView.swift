@@ -33,9 +33,7 @@ struct DebugView: View {
     
     // swiftlint:disable:next large_tuple
     var duplicates: (id: Int, tmdbID: Int, objectID: Int) {
-        guard let allMedias = try? context.fetch(Media.fetchRequest()) else {
-            return (-1, -1, -1)
-        }
+        guard let allMedias = try? context.fetch(Media.fetchRequest()) else { return (-1, -1, -1) }
         let id = allMedias.removingDuplicates(key: \.id).count
         let tmdbID = allMedias.removingDuplicates(key: \.tmdbID).count
         let objectID = allMedias.removingDuplicates(key: \.objectID).count

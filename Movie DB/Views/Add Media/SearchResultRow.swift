@@ -96,9 +96,8 @@ struct SearchResultRow: View {
     .previewEnvironment()
 }
 
-#Preview("Single") {
+#Preview("Single", traits: .fixedLayout(width: 300, height: 100)) {
     SearchResultRow()
-        .previewLayout(.fixed(width: 300, height: 100))
         .previewEnvironment()
         .environmentObject(PlaceholderData.preview.searchResultMovie)
 }

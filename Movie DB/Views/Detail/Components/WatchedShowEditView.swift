@@ -83,16 +83,12 @@ struct WatchedShowEditView: View {
     }
     
     var isSeasonValid: Bool {
-        guard let maxSeason else {
-            return true
-        }
+        guard let maxSeason else { return true }
         return season <= maxSeason
     }
     
     var isEpisodeValid: Bool {
-        guard let maxEpisode else {
-            return true
-        }
+        guard let maxEpisode else { return true }
         return self.episode <= maxEpisode
     }
     
@@ -145,7 +141,7 @@ struct WatchedShowEditView: View {
                     }
                 }
             }
-            .onChange(of: self.season) { newSeason in
+            .onChange(of: self.season) { _, newSeason in
                 switch watchStateOption {
                 case .unknown, .notWatched:
                     // We don't use the season number for those
@@ -156,7 +152,7 @@ struct WatchedShowEditView: View {
                     self.watched = .episode(season: newSeason, episode: self.episode)
                 }
             }
-            .onChange(of: self.episode) { newEpisode in
+            .onChange(of: self.episode) { _, newEpisode in
                 switch watchStateOption {
                 case .unknown, .notWatched, .season:
                     // We don't use the episode number for those
@@ -165,7 +161,7 @@ struct WatchedShowEditView: View {
                     self.watched = .episode(season: self.season, episode: newEpisode)
                 }
             }
-            .onChange(of: watchStateOption) { newValue in
+            .onChange(of: watchStateOption) { _, newValue in
                 switch newValue {
                 case .unknown:
                     self.watched = nil

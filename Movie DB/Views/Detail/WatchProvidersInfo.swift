@@ -70,7 +70,7 @@ struct WatchProvidersInfo: View {
         WatchProvidersInfo()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
         WatchProvidersInfo()
-            .environmentObject(Movie(context: PersistenceController.previewContext) as Media)
+            .environmentObject(Movie(context: PersistenceController.xcodePreviewContext) as Media)
     }
     .previewEnvironment()
 }

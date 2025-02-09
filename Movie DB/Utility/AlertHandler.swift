@@ -22,7 +22,9 @@ struct AlertHandler {
             // UI Changes always have to be on the main thread
             Task(priority: .userInitiated) {
                 await MainActor.run {
-                    Logger.general.debug("Showing alert with title '\(alert.title ?? "")' and message '\(alert.message ?? "")'")
+                    Logger.general.debug(
+                        "Showing alert with title '\(alert.title ?? "")' and message '\(alert.message ?? "")'"
+                    )
                     controller.present(alert, animated: true)
                 }
             }
@@ -83,9 +85,7 @@ struct AlertHandler {
     }
 
     private static func topMostViewController() -> UIViewController? {
-        guard let rootController = keyWindow()?.rootViewController else {
-            return nil
-        }
+        guard let rootController = keyWindow()?.rootViewController else { return nil }
         return topMostViewController(for: rootController)
     }
 
@@ -93,14 +93,10 @@ struct AlertHandler {
         if let presentedController = controller.presentedViewController {
             return topMostViewController(for: presentedController)
         } else if let navigationController = controller as? UINavigationController {
-            guard let topController = navigationController.topViewController else {
-                return navigationController
-            }
+            guard let topController = navigationController.topViewController else { return navigationController }
             return topMostViewController(for: topController)
         } else if let tabController = controller as? UITabBarController {
-            guard let topController = tabController.selectedViewController else {
-                return tabController
-            }
+            guard let topController = tabController.selectedViewController else { return tabController }
             return topMostViewController(for: topController)
         }
         return controller

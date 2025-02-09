@@ -27,7 +27,7 @@ struct ParentalRatingView: View {
 }
 
 #Preview() {
-    let context = PersistenceController.previewContext
+    let context = PersistenceController.xcodePreviewContext
     
     VStack {
         HStack {

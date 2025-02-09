@@ -19,7 +19,7 @@ class PersistenceController {
     static var viewContext: NSManagedObjectContext { shared.container.viewContext }
     
     /// The view context of the preview container
-    static var previewContext: NSManagedObjectContext { preview.container.viewContext }
+    static var xcodePreviewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
     static var preview: PersistenceController = .init(forTesting: true, usePersistentHistory: false)

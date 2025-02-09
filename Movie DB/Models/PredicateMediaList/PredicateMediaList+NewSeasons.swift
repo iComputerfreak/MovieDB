@@ -51,9 +51,7 @@ extension PredicateMediaList {
                 let watched = show.watched
             {
                 // MARK: Only include shows where the latestNonEmptySeasonNumber has not been watched yet
-                guard watched < ShowWatchState.season(latestNonEmptySeasonNumber) else {
-                    return false
-                }
+                guard watched < ShowWatchState.season(latestNonEmptySeasonNumber) else { return false }
                 
                 // MARK: Don't include shows where the unwatched seasons are in the future
                 let lastFullyWatchedSeason: Int? = {

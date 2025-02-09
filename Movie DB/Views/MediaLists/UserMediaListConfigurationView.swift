@@ -37,5 +37,5 @@ struct UserMediaListConfigurationView: View {
 }
 
 #Preview {
-    UserMediaListConfigurationView(list: UserMediaList(context: PersistenceController.previewContext))
+    UserMediaListConfigurationView(list: UserMediaList(context: PersistenceController.xcodePreviewContext))
 }

@@ -88,6 +88,8 @@ line_length:
 function_body_length:
   warning: 60
 type_body_length: [200, 400]
+opening_brace:
+  ignore_multiline_statement_conditions: true
 
 trailing_whitespace:
   ignores_empty_lines: true

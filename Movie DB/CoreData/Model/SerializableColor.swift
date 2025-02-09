@@ -122,16 +122,12 @@ class SerializableColorTransformer: NSSecureUnarchiveFromDataTransformer {
     }
     
     override func transformedValue(_ value: Any?) -> Any? {
-        guard let data = value as? Data else {
-            return nil
-        }
+        guard let data = value as? Data else { return nil }
         return super.transformedValue(data)
     }
     
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let color = value as? SerializableColor else {
-            return nil
-        }
+        guard let color = value as? SerializableColor else { return nil }
         return super.reverseTransformedValue(color)
     }
 }

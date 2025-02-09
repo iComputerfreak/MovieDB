@@ -39,9 +39,7 @@ struct Utils {
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
     /// - Parameter directory: The name of the folder in the documents directory
     static func url(for directory: String) -> URL? {
-        guard let url = documentsPath?.appendingPathComponent(directory) else {
-            return nil
-        }
+        guard let url = documentsPath?.appendingPathComponent(directory) else { return nil }
         // Create the directory, if it not already exists
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -204,12 +202,8 @@ struct Utils {
     static func share(items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
         Task(priority: .userInitiated) {
             await MainActor.run {
-                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-                    return
-                }
-                guard let source = scene.windows.last?.rootViewController else {
-                    return
-                }
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                guard let source = scene.windows.last?.rootViewController else { return }
                 let vc = UIActivityViewController(
                     activityItems: items,
                     applicationActivities: nil
@@ -305,12 +299,8 @@ extension Utils {
         let codes = try await TMDBAPI.shared.tmdbLanguageCodes()
         // Sort the codes by the actual string that will be displayed, not the code itself
         let sortedCodes = codes.sorted { code1, code2 in
-            guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
-                return false
-            }
-            guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else {
-                return true
-            }
+            guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else { return false }
+            guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else { return true }
             
             return displayString1.lexicographicallyPrecedes(displayString2)
         }
@@ -384,6 +374,6 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
 }
 
 /// Array extension to make all arrays with hashable elements identifiable
-extension Array: Identifiable where Element: Hashable {
+extension Array: @retroactive Identifiable where Element: Hashable {
     public var id: Int { hashValue }
 }

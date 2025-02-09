@@ -52,5 +52,5 @@ struct DynamicMediaListConfigurationView: View {
 }
 
 #Preview {
-    DynamicMediaListConfigurationView(list: DynamicMediaList(context: PersistenceController.previewContext))
+    DynamicMediaListConfigurationView(list: DynamicMediaList(context: PersistenceController.xcodePreviewContext))
 }

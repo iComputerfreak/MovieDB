@@ -12,16 +12,12 @@ struct WatchStateLabel: View {
     @EnvironmentObject private var mediaObject: Media
     
     var maxSeason: Int? {
-        guard let show = mediaObject as? Show else {
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         return show.latestNonEmptySeasonNumber ?? show.numberOfSeasons
     }
     
     func maxEpisode(for season: Int) -> Int? {
-        guard let show = mediaObject as? Show else {
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         return show.seasons.first(where: \.seasonNumber, equals: season)?.episodeCount
     }
     

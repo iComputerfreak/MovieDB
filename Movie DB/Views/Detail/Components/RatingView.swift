@@ -26,12 +26,11 @@ struct RatingView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
     List {
         ForEach(StarRating.allCases, id: \.rawValue) { rating in
             RatingView(rating: .constant(rating))
         }
     }
-    .previewLayout(.sizeThatFits)
     .padding()
 }

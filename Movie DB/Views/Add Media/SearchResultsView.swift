@@ -114,9 +114,7 @@ struct SearchResultsView<RowContent: View>: View {
         model.searchText = searchText
         results = []
         pagesLoaded = 0
-        guard !searchText.isEmpty else {
-            return
-        }
+        guard !searchText.isEmpty else { return }
         // Load the first page of results
         resultsText = Strings.MediaSearch.loading
         loadNextPage()
@@ -124,9 +122,7 @@ struct SearchResultsView<RowContent: View>: View {
     
     func loadNextPage() {
         // We cannot load results for an empty text
-        guard !model.searchText.isEmpty else {
-            return
-        }
+        guard !model.searchText.isEmpty else { return }
         // Fetch the additional search results async
         Task(priority: .userInitiated) {
             do {

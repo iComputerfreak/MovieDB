@@ -48,7 +48,7 @@ struct ListIconPicker: View {
 }
 
 #Preview {
-    @State var symbolName = "heart"
+    @Previewable @State var symbolName = "heart"
     return VStack {
         Text(verbatim: "Selection does not work in Preview!")
             .foregroundColor(.red)

@@ -128,12 +128,8 @@ struct TagListView: View {
                 title: Strings.Detail.Alert.newTagButtonAdd,
                 style: .default
             ) { _ in
-                guard let textField = alert.textFields?.first else {
-                    return
-                }
-                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else {
-                    return
-                }
+                guard let textField = alert.textFields?.first else { return }
+                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return }
                 guard !self.tags.contains(where: { $0.name == text }) else {
                     AlertHandler.showSimpleAlert(
                         title: Strings.Detail.Alert.tagAlreadyExistsTitle,

@@ -19,7 +19,7 @@ extension View {
     /// **Not intended for production use!**
     func previewEnvironment() -> some View {
         self
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
             .environmentObject(JFConfig.shared)
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
         // Will not work, but will prevent the preview from crashing

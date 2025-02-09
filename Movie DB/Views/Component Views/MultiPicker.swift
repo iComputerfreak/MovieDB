@@ -125,7 +125,7 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
 }
 
 #Preview {
-    @State var selection: [String] = ["Value 1"]
+    @Previewable @State var selection: [String] = ["Value 1"]
     
     return Form {
         FilterMultiPicker(
