@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# If the auto-generated Secrets.swift file does not exist yet, create an empty one&#10;# This is needed, so Xcode does not complain about missing input files during build.&#10;&#10;SECRETS=&quot;$PROJECT_DIR/Movie DB/Secrets.swift&quot;&#10;&#10;if [[ ! -f $SECRETS ]]; then&#10;    touch $SECRETS&#10;fi&#10;"
+               scriptText = "# If the auto-generated Secrets.swift file does not exist yet, create an empty one&#10;# This is needed, so Xcode does not complain about missing input files during build.&#10;&#10;SECRETS=&quot;$PROJECT_DIR/Movie DB/Generated/Secrets.swift&quot;&#10;&#10;if [[ ! -f $SECRETS ]]; then&#10;    touch $SECRETS&#10;fi&#10;"
                shellToInvoke = "/bin/zsh">
                <EnvironmentBuildable>
                   <BuildableReference
