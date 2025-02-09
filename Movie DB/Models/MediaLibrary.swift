@@ -182,15 +182,33 @@ struct MediaLibrary {
     
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
-    func reloadAll() async throws {
+    func reloadAll(fromBackground: Bool = false) async throws {
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         
         // Fetch all media objects from the store (using the reload context)
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        // Nil values are sorted at the top, followed by the medias that were longest not updated
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.lastUpdated, ascending: true)]
+        if fromBackground {
+            // Don't update medias that were updated in the last x days
+            // => only update medias that were last updated before the cutoff date
+            let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
+            fetchRequest.predicate = NSPredicate(
+                format: "%K == nil OR %K < %@",
+                Schema.Media.lastUpdated.rawValue,
+                Schema.Media.lastUpdated.rawValue,
+                cutoffDate as NSDate
+            )
+        }
         let medias = (try? reloadContext.fetch(fetchRequest)) ?? []
         Logger.library.info("Reloading \(medias.count) media objects.")
-        
+
+        guard !medias.isEmpty else {
+            lastUpdated = Date.now.timeIntervalSince1970
+            return
+        }
+
         // Reload all media objects using a task group
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
@@ -212,13 +230,21 @@ struct MediaLibrary {
                     }
                     try Task.checkCancellation()
                     mainMedia?.loadThumbnail(force: true)
+                    // If we are in a background task, wait for the thumbnail download to finish
+                    if fromBackground {
+                        await mainMedia?.waitForThumbnailDownload()
+                    }
                 }
             }
-            // We don't need to wait for all the thumbnails to finish loading, we can just exit here
+            if fromBackground {
+                // Wait for all thumbnails to finish downloading
+                try await group.waitForAll()
+            }
         }
         // Since we just reloaded all media, they are all up-to-date
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970
+        PersistenceController.saveContext()
     }
     
     /// Resets the library, deleting everything!

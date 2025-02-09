@@ -49,6 +49,7 @@ class PersistenceController {
         // swiftlint:disable:previous function_body_length
         if !Thread.isMainThread {
             Logger.lifeCycle.error("Creating PersistenceController on a background thread. This may cause a deadlock.")
+            assertionFailure()
         }
         // If we already have an existing model, reuse it
         if let model = Self.model {

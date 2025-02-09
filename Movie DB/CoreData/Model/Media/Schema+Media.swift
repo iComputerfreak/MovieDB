@@ -62,7 +62,8 @@ extension Schema {
         case isFavorite
         case isOnWatchlist
         case watchDate
-        
+        case lastUpdated
+
         // MARK: Relationships
         case genres
         case tags

@@ -13,7 +13,6 @@ opt_in_rules:
   - array_init
   - balanced_xctest_lifecycle
   - collection_alignment
-  - conditional_returns_on_newline
   - contains_over_filter_count
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
@@ -71,6 +70,14 @@ opt_in_rules:
 analyzer_rules:
   - unused_declaration
   - unused_import
+
+custom_rules:
+  single_line_guard:
+    included: ".*.swift"
+    regex: 'guard[^\{]{2,80}else\s*\{\s*\n\s*return.{2,40}\}'
+    name: "Single Line Guard"
+    message: "Use a single line guard for simple checks."
+    severity: warning
 
 force_cast: warning
 force_try: warning

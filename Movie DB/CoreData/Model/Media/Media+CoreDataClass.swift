@@ -81,6 +81,8 @@ public class Media: NSManagedObject {
                 self.parentalRating = managedObjectContext.importDummy(rating)
             }
             self.watchProviders = Set(managedObjectContext.importDummies(tmdbData.watchProviders))
+            // Also called for the initial load
+            self.lastUpdated = .now
         }
     }
     
@@ -145,6 +147,12 @@ public class Media: NSManagedObject {
     func getNextOrLatestReleaseDate() -> Date? {
         assertionFailure("Implement in subclasses!")
         return nil
+    }
+
+    func waitForThumbnailDownload() async {
+        if let loadThumbnailTask {
+            _ = await loadThumbnailTask.value
+        }
     }
 }
 
