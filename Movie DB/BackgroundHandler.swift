@@ -22,49 +22,51 @@ class BackgroundHandler {
         let result = BGTaskScheduler.shared.register(
             forTaskWithIdentifier: Self.bgTaskID,
             using: nil,
-            launchHandler: executeBackgroundFetch(bgTask:)
+            launchHandler: executeBackgroundProcessingTask(bgTask:)
         )
         if !result {
             Logger.background.fault(
                 "The background task could not be registered, because its identifier is missing from Info.plist"
             )
         }
-        scheduleBackgroundFetch()
+        Task {
+            await scheduleBackgroundFetch()
+        }
     }
     
     /// Schedules a background fetch to be executed ``bgTaskInterval`` from now.
     /// If there is already a background fetch scheduled, re-scheduling will be skipped.
-    private func scheduleBackgroundFetch() {
-        BGTaskScheduler.shared.getPendingTaskRequests { requests in
-            // Only schedule, if there is not already one scheduled
-            guard requests.isEmpty else {
-                return
-            }
-            let request = BGAppRefreshTaskRequest(identifier: Self.bgTaskID)
-            request.earliestBeginDate = Date(timeIntervalSinceNow: Self.bgTaskInterval)
-            do {
-                try BGTaskScheduler.shared.submit(request)
-                Logger.background.info("Successfully scheduled background fetch request.")
-            } catch {
-                Logger.background.error("Could not schedule app refresh: \(error, privacy: .public)")
-            }
+    private func scheduleBackgroundFetch() async {
+        let pendingTasks = await BGTaskScheduler.shared.getPendingTaskRequests()
+        // Only schedule, if there is not already one scheduled
+        guard pendingTasks.isEmpty else { return }
+
+        let request = BGProcessingTaskRequest(identifier: Self.bgTaskID)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: Self.bgTaskInterval)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            Logger.background.info("Successfully scheduled background processing task request.")
+        } catch {
+            Logger.background.error("Could not schedule app processing task: \(error, privacy: .public)")
         }
     }
     
     /// Executes the background task and re-schedules it
-    private func executeBackgroundFetch(bgTask: BGTask) {
+    private func executeBackgroundProcessingTask(bgTask: BGTask) {
         // MARK: Re-schedule
-        scheduleBackgroundFetch()
-        
+        Task {
+            await scheduleBackgroundFetch()
+        }
+
         // MARK: Create Operation
         let operation = Task(priority: .high) {
             do {
-                Logger.background.info("Updating Library from background fetch...")
+                Logger.background.info("Updating Library from background task...")
                 try await MediaLibrary.shared.reloadAll()
                 Logger.background.info("Reloaded all media objects.")
                 bgTask.setTaskCompleted(success: true)
             } catch {
-                Logger.background.error("Error executing background fetch: \(error, privacy: .public)")
+                Logger.background.error("Error executing background task: \(error, privacy: .public)")
                 bgTask.setTaskCompleted(success: false)
             }
         }
@@ -74,6 +76,16 @@ class BackgroundHandler {
         bgTask.expirationHandler = {
             Logger.background.info("Cancelling background task...")
             operation.cancel()
+        }
+    }
+}
+
+extension BGTaskScheduler {
+    func getPendingTaskRequests() async -> [BGTaskRequest] {
+        await withCheckedContinuation { continuation in
+            getPendingTaskRequests { requests in
+                continuation.resume(returning: requests)
+            }
         }
     }
 }

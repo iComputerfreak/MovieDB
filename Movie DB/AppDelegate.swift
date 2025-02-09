@@ -58,7 +58,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             }
         }
 
-        // MARK: Background Fetch
+        // MARK: Background Processing
         // No need to keep a persistent reference
         let backgroundHandler = BackgroundHandler()
         backgroundHandler.setupBackgroundFetch()
