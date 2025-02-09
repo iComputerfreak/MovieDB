@@ -37,7 +37,7 @@ class BackgroundHandler {
     /// Schedules a background fetch to be executed ``bgTaskInterval`` from now.
     /// If there is already a background fetch scheduled, re-scheduling will be skipped.
     private func scheduleBackgroundFetch() async {
-        let pendingTasks = await BGTaskScheduler.shared.getPendingTaskRequests()
+        let pendingTasks = await BGTaskScheduler.shared.pendingTaskRequests()
         // Only schedule, if there is not already one scheduled
         guard pendingTasks.isEmpty else { return }
 
@@ -62,7 +62,7 @@ class BackgroundHandler {
         let operation = Task(priority: .high) {
             do {
                 Logger.background.info("Updating Library from background task...")
-                try await MediaLibrary.shared.reloadAll()
+                try await MediaLibrary.shared.reloadAll(fromBackground: true)
                 Logger.background.info("Reloaded all media objects.")
                 bgTask.setTaskCompleted(success: true)
             } catch {
@@ -76,16 +76,6 @@ class BackgroundHandler {
         bgTask.expirationHandler = {
             Logger.background.info("Cancelling background task...")
             operation.cancel()
-        }
-    }
-}
-
-extension BGTaskScheduler {
-    func getPendingTaskRequests() async -> [BGTaskRequest] {
-        await withCheckedContinuation { continuation in
-            getPendingTaskRequests { requests in
-                continuation.resume(returning: requests)
-            }
         }
     }
 }

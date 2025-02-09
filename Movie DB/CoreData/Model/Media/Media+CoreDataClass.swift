@@ -148,6 +148,12 @@ public class Media: NSManagedObject {
         assertionFailure("Implement in subclasses!")
         return nil
     }
+
+    func waitForThumbnailDownload() async {
+        if let loadThumbnailTask {
+            _ = await loadThumbnailTask.value
+        }
+    }
 }
 
 // MARK: - Core Data
