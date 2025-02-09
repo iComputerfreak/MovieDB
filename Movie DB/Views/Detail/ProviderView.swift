@@ -26,12 +26,9 @@ struct ProviderView: View {
         VStack {
             Group {
                 if let image = provider.logoImage {
-                    Image(uiImage: image)
-                        .resizable()
-                        .cornerRadius(0.2 * iconSize)
-                        .shadow(radius: 1, y: 1.5)
+                    providerImageView(for: image)
                 } else {
-                    placeholderView(for: provider)
+                    placeholderView
                 }
             }
             .frame(width: iconSize, height: iconSize)
@@ -43,8 +40,8 @@ struct ProviderView: View {
             }
         }
     }
-    
-    func placeholderView(for provider: WatchProvider) -> some View {
+
+    private var placeholderView: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(.quaternary)
             .shadow(radius: 1, y: 1.5)
@@ -54,6 +51,13 @@ struct ProviderView: View {
                     .font(.system(size: 9))
                     .padding(1)
             }
+    }
+
+    private func providerImageView(for image: UIImage) -> some View {
+        Image(uiImage: image)
+            .resizable()
+            .cornerRadius(0.2 * iconSize)
+            .shadow(radius: 1, y: 1.5)
     }
 }
 

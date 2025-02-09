@@ -30,7 +30,7 @@ struct WatchProvidersInfo: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(providers, id: \.id) { provider in
-                                    ProviderView(provider: provider)
+                                    ProviderView(provider: provider, showTypeLabel: false)
                                 }
                             }
                         }
