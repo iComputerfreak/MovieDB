@@ -13,7 +13,8 @@ import UIKit
 
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"
-    static let bgTaskInterval: TimeInterval = 3 * .day
+    // Run the background task every day
+    static let bgTaskInterval: TimeInterval = .day
     
     init() {}
     

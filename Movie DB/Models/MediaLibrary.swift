@@ -193,7 +193,7 @@ struct MediaLibrary {
         if fromBackground {
             // Don't update medias that were updated in the last x days
             // => only update medias that were last updated before the cutoff date
-            let cutoffDate = Date.now.addingTimeInterval(-BackgroundHandler.bgTaskInterval)
+            let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
             fetchRequest.predicate = NSPredicate(
                 format: "%K == nil OR %K < %@",
                 Schema.Media.lastUpdated.rawValue,
