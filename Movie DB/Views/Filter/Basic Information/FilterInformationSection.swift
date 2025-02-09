@@ -23,6 +23,8 @@ struct FilterInformationSection: View {
             FilterReleaseYearPicker()
             // MARK: - Media Status
             FilterMediaStatusPicker()
+            // MARK: - Watch Providers
+            FilterWatchProvidersPicker()
         }
     }
 }

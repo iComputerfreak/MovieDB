@@ -68,6 +68,10 @@ extension Strings.Library {
             localized: "library.filter.information.label.genres",
             comment: "The label of the genres picker in the library's filter view"
         )
+        static let watchProvidersLabel = String(
+            localized: "library.filter.information.label.watchProviders",
+            comment: "The label of the watch providers picker in the library's filter view"
+        )
         static let ratingLabel = String(
             localized: "library.filter.information.label.personalRating",
             comment: "The personal rating one assign a media object as a value of 0 to 5 stars"

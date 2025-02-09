@@ -135,13 +135,21 @@ struct Utils {
         return min!.numberOfSeasons!...(max?.numberOfSeasons ?? min!.numberOfSeasons!)
     }
     
-    /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
+    /// Returns a list of all genres existing in the viewContext, sorted by name and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: Schema.Genre._entityName, context: context)
             .removingDuplicates(key: \.id)
             .sorted(on: \.name, by: <)
     }
-    
+
+    /// Returns a list of all watch providers existing in the viewContext, sorted by name and not including duplicates.
+    static func allNonBuyWatchProviders(context: NSManagedObjectContext) -> [WatchProvider] {
+        allObjects(entityName: Schema.WatchProvider._entityName, context: context)
+            .removingDuplicates(key: \.id)
+            .filter(where: \.type, isNotEqualTo: .buy)
+            .sorted(on: \.name, by: <)
+    }
+
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
         allObjects(entityName: Schema.Media._entityName, context: context)
