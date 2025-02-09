@@ -111,8 +111,8 @@ class CSVExporter {
             // Double all quotation marks in the value (escape them)
             stringValue = stringValue.replacingOccurrences(of: "\"", with: "\"\"")
             
-            // If the value contains a separator, encapsulate the value in quotation marks
-            if stringValue.contains(separator) {
+            // If the value contains a separator or starts with quotation marks, encapsulate the value in quotation marks
+            if stringValue.contains(separator) || stringValue.starts(with: "\"") {
                 stringValue = "\"\(stringValue)\""
             }
             
