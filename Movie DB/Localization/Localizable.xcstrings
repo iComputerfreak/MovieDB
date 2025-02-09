@@ -3573,6 +3573,23 @@
         }
       }
     },
+    "library.filter.information.label.watchProviders" : {
+      "comment" : "The label of the watch providers picker in the library's filter view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaming Services"
+          }
+        }
+      }
+    },
     "library.filter.information.label.year" : {
       "comment" : "The label for the picker for selecting the release year in the library filter view",
       "localizations" : {
