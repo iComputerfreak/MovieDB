@@ -30,12 +30,11 @@ struct WatchProvidersInfo: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(providers, id: \.id) { provider in
-                                    ProviderView(provider: provider, showTypeLabel: false)
+                                    ProviderView(provider: provider, iconSize: 48, showTypeLabel: false)
                                 }
                             }
                         }
-                        .padding(.top, 8)
-                        .padding(.bottom, 3)
+                        .padding(.vertical, 4)
                     } else {
                         // No providers available
                         HStack {
