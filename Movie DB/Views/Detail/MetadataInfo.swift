@@ -49,11 +49,18 @@ struct MetadataInfo: View {
                     Text(id.uuidString)
                         .headline(Strings.Detail.internalIDHeadline)
                 }
+
                 Text(mediaObject.creationDate.formatted(date: .abbreviated, time: .shortened))
                     .headline(Strings.Detail.createdHeadline)
+
                 if let modificationDate = mediaObject.modificationDate {
                     Text(modificationDate.formatted(date: .abbreviated, time: .shortened))
                         .headline(Strings.Detail.lastModifiedHeadline)
+                }
+
+                if let lastUpdated = mediaObject.lastUpdated {
+                    Text(lastUpdated.formatted(date: .abbreviated, time: .shortened))
+                        .headline(Strings.Detail.lastUpdatedHeadline)
                 }
             }
         }

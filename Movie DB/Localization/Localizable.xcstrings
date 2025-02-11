@@ -1526,6 +1526,23 @@
         }
       }
     },
+    "detail.metadata.headline.lastUpdated" : {
+      "comment" : "The headline for the 'last updated' property in the detail view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt aktualisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last updated"
+          }
+        }
+      }
+    },
     "detail.navBar.errorTitle" : {
       "comment" : "The navigation bar title for the detail view when an error occured during loading",
       "localizations" : {
