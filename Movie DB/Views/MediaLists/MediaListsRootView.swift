@@ -36,109 +36,19 @@ struct MediaListsRootView: View {
     private var userLists: FetchedResults<UserMediaList>
     
     var allLists: [any MediaListProtocol] {
-        var lists: [any MediaListProtocol] = defaultLists
-        dynamicLists.forEach { lists.append($0) }
-        userLists.forEach { lists.append($0) }
-        return lists
+        defaultLists + Array(dynamicLists) + Array(userLists)
     }
     
     @State private var selectedMediaObjects: Set<Media> = []
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
-    @State private var isShowingProPopup: Bool = false
-
-    @FetchRequest(fetchRequest: PredicateMediaList.problems.buildFetchRequest())
-    private var problemsMedias: FetchedResults<Media>
-    private var problemsMediasCount: Int {
-        problemsMedias.filter(PredicateMediaList.problems.customFilter ?? { _ in true }).count
-    }
-    
-    @FetchRequest(fetchRequest: PredicateMediaList.newSeasons.buildFetchRequest())
-    private var newSeasonsMedias: FetchedResults<Media>
-    private var newSeasonsMediasCount: Int {
-        newSeasonsMedias.filter(PredicateMediaList.newSeasons.customFilter ?? { _ in true }).count
-    }
-    
-    @FetchRequest(fetchRequest: PredicateMediaList.upcoming.buildFetchRequest())
-    private var upcomingMedias: FetchedResults<Media>
-    private var upcomingMediasCount: Int {
-        upcomingMedias.filter(PredicateMediaList.upcoming.customFilter ?? { _ in true }).count
-    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             List {
                 // MARK: - Default Lists (disabled during editing)
-                Section(Strings.Lists.defaultListsHeader) {
-                    // MARK: Favorites
-                    NavigationLink {
-                        FavoritesMediaList(selectedMediaObjects: $selectedMediaObjects)
-                            .onAppear {
-                                selectedMediaObjects = []
-                            }
-                    } label: {
-                        ListRowLabel(list: PredicateMediaList.favorites)
-                    }
-                    
-                    // MARK: Watchlist
-                    NavigationLink {
-                        WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
-                            .onAppear {
-                                selectedMediaObjects = []
-                            }
-                    } label: {
-                        ListRowLabel(list: PredicateMediaList.watchlist)
-                    }
-                    
-                    // MARK: Problems
-                    NavigationLink {
-                        ProblemsMediaList(selectedMediaObjects: $selectedMediaObjects)
-                            .onAppear {
-                                selectedMediaObjects = []
-                            }
-                    } label: {
-                        ListRowLabel(list: PredicateMediaList.problems)
-                            .badge(problemsMediasCount)
-                    }
-                    
-                    // MARK: New Seasons
-                    NavigationLink {
-                        NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
-                            .onAppear {
-                                selectedMediaObjects = []
-                            }
-                    } label: {
-                        ListRowLabel(list: PredicateMediaList.newSeasons)
-                            .badge(newSeasonsMediasCount)
-                    }
-                    
-                    // MARK: Upcoming
-                    if StoreManager.shared.hasPurchasedPro {
-                        NavigationLink {
-                            UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
-                                .onAppear {
-                                    selectedMediaObjects = []
-                                }
-                        } label: {
-                            ListRowLabel(list: PredicateMediaList.upcoming)
-                                .badge(upcomingMediasCount)
-                        }
-                    } else {
-                        Button {
-                            isShowingProPopup = true
-                        } label: {
-                            HStack {
-                                ListRowLabel(list: PredicateMediaList.upcoming)
-                                Spacer()
-                                Image(systemName: "lock")
-                                    .foregroundColor(.secondary)
-                                NavigationLinkChevron()
-                            }
-                        }
-                    }
-                }
-                .deleteDisabled(true)
-                
+                DefaultMediaListsSection(selectedMediaObjects: $selectedMediaObjects)
+
                 // MARK: - Dynamic Lists
                 if !dynamicLists.isEmpty {
                     Section(Strings.Lists.dynamicListsHeader) {
@@ -146,9 +56,6 @@ struct MediaListsRootView: View {
                             // NavigationLink for the lists
                             NavigationLink {
                                 DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
-                                    .onAppear {
-                                        selectedMediaObjects = []
-                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -167,9 +74,6 @@ struct MediaListsRootView: View {
                         ForEach(userLists) { list in
                             NavigationLink {
                                 UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
-                                    .onAppear {
-                                        selectedMediaObjects = []
-                                    }
                             } label: {
                                 ListRowLabel(
                                     list: list,
@@ -205,9 +109,6 @@ struct MediaListsRootView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
-        .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView(showCancelButton: true)
-        }
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {
