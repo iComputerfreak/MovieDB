@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0239EC2D5BE69D00C3FF52 /* AppFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = AB0239EB2D5BE69D00C3FF52 /* AppFoundation */; };
 		AB02A0252B460F05008362D7 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = AB02A0242B460F05008362D7 /* Flow */; };
 		AB32B2992D58AFAE003CC26E /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AB32B2812D58AFAE003CC26E /* Products.storekit */; };
 		AB5027852D58AD7400D7DD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026542D58AD7400D7DD9B /* AppDelegate.swift */; };
@@ -80,6 +81,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AB0239EA2D5BE5B200C3FF52 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppFoundation,
+			);
+			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
+		};
 		AB5029FA2D58AE1B00D7DD9B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -98,6 +106,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		AB0239E82D5BE4C000C3FF52 /* Packages */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB0239EA2D5BE5B200C3FF52 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Packages; sourceTree = "<group>"; };
 		AB5027AB2D58AD8700D7DD9B /* Utility */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utility; sourceTree = "<group>"; };
 		AB5027C02D58AD8700D7DD9B /* Preview Content */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Preview Content"; sourceTree = "<group>"; };
 		AB5027CD2D58AD8700D7DD9B /* CSV */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CSV; sourceTree = "<group>"; };
@@ -129,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
+				AB0239EC2D5BE69D00C3FF52 /* AppFoundation in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
 				AB02A0252B460F05008362D7 /* Flow in Frameworks */,
@@ -170,6 +180,7 @@
 		AB5026682D58AD7400D7DD9B /* Movie DB */ = {
 			isa = PBXGroup;
 			children = (
+				AB0239E82D5BE4C000C3FF52 /* Packages */,
 				AB5028962D58AD8700D7DD9B /* APIs */,
 				AB5028222D58AD8700D7DD9B /* CoreData */,
 				AB5027CD2D58AD8700D7DD9B /* CSV */,
@@ -276,6 +287,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				AB0239E82D5BE4C000C3FF52 /* Packages */,
 				AB5027AB2D58AD8700D7DD9B /* Utility */,
 				AB5027C02D58AD8700D7DD9B /* Preview Content */,
 				AB5027CD2D58AD8700D7DD9B /* CSV */,
@@ -294,6 +306,7 @@
 				ABD3C5ED29C39F56000B5107 /* SwiftCSV */,
 				ABD249022A2394CC002DEB3D /* JFUtils */,
 				AB02A0242B460F05008362D7 /* Flow */,
+				AB0239EB2D5BE69D00C3FF52 /* AppFoundation */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -972,6 +985,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AB0239EB2D5BE69D00C3FF52 /* AppFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFoundation;
+		};
 		AB02A0242B460F05008362D7 /* Flow */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */;
