@@ -4756,13 +4756,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt."
+            "value" : "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Die Liste enthält auch Filme und Serien, die vor bis zu 14 Tagen erschienen sind.\nSerien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. Shows for which you specified \"Watch again / continue?\" as \"No\" don't appear here."
+            "value" : "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. The list also includes movies or shows that have released in the past 14 days.\nShows for which you specified \"Watch again / continue?\" as \"No\" don't appear here."
           }
         }
       }
@@ -5073,36 +5073,70 @@
         }
       }
     },
-    "lists.upcoming.subtitle.movie" : {
+    "lists.upcoming.subtitle.movie %@" : {
       "comment" : "The subtitle string for a movie in the 'Upcoming' list.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erscheint in "
+            "value" : "Erscheint in %@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Releases in "
+            "value" : "Releases in %@"
           }
         }
       }
     },
-    "lists.upcoming.subtitle.show %lld" : {
-      "comment" : "The subtitle string for a show in the 'Upcoming' list.",
+    "lists.upcoming.subtitle.movieRecentlyReleased %@" : {
+      "comment" : "The subtitle string for a movie in the 'Upcoming' list that has been released in the last 14 days.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Staffel %lld erscheint in "
+            "value" : "Ist vor %@ erschienen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Season %lld releases in "
+            "value" : "Released %@ ago"
+          }
+        }
+      }
+    },
+    "lists.upcoming.subtitle.show %lld %@" : {
+      "comment" : "The subtitle string for a show in the 'Upcoming' list that will be released in the future.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staffel %1$lld erscheint in %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %1$lld releases in %2$@"
+          }
+        }
+      }
+    },
+    "lists.upcoming.subtitle.showRecentlyReleased %lld %@" : {
+      "comment" : "The subtitle string for a show in the 'Upcoming' list that has been released in the last 14 days.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staffel %1$lld ist vor %2$@ erschienen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %1$lld released %2$@ ago"
           }
         }
       }

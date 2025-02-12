@@ -17,20 +17,24 @@ struct UpcomingLibraryRow: View {
     }()
     
     @EnvironmentObject var mediaObject: Media
-    
+
+    var upcomingSeason: Season? {
+        guard let show = mediaObject as? Show else { return nil }
+        return show.seasons
+            // Only include future seasons
+            .filter { season in
+                guard let airDate = season.airDate else { return false }
+                return airDate > Date(timeIntervalSinceNow: -PredicateMediaList.Constants.pastOverscrollTime)
+            }
+            // Use the earliest future season
+            .min(on: \.seasonNumber, by: <)
+    }
+
     var releaseDate: Date? {
         if let movie = mediaObject as? Movie {
             return movie.releaseDate
-        } else if let show = mediaObject as? Show {
-            return show.seasons
-                // Only include future seasons
-                .filter { season in
-                    season.airDate != nil && season.airDate! > .now
-                }
-                // Use the earliest future season
-                .min(on: \.seasonNumber, by: <)?
-                // Return its airDate
-                .airDate
+        } else if mediaObject is Show {
+            return upcomingSeason?.airDate
         } else {
             assertionFailure("Media is neither a Movie, nor a Show.")
             return nil
@@ -39,22 +43,38 @@ struct UpcomingLibraryRow: View {
     
     var durationString: String? {
         guard let releaseDate else { return nil }
-        return Self.durationFormatter.string(from: .now, to: releaseDate)
+
+        if releaseDate > .now {
+            return Self.durationFormatter.string(from: .now, to: releaseDate)
+        } else {
+            return Self.durationFormatter.string(from: releaseDate, to: .now)
+        }
     }
     
     var body: some View {
         BaseLibraryRow {
             if let durationString {
                 if mediaObject is Movie {
-                    Text(Strings.Lists.upcomingSubtitleMovie) + Text(durationString).bold()
+                    if let releaseDate, releaseDate > Date.now {
+                        // Release date in future
+                        Text(Strings.Lists.upcomingSubtitleMovie(durationString))
+                    } else {
+                        // Release date in past
+                        Text(Strings.Lists.upcomingSubtitleMovieRecentlyReleased(durationString))
+                            .italic()
+                    }
                 } else if
-                    let show = mediaObject as? Show,
-                    let upcomingSeason = show.seasons
-                        .filter({ $0.airDate != nil && $0.airDate! > .now })
-                        .map(\.seasonNumber)
-                        .min()
+                    mediaObject is Show,
+                    let upcomingSeasonNumber = upcomingSeason?.seasonNumber
                 {
-                    Text(Strings.Lists.upcomingSubtitleShow(upcomingSeason)) + Text(durationString).bold()
+                    if let releaseDate, releaseDate > Date.now {
+                        // Release date in future
+                        Text(Strings.Lists.upcomingSubtitleShow(upcomingSeasonNumber, durationString))
+                    } else {
+                        // Release date in the past
+                        Text(Strings.Lists.upcomingSubtitleShowRecentlyReleased(upcomingSeasonNumber, durationString))
+                            .italic()
+                    }
                 } else {
                     EmptyView()
                 }
@@ -66,6 +86,8 @@ struct UpcomingLibraryRow: View {
 #Preview {
     NavigationStack {
         List {
+            UpcomingLibraryRow()
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
             UpcomingLibraryRow()
                 .environmentObject(PlaceholderData.preview.staticUpcomingMovie as Media)
             UpcomingLibraryRow()
