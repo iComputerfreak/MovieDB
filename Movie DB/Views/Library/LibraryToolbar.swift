@@ -63,6 +63,7 @@ struct LibraryToolbar: ToolbarContent {
         if editMode?.wrappedValue.isEditing == true {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    selectedMediaObjects = []
                     withAnimation {
                         editMode?.wrappedValue = .inactive
                     }

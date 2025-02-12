@@ -387,7 +387,11 @@ extension Strings {
             localized: "detail.metadata.headline.lastModified",
             comment: "The headline for the 'last modified' property in the detail view"
         )
-        
+        static let lastUpdatedHeadline = String(
+            localized: "detail.metadata.headline.lastUpdated",
+            comment: "The headline for the 'last updated' property in the detail view"
+        )
+
         // MARK: - Notifications
         static let addedToListNotificationTitle = String(
             localized: "detail.notification.addedToList.title",
