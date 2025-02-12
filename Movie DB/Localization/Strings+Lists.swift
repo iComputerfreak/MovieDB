@@ -27,7 +27,7 @@ extension Strings {
                 localized: "lists.alerts.newList.buttons.add",
                 comment: "The confirmation button of an alert prompting the user for the name of a new media list. The button creates the new list."
             )
-            
+
             static let alreadyExistsTitle = String(
                 localized: "lists.alerts.alreadyExists.title",
                 comment: "The message of an alert informing the user that the name of a new media list already exists"
@@ -39,7 +39,7 @@ extension Strings {
                 )
             }
         }
-        
+
         static let editingInformationHeader = String(
             localized: "lists.editing.header.information",
             comment: "The header for the list information (e.g. name, icon) in the editing view for the media lists"
@@ -124,80 +124,96 @@ extension Strings {
             localized: "lists.watchlist.watchState.notWatched",
             comment: "The label of movies or shows in library rows that have not been watched yet."
         )
-        
+
         static func watchlistRowLabelWatchlistStateSeason(season: Int) -> String {
             String(
                 localized: "lists.watchlist.watchState.watchedSeason \(season)",
                 comment: "The label of shows in library rows where up to a specific season has been watched. The first argument is the season."
             )
         }
-        
+
         static func watchlistRowLabelWatchlistStateSeasonOfMax(season: Int, maxSeason: Int) -> String {
             String(
                 localized: "lists.watchlist.watchState.watchedSeasonOfMax \(season) \(maxSeason)",
                 comment: "The label of shows in library rows where up to a specific season has been watched, but there are further seasons available. The first argument is the season up to which has been watched. The second argument is the number of seasons available."
             )
         }
-        
+
         static func watchlistRowLabelWatchlistStateSeasonEpisode(season: Int, episode: Int) -> String {
             String(
                 localized: "lists.watchlist.watchState.watchedSeasonEpisode \(season) \(episode)",
                 comment: "The label of shows in watchlist rows where up to a specific season and episode has been watched. The first argument is the season, the second argument is the episode."
             )
         }
-        
+
         static let detailPlaceholderText = String(
             localized: "lists.detail.placeholder",
             comment: "The placeholder text displayed in the detail column of the lists view when no media is selected."
         )
-        
+
         static let rootPlaceholderText = String(
             localized: "lists.root.placeholder",
             comment: "The placeholder text displayed in the middle column of the lists view when no list is selected."
         )
-        
+
         static let configureListLabel = String(
             localized: "lists.detail.configure",
             comment: "The button label for the toolbar button to configure an opened view."
         )
-        
+
         static let favoritesDescription = String(
             localized: "lists.descriptions.favorites",
             comment: "The description of the favorites list that is displayed to the user when tapping the info button."
         )
-        
+
         static let watchlistDescription = String(
             localized: "lists.descriptions.watchlist",
             comment: "The description of the watchlist list that is displayed to the user when tapping the info button."
         )
-        
+
         static let problemsDescription = String(
             localized: "lists.descriptions.problems",
             comment: "The description of the problems list that is displayed to the user when tapping the info button."
         )
-        
+
         static let newSeasonsDescription = String(
             localized: "lists.descriptions.newSeasons",
             comment: "The description of the new seasons list that is displayed to the user when tapping the info button."
         )
-        
+
         static let upcomingDescription = String(
             localized: "lists.descriptions.upcoming",
             comment: "The description of the upcoming list that is displayed to the user when tapping the info button."
         )
-        
-        static let upcomingSubtitleMovie = String(
-            localized: "lists.upcoming.subtitle.movie",
-            comment: "The subtitle string for a movie in the 'Upcoming' list."
-        )
-        
-        static func upcomingSubtitleShow(_ seasonNumber: Int) -> String {
+
+        static func upcomingSubtitleMovie(_ days: String) -> String {
             String(
-                localized: "lists.upcoming.subtitle.show \(seasonNumber)",
-                comment: "The subtitle string for a show in the 'Upcoming' list."
+                localized: "lists.upcoming.subtitle.movie \(days)",
+                comment: "The subtitle string for a movie in the 'Upcoming' list."
             )
         }
-        
+
+        static func upcomingSubtitleMovieRecentlyReleased(_ days: String) -> String {
+            String(
+                localized: "lists.upcoming.subtitle.movieRecentlyReleased \(days)",
+                comment: "The subtitle string for a movie in the 'Upcoming' list that has been released in the last 14 days."
+            )
+        }
+
+        static func upcomingSubtitleShow(_ seasonNumber: Int, _ days: String) -> String {
+            String(
+                localized: "lists.upcoming.subtitle.show \(seasonNumber) \(days)",
+                comment: "The subtitle string for a show in the 'Upcoming' list that will be released in the future."
+            )
+        }
+
+        static func upcomingSubtitleShowRecentlyReleased(_ seasonNumber: Int, _ days: String) -> String {
+            String(
+                localized: "lists.upcoming.subtitle.showRecentlyReleased \(seasonNumber) \(days)",
+                comment: "The subtitle string for a show in the 'Upcoming' list that has been released in the last 14 days."
+            )
+        }
+
         static let infoButtonLabel = String(
             localized: "lists.infoButton.label",
             comment: "The label for the info button in a default list that explains what the list does."

@@ -9,6 +9,10 @@
 import Foundation
 
 extension PredicateMediaList {
+    enum Constants {
+        static let pastOverscrollTime: TimeInterval = 14 * .day
+    }
+
     static let upcoming = PredicateMediaList(
         name: Strings.Lists.defaultListNameUpcoming,
         description: Strings.Lists.upcomingDescription,
@@ -16,11 +20,12 @@ extension PredicateMediaList {
         predicate: NSCompoundPredicate(type: .or, subpredicates: [
             // MARK: Movies with future release date
             NSPredicate(
-                format: "%K = %@ AND %K > %@",
+                format: "%K = %@ AND %K >= %@",
                 Schema.Media.type,
                 MediaType.movie.rawValue,
+                // Will release in the future or has been released in the past 14 days
                 Schema.Movie.releaseDate,
-                NSDate()
+                NSDate(timeIntervalSinceNow: -Constants.pastOverscrollTime)
             ),
             
             // MARK: Seasons with a future season
@@ -50,8 +55,10 @@ extension PredicateMediaList {
         ]),
         customFilter: { media in
             if let show = media as? Show {
-                // Only include shows where at least one season is in the future
-                return show.seasons.compactMap(\.airDate).contains { $0 > .now }
+                // Only include shows where at least one season is in the future or has been released in the last 14 days
+                return show.seasons
+                    .compactMap(\.airDate)
+                    .contains { $0 >= Date(timeIntervalSinceNow: -Constants.pastOverscrollTime) }
             }
             
             // Include all fetched movies
