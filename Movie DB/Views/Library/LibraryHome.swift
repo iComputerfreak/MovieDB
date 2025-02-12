@@ -70,6 +70,10 @@ struct LibraryHome: View {
                     }
                 }
             }
+            .overlay {
+                MediaListEmptyState(isSearching: !searchText.isEmpty, isFiltered: !filterSetting.isReset)
+                    .opacity(filteredMedia.isEmpty ? 1 : 0)
+            }
             .environment(\.editMode, editMode)
             .animation(.default, value: editMode?.wrappedValue)
             .listStyle(.insetGrouped)

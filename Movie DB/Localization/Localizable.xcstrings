@@ -3328,6 +3328,108 @@
         }
       }
     },
+    "library.emptyState.description.noContent" : {
+      "comment" : "The description displayed when there are no items in the library yet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügen Sie neue Filme oder Serien\nüber das ‘+’ hinzu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add a new movie or tv show\nby tapping the '+' button."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noFilterResults" : {
+      "comment" : "The description displayed when the filter does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Filme oder Serien zu den aktuellen Filtereinstellungen gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your current filter settings do not match\nany movies or tv shows."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noSearchAndFilterResults" : {
+      "comment" : "The description displayed when the search and filter do not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Suchergebnisse mit den aktuellen Filtereinstellungen gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no results for your\ncurrent search and filter settings."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noSearchResults" : {
+      "comment" : "The description displayed when the search does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Suchergebnisse gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no results for your search."
+          }
+        }
+      }
+    },
+    "library.emptyState.noResults" : {
+      "comment" : "The headline displayed when the search or filter does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Ergebnisse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results"
+          }
+        }
+      }
+    },
+    "library.emptyState.nothingHere" : {
+      "comment" : "The headline displayed when the library is empty.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch kein Inhalt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing here yet"
+          }
+        }
+      }
+    },
     "library.filter.button.apply" : {
       "comment" : "Button label for the apply button in the filter view",
       "localizations" : {
