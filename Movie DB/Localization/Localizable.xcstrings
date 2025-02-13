@@ -4716,6 +4716,23 @@
         }
       }
     },
+    "lists.customList.emptyState.description" : {
+      "comment" : "The description of the empty state of a custom list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Hinzufügen von Medien\nden Eintrag gedrückt halten\nund “Hinzufügen...” auswählen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add media to this list by\nlong pressing on a media object\nand selecting 'Add to List'."
+          }
+        }
+      }
+    },
     "lists.defaultListName.favorites" : {
       "comment" : "The name of the default 'favorites' list",
       "localizations" : {

@@ -5,6 +5,17 @@ import SwiftUI
 struct MediaListEmptyState: View {
     let isSearching: Bool
     let isFiltered: Bool
+    let customNothingHereYetDescription: String?
+
+    init(
+        isSearching: Bool,
+        isFiltered: Bool,
+        customNothingHereYetDescription: String? = nil
+    ) {
+        self.isSearching = isSearching
+        self.isFiltered = isFiltered
+        self.customNothingHereYetDescription = customNothingHereYetDescription
+    }
 
     var body: some View {
         switch (isSearching, isFiltered) {
@@ -33,7 +44,7 @@ struct MediaListEmptyState: View {
             ContentUnavailableView(
                 Strings.Library.EmptyState.nothingHere,
                 systemImage: "tray",
-                description: Text(Strings.Library.EmptyState.descriptionNoContent)
+                description: Text(customNothingHereYetDescription ?? Strings.Library.EmptyState.descriptionNoContent)
             )
         }
     }

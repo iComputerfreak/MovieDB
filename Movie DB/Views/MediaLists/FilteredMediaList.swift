@@ -60,19 +60,19 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
             // Show a warning when the filter of a dynamic list is reset
             emptyDynamicListWarning
             // Filtered media should not be empty
-            if filteredMedias.isEmpty {
-                HStack {
-                    Spacer()
-                    Text(Strings.Lists.filteredListEmptyMessage)
-                    Spacer()
-                }
-            } else {
-                List(filteredMedias, selection: $selectedMediaObjects) { media in
-                    rowContent(media)
-                        .tag(media)
-                }
-                .listStyle(.grouped)
-                .animation(.default, value: editMode?.wrappedValue)
+            List(filteredMedias, selection: $selectedMediaObjects) { media in
+                rowContent(media)
+                    .tag(media)
+            }
+            .listStyle(.grouped)
+            .animation(.default, value: editMode?.wrappedValue)
+            .overlay {
+                MediaListEmptyState(
+                    isSearching: false,
+                    isFiltered: list is DynamicMediaList,
+                    customNothingHereYetDescription: Strings.Lists.customListEmptyStateDescription
+                )
+                    .opacity(filteredMedias.isEmpty ? 1 : 0)
             }
         }
         .onChange(of: sortingOrder) { _, newValue in
