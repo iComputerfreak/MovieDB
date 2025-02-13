@@ -40,7 +40,23 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         }
         return medias
     }
-    
+
+    var descriptionText: String? {
+        switch list {
+        case is DynamicMediaList:
+            return nil
+
+        case is UserMediaList:
+            return Strings.Lists.customListEmptyStateDescription
+
+        case is PredicateMediaList:
+            return Strings.Lists.filteredListEmptyMessage
+
+        default:
+            return nil
+        }
+    }
+
     init(
         list: ListType,
         selectedMediaObjects: Binding<Set<Media>>,
@@ -70,9 +86,9 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
                 MediaListEmptyState(
                     isSearching: false,
                     isFiltered: list is DynamicMediaList,
-                    customNothingHereYetDescription: Strings.Lists.customListEmptyStateDescription
+                    customNothingHereYetDescription: descriptionText
                 )
-                    .opacity(filteredMedias.isEmpty ? 1 : 0)
+                .opacity(filteredMedias.isEmpty ? 1 : 0)
             }
         }
         .onChange(of: sortingOrder) { _, newValue in
