@@ -7,6 +7,12 @@
 //
 
 import SwiftUI
+import TipKit
+
+struct LibraryRowSettingsTip: Tip {
+    let title = Text(Strings.Tips.libraryRowTipTitle)
+    let message: Text? = Text(Strings.Tips.libraryRowTipMessage)
+}
 
 struct ContentView: View {
     @State private var problems = MediaLibrary.shared.problems()
@@ -31,7 +37,7 @@ struct ContentView: View {
                         Image(systemName: "magnifyingglass")
                         Text(Strings.TabView.lookupLabel)
                     }
-                
+
                 SettingsView()
                     .tabItem {
                         Image(systemName: "gear")
@@ -39,6 +45,16 @@ struct ContentView: View {
                     }
             }
             .environmentObject(notificationProxy)
+            .background(alignment: .bottomTrailing) {
+                HStack(spacing: 0) {
+                    Color.clear
+                    Color.clear
+                    Color.clear
+                    Color.clear
+                        .popoverTip(LibraryRowSettingsTip(), arrowEdge: .bottom)
+                }
+                .frame(height: 50)
+            }
             .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {
                 ResolveProblemsView(problems: $problems)
                     .environment(\.managedObjectContext, PersistenceController.viewContext)
