@@ -35,7 +35,8 @@ extension Logger {
     static let imageService = Logger("imageService")
     static let preview = Logger("preview")
     static let scenes = Logger("scenes")
-    
+    static let tips = Logger("tips")
+
     /*
      * Log Levels:
      * - debug: useful only during debugging (alias: trace)

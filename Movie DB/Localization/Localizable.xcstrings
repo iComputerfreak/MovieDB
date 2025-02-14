@@ -2435,8 +2435,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streaminganbieter"
+            "state" : "needs_review",
+            "value" : "Streamingdienste"
           }
         },
         "en" : {
@@ -6993,7 +6993,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streaminganbieter"
+            "value" : "Streamingdienste"
           }
         },
         "en" : {
@@ -7485,14 +7485,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streamingdienste"
+            "state" : "needs_review",
+            "value" : "Meine Streamingdienste"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streaming services"
+            "value" : "My streaming services"
           }
         }
       }
@@ -7850,6 +7850,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "tips.libraryRow.message" : {
+      "comment" : "The message to display in the tip for the library row setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie können jetzt auswählen, welche Informationen in der dritten Zeile der Bibliotheksliste angezeigt werden sollen.\nSchauen Sie sich Option 'Streaminganbieter' an!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can now choose, what information to display in the third line of the library list.\nCheck out the 'Streaming services' option!"
+          }
+        }
+      }
+    },
+    "tips.libraryRow.title" : {
+      "comment" : "The title to display in the tip for the library row setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library row customization"
           }
         }
       }

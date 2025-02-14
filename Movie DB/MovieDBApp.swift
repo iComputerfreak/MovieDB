@@ -8,6 +8,7 @@
 
 import os.log
 import SwiftUI
+import TipKit
 
 @main
 struct MovieDBApp: App {
@@ -33,6 +34,13 @@ struct MovieDBApp: App {
             }
             // Respond to universal links
             .openShareURLModifier()
+            .task {
+                do {
+                    try Tips.configure()
+                } catch {
+                    Logger.tips.error("Failed to configure TipKit: \(error)")
+                }
+            }
         }
     }
 }
