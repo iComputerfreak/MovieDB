@@ -124,6 +124,10 @@ extension Strings {
             localized: "lists.watchlist.watchState.notWatched",
             comment: "The label of movies or shows in library rows that have not been watched yet."
         )
+        static let customListEmptyStateDescription = String(
+            localized: "lists.customList.emptyState.description",
+            comment: "The description of the empty state of a custom list."
+        )
 
         static func watchlistRowLabelWatchlistStateSeason(season: Int) -> String {
             String(

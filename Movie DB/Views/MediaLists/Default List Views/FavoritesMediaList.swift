@@ -18,9 +18,13 @@ struct FavoritesMediaList: View {
         ) { media in
             LibraryRow(subtitleContent: .personalRating)
                 .swipeActions {
-                    Button(Strings.Detail.menuButtonUnfavorite) {
+                    Button {
                         assert(media.isFavorite)
                         media.isFavorite = false
+                    } label: {
+                        Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.slash.fill")
+                            .labelStyle(.iconOnly)
+                            .tint(.red)
                     }
                 }
                 .mediaContextMenu()

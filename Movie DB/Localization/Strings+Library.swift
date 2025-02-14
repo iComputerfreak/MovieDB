@@ -96,7 +96,39 @@ extension Strings {
             localized: "library.navBar.deselectAll",
             comment: "The deselect all button in the library menu"
         )
-        
+
+        enum EmptyState {
+            static let noResults = String(
+                localized: "library.emptyState.noResults",
+                comment: "The headline displayed when the search or filter does not match any items."
+            )
+
+            static let nothingHere = String(
+                localized: "library.emptyState.nothingHere",
+                comment: "The headline displayed when the library is empty."
+            )
+
+            static let descriptionNoContent = String(
+                localized: "library.emptyState.description.noContent",
+                comment: "The description displayed when there are no items in the library yet."
+            )
+
+            static let descriptionNoSearchResults = String(
+                localized: "library.emptyState.description.noSearchResults",
+                comment: "The description displayed when the search does not match any items."
+            )
+
+            static let descriptionNoFilterResults = String(
+                localized: "library.emptyState.description.noFilterResults",
+                comment: "The description displayed when the filter does not match any items."
+            )
+
+            static let descriptionNoSearchAndFilterResults = String(
+                localized: "library.emptyState.description.noSearchAndFilterResults",
+                comment: "The description displayed when the search and filter do not match any items."
+            )
+        }
+
         enum Alert {
             static let updateErrorTitle = String(
                 localized: "library.alert.errorUpdating.title",

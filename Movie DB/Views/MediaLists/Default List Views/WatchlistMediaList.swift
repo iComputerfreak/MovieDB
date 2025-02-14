@@ -18,8 +18,12 @@ struct WatchlistMediaList: View {
         ) { media in
             LibraryRow(subtitleContent: .watchState)
                 .swipeActions {
-                    Button(Strings.Lists.removeMediaLabel) {
+                    Button {
                         media.isOnWatchlist = false
+                    } label: {
+                        Label(Strings.Lists.removeMediaLabel, systemImage: "bookmark.slash.fill")
+                            .labelStyle(.iconOnly)
+                            .tint(.blue)
                     }
                 }
                 .mediaContextMenu()
