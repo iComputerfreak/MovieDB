@@ -2435,8 +2435,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streaminganbieter"
+            "state" : "needs_review",
+            "value" : "Streamingdienste"
           }
         },
         "en" : {
@@ -6993,7 +6993,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streaminganbieter"
+            "value" : "Streamingdienste"
           }
         },
         "en" : {
@@ -7485,14 +7485,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Streamingdienste"
+            "state" : "needs_review",
+            "value" : "Meine Streamingdienste"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streaming services"
+            "value" : "My streaming services"
           }
         }
       }
