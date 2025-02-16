@@ -11,6 +11,7 @@ import CoreData
 import Foundation
 import os.log
 import StoreKit
+import TipKit
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -156,6 +157,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             JFConfig.shared.language = "en-US"
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            Tips.hideAllTipsForTesting()
         } else if CommandLine.launchArguments.contains(.screenshots) {
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)

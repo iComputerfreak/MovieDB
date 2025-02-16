@@ -81,8 +81,8 @@ final class Movie_DBScreenshots: XCTestCase {
         snapshot("Detail2")
         
         // Go to lists
-        app.tabBars.buttons.element(boundBy: 1).tap()
-        
+        app.buttons["gear"].tap()
+
         // Add dynamic list
         app.navigationBars.buttons["new-list"].forceTap() // New...
         app.buttons["new-dynamic-list"].tap()
