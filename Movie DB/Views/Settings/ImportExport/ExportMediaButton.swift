@@ -16,13 +16,24 @@ struct ExportMediaButton: View {
     }
     
     func exportMedia() {
-        ImportExportSection.export(
-            filename: "MovieDB_Export_\(Utils.isoDateString()).csv",
-            isLoading: $config.isLoading
-        ) { context in
-            let medias = Utils.allMedias(context: context)
-            let exporter = CSVExporter()
-            return exporter.createCSV(from: medias)
+        Task(priority: .userInitiated) {
+            await MainActor.run {
+                config.isLoading = true
+            }
+
+            let exportedData = await config.export(
+                filename: "MovieDB_Export_\(Utils.isoDateString()).csv"
+            ) { context in
+                let medias = Utils.allMedias(context: context)
+                let exporter = CSVExporter()
+                guard let exportData = exporter.createCSV(from: medias).data(using: .utf8) else { throw ExportError.cannotConvertToData }
+                return exportData
+            }
+
+            await MainActor.run {
+                config.isLoading = false
+                config.exportedData = exportedData
+            }
         }
     }
 }

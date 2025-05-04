@@ -16,11 +16,23 @@ struct ExportTagsButton: View {
     }
     
     func exportTags() {
-        ImportExportSection.export(
-            filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
-            isLoading: $config.isLoading
-        ) { context in
-            try TagImporter.export(context: context)
+        Task(priority: .userInitiated) {
+            await MainActor.run {
+                config.isLoading = true
+            }
+
+            let exportedData = await config.export(
+                filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt"
+            ) { context in
+                let exportContent = try TagImporter.export(context: context)
+                guard let exportData = exportContent.data(using: .utf8) else { throw ExportError.cannotConvertToData }
+                return exportData
+            }
+
+            await MainActor.run {
+                config.isLoading = false
+                config.exportedData = exportedData
+            }
         }
     }
 }

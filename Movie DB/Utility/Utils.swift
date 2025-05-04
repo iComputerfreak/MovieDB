@@ -210,6 +210,8 @@ struct Utils {
                 )
                 vc.excludedActivityTypes = excludedActivityTypes
                 vc.popoverPresentationController?.sourceView = source.view
+                vc.popoverPresentationController?.sourceRect = source.view.bounds
+                vc.popoverPresentationController?.permittedArrowDirections = .any
                 source.present(vc, animated: true)
             }
         }
