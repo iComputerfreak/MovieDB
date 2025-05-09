@@ -27,7 +27,9 @@ struct UserMediaListConfigurationView: View {
                 iconName: $list.iconName,
                 iconColor: $list.iconColor,
                 iconMode: $list.iconRenderingMode
-            ) {}
+            ) {
+                SubtitleContentPicker(subtitleContent: $list.subtitleContent, showsUseDefaultOption: true)
+            }
             .navigationTitle(list.name)
             .toolbar {
                 DismissButton()

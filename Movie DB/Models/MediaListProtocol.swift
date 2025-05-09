@@ -16,6 +16,8 @@ protocol MediaListProtocol: ObservableObject, Hashable {
     // We cannot call it `description`, as it would clash with the `CustomStringConvertible`'s `description`
     /// The user-visible description of what the list does
     var listDescription: String? { get }
+    /// The subtitle content to display in this list. If the content is `nil`, the default value specified in the app settings will be used.
+    var subtitleContent: LibraryRow.SubtitleContent? { get set }
     /// The SF Symbols name of the icon used for this list
     var iconName: String { get }
     /// The current ``SortingOrder`` used for this list

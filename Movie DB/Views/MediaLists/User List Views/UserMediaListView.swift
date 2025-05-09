@@ -34,7 +34,7 @@ struct UserMediaListView: View {
     var body: some View {
         // Default destination
         FilteredMediaList(list: list, selectedMediaObjects: $selectedMediaObjects) { media in
-            LibraryRow()
+            LibraryRow(subtitleContent: list.subtitleContent)
                 .swipeActions {
                     Button(Strings.Lists.removeMediaLabel) {
                         list.medias.remove(media)

@@ -23,9 +23,11 @@ struct SubtitleContentPicker: View {
     var body: some View {
         Picker(selection: $subtitleContent) {
             if showsUseDefaultOption {
-                // TODO: Localize
-                Text("Use Default")
-                    .tag(nil as LibraryRow.SubtitleContent?)
+                Text(
+                    "components.subtitleContentPicker.useDefaultValue",
+                    comment: "The label for the subtitle content picker option to use the default setting."
+                )
+                .tag(nil as LibraryRow.SubtitleContent?)
             }
             ForEach(validOptions, id: \.self) { option in
                 Group {

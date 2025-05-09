@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24E263" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="v16">
+    <entity name="CDColor" representedClassName="CDColor" syncable="YES">
+        <attribute name="alphaComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="blueComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="greenComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="redComponent" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="dynamicMediaLists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DynamicMediaList" inverseName="iconColor" inverseEntity="DynamicMediaList"/>
+        <relationship name="parentalRatings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentalRating" inverseName="color" inverseEntity="ParentalRating"/>
+        <relationship name="userMediaLists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserMediaList" inverseName="iconColor" inverseEntity="UserMediaList"/>
+    </entity>
+    <entity name="DynamicMediaList" representedClassName="DynamicMediaList" syncable="YES">
+        <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
+        <attribute name="iconRenderingMode" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sortingDirection" optional="YES" attributeType="String"/>
+        <attribute name="sortingOrder" optional="YES" attributeType="String"/>
+        <attribute name="subtitleContent" optional="YES" attributeType="String"/>
+        <relationship name="filterSetting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="FilterSetting" inverseName="mediaList" inverseEntity="FilterSetting"/>
+        <relationship name="iconColor" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="dynamicMediaLists" inverseEntity="CDColor"/>
+    </entity>
+    <entity name="FilterSetting" representedClassName="FilterSetting" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isAdult" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="maxNumberOfSeasons" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="maxRating" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="maxYear" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="mediaType" optional="YES" attributeType="String"/>
+        <attribute name="minNumberOfSeasons" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="minRating" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="minYear" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="showTypes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="statuses" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchState" optional="YES" attributeType="String"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="filterSettings" inverseEntity="Genre"/>
+        <relationship name="mediaList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DynamicMediaList" inverseName="filterSetting" inverseEntity="DynamicMediaList"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="filterSettings" inverseEntity="Tag"/>
+        <relationship name="watchProviders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WatchProvider" inverseName="filterSettings" inverseEntity="WatchProvider"/>
+    </entity>
+    <entity name="Genre" representedClassName="Genre" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="genres" inverseEntity="FilterSetting"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="genres" inverseEntity="Media"/>
+    </entity>
+    <entity name="Media" representedClassName="Media" isAbstract="YES" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="homepageURL" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="imdbID" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isOnWatchlist" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="keywords" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="modificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="originalLanguage" optional="YES" attributeType="String"/>
+        <attribute name="originalTitle" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="personalRating" optional="YES" attributeType="Integer 64" minValueString="0" maxValueString="10" usesScalarValueType="YES"/>
+        <attribute name="popularity" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="productionCountries" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="releaseDateOrFirstAired" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="tagline" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="tmdbID" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="translations" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="type" optional="YES" attributeType="String" valueTransformerName="MediaTypeTransformer" customClassName="MediaType"/>
+        <attribute name="voteAverage" optional="YES" attributeType="Float" usesScalarValueType="YES"/>
+        <attribute name="voteCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="watchAgain" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="watchDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="medias" inverseEntity="Genre"/>
+        <relationship name="parentalRating" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentalRating" inverseName="medias" inverseEntity="ParentalRating"/>
+        <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="medias" inverseEntity="ProductionCompany"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="medias" inverseEntity="Tag"/>
+        <relationship name="userLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserMediaList" inverseName="medias" inverseEntity="UserMediaList"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Video" inverseName="media" inverseEntity="Video"/>
+        <relationship name="watchProviders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WatchProvider" inverseName="medias" inverseEntity="WatchProvider"/>
+    </entity>
+    <entity name="Movie" representedClassName="Movie" parentEntity="Media" syncable="YES">
+        <attribute name="budget" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="directors" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="isAdult" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="revenue" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="watchedState" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ParentalRating" representedClassName="ParentalRating" syncable="YES">
+        <attribute name="countryCode" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="label" optional="YES" attributeType="String"/>
+        <relationship name="color" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="parentalRatings" inverseEntity="CDColor"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="parentalRating" inverseEntity="Media"/>
+    </entity>
+    <entity name="ProductionCompany" representedClassName="ProductionCompany" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="logoPath" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="originCountry" optional="YES" attributeType="String"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="productionCompanies" inverseEntity="Media"/>
+        <relationship name="shows" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Show" inverseName="networks" inverseEntity="Show"/>
+    </entity>
+    <entity name="Season" representedClassName="Season" syncable="YES">
+        <attribute name="airDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="episodeCount" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="seasonNumber" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="seasons" inverseEntity="Show"/>
+    </entity>
+    <entity name="Show" representedClassName="Show" parentEntity="Media" syncable="YES">
+        <attribute name="createdBy" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="episodeRuntime" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
+        <attribute name="firstAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isInProduction" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastAirDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
+        <attribute name="lastEpisodeWatched" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="lastSeasonWatched" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="YES"/>
+        <attribute name="nextEpisodeToAir" optional="YES" attributeType="Transformable" valueTransformerName="EpisodeTransformer" customClassName="Episode"/>
+        <attribute name="numberOfEpisodes" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="showType" optional="YES" attributeType="String"/>
+        <relationship name="networks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="shows" inverseEntity="ProductionCompany"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Season" inverseName="show" inverseEntity="Season"/>
+    </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="tags" inverseEntity="FilterSetting"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="tags" inverseEntity="Media"/>
+    </entity>
+    <entity name="UserMediaList" representedClassName="UserMediaList" syncable="YES">
+        <attribute name="iconName" optional="YES" attributeType="String" defaultValueString="list.dash"/>
+        <attribute name="iconRenderingMode" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sortingDirection" optional="YES" attributeType="String"/>
+        <attribute name="sortingOrder" optional="YES" attributeType="String"/>
+        <attribute name="subtitleContent" optional="YES" attributeType="String"/>
+        <relationship name="iconColor" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDColor" inverseName="userMediaLists" inverseEntity="CDColor"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="userLists" inverseEntity="Media"/>
+    </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="region" optional="YES" attributeType="String"/>
+        <attribute name="resolution" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="site" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="videos" inverseEntity="Media"/>
+    </entity>
+    <entity name="WatchProvider" representedClassName="WatchProvider" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pngData" optional="YES" attributeType="Binary"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="filterSettings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FilterSetting" inverseName="watchProviders" inverseEntity="FilterSetting"/>
+        <relationship name="medias" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="watchProviders" inverseEntity="Media"/>
+    </entity>
+</model>

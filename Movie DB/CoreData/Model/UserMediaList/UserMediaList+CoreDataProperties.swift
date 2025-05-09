@@ -18,7 +18,12 @@ public extension UserMediaList {
     @NSManaged var iconName: String
     /// The name of this media list
     @NSManaged var name: String
-    
+
+    var subtitleContent: LibraryRow.SubtitleContent? {
+        get { getOptionalEnum(forKey: Schema.UserMediaList.subtitleContent, defaultValue: nil)}
+        set { setOptionalEnum(newValue, forKey: Schema.UserMediaList.subtitleContent) }
+    }
+
     /// The order in which to sort the medias inside the list
     var sortingOrder: SortingOrder {
         get { getEnum(forKey: Schema.UserMediaList.sortingOrder, defaultValue: .default) }

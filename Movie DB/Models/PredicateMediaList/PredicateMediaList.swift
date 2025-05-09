@@ -13,6 +13,7 @@ import SwiftUI
 /// Represents a media list that fetches its media objects by a fixed predicate
 class PredicateMediaList: ObservableObject, MediaListProtocol {
     let name: String
+    var subtitleContent: LibraryRow.SubtitleContent?
     let listDescription: String?
     let iconName: String
     let predicate: NSPredicate

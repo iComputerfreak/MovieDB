@@ -33,13 +33,21 @@ struct DynamicMediaListConfigurationView: View {
                 iconColor: $list.iconColor,
                 iconMode: $list.iconRenderingMode
             ) {
-                NavigationLink {
-                    DynamicMediaListFilterConfigurationView(onDismiss: dismiss)
-                        .environmentObject(list.filterSetting!)
-                } label: {
+                Section {
+                    NavigationLink {
+                        DynamicMediaListFilterConfigurationView(onDismiss: dismiss)
+                            .environmentObject(list.filterSetting!)
+                    } label: {
+                        Text(
+                            "lists.configuration.header.filterSettings",
+                            comment: "The header for the list configuration view's filter settings."
+                        )
+                    }
+                    SubtitleContentPicker(subtitleContent: $list.subtitleContent, showsUseDefaultOption: true)
+                } header: {
                     Text(
-                        "lists.configuration.header.filterSettings",
-                        comment: "The header for the list configuration view's filter settings."
+                        "lists.configuration.header.settings",
+                        comment: "The header for the list configuration view's settings section."
                     )
                 }
             }

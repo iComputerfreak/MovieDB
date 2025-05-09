@@ -20,7 +20,7 @@ struct DynamicMediaListView: View {
     var body: some View {
         // Default destination
         FilteredMediaList(list: list, selectedMediaObjects: $selectedMediaObjects) { media in
-            LibraryRow()
+            LibraryRow(subtitleContent: list.subtitleContent)
                 .mediaSwipeActions()
                 .mediaContextMenu()
                 .environmentObject(media)

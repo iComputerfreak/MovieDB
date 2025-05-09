@@ -367,6 +367,23 @@
         }
       }
     },
+    "components.subtitleContentPicker.useDefaultValue" : {
+      "comment" : "The label for the subtitle content picker option to use the default setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use default"
+          }
+        }
+      }
+    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -2435,7 +2452,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Streamingdienste"
           }
         },
@@ -4661,6 +4678,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icon color"
+          }
+        }
+      }
+    },
+    "lists.configuration.header.settings" : {
+      "comment" : "The header for the list configuration view's settings section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         }
       }
@@ -7485,7 +7519,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Meine Streamingdienste"
           }
         },
