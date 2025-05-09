@@ -2,10 +2,8 @@
 
 import SwiftUI
 
-struct LibraryRowSubtitlePicker: View {
-    @EnvironmentObject private var preferences: JFConfig
-
-    let validOptions: [LibraryRow.SubtitleContent] = [
+struct SubtitleContentPicker: View {
+    private let validOptions: [LibraryRow.SubtitleContent] = [
         .nothing,
         .watchState,
         .personalRating,
@@ -14,8 +12,21 @@ struct LibraryRowSubtitlePicker: View {
         .flatrateWatchProviders
     ]
 
+    @Binding var subtitleContent: LibraryRow.SubtitleContent?
+    let showsUseDefaultOption: Bool
+
+    init(subtitleContent: Binding<LibraryRow.SubtitleContent?>, showsUseDefaultOption: Bool = false) {
+        self._subtitleContent = subtitleContent
+        self.showsUseDefaultOption = showsUseDefaultOption
+    }
+
     var body: some View {
-        Picker(selection: $preferences.defaultSubtitleContent) {
+        Picker(selection: $subtitleContent) {
+            if showsUseDefaultOption {
+                // TODO: Localize
+                Text("Use Default")
+                    .tag(nil as LibraryRow.SubtitleContent?)
+            }
             ForEach(validOptions, id: \.self) { option in
                 Group {
                     switch option {
@@ -32,11 +43,11 @@ struct LibraryRowSubtitlePicker: View {
                     case .flatrateWatchProviders:
                         Text(Strings.Settings.defaultSubtitleContentPickerLabelWatchProviders)
                     case .problems:
-                        // Not a valid option
+                        // Not a valid option defined above
                         Text(verbatim: "")
                     }
                 }
-                .tag(option)
+                .tag(option as LibraryRow.SubtitleContent?)
             }
         } label: {
             Text(Strings.Settings.defaultSubtitleContentPickerLabel)
@@ -45,5 +56,5 @@ struct LibraryRowSubtitlePicker: View {
 }
 
 #Preview {
-    DefaultWatchStatePicker()
+    SubtitleContentPicker(subtitleContent: .constant(.watchState))
 }

@@ -26,7 +26,9 @@ struct ExportMediaButton: View {
             ) { context in
                 let medias = Utils.allMedias(context: context)
                 let exporter = CSVExporter()
-                guard let exportData = exporter.createCSV(from: medias).data(using: .utf8) else { throw ExportError.cannotConvertToData }
+                guard let exportData = exporter.createCSV(from: medias).data(using: .utf8) else {
+                    throw ExportError.cannotConvertToData
+                }
                 return exportData
             }
 
