@@ -15,12 +15,13 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     let filter: (Media) -> Bool
     
     @Environment(\.editMode) private var editMode
-    
+
+    @State private var searchText = ""
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
     // Mirrors the respective property of the list for view updates
     @State private var sortingDirection: SortingDirection
-    
+
     @State private var showingInfo = false
     @Binding private var selectedMediaObjects: Set<Media>
     
@@ -37,6 +38,25 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         // If the list overrides the sorting options, use the custom sorting
         if let sorting = list.customSorting {
             medias = medias.sorted(by: sorting)
+        }
+        // If the user entered a search text, use it for filtering as well
+        if !searchText.isEmpty {
+            medias = medias.filter { media in
+                let foldedSearchText = searchText.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+                let foldedTitle = media.title.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+                let foldedOriginalTitle = media.originalTitle.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+
+                return foldedTitle.contains(foldedSearchText) || foldedOriginalTitle.contains(foldedSearchText)
+            }
         }
         return medias
     }
@@ -91,6 +111,10 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
             }
             .listStyle(.grouped)
             .animation(.default, value: editMode?.wrappedValue)
+            .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
+            // Disable autocorrection in the search field as a workaround to search text changing after transitioning
+            // to a detail and invalidating the transition
+            .autocorrectionDisabled()
             .overlay {
                 MediaListEmptyState(
                     isSearching: false,
