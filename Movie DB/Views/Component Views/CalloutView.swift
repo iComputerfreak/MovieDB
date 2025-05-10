@@ -57,7 +57,7 @@ struct CalloutView: View {
                 .frame(maxWidth: iconSize, maxHeight: iconSize)
             Text(text)
                 .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .background {
