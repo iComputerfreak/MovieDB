@@ -5294,6 +5294,23 @@
         }
       }
     },
+    "lists.watchlist.removeWatched" : {
+      "comment" : "The label of the button to remove watched movies and shows from the watchlist.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehene entfernen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove watched"
+          }
+        }
+      }
+    },
     "lists.watchlist.watchState.notWatched" : {
       "comment" : "The label of movies or shows in library rows that have not been watched yet.",
       "localizations" : {

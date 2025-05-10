@@ -9,11 +9,12 @@
 import CoreData
 import SwiftUI
 
-struct FilteredMediaList<RowContent: View, ListType>: View where ListType: MediaListProtocol & ObservableObject {
-    let rowContent: (Media) -> RowContent
+struct FilteredMediaList<RowContent: View, ListType, ExtraMenuItemContent: View>: View where ListType: MediaListProtocol & ObservableObject {
     @ObservedObject var list: ListType
     let filter: (Media) -> Bool
-    
+    let rowContent: (Media) -> RowContent
+    let extraMoreMenuItems: () -> ExtraMenuItemContent
+
     @Environment(\.editMode) private var editMode
 
     @State private var searchText = ""
@@ -80,11 +81,13 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     init(
         list: ListType,
         selectedMediaObjects: Binding<Set<Media>>,
-        @ViewBuilder rowContent: @escaping (Media) -> RowContent
+        @ViewBuilder rowContent: @escaping (Media) -> RowContent,
+        @ViewBuilder extraMoreMenuItems: @escaping () -> ExtraMenuItemContent = { EmptyView() }
     ) {
-        self.rowContent = rowContent
         self.list = list
         self.filter = list.customFilter ?? { _ in true }
+        self.rowContent = rowContent
+        self.extraMoreMenuItems = extraMoreMenuItems
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
         _selectedMediaObjects = selectedMediaObjects
@@ -172,6 +175,10 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: Set(medias))
+                // The section will only be rendered, if it actually has content, so we don't need an extra `if` here
+                Section {
+                    extraMoreMenuItems()
+                }
                 // Only show the user the option to sort, if the list does not define a static sorting
                 if list.customSorting == nil {
                     SortingMenuSection(

@@ -14,6 +14,7 @@ struct AddToWatchlistButton: View {
     var body: some View {
         Button {
             mediaObject.isOnWatchlist.toggle()
+            PersistenceController.saveContext()
         } label: {
             // TODO: I would like this to work, but swipe actions seem to always prefer the .fill variant
             if mediaObject.isOnWatchlist {

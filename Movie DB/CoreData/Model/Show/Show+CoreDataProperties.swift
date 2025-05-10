@@ -30,6 +30,30 @@ public extension Show {
         }
     }
 
+    var isFullyWatched: Bool? {
+        guard let watched else { return nil }
+
+        let maximumSeason = seasons.max(on: \.seasonNumber, by: <)
+        switch watched {
+        case let .season(season):
+            if let maximumSeasonNumber = maximumSeason?.seasonNumber {
+                return season >= maximumSeasonNumber
+            } else {
+                return false
+            }
+
+        case let .episode(season, episode):
+            if let maximumSeasonNumber = maximumSeason?.seasonNumber {
+                return season >= maximumSeasonNumber && episode == maximumSeason?.episodeCount
+            } else {
+                return false
+            }
+
+        case .notWatched:
+            return false
+        }
+    }
+
     /// The type of the show (e.g. Scripted)
     var showType: ShowType? {
         get { getOptionalEnum(forKey: Schema.Show.showType) }

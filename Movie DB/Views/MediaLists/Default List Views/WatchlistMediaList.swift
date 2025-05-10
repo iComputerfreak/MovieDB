@@ -21,6 +21,7 @@ struct WatchlistMediaList: View {
                 .swipeActions {
                     Button {
                         media.isOnWatchlist = false
+                        PersistenceController.saveContext()
                     } label: {
                         Label(Strings.Lists.removeMediaLabel, systemImage: "bookmark.slash.fill")
                             .labelStyle(.iconOnly)
@@ -30,6 +31,31 @@ struct WatchlistMediaList: View {
                 .mediaContextMenu()
                 .environmentObject(media)
                 .navigationLinkChevron()
+        } extraMoreMenuItems: {
+            Button {
+                // Formulating a predicate for seasons that have been fully watched is hard, so we fetch all and filter then
+                let fetchRequest = list.buildFetchRequest()
+                let allMedia = (try? PersistenceController.viewContext.fetch(fetchRequest)) ?? []
+                let watchedMedia = allMedia.filter { media in
+                    if let show = media as? Show {
+                        return show.isFullyWatched ?? false
+                    } else if let movie = media as? Movie {
+                        return movie.watched == .watched
+                    } else {
+                        return false
+                    }
+                }
+                guard !watchedMedia.isEmpty else { return }
+                for media in watchedMedia {
+                    media.isOnWatchlist = false
+                }
+                PersistenceController.saveContext()
+            } label: {
+                Label(
+                    Strings.Lists.watchlistRemoveWatchedLabel,
+                    systemImage: "eye.fill"
+                )
+            }
         }
     }
 }
