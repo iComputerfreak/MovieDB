@@ -10,19 +10,19 @@ import SwiftUI
 
 struct NewSeasonsMediaList: View {
     @Binding var selectedMediaObjects: Set<Media>
-    
+    @ObservedObject private var list: PredicateMediaList = .newSeasons
+
     var body: some View {
-        FilteredMediaList(
-            list: PredicateMediaList.newSeasons,
+        PredicateMediaListView(
             selectedMediaObjects: $selectedMediaObjects,
-            rowContent: { media in
-                LibraryRow(subtitleContent: .watchState)
-                    .mediaSwipeActions()
-                    .mediaContextMenu()
-                    .environmentObject(media)
-                    .navigationLinkChevron()
-            }
-        )
+            list: list
+        ) { media in
+            LibraryRow(subtitleContent: list.subtitleContent)
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
+        }
     }
 }
 

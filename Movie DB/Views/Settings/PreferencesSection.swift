@@ -33,7 +33,7 @@ struct PreferencesSection: View {
                     self.config.regionChanged = true
                 }
             DefaultWatchStatePicker()
-            LibraryRowSubtitlePicker()
+            SubtitleContentPicker(subtitleContent: Binding($preferences.defaultSubtitleContent))
             NavigationLink {
                 WatchProvidersPicker()
             } label: {

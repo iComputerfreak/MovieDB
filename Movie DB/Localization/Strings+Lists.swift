@@ -124,6 +124,10 @@ extension Strings {
             localized: "lists.watchlist.watchState.notWatched",
             comment: "The label of movies or shows in library rows that have not been watched yet."
         )
+        static let watchlistRemoveWatchedLabel = String(
+            localized: "lists.watchlist.removeWatched",
+            comment: "The label of the button to remove watched movies and shows from the watchlist."
+        )
         static let customListEmptyStateDescription = String(
             localized: "lists.customList.emptyState.description",
             comment: "The description of the empty state of a custom list."

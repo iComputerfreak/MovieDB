@@ -18,7 +18,12 @@ public extension DynamicMediaList {
     @NSManaged var name: String
     /// The name of the SF Symbol to use as an icon for this list
     @NSManaged var iconName: String
-    
+
+    var subtitleContent: LibraryRow.SubtitleContent? {
+        get { getOptionalEnum(forKey: Schema.DynamicMediaList.subtitleContent, defaultValue: nil)}
+        set { setOptionalEnum(newValue, forKey: Schema.DynamicMediaList.subtitleContent) }
+    }
+
     var sortingOrder: SortingOrder {
         get { getEnum(forKey: Schema.DynamicMediaList.sortingOrder, defaultValue: .default) }
         set { setEnum(newValue, forKey: Schema.DynamicMediaList.sortingOrder) }

@@ -10,13 +10,14 @@ import SwiftUI
 
 struct ProblemsMediaList: View {
     @Binding var selectedMediaObjects: Set<Media>
-    
+    @ObservedObject private var list: PredicateMediaList = .problems
+
     var body: some View {
-        FilteredMediaList(
-            list: PredicateMediaList.problems,
-            selectedMediaObjects: $selectedMediaObjects
+        PredicateMediaListView(
+            selectedMediaObjects: $selectedMediaObjects,
+            list: list
         ) { media in
-            LibraryRow(subtitleContent: .problems)
+            LibraryRow(subtitleContent: list.subtitleContent)
                 .mediaSwipeActions()
                 .mediaContextMenu()
                 .environmentObject(media)

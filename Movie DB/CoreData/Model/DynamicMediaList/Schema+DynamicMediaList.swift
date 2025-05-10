@@ -14,6 +14,7 @@ extension Schema {
         case iconName
         case id
         case name
+        case subtitleContent
         case sortingDirection
         case sortingOrder
         case iconRenderingMode

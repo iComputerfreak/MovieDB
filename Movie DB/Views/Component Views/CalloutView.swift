@@ -56,8 +56,8 @@ struct CalloutView: View {
                 .foregroundColor(type.foregroundColor)
                 .frame(maxWidth: iconSize, maxHeight: iconSize)
             Text(text)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .background {

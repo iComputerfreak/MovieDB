@@ -23,8 +23,8 @@ struct WatchStateLabel: View {
     
     var body: some View {
         Group {
-            if let movie = mediaObject as? Movie, movie.watched != nil {
-                switch movie.watched! {
+            if let movie = mediaObject as? Movie, let movieWatched = movie.watched {
+                switch movieWatched {
                 case .watched:
                     self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateWatched)
                 case .partially:
@@ -34,8 +34,8 @@ struct WatchStateLabel: View {
                 case .notWatched:
                     self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
                 }
-            } else if let show = mediaObject as? Show, show.watched != nil {
-                switch show.watched! {
+            } else if let show = mediaObject as? Show, let showWatched = show.watched {
+                switch showWatched {
                 case let .season(s):
                     if let maxSeason, s < maxSeason {
                         // Show as partially watched, since there are further seasons available

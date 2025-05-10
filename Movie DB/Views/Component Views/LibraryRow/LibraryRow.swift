@@ -11,8 +11,8 @@ import SwiftUI
 /// Represents the label of a list displaying media objects.
 /// Presents various data about the media object, e.g. the thumbnail image, title and year
 /// Requires the displayed media object as an `EnvironmentObject`.
-struct LibraryRow: View {
-    enum SubtitleContent: String, Codable, Hashable {
+public struct LibraryRow: View {
+    public enum SubtitleContent: String, Codable, Hashable {
         case problems
         case watchState
         case lastModified
@@ -20,8 +20,6 @@ struct LibraryRow: View {
         case watchDate
         case flatrateWatchProviders
         case nothing
-        // TODO: Add watch providers option
-        // TODO: Add watch providers filter option
     }
 
     @EnvironmentObject private var mediaObject: Media
@@ -55,7 +53,7 @@ struct LibraryRow: View {
             .sorted()
     }
 
-    var body: some View {
+    public var body: some View {
         BaseLibraryRow(
             capsules: [
                 .mediaType,

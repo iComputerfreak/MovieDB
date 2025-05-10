@@ -15,6 +15,9 @@ extension PredicateMediaList {
 
     static let upcoming = PredicateMediaList(
         name: Strings.Lists.defaultListNameUpcoming,
+        // The user cannot set subtitle content for this list. It always displays a fixed value custom content type
+        subtitleContentUserDefaultsKey: "upcomingSubtitleContent",
+        defaultSubtitleContent: nil,
         description: Strings.Lists.upcomingDescription,
         iconName: "clock.badge.exclamationmark",
         predicate: NSCompoundPredicate(type: .or, subpredicates: [

@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import JFSwiftUI
 import SwiftUI
 
 /// Represents a media list that fetches its media objects by a fixed predicate
@@ -18,8 +19,14 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     let predicate: NSPredicate
     let customFilter: ((Media) -> Bool)?
     let customSorting: ((Media, Media) -> Bool)?
-    
+
     var sortingOrder: SortingOrder {
+        willSet {
+            // Send the objectWillChange signal to notify SwiftUI about the change
+            // This would normally be done by `@Published`, but we need to do it manually here,
+            // as `@Published` would not trigger the `didSet` observer to save the changes to UserDefaults.
+            objectWillChange.send()
+        }
         didSet {
             let key = Self.userDefaultsKey(for: name, type: .sortingOrder)
             UserDefaults.standard.set(sortingOrder.rawValue, forKey: key)
@@ -27,14 +34,37 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     }
 
     var sortingDirection: SortingDirection {
+        willSet {
+            // Send the objectWillChange signal to notify SwiftUI about the change
+            // This would normally be done by `@Published`, but we need to do it manually here,
+            // as `@Published` would not trigger the `didSet` observer to save the changes to UserDefaults.
+            objectWillChange.send()
+        }
         didSet {
             let key = Self.userDefaultsKey(for: name, type: .sortingDirection)
             UserDefaults.standard.set(sortingDirection.rawValue, forKey: key)
         }
     }
-    
+
+    let subtitleContentUserDefaultsKey: String
+    let defaultSubtitleContent: LibraryRow.SubtitleContent?
+    var subtitleContent: LibraryRow.SubtitleContent? {
+        get {
+            guard let rawValue = UserDefaults.standard.string(forKey: subtitleContentUserDefaultsKey) else {
+                return defaultSubtitleContent
+            }
+            return LibraryRow.SubtitleContent(rawValue: rawValue) ?? defaultSubtitleContent
+        }
+        set {
+            objectWillChange.send()
+            UserDefaults.standard.set(newValue?.rawValue, forKey: subtitleContentUserDefaultsKey)
+        }
+    }
+
     init(
         name: String,
+        subtitleContentUserDefaultsKey: String,
+        defaultSubtitleContent: LibraryRow.SubtitleContent?,
         description: String,
         iconName: String,
         defaultSortingOrder: SortingOrder? = nil,
@@ -43,6 +73,8 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         customSorting: ((Media, Media) -> Bool)? = nil
     ) {
         self.name = name
+        self.subtitleContentUserDefaultsKey = subtitleContentUserDefaultsKey
+        self.defaultSubtitleContent = defaultSubtitleContent
         self.listDescription = description
         self.iconName = iconName
         self.predicate = predicate
@@ -59,7 +91,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         } else {
             sortingOrder = defaultSortingOrder ?? .default
         }
-        
+
         let directionKey = Self.userDefaultsKey(for: name, type: .sortingDirection)
         if
             let sortingDirectionRawValue = UserDefaults.standard.string(forKey: directionKey),
@@ -90,8 +122,6 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     }
     
     // MARK: - Hashable Conformance
-    
-    // TODO: We cannot include `filter` in the Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(iconName)

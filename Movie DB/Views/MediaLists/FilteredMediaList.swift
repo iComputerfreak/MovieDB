@@ -9,18 +9,20 @@
 import CoreData
 import SwiftUI
 
-struct FilteredMediaList<RowContent: View, ListType>: View where ListType: MediaListProtocol & ObservableObject {
-    let rowContent: (Media) -> RowContent
+struct FilteredMediaList<RowContent: View, ListType, ExtraMenuItemContent: View>: View where ListType: MediaListProtocol & ObservableObject {
     @ObservedObject var list: ListType
     let filter: (Media) -> Bool
-    
+    let rowContent: (Media) -> RowContent
+    let extraMoreMenuItems: () -> ExtraMenuItemContent
+
     @Environment(\.editMode) private var editMode
-    
+
+    @State private var searchText = ""
     // Mirrors the respective property of the list for view updates
     @State private var sortingOrder: SortingOrder
     // Mirrors the respective property of the list for view updates
     @State private var sortingDirection: SortingDirection
-    
+
     @State private var showingInfo = false
     @Binding private var selectedMediaObjects: Set<Media>
     
@@ -37,6 +39,25 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         // If the list overrides the sorting options, use the custom sorting
         if let sorting = list.customSorting {
             medias = medias.sorted(by: sorting)
+        }
+        // If the user entered a search text, use it for filtering as well
+        if !searchText.isEmpty {
+            medias = medias.filter { media in
+                let foldedSearchText = searchText.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+                let foldedTitle = media.title.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+                let foldedOriginalTitle = media.originalTitle.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: .current
+                )
+
+                return foldedTitle.contains(foldedSearchText) || foldedOriginalTitle.contains(foldedSearchText)
+            }
         }
         return medias
     }
@@ -60,11 +81,13 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
     init(
         list: ListType,
         selectedMediaObjects: Binding<Set<Media>>,
-        @ViewBuilder rowContent: @escaping (Media) -> RowContent
+        @ViewBuilder rowContent: @escaping (Media) -> RowContent,
+        @ViewBuilder extraMoreMenuItems: @escaping () -> ExtraMenuItemContent = { EmptyView() }
     ) {
-        self.rowContent = rowContent
         self.list = list
         self.filter = list.customFilter ?? { _ in true }
+        self.rowContent = rowContent
+        self.extraMoreMenuItems = extraMoreMenuItems
         _sortingOrder = State(wrappedValue: list.sortingOrder)
         _sortingDirection = State(wrappedValue: list.sortingDirection)
         _selectedMediaObjects = selectedMediaObjects
@@ -76,12 +99,25 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
             // Show a warning when the filter of a dynamic list is reset
             emptyDynamicListWarning
             // Filtered media should not be empty
-            List(filteredMedias, selection: $selectedMediaObjects) { media in
-                rowContent(media)
-                    .tag(media)
+            List(selection: $selectedMediaObjects) {
+                Section {
+                    ForEach(filteredMedias) { media in
+                        rowContent(media)
+                            .tag(media)
+                    }
+                } footer: {
+                    // Show total objects at the bottom of the list
+                    if !filteredMedias.isEmpty {
+                        Text(Strings.Library.footer(filteredMedias.count))
+                    }
+                }
             }
             .listStyle(.grouped)
             .animation(.default, value: editMode?.wrappedValue)
+            .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
+            // Disable autocorrection in the search field as a workaround to search text changing after transitioning
+            // to a detail and invalidating the transition
+            .autocorrectionDisabled()
             .overlay {
                 MediaListEmptyState(
                     isSearching: false,
@@ -139,6 +175,10 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: Set(medias))
+                // The section will only be rendered, if it actually has content, so we don't need an extra `if` here
+                Section {
+                    extraMoreMenuItems()
+                }
                 // Only show the user the option to sort, if the list does not define a static sorting
                 if list.customSorting == nil {
                     SortingMenuSection(

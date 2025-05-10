@@ -367,6 +367,23 @@
         }
       }
     },
+    "components.subtitleContentPicker.useDefaultValue" : {
+      "comment" : "The label for the subtitle content picker option to use the default setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use default"
+          }
+        }
+      }
+    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -2435,7 +2452,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Streamingdienste"
           }
         },
@@ -4665,6 +4682,23 @@
         }
       }
     },
+    "lists.configuration.header.settings" : {
+      "comment" : "The header for the list configuration view's settings section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
     "lists.configuration.iconRenderingMode" : {
       "comment" : "The label for the picker that the user uses to select an icon rendering mode.",
       "localizations" : {
@@ -5256,6 +5290,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Season %1$lld released %2$@ ago"
+          }
+        }
+      }
+    },
+    "lists.watchlist.removeWatched" : {
+      "comment" : "The label of the button to remove watched movies and shows from the watchlist.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehene entfernen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove watched"
           }
         }
       }
@@ -6970,6 +7021,23 @@
         }
       }
     },
+    "settings.defaultSubtitleContent.problems" : {
+      "comment" : "The label of the picker option for the problems as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probleme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problems"
+          }
+        }
+      }
+    },
     "settings.defaultSubtitleContent.watchDate" : {
       "comment" : "The label of the picker option for the watch date as the default subtitle content in the settings",
       "localizations" : {
@@ -7485,7 +7553,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Meine Streamingdienste"
           }
         },
