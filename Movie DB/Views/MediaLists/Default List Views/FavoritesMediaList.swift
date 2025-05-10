@@ -10,13 +10,14 @@ import SwiftUI
 
 struct FavoritesMediaList: View {
     @Binding var selectedMediaObjects: Set<Media>
-    
+    @ObservedObject private var list: PredicateMediaList = .favorites
+
     var body: some View {
-        FilteredMediaList(
-            list: PredicateMediaList.favorites,
-            selectedMediaObjects: $selectedMediaObjects
+        PredicateMediaListView(
+            selectedMediaObjects: $selectedMediaObjects,
+            list: list
         ) { media in
-            LibraryRow(subtitleContent: .personalRating)
+            LibraryRow(subtitleContent: list.subtitleContent)
                 .swipeActions {
                     Button {
                         assert(media.isFavorite)

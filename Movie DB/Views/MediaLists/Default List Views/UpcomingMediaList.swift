@@ -12,17 +12,16 @@ struct UpcomingMediaList: View {
     @Binding var selectedMediaObjects: Set<Media>
     
     var body: some View {
-        FilteredMediaList(
-            list: PredicateMediaList.upcoming,
+        PredicateMediaListView(
             selectedMediaObjects: $selectedMediaObjects,
-            rowContent: { media in
-                UpcomingLibraryRow()
-                    .mediaSwipeActions()
-                    .mediaContextMenu()
-                    .environmentObject(media)
-                    .navigationLinkChevron()
-            }
-        )
+            list: PredicateMediaList.upcoming
+        ) { media in
+            UpcomingLibraryRow()
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
+        }
     }
 }
 
