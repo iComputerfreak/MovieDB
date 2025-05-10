@@ -9,12 +9,16 @@
 import BackgroundTasks
 import CoreData
 import Foundation
+import JFSwiftUI
 import os.log
 import StoreKit
 import TipKit
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    @UserDefault("lastAppStartUpdate", defaultValue: nil)
+    private var lastAppStartUpdate: Date?
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -65,14 +69,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         backgroundHandler.setupBackgroundFetch()
         
         // MARK: Run Migrations
-        
         let migrationManager = MigrationManager()
         
         migrationManager.register(DeleteOldPosterFilesMigration.self)
         migrationManager.register(ReloadLibraryMigration.self)
         
         migrationManager.run()
-        
+
+        // MARK: Background updates
+        // If it has been at least one day since the app was last opened, we update the old objects
+        // in the media library
+        if lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > TimeInterval.day {
+            Task(priority: .background) {
+                Logger.library.info("Updating media library after app start...")
+                try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                Logger.library.info("App start update complete.")
+                lastAppStartUpdate = .now
+            }
+        }
+
         return true
     }
     
