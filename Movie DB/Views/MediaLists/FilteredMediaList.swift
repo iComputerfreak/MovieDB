@@ -76,9 +76,18 @@ struct FilteredMediaList<RowContent: View, ListType>: View where ListType: Media
             // Show a warning when the filter of a dynamic list is reset
             emptyDynamicListWarning
             // Filtered media should not be empty
-            List(filteredMedias, selection: $selectedMediaObjects) { media in
-                rowContent(media)
-                    .tag(media)
+            List(selection: $selectedMediaObjects) {
+                Section {
+                    ForEach(filteredMedias) { media in
+                        rowContent(media)
+                            .tag(media)
+                    }
+                } footer: {
+                    // Show total objects at the bottom of the list
+                    if !filteredMedias.isEmpty {
+                        Text(Strings.Library.footer(filteredMedias.count))
+                    }
+                }
             }
             .listStyle(.grouped)
             .animation(.default, value: editMode?.wrappedValue)
