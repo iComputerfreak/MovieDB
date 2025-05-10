@@ -122,8 +122,6 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     }
     
     // MARK: - Hashable Conformance
-    
-    // TODO: We cannot include `filter` in the Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(iconName)

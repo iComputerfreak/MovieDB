@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-// TODO: Add alignment (leading, center, trailing, block)
 struct WrappingHStack: Layout {
     enum ContentAlignment: CaseIterable {
         case leading
