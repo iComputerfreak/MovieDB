@@ -9,7 +9,8 @@ struct SubtitleContentPicker: View {
         .personalRating,
         .watchDate,
         .lastModified,
-        .flatrateWatchProviders
+        .flatrateWatchProviders,
+        .problems
     ]
 
     @Binding var subtitleContent: LibraryRow.SubtitleContent?
@@ -45,8 +46,7 @@ struct SubtitleContentPicker: View {
                     case .flatrateWatchProviders:
                         Text(Strings.Settings.defaultSubtitleContentPickerLabelWatchProviders)
                     case .problems:
-                        // Not a valid option defined above
-                        Text(verbatim: "")
+                        Text(Strings.Settings.defaultSubtitleContentPickerLabelProblems)
                     }
                 }
                 .tag(option as LibraryRow.SubtitleContent?)

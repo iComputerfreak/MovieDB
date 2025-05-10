@@ -151,6 +151,10 @@ extension Strings {
             localized: "settings.defaultSubtitleContent.watchProviders",
             comment: "The label of the picker option for the watch providers as the default subtitle content in the settings"
         )
+        static let defaultSubtitleContentPickerLabelProblems = String(
+            localized: "settings.defaultSubtitleContent.problems",
+            comment: "The label of the picker option for the problems as the default subtitle content in the settings"
+        )
         static let defaultSubtitleContentPickerLabelNothing = String(
             localized: "settings.defaultSubtitleContent.nothing",
             comment: "The label of the picker option for no subtitle content as the default subtitle content in the settings"
