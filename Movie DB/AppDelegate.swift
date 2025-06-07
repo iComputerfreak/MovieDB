@@ -81,10 +81,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // in the media library
         if lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > TimeInterval.day {
             Task(priority: .background) {
-                Logger.library.info("Updating media library after app start...")
-                try await MediaLibrary.shared.reloadAll(fromBackground: true)
-                Logger.library.info("App start update complete.")
-                lastAppStartUpdate = .now
+                do {
+                    Logger.library.info("Updating media library after app start...")
+                    try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                    Logger.library.info("App start update complete.")
+                    lastAppStartUpdate = .now
+                } catch {
+                    Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
+                }
             }
         }
 

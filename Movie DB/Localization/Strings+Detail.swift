@@ -34,7 +34,15 @@ extension Strings {
             localized: "detail.menu.removeFromWatchlist",
             comment: "The 'remove from watchlist' media action that removes a media object from the user's watchlist"
         )
-        
+        static let menuButtonMarkAsWatched = String(
+            localized: "detail.menu.markAsWatched",
+            comment: "The 'mark as watched' media action that marks a media as watched"
+        )
+        static let menuButtonMarkAsNotWatched = String(
+            localized: "detail.menu.markAsNotWatched",
+            comment: "The 'mark as not watched' media action that marks a media as not watched"
+        )
+
         // MARK: UserData
         static let userDataSectionHeader = String(
             localized: "detail.userData.header",

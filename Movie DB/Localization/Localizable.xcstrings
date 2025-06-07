@@ -1441,6 +1441,40 @@
         }
       }
     },
+    "detail.menu.markAsNotWatched" : {
+      "comment" : "The 'mark as not watched' media action that marks a media as not watched",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht angeschaut"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not watched"
+          }
+        }
+      }
+    },
+    "detail.menu.markAsWatched" : {
+      "comment" : "The 'mark as watched' media action that marks a media as watched",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched"
+          }
+        }
+      }
+    },
     "detail.menu.removeFromWatchlist" : {
       "comment" : "The 'remove from watchlist' media action that removes a media object from the user's watchlist",
       "localizations" : {

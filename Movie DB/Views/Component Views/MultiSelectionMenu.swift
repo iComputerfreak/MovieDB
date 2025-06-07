@@ -55,9 +55,10 @@ private extension MultiSelectionMenu {
             }
             addToWatchlistButton
             addToFavoritesButton
+            markAsWatchedButton
+            markAsNotWatchedButton
             reloadButton
             deleteButton
-            // TODO: Multi-select for lists details (remove)
         }
         .disabled(selectedMediaObjects.isEmpty)
     }
@@ -111,7 +112,46 @@ private extension MultiSelectionMenu {
             }
         }
     }
-    
+
+    var markAsWatchedButton: some View {
+        Button {
+            for media in selectedMediaObjects {
+                if let movie = media as? Movie {
+                    movie.watched = .watched
+                } else if let show = media as? Show {
+                    let maxSeason = show.latestNonEmptySeasonNumber ?? 1
+                    show.watched = .season(maxSeason)
+                } else {
+                    Logger.library.warning(
+                        "Media '\(media.title)' with type \(media.type.rawValue) is neither a Movie, nor a Show."
+                    )
+                }
+            }
+            PersistenceController.saveContext()
+        } label: {
+            Label(Strings.Detail.menuButtonMarkAsWatched, systemImage: "checkmark.circle.fill")
+        }
+    }
+
+    var markAsNotWatchedButton: some View {
+        Button {
+            for media in selectedMediaObjects {
+                if let movie = media as? Movie {
+                    movie.watched = .notWatched
+                } else if let show = media as? Show {
+                    show.watched = .notWatched
+                } else {
+                    Logger.library.warning(
+                        "Media '\(media.title)' with type \(media.type.rawValue) is neither a Movie, nor a Show."
+                    )
+                }
+            }
+            PersistenceController.saveContext()
+        } label: {
+            Label(Strings.Detail.menuButtonMarkAsNotWatched, systemImage: "circle")
+        }
+    }
+
     var reloadButton: some View {
         Button {
             Task {
