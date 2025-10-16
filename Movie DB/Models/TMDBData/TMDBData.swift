@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
-struct TMDBData: Decodable {
+struct TMDBData: Decodable, Sendable {
     // Basic Data
     var id: Int
     var title: String

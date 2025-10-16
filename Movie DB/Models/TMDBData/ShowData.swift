@@ -9,7 +9,7 @@
 import Foundation
 
 extension TMDBData {
-    struct ShowData: Decodable, Hashable {
+    struct ShowData: Decodable, Hashable, Sendable {
         var rawFirstAirDate: String?
         var firstAirDate: Date? {
             guard let rawFirstAirDate else { return nil }

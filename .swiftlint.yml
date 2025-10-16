@@ -5,7 +5,7 @@ disabled_rules:
   - type_name
   - cyclomatic_complexity
   - trailing_comma
-  - redundant_optional_initialization
+  - implicit_optional_initialization
   - unneeded_synthesized_initializer
 
 opt_in_rules:

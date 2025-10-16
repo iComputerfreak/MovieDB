@@ -186,7 +186,8 @@ class CSVImporter {
         
         // Create the media (TMDBAPI is an actor, so our thread does not matter here)
         let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
-        
+        let arraySeparator = self.arraySeparator
+
         // From now on, we are working with media, so we need to be on the context's thread
         await context.perform {
             // Setting values with PartialKeyPaths is not possible, so we have to do it manually
@@ -203,7 +204,7 @@ class CSVImporter {
             }
             if let rawTags = values[.tags] {
                 var tags: [Tag] = []
-                let tagNames = rawTags.split(separator: self.arraySeparator).map(String.init)
+                let tagNames = rawTags.split(separator: arraySeparator).map(String.init)
                 if !tagNames.isEmpty {
                     for name in tagNames {
                         let tag = Tag.fetchOrCreate(name: name, in: context)
