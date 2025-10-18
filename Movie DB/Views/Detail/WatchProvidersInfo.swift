@@ -41,6 +41,7 @@ struct WatchProvidersInfo: View {
                             Spacer()
                             Text(Strings.Detail.watchProvidersNoneAvailable)
                                 .multilineTextAlignment(.center)
+                                .font(.callout)
                             Spacer()
                         }
                     }

@@ -17,16 +17,19 @@ struct TrailerView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(Color.calloutBackground)
-                    VStack(spacing: 16) {
+                    VStack {
                         Text(trailer.name)
-                            .lineLimit(2, reservesSpace: false)
+                            .font(.caption)
+                            .lineLimit(2, reservesSpace: true)
                             .frame(width: 140)
-                            .padding(0)
+                            .padding(4)
+                        Spacer()
                         Image(systemName: "play.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 30)
-                            .padding(4)
+                            .frame(height: 24)
+                            .padding(8)
+                        Spacer()
                     }
                 }
             }
