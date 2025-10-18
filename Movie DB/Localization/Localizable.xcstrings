@@ -1776,23 +1776,6 @@
         }
       }
     },
-    "detail.showWatchState.seasonWarningNoEpisodes %@" : {
-      "comment" : "Warning text displayed when selecting a season as watched that does not have any episodes out yet.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Von Staffel %@ wurden noch keine Folgen veröffentlicht."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Season %@ does not have any episodes released yet."
-          }
-        }
-      }
-    },
     "detail.showWatchState.seasonWarningNoEpisodes %lld" : {
       "extractionState" : "manual",
       "localizations" : {
