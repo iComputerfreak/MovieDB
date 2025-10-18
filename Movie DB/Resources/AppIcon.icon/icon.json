@@ -1,0 +1,119 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "display-p3:0.85490,0.85490,0.85490,1.00000",
+      "srgb:0.89804,0.88235,0.83922,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:0.93725,0.69804,0.09804,1.00000"
+          },
+          "image-name" : "MovieReel 2.svg",
+          "name" : "MovieReel 2",
+          "position" : {
+            "scale" : 0.6,
+            "translation-in-points" : [
+              30,
+              -65
+            ]
+          }
+        }
+      ],
+      "lighting" : "individual",
+      "name" : "Icon",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
+    },
+    {
+      "blend-mode" : "normal",
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+          },
+          "image-name" : "RoundedRectangle 6.svg",
+          "name" : "RoundedRectangle L4",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              30,
+              -65
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+          },
+          "image-name" : "RoundedRectangle 6.svg",
+          "name" : "RoundedRectangle L3",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              10,
+              -20
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+          },
+          "image-name" : "RoundedRectangle 6.svg",
+          "name" : "RoundedRectangle L2",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              -10,
+              25
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+          },
+          "image-name" : "RoundedRectangle 6.svg",
+          "name" : "RoundedRectangle L1",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              -30,
+              70
+            ]
+          }
+        }
+      ],
+      "lighting" : "individual",
+      "name" : "CardStack",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

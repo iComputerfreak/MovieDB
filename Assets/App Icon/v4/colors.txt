@@ -1,0 +1,4 @@
+primary: EFB219
+secondary: 2C5364 / alternative: 3E6D7F
+
+app icon background: gradient from top DADADA to bottom E5E1D6
