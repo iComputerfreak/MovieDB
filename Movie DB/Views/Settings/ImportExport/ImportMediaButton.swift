@@ -96,7 +96,7 @@ struct ImportMediaButton: View {
                         Task(priority: .userInitiated) {
                             do {
                                 try PersistenceController.viewContext.fetch(Media.fetchRequest())
-                                    .forEach { $0.loadThumbnail() }
+                                    .forEach { $0.loadImages() }
                             } catch {
                                 Logger.library.error(
                                     // swiftlint:disable:next line_length

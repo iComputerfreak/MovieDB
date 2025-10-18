@@ -40,7 +40,7 @@ struct MediaDetail: View {
                 // If there is no thumbnail, try to download it again
                 // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
                 if mediaObject.thumbnail == nil {
-                    mediaObject.loadThumbnail()
+                    mediaObject.loadImages()
                 }
             }
             .navigationDestination(for: TagListView.NavigationDestination.self) { _ in

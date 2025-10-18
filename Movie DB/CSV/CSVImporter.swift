@@ -248,7 +248,7 @@ class CSVImporter {
             }
         }
         
-        media.loadThumbnail()
+        media.loadImages()
         
         return media
     }

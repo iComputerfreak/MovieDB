@@ -78,7 +78,7 @@ actor TMDBAPI {
             }
             return media
         }
-        media.loadThumbnail()
+        media.loadImages()
         return media
     }
     
@@ -96,7 +96,7 @@ actor TMDBAPI {
             media.update(tmdbData: tmdbData)
         }
         // We have to always reload the thumbnail, because an iCloud sync could potentially update the imagePath, leaving the loaded thumbnail in an inconsistent state
-        media.loadThumbnail(force: true)
+        media.loadImages(force: true)
         // We save immediately, because the whole "update all medias" flow that might be running could be interrupted at any moment.
         PersistenceController.saveContext()
     }

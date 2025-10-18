@@ -236,7 +236,7 @@ struct MediaLibrary {
                         self.context.object(with: objectID) as? Media
                     }
                     try Task.checkCancellation()
-                    mainMedia?.loadThumbnail(force: true)
+                    mainMedia?.loadImages(force: true)
                     // If we are in a background task, wait for the thumbnail download to finish
                     if fromBackground {
                         await mainMedia?.waitForThumbnailDownload()

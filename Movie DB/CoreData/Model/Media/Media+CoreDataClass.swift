@@ -42,13 +42,12 @@ public class Media: NSManagedObject {
         setTMDBData(tmdbData)
         
         // Load the thumbnail from disk or network
-        loadThumbnail()
+        loadImages()
     }
     
     deinit {
-        if let loadThumbnailTask {
-            loadThumbnailTask.cancel()
-        }
+        loadThumbnailTask?.cancel()
+        loadBackdropTask?.cancel()
     }
     
     private func setTMDBData(_ tmdbData: TMDBData) {
@@ -167,7 +166,7 @@ public extension Media {
         if self.id == nil {
             self.id = UUID()
         }
-        self.loadThumbnail()
+        self.loadImages()
     }
     
     override func awakeFromInsert() {
@@ -239,67 +238,109 @@ public extension Media {
 extension Media {
     /// Loads this `Media`'s poster thumbnail from disk or the internet and assigns it to the `thumbnail` property
     /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
-    func loadThumbnail(force: Bool = false) {
+    func loadImages(force: Bool = false) {
+        loadThumbnail(force: force)
+        loadBackdropImage(force: force)
+    }
+
+    private func loadBackdropImage(force: Bool = false) {
+        var mediaID: Media.ID?
+        var backdropPath: String?
+        managedObjectContext?.performAndWait {
+            mediaID = self.id
+            backdropPath = self.backdropPath
+        }
+        guard let mediaID else { return }
+        loadImage(
+            path: backdropPath,
+            mediaID: mediaID,
+            in: \.loadBackdropTask,
+            store: \.backdropImage,
+            force: force,
+            imageService: .backdropImages
+        )
+    }
+
+    private func loadThumbnail(force: Bool = false) {
+        var mediaID: Media.ID?
+        var imagePath: String?
+        managedObjectContext?.performAndWait {
+            mediaID = self.id
+            imagePath = self.imagePath
+        }
+        guard let mediaID else { return }
+        loadImage(
+            path: imagePath,
+            mediaID: mediaID,
+            in: \.loadThumbnailTask,
+            store: \.thumbnail,
+            force: force,
+            imageService: .mediaThumbnails
+        )
+    }
+
+    private func loadImage(
+        path imagePath: String?,
+        mediaID: Media.ID,
+        in taskKeyPath: ReferenceWritableKeyPath<Media, Task<Void, Never>?>,
+        store imageKeyPath: ReferenceWritableKeyPath<Media, UIImage?>,
+        force: Bool = false,
+        imageService: TMDBImageService
+    ) {
         // !!!: Use lots of Task.isCancelled to make sure this media object still exists during execution,
         // !!!: otherwise accessing e.g. the unowned managedObjectContext property crashes the app
-        if let loadThumbnailTask {
-            // Already loading the thumbnail
-            if force {
-                // Cancel and restart
-                Logger.coreData.debug(
-                    "Restarting thumbnail download for media \(self.id?.uuidString ?? "nil", privacy: .public)"
-                )
-                loadThumbnailTask.cancel()
-            } else {
-                // Don't restart the thumbnail loading and let the current task finish
-                return
-            }
-        }
-        
-        // Start loading the thumbnail
-        // Use a dedicated overall task to be able to cancel it
-        self.loadThumbnailTask = Task(priority: .high) { [managedObjectContext] in
-            guard !Task.isCancelled else { return }
-            
-            // We need to access the properties on the managedObjectContext's thread
-            await managedObjectContext?.perform {
-                guard force || self.thumbnail == nil else {
-                    // Thumbnail already present or no context, don't load/download again, unless force parameter is given
-                    return
-                }
-            }
-            
-            var mediaID: Media.ID?
-            var imagePath: String?
-            
-            guard !Task.isCancelled else { return }
+        // Already loading the image
+        if let task = self[keyPath: taskKeyPath] {
+            // Don't restart the backdrop loading and let the current task finish
+            guard force else { return }
 
-            await managedObjectContext?.perform {
-                mediaID = self.id
-                imagePath = self.imagePath
-            }
-            
-            Task { [mediaID, imagePath] in
-                guard !Task.isCancelled, let mediaID else { return }
-                
-                do {
-                    let thumbnail = try await TMDBImageService.mediaThumbnails.thumbnail(
-                        for: mediaID,
-                        imagePath: imagePath,
-                        force: force
-                    )
-                    if !Task.isCancelled {
+            // Cancel and restart
+            Logger.coreData.debug(
+                "Restarting backdrop download for media \(self.id?.uuidString ?? "nil", privacy: .public)"
+            )
+            task.cancel()
+        }
+
+        // Start loading the image
+        // Use a dedicated overall task to be able to cancel it
+        self[keyPath: taskKeyPath] = Task(priority: .high) { [managedObjectContext] in
+            do {
+                try Task.checkCancellation()
+
+                // We need to access the properties on the managedObjectContext's thread
+                await managedObjectContext?.perform {
+                    guard force || self[keyPath: imageKeyPath] == nil else {
+                        // Image already present or no context, don't load/download again, unless force parameter is given
+                        return
+                    }
+                }
+
+                try Task.checkCancellation()
+
+                Task { [mediaID, imagePath] in
+                    try Task.checkCancellation()
+
+                    do {
+                        // TODO: Rename function
+                        let image = try await imageService.thumbnail(
+                            for: mediaID,
+                            imagePath: imagePath,
+                            force: force
+                        )
+                        try Task.checkCancellation()
                         await managedObjectContext?.perform {
                             self.objectWillChange.send()
-                            self.thumbnail = thumbnail
+                            self[keyPath: imageKeyPath] = image
                         }
+                    } catch {
+                        Logger.coreData.warning(
+                            // swiftlint:disable:next line_length
+                            "[\(self.title, privacy: .public)] Error (down-)loading image: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
+                        )
                     }
-                } catch {
-                    Logger.coreData.warning(
-                        // swiftlint:disable:next line_length
-                        "[\(self.title, privacy: .public)] Error (down-)loading thumbnail: \(error) (mediaID: \(self.id?.uuidString ?? "nil", privacy: .public))"
-                    )
                 }
+            } catch {
+                Logger.network.error("Error downloading image: \(error)")
             }
         }
     }

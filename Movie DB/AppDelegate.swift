@@ -211,7 +211,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 // swiftlint:disable force_try
                 try! bgContext.save()
                 try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
-                    media.loadThumbnail(force: true)
+                    media.loadImages(force: true)
                 }
                 // swiftlint:enable force_try
             }
