@@ -213,7 +213,12 @@ struct MediaLibrary {
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    // Catch individual download errors early, so we don't skip the other media downloads
+                    do {
+                        try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    } catch {
+                        Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                    }
                 }
             }
             // Wait for all tasks to finish updating the media objects and rethrow any errors
@@ -225,8 +230,9 @@ struct MediaLibrary {
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
+                    let objectID = media.objectID
                     let mainMedia = await self.context.perform {
-                        self.context.object(with: media.objectID) as? Media
+                        self.context.object(with: objectID) as? Media
                     }
                     try Task.checkCancellation()
                     mainMedia?.loadThumbnail(force: true)
@@ -245,6 +251,7 @@ struct MediaLibrary {
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970
         PersistenceController.saveContext()
+        Logger.library.info("Successfully reloaded \(medias.count) medias.")
     }
     
     /// Resets the library, deleting everything!
