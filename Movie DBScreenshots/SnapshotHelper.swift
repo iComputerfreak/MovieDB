@@ -191,6 +191,7 @@ open class Snapshot: NSObject {
                 #else
                     try image.pngData()?.write(to: path, options: .atomic)
                 #endif
+                NSLog("Screenshot \(name) written to \(screenshotsDir)/\(simulator)-\(name).png")
             } catch let error {
                 NSLog("Problem writing screenshot: \(name) to \(screenshotsDir)/\(simulator)-\(name).png")
                 NSLog(error.localizedDescription)
