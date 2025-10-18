@@ -11,6 +11,7 @@ import Foundation
 import os.log
 import SwiftUI
 
+// swiftlint:disable:next type_body_length
 struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     

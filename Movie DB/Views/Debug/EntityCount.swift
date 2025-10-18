@@ -67,7 +67,6 @@ class EntityCount: ObservableObject {
         let db = CKContainer(identifier: "iCloud.de.JonasFrey.MovieDB").privateCloudDatabase
         db.fetch(withQuery: query) { result in
             do {
-                // swiftlint:disable:next force_try
                 let r = try result.get()
                 let count = r.matchResults.count
                 if let cursor = r.queryCursor {
@@ -87,7 +86,6 @@ class EntityCount: ObservableObject {
         let db = CKContainer(identifier: "iCloud.de.JonasFrey.MovieDB").privateCloudDatabase
         db.fetch(withCursor: cursor) { result in
             do {
-                // swiftlint:disable:next force_try
                 let r = try result.get()
                 if let cursor = r.queryCursor {
                     self.recursiveRequest(cursor) { c in
