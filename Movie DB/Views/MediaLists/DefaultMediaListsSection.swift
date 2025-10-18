@@ -84,11 +84,11 @@ struct DefaultMediaListsSection: View {
                         NavigationLinkChevron()
                     }
                 }
+                .sheet(isPresented: $isShowingProPopup) {
+                    ProInfoView(showCancelButton: true)
+                }
             }
         }
         .deleteDisabled(true)
-        .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView(showCancelButton: true)
-        }
     }
 }

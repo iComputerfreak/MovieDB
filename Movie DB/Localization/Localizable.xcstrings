@@ -5929,13 +5929,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pro Kaufen - %@"
+            "value" : "Pro Kaufen – %@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buy Pro - %@"
+            "value" : "Buy Pro – %@"
           }
         }
       }

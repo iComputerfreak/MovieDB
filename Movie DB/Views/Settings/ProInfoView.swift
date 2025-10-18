@@ -26,11 +26,8 @@ struct ProInfoView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .center) {
-                HStack {
-                    Text(Strings.ProInfo.introText(JFLiterals.nonProMediaLimit))
-                        .padding()
-                    Spacer()
-                }
+                Text(Strings.ProInfo.introText(JFLiterals.nonProMediaLimit))
+                    .frame(maxWidth: .infinity)
                 Spacer()
                 BuyProButton()
             }
@@ -54,8 +51,10 @@ struct ProInfoView: View {
                 }
                 if showCancelButton {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button(Strings.ProInfo.navBarButtonCancelLabel) {
+                        Button {
                             self.dismiss()
+                        } label: {
+                            Label(Strings.ProInfo.navBarButtonCancelLabel, systemImage: "xmark")
                         }
                     }
                 }
