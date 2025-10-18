@@ -473,22 +473,24 @@
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Movie DB.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
 			);
 			name = "Generate Licenses";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Movie DB/SupportingFiles/Settings.bundle/com.mono0926.LicensePlist.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$PRODUCT_NAME/SupportingFiles/Settings.bundle\"\n#fi\n";
+			shellPath = /bin/zsh;
+			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n    export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory --github-token $GITHUB_API_KEY\n#fi\n";
+			showEnvVarsInLog = 0;
 		};
 		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;

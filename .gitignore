@@ -5,6 +5,7 @@
 
 # Secrets
 TMDB_API_KEY
+GITHUB_API_KEY
 # Automatically generated:
 Movie\ DB/Generated/Secrets.swift
 
