@@ -28,8 +28,13 @@ actor TMDBImageService {
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo``
     func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
-        guard let mediaID else { return nil }
-        return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID, force: force)
+        guard let mediaID, let imagePath else { return nil }
+        return try await image(
+            for: imagePath,
+            to: Utils.imageFileURL(for: mediaID),
+            downloadID: imagePath,
+            force: force
+        )
     }
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo`` using an optional imagePath.

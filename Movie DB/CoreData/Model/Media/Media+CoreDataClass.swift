@@ -243,24 +243,6 @@ extension Media {
         loadBackdropImage(force: force)
     }
 
-    private func loadBackdropImage(force: Bool = false) {
-        var mediaID: Media.ID?
-        var backdropPath: String?
-        managedObjectContext?.performAndWait {
-            mediaID = self.id
-            backdropPath = self.backdropPath
-        }
-        guard let mediaID else { return }
-        loadImage(
-            path: backdropPath,
-            mediaID: mediaID,
-            in: \.loadBackdropTask,
-            store: \.backdropImage,
-            force: force,
-            imageService: .backdropImages
-        )
-    }
-
     private func loadThumbnail(force: Bool = false) {
         var mediaID: Media.ID?
         var imagePath: String?
@@ -276,6 +258,24 @@ extension Media {
             store: \.thumbnail,
             force: force,
             imageService: .mediaThumbnails
+        )
+    }
+    
+    private func loadBackdropImage(force: Bool = false) {
+        var mediaID: Media.ID?
+        var backdropPath: String?
+        managedObjectContext?.performAndWait {
+            mediaID = self.id
+            backdropPath = self.backdropPath
+        }
+        guard let mediaID else { return }
+        loadImage(
+            path: backdropPath,
+            mediaID: mediaID,
+            in: \.loadBackdropTask,
+            store: \.backdropImage,
+            force: force,
+            imageService: .backdropImages
         )
     }
 
