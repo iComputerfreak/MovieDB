@@ -20,6 +20,8 @@ enum JFLiterals {
     /// Thumbnails are 53 pixels wide (@2x in the detail view)
     /// We use a much bigger sizer, in case we want to show them in some sort of collection view later
     static let thumbnailTMDBSize: Int = 500
+    /// The size of backdrop images to load from the TMDB API
+    static let backdropImageTMDBSize: Int = 1280
     /// The size of the cast pictures in the detail view, loaded from the TMDB API
     static let castImageSize: Int = 185
     /// The name of the poster placeholder image

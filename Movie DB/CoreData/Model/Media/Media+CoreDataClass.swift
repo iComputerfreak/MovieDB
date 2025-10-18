@@ -29,10 +29,12 @@ public class Media: NSManagedObject {
     }
     
     @Published private(set) var thumbnail: UIImage?
-    
+    @Published private(set) var backdropImage: UIImage?
+
     // The task responsible for (down-)loading the thumbnail
     private var loadThumbnailTask: Task<Void, Never>?
-    
+    private var loadBackdropTask: Task<Void, Never>?
+
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
     func initMedia(type: MediaType, tmdbData: TMDBData) {
@@ -61,6 +63,7 @@ public class Media: NSManagedObject {
             self.title = tmdbData.title
             self.originalTitle = tmdbData.originalTitle
             self.imagePath = tmdbData.imagePath
+            self.backdropPath = tmdbData.backdropPath
             self.genres = Set(managedObjectContext.importDummies(tmdbData.genres))
             self.overview = tmdbData.overview
             self.tagline = tmdbData.tagline

@@ -51,6 +51,8 @@ public extension Media {
     @NSManaged var originalTitle: String
     /// The path of the media poster image on TMDB
     @NSManaged var imagePath: String?
+    /// The path of the media backdrop image on TMDB
+    @NSManaged var backdropPath: String?
     /// A list of genres that match the media
     @NSManaged var genres: Set<Genre>
     /// A short media description

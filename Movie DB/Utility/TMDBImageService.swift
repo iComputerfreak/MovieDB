@@ -13,6 +13,7 @@ import SwiftUI
 /// An actor, resposible for downloading and caching media posters from themoviedatabase.org
 actor TMDBImageService {
     static let mediaThumbnails = TMDBImageService(imageSize: JFLiterals.thumbnailTMDBSize)
+    static let backdropImages = TMDBImageService(imageSize: JFLiterals.backdropImageTMDBSize)
     static let watchProviderLogos = TMDBImageService(imageSize: nil)
     
     let imageSize: Int?
