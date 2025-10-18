@@ -18,6 +18,7 @@ extension Logger {
     
     // MARK: Categories
     static let general = Logger("general")
+    static let debug = Logger("debug")
     static let viewCycle = Logger("viewCycle")
     static let coreData = Logger("coreData")
     static let migrations = Logger("migrations")

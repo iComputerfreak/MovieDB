@@ -45,16 +45,7 @@ struct SettingsView: View {
                         }
                     }
                     #if DEBUG
-                    // Don't show on screenshots
-                    if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            NavigationLink {
-                                DebugView()
-                            } label: {
-                                Text(verbatim: "Debug")
-                            }
-                        }
-                    }
+                    debugMenuToolbarItem
                     #endif
                 }
                 .notificationPopup(
@@ -66,7 +57,26 @@ struct SettingsView: View {
             }
         }
     }
-    
+
+    @ToolbarContentBuilder
+    private var debugMenuToolbarItem: some ToolbarContent {
+        // Don't show on screenshots
+        if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
+            ToolbarItem(placement: .navigationBarLeading) {
+                NavigationLink {
+                    DebugView()
+                } label: {
+                    Label {
+                        Text(verbatim: "Debug")
+                    } icon: {
+                        Image(systemName: "ladybug")
+                    }
+                }
+                .tint(.accent)
+            }
+        }
+    }
+
     func reloadMedia() {
         viewModel.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
         

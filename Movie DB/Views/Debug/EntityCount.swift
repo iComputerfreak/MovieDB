@@ -9,6 +9,7 @@
 import CloudKit
 import CoreData
 import Foundation
+import OSLog
 import SwiftUI
 
 class EntityCount: ObservableObject {
@@ -65,15 +66,19 @@ class EntityCount: ObservableObject {
         let query = CKQuery(recordType: CKRecord.RecordType("CD_\(entity)"), predicate: predicate)
         let db = CKContainer(identifier: "iCloud.de.JonasFrey.MovieDB").privateCloudDatabase
         db.fetch(withQuery: query) { result in
-            // swiftlint:disable:next force_try
-            let r = try! result.get()
-            let count = r.matchResults.count
-            if let cursor = r.queryCursor {
-                self.recursiveRequest(cursor) { c in
-                    completion(count + c)
+            do {
+                // swiftlint:disable:next force_try
+                let r = try result.get()
+                let count = r.matchResults.count
+                if let cursor = r.queryCursor {
+                    self.recursiveRequest(cursor) { c in
+                        completion(count + c)
+                    }
+                } else {
+                    completion(count)
                 }
-            } else {
-                completion(count)
+            } catch {
+                Logger.debug.error("Unable to fetch iCloud count: \(error)")
             }
         }
     }
@@ -81,14 +86,18 @@ class EntityCount: ObservableObject {
     private func recursiveRequest(_ cursor: CKQueryOperation.Cursor, completion: @escaping (Int) -> Void) {
         let db = CKContainer(identifier: "iCloud.de.JonasFrey.MovieDB").privateCloudDatabase
         db.fetch(withCursor: cursor) { result in
-            // swiftlint:disable:next force_try
-            let r = try! result.get()
-            if let cursor = r.queryCursor {
-                self.recursiveRequest(cursor) { c in
-                    completion(r.matchResults.count + c)
+            do {
+                // swiftlint:disable:next force_try
+                let r = try result.get()
+                if let cursor = r.queryCursor {
+                    self.recursiveRequest(cursor) { c in
+                        completion(r.matchResults.count + c)
+                    }
+                } else {
+                    completion(r.matchResults.count)
                 }
-            } else {
-                completion(r.matchResults.count)
+            } catch {
+                Logger.debug.error("Error executing recursive request: \(error)")
             }
         }
     }
