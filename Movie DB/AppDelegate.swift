@@ -36,8 +36,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
-        loadDenyList()
-        
+        // We currently don't load the deny list as it's not available and we might not need it anymore.
+        // TODO: Remove this in the future or implement a better way
+        // loadDenyList()
+
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
