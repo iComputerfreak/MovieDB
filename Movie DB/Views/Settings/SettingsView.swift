@@ -72,7 +72,7 @@ struct SettingsView: View {
                         Image(systemName: "ladybug")
                     }
                 }
-                .tint(.accent)
+                .tint(.accentColor)
             }
         }
     }
