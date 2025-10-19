@@ -1,28 +1,16 @@
-//
-//  MediaDetail.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.07.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2025 Jonas Frey. All rights reserved.
 
-import Flow
 import SwiftUI
 
-struct MediaDetail: View {
-
+struct MediaDetailLegacyView: View {
     var body: some View {
-        if #available(iOS 26.0, *) {
-            MediaDetailView()
-        } else {
-            MediaDetailLegacyView()
-        }
+        Text("TODO: Implement")
     }
 }
 
 #Preview("Movie") {
     NavigationStack {
-        MediaDetail()
+        MediaDetailLegacyView()
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
             .previewEnvironment()
     }
@@ -30,7 +18,7 @@ struct MediaDetail: View {
 
 #Preview("Show") {
     NavigationStack {
-        MediaDetail()
+        MediaDetailLegacyView()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
             .previewEnvironment()
     }
