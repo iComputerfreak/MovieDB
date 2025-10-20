@@ -116,15 +116,13 @@ struct MediaDetailView: View {
                                     .mask(backdropGradient)
                             }
                             .background {
-                                // We need to somehow send the height of the title view to the blurred background image,
-                                // so it can adjust its blur to only be behind the title info view.
-                                // This is necessary, because the background image (and its blur) must stay out of the ScrollView.
                                 GeometryReader { proxy in
-                                    DispatchQueue.main.async {
-                                        titleViewHeight = proxy.size.height
+                                    Color.clear
+                                        .preference(key: TitleViewHeightKey.self, value: proxy.size.height)
                                     }
-                                    return Color.clear
                                 }
+                            .onPreferenceChange(TitleViewHeightKey.self) { titleViewHeight in
+                                self.titleViewHeight = titleViewHeight
                             }
                     }
 
@@ -143,15 +141,16 @@ struct MediaDetailView: View {
             }
             .frame(maxWidth: .infinity)
             .background {
-                // We need to somehow send the height of the title view to the blurred background image,
-                // so it can adjust its blur to only be behind the title info view.
-                // This is necessary, because the background image (and its blur) must stay out of the ScrollView.
                 GeometryReader { proxy in
-                    DispatchQueue.main.async {
-                        scrollOffset = -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
+                    Color.clear
+                        .preference(
+                            key: ScrollOffsetKey.self,
+                            value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
+                        )
                     }
-                    return Color.clear
                 }
+            .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
+                self.scrollOffset = scrollOffset
             }
         }
         .background(alignment: .top) {
