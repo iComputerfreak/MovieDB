@@ -58,7 +58,6 @@ opt_in_rules:
   - required_enum_case
   - sorted_first_last
   - static_operator
-  - switch_case_on_newline
   - toggle_bool
   - unneeded_parentheses_in_closure_argument
   - unavailable_function
