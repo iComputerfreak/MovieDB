@@ -11,7 +11,7 @@
       "layers" : [
         {
           "fill" : {
-            "solid" : "srgb:0.93725,0.69804,0.09804,1.00000"
+            "solid" : "srgb:0.95294,0.56863,0.03137,1.00000"
           },
           "image-name" : "MovieReel 2.svg",
           "name" : "MovieReel 2",
@@ -42,7 +42,7 @@
       "layers" : [
         {
           "fill" : {
-            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+            "solid" : "srgb:0.24314,0.34510,0.69020,1.00000"
           },
           "image-name" : "RoundedRectangle 6.svg",
           "name" : "RoundedRectangle L4",
@@ -56,7 +56,7 @@
         },
         {
           "fill" : {
-            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+            "solid" : "srgb:0.24314,0.34510,0.69020,1.00000"
           },
           "image-name" : "RoundedRectangle 6.svg",
           "name" : "RoundedRectangle L3",
@@ -70,7 +70,7 @@
         },
         {
           "fill" : {
-            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+            "solid" : "srgb:0.24314,0.34510,0.69020,1.00000"
           },
           "image-name" : "RoundedRectangle 6.svg",
           "name" : "RoundedRectangle L2",
@@ -84,7 +84,7 @@
         },
         {
           "fill" : {
-            "solid" : "srgb:0.24314,0.42745,0.49804,1.00000"
+            "solid" : "srgb:0.24314,0.34510,0.69020,1.00000"
           },
           "image-name" : "RoundedRectangle 6.svg",
           "name" : "RoundedRectangle L1",
@@ -106,7 +106,7 @@
       "specular" : true,
       "translucency" : {
         "enabled" : true,
-        "value" : 0.5
+        "value" : 0.2
       }
     }
   ],
