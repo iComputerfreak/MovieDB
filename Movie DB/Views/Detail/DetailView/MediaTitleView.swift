@@ -3,6 +3,7 @@
 import Flow
 import SwiftUI
 
+@available(iOS 26.0, *)
 struct MediaTitleView: View {
     private enum Constants {
         static let separatorDot: String = "·"
@@ -34,11 +35,12 @@ struct MediaTitleView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(mediaObject.title)
-                .font(.title)
+                .font(.largeTitle.scaled(by: 1.2))
                 .fontWeight(.heavy)
 
             HStack {
                 StarRatingView(rating: mediaObject.personalRating)
+                    .font(.headline)
                 if mediaObject.isOnWatchlist {
                     Image(systemName: PredicateMediaList.watchlist.iconName)
                         .symbolRenderingMode(.monochrome)
@@ -59,22 +61,30 @@ struct MediaTitleView: View {
                 .lineLimit(2)
                 .foregroundStyle(.secondary)
         }
-        .font(.system(size: 14))
+        .font(.body.scaled(by: 0.9))
     }
 }
 
 #Preview("Movie") {
     NavigationStack {
+        if #available(iOS 26.0, *) {
         MediaTitleView()
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
             .previewEnvironment()
+        } else {
+            Text(verbatim: "Only available in iOS 26 and later")
+        }
     }
 }
 
 #Preview("Show") {
     NavigationStack {
+        if #available(iOS 26.0, *) {
         MediaTitleView()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
             .previewEnvironment()
+        } else {
+            Text(verbatim: "Only available in iOS 26 and later")
+        }
     }
 }

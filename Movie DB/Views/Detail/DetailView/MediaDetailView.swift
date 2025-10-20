@@ -16,14 +16,7 @@ struct MediaDetailView: View {
     @State private var scrollOffset: CGFloat = 0
     let scrollCoordinateSpaceName: String = "scroll"
 
-    var foregroundColor: Color {
-        switch colorScheme {
-        case .dark: return .white
-        case .light: return .black
-        @unknown default: return .black
-        }
-    }
-    var backgroundColor: Color {
+    private var backgroundColor: Color {
         switch colorScheme {
         case .dark: return .black
         case .light: return .white
@@ -31,11 +24,12 @@ struct MediaDetailView: View {
         }
     }
 
-    let imageHeight: CGFloat = 400
+    // TODO: Move out
+    let imageHeight: CGFloat = 450
     private var backdropGradient: LinearGradient {
         .init(
             stops: [
-                .init(color: backgroundColor, location: 0),
+                .init(color: .black, location: 0),
                 .init(color: .clear, location: 1),
             ],
             startPoint: .bottom,
@@ -104,15 +98,13 @@ struct MediaDetailView: View {
                     .frame(height: imageHeight)
                     .overlay(alignment: .bottom) {
                         MediaTitleView()
-                            .foregroundStyle(foregroundColor)
+                            .foregroundStyle(.white)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
                             // Some extra top padding for the gradient to run out
                             .padding(.top, 48)
                             .frame(maxWidth: .infinity)
-                            .background {
-                                backdropGradient
-                            }
+                            .background(backdropGradient)
                             .background {
                                 titleImage
                                     .padding(.top, -(imageHeight - titleViewHeight - scrollOffset))
@@ -134,9 +126,19 @@ struct MediaDetailView: View {
                             }
                     }
 
-                backgroundColor
+                GroupBox {
+                        .foregroundStyle(.black)
+                    VStack(alignment: .leading) {
+                        UserData()
+                            .frame(maxWidth: .infinity)
+                    }
+                } label: {
+                    Text(Strings.Detail.userDataSectionHeader)
+                }
+                .padding(16)
                     .frame(maxWidth: .infinity)
                     .frame(height: 1200)
+                    .background(backgroundColor)
             }
             .frame(maxWidth: .infinity)
             .background {
