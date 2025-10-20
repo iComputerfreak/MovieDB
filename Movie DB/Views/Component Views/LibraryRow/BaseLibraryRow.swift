@@ -92,8 +92,7 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
         case .isOnWatchlist:
             if mediaObject.isOnWatchlist {
                 CapsuleLabelView {
-                    Image(systemName: "bookmark.fill")
-                        .foregroundStyle(.blue)
+                    PredicateMediaList.watchlist.icon
                 }
             }
         }

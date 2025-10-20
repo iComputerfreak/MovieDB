@@ -23,20 +23,4 @@ extension PredicateMediaList {
             true as NSNumber
         )
     )
-    
-    // MARK: Watchlist
-    static let watchlist = PredicateMediaList(
-        name: Strings.Lists.defaultListNameWatchlist,
-        subtitleContentUserDefaultsKey: "watchlistSubtitleContent",
-        defaultSubtitleContent: .watchState,
-        description: Strings.Lists.watchlistDescription,
-        iconName: "bookmark.fill",
-        predicate: NSPredicate(
-            format: "%K = %@",
-            Schema.Media.isOnWatchlist,
-            true as NSNumber
-        )
-    )
-    
-    // More lists in separate files
 }

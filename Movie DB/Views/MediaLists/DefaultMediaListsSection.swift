@@ -37,7 +37,7 @@ struct DefaultMediaListsSection: View {
             NavigationLink {
                 WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
             } label: {
-                ListRowLabel(list: PredicateMediaList.watchlist, iconColor: .blue, symbolRenderingMode: .monochrome)
+                ListRowLabel(list: PredicateMediaList.watchlist)
             }
 
             // MARK: Problems

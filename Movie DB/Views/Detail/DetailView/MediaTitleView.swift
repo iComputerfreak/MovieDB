@@ -42,9 +42,7 @@ struct MediaTitleView: View {
                 StarRatingView(rating: mediaObject.personalRating)
                     .font(.headline)
                 if mediaObject.isOnWatchlist {
-                    Image(systemName: PredicateMediaList.watchlist.iconName)
-                        .symbolRenderingMode(.monochrome)
-                        .foregroundStyle(.blue)
+                    PredicateMediaList.watchlist.icon
                 }
                 if mediaObject.isFavorite {
                     Image(systemName: PredicateMediaList.favorites.iconName)
