@@ -44,6 +44,8 @@ struct MediaDetailView: View {
         } else {
             detailView
                 .toolbarTitleDisplayMode(.inline)
+                // For some reason, iOS decides to use the image for the edge effect, which does not look right, so we disable it for now.
+                .scrollEdgeEffectHidden(for: .top)
             // We show the title manually already
                 .navigationTitle("")
                 .task(priority: .userInitiated) {
@@ -127,7 +129,6 @@ struct MediaDetailView: View {
                     }
 
                 GroupBox {
-                        .foregroundStyle(.black)
                     VStack(alignment: .leading) {
                         UserData()
                             .frame(maxWidth: .infinity)
