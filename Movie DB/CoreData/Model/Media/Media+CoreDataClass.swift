@@ -62,7 +62,6 @@ public class Media: NSManagedObject {
             self.title = tmdbData.title
             self.originalTitle = tmdbData.originalTitle
             self.imagePath = tmdbData.imagePath
-            self.backdropPath = tmdbData.backdropPath
             self.genres = Set(managedObjectContext.importDummies(tmdbData.genres))
             self.overview = tmdbData.overview
             self.tagline = tmdbData.tagline
@@ -240,7 +239,6 @@ extension Media {
     /// - Parameter force: If set to `true`, downloads the poster thumbnail from the internet even if there already exists a `thumbnail` set or a matching thumbnail on disk.
     func loadImages(force: Bool = false) {
         loadThumbnail(force: force)
-        loadBackdropImage(force: force)
     }
 
     private func loadThumbnail(force: Bool = false) {
@@ -261,24 +259,6 @@ extension Media {
         )
     }
     
-    private func loadBackdropImage(force: Bool = false) {
-        var mediaID: Media.ID?
-        var backdropPath: String?
-        managedObjectContext?.performAndWait {
-            mediaID = self.id
-            backdropPath = self.backdropPath
-        }
-        guard let mediaID else { return }
-        loadImage(
-            path: backdropPath,
-            mediaID: mediaID,
-            in: \.loadBackdropTask,
-            store: \.backdropImage,
-            force: force,
-            imageService: .backdropImages
-        )
-    }
-
     private func loadImage(
         path imagePath: String?,
         mediaID: Media.ID,

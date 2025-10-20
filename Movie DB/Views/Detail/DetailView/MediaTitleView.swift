@@ -18,7 +18,6 @@ struct MediaTitleView: View {
 
     private var subtitleContents: [String] {
         let movie = mediaObject as? Movie
-        let genreCount = mediaObject.genres.count
         let sortedGenreNames = mediaObject.genres
             .map(\.name)
             .sorted(by: { $0.lexicographicallyPrecedes($1) })

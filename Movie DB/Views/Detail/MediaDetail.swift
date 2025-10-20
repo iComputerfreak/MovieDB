@@ -10,7 +10,6 @@ import Flow
 import SwiftUI
 
 struct MediaDetail: View {
-
     var body: some View {
         if #available(iOS 26.0, *) {
             MediaDetailView()
