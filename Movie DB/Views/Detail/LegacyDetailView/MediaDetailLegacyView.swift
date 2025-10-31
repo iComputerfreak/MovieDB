@@ -4,6 +4,7 @@ import SwiftUI
 
 struct MediaDetailLegacyView: View {
     var body: some View {
+        // TODO: Implement
         Text("TODO: Implement")
     }
 }

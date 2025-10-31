@@ -26,6 +26,7 @@ struct MediaTitleView: View {
         let elements = [
             mediaObject.year.map { $0.formatted(.number.grouping(.never)) },
             movie?.runtime.map { Duration.seconds($0 * 60).formatted(durationFormat) },
+            // TODO: Localize and use correct values
             mediaObject.parentalRating.map { "Ab \($0.label) Jahren" },
         ] + sortedGenreNames
 
@@ -51,6 +52,7 @@ struct MediaTitleView: View {
                 WatchStateLabel()
             }
 
+            // TODO: Create some expandable text? Or even better a "More" button that opens some kind of sheet
             Text(mediaObject.overview ?? "")
                 .lineLimit(3)
 
@@ -66,9 +68,9 @@ struct MediaTitleView: View {
 #Preview("Movie") {
     NavigationStack {
         if #available(iOS 26.0, *) {
-        MediaTitleView()
-            .environmentObject(PlaceholderData.preview.staticMovie as Media)
-            .previewEnvironment()
+            MediaTitleView()
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
+                .previewEnvironment()
         } else {
             Text(verbatim: "Only available in iOS 26 and later")
         }

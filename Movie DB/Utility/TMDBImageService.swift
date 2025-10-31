@@ -32,6 +32,7 @@ actor TMDBImageService {
         return try await image(
             for: imagePath,
             to: Utils.imageFileURL(for: mediaID),
+            // TODO: For some reason, this still causes conflicts when starting the app (updating media)
             downloadID: imagePath,
             force: force
         )

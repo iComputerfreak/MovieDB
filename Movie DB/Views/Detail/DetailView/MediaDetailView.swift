@@ -3,11 +3,15 @@
 import Flow
 import SwiftUI
 
+// TODO: Move out, clean up
 @available(iOS 26.0, *)
 struct MediaDetailView: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.editMode) private var editMode
     @Environment(\.managedObjectContext) private var managedObjectContext
+    // Whether the user is in edit mode right now (editing the user data)
+    // !!!: We cannot use @Environment's \.editMode here since that is meant for list editing (delete, move)
+    // !!!: and therefore would disable all NavigationLinks
     @State private var isEditing = false
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
@@ -43,10 +47,20 @@ struct MediaDetailView: View {
                 .navigationTitle(Strings.Detail.navBarErrorTitle)
         } else {
             detailView
+            //            List {
+            //                UserData()
+            //                    .environment(\.isEditing, isEditing)
+            //                BasicInfo()
+            //                WatchProvidersInfo()
+            //                TrailersView()
+            //                ExtendedInfo()
+            //                MetadataInfo()
+            //            }
+            //            .listStyle(.insetGrouped)
                 .toolbarTitleDisplayMode(.inline)
                 // For some reason, iOS decides to use the image for the edge effect, which does not look right, so we disable it for now.
                 .scrollEdgeEffectHidden(for: .top)
-            // We show the title manually already
+                // We show the title manually already
                 .navigationTitle("")
                 .task(priority: .userInitiated) {
                     // If there is no thumbnail, try to download it again
@@ -119,8 +133,8 @@ struct MediaDetailView: View {
                                 GeometryReader { proxy in
                                     Color.clear
                                         .preference(key: TitleViewHeightKey.self, value: proxy.size.height)
-                                    }
                                 }
+                            }
                             .onPreferenceChange(TitleViewHeightKey.self) { titleViewHeight in
                                 self.titleViewHeight = titleViewHeight
                             }
@@ -135,9 +149,9 @@ struct MediaDetailView: View {
                     Text(Strings.Detail.userDataSectionHeader)
                 }
                 .padding(16)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 1200)
-                    .background(backgroundColor)
+                .frame(maxWidth: .infinity)
+                .frame(height: 1200)
+                .background(backgroundColor)
             }
             .frame(maxWidth: .infinity)
             .background {
@@ -147,8 +161,8 @@ struct MediaDetailView: View {
                             key: ScrollOffsetKey.self,
                             value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
                         )
-                    }
                 }
+            }
             .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
                 self.scrollOffset = scrollOffset
             }
