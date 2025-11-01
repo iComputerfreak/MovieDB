@@ -213,7 +213,12 @@ struct MediaLibrary {
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    // We catch individual errors here to not abort the whole update process
+                    do {
+                        try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    } catch {
+                        Logger.library.error("Error updating media '\(media.title)': \(error)")
+                    }
                 }
             }
             // Wait for all tasks to finish updating the media objects and rethrow any errors
