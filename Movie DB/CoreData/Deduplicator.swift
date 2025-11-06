@@ -19,25 +19,21 @@ class Deduplicator {
     /// Deduplicate Core Data entities by processing the given `NSManagedObjectID`s.
     ///
     /// All peers should eventually reach the same result with no coordination or communication.
-    func deduplicateAndWait(_ entity: DeduplicationEntity, changedObjectIDs: [NSManagedObjectID]) {
+    func deduplicateAndWait(
+        _ entity: DeduplicationEntity,
+        changedObjectIDs: [NSManagedObjectID],
+        in taskContext: NSManagedObjectContext
+    ) {
         guard !changedObjectIDs.isEmpty else {
             // Nothing to do
             return
         }
-        
-        // Make any store changes on a background context
-        let taskContext = PersistenceController.shared.newBackgroundContext()
-        taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        
-        // Use performAndWait because each step relies on the sequence.
-        // Because historyQueue (our caller) runs in the background, waiting won’t block the main queue.
-        taskContext.performAndWait {
-            for objectID in changedObjectIDs {
-                deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
-            }
-            // Save the background context to trigger a notification and merge the result into the viewContext.
-            PersistenceController.saveContext(taskContext)
+
+        for objectID in changedObjectIDs {
+            deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
         }
+        // Save the background context to trigger a notification and merge the result into the viewContext.
+        PersistenceController.saveContext(taskContext)
     }
     
     // swiftlint:disable:next function_body_length
