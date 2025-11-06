@@ -50,7 +50,8 @@ platform :ios do
 	  api_token: ENV["GITHUB_API_TOKEN"],
 	  name: "Version " + new_version,
 	  tag_name: "v" + new_version,
-	  description: changelog
+	  description: changelog,
+      is_draft: true
 	)
   end
 end
