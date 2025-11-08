@@ -10,13 +10,13 @@ import SwiftUI
 
 struct ListIconPicker: View {
     @Binding var symbolName: String
-    
+
     var symbolsPerRow: Int {
         // TODO: Differentiate by device or available space
         // Alternatively, we could use a WrappingHStack with same-sized children
         return 6
     }
-    
+
     var body: some View {
         LazyVGrid(
             columns: .init(
@@ -49,7 +49,7 @@ struct ListIconPicker: View {
 
 #Preview {
     @Previewable @State var symbolName = "heart"
-    return VStack {
+    VStack {
         Text(verbatim: "Selection does not work in Preview!")
             .foregroundColor(.red)
             .bold()

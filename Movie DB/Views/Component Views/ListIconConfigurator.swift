@@ -97,6 +97,7 @@ struct ListIconConfigurator<Content: View>: View {
             Section {
                 ListIconPicker(symbolName: $iconName)
                     .symbolRenderingMode(iconMode.symbolRenderingMode)
+                    .foregroundStyle(Color(iconColor))
                     .padding(.horizontal, 0)
             } header: {
                 Text(
