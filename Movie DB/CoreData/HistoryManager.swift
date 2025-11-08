@@ -73,6 +73,7 @@ class HistoryManager {
     func fetchChanges(_ notification: Notification) {
         // Process persistent history to merge changes from other coordinators.
         historyQueue.addOperation {
+            print("Processing persistent history")
             self.processPersistentHistory()
         }
     }
@@ -95,6 +96,7 @@ class HistoryManager {
                 let transactions = result?.result as? [NSPersistentHistoryTransaction],
                 !transactions.isEmpty
             else {
+                Logger.coreData.info("Persistent history result has no transactions.")
                 return
             }
 
@@ -106,7 +108,6 @@ class HistoryManager {
                     userInfo: ["transactions": transactions]
                 )
                 
-                // !!!: Alternatively: (update on any change, like we did before)
                 for transaction in transactions {
                     guard let userInfo = transaction.objectIDNotification().userInfo else {
                         assertionFailure("Unable to get userInfo for remote change transaction")
@@ -127,23 +128,24 @@ class HistoryManager {
             // Create a flattened array of all changes
             let relevantChanges = transactions
                 .flatMap { $0.changes ?? [] }
-            
+
+            let changedObjectIDsByEntity: [DeduplicationEntity?: [NSManagedObjectID]] = Dictionary(
+                grouping: relevantChanges,
+                by: { change in DeduplicationEntity(entityName: change.changedObjectID.entity.name ?? "") }
+            )
+                .mapValues { $0.map(\.changedObjectID) }
+
             // Deduplicate all entities
-            for entity in DeduplicationEntity.allCases {
-                let entityName = entity.entityName
-                
-                let changedObjectIDs = relevantChanges
-                    // Only consider changes that involve the current entity
-                    .filter { $0.changedObjectID.entity.name == entityName }
-                    // We only need the objectIDs of the changes
-                    .map(\.changedObjectID)
-                
-                // No need to call the deduplicator if we have no objects of this entity type
-                guard !changedObjectIDs.isEmpty else {
-                    continue
-                }
-                
+            for (entity, changedObjectIDs) in changedObjectIDsByEntity {
+                guard
+                    // We only process entities we know
+                    let entity,
+                    // No need to call the deduplicator if we have no objects of this entity type
+                    !changedObjectIDs.isEmpty
+                else { continue }
+
                 // We are still in a background context
+                print("Processing deduplication")
                 deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
             }
             

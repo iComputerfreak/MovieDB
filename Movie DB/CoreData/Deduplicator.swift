@@ -24,7 +24,9 @@ class Deduplicator {
             // Nothing to do
             return
         }
-        
+
+        Logger.coreData.debug("Processing \(changedObjectIDs.count) changes to \(entity.entityName) entities.")
+
         // Make any store changes on a background context
         let taskContext = PersistenceController.shared.newBackgroundContext()
         taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
