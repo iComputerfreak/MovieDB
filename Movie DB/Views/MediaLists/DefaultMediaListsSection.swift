@@ -52,11 +52,7 @@ struct DefaultMediaListsSection: View {
             NavigationLink {
                 NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
             } label: {
-                ListRowLabel(
-                    list: PredicateMediaList.newSeasons,
-                    iconColor: .purple,
-                    symbolRenderingMode: .monochrome
-                )
+                ListRowLabel(list: PredicateMediaList.newSeasons)
                 .badge(newSeasonsMediasCount)
             }
 
@@ -65,11 +61,7 @@ struct DefaultMediaListsSection: View {
                 NavigationLink {
                     UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
                 } label: {
-                    ListRowLabel(
-                        list: PredicateMediaList.upcoming,
-                        iconColor: .brownIcon,
-                        symbolRenderingMode: .multicolor
-                    )
+                    ListRowLabel(list: PredicateMediaList.upcoming)
                     .badge(upcomingMediasCount)
                 }
             } else {

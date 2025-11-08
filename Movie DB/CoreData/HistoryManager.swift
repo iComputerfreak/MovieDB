@@ -96,7 +96,6 @@ class HistoryManager {
                 let transactions = result?.result as? [NSPersistentHistoryTransaction],
                 !transactions.isEmpty
             else {
-                Logger.coreData.info("Persistent history result has no transactions.")
                 return
             }
 

@@ -2,6 +2,7 @@
 
 import Foundation
 import JFUtils
+import SwiftUI
 
 extension PredicateMediaList {
     static let watchlist = PredicateMediaList(
@@ -10,7 +11,7 @@ extension PredicateMediaList {
         defaultSubtitleContent: .watchState,
         description: Strings.Lists.watchlistDescription,
         iconName: "bookmark.fill",
-        iconColor: .blue,
+        iconColor: UIColor(Color.blue),
         iconRenderingMode: .monochrome,
         predicate: NSPredicate(
             format: "%K = %@",

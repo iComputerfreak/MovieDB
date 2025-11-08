@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension PredicateMediaList {
     /// A media list that features shows with new unwatched seasons
@@ -16,6 +17,8 @@ extension PredicateMediaList {
         defaultSubtitleContent: .watchState,
         description: Strings.Lists.newSeasonsDescription,
         iconName: "sparkles.tv",
+        iconColor: UIColor(Color.purple),
+        iconRenderingMode: .monochrome,
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
             // Only shows that have been started watching
             ShowWatchState.showsWatchedAnyPredicate,

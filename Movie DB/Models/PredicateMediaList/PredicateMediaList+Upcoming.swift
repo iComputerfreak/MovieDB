@@ -20,6 +20,8 @@ extension PredicateMediaList {
         defaultSubtitleContent: nil,
         description: Strings.Lists.upcomingDescription,
         iconName: "clock.badge.exclamationmark",
+        iconColor: .brownIcon,
+        iconRenderingMode: .multicolor,
         predicate: NSCompoundPredicate(type: .or, subpredicates: [
             // MARK: Movies with future release date
             NSPredicate(

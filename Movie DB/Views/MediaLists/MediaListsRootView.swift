@@ -57,11 +57,7 @@ struct MediaListsRootView: View {
                             NavigationLink {
                                 DynamicMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                             } label: {
-                                ListRowLabel(
-                                    list: list,
-                                    iconColor: Color(list.iconColor ?? .primaryIcon),
-                                    symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
-                                )
+                                ListRowLabel(list: list)
                             }
                         }
                         // List delete
@@ -75,11 +71,7 @@ struct MediaListsRootView: View {
                             NavigationLink {
                                 UserMediaListView(list: list, selectedMediaObjects: $selectedMediaObjects)
                             } label: {
-                                ListRowLabel(
-                                    list: list,
-                                    iconColor: Color(list.iconColor ?? .primaryIcon),
-                                    symbolRenderingMode: list.iconRenderingMode.symbolRenderingMode
-                                )
+                                ListRowLabel(list: list)
                             }
                         }
                         // List delete
