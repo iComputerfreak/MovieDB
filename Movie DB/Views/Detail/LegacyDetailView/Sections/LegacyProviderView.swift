@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ProviderView: View {
+struct LegacyProviderView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @ObservedObject var provider: WatchProvider
@@ -63,7 +63,7 @@ struct ProviderView: View {
 
 #Preview {
     HStack {
-        ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
-        ProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).last!)
+        LegacyProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
+        LegacyProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).last!)
     }
 }

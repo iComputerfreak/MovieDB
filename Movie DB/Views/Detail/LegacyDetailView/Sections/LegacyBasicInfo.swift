@@ -9,7 +9,7 @@
 import os.log
 import SwiftUI
 
-struct BasicInfo: View {
+struct LegacyBasicInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
@@ -111,7 +111,7 @@ struct BasicInfo: View {
                 // MARK: Seasons
                 if mediaObject.type == .show, let show = mediaObject as? Show, !show.seasons.isEmpty {
                     NavigationLink {
-                        SeasonsInfo()
+                        LegacySeasonsInfo()
                             .environmentObject(mediaObject)
                     } label: {
                         // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
@@ -137,7 +137,7 @@ struct BasicInfo: View {
                 }
                 // MARK: Cast
                 NavigationLink {
-                    CastInfo()
+                    LegacyCastInfo()
                         .environmentObject(mediaObject)
                 } label: {
                     Text(Strings.Detail.castLabel)
@@ -166,14 +166,14 @@ struct BasicInfo: View {
 
 #Preview("Movie") {
     List {
-        BasicInfo()
+        LegacyBasicInfo()
     }
     .environmentObject(PlaceholderData.preview.staticMovie as Media)
 }
 
 #Preview("Show") {
     List {
-        BasicInfo()
+        LegacyBasicInfo()
     }
     .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

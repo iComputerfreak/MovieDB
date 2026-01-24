@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct WatchProvidersInfo: View {
+struct LegacyWatchProvidersInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var providers: [WatchProvider] {
@@ -30,7 +30,7 @@ struct WatchProvidersInfo: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(providers, id: \.id) { provider in
-                                    ProviderView(provider: provider, iconSize: 48, showTypeLabel: false)
+                                    LegacyProviderView(provider: provider, iconSize: 48, showTypeLabel: false)
                                 }
                             }
                         }
@@ -65,11 +65,11 @@ struct WatchProvidersInfo: View {
 
 #Preview {
     List {
-        WatchProvidersInfo()
+        LegacyWatchProvidersInfo()
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        WatchProvidersInfo()
+        LegacyWatchProvidersInfo()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
-        WatchProvidersInfo()
+        LegacyWatchProvidersInfo()
             .environmentObject(Movie(context: PersistenceController.xcodePreviewContext) as Media)
     }
     .previewEnvironment()

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ExtendedInfo: View {
+struct LegacyExtendedInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var body: some View {
@@ -103,14 +103,14 @@ struct ExtendedInfo: View {
 
 #Preview("Movie") {
     List {
-        ExtendedInfo()
+        LegacyExtendedInfo()
     }
     .environmentObject(PlaceholderData.preview.staticMovie as Media)
 }
 
 #Preview("Show") {
     List {
-        ExtendedInfo()
+        LegacyExtendedInfo()
     }
     .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

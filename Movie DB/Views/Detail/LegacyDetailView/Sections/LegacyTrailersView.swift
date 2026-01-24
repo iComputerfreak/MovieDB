@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TrailersView: View {
+struct LegacyTrailersView: View {
     @EnvironmentObject private var mediaObject: Media
     
     var trailers: [Video] {
@@ -39,7 +39,7 @@ struct TrailersView: View {
                         ScrollView(.horizontal) {
                             HStack(spacing: 8) {
                                 ForEach(trailers, id: \.key) { video in
-                                    TrailerView()
+                                    LegacyTrailerView()
                                         .environmentObject(video)
                                         .frame(maxHeight: .infinity)
                                 }
@@ -64,7 +64,7 @@ struct TrailersView: View {
 
 #Preview {
     List {
-        TrailersView()
+        LegacyTrailersView()
             .previewEnvironment()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
     }

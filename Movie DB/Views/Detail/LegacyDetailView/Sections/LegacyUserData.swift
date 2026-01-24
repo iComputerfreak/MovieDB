@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// Represents the user data section in the ``MediaDetail`` view
-struct UserData: View {
+struct LegacyUserData: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.isEditing) private var isEditing
     
@@ -84,9 +84,9 @@ struct UserData: View {
 
 #Preview("Movie") {
     List {
-        UserData()
+        LegacyUserData()
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
-        UserData()
+        LegacyUserData()
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
             .environment(\.isEditing, true)
     }
@@ -94,9 +94,9 @@ struct UserData: View {
 
 #Preview("Show") {
     List {
-        UserData()
+        LegacyUserData()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
-        UserData()
+        LegacyUserData()
             .environmentObject(PlaceholderData.preview.staticShow as Media)
             .environment(\.isEditing, true)
     }

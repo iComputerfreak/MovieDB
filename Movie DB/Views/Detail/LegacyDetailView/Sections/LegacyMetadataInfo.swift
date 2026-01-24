@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MetadataInfo: View {
+struct LegacyMetadataInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     var lists: [any MediaListProtocol] {
@@ -69,7 +69,7 @@ struct MetadataInfo: View {
 
 #Preview {
     List {
-        MetadataInfo()
+        LegacyMetadataInfo()
     }
     .environmentObject(PlaceholderData.preview.staticMovie as Media)
 }

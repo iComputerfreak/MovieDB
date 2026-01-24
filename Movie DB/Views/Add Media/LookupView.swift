@@ -23,7 +23,7 @@ struct LookupView: View {
             NavigationStack {
                 SearchResultsView(selection: $result, prompt: Text(Strings.Lookup.searchPrompt)) { result in
                     NavigationLink {
-                        MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+                        LegacyMediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
                     } label: {
                         SearchResultRow()
                             .environmentObject(result)

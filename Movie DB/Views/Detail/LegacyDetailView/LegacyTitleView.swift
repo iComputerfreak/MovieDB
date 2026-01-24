@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-struct TitleView: View {
+@available(*, deprecated, renamed: "MediaTitleView", message: "Use the iOS 26+ variant with a fallback.")
+struct LegacyTitleView: View {
     @ObservedObject var media: Media
     
     var body: some View {
@@ -16,7 +17,7 @@ struct TitleView: View {
             self.titleView
         } else {
             NavigationLink {
-                PosterDetailView(imagePath: media.imagePath)
+                LegacyPosterDetailView(imagePath: media.imagePath)
             } label: {
                 self.titleView
             }
@@ -54,7 +55,7 @@ struct TitleView: View {
     NavigationStack {
         List {
             Section {
-                TitleView(media: PlaceholderData.preview.staticMovie)
+                LegacyTitleView(media: PlaceholderData.preview.staticMovie)
             }
         }
         .listStyle(.grouped)

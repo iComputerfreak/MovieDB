@@ -6,7 +6,6 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
-import Flow
 import SwiftUI
 
 struct MediaDetail: View {

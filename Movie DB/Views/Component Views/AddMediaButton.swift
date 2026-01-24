@@ -55,6 +55,6 @@ struct AddMediaButton: View {
 }
 
 #Preview {
-    MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+    LegacyMediaLookupDetail(tmdbID: 603, mediaType: .movie)
         .previewEnvironment()
 }

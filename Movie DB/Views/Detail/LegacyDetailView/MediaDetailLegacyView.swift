@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+@available(*, deprecated, renamed: "MediaDetail", message: "Use the iOS 26+ variant with a fallback.")
 struct MediaDetailLegacyView: View {
     var body: some View {
         // TODO: Implement

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CastMemberRow: View {
+struct LegacyCastMemberRow: View {
     let castMember: CastMemberDummy
     
     var body: some View {
@@ -37,6 +37,6 @@ struct CastMemberRow: View {
 
 #Preview {
     List {
-        CastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
+        LegacyCastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
     }
 }

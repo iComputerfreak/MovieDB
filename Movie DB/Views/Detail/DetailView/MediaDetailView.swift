@@ -47,16 +47,6 @@ struct MediaDetailView: View {
                 .navigationTitle(Strings.Detail.navBarErrorTitle)
         } else {
             detailView
-            //            List {
-            //                UserData()
-            //                    .environment(\.isEditing, isEditing)
-            //                BasicInfo()
-            //                WatchProvidersInfo()
-            //                TrailersView()
-            //                ExtendedInfo()
-            //                MetadataInfo()
-            //            }
-            //            .listStyle(.insetGrouped)
                 .toolbarTitleDisplayMode(.inline)
                 // For some reason, iOS decides to use the image for the edge effect, which does not look right, so we disable it for now.
                 .scrollEdgeEffectHidden(for: .top)
@@ -142,7 +132,8 @@ struct MediaDetailView: View {
 
                 VStack(alignment: .leading) {
                     GroupBox {
-                        UserData()
+                        LegacyUserData()
+                            .environment(\.isEditing, isEditing)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(
@@ -152,7 +143,7 @@ struct MediaDetailView: View {
                     }
 
                     GroupBox {
-                        BasicInfo()
+                        LegacyBasicInfo()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(
@@ -162,7 +153,7 @@ struct MediaDetailView: View {
                     }
 
                     GroupBox {
-                        WatchProvidersInfo()
+                        LegacyWatchProvidersInfo()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(
@@ -172,7 +163,7 @@ struct MediaDetailView: View {
                     }
 
                     GroupBox {
-                        TrailersView()
+                        LegacyTrailersView()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(
@@ -182,7 +173,7 @@ struct MediaDetailView: View {
                     }
 
                     GroupBox {
-                        ExtendedInfo()
+                        LegacyExtendedInfo()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(
@@ -192,7 +183,7 @@ struct MediaDetailView: View {
                     }
 
                     GroupBox {
-                        MetadataInfo()
+                        LegacyMetadataInfo()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } label: {
                         Label(

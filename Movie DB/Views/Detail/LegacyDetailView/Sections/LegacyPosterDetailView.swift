@@ -10,7 +10,7 @@ import JFSwiftUI
 import SwiftUI
 
 /// Displays a poster image in fullscreen
-struct PosterDetailView: View {
+struct LegacyPosterDetailView: View {
     let imagePath: String?
     
     var url: URL? {
@@ -36,5 +36,5 @@ struct PosterDetailView: View {
 }
 
 #Preview {
-    PosterDetailView(imagePath: nil)
+    LegacyPosterDetailView(imagePath: nil)
 }

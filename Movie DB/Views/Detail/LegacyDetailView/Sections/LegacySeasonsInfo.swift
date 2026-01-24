@@ -10,7 +10,7 @@ import Foundation
 import os.log
 import SwiftUI
 
-struct SeasonsInfo: View {
+struct LegacySeasonsInfo: View {
     @EnvironmentObject private var mediaObject: Media
     /// The season thumbnails
     @State private var seasonThumbnails: [Int: UIImage?] = [:]
@@ -112,6 +112,6 @@ struct SeasonInfo: View {
 }
 
 #Preview {
-    SeasonsInfo()
+    LegacySeasonsInfo()
         .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

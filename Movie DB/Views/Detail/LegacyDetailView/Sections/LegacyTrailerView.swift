@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TrailerView: View {
+struct LegacyTrailerView: View {
     @EnvironmentObject private var trailer: Video
     
     var body: some View {
@@ -44,7 +44,7 @@ struct TrailerView: View {
 }
 
 #Preview {
-    TrailerView()
+    LegacyTrailerView()
         .previewEnvironment()
         .environmentObject(PlaceholderData.preview.staticMovie.videos.first(where: \.type, equals: "Trailer")!)
 }

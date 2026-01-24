@@ -9,7 +9,7 @@
 import os.log
 import SwiftUI
 
-struct CastInfo: View {
+struct LegacyCastInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     @State private var cast: [CastMemberDummy] = []
@@ -43,7 +43,7 @@ struct CastInfo: View {
             } else {
                 List {
                     ForEach(cast) { member in
-                        CastMemberRow(castMember: member)
+                        LegacyCastMemberRow(castMember: member)
                     }
                 }
             }
@@ -54,6 +54,6 @@ struct CastInfo: View {
 }
 
 #Preview {
-    CastInfo()
+    LegacyCastInfo()
         .previewEnvironment()
 }

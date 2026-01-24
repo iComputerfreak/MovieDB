@@ -10,7 +10,8 @@ import CoreData
 import os.log
 import SwiftUI
 
-struct MediaLookupDetail: View {
+@available(*, deprecated, renamed: "WIP", message: "Use the iOS 26+ variant with a fallback.")
+struct LegacyMediaLookupDetail: View {
     enum LoadingState {
         case loading
         case loaded(Media)
@@ -81,11 +82,11 @@ struct MediaLookupDetail: View {
         var body: some View {
             NavigationStack {
                 List {
-                    TitleView(media: mediaObject)
-                    BasicInfo()
-                    WatchProvidersInfo()
-                    TrailersView()
-                    ExtendedInfo()
+                    LegacyTitleView(media: mediaObject)
+                    LegacyBasicInfo()
+                    LegacyWatchProvidersInfo()
+                    LegacyTrailersView()
+                    LegacyExtendedInfo()
                 }
                 .listStyle(.grouped)
                 .navigationTitle(mediaObject.title)
@@ -108,6 +109,6 @@ struct MediaLookupDetail: View {
 }
 
 #Preview {
-    MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+    LegacyMediaLookupDetail(tmdbID: 603, mediaType: .movie)
         .previewEnvironment()
 }
