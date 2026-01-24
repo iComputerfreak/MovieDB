@@ -19,6 +19,7 @@ public struct LibraryRow: View {
         case personalRating
         case watchDate
         case flatrateWatchProviders
+        case tags
         case nothing
     }
 
@@ -85,6 +86,11 @@ public struct LibraryRow: View {
             case .flatrateWatchProviders:
                 FlatrateWatchProvidersLabel(watchProviders: mediaObject.watchProviders)
 
+            case .tags:
+                TagListView.TagListViewLabel(tags: mediaObject.tags)
+                    .lineLimit(2)
+                    .font(.subheadline)
+
             case .nothing:
                 EmptyView()
             }
@@ -93,6 +99,17 @@ public struct LibraryRow: View {
 }
 
 #if DEBUG
+#Preview("Tags") {
+    NavigationStack {
+        List {
+            LibraryRow(subtitleContent: .tags)
+                .environmentObject(PlaceholderData.preview.createStaticMovie())
+        }
+        .navigationTitle(Text(verbatim: "Watchlist"))
+    }
+
+}
+
 #Preview("Watch State") {
     NavigationStack {
         List {
