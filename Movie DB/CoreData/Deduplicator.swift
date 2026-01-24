@@ -19,27 +19,21 @@ class Deduplicator {
     /// Deduplicate Core Data entities by processing the given `NSManagedObjectID`s.
     ///
     /// All peers should eventually reach the same result with no coordination or communication.
-    func deduplicateAndWait(_ entity: DeduplicationEntity, changedObjectIDs: [NSManagedObjectID]) {
+    func deduplicateAndWait(
+        _ entity: DeduplicationEntity,
+        changedObjectIDs: [NSManagedObjectID],
+        in taskContext: NSManagedObjectContext
+    ) {
         guard !changedObjectIDs.isEmpty else {
             // Nothing to do
             return
         }
 
-        Logger.coreData.debug("Processing \(changedObjectIDs.count) changes to \(entity.entityName) entities.")
-
-        // Make any store changes on a background context
-        let taskContext = PersistenceController.shared.newBackgroundContext()
-        taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-        
-        // Use performAndWait because each step relies on the sequence.
-        // Because historyQueue (our caller) runs in the background, waiting won’t block the main queue.
-        taskContext.performAndWait {
-            for objectID in changedObjectIDs {
-                deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
-            }
-            // Save the background context to trigger a notification and merge the result into the viewContext.
-            PersistenceController.saveContext(taskContext)
+        for objectID in changedObjectIDs {
+            deduplicate(entity, changedObjectID: objectID, performingContext: taskContext)
         }
+        // Save the background context to trigger a notification and merge the result into the viewContext.
+        PersistenceController.saveContext(taskContext)
     }
     
     // swiftlint:disable:next function_body_length
@@ -53,6 +47,7 @@ class Deduplicator {
         /// Cast the object to the generic type and return it on success
         func castObject<T>(as: T.Type = T.self) -> T {
             guard let object = object as? T else {
+                // TODO: Just throw/abort here
                 fatalError("###\(#function): Failed to retrieve object for objectID: \(object.objectID)")
             }
             return object
@@ -322,11 +317,13 @@ extension Deduplicator {
     ///   - winner: The winner media that can be used as a replacement
     ///   - performingContext: The `NSManagedObjectContext` we are currently performing in
     private func remove(duplicatedMedias: [Media], winner: Media, performingContext: NSManagedObjectContext) {
+        #if DEBUG
         precondition(
             duplicatedMedias.map(\.title).removingDuplicates().count == 1,
             "The duplicate media objects have different titles"
         )
-        
+        #endif
+
         for media in duplicatedMedias {
             defer { performingContext.delete(media) }
             
@@ -348,12 +345,14 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedTags: [Tag], winner: Tag, performingContext: NSManagedObjectContext) {
+        #if DEBUG
         precondition(
             duplicatedTags.map(\.name).removingDuplicates().count == 1,
             "The duplicate tags have different names"
         )
         precondition(!duplicatedTags.contains(winner), "The duplicated tags must be excluding the winner.")
-        
+        #endif
+
         for tag in duplicatedTags {
             defer { performingContext.delete(tag) }
             
@@ -364,11 +363,13 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedGenres: [Genre], winner: Genre, performingContext: NSManagedObjectContext) {
+        #if DEBUG
         precondition(
             duplicatedGenres.map(\.name).removingDuplicates().count == 1,
             "The duplicate genres have different names"
         )
-        
+        #endif
+
         for genre in duplicatedGenres {
             defer { performingContext.delete(genre) }
             
@@ -383,11 +384,13 @@ extension Deduplicator {
         winner: UserMediaList,
         performingContext: NSManagedObjectContext
     ) {
+        #if DEBUG
         precondition(
             duplicatedUserMediaLists.map(\.name).removingDuplicates().count == 1,
             "The duplicate user lists have different names"
         )
-        
+        #endif
+
         for list in duplicatedUserMediaLists {
             defer { performingContext.delete(list) }
             
@@ -401,11 +404,13 @@ extension Deduplicator {
         winner: DynamicMediaList,
         performingContext: NSManagedObjectContext
     ) {
+        #if DEBUG
         precondition(
             duplicatedDynamicMediaLists.map(\.name).removingDuplicates().count == 1,
             "The duplicate dynamic lists have different names"
         )
-        
+        #endif
+
         for list in duplicatedDynamicMediaLists {
             defer { performingContext.delete(list) }
             
@@ -436,11 +441,13 @@ extension Deduplicator {
         winner: ProductionCompany,
         performingContext: NSManagedObjectContext
     ) {
+        #if DEBUG
         precondition(
             duplicatedProductionCompanies.map(\.name).removingDuplicates().count == 1,
             "The duplicate production companies have different names"
         )
-        
+        #endif
+
         for productionCompany in duplicatedProductionCompanies {
             defer { performingContext.delete(productionCompany) }
             
@@ -451,11 +458,13 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedSeasons: [Season], winner: Season, performingContext: NSManagedObjectContext) {
+        #if DEBUG
         precondition(
             duplicatedSeasons.map(\.seasonNumber).removingDuplicates().count == 1,
             "The duplicate seasons have different season numbers"
         )
-        
+        #endif
+
         for season in duplicatedSeasons {
             defer { performingContext.delete(season) }
             
@@ -468,11 +477,13 @@ extension Deduplicator {
     }
     
     private func remove(duplicatedVideos: [Video], winner: Video, performingContext: NSManagedObjectContext) {
+        #if DEBUG
         precondition(
             duplicatedVideos.map(\.key).removingDuplicates().count == 1,
             "The duplicate videos have different keys"
         )
-        
+        #endif
+
         for video in duplicatedVideos {
             defer { performingContext.delete(video) }
             
@@ -489,11 +500,13 @@ extension Deduplicator {
         winner: WatchProvider,
         performingContext: NSManagedObjectContext
     ) {
+        #if DEBUG
         precondition(
             duplicatedWatchProviders.map(\.id).removingDuplicates().count == 1,
             "The duplicate videos have different ids"
         )
-        
+        #endif
+
         for watchProvider in duplicatedWatchProviders {
             defer { performingContext.delete(watchProvider) }
             

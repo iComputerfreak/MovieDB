@@ -81,6 +81,8 @@ class HistoryManager {
     /// Process persistent history, posting any relevant transactions to the current view.
     func processPersistentHistory() {
         let taskContext = PersistenceController.shared.newBackgroundContext()
+        taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+
         taskContext.performAndWait {
             // Fetch history received from outside the app since the last token
             guard let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest else {
