@@ -147,7 +147,7 @@ class HistoryManager {
 
                 // We are still in a background context
                 print("Processing deduplication")
-                deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
+                deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs, in: taskContext)
             }
             
             // Update the history token using the last transaction.
