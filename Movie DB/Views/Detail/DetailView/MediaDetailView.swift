@@ -140,17 +140,69 @@ struct MediaDetailView: View {
                             }
                     }
 
-                GroupBox {
-                    VStack(alignment: .leading) {
+                VStack(alignment: .leading) {
+                    GroupBox {
                         UserData()
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.userDataSectionHeader,
+                            systemImage: "person.fill"
+                        )
                     }
-                } label: {
-                    Text(Strings.Detail.userDataSectionHeader)
+
+                    GroupBox {
+                        BasicInfo()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.basicInfoSectionHeader,
+                            systemImage: "info.circle"
+                        )
+                    }
+
+                    GroupBox {
+                        WatchProvidersInfo()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.watchProvidersSectionHeader,
+                            systemImage: "tv"
+                        )
+                    }
+
+                    GroupBox {
+                        TrailersView()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.trailersSectionHeader,
+                            systemImage: "play.rectangle"
+                        )
+                    }
+
+                    GroupBox {
+                        ExtendedInfo()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.extendedInfoSectionHeader,
+                            systemImage: "ellipsis.circle"
+                        )
+                    }
+
+                    GroupBox {
+                        MetadataInfo()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } label: {
+                        Label(
+                            Strings.Detail.metadataSectionHeader,
+                            systemImage: "paperclip"
+                        )
+                    }
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity)
-                .frame(height: 1200)
                 .background(backgroundColor)
             }
             .frame(maxWidth: .infinity)
