@@ -142,15 +142,8 @@ struct MediaDetailView: View {
                         )
                     }
 
-                    GroupBox {
-                        LegacyBasicInfo()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } label: {
-                        Label(
-                            Strings.Detail.basicInfoSectionHeader,
-                            systemImage: "info.circle"
-                        )
-                    }
+                    BasicInfoSection()
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     GroupBox {
                         LegacyWatchProvidersInfo()

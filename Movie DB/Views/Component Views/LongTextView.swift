@@ -34,6 +34,7 @@ struct LongTextView: View {
                 .navigationTitle(headline)
         } label: {
             Text(text)
+                .multilineTextAlignment(.leading)
                 .lineLimit(Self.lineLimit)
                 .headline(headline)
         }
@@ -44,7 +45,7 @@ struct LongTextView: View {
         
         var body: some View {
             HStack {
-                VStack(alignment: .center) {
+                VStack(alignment: .leading) {
                     Text(text)
                         .lineLimit(nil)
                         .padding()

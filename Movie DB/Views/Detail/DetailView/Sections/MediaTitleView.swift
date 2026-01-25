@@ -49,10 +49,13 @@ struct MediaTitleView: View {
                     Image(systemName: PredicateMediaList.favorites.iconName)
                         .symbolRenderingMode(.multicolor)
                 }
+
+                // TODO: Remove here and use in UserData section instead
                 WatchStateLabel()
             }
 
             // TODO: Create some expandable text? Or even better a "More" button that opens some kind of sheet
+            // See: https://edoardo.fyi/blog/2022/07/swiftui-expandable-text/
             Text(mediaObject.overview ?? "")
                 .lineLimit(3)
 

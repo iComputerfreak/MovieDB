@@ -44,6 +44,16 @@
         }
       }
     },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
     "addMedia.addMediaButton.addToLibrary" : {
       "comment" : "The button label that is shown when the media object can be added to the library",
       "localizations" : {
@@ -538,7 +548,7 @@
       }
     },
     "detail.basicInfo.cast" : {
-      "comment" : "The button label in the detail of a media object that leads to the cast information.",
+      "comment" : "The headline in the detail of a media object for the cast information.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -909,6 +919,23 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "detail.basicInfo.viewCastMembers.label" : {
+      "comment" : "The button label in the detail of a media object that leads to the cast information.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Besetzung anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View cast members"
           }
         }
       }

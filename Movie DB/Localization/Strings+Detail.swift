@@ -269,6 +269,11 @@ extension Strings {
 
         static let castLabel = String(
             localized: "detail.basicInfo.cast",
+            comment: "The headline in the detail of a media object for the cast information."
+        )
+
+        static let viewCastMembersLabel = String(
+            localized: "detail.basicInfo.viewCastMembers.label",
             comment: "The button label in the detail of a media object that leads to the cast information."
         )
         
