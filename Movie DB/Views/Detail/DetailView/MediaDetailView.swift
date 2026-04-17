@@ -165,15 +165,8 @@ struct MediaDetailView: View {
                         )
                     }
 
-                    GroupBox {
-                        LegacyExtendedInfo()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } label: {
-                        Label(
-                            Strings.Detail.extendedInfoSectionHeader,
-                            systemImage: "ellipsis.circle"
-                        )
-                    }
+                    ExtendedInfoSection()
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     GroupBox {
                         LegacyMetadataInfo()
