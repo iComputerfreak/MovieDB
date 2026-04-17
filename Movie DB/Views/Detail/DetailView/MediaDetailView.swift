@@ -148,15 +148,8 @@ struct MediaDetailView: View {
                     WatchProvidersSection()
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    GroupBox {
-                        LegacyTrailersView()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } label: {
-                        Label(
-                            Strings.Detail.trailersSectionHeader,
-                            systemImage: "play.rectangle"
-                        )
-                    }
+                    TrailersSection()
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     ExtendedInfoSection()
                         .frame(maxWidth: .infinity, alignment: .leading)
