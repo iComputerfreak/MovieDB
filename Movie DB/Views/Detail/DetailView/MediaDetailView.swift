@@ -168,15 +168,8 @@ struct MediaDetailView: View {
                     ExtendedInfoSection()
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    GroupBox {
-                        LegacyMetadataInfo()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } label: {
-                        Label(
-                            Strings.Detail.metadataSectionHeader,
-                            systemImage: "paperclip"
-                        )
-                    }
+                    MetadataInfoSection()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity)
