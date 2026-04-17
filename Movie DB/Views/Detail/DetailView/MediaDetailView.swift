@@ -131,16 +131,9 @@ struct MediaDetailView: View {
                     }
 
                 VStack(alignment: .leading) {
-                    GroupBox {
-                        LegacyUserData()
-                            .environment(\.isEditing, isEditing)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } label: {
-                        Label(
-                            Strings.Detail.userDataSectionHeader,
-                            systemImage: "person.fill"
-                        )
-                    }
+                    UserDataSection()
+                        .environment(\.isEditing, isEditing)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                     BasicInfoSection()
                         .frame(maxWidth: .infinity, alignment: .leading)
