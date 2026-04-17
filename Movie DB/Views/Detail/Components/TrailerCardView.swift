@@ -4,39 +4,38 @@ import SwiftUI
 
 struct TrailerCardView: View {
     @ObservedObject var video: Video
+    let action: () -> Void
 
     var body: some View {
-        if let videoURL = video.videoURL {
-            Link(destination: videoURL) {
-                VStack(alignment: .leading, spacing: 10) {
-                    thumbnail
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 10) {
+                thumbnail
 
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(video.name)
-                            .font(.subheadline.weight(.semibold))
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(video.name)
+                        .font(.subheadline.weight(.semibold))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
 
-                        HStack(spacing: 6) {
-                            CapsuleLabelView(text: video.site)
+                    HStack(spacing: 6) {
+                        CapsuleLabelView(text: video.site)
 
-                            if let resolutionLabel {
-                                CapsuleLabelView(text: resolutionLabel)
-                            }
+                        if let resolutionLabel {
+                            CapsuleLabelView(text: resolutionLabel)
                         }
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.bottom, 12)
                 }
-                .frame(width: 220, alignment: .leading)
-                .background(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(Color.calloutBackground)
-                )
-                .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .padding(.horizontal, 8)
+                .padding(.bottom, 12)
             }
-            .buttonStyle(.plain)
+            .frame(width: 220, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color.calloutBackground)
+            )
+            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
+        .buttonStyle(.plain)
     }
 
     private var thumbnail: some View {
@@ -94,5 +93,12 @@ struct TrailerCardView: View {
         default:
             return "\(video.resolution)p"
         }
+    }
+}
+
+#Preview {
+    if let video = PlaceholderData.preview.staticMovie.videos.first(where: { $0.videoURL != nil }) {
+        TrailerCardView(video: video) {}
+            .previewEnvironment()
     }
 }

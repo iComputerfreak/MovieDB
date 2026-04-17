@@ -4,6 +4,7 @@ import SwiftUI
 
 struct TrailersSection: View {
     @EnvironmentObject private var mediaObject: Media
+    @State private var selectedTrailer: Video?
 
     private var trailers: [Video] {
         mediaObject
@@ -28,12 +29,21 @@ struct TrailersSection: View {
                 ScrollView(.horizontal) {
                     HStack(alignment: .top, spacing: 8) {
                         ForEach(trailers, id: \.key) { video in
-                            TrailerCardView(video: video)
+                            TrailerCardView(video: video) {
+                                selectedTrailer = video
+                            }
                         }
                     }
                 }
                 .padding(.top, 8)
                 .padding(.bottom, 3)
+            }
+        }
+        .sheet(item: $selectedTrailer) { trailer in
+            if let trailerURL = trailer.videoURL {
+                SafariWebView(url: trailerURL)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
             }
         }
     }
