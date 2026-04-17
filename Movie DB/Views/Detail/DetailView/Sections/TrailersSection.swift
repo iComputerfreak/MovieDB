@@ -26,14 +26,11 @@ struct TrailersSection: View {
                 }
             } else {
                 ScrollView(.horizontal) {
-                    HStack(spacing: 8) {
+                    HStack(alignment: .top, spacing: 8) {
                         ForEach(trailers, id: \.key) { video in
-                            LegacyTrailerView()
-                                .environmentObject(video)
-                                .frame(maxHeight: .infinity)
+                            TrailerCardView(video: video)
                         }
                     }
-                    .frame(maxHeight: 400)
                 }
                 .padding(.top, 8)
                 .padding(.bottom, 3)

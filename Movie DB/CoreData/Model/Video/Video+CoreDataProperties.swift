@@ -41,7 +41,16 @@ public extension Video {
             return nil
         }
     }
-    
+
+    /// Returns a thumbnail URL for the video if supported by the host
+    var trailerThumbnailURL: URL? {
+        if site.lowercased() == "youtube" {
+            return URL(string: "https://i.ytimg.com/vi/\(key)/hqdefault.jpg")
+        } else {
+            return nil
+        }
+    }
+     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Video> {
         NSFetchRequest<Video>(entityName: Schema.Video._entityName)
