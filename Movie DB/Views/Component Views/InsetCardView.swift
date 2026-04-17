@@ -12,7 +12,7 @@ struct InsetCardView<Content: View>: View {
 
     var body: some View {
         content
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(14)
             .background(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)

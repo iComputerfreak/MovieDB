@@ -16,6 +16,8 @@ struct UserDataCard<Content: View>: View {
 
                 content
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
