@@ -52,6 +52,12 @@ extension Strings {
             localized: "detail.userData.headline.personalRating",
             comment: "The headline for the 'personal rating' property in the detail view"
         )
+        static func personalRatingValueLabel(_ amount: Double) -> String {
+            String(
+                localized: "detail.userData.value.personalRating \(amount)",
+                comment: "The current personal rating value in the detail view, ranging from 0 to 5 stars in 0.5 star steps"
+            )
+        }
         static let watchedHeadline = String(
             localized: "detail.userData.headline.watched",
             comment: "The headline for the 'watched' property in the detail view"

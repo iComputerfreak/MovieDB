@@ -2117,6 +2117,23 @@
         }
       }
     },
+    "detail.userData.value.personalRating %lf" : {
+      "comment" : "The current personal rating value in the detail view, ranging from 0 to 5 stars in 0.5 star steps",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%g / 5"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%g / 5"
+          }
+        }
+      }
+    },
     "detail.userData.watchDate.dateKnownToggle.label" : {
       "comment" : "The label of the toggle in the user data section of the detail view where the user specifies whether the watch date of the media is known",
       "localizations" : {
