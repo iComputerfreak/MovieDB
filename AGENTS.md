@@ -43,6 +43,7 @@ Rules and guidelines for working on this Xcode project.
 ## Testing
 - Run relevant verification after making changes.
 - Fix any build or lint violations introduced by your changes.
+- Prefer `xcodebuild ... | xcbeautify` to reduce build log clutter; rerun plain `xcodebuild` only when raw output is needed.
 
 ## Documentation
 - If you learn a new generalized project rule or receive a reusable instruction, persist it in `AGENTS.md`.
