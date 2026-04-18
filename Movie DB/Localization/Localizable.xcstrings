@@ -3457,6 +3457,23 @@
         }
       }
     },
+    "library.emptyState.button.searchInAddMedia" : {
+      "comment" : "The button label that opens the add media search from the library empty state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zur Mediathek hinzufügen..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Library..."
+          }
+        }
+      }
+    },
     "library.emptyState.description.noContent" : {
       "comment" : "The description displayed when there are no items in the library yet.",
       "localizations" : {

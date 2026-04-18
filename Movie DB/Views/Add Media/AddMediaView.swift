@@ -17,10 +17,14 @@ struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
     @State private var isLoading = false
-    @State private var searchText = ""
+    let initialSearchText: String
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.dismiss) private var dismiss
+
+    init(initialSearchText: String = "") {
+        self.initialSearchText = initialSearchText
+    }
     
     var prompt: Text {
         Text(Strings.AddMedia.searchPrompt)
@@ -30,7 +34,12 @@ struct AddMediaView: View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
                 VStack {
-                    SearchResultsView(selection: .constant(nil), prompt: prompt, autoFocus: true) { result in
+                    SearchResultsView(
+                        selection: .constant(nil),
+                        prompt: prompt,
+                        initialSearchText: initialSearchText,
+                        autoFocus: true
+                    ) { result in
                         Button {
                             Task(priority: .userInitiated) {
                                 await self.addMedia(result)

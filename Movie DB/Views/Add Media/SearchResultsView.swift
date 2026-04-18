@@ -20,8 +20,10 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var resultsText: String = ""
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
+    @State private var didApplyInitialSearchText = false
     @Binding var selection: TMDBSearchResult?
     let prompt: Text
+    let initialSearchText: String
     let autoFocus: Bool
     
     // We use an observable model to store the searchText and publisher
@@ -38,11 +40,13 @@ struct SearchResultsView<RowContent: View>: View {
     init(
         selection: Binding<TMDBSearchResult?>,
         prompt: Text,
+        initialSearchText: String = "",
         autoFocus: Bool = false,
         @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
     ) {
         self.content = content
         self.prompt = prompt
+        self.initialSearchText = initialSearchText
         self._selection = selection
         self.autoFocus = autoFocus
     }
@@ -83,6 +87,11 @@ struct SearchResultsView<RowContent: View>: View {
     }
     
     func onAppear() {
+        if model.publisher != nil {
+            applyInitialSearchTextIfNeeded()
+            return
+        }
+
         // Register the publisher for the search results
         model.publisher = model.$searchText
             .receive(on: RunLoop.main)
@@ -107,6 +116,14 @@ struct SearchResultsView<RowContent: View>: View {
             .compactMap { $0 }
             // Execute searchMedia when the search text changes
             .sink(receiveValue: searchMedia)
+
+        applyInitialSearchTextIfNeeded()
+    }
+
+    func applyInitialSearchTextIfNeeded() {
+        guard !didApplyInitialSearchText, !initialSearchText.isEmpty else { return }
+        didApplyInitialSearchText = true
+        model.searchText = initialSearchText
     }
     
     func searchMedia(_ searchText: String) {

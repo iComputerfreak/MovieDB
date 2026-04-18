@@ -71,7 +71,11 @@ struct LibraryHome: View {
                 }
             }
             .overlay {
-                MediaListEmptyState(isSearching: !searchText.isEmpty, isFiltered: !filterSetting.isReset)
+                MediaListEmptyState(
+                    isSearching: !searchText.isEmpty,
+                    isFiltered: !filterSetting.isReset,
+                    action: openAddMediaSearch
+                )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
             .environment(\.editMode, editMode)
@@ -97,8 +101,8 @@ struct LibraryHome: View {
             // Display the currently active sheet
             .sheet(item: $viewModel.activeSheet) { sheet in
                 switch sheet {
-                case .addMedia:
-                    AddMediaView()
+                case let .addMedia(initialSearchText):
+                    AddMediaView(initialSearchText: initialSearchText)
                 case .filter:
                     FilterView()
                 }
@@ -147,6 +151,11 @@ struct LibraryHome: View {
             // Only showing a subset of the total medias
             return Text(Strings.Library.footer(objCount))
         }
+    }
+
+    func openAddMediaSearch() {
+        guard !searchText.isEmpty else { return }
+        viewModel.activeSheet = .addMedia(initialSearchText: searchText)
     }
 }
 

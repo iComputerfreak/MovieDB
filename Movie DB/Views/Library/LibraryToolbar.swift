@@ -79,7 +79,7 @@ struct LibraryToolbar: ToolbarContent {
     private var addMediaButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                config.activeSheet = .addMedia
+                config.activeSheet = .addMedia(initialSearchText: "")
             } label: {
                 Image(systemName: "plus")
             }

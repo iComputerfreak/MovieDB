@@ -10,8 +10,8 @@ import Foundation
 import SwiftUI
 
 struct LibraryViewModel {
-    enum ActiveSheet: Identifiable {
-        case addMedia
+    enum ActiveSheet: Hashable, Identifiable {
+        case addMedia(initialSearchText: String)
         case filter
         
         var id: Int { hashValue }
