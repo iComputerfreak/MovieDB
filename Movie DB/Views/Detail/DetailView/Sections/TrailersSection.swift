@@ -23,6 +23,8 @@ struct TrailersSection: View {
                     Spacer()
                     Text(Strings.Detail.trailersNoneAvailable)
                         .multilineTextAlignment(.center)
+                        .font(.callout)
+                        .padding(.vertical, 16)
                     Spacer()
                 }
             } else {
@@ -50,13 +52,20 @@ struct TrailersSection: View {
 }
 
 #Preview {
+    let movieWithoutTrailers: Media = {
+        var movie = PlaceholderData.preview.createStaticMovie()
+        movie.videos = []
+        return movie
+    }()
+
     NavigationStack {
         VStack(alignment: .leading) {
             TrailersSection()
-                .padding(16)
+                .previewEnvironment()
+            TrailersSection()
+                .environmentObject(movieWithoutTrailers)
             Spacer()
         }
+        .padding(16)
     }
-    .previewEnvironment()
-    .environmentObject(PlaceholderData.preview.staticShow as Media)
 }

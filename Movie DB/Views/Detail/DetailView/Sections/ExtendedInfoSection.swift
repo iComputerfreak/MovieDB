@@ -46,8 +46,11 @@ struct ExtendedInfoSection: View {
                 !address.isEmpty,
                 let homepageURL = URL(string: address)
             {
-                Link(address, destination: homepageURL)
-                    .headline(Image(systemName: "network"), Strings.Detail.homepageHeadline)
+                Link(destination: homepageURL) {
+                    Text(address)
+                        .lineLimit(1)
+                }
+                .headline(Image(systemName: "network"), Strings.Detail.homepageHeadline)
             }
             // MARK: Production Companies
             if !mediaObject.productionCompanies.isEmpty {
@@ -84,9 +87,15 @@ struct ExtendedInfoSection: View {
             Text(Strings.Detail.scoringValueLabel(avg, max, count))
                 .headline(Image(systemName: "bubble.right"), Strings.Detail.scoringHeadline)
         }
+        .multilineTextAlignment(.leading)
     }
 }
 
 #Preview {
-    ExtendedInfoSection()
+    VStack {
+        ExtendedInfoSection()
+        Spacer()
+    }
+    .padding()
+    .previewEnvironment()
 }

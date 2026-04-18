@@ -40,20 +40,7 @@ struct TrailerCardView: View {
 
     private var thumbnail: some View {
         ZStack {
-            AsyncImage(url: video.trailerThumbnailURL) { phase in
-                switch phase {
-                case let .success(image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure:
-                    fallbackThumbnail
-                case .empty:
-                    fallbackThumbnail
-                @unknown default:
-                    fallbackThumbnail
-                }
-            }
+            TrailerThumbnailView(video: video)
 
             LinearGradient(
                 colors: [.clear, .black.opacity(0.45)],

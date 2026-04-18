@@ -44,10 +44,27 @@ public extension Video {
 
     /// Returns a thumbnail URL for the video if supported by the host
     var trailerThumbnailURL: URL? {
-        if site.lowercased() == "youtube" {
-            return URL(string: "https://i.ytimg.com/vi/\(key)/hqdefault.jpg")
-        } else {
-            return nil
+        trailerThumbnailURLs.first
+    }
+
+    /// Returns thumbnail URLs for the video if supported by the host
+    var trailerThumbnailURLs: [URL] {
+        guard site.lowercased() == "youtube" else { return [] }
+
+        let hosts = ["i.ytimg.com", "img.youtube.com"]
+        let imageNames = [
+            "maxresdefault.jpg",
+            "sddefault.jpg",
+            "hqdefault.jpg",
+            "mqdefault.jpg",
+            "default.jpg",
+            "0.jpg"
+        ]
+
+        return hosts.flatMap { host in
+            imageNames.compactMap { imageName in
+                URL(string: "https://\(host)/vi/\(key)/\(imageName)")
+            }
         }
     }
      

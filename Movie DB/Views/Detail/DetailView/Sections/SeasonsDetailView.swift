@@ -94,9 +94,7 @@ struct SeasonsDetailView: View {
         let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
             for season in show.seasons {
                 _ = group.addTaskUnlessCancelled {
-                    guard let imagePath = season.imagePath else {
-                        return (0, nil)
-                    }
+                    guard let imagePath = season.imagePath else { return (0, nil) }
                     return await (
                         season.id,
                         try? Utils.loadImage(with: imagePath, size: JFLiterals.thumbnailTMDBSize)
