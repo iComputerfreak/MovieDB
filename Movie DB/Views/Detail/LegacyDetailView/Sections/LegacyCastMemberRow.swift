@@ -23,11 +23,13 @@ struct LegacyCastMemberRow: View {
                 Image(uiImage: UIImage.posterPlaceholder)
                     .thumbnail()
             }
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)
                     .bold()
                 if !castMember.roleName.isEmpty {
                     Text(Strings.Detail.castMemberRole(castMember.roleName))
+                        .foregroundStyle(.secondary)
                         .italic()
                 }
             }

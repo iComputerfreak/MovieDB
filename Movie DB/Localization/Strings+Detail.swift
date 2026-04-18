@@ -282,6 +282,10 @@ extension Strings {
             localized: "detail.basicInfo.viewCastMembers.label",
             comment: "The button label in the detail of a media object that leads to the cast information."
         )
+        static let castNoneAvailable = String(
+            localized: "detail.cast.noneAvailable",
+            comment: "The text displayed when there are no cast members available to display"
+        )
         
         static func castMemberRole(_ roleName: String) -> String {
             String(

@@ -107,7 +107,6 @@ public struct LibraryRow: View {
         }
         .navigationTitle(Text(verbatim: "Watchlist"))
     }
-
 }
 
 #Preview("Watch State") {

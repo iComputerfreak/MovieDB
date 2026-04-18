@@ -940,6 +940,23 @@
         }
       }
     },
+    "detail.cast.noneAvailable" : {
+      "comment" : "The text displayed when there are no cast members available to display",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Besetzung verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cast available"
+          }
+        }
+      }
+    },
     "detail.cast.roleNameLabel %@" : {
       "comment" : "The label text that describes the role a cast member fulfills. The parameter is the role name.",
       "localizations" : {

@@ -62,8 +62,10 @@ struct LegacyProviderView: View {
 }
 
 #Preview {
+    let providers = PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <)
+
     HStack {
-        LegacyProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).first!)
-        LegacyProviderView(provider: PlaceholderData.preview.staticMovie.watchProviders.sorted(on: \.name, by: <).last!)
+        LegacyProviderView(provider: providers.first!)
+        LegacyProviderView(provider: providers.last!)
     }
 }
