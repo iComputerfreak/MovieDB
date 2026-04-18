@@ -6,7 +6,6 @@ import UIKit
 
 struct SeasonsDetailView: View {
     enum PreviewState {
-        case loaded
         case loading
         case empty
     }
@@ -22,9 +21,8 @@ struct SeasonsDetailView: View {
     // swiftlint:disable:next force_cast
     private var show: Show { mediaObject as! Show }
 
-    init(previewState: PreviewState? = nil, previewThumbnails: [Int: UIImage?] = [:]) {
+    init(previewState: PreviewState? = nil) {
         self.previewState = previewState
-        _seasonThumbnails = State(initialValue: previewThumbnails)
     }
 
     var body: some View {
@@ -37,13 +35,15 @@ struct SeasonsDetailView: View {
                     Text(Strings.Generic.loadingText)
                 }
             } else if previewState == .empty || show.seasons.isEmpty {
-                ContentUnavailableView(
-                    Strings.Detail.seasonsInfoNavBarTitle,
-                    systemImage: "list.number"
-                )
+                ContentUnavailableView {
+                    Label(Strings.Detail.seasonsUnavailableTitle, systemImage: "list.number")
+                } description: {
+                    Text(Strings.Detail.seasonsUnavailableDescription)
+                }
             } else {
-                List {
-                    ForEach(show.seasons.sorted(on: \.seasonNumber, by: <)) { (season: Season) in
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(show.seasons.sorted(on: \.seasonNumber, by: <)) { (season: Season) in
                         if let overview = season.overview, !overview.isEmpty {
                             NavigationLink {
                                 ScrollView {
@@ -52,18 +52,21 @@ struct SeasonsDetailView: View {
                                         .navigationTitle(season.name)
                                 }
                             } label: {
-                                SeasonInfoRowView(
+                                SeasonCardView(
                                     season: season,
                                     thumbnail: $seasonThumbnails[season.id]
                                 )
                             }
+                            .buttonStyle(.plain)
                         } else {
-                            SeasonInfoRowView(
+                            SeasonCardView(
                                 season: season,
                                 thumbnail: $seasonThumbnails[season.id]
                             )
                         }
                     }
+                }
+                .padding(16)
                 }
             }
         }
@@ -118,21 +121,33 @@ struct SeasonsDetailView: View {
 }
 
 #Preview("Loaded") {
-    SeasonsDetailView(previewState: .loaded)
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
-        .previewEnvironment()
+    NavigationStack {
+        SeasonsDetailView()
+            .environmentObject(PlaceholderData.preview.createStaticShow() as Media)
+            .previewEnvironment()
+    }
 }
 
 #Preview("Loading") {
-    SeasonsDetailView(previewState: .loading)
-        .environmentObject(PlaceholderData.preview.staticShow as Media)
-        .previewEnvironment()
+    NavigationStack {
+        SeasonsDetailView(previewState: .loading)
+            .environmentObject(PlaceholderData.preview.createStaticShow() as Media)
+            .previewEnvironment()
+    }
 }
 
 #Preview("Empty") {
     NavigationStack {
         SeasonsDetailView(previewState: .empty)
-            .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .environmentObject(SeasonsDetailView.previewEmptyShow)
     }
     .previewEnvironment()
+}
+
+private extension SeasonsDetailView {
+    static var previewEmptyShow: Media {
+        let show = PlaceholderData.preview.createStaticShow()
+        show.seasons = []
+        return show as Media
+    }
 }

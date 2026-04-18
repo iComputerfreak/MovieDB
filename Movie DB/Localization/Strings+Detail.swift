@@ -181,6 +181,14 @@ extension Strings {
             localized: "detail.seasonsInfo.navBar.title",
             comment: "The navigation bar title for the seasons info in the detail view"
         )
+        static let seasonsUnavailableTitle = String(
+            localized: "detail.seasons.unavailable.title",
+            comment: "Title shown when no seasons are available for a show"
+        )
+        static let seasonsUnavailableDescription = String(
+            localized: "detail.seasons.unavailable.description",
+            comment: "Description shown when no seasons are available for a show"
+        )
         static func seasonsInfoEpisodeCount(_ count: Int) -> String {
             String(
                 localized: "detail.extendedInfo.seasons.episodeCount \(count)",

@@ -14,16 +14,19 @@ struct CapsuleLabelView<Content>: View where Content: View {
     @Environment(\.colorScheme) private var colorScheme
     
     private let color: Color?
+    private let backgroundColor: Color?
     private let font: Font
     private let preserveMinimumHeight: Bool
     
     init(
         text: String,
         font: Font = .caption,
-        color: Color? = nil
+        color: Color? = nil,
+        backgroundColor: Color? = nil
     ) where Content == Text {
         self.init(
             color: color,
+            backgroundColor: backgroundColor,
             font: font,
             preserveMinimumHeight: false,
             content: {
@@ -39,11 +42,13 @@ struct CapsuleLabelView<Content>: View where Content: View {
     ///   - content: The content to display inside the capsule
     init(
         color: Color? = nil,
+        backgroundColor: Color? = nil,
         font: Font = .caption,
         preserveMinimumHeight: Bool = false,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.color = color
+        self.backgroundColor = backgroundColor
         self.font = font
         self.preserveMinimumHeight = preserveMinimumHeight
         self.content = content
@@ -67,9 +72,7 @@ struct CapsuleLabelView<Content>: View where Content: View {
         .padding(.vertical, 3)
         .background(
             Capsule(style: .continuous)
-            // TODO: We can use an asset color here
-            // Use a gray background, depending on the scheme
-                .fill(colorScheme == .dark ? Color(white: 0.2) : Color(white: 0.9))
+                .fill(backgroundColor ?? Color.gray90)
         )
     }
 }

@@ -1723,6 +1723,40 @@
         }
       }
     },
+    "detail.seasons.unavailable.description" : {
+      "comment" : "Description shown when no seasons are available for a show",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diese Serie sind aktuell keine Staffelinformationen verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season information for this show is not available right now."
+          }
+        }
+      }
+    },
+    "detail.seasons.unavailable.title" : {
+      "comment" : "Title shown when no seasons are available for a show",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Staffeln verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Seasons Available"
+          }
+        }
+      }
+    },
     "detail.seasonsInfo.navBar.title" : {
       "comment" : "The navigation bar title for the seasons info in the detail view",
       "localizations" : {
