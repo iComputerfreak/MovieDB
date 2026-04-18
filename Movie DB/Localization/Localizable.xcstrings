@@ -3474,6 +3474,23 @@
         }
       }
     },
+    "library.emptyState.button.resetFilter" : {
+      "comment" : "The button label that resets the filter in the library empty state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter zurücksetzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset filter"
+          }
+        }
+      }
+    },
     "library.emptyState.description.noContent" : {
       "comment" : "The description displayed when there are no items in the library yet.",
       "localizations" : {

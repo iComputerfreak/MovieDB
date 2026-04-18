@@ -74,7 +74,8 @@ struct LibraryHome: View {
                 MediaListEmptyState(
                     isSearching: !searchText.isEmpty,
                     isFiltered: !filterSetting.isReset,
-                    action: openAddMediaSearch
+                    action: openAddMediaSearch,
+                    resetFilterAction: filterSetting.reset
                 )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
