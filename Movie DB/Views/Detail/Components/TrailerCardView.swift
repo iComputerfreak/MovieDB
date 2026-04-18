@@ -72,14 +72,8 @@ struct TrailerCardView: View {
     }
 
     private var fallbackThumbnail: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(.quaternary)
-
-            Image(systemName: "play.rectangle.fill")
-                .font(.system(size: 34))
-                .foregroundStyle(.secondary)
-        }
+        Rectangle()
+            .fill(.quaternary)
     }
 
     private var resolutionLabel: String? {
@@ -96,9 +90,25 @@ struct TrailerCardView: View {
     }
 }
 
-#Preview {
-    if let video = PlaceholderData.preview.staticMovie.videos.first(where: { $0.videoURL != nil }) {
-        TrailerCardView(video: video) {}
-            .previewEnvironment()
+#Preview("Thumbnail") {
+    let videos = PlaceholderData.preview.staticShow.videos
+    ScrollView {
+        ForEach(Array(videos)) { video in
+            TrailerCardView(video: video) {}
+                .frame(maxWidth: .infinity)
+        }
     }
+    .previewEnvironment()
+}
+
+#Preview("Fallback") {
+    let video = PlaceholderData.preview.staticMovie.videos
+        .first(where: { $0.videoURL != nil })
+        .map { video in
+            var videoWithoutThumbnail = video
+            videoWithoutThumbnail.key = "asdf"
+            return videoWithoutThumbnail
+        }!
+    TrailerCardView(video: video) {}
+        .previewEnvironment()
 }
