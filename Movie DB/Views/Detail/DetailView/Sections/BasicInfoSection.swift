@@ -132,7 +132,7 @@ struct BasicInfoSection: View {
             // MARK: Seasons
             if let show = mediaObject as? Show, !show.seasons.isEmpty {
                 NavigationLink {
-                    LegacySeasonsInfo()
+                    SeasonsDetailView()
                         .environmentObject(mediaObject)
                 } label: {
                     // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
