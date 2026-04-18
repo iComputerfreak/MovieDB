@@ -153,8 +153,7 @@ struct BasicInfoSection: View {
 
             // MARK: Cast
             NavigationLink {
-                // TODO: Rework or rename
-                LegacyCastInfo()
+                CastDetailView()
                     .environmentObject(mediaObject)
             } label: {
                 HStack(spacing: 4) {
