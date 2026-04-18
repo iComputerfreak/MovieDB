@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct LegacyCastMemberRow: View {
+struct CastMemberRow: View {
     let castMember: CastMemberDummy
-    
+
     var body: some View {
         HStack(spacing: 16) {
             AsyncImage(url: castMember.imagePath.map { imagePath in
@@ -23,12 +23,15 @@ struct LegacyCastMemberRow: View {
                 Image(uiImage: UIImage.posterPlaceholder)
                     .thumbnail()
             }
+            .clipShape(RoundedRectangle(cornerRadius: 14))
 
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)
                     .bold()
+
                 if !castMember.roleName.isEmpty {
                     Text(Strings.Detail.castMemberRole(castMember.roleName))
+                        .foregroundStyle(.secondary)
                         .italic()
                 }
             }
@@ -38,6 +41,6 @@ struct LegacyCastMemberRow: View {
 
 #Preview {
     List {
-        LegacyCastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
+        CastMemberRow(castMember: .init(id: -1, name: "Keanu Reeves", roleName: "Neo", imagePath: nil))
     }
 }

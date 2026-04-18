@@ -56,7 +56,7 @@ struct CastDetailView: View {
             } else {
                 List {
                     ForEach(cast) { member in
-                        LegacyCastMemberRow(castMember: member)
+                        CastMemberRow(castMember: member)
                     }
                 }
             }
