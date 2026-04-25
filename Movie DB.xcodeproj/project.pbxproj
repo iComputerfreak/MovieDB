@@ -745,7 +745,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/SupportingFiles/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
@@ -765,7 +765,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.8.3;
+				MARKETING_VERSION = 3.0.0;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=500";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB.debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -787,7 +787,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/SupportingFiles/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
@@ -807,7 +807,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.8.3;
+				MARKETING_VERSION = 3.0.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";
