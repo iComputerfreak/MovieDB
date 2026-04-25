@@ -29,7 +29,6 @@ struct MetadataInfoSection: View {
                     }
                 }
             }
-            .padding(.top, 5)
             .headline(Image(systemName: "list.bullet"), "Lists")
 
             if let id = mediaObject.id {

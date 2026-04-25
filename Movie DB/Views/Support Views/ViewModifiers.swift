@@ -30,7 +30,7 @@ struct HeadlineModifier: ViewModifier {
     let title: Text
     
     func body(content: Content) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 4) {
             title
                 .font(.caption)
                 .foregroundColor(.primary)
