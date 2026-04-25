@@ -18,12 +18,11 @@ struct CastMemberRow: View {
                 // swiftlint:disable:next redundant_nil_coalescing
             } ?? nil) { image in
                 image
-                    .thumbnail()
+                    .posterThumbnail()
             } placeholder: {
                 Image(uiImage: UIImage.posterPlaceholder)
-                    .thumbnail()
+                    .posterThumbnail()
             }
-            .clipShape(RoundedRectangle(cornerRadius: 14))
 
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)

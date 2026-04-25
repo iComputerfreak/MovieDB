@@ -46,7 +46,7 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
             HStack {
                 // MARK: Thumbnail
                 Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                    .thumbnail()
+                    .posterThumbnail()
                 VStack(alignment: .leading, spacing: 4) {
                     // MARK: Title
                     Text(mediaObject.title)

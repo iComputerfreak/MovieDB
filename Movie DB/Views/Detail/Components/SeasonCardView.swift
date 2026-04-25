@@ -31,15 +31,7 @@ struct SeasonCardView: View {
         HStack(alignment: .top, spacing: 14) {
             // swiftlint:disable:next redundant_nil_coalescing
             Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 74, height: 108)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(.white.opacity(colorScheme == .dark ? 0.08 : 0.45), lineWidth: 1)
-                }
-                .shadow(color: .black.opacity(colorScheme == .dark ? 0.3 : 0.12), radius: 8, y: 4)
+                .posterThumbnail(size: .init(width: 74, height: 108))
 
             HStack(alignment: .top, spacing: 14) {
                 VStack(alignment: .leading, spacing: 8) {
