@@ -51,7 +51,7 @@ struct SettingsView: View {
                 .notificationPopup(
                     isPresented: $viewModel.isShowingReloadCompleteNotification,
                     systemImage: "checkmark",
-                    title: "Reload complete",
+                    title: Strings.Detail.reloadCompleteNotificationTitle,
                     subtitle: nil
                 )
             }
