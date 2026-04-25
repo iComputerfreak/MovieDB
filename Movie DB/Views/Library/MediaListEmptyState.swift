@@ -26,7 +26,10 @@ struct MediaListEmptyState: View {
     var body: some View {
         switch (isSearching, isFiltered) {
         case (true, true):
-            searchEmptyState(description: Strings.Library.EmptyState.descriptionNoSearchAndFilterResults, showsFilterResetButton: true)
+            searchEmptyState(
+                description: Strings.Library.EmptyState.descriptionNoSearchAndFilterResults,
+                showsFilterResetButton: true
+            )
 
         case (true, false):
             searchEmptyState(description: Strings.Library.EmptyState.descriptionNoSearchResults)

@@ -3,7 +3,6 @@
 import Flow
 import SwiftUI
 
-// TODO: Move out, clean up
 @available(iOS 26.0, *)
 struct MediaDetailView: View {
     @EnvironmentObject private var mediaObject: Media
@@ -28,7 +27,6 @@ struct MediaDetailView: View {
         }
     }
 
-    // TODO: Move out
     let imageHeight: CGFloat = 450
     private var backdropGradient: LinearGradient {
         .init(

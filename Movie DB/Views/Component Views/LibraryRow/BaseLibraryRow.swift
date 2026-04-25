@@ -23,15 +23,21 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
     @ViewBuilder var subtitleContent: () -> SubtitleContent
     
     private var capsules: [LibraryRowCapsule]
-    
+
     init(
         capsules: [LibraryRowCapsule] = [.mediaType, .releaseYear, .parentalRating, .isAdultMedia],
-        @ViewBuilder subtitleContent: @escaping () -> SubtitleContent = { EmptyView() }
+        @ViewBuilder subtitleContent: @escaping () -> SubtitleContent
     ) {
         self.capsules = capsules
         self.subtitleContent = subtitleContent
     }
-    
+
+    init(
+        capsules: [LibraryRowCapsule] = [.mediaType, .releaseYear, .parentalRating, .isAdultMedia]
+    ) where SubtitleContent == EmptyView {
+        self.init(capsules: capsules, subtitleContent: { EmptyView() })
+    }
+
     var body: some View {
         if mediaObject.isFault {
             // This will be displayed while the object is being deleted or is unavailable

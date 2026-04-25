@@ -43,9 +43,13 @@ extension View {
     /// Reads the rendered height of a view into the given binding.
     /// - Parameter height: The binding to update with the rendered height.
     public func readHeight(into height: Binding<CGFloat>) -> some View {
-        readGeometryValue(into: height, transform: { $0.size.height }) { currentValue, newValue in
-            // Only report the new value if it's a bit larger/smaller than the previous one.
-            abs(currentValue - newValue) > 0.5
-        }
+        readGeometryValue(
+            into: height,
+            transform: { $0.size.height },
+            shouldUpdate: { currentValue, newValue in
+                // Only report the new value if it's a bit larger/smaller than the previous one.
+                abs(currentValue - newValue) > 0.5
+            }
+        )
     }
 }

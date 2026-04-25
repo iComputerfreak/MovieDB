@@ -92,7 +92,7 @@ struct TrailerCardView: View {
     let video = PlaceholderData.preview.staticMovie.videos
         .first(where: { $0.videoURL != nil })
         .map { video in
-            var videoWithoutThumbnail = video
+            let videoWithoutThumbnail = video
             videoWithoutThumbnail.key = "asdf"
             return videoWithoutThumbnail
         }!
