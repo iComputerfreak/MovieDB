@@ -47,11 +47,12 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                         .lineLimit(2)
                         .font(.headline)
                     // Under the title
-                    HStack {
+                    WrappingHStack {
                         ForEach(capsules, id: \.rawValue) { capsule in
                             buildView(for: capsule)
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.subheadline)
                     // MARK: 3rd Row
                     subtitleContent()
