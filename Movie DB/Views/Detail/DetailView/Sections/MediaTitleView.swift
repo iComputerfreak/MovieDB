@@ -33,6 +33,11 @@ struct MediaTitleView: View {
         return elements.compactMap(\.self)
     }
 
+    private var overview: String? {
+        guard let overview = mediaObject.overview, !overview.isEmpty else { return nil }
+        return overview
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(mediaObject.title)
@@ -54,10 +59,12 @@ struct MediaTitleView: View {
                 WatchStateLabel()
             }
 
-            // TODO: Create some expandable text? Or even better a "More" button that opens some kind of sheet
-            // See: https://edoardo.fyi/blog/2022/07/swiftui-expandable-text/
-            Text(mediaObject.overview ?? "")
-                .lineLimit(3)
+            if let overview {
+                TruncatingTextSheet(
+                    overview,
+                    sheetTitle: Strings.Detail.descriptionHeadline
+                )
+            }
 
             Text(subtitleContents.joined(separator: " \(Constants.separatorDot) "))
                 .multilineTextAlignment(.leading)

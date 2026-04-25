@@ -2814,6 +2814,23 @@
         }
       }
     },
+    "generic.longText.showMore" : {
+      "comment" : "A button label that opens the full text when only a preview is shown",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr zeigen…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show more..."
+          }
+        }
+      }
+    },
     "generic.multipleObjectsSelected" : {
       "comment" : "A text that is displayed when there are multiple objects selected, but the user is supposed to only select one",
       "localizations" : {
@@ -3457,23 +3474,6 @@
         }
       }
     },
-    "library.emptyState.button.searchInAddMedia" : {
-      "comment" : "The button label that opens the add media search from the library empty state.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zur Mediathek hinzufügen..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to Library..."
-          }
-        }
-      }
-    },
     "library.emptyState.button.resetFilter" : {
       "comment" : "The button label that resets the filter in the library empty state.",
       "localizations" : {
@@ -3487,6 +3487,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset filter"
+          }
+        }
+      }
+    },
+    "library.emptyState.button.searchInAddMedia" : {
+      "comment" : "The button label that opens the add media search from the library empty state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zur Mediathek hinzufügen..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Library..."
           }
         }
       }

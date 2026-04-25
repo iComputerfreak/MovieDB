@@ -14,6 +14,7 @@ Rules and guidelines for working on this Xcode project.
 
 ## File conventions
 - Default to one primary (non-accessory) type per file; the filename should match that type.
+- Keep views in their own files in most cases; only co-locate a view when it is a tiny accessory tightly coupled to one primary type.
 - Extract helper/accessory types into dedicated files; keep tiny, private helpers alongside the primary type only when splitting would add noise.
 - Keep extracted types in the closest logical folder.
 - Preserve the standard header comment at the top of new files.
@@ -43,10 +44,14 @@ Rules and guidelines for working on this Xcode project.
 ## Testing
 - Run relevant verification after making changes.
 - Fix any build or lint violations introduced by your changes.
-- Prefer `xcodebuild ... | xcbeautify` to reduce build log clutter; rerun plain `xcodebuild` only when raw output is needed.
+- Prefer Xcode MCP build/test tools when available for project verification.
+- Always run `xcodebuild` commands with `| xcbeautify` to reduce output size and keep logs readable.
+- Fall back to `xcodebuild | xcbeautify` only when Xcode MCP is unavailable or not suitable for the task.
+- Rerun plain `xcodebuild` only when raw output is needed because `xcbeautify` hides context required to diagnose an issue.
 
 ## Documentation
 - If you learn a new generalized project rule or receive a reusable instruction, persist it in `AGENTS.md`.
+- Prefer reusable, clean, maintainable, and human-readable implementations over one-off feature code.
 - When adding an extension with a `// MARK: - <Description>` comment, place the extension immediately after the MARK without a blank line.
 - For long `Logger` messages, prefer direct interpolation plus a targeted `swiftlint:disable:next line_length` comment over building the message from temporary strings.
 
