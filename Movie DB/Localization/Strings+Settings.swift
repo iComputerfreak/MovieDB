@@ -33,6 +33,26 @@ extension Strings {
             localized: "settings.toggle.showAdultContent.label",
             comment: "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content"
         )
+        static let preferencesSectionHeader = String(
+            localized: "settings.section.preferences",
+            comment: "Section header for the settings preferences section."
+        )
+        static let proSectionHeader = String(
+            localized: "settings.section.pro",
+            comment: "Section header for the settings pro section."
+        )
+        static let importExportSectionHeader = String(
+            localized: "settings.section.importExport",
+            comment: "Section header for the settings import and export section."
+        )
+        static let supportSectionHeader = String(
+            localized: "settings.section.support",
+            comment: "Section header for the settings support section."
+        )
+        static let librarySectionHeader = String(
+            localized: "settings.section.library",
+            comment: "Section header for the settings library actions section."
+        )
         static let buyProLabel = String(
             localized: "settings.actions.buyPro.label",
             comment: "The label for the button in the settings to buy the pro version of the app"

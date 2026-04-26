@@ -18,10 +18,28 @@ struct LibraryActionsSection: View {
     let reloadHandler: () -> Void
     
     var body: some View {
-        Section(footer: FooterView()) {
-            Button(Strings.Settings.updateLibraryLabel, action: self.updateMedia)
-            Button(Strings.Settings.reloadLibraryLabel, action: self.reloadHandler)
-            Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
+        Section {
+            Button(action: self.updateMedia) {
+                SettingsActionLabel(
+                    title: Strings.Settings.updateLibraryLabel,
+                    systemImage: "square.and.arrow.down.on.square.fill",
+                    tint: .green
+                )
+            }
+            Button(action: self.reloadHandler) {
+                SettingsActionLabel(
+                    title: Strings.Settings.reloadLibraryLabel,
+                    systemImage: "arrow.clockwise.circle.fill",
+                    tint: .indigo
+                )
+            }
+            Button(action: self.resetLibrary) {
+                SettingsActionLabel(
+                    title: Strings.Settings.resetLibraryLabel,
+                    systemImage: "trash.fill",
+                    tint: .red
+                )
+            }
             #if DEBUG
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
@@ -38,10 +56,14 @@ struct LibraryActionsSection: View {
                         }
                         // swiftlint:enable force_try
                     } label: {
-                        Text(verbatim: "Debug")
+                        SettingsActionLabel(title: "Debug", systemImage: "ladybug", tint: .indigo)
                     }
                 }
             #endif
+        } header: {
+            Text(Strings.Settings.librarySectionHeader)
+        } footer: {
+            FooterView()
         }
         .disabled(self.config.isLoading)
     }

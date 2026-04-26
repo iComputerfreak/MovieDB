@@ -32,7 +32,7 @@ struct ImportExportSection: View {
     }
 
     var body: some View {
-        Section {
+        Section(Strings.Settings.importExportSectionHeader) {
             // MARK: - Import Button
             ImportMediaButton(config: $config)
             

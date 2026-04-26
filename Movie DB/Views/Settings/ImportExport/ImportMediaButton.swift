@@ -18,7 +18,13 @@ struct ImportMediaButton: View {
     private let storeManager: StoreManager = .shared
 
     var body: some View {
-        Button(Strings.Settings.importMediaLabel, action: { isImportingMedia = true })
+        Button(action: { isImportingMedia = true }) {
+            SettingsActionLabel(
+                title: Strings.Settings.importMediaLabel,
+                systemImage: "square.and.arrow.down.fill",
+                tint: .green
+            )
+        }
             .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in
                 do {
                     let url = try result.get()

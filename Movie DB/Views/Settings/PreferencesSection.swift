@@ -20,7 +20,7 @@ struct PreferencesSection: View {
     @State private var reloadLibraryAlertShowing = false
     
     var body: some View {
-        Section {
+        Section(Strings.Settings.preferencesSectionHeader) {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
             LanguagePickerView()
                 .onChange(of: preferences.language) { _, languageCode in
