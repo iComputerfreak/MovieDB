@@ -6103,6 +6103,201 @@
         }
       }
     },
+    "proInfo.cta.description" : {
+      "comment" : "Supporting text for the call to action card in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kauf wird sicher über den App Store abgewickelt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase is handled securely through the App Store."
+          }
+        }
+      }
+    },
+    "proInfo.cta.title" : {
+      "comment" : "Title for the call to action card in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freischalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro"
+          }
+        }
+      }
+    },
+    "proInfo.features.library.description %lld" : {
+      "comment" : "Description of a benefit row explaining that Pro removes the library limit. The parameter is the amount of objects one can add in the free version.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügen Sie mehr als %#@count@ zu Ihrer Mediathek hinzu, ohne an das Gratis-Limit zu stoßen."
+          },
+          "substitutions" : {
+            "count" : {
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "1 Objekt"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Objekte"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more than %#@count@ to your library without running into the free limit."
+          },
+          "substitutions" : {
+            "count" : {
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "1 item"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg items"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "proInfo.features.library.title" : {
+      "comment" : "Title of a benefit row explaining that Pro removes the library limit.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbegrenzte Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited library"
+          }
+        }
+      }
+    },
+    "proInfo.features.restore.description" : {
+      "comment" : "Description of a benefit row explaining that purchases can be restored.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stellen Sie Ihren Kauf auf weiteren Geräten mit demselben Apple Account wieder her."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore your purchase on other devices with the same Apple Account."
+          }
+        }
+      }
+    },
+    "proInfo.features.restore.title" : {
+      "comment" : "Title of a benefit row explaining that purchases can be restored.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jederzeit wiederherstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore anytime"
+          }
+        }
+      }
+    },
+    "proInfo.features.title" : {
+      "comment" : "Section title for the list of Pro benefits in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Pro erhalten Sie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Included with Pro"
+          }
+        }
+      }
+    },
+    "proInfo.features.upcoming.description" : {
+      "comment" : "Description of a benefit row explaining that Pro unlocks the Upcoming list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten Sie kommende Filme und Serien direkt neben dem Rest Ihrer Sammlung im Blick."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep upcoming movies and shows visible right alongside the rest of your collection."
+          }
+        }
+      }
+    },
+    "proInfo.features.upcoming.title" : {
+      "comment" : "Title of a benefit row explaining that Pro unlocks the Upcoming list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming-Liste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming list"
+          }
+        }
+      }
+    },
     "proInfo.introText %lld" : {
       "comment" : "Text in pro info view that explains the media limit which buying pro removes. The parameter is the amount of objects one can add in the free version",
       "localizations" : {
@@ -6243,91 +6438,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resolve later"
-          }
-        }
-      }
-    },
-    "settings.section.importExport" : {
-      "comment" : "Section header for the settings import and export section.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import & Export"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import & Export"
-          }
-        }
-      }
-    },
-    "settings.section.library" : {
-      "comment" : "Section header for the settings library actions section.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mediathek"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Library"
-          }
-        }
-      }
-    },
-    "settings.section.preferences" : {
-      "comment" : "Section header for the settings preferences section.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Präferenzen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preferences"
-          }
-        }
-      }
-    },
-    "settings.section.pro" : {
-      "comment" : "Section header for the settings pro section.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro"
-          }
-        }
-      }
-    },
-    "settings.section.support" : {
-      "comment" : "Section header for the settings support section.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support"
           }
         }
       }
@@ -7792,6 +7902,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Region"
+          }
+        }
+      }
+    },
+    "settings.section.importExport" : {
+      "comment" : "Section header for the settings import and export section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import & Export"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import & Export"
+          }
+        }
+      }
+    },
+    "settings.section.library" : {
+      "comment" : "Section header for the settings library actions section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
+          }
+        }
+      }
+    },
+    "settings.section.preferences" : {
+      "comment" : "Section header for the settings preferences section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Präferenzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
+          }
+        }
+      }
+    },
+    "settings.section.pro" : {
+      "comment" : "Section header for the settings pro section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        }
+      }
+    },
+    "settings.section.support" : {
+      "comment" : "Section header for the settings support section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
           }
         }
       }
