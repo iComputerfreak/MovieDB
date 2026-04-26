@@ -207,6 +207,7 @@ struct UserDataSection: View {
                         .environmentObject(mediaObject)
                 } label: {
                     UserDataWatchedSummaryView(summary: watchedSummary, isEditing: isEditing)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
