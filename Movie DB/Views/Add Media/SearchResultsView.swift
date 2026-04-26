@@ -14,8 +14,26 @@ import SwiftUI
 ///
 /// The `SearchResultsView` displays the search results and executes the given action when one of the results is pressed.
 struct SearchResultsView<RowContent: View>: View {
+    private enum ResultsState {
+        case idle
+        case loading
+        case noResults
+        case error
+
+        var text: String? {
+            switch self {
+            case .idle, .noResults:
+                nil
+            case .loading:
+                Strings.MediaSearch.loading
+            case .error:
+                Strings.MediaSearch.errorText
+            }
+        }
+    }
+
     @State private var results: [TMDBSearchResult] = []
-    @State private var resultsText: String = ""
+    @State private var resultsState: ResultsState = .idle
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
     /// Fallback state property when the caller gave no binding to use
@@ -84,26 +102,33 @@ struct SearchResultsView<RowContent: View>: View {
                 // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
                 JFSearchBar(text: activeSearchText, prompt: prompt, autoFocus: autoFocus)
             }
-            List(selection: $selection) {
-                if self.results.isEmpty, !self.resultsText.isEmpty {
-                    HStack {
-                        Spacer()
-                        Text(self.resultsText)
-                            .italic()
-                        Spacer()
-                    }
-                } else {
-                    ForEach(self.results) { (result: TMDBSearchResult) in
-                        content(result)
-                    }
-                    if !self.allPagesLoaded, !self.results.isEmpty {
-                        Button {
-                            loadNextPage()
-                        } label: {
-                            HStack {
-                                ProgressView()
-                                    .opacity(isLoadingNextPage ? 1 : 0)
-                                Text(Strings.MediaSearch.loadMore)
+            if results.isEmpty, resultsState == .noResults {
+                ContentUnavailableView(
+                    Strings.MediaSearch.noResults,
+                    systemImage: "magnifyingglass"
+                )
+            } else {
+                List(selection: $selection) {
+                    if self.results.isEmpty, let resultsText = self.resultsState.text {
+                        HStack {
+                            Spacer()
+                            Text(resultsText)
+                                .italic()
+                            Spacer()
+                        }
+                    } else {
+                        ForEach(self.results) { (result: TMDBSearchResult) in
+                            content(result)
+                        }
+                        if !self.allPagesLoaded, !self.results.isEmpty {
+                            Button {
+                                loadNextPage()
+                            } label: {
+                                HStack {
+                                    ProgressView()
+                                        .opacity(isLoadingNextPage ? 1 : 0)
+                                    Text(Strings.MediaSearch.loadMore)
+                                }
                             }
                         }
                     }
@@ -169,7 +194,7 @@ extension SearchResultsView {
 
     func clearResults() {
         results = []
-        resultsText = ""
+        resultsState = .idle
         pagesLoaded = 0
         allPagesLoaded = true
     }
@@ -181,7 +206,7 @@ extension SearchResultsView {
         allPagesLoaded = true
         guard !searchText.isEmpty else { return }
         // Load the first page of results
-        resultsText = Strings.MediaSearch.loading
+        resultsState = .loading
         loadNextPage(for: searchText)
     }
     
@@ -213,7 +238,7 @@ extension SearchResultsView {
 
                 // Clear "Loading..." from the first search
                 await MainActor.run {
-                    self.resultsText = ""
+                    self.resultsState = .idle
                 }
                 
                 // Filter the search results
@@ -237,8 +262,8 @@ extension SearchResultsView {
                     self.pagesLoaded += 1
                     // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
                     self.allPagesLoaded = self.pagesLoaded >= totalPages
-                    if filteredResults.isEmpty {
-                        self.resultsText = Strings.MediaSearch.noResults
+                    if filteredResults.isEmpty, self.results.isEmpty {
+                        self.resultsState = .noResults
                     }
                 }
             } catch TMDBAPI.APIError.pageOutOfBounds(_) {
@@ -257,7 +282,7 @@ extension SearchResultsView {
                         error: error
                     )
                     self.results = []
-                    self.resultsText = Strings.MediaSearch.errorText
+                    self.resultsState = .error
                 }
             }
 
