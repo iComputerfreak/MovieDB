@@ -206,13 +206,23 @@ struct SearchResultsView<RowContent: View>: View {
 }
 
 #Preview {
-    NavigationStack {
-        SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search...")) { result in
-            SearchResultRow()
-                .environmentObject(result)
+    Text(verbatim: "")
+        .sheet(isPresented: .constant(true)) {
+            NavigationStack {
+                SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search...")) { result in
+                    SearchResultRow()
+                        .environmentObject(result)
+                }
+                .navigationTitle(Text(verbatim: "Add Media"))
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {} label: {
+                            Text(verbatim: "Done")
+                        }
+                    }
+                }
+            }
         }
-        .navigationTitle(Text(verbatim: "Add Media"))
-    }
 }
 
 // The model that stores the publisher-related properties for the search
