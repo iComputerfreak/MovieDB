@@ -15,25 +15,11 @@ struct UnifiedSearchPlaceholderView: View {
     var action: (() -> Void)?
 
     var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "magnifyingglass")
-                .font(.largeTitle)
-                .foregroundStyle(.secondary)
-
-            Text(title)
-                .font(.headline)
-
-            Text(description)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-
-            if let buttonTitle, let action {
-                Button(buttonTitle, action: action)
-                    .buttonStyle(.borderedProminent)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
+        ContentUnavailableView(
+            title,
+            systemImage: "magnifyingglass",
+            description: Text(description)
+        )
     }
 }
 

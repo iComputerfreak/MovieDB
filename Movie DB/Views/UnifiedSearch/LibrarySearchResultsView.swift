@@ -71,6 +71,8 @@ struct LibrarySearchResultsView: View {
 }
 
 #Preview {
-    LibrarySearchResultsView(searchText: "Matrix") {}
-        .previewEnvironment()
+    NavigationStack {
+        LibrarySearchResultsView(searchText: "Matrix") {}
+    }
+    .previewEnvironment()
 }

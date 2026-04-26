@@ -18,18 +18,9 @@ struct AddMediaSearchRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            NavigationLink {
-                LegacyMediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
-            } label: {
-                SearchResultRow()
-                    .environmentObject(result)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .buttonStyle(.plain)
-
             Button(action: addAction) {
                 Image(systemName: alreadyAdded ? "checkmark.circle.fill" : "plus.circle.fill")
-                    .font(.title3)
+                    .font(.title2)
                     .foregroundStyle(alreadyAdded ? .green : .accentColor)
             }
             .buttonStyle(.borderless)
@@ -39,11 +30,28 @@ struct AddMediaSearchRow: View {
                 ? Strings.AddMedia.addMediaButtonAlreadyAdded
                 : Strings.AddMedia.addMediaButtonAddToLibrary
             )
+
+            NavigationLink {
+                LegacyMediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+            } label: {
+                SearchResultRow()
+                    .environmentObject(result)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
         }
     }
 }
 
 #Preview {
-    AddMediaSearchRow(result: PlaceholderData.preview.searchResultMovie, addAction: {})
-        .previewEnvironment()
+    NavigationStack {
+        List {
+            AddMediaSearchRow(result: PlaceholderData.preview.searchResultMovie, addAction: {})
+            AddMediaSearchRow(result: PlaceholderData.preview.searchResultShow, addAction: {})
+        }
+        .task {
+            try? await MediaLibrary.shared.addMedia(PlaceholderData.preview.searchResultShow)
+        }
+    }
+    .previewEnvironment()
 }

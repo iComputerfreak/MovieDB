@@ -20,12 +20,13 @@ struct SearchResultsView<RowContent: View>: View {
     @State private var allPagesLoaded = true
     /// Fallback state property when the caller gave no binding to use
     @State private var searchText: String
+    @State private var isLoadingNextPage: Bool = false
     @Binding var selection: TMDBSearchResult?
     let prompt: Text
     let searchTextBinding: Binding<String>?
     let autoFocus: Bool
     let showsSearchBar: Bool
-    
+
     @EnvironmentObject private var config: JFConfig
     
     /// The action to execute when one of the results is pressed
@@ -95,13 +96,11 @@ struct SearchResultsView<RowContent: View>: View {
                             loadNextPage()
                         } label: {
                             HStack {
-                                Spacer()
+                                ProgressView()
+                                    .opacity(isLoadingNextPage ? 1 : 0)
                                 Text(Strings.MediaSearch.loadMore)
-                                    .italic()
-                                Spacer()
                             }
                         }
-                        .foregroundColor(.primary)
                     }
                 }
             }
@@ -183,6 +182,8 @@ struct SearchResultsView<RowContent: View>: View {
         let searchText = rawSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
         // We cannot load results for an empty text
         guard !searchText.isEmpty else { return }
+
+        self.isLoadingNextPage = true
         // Fetch the additional search results async
         Task(priority: .userInitiated) {
             do {
@@ -194,8 +195,14 @@ struct SearchResultsView<RowContent: View>: View {
                 )
 
                 let currentSearchText = activeSearchText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard currentSearchText == searchText else { return }
-                
+                guard currentSearchText == searchText else {
+                    await MainActor.run {
+                        self.isLoadingNextPage = false
+                    }
+                    // Search text changed since we started, abort
+                    return
+                }
+
                 // Clear "Loading..." from the first search
                 await MainActor.run {
                     self.resultsText = ""
@@ -209,9 +216,7 @@ struct SearchResultsView<RowContent: View>: View {
                         guard
                             config.showAdults,
                             let movieResult = result as? TMDBMovieSearchResult
-                        else {
-                            return true
-                        }
+                        else { return true }
                         // We only include non-adult movies
                         return !movieResult.isAdult
                     }
@@ -247,11 +252,33 @@ struct SearchResultsView<RowContent: View>: View {
                     self.resultsText = Strings.MediaSearch.errorText
                 }
             }
+
+            await MainActor.run {
+                self.isLoadingNextPage = false
+            }
         }
     }
 }
 
-#Preview {
+#Preview("Results") {
+    NavigationStack {
+        SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search..."), initialSearchText: "asd") { result in
+            SearchResultRow()
+                .environmentObject(result)
+        }
+        .navigationTitle(Text(verbatim: "Add Media"))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {} label: {
+                    Text(verbatim: "Done")
+                }
+            }
+        }
+    }
+    .previewEnvironment()
+}
+
+#Preview("Empty") {
     Text(verbatim: "")
         .sheet(isPresented: .constant(true)) {
             NavigationStack {
@@ -269,4 +296,5 @@ struct SearchResultsView<RowContent: View>: View {
                 }
             }
         }
+        .previewEnvironment()
 }
