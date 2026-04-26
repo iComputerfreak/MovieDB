@@ -266,6 +266,10 @@ struct MediaLibrary {
     
     /// Performs a cleanup of the library, deleting unused entities
     func cleanup() throws {
+        if context.hasChanges {
+            try context.save()
+        }
+
         // MARK: Delete entities that are not used anymore
         Logger.library.info("Deleting unused entities...")
         try delete(
@@ -290,7 +294,18 @@ struct MediaLibrary {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetch.predicate = predicate
         let delete = NSBatchDeleteRequest(fetchRequest: fetch)
-        try context.execute(delete)
+        delete.resultType = .resultTypeObjectIDs
+
+        if
+            let result = try context.execute(delete) as? NSBatchDeleteResult,
+            let objectIDs = result.result as? [NSManagedObjectID],
+            !objectIDs.isEmpty
+        {
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs],
+                into: [context]
+            )
+        }
     }
     
     /// Resets all available tags and their relation to the media objects

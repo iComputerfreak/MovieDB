@@ -37,7 +37,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     )
     // Filters for medias where the latest available season has been watched completely
     private static let watchedAllSeasonsPredicate = NSPredicate(
-        format: "lastSeasonWatched >= numberOfSeasons AND lastEpisodeWatched <= 0"
+        format: "lastSeasonWatched >= numberOfSeasons AND (lastEpisodeWatched == nil OR lastEpisodeWatched <= 0)"
     )
     /// A predicate that filters for all shows that have a partial watch state (watched some, but not all seasons/episodes)
     static let showsWatchedPartiallyPredicate = NSCompoundPredicate(type: .and, subpredicates: [

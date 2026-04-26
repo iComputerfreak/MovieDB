@@ -27,10 +27,10 @@ class CodableTests {
     /// Tests the decode and encode functions of TMDBMovieData
     @Test func testDecodeMovieMatrix() throws {
         let companies = [
-            ProductionCompanyDummy(id: 79, name: "Village Roadshow Pictures", logoPath: "/tpFpsqbleCzEE2p5EgvUq6ozfCA.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 79, name: "Village Roadshow Pictures", logoPath: "/at4uYdwAAgNRKhZuuFX8ShKSybw.png", originCountry: "US"),
             ProductionCompanyDummy(id: 372, name: "Groucho II Film Partnership", logoPath: nil, originCountry: ""),
             ProductionCompanyDummy(id: 1885, name: "Silver Pictures", logoPath: "/xlvoOZr4s1PygosrwZyolIFe5xs.png", originCountry: "US"),
-            ProductionCompanyDummy(id: 174, name: "Warner Bros. Pictures", logoPath: "/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 174, name: "Warner Bros. Pictures", logoPath: "/zhD3hhtKB5qyv7ZeL4uLpNxgMVU.png", originCountry: "US"),
         ]
         
         // Test, if the Decoding works
@@ -63,29 +63,46 @@ class CodableTests {
         #expect(movieData.isAdult == false)
 
         // Translations, Keywords, Videos and Cast
-        let keywords = ["saving the world", "artificial intelligence", "man vs machine", "philosophy", "prophecy", "martial arts", "self sacrifice", "dream", "fight", "hacker", "insurgence", "simulated reality ", "virtual reality", "dystopia", "truth", "cyberpunk", "dream world", "woman director", "messiah", "action hero", "gnosticism"]
-        let translations = ["Arabic", "Bulgarian", "Bosnian", "Catalan", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Persian", "Finnish", "French", "French", "Galician", "Hebrew", "Croatian", "Hungarian", "Indonesian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
+        let keywords = ["man vs machine", "martial arts", "dreams", "artificial intelligence (a.i.)", "saving the world", "hacker", "self sacrifice", "virtual reality", "fight", "prophecy", "truth", "philosophy", "dystopia", "insurgence", "simulated reality ", "cyberpunk", "dream world", "messiah", "action hero", "gnosticism", "awestruck", "allegory of the cave"]
+        let translations = ["English", "German", "Spanish", "Czech", "Russian", "French", "Portuguese", "Hungarian", "Danish", "Mandarin", "Italian", "Turkish", "Dutch", "Swedish", "Finnish", "Japanese", "Polish", "Macedonian", "Slovak", "Hebrew", "Norwegian", "Greek", "Bulgarian", "Thai", "Korean", "Ukrainian", "Romanian", "Serbian", "Indonesian", "Persian", "Bosnian", "Portuguese", "Spanish", "Mandarin", "French", "Croatian", "Lithuanian", "Mandarin", "Galician", "Uzbek", "Slovenian", "Vietnamese", "Latvian", "Arabic", "Georgian", "Catalan", "Esperanto", "Estonian", "Mandarin"]
         let videos = [
+            VideoDummy(key: "FVI84Dfx2-I", name: "Official 25th Anniversary Trailer #3", site: "YouTube", type: "Teaser", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "H5Xwfk1Tugw", name: "25th Anniversary Spot", site: "YouTube", type: "Teaser", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "d0XTFAMmhrE", name: "25th Anniversary | Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "buz7P6oKvDY", name: "'Welcome To The Desert Of The Real' Clip", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "BqlrNLCFaa0", name: "'Down the Rabbit Hole' Clip", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "LUC0V6f1Is4", name: "My Name is Neo Clip", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "dHqixkhaMpc", name: "Rescuing Morpheus Clip", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "RMxEDx7tiBY", name: "Keanu Reeves on Reading the Script for THE MATRIX", site: "YouTube", type: "Featurette", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "HNLiTxPMX9U", name: "The Lobby Shoot Out", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "VdwDTmcCgDQ", name: "The Subway Showdown", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "ozS_6vqnJ8w", name: "I Know Kung Fu", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "ky7ksownEEE", name: "The Red Pill or The Blue Pill", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "Ctrq8eioC_U", name: "System Failure", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "vqG6-Z2bGX4", name: "Neo Starts to Wake Up", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "3rgBRG31Qa0", name: "Clip", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "5N2vSvlMp_0", name: "Ten Minute Preview", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "nUEQNVV3Gfs", name: "Official 4K Trailer", site: "YouTube", type: "Trailer", resolution: 2160, language: "en", region: "US"),
             VideoDummy(key: "RZ-MXBjvA38", name: "Full Movie Preview", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "L0fw0WzFaBM", name: "20th Anniversary UK Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "m8e-FF8MsqU", name: "Classic Trailer", site: "YouTube", type: "Trailer", resolution: 720, language: "en", region: "US"),
+            VideoDummy(key: "JfJrEXwsCBQ", name: "The Matrix Wins Film Editing: 2000 Oscars", site: "YouTube", type: "Featurette", resolution: 480, language: "en", region: "US"),
+            VideoDummy(key: "J4CL9v_IMew", name: "The Matrix Wins Best Sound: 2000 Oscars", site: "YouTube", type: "Featurette", resolution: 480, language: "en", region: "US"),
+            VideoDummy(key: "HZkeX6TIQWA", name: "\"The Matrix\" winning Oscars® for Sound Effects Editing and Visual Effects", site: "YouTube", type: "Featurette", resolution: 480, language: "en", region: "US"),
         ]
         
-        assertEqual(movie.keywords, keywords)
-        assertEqual(movie.translations, translations)
+        assertEqual(movie.keywords.sorted(), keywords.sorted())
+        assertEqual(movie.translations.sorted(), translations.sorted())
         assertEqual(movie.videos, videos)
-        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
+        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple TV", "Google Play Movies", "Microsoft Store", "Rakuten TV", "Sky Go", "Sky Store", "Videoload", "WOW", "YouTube", "maxdome Store"])
     }
     
     @Test func testDecodeMovieFightClub() throws {
         let companies = [
-            ProductionCompanyDummy(id: 508, name: "Regency Enterprises", logoPath: "/7PzJdsLGlR7oW4J0J5Xcd0pHGRg.png", originCountry: "US"),
             ProductionCompanyDummy(id: 711, name: "Fox 2000 Pictures", logoPath: "/tEiIH5QesdheJmDAqQwvtN60727.png", originCountry: "US"),
-            ProductionCompanyDummy(id: 20555, name: "Taurus Film", logoPath: "/hD8yEGUBlHOcfHYbujp71vD8gZp.png", originCountry: "DE"),
-            ProductionCompanyDummy(id: 54051, name: "Atman Entertainment", logoPath: nil, originCountry: ""),
-            ProductionCompanyDummy(id: 54052, name: "Knickerbocker Films", logoPath: nil, originCountry: "US"),
+            ProductionCompanyDummy(id: 508, name: "Regency Enterprises", logoPath: "/7cxRWzi4LsVm4Utfpr1hfARNurT.png", originCountry: "US"),
             ProductionCompanyDummy(id: 4700, name: "The Linson Company", logoPath: "/A32wmjrs9Psf4zw0uaixF0GXfxq.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 25, name: "20th Century Fox", logoPath: "/qZCc1lty5FzX30aOCVRBLzaVmcp.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 20555, name: "Taurus Film", logoPath: "/hD8yEGUBlHOcfHYbujp71vD8gZp.png", originCountry: "DE"),
         ]
         
         // Test, if the Decoding works
@@ -118,61 +135,67 @@ class CodableTests {
         #expect(movieData.isAdult == false)
 
         // Translations, Keywords, Videos and Cast
-        let keywords = ["based on novel or book", "support group", "dual identity", "nihilism", "fight", "rage and hate", "insomnia", "dystopia", "alter ego", "cult film", "split personality", "quitting a job", "dissociative identity disorder", "self destructiveness"]
-        let translations = ["Arabic", "Azerbaijani", "Bulgarian", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Spanish", "Estonian", "Persian", "Finnish", "French", "French", "Hebrew", "Croatian", "Hungarian", "Italian", "Japanese", "Georgian", "Korean", "Lithuanian", "Latvian", "Macedonian", "Malayalam", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Thai", "Turkish", "Twi", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
+        let keywords = ["dual identity", "rage and hate", "based on novel or book", "nihilism", "fight", "support group", "dystopia", "insomnia", "alter ego", "breaking the fourth wall", "split personality", "quitting a job", "dissociative identity disorder", "self destructiveness"]
+        let translations = ["English", "Spanish", "Ukrainian", "German", "Portuguese", "French", "Dutch", "Hungarian", "Russian", "Italian", "Turkish", "Mandarin", "Danish", "Swedish", "Polish", "Czech", "Finnish", "Hebrew", "Arabic", "Serbian", "Japanese", "Greek", "Bulgarian", "Korean", "Latvian", "Romanian", "Persian", "Slovak", "Portuguese", "Azerbaijani", "Estonian", "Lithuanian", "Macedonian", "Spanish", "Croatian", "Slovenian", "Twi", "Mandarin", "Thai", "Norwegian", "Malayalam", "Mandarin", "French", "Uzbek", "Vietnamese", "Georgian", "Catalan", "Indonesian", "German", "Kazakh", "Belarusian", "Basque", "Kurdish", "Hindi", "Bengali", "Kannada"]
         let videos = [
+            VideoDummy(key: "dfeUzm6KF4g", name: "20th Anniversary Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "tiWCNtGDGEY", name: "Mark Kermode introduces Fight Club | Film4 Interview", site: "YouTube", type: "Featurette", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "6JnN1DmbqoU", name: "Theatrical Trailer (HD Fan Remaster)", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
             VideoDummy(key: "BdJKm16Co6M", name: "#TBT Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
         ]
         
         assertEqual(movie.keywords.sorted(), keywords.sorted())
-        assertEqual(movie.translations, translations)
+        assertEqual(movie.translations.sorted(), translations.sorted())
         assertEqual(movie.videos, videos)
-        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Prime Video", "Amazon Video", "Apple iTunes", "Chili", "Disney Plus", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "Rakuten TV", "Sky Store", "YouTube", "maxdome Store"])
+        assertEqual(movie.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple TV", "Disney Plus", "Google Play Movies", "Microsoft Store", "Rakuten TV", "Sky Store", "Videoload", "YouTube", "maxdome Store"])
     }
     
     // swiftlint:disable:next inclusive_language
     @Test func testDecodeShowBlacklist() throws {
         let companies = [
-            ProductionCompanyDummy(id: 11073, name: "Sony Pictures Television Studios", logoPath: "/wHs44fktdoj6c378ZbSWfzKsM2Z.png", originCountry: "US"),
-            ProductionCompanyDummy(id: 1302, name: "Davis Entertainment", logoPath: "/kQZtJdyphCmq292iGDqlUx0yk2D.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 11073, name: "Sony Pictures Television", logoPath: "/aCbASRcI1MI7DXjPbSW9Fcv9uGR.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 1302, name: "Davis Entertainment", logoPath: "/zC3b70ixHh89qJIikLQPEvLqbPM.png", originCountry: "US"),
             ProductionCompanyDummy(id: 26727, name: "Universal Television", logoPath: "/jeTxdjXhzgKZyLr3l9MllkTn3fy.png", originCountry: "US"),
         ]
         let networks = [
-            ProductionCompanyDummy(id: 6, name: "NBC", logoPath: "/nGRVQlfmPBmfkNgCFpx5m7luTxG.png", originCountry: "US"),
+            ProductionCompanyDummy(id: 6, name: "NBC", logoPath: "/cm111bsDVlYaC1foL0itvEI4yLG.png", originCountry: "US"),
         ]
         // swiftlint:disable multiline_arguments
         // swiftlint:disable multiline_arguments_brackets
         let seasons = [
             SeasonDummy(id: 55083, seasonNumber: 0, episodeCount: 11, name: "Specials",
                         overview: "",
-                        imagePath: "/jPT3J4xlQ3yF5fczAopLofHBGq3.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-10")),
+                        imagePath: "/5ZeJIlhrYO3zgW2JN62mi6mXkSM.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-10")),
             SeasonDummy(id: 55082, seasonNumber: 1, episodeCount: 22, name: "Season 1",
                         overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI’s Most Wanted fugitives. Brokering shadowy deals for criminals across the globe, Red was known by many as the \"Concierge of Crime.\" Now, he’s mysteriously surrendered to the FBI with an explosive offer: he will help catch the world’s most elusive criminals, under the condition that he speaks only to Elizabeth \"Liz\" Keen, an FBI profiler fresh out of Quantico. For Liz, it’s going to be one hell of a first day on the job.",
                         imagePath: "/9oAb7SlHybGK6P7dsOfEFjPsPBM.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-23")),
             SeasonDummy(id: 61357, seasonNumber: 2, episodeCount: 22, name: "Season 2",
                         overview: "For decades, ex-government agent Raymond \"Red\" Reddington has been one of the FBI's Most Wanted fugitives. He mysteriously surrendered to the FBI but now the FBI works for him as he identifies a \"blacklist\" of politicians, mobsters, spies and international terrorists. He will help catch them all... with the caveat that Elizabeth \"Liz\" Keen continues to work as his partner. Red will teach Liz to think like a criminal and \"see the bigger picture\"... whether she wants to or not.",
-                        imagePath: "/b7o8AOpZPWJO8nP4SK8RRZ2d0B0.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2014-09-22")),
+                        imagePath: "/tW94pYXvS4hzJkMrkM2vK3k8qgF.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2014-09-22")),
             SeasonDummy(id: 70935, seasonNumber: 3, episodeCount: 23, name: "Season 3",
                         overview: "Now a fugitive on the run, Liz must figure out how to protect herself from the fallout of her actions in the explosive season two finale.",
-                        imagePath: "/hWN5imHrpg8wjEBsa7v80sGsS8r.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2015-10-01")),
+                        imagePath: "/mivR9jhIye1XT4vdGL5pWC28cYz.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2015-10-01")),
             SeasonDummy(id: 80082, seasonNumber: 4, episodeCount: 22, name: "Season 4",
                         overview: "A mysterious man claiming to be Liz’s real father targets her, but first she must resolve the mystery of her lost childhood and reconcile her true identity with the elusive memories corrupted by Reddington. Without the truth, every day holds more danger for herself, her baby and her husband Tom. Meanwhile, the Task Force reels from Liz’s resurrection and friendships are fractured. Betrayed by those closest to him, Reddington’s specific moral code demands justice, all the while battling an army of new and unexpected blacklisters.",
                         imagePath: "/d5AJOxPzGkAHiaCHcESVCim1vHu.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2016-09-22")),
             SeasonDummy(id: 91328, seasonNumber: 5, episodeCount: 22, name: "Season 5",
                         overview: "Feeling surprisingly unencumbered, Raymond Reddington is back, and in the process of rebuilding his criminal empire. His lust for life is ever-present as he lays the foundation for this new enterprise - one that he\'ll design with Elizabeth Keen by his side. Living with the reality that Red is her father, Liz finds herself torn between her role as an FBI agent and the temptation to act on her more criminal instincts. In a world where the search for Blacklisters has become a family trade, Red will undoubtedly reclaim his moniker as the “Concierge of Crime.”",
-                        imagePath: "/6MupSEjQbWd5t37iHoYNGV1Rp2Y.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2017-09-27")),
+                        imagePath: "/rl3yjCHmTIFKOkHtBjtxw4H18K0.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2017-09-27")),
             SeasonDummy(id: 112_279, seasonNumber: 6, episodeCount: 22, name: "Season 6",
                         overview: "Following the startling revelation that Raymond \"Red\" Reddington isn\'t who he says he is, Elizabeth Keen is torn between the relationship she\'s developed with the man assumed to be her father and her desire to get to the bottom of years of secrets and lies. Meanwhile, Red leads Liz and the FBI to some of the most strange and dangerous criminals yet, growing his empire and eliminating rivals in the process. All throughout, Liz and Red engage in an uneasy cat-and-mouse game in which lines will be crossed and the truth will be revealed.",
-                        imagePath: "/f1R6R8AVS8EwaOUltlVxNjASZAs.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-01-03")),
+                        imagePath: "/i5VAFkJktNmMvBGB42sIRdJxSwc.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-01-03")),
             SeasonDummy(id: 132_066, seasonNumber: 7, episodeCount: 19, name: "Season 7",
                         overview: "After being abducted by Katarina Rostova, Raymond \"Red\" Reddington finds himself alone in hostile territory, unsure of who, if anyone, he can trust. Surrounded by old enemies and new allies, Red must stay one step ahead of the Blacklist\'s most dangerous criminal, who will stop at nothing to unearth the very truth Red wants no one to know about. To find it, Katarina will insinuate herself into the life of Elizabeth Keen, who has finally reunited with her daughter Agnes. Katarina’s presence will bring danger to Liz’s doorstep and forever alter her relationship with Red.",
-                        imagePath: "/e72ZZsSeKADafuy2aPWCUp15GgE.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-10-04")),
+                        imagePath: "/ybIqiVAYlKtLoAd52hbiz42ZC4R.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-10-04")),
             SeasonDummy(id: 165_869, seasonNumber: 8, episodeCount: 22, name: "Season 8",
                         overview: "With his back against the wall, Raymond Reddington faces his most formidable enemy yet: Elizabeth Keen. Aligned with her mother, infamous Russian spy Katarina Rostova, Liz must decide how far she is willing to go to find out why Reddington has entered her life and what his endgame really is. The fallout between Reddington and Keen will have devastating consequences for all that lie in their wake, including the Task Force they helped to create.",
-                        imagePath: "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2020-11-13")),
+                        imagePath: "/yDELZilMblqHRnBb4E2jxza6072.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2020-11-13")),
             SeasonDummy(id: 200_816, seasonNumber: 9, episodeCount: 22, name: "Season 9",
                         overview: "In the two years following the death of Elizabeth Keen, Raymond Reddington and the members of the FBI Task Force have disbanded – their lives now changed in unexpected ways and with Reddington’s whereabouts unknown. Finding themselves each at a crossroads, a common purpose compels them to renew their original mission: to take down dangerous, vicious and eccentric Blacklisters. In the process, they begin to uncover lethal adversaries, unimaginable conspiracies and surprising betrayals that will threaten alliances and spur vengeance for the past, led by the most devious criminal of them all – Raymond Reddington.",
                         imagePath: "/r935SMphvXppx5bJjbIBNx02fwc.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2021-10-21")),
+            SeasonDummy(id: 315_608, seasonNumber: 10, episodeCount: 22, name: "Season 10",
+                        overview: "With Reddington's covert role as an FBI informant facing exposure, former Blacklisters will unite against him in their lethal desire for revenge – testing Red and the FBI Task Force as never before.",
+                        imagePath: "/hAY623VkW1Gy0xMtZpkZB2tJZPM.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2023-02-26")),
         ]
         // swiftlint:enable multiline_arguments
         // swiftlint:enable multiline_arguments_brackets
@@ -191,9 +214,9 @@ class CodableTests {
         assertEqual(show.productionCompanies, companies)
         #expect(show.homepageURL == "https://www.nbc.com/the-blacklist")
 
-        #expect(show.popularity > 0)
-        #expect(show.voteAverage > 0)
-        #expect(show.voteCount > 0)
+        #expect(show.popularity == 625.075)
+        #expect(show.voteAverage == 7.633)
+        #expect(show.voteCount == 3209)
 
         // Show exclusive data
         let showData = try #require(show.showData)
@@ -209,59 +232,58 @@ class CodableTests {
         assertEqual(showData.networks, networks)
         
         // Translations, Keywords, Videos and Cast
-        let keywords = ["terrorist", "fbi", "investigation", "criminal mastermind", "crime lord", "hidden identity", "criminal consultant"]
+        let keywords = ["fbi", "investigation", "terrorism", "criminal mastermind", "crime lord", "hidden identity", "criminal consultant", "cautionary"]
         // Only some translations
         let translations = ["Arabic", "Dutch", "Turkish", "Mandarin"]
         let videos = [
-            VideoDummy(key: "SoT5JImB1H8", name: "The Blacklist - first scene - Reddington surrenders himself to the FBI [HD]", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "-WYdUaK54fU", name: "Blacklist Season 1 - Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "SoT5JImB1H8", name: "Reddington surrenders himself to the FBI", site: "YouTube", type: "Clip", resolution: 1080, language: "en", region: "US"),
         ]
         
         assertEqual(show.keywords, keywords)
         assertContains(translations, in: show.translations)
         assertEqual(show.videos, videos)
-        assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "MagentaTV", "Microsoft Store", "Netflix", "RTL+"])
+        assertEqual(show.watchProviders.map(\.name).sorted(), ["AXN Black Amazon Channel", "Amazon Video", "Apple TV", "Microsoft Store", "Netflix", "Netflix basic with Ads", "RTL+", "RTL+", "maxdome Store"])
     }
     
     @Test func testDecodeShowGameOfThrones() throws {
         let companies = [
             ProductionCompanyDummy(id: 76043, name: "Revolution Sun Studios", logoPath: "/9RO2vbQ67otPrBLXCaC8UMp3Qat.png", originCountry: "US"),
             ProductionCompanyDummy(id: 12525, name: "Television 360", logoPath: nil, originCountry: ""),
-            ProductionCompanyDummy(id: 5820, name: "Generator Entertainment", logoPath: nil, originCountry: ""),
-            ProductionCompanyDummy(id: 12526, name: "Bighead Littlehead", logoPath: nil, originCountry: ""),
+            ProductionCompanyDummy(id: 5820, name: "Generator Entertainment", logoPath: nil, originCountry: "GB"),
+            ProductionCompanyDummy(id: 12526, name: "Bighead Littlehead", logoPath: nil, originCountry: "US"),
         ]
         let networks = [
             ProductionCompanyDummy(id: 49, name: "HBO", logoPath: "/tuomPhY2UtuPTqqFnKMVHvSb724.png", originCountry: "US"),
         ]
         // swiftlint:disable multiline_arguments multiline_arguments_brackets
         let seasons = [
-            SeasonDummy(id: 3627, seasonNumber: 0, episodeCount: 227, name: "Specials",
+            SeasonDummy(id: 3627, seasonNumber: 0, episodeCount: 283, name: "Specials",
                         overview: "",
-                        imagePath: "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2010-12-05")),
+                        imagePath: "/aos6lC1JGYt6ZRL85lgstNsfSeY.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2010-12-05")),
             SeasonDummy(id: 3624, seasonNumber: 1, episodeCount: 10, name: "Season 1",
                         overview: "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
-                        imagePath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2011-04-17")),
+                        imagePath: "/wgfKiqzuMrFIkU1M68DDDY8kGC1.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2011-04-17")),
             SeasonDummy(id: 3625, seasonNumber: 2, episodeCount: 10, name: "Season 2",
                         overview: "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
-                        imagePath: "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2012-04-01")),
+                        imagePath: "/9xfNkPwDOqyeUvfNhs1XlWA0esP.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2012-04-01")),
             SeasonDummy(id: 3626, seasonNumber: 3, episodeCount: 10, name: "Season 3",
                         overview: "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
-                        imagePath: "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2013-03-31")),
+                        imagePath: "/5MkZjRnCKiIGn3bkXrXfndEzqOU.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2013-03-31")),
             SeasonDummy(id: 3628, seasonNumber: 4, episodeCount: 10, name: "Season 4",
                         overview: "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
-                        imagePath: "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2014-04-06")),
+                        imagePath: "/jXIMScXE4J4EVHUba1JgxZnWbo4.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2014-04-06")),
             SeasonDummy(id: 62090, seasonNumber: 5, episodeCount: 10, name: "Season 5",
                         overview: "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
-                        imagePath: "/527sR9hNDcgVDKNUE3QYra95vP5.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2015-04-12")),
+                        imagePath: "/7Q1Hy1AHxAzA2lsmzEMBvuWTX0x.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2015-04-12")),
             SeasonDummy(id: 71881, seasonNumber: 6, episodeCount: 10, name: "Season 6",
                         overview: "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
-                        imagePath: "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2016-04-24")),
+                        imagePath: "/p1udLh0gfqyZFmXBGa393gk8go5.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2016-04-24")),
             SeasonDummy(id: 81266, seasonNumber: 7, episodeCount: 7, name: "Season 7",
                         overview: "The long winter is here. And with it comes a convergence of armies and attitudes that have been brewing for years.",
-                        imagePath: "/3dqzU3F3dZpAripEx9kRnijXbOj.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2017-07-16")),
+                        imagePath: "/oX51n32QyHeFP5kErksemJsJljL.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2017-07-16")),
             SeasonDummy(id: 107_971, seasonNumber: 8, episodeCount: 6, name: "Season 8",
                         overview: "The Great War has come, the Wall has fallen and the Night King's army of the dead marches towards Westeros. The end is here, but who will take the Iron Throne?",
-                        imagePath: "/3OcQhbrecf4F4pYss2gSirTGPvD.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-04-14")),
+                        imagePath: "/259Q5FuaD3TNB7DGauTaJVRC8XV.jpg", airDate: Utils.tmdbUTCDateFormatter.date(from: "2019-04-13")),
         ]
         // swiftlint:enable multiline_arguments multiline_arguments_brackets
         
@@ -294,7 +316,7 @@ class CodableTests {
         assertEqual(showData.lastAirDate, 2019, 05, 19)
         #expect(showData.numberOfSeasons == 8)
         #expect(showData.numberOfEpisodes == 73)
-        #expect(showData.episodeRuntime == [60])
+        #expect(showData.episodeRuntime.isEmpty)
         #expect(showData.isInProduction == false)
         assertEqual(showData.seasons, seasons)
         #expect(showData.showType == .scripted)
@@ -303,18 +325,20 @@ class CodableTests {
         // Translations, Keywords, Videos and Cast
         let keywords = ["based on novel or book", "kingdom", "dragon", "king", "intrigue", "fantasy world"]
         // Only some translations
-        let translations = ["Arabic", "Belarusian", "Bulgarian", "Bosnian", "Cantonese", "Czech", "Danish", "German", "Greek", "English", "Esperanto", "Spanish", "Spanish", "Estonian", "Persian", "Finnish", "French", "French", "Hebrew", "Croatian", "Hungarian", "Indonesian", "Icelandic", "Italian", "Japanese", "Georgian", "Korean", "Letzeburgesch", "Lithuanian", "Latvian", "Malayalam", "Dutch", "Norwegian", "Polish", "Portuguese", "Portuguese", "Romanian", "Russian", "Slovak", "Somali", "Serbian", "Swedish", "Tamil", "Thai", "Turkish", "Twi", "Ukrainian", "Uzbek", "Vietnamese", "Mandarin", "Mandarin", "Mandarin"]
+        let translations = ["English", "German", "Dutch", "French", "Italian", "Spanish", "Russian", "Hungarian", "Mandarin", "Greek", "Czech", "Portuguese", "Persian", "Bulgarian", "Slovak", "Hebrew", "Polish", "Swedish", "Danish", "Turkish", "Romanian", "Finnish", "Thai", "Korean", "Ukrainian", "Icelandic", "Lithuanian", "Croatian", "Bosnian", "Arabic", "Indonesian", "Twi", "Portuguese", "Letzeburgesch", "Vietnamese", "Spanish", "French", "Mandarin", "Serbian", "Esperanto", "Norwegian", "Latvian", "Belarusian", "Japanese", "Georgian", "Uzbek", "Malayalam", "Mandarin", "Tamil", "Estonian", "Somali", "Slovenian", "Catalan"]
         let videos = [
-            VideoDummy(key: "y2ZJ3lTaREY", name: "Inside Game of Thrones: A Story in Camera Work – BTS (HBO)", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "f3MUpuRF6Ck", name: "Inside Game of Thrones: A Story in Prosthetics – BTS (HBO)", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "bjqEWgDVPe0", name: "GAME OF THRONES - SEASON 1- TRAILER", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "s7L2PVdrb_8", name: "Official Opening Credits: Game of Thrones (HBO)", site: "YouTube", type: "Opening Credits", resolution: 1080, language: "en", region: "US"),
-            VideoDummy(key: "BpJYNVhGf1s", name: "Game of Thrones | Season 1 | Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "KPLWWIOCOOQ", name: "Game of Thrones | Official Series Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "y2ZJ3lTaREY", name: "Inside Game of Thrones: A Story in Camera Work", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "f3MUpuRF6Ck", name: "Inside Game of Thrones: A Story in Prosthetics", site: "YouTube", type: "Behind the Scenes", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "s7L2PVdrb_8", name: "Opening Credits", site: "YouTube", type: "Opening Credits", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "BpJYNVhGf1s", name: "Official Trailer", site: "YouTube", type: "Trailer", resolution: 1080, language: "en", region: "US"),
+            VideoDummy(key: "hhqRmcsWqac", name: "Iron Throne Preview", site: "YouTube", type: "Teaser", resolution: 360, language: "en", region: "US"),
+            VideoDummy(key: "nf5YvIn6XB8", name: "Inside Game of Thrones", site: "YouTube", type: "Featurette", resolution: 360, language: "en", region: "US"),
         ]
         
         assertEqual(show.keywords, keywords)
-        assertEqual(show.translations, translations)
+        assertEqual(show.translations.sorted(), translations.sorted())
         assertEqual(show.videos, videos)
-        assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple iTunes", "Chili", "Google Play Movies", "MagentaTV", "Microsoft Store", "Rakuten TV", "Sky Go", "Sky Ticket", "maxdome Store"])
+        assertEqual(show.watchProviders.map(\.name).sorted(), ["Amazon Video", "Apple TV", "Freenet meinVOD", "Microsoft Store", "Videoload", "WOW", "maxdome Store"])
     }
 }
