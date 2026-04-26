@@ -94,7 +94,14 @@ class LibraryUITests: XCTestCase {
         XCTAssertTrue(addMediaSearchButton.waitForExistence(timeout: 10))
         addMediaSearchButton.tap()
 
-        XCTAssertTrue(app.addMediaNavBar.waitForExistence(timeout: 10))
+        if app.unifiedSearchNavBar.waitForExistence(timeout: 5) {
+            let addMediaScopeButton = app.segmentedControls.buttons["Add Media"]
+            XCTAssertTrue(addMediaScopeButton.waitForExistence(timeout: 10))
+            XCTAssertTrue(addMediaScopeButton.isSelected)
+        } else {
+            XCTAssertTrue(app.addMediaNavBar.waitForExistence(timeout: 10))
+        }
+
         XCTAssertEqual(app.addMediaSearch.value as? String, query)
     }
 }

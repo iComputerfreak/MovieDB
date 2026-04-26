@@ -7,48 +7,30 @@
 //
 
 import JFSwiftUI
+import Observation
 import os.log
 import SwiftUI
 
 struct UnifiedSearchView: View {
-    private enum SearchScope: Hashable {
-        case library
-        case addMedia
-    }
-
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @State private var isLoading = false
     @State private var isShowingProPopup = false
-    @State private var internalSearchText: String
-    @State private var selectedScope: SearchScope = .library
-
-    private let externalSearchText: Binding<String>?
-
-    init(searchText: Binding<String>? = nil) {
-        self.externalSearchText = searchText
-        self._internalSearchText = State(initialValue: searchText?.wrappedValue ?? "")
-    }
-
-    private var activeSearchText: Binding<String> {
-        if let externalSearchText {
-            externalSearchText
-        } else {
-            $internalSearchText
-        }
-    }
 
     private var trimmedSearchText: String {
-        activeSearchText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        unifiedSearchCoordinator.text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     var body: some View {
+        @Bindable var unifiedSearchCoordinator = unifiedSearchCoordinator
+
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
                 VStack(spacing: 0) {
-                    Picker(Strings.Lookup.searchPrompt, selection: $selectedScope) {
+                    Picker(Strings.Lookup.searchPrompt, selection: $unifiedSearchCoordinator.scope) {
                         Text(Strings.TabView.libraryLabel)
-                            .tag(SearchScope.library)
+                            .tag(UnifiedSearchScope.library)
                         Text(Strings.AddMedia.navBarTitle)
-                            .tag(SearchScope.addMedia)
+                            .tag(UnifiedSearchScope.addMedia)
                     }
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
@@ -61,7 +43,7 @@ struct UnifiedSearchView: View {
                     MediaDetail()
                         .environmentObject(mediaObject)
                 }
-                .searchable(text: activeSearchText, prompt: Text(Strings.Lookup.searchPrompt))
+                .searchable(text: $unifiedSearchCoordinator.text, prompt: Text(Strings.Lookup.searchPrompt))
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
@@ -71,10 +53,10 @@ struct UnifiedSearchView: View {
 
     @ViewBuilder
     private var searchContent: some View {
-        switch selectedScope {
+        switch unifiedSearchCoordinator.scope {
         case .library:
             LibrarySearchResultsView(searchText: trimmedSearchText) {
-                selectedScope = .addMedia
+                unifiedSearchCoordinator.scope = .addMedia
             }
         case .addMedia:
             if trimmedSearchText.count < 3 {
@@ -84,7 +66,10 @@ struct UnifiedSearchView: View {
                 )
             } else {
                 SearchResultsView(
-                    searchText: activeSearchText,
+                    searchText: .init(
+                        get: { unifiedSearchCoordinator.text },
+                        set: { unifiedSearchCoordinator.text = $0 }
+                    ),
                     selection: .constant(nil),
                     prompt: Text(Strings.Lookup.searchPrompt),
                     showsSearchBar: false

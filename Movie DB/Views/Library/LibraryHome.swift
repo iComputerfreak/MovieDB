@@ -12,6 +12,7 @@ import os.log
 import SwiftUI
 
 struct LibraryHome: View {
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.editMode) private var editMode
     @State private var selectedMediaObjects: Set<Media> = .init()
@@ -156,7 +157,13 @@ struct LibraryHome: View {
 
     func openAddMediaSearch() {
         guard !searchText.isEmpty else { return }
-        viewModel.activeSheet = .addMedia(initialSearchText: searchText)
+
+        guard #available(iOS 26, *) else {
+            viewModel.activeSheet = .addMedia(initialSearchText: searchText)
+            return
+        }
+
+        unifiedSearchCoordinator.open(scope: .addMedia, text: searchText)
     }
 }
 

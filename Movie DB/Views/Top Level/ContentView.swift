@@ -23,6 +23,8 @@ struct ContentView: View {
     }
 
     @State private var problems = MediaLibrary.shared.problems()
+    @State private var selectedTab: RootTab = .library
+    @State private var unifiedSearchCoordinator = UnifiedSearchCoordinator()
 
     var body: some View {
         NotificationView { notificationProxy in
@@ -33,7 +35,13 @@ struct ContentView: View {
                     legacyTabView
                 }
             }
+            .environment(unifiedSearchCoordinator)
             .environmentObject(notificationProxy)
+            .onChange(of: unifiedSearchCoordinator.shouldOpenSearchTab) { _, shouldOpenSearchTab in
+                guard shouldOpenSearchTab else { return }
+                selectedTab = .search
+                unifiedSearchCoordinator.shouldOpenSearchTab = false
+            }
             .background(alignment: .bottomTrailing) {
                 tabBarTipBackground
             }
@@ -74,20 +82,20 @@ struct ContentView: View {
 
     @available(iOS 26, *)
     var modernTabView: some View {
-        TabView {
-            Tab(Strings.TabView.libraryLabel, systemImage: "film") {
+        TabView(selection: $selectedTab) {
+            Tab(Strings.TabView.libraryLabel, systemImage: "film", value: .library) {
                 LibraryHome()
             }
 
-            Tab(Strings.TabView.listsLabel, systemImage: "list.bullet") {
+            Tab(Strings.TabView.listsLabel, systemImage: "list.bullet", value: .lists) {
                 MediaListsRootView()
             }
 
-            Tab(role: .search) {
+            Tab(value: RootTab.search, role: .search) {
                 UnifiedSearchView()
             }
 
-            Tab(Strings.TabView.settingsLabel, systemImage: "gear") {
+            Tab(Strings.TabView.settingsLabel, systemImage: "gear", value: .settings) {
                 SettingsView()
             }
         }

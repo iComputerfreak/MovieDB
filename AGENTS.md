@@ -41,6 +41,7 @@ Rules and guidelines for working on this Xcode project.
 ## Safety checks
 - Avoid force unwraps and unsafe casts; prefer optional handling and safe casting unless there is an established, justified local pattern.
 - Keep behavior deterministic; avoid unnecessary async or random UI behavior.
+- Do not re-add code that disappeared between work passes; treat missing or changed code as an intentional user or concurrent edit unless the user explicitly asks to restore it.
 
 ## Testing
 - Run relevant verification after making changes.

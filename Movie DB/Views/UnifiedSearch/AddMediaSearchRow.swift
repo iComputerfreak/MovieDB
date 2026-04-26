@@ -34,6 +34,7 @@ struct AddMediaSearchRow: View {
             }
             .buttonStyle(.borderless)
             .disabled(alreadyAdded)
+            .accessibilityIdentifier("add-media-search-row-button")
             .accessibilityLabel(
                 alreadyAdded
                 ? Strings.AddMedia.addMediaButtonAlreadyAdded
