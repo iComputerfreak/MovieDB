@@ -10,7 +10,7 @@ import CoreData
 import os.log
 import SwiftUI
 
-@available(*, deprecated, renamed: "WIP", message: "Use the iOS 26+ variant with a fallback.")
+@available(*, deprecated, renamed: "SearchResultRow", message: "Use the iOS 26+ variant with a fallback.")
 struct LegacyMediaLookupDetail: View {
     enum LoadingState {
         case loading
