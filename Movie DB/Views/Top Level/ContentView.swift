@@ -58,7 +58,7 @@ struct ContentView: View {
                     Text(Strings.TabView.listsLabel)
                 }
 
-            LookupView()
+            UnifiedSearchView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text(Strings.TabView.lookupLabel)
@@ -84,7 +84,7 @@ struct ContentView: View {
             }
 
             Tab(role: .search) {
-                LookupView()
+                UnifiedSearchView()
             }
 
             Tab(Strings.TabView.settingsLabel, systemImage: "gear") {

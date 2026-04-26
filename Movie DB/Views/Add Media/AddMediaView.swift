@@ -13,6 +13,11 @@ import struct JFSwiftUI.LoadingView
 import os.log
 import SwiftUI
 
+@available(
+    *,
+    deprecated,
+    message: "Use UnifiedSearchView with the Add Media segment. Kept for the legacy add-media sheet flow."
+)
 struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
@@ -22,6 +27,11 @@ struct AddMediaView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.dismiss) private var dismiss
 
+    @available(
+        *,
+        deprecated,
+        message: "Use UnifiedSearchView with the Add Media segment. Kept for the legacy add-media sheet flow."
+    )
     init(initialSearchText: String = "") {
         self.initialSearchText = initialSearchText
     }

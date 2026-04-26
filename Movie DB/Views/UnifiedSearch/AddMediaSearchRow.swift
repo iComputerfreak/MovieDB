@@ -10,15 +10,24 @@ import SwiftUI
 
 struct AddMediaSearchRow: View {
     let result: TMDBSearchResult
-    let addAction: () -> Void
+    let addAction: () async -> Bool
+
+    @State private var didAddMedia = false
 
     private var alreadyAdded: Bool {
-        MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
+        didAddMedia || MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
     }
 
     var body: some View {
         HStack(spacing: 12) {
-            Button(action: addAction) {
+            Button {
+                Task(priority: .userInitiated) {
+                    guard await addAction() else { return }
+                    await MainActor.run {
+                        didAddMedia = true
+                    }
+                }
+            } label: {
                 Image(systemName: alreadyAdded ? "checkmark.circle.fill" : "plus.circle.fill")
                     .font(.title2)
                     .foregroundStyle(alreadyAdded ? .green : .accentColor)
@@ -40,14 +49,17 @@ struct AddMediaSearchRow: View {
             }
             .buttonStyle(.plain)
         }
+        .onAppear {
+            didAddMedia = MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
+        }
     }
 }
 
 #Preview {
     NavigationStack {
         List {
-            AddMediaSearchRow(result: PlaceholderData.preview.searchResultMovie, addAction: {})
-            AddMediaSearchRow(result: PlaceholderData.preview.searchResultShow, addAction: {})
+            AddMediaSearchRow(result: PlaceholderData.preview.searchResultMovie) { false }
+            AddMediaSearchRow(result: PlaceholderData.preview.searchResultShow) { false }
         }
         .task {
             try? await MediaLibrary.shared.addMedia(PlaceholderData.preview.searchResultShow)

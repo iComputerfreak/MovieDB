@@ -40,6 +40,11 @@ struct SearchResultsView<RowContent: View>: View {
         }
     }
 
+    @available(
+        *,
+        deprecated,
+        message: "Use the shared-search initializer with `searchText:`. Kept for the legacy add-media sheet flow."
+    )
     init(
         selection: Binding<TMDBSearchResult?>,
         prompt: Text,
@@ -115,7 +120,10 @@ struct SearchResultsView<RowContent: View>: View {
             await searchTask(for: activeSearchText.wrappedValue)
         }
     }
+}
 
+// MARK: - Search Helpers
+extension SearchResultsView {
     func synchronizeExternalSearchText(with value: String? = nil) {
         let value = value ?? self.searchText
 
@@ -262,7 +270,11 @@ struct SearchResultsView<RowContent: View>: View {
 
 #Preview("Results") {
     NavigationStack {
-        SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search..."), initialSearchText: "asd") { result in
+        SearchResultsView(
+            selection: .constant(nil),
+            prompt: Text(verbatim: "Search..."),
+            initialSearchText: "asd"
+        ) { result in
             SearchResultRow()
                 .environmentObject(result)
         }
@@ -282,7 +294,10 @@ struct SearchResultsView<RowContent: View>: View {
     Text(verbatim: "")
         .sheet(isPresented: .constant(true)) {
             NavigationStack {
-                SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search...")) { result in
+                SearchResultsView(
+                    selection: .constant(nil),
+                    prompt: Text(verbatim: "Search...")
+                ) { result in
                     SearchResultRow()
                         .environmentObject(result)
                 }

@@ -9,12 +9,13 @@ Rules and guidelines for working on this Xcode project.
 ## Project structure
 - Keep views `struct`-based SwiftUI views.
 - Keep types in their own files (enums, views, models, etc.); only co-locate tiny, private helpers that are tightly coupled to a single type.
+- Default to one view type per file, even for small helper/accessory views; only keep a view in the same file when it is truly tiny and splitting would add noise.
 - Previews should live in their corresponding view files when practical.
 - When a type grows or has clearly separable logic, extract it into extensions and add `// MARK: - <Description>` immediately above each extension.
 
 ## File conventions
 - Default to one primary (non-accessory) type per file; the filename should match that type.
-- Keep views in their own files in most cases; only co-locate a view when it is a tiny accessory tightly coupled to one primary type.
+- Keep every new view in its own file by default; avoid multi-view files unless the accessory view is tiny, private, and tightly coupled to one primary view.
 - Extract helper/accessory types into dedicated files; keep tiny, private helpers alongside the primary type only when splitting would add noise.
 - Keep extracted types in the closest logical folder.
 - Preserve the standard header comment at the top of new files.

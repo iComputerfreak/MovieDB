@@ -1,17 +1,16 @@
 //
-//  LookupView.swift
+//  UnifiedSearchView.swift
 //  Movie DB
 //
 //  Created by Jonas Frey on 25.04.22.
 //  Copyright © 2022 Jonas Frey. All rights reserved.
 //
 
-import Foundation
 import JFSwiftUI
 import os.log
 import SwiftUI
 
-struct LookupView: View {
+struct UnifiedSearchView: View {
     private enum SearchScope: Hashable {
         case library
         case addMedia
@@ -91,16 +90,14 @@ struct LookupView: View {
                     showsSearchBar: false
                 ) { result in
                     AddMediaSearchRow(result: result) {
-                        Task(priority: .userInitiated) {
-                            await addMedia(result)
-                        }
+                        await addMedia(result)
                     }
                 }
             }
         }
     }
 
-    func addMedia(_ result: TMDBSearchResult) async {
+    func addMedia(_ result: TMDBSearchResult) async -> Bool {
         Logger.library.info("Adding \(result.title, privacy: .public) to library")
 
         await MainActor.run {
@@ -112,6 +109,7 @@ struct LookupView: View {
             await MainActor.run {
                 isLoading = false
             }
+            return true
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 isLoading = false
@@ -120,12 +118,14 @@ struct LookupView: View {
                     message: Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
                 )
             }
+            return false
         } catch UserError.noPro {
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
             await MainActor.run {
                 isLoading = false
                 isShowingProPopup = true
             }
+            return false
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")
             await MainActor.run {
@@ -135,11 +135,12 @@ struct LookupView: View {
                 )
                 isLoading = false
             }
+            return false
         }
     }
 }
 
 #Preview {
-    LookupView()
+    UnifiedSearchView()
         .previewEnvironment()
 }

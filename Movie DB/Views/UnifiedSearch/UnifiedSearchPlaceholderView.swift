@@ -15,11 +15,16 @@ struct UnifiedSearchPlaceholderView: View {
     var action: (() -> Void)?
 
     var body: some View {
-        ContentUnavailableView(
-            title,
-            systemImage: "magnifyingglass",
-            description: Text(description)
-        )
+        ContentUnavailableView {
+            Label(title, systemImage: "magnifyingglass")
+        } description: {
+            Text(description)
+        } actions: {
+            if let buttonTitle, let action {
+                Button(buttonTitle, action: action)
+                    .buttonStyle(.borderedProminent)
+            }
+        }
     }
 }
 
