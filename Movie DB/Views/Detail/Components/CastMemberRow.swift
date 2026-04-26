@@ -18,10 +18,10 @@ struct CastMemberRow: View {
                 // swiftlint:disable:next redundant_nil_coalescing
             } ?? nil) { image in
                 image
-                    .posterThumbnail()
+                    .thumbnailStyle()
             } placeholder: {
                 Image(uiImage: UIImage.posterPlaceholder)
-                    .posterThumbnail()
+                    .thumbnailStyle()
             }
 
             VStack(alignment: .leading) {

@@ -17,17 +17,17 @@ struct ProviderTileView: View {
                 if let image = provider.logoImage {
                     Image(uiImage: image)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
                 } else {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(.quaternary)
-                        .aspectRatio(1, contentMode: .fill)
                         .overlay {
                             Image(systemName: "photo")
                         }
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .frame(maxWidth: .infinity)
+            .aspectRatio(1, contentMode: .fill)
+            .thumbnailStyle(cornerRadius: 12)
 
             Text(provider.name)
                 .font(.caption2)

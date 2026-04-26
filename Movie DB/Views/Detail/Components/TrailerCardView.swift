@@ -55,7 +55,7 @@ struct TrailerCardView: View {
                 .background(.black.opacity(0.55), in: Circle())
         }
         .frame(width: 220, height: 124)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .thumbnailStyle(cornerRadius: 16)
     }
 
     private var fallbackThumbnail: some View {
