@@ -138,45 +138,48 @@ struct UserDataSection: View {
                 }
             }
 
-            UserDataCard(title: Strings.Detail.tagsHeadline, systemImage: "tag.fill") {
-                if isEditing {
-                    NavigationLink {
-                        TagListView.EditView(tags: $mediaObject.tags)
-                    } label: {
+            if isEditing {
+                NavigationLink(value: TagListView.NavigationDestination.editing) {
+                    UserDataCard(title: Strings.Detail.tagsHeadline, systemImage: "tag.fill") {
                         UserDataTagCloudView(tags: mediaObject.tags)
                     }
-                    .buttonStyle(.plain)
-                } else {
+                    .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+            } else {
+                UserDataCard(title: Strings.Detail.tagsHeadline, systemImage: "tag.fill") {
                     UserDataTagCloudView(tags: mediaObject.tags)
                 }
             }
 
             if !mediaObject.notes.isEmpty || isEditing {
-                UserDataCard(title: Strings.Detail.notesHeadline, systemImage: "note.text") {
-                    if isEditing {
-                        NavigationLink {
-                            NotesView.EditView(notes: $mediaObject.notes)
-                        } label: {
+                if isEditing {
+                    NavigationLink {
+                        NotesView.EditView(notes: $mediaObject.notes)
+                    } label: {
+                        UserDataCard(title: Strings.Detail.notesHeadline, systemImage: "note.text") {
                             UserDataNotePreviewView(
                                 notePreview: notePreview,
                                 isEmpty: mediaObject.notes.isEmpty,
                                 isEditing: isEditing
                             )
                         }
-                        .buttonStyle(.plain)
-                    } else {
-                        NavigationLink {
-                            LongTextView.ContentView(text: mediaObject.notes)
-                                .navigationTitle(Strings.Detail.notesHeadline)
-                        } label: {
-                            UserDataNotePreviewView(
-                                notePreview: notePreview,
-                                isEmpty: mediaObject.notes.isEmpty,
-                                isEditing: isEditing
-                            )
-                        }
-                        .buttonStyle(.plain)
                     }
+                    .buttonStyle(.plain)
+                } else {
+                    NavigationLink {
+                        LongTextView.ContentView(text: mediaObject.notes)
+                            .navigationTitle(Strings.Detail.notesHeadline)
+                    } label: {
+                        UserDataCard(title: Strings.Detail.notesHeadline, systemImage: "note.text") {
+                            UserDataNotePreviewView(
+                                notePreview: notePreview,
+                                isEmpty: mediaObject.notes.isEmpty,
+                                isEditing: isEditing
+                            )
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }

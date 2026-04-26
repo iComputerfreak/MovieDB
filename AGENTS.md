@@ -45,6 +45,7 @@ Rules and guidelines for working on this Xcode project.
 - Run relevant verification after making changes.
 - Fix any build or lint violations introduced by your changes.
 - Prefer Xcode MCP build/test tools when available for project verification.
+- For test execution, prefer Xcode MCP test actions (`xcode_RunSomeTests` / `xcode_RunAllTests`) over shell-based `xcodebuild test` when possible.
 - Always run `xcodebuild` commands with `| xcbeautify` to reduce output size and keep logs readable.
 - Fall back to `xcodebuild | xcbeautify` only when Xcode MCP is unavailable or not suitable for the task.
 - Rerun plain `xcodebuild` only when raw output is needed because `xcbeautify` hides context required to diagnose an issue.
