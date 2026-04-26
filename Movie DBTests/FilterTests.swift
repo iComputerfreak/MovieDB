@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 @testable import Movie_DB
+import SwiftUI
 import XCTest
 
 class FilterTests: XCTestCase {
@@ -184,12 +185,90 @@ class FilterTests: XCTestCase {
         return try testContext.fetch(fetch).map(\.title).sorted()
     }
     
-    func testSaveContext() throws {
-        try testContext.save()
+    func testFilterStatePropertiesRoundTrip() throws {
+        let filter = FilterSetting(with: testContext)
+        XCTAssertTrue(filter.isReset)
+
+        filter.isAdult = true
+        filter.mediaType = .show
+        filter.genres = try getGenres(["Action", "Drama"])
+        filter.rating = .oneStar ... .fourAndAHalfStars
+        filter.year = 1990...2024
+        filter.statuses = [.released, .planned]
+        filter.showTypes = [.scripted]
+        filter.numberOfSeasons = 1...4
+        filter.watched = .partially
+        filter.watchAgain = false
+        filter.tags = getTags(["Action", "Comedy"])
+
+        XCTAssertEqual(filter.isAdult, true)
+        XCTAssertEqual(filter.mediaType, .show)
+        XCTAssertEqual(filter.genres.map(\.name).sorted(), ["Action", "Drama"])
+        XCTAssertEqual(filter.rating, .oneStar ... .fourAndAHalfStars)
+        XCTAssertEqual(filter.year, 1990...2024)
+        XCTAssertEqual(filter.statuses, [.released, .planned])
+        XCTAssertEqual(filter.showTypes, [.scripted])
+        XCTAssertEqual(filter.numberOfSeasons, 1...4)
+        XCTAssertEqual(filter.watched, .partially)
+        XCTAssertEqual(filter.watchAgain, false)
+        XCTAssertEqual(filter.tags.map(\.name).sorted(), ["Action", "Comedy"])
+        XCTAssertFalse(filter.isReset)
     }
     
-    func testSaveChildContext() throws {
-        try testContext.newBackgroundContext().save()
+    func testResetClearsAllFilterState() throws {
+        let filter = FilterSetting(
+            with: testContext,
+            isAdult: true,
+            mediaType: .show,
+            rating: .oneStar ... .fiveStars,
+            year: 1990...2024,
+            statuses: [.released],
+            showTypes: [.documentary],
+            numberOfSeasons: 1...5,
+            watched: .watchedFully,
+            watchAgain: true,
+            genres: try getGenres(["Action"]),
+            tags: getTags(["Comedy"])
+        )
+
+        XCTAssertFalse(filter.isReset)
+        filter.reset()
+
+        XCTAssertNil(filter.isAdult)
+        XCTAssertNil(filter.mediaType)
+        XCTAssertTrue(filter.genres.isEmpty)
+        XCTAssertNil(filter.rating)
+        XCTAssertNil(filter.year)
+        XCTAssertTrue(filter.statuses.isEmpty)
+        XCTAssertTrue(filter.showTypes.isEmpty)
+        XCTAssertNil(filter.numberOfSeasons)
+        XCTAssertNil(filter.watched)
+        XCTAssertNil(filter.watchAgain)
+        XCTAssertTrue(filter.tags.isEmpty)
+        XCTAssertTrue(filter.watchProviders.isEmpty)
+        XCTAssertTrue(filter.isReset)
+    }
+
+    func testRangeProxiesClampToValidBounds() {
+        var selectedRange: ClosedRange<Int>?
+        let binding = Binding<ClosedRange<Int>?>(
+            get: { selectedRange },
+            set: { selectedRange = $0 }
+        )
+
+        let proxies = FilterSetting.rangeProxies(for: binding, bounds: 1...10)
+
+        XCTAssertEqual(proxies.lower.wrappedValue, 1)
+        XCTAssertEqual(proxies.upper.wrappedValue, 10)
+
+        proxies.upper.wrappedValue = 8
+        XCTAssertEqual(selectedRange, 1...8)
+
+        proxies.lower.wrappedValue = 9
+        XCTAssertEqual(selectedRange, 8...8)
+
+        proxies.upper.wrappedValue = 15
+        XCTAssertEqual(selectedRange, 8...10)
     }
 }
 
