@@ -56,7 +56,7 @@ struct MediaListEmptyState: View {
                 Button(Strings.Library.EmptyState.searchInAddMedia, action: action)
                     .accessibilityIdentifier("library-empty-state-add-media-search")
             }
-            if let resetFilterAction {
+            if showsFilterResetButton, let resetFilterAction {
                 Button(Strings.Library.EmptyState.resetFilter, action: resetFilterAction)
                     .accessibilityIdentifier("library-empty-state-reset-filter")
             }
