@@ -29,6 +29,7 @@
 		ABD249122A23A46E002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249112A23A46E002DEB3D /* JFUtils */; };
 		ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = ABD3C5ED29C39F56000B5107 /* SwiftCSV */; };
 		ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE17B68284FA05600879C30 /* CloudKit.framework */; };
+		E0C58804D6F6496D8F433BEC /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = 9543AAFAC2D946BD8BD42299 /* PostHog */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +145,7 @@
 				AB02A0252B460F05008362D7 /* Flow in Frameworks */,
 				ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */,
 				ABD3C5EE29C39F56000B5107 /* SwiftCSV in Frameworks */,
+				E0C58804D6F6496D8F433BEC /* PostHog in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +309,7 @@
 				ABD249022A2394CC002DEB3D /* JFUtils */,
 				AB02A0242B460F05008362D7 /* Flow */,
 				AB0239EB2D5BE69D00C3FF52 /* AppFoundation */,
+				9543AAFAC2D946BD8BD42299 /* PostHog */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -405,6 +408,7 @@
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
+				572DA3A2582F40B8BEA5EA9F /* XCRemoteSwiftPackageReference "posthog-ios" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -468,7 +472,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
+			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        python3 \"$GYB_PATH\" --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
@@ -954,6 +958,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		572DA3A2582F40B8BEA5EA9F /* XCRemoteSwiftPackageReference "posthog-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PostHog/posthog-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.57.0;
+			};
+		};
 		AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tevelee/SwiftUI-Flow";
@@ -989,6 +1001,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9543AAFAC2D946BD8BD42299 /* PostHog */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 572DA3A2582F40B8BEA5EA9F /* XCRemoteSwiftPackageReference "posthog-ios" */;
+			productName = PostHog;
+		};
 		AB0239EB2D5BE69D00C3FF52 /* AppFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFoundation;

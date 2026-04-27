@@ -50,10 +50,15 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 
 ## Building
 * To build the project, you need to first install [GYB](https://github.com/apple/swift/blob/main/utils/gyb.py) (e.g. via `brew install nshipster/formulae/gyb`)
-    * GYB also requires python 2.7 to be installed
 * You then need to request your own API key from [TheMovieDB.org](https://themoviedb.org) (See [Authentication](https://developers.themoviedb.org/3/getting-started/authentication) and [API Settings](https://www.themoviedb.org/settings/api))
-* Finally you must provide the Bearer API Key (Read Access Token) as a `TMDB_API_KEY` environment variable during build time or as a local file "TMDB_API_KEY" in your project root.
-* When you build the project, GYB will read your API key and obfuscate it into a Swift file `Secrets.swift`. You can then access your API key from code with `Secrets.tmdbAPIKey`
+* Finally you must create a local `.env.local` file in the project root with the secrets needed during build time:
+```sh
+TMDB_API_KEY=<TMDB bearer read access token>
+POSTHOG_PROJECT_TOKEN=<PostHog project token>
+POSTHOG_HOST=https://eu.i.posthog.com
+```
+* The build also accepts these values as environment variables, which is useful for CI.
+* When you build the project, GYB will read these values and obfuscate them into a Swift file `Secrets.swift`. You can then access them from code with `Secrets.tmdbAPIKey`, `Secrets.postHogProjectToken`, and `Secrets.postHogHost`.
 * Additionally, you will also need a GitHub personal access token as a `GITHUB_API_KEY` environment variable during build time or as a local file "GITHUB_API_KEY" in your project root. This token will be used by [LicensePlist](https://github.com/mono0926/LicensePlist) to download the licenses of the packages you use.
 
 ---
