@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import SwiftUI
 
 struct ExportMediaButton: View {
@@ -23,6 +24,8 @@ struct ExportMediaButton: View {
     
     func exportMedia() {
         Task(priority: .userInitiated) {
+            let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
+
             await MainActor.run {
                 config.isLoading = true
             }
@@ -41,6 +44,11 @@ struct ExportMediaButton: View {
             await MainActor.run {
                 config.isLoading = false
                 config.exportedData = exportedData
+                if exportedData != nil {
+                    AnalyticsService.shared.track(
+                        .mediaExported(exportCountBucket: .bucket(for: mediaCount))
+                    )
+                }
             }
         }
     }

@@ -84,5 +84,10 @@ actor TagImporter {
             let levelString = level.map { "[\($0.rawValue.uppercased())]" } ?? ""
             _log.append(contentsOf: log.filter(\.isNotEmpty).map { "\(levelString) \($0)" })
         }
+
+        func count(of level: LogLevel) -> Int {
+            let prefix = "[\(level.rawValue.uppercased())]"
+            return _log.filter { $0.hasPrefix(prefix) }.count
+        }
     }
 }

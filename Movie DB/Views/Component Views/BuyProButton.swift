@@ -9,6 +9,7 @@
 import os.log
 import StoreKit
 import SwiftUI
+import Analytics
 
 struct BuyProButton: View {
     @Environment(\.dismiss) private var dismiss
@@ -56,7 +57,16 @@ struct BuyProButton: View {
         
         // Execute the purchase
         let result = try await storeManager.purchase(proProduct)
-        
+
+        if result != nil {
+            AnalyticsService.shared.track(
+                .boughtPro(
+                    productID: .pro,
+                    price: NSDecimalNumber(decimal: proProduct.price).doubleValue
+                )
+            )
+        }
+
         // Dismiss on a successful purchase
         if result != nil {
             dismiss()

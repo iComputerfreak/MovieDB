@@ -8,6 +8,7 @@
 
 import os.log
 import SwiftUI
+import Analytics
 
 enum PurchaseError: Error {
     case productNotFound
@@ -43,6 +44,7 @@ struct ProInfoView: View {
                         Task {
                             do {
                                 try await storeManager.restorePurchases()
+                                AnalyticsService.shared.track(.restoredPro)
                             } catch {
                                 AlertHandler.showSimpleAlert(
                                     title: Strings.ProInfo.Alert.restoreFailedTitle,

@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import SwiftUI
 
 struct DeleteMediaButton: View {
@@ -16,6 +17,9 @@ struct DeleteMediaButton: View {
     
     var body: some View {
         Button(role: .destructive) {
+            if let mediaType = AnalyticsMediaType(rawValue: mediaObject.type.rawValue) {
+                AnalyticsService.shared.track(.mediaDeleted(mediaType: mediaType))
+            }
             // Delete the media
             self.managedObjectContext.delete(mediaObject)
             onDelete?()

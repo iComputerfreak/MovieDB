@@ -10,6 +10,7 @@ import CoreData
 import Foundation
 import os.log
 import SwiftUI
+import Analytics
 
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewModel
@@ -135,6 +136,7 @@ struct LibraryActionsSection: View {
             Task(priority: .userInitiated) {
                 do {
                     Logger.library.info("Resetting Library...")
+                    AnalyticsService.shared.track(.libraryReset)
                     try self.library.reset()
                 } catch {
                     Logger.library.error("Error resetting library: \(error, privacy: .public)")

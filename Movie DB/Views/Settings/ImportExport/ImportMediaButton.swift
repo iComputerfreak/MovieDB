@@ -9,6 +9,7 @@
 import CoreData
 import os.log
 import SwiftUI
+import Analytics
 
 struct ImportMediaButton: View {
     @Binding var config: SettingsViewModel
@@ -38,6 +39,8 @@ struct ImportMediaButton: View {
     
     // swiftlint:disable:next function_body_length
     func importMedia(url: URL) {
+        let importStartedAt = Date()
+
         if !storeManager.hasPurchasedPro {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
             guard mediaCount < JFLiterals.nonProMediaLimit else {
@@ -94,6 +97,15 @@ struct ImportMediaButton: View {
                         // main context and then to disk
                         await PersistenceController.saveContext(importContext)
                         await PersistenceController.saveContext(PersistenceController.viewContext)
+                        let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
+                        let errorCount = config.importLogger?.count(of: .error) ?? 0
+                        AnalyticsService.shared.track(
+                            .mediaImported(
+                                importCountBucket: .bucket(for: medias.count),
+                                durationSeconds: durationSeconds,
+                                errorCount: errorCount
+                            )
+                        )
                         await MainActor.run {
                             self.config.importLogger?.info("Import complete.")
                             self.config.importLogShowing = true

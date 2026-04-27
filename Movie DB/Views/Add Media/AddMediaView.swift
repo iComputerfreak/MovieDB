@@ -9,6 +9,7 @@
 import Combine
 import CoreData
 import Foundation
+import Analytics
 import struct JFSwiftUI.LoadingView
 import os.log
 import SwiftUI
@@ -79,6 +80,9 @@ struct AddMediaView: View {
                 isLoading = false
             }
             try await library.addMedia(result)
+            if let mediaType = AnalyticsMediaType(rawValue: result.mediaType.rawValue) {
+                AnalyticsService.shared.track(.mediaAdded(mediaType: mediaType))
+            }
             await MainActor.run {
                 isLoading = false
             }
@@ -95,6 +99,9 @@ struct AddMediaView: View {
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
+            if let mediaType = AnalyticsMediaType(rawValue: result.mediaType.rawValue) {
+                AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: mediaType))
+            }
             self.isShowingProPopup = true
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")

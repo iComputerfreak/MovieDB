@@ -7,9 +7,9 @@
 //
 
 import os.log
-import PostHog
 import SwiftUI
 import TipKit
+import Analytics
 
 @main
 struct MovieDBApp: App {
@@ -21,15 +21,13 @@ struct MovieDBApp: App {
     private let storeManager: StoreManager = .shared
 
     init() {
-        let postHogConfig = PostHogConfig(
-            apiKey: Secrets.postHogProjectToken,
-            host: Secrets.postHogHost
+        AnalyticsService.shared.configure(
+            AnalyticsConfiguration(
+                apiKey: Secrets.postHogProjectToken,
+                host: Secrets.postHogHost,
+                isTrackingEnabled: false
+            )
         )
-        postHogConfig.captureApplicationLifecycleEvents = true
-        postHogConfig.preloadFeatureFlags = true
-        // Opt-out by default. Only enable after the user explicitly gave consent
-        postHogConfig.optOut = true
-        PostHogSDK.shared.setup(postHogConfig)
     }
 
     var body: some Scene {

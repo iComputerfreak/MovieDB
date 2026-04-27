@@ -1,5 +1,5 @@
 {
-  "originHash" : "1467f1f6463bbc5c9df03cef76af0f08b61ff53bfb728b9642d70ad44167a84c",
+  "originHash" : "df5abb8557354b56efd3ef9d7db7ccd80d1ee23ebcfd19eb7a59bc810ec853a8",
   "pins" : [
     {
       "identity" : "jfswiftui",
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/PostHog/posthog-ios",
       "state" : {
-        "revision" : "1d9e0c237040970f44615b56d2dc039ab7a288fc",
-        "version" : "3.57.0"
+        "revision" : "64f3569e956a4b458298735f37e43d3fb6846301",
+        "version" : "3.57.1"
       }
     },
     {
