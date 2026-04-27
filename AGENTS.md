@@ -33,6 +33,12 @@ Rules and guidelines for working on this Xcode project.
 - When dynamic text is needed, add `Strings` static functions with localized format keys.
 - Keep changes localized to the feature you are working on; avoid broad copy rewrites unless requested.
 
+## Analytics
+- Follow `ANALYTICS.md` for all tracking work.
+- Analytics must remain explicit opt-in, anonymous-only, and allowlist-only unless the user explicitly changes policy.
+- Never send titles, IDs, notes, tags, ratings, search text, file names, URLs with content data, or other free-form/user-provided data.
+- Any new event or property requires a doc update in `ANALYTICS.md` and user approval before implementation.
+
 ## Xcode project hygiene
 - Minimize changes to `project.pbxproj`; only edit when necessary for new files or resources.
 - Prefer adding assets to asset catalogs and referencing them by name in SwiftUI.
