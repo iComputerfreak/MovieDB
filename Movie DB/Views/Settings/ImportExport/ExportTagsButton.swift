@@ -29,10 +29,13 @@ struct ExportTagsButton: View {
             }
 
             let exportedData = await config.export(
-                filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt"
+                filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
+                operation: .tagsExport
             ) { context in
                 let exportContent = try TagImporter.export(context: context)
-                guard let exportData = exportContent.data(using: .utf8) else { throw ExportError.cannotConvertToData }
+                guard let exportData = exportContent.data(using: .utf8) else {
+                    throw SettingsViewModel.ExportFailure.failed(.tagsExport, .contentGeneration)
+                }
                 return exportData
             }
 

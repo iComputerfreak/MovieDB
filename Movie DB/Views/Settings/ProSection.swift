@@ -22,7 +22,7 @@ struct ProSection: View {
                 )
             }
                 .sheet(isPresented: $config.isShowingProInfo) {
-                    ProInfoView()
+                    ProInfoView(source: .settings)
                 }
         }
     }

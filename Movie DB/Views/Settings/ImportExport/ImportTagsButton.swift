@@ -75,6 +75,7 @@ struct ImportTagsButton: View {
                                     )
                                 )
                             } catch {
+                                AnalyticsService.shared.track(.importExportFailed(operation: .tagsImport, stage: .importProcessing))
                                 Logger.importExport.error("Error importing tags: \(error, privacy: .public)")
                                 AlertHandler.showError(
                                     title: Strings.Settings.Alert.importTagsErrorTitle,

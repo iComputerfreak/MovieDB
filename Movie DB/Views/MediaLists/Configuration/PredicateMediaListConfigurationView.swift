@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import OSLog
 import SwiftUI
 
@@ -50,6 +51,9 @@ struct PredicateMediaListConfigurationView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .presentationDetents([.medium])
+        .onChange(of: list.subtitleContent) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .subtitleContent))
+        }
     }
 }
 

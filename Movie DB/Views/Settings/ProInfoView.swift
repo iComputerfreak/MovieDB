@@ -18,10 +18,12 @@ struct ProInfoView: View {
     @Environment(\.dismiss) private var dismiss
 
     let showCancelButton: Bool
+    let source: AnalyticsProSheetSource
     private let storeManager: StoreManager = .shared
 
-    init(showCancelButton: Bool = true) {
+    init(showCancelButton: Bool = true, source: AnalyticsProSheetSource = .settings) {
         self.showCancelButton = showCancelButton
+        self.source = source
     }
     
     var body: some View {
@@ -64,6 +66,9 @@ struct ProInfoView: View {
                     }
                 }
             }
+        }
+        .task {
+            AnalyticsService.shared.track(.proSheetViewed(source: source))
         }
     }
 

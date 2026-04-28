@@ -124,6 +124,7 @@ struct FilteredMediaList<
             .autocorrectionDisabled()
             .overlay {
                 MediaListEmptyState(
+                    screen: .mediaList,
                     isSearching: false,
                     isFiltered: list is DynamicMediaList,
                     customNothingHereYetDescription: descriptionText

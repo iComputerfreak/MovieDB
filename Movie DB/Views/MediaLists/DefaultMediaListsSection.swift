@@ -77,7 +77,7 @@ struct DefaultMediaListsSection: View {
                     }
                 }
                 .sheet(isPresented: $isShowingProPopup) {
-                    ProInfoView(showCancelButton: true)
+                    ProInfoView(showCancelButton: true, source: .upcomingListLock)
                 }
             }
         }

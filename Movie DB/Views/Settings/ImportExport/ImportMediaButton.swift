@@ -72,6 +72,7 @@ struct ImportMediaButton: View {
                 DispatchQueue.main.async {
                     self.config.importLogShowing = true
                 }
+                AnalyticsService.shared.track(.importExportFailed(operation: .mediaImport, stage: .importProcessing))
                 // Rethrow
                 throw error
             }

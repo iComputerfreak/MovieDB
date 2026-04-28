@@ -54,6 +54,13 @@ struct BuyProButton: View {
         guard let proProduct = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
             throw PurchaseError.productNotFound
         }
+
+        AnalyticsService.shared.track(
+            .proPurchaseStarted(
+                productID: .pro,
+                price: NSDecimalNumber(decimal: proProduct.price).doubleValue
+            )
+        )
         
         // Execute the purchase
         let result = try await storeManager.purchase(proProduct)

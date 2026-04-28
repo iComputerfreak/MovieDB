@@ -74,6 +74,7 @@ struct LibraryHome: View {
             }
             .overlay {
                 MediaListEmptyState(
+                    screen: .libraryHome,
                     isSearching: !searchText.isEmpty,
                     isFiltered: !filterSetting.isReset,
                     action: openAddMediaSearch,

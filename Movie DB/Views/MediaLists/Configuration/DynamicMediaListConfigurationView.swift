@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import OSLog
 import SwiftUI
 
@@ -56,6 +57,21 @@ struct DynamicMediaListConfigurationView: View {
             .toolbar {
                 DismissButton()
             }
+        }
+        .onChange(of: list.name) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .name))
+        }
+        .onChange(of: list.iconName) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconName))
+        }
+        .onChange(of: list.iconColor) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconColor))
+        }
+        .onChange(of: list.iconRenderingMode) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconRenderingMode))
+        }
+        .onChange(of: list.subtitleContent) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .subtitleContent))
         }
     }
 }

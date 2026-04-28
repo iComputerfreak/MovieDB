@@ -140,6 +140,12 @@ Notes:
 | `media_context_menu_action_used` | long-press context menu usage | `action` |
 | `media_swipe_action_used` | swipe action usage | `action` |
 | `media_shared` | share feature usage | `share_target_type` |
+| `pro_sheet_viewed` | paywall view usage | `source` |
+| `pro_purchase_started` | purchase funnel start | `product_id`, `price` |
+| `list_configuration_changed` | list customization usage | `field` |
+| `import_export_failed` | import/export failure usage | `operation`, `stage` |
+| `empty_state_action_used` | empty-state recovery usage | `action`, `screen` |
+| `list_media_removed` | removing media from a user list | `list_type` |
 
 ### Approved Values
 
@@ -173,6 +179,47 @@ Notes:
 - `default_watch_state`
 - `default_subtitle_content`
 - `watch_providers`
+
+`source` values for `pro_sheet_viewed`:
+
+- `settings`
+- `add_media_limit`
+- `upcoming_list_lock`
+
+`field` values for `list_configuration_changed`:
+
+- `name`
+- `subtitle_content`
+- `icon_name`
+- `icon_color`
+- `icon_rendering_mode`
+
+`operation` values for `import_export_failed`:
+
+- `media_import`
+- `media_export`
+- `tags_import`
+- `tags_export`
+
+`stage` values for `import_export_failed`:
+
+- `background_task`
+- `content_generation`
+- `import_processing`
+
+`action` values for `empty_state_action_used`:
+
+- `open_lookup`
+- `reset_filter`
+
+`screen` values for `empty_state_action_used`:
+
+- `library_home`
+- `media_list`
+
+`list_type` values for `list_media_removed`:
+
+- `custom`
 
 `new_value` notes:
 

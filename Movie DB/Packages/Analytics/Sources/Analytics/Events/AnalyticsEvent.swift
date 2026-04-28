@@ -38,6 +38,12 @@ public enum AnalyticsEvent: Sendable {
     case mediaContextMenuActionUsed(action: AnalyticsMediaContextMenuAction)
     case mediaSwipeActionUsed(action: AnalyticsMediaSwipeAction)
     case mediaShared(shareTargetType: AnalyticsShareTargetType)
+    case proSheetViewed(source: AnalyticsProSheetSource)
+    case proPurchaseStarted(productID: AnalyticsProductID, price: Double)
+    case listConfigurationChanged(field: AnalyticsListConfigurationField)
+    case importExportFailed(operation: AnalyticsImportExportOperation, stage: AnalyticsImportExportStage)
+    case emptyStateActionUsed(action: AnalyticsEmptyStateAction, screen: AnalyticsEmptyStateScreen)
+    case listMediaRemoved(listType: AnalyticsListType)
 }
 
 extension AnalyticsEvent {
@@ -107,6 +113,18 @@ extension AnalyticsEvent {
             "media_swipe_action_used"
         case .mediaShared:
             "media_shared"
+        case .proSheetViewed:
+            "pro_sheet_viewed"
+        case .proPurchaseStarted:
+            "pro_purchase_started"
+        case .listConfigurationChanged:
+            "list_configuration_changed"
+        case .importExportFailed:
+            "import_export_failed"
+        case .emptyStateActionUsed:
+            "empty_state_action_used"
+        case .listMediaRemoved:
+            "list_media_removed"
         }
     }
 
@@ -174,6 +192,27 @@ extension AnalyticsEvent {
             ["action": action.rawValue]
         case let .mediaShared(shareTargetType):
             ["share_target_type": shareTargetType.rawValue]
+        case let .proSheetViewed(source):
+            ["source": source.rawValue]
+        case let .proPurchaseStarted(productID, price):
+            [
+                "product_id": productID.rawValue,
+                "price": price,
+            ]
+        case let .listConfigurationChanged(field):
+            ["field": field.rawValue]
+        case let .importExportFailed(operation, stage):
+            [
+                "operation": operation.rawValue,
+                "stage": stage.rawValue,
+            ]
+        case let .emptyStateActionUsed(action, screen):
+            [
+                "action": action.rawValue,
+                "screen": screen.rawValue,
+            ]
+        case let .listMediaRemoved(listType):
+            ["list_type": listType.rawValue]
         }
     }
 }

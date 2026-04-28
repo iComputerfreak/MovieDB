@@ -68,7 +68,7 @@ struct AddMediaView: View {
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView()
+            ProInfoView(source: .addMediaLimit)
         }
         .onAppear {
             AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
