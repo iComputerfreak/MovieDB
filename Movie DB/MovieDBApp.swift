@@ -11,6 +11,12 @@ import SwiftUI
 import TipKit
 import Analytics
 
+#if DEBUG
+private let analyticsAppEnvironment = "debug"
+#else
+private let analyticsAppEnvironment = "release"
+#endif
+
 @main
 struct MovieDBApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self)
@@ -25,24 +31,19 @@ struct MovieDBApp: App {
             AnalyticsConfiguration(
                 apiKey: Secrets.postHogProjectToken,
                 host: Secrets.postHogHost,
-                isTrackingEnabled: false
+                isTrackingEnabled: JFConfig.shared.isAnalyticsEnabled,
+                distinctID: JFConfig.shared.analyticsInstallationID,
+                personProperties: analyticsPersonProperties,
+                personPropertiesSetOnce: analyticsPersonPropertiesSetOnce
             )
         )
     }
 
     var body: some Scene {
         WindowGroup {
-            Group {
-                if config.language.isEmpty {
-                    LanguageChooser()
-                        .environment(\.managedObjectContext, PersistenceController.viewContext)
-                        .environmentObject(config)
-                } else {
-                    ContentView()
-                        .environment(\.managedObjectContext, PersistenceController.viewContext)
-                        .environmentObject(config)
-                }
-            }
+            AppRootView()
+                .environment(\.managedObjectContext, PersistenceController.viewContext)
+                .environmentObject(config)
             // Respond to universal links
             .openShareURLModifier()
             .task {
@@ -54,4 +55,24 @@ struct MovieDBApp: App {
             }
         }
     }
+}
+
+private var analyticsPersonProperties: [String: String] {
+    [
+        "app_environment": analyticsAppEnvironment,
+        "platform": "ios",
+        "app_version": AppVersion.version,
+        "app_build": AppVersion.build,
+    ]
+}
+
+private var analyticsPersonPropertiesSetOnce: [String: String] {
+    [
+        "first_seen_app_version": AppVersion.version,
+    ]
+}
+
+private enum AppVersion {
+    static let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown"
+    static let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown"
 }

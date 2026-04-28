@@ -3,7 +3,7 @@
 ### Goals
 
 - product analytics only
-- anonymous only
+- pseudonymous installation-level analytics only
 - explicit opt-in only
 - allowlist only
 - no PII
@@ -13,9 +13,9 @@
 
 1. Analytics starts disabled.
 2. User must explicitly opt in before tracking starts.
-3. Stable anonymous PostHog `distinct_id` allowed.
-4. `identify`, `alias`, `group` forbidden.
-5. Person profiles forbidden.
+3. Stable pseudonymous PostHog `distinct_id` allowed.
+4. `identify` allowed only with app-generated installation ID.
+5. Person profiles allowed only for pseudonymous installation profiles.
 6. Every event + property must be listed in this document before implementation.
 
 ### Data Rules
@@ -32,7 +32,9 @@ Never send:
 - file names or file paths
 - URLs with content data
 - any free-form text
-- any user/account/device/backend identifier beyond anonymous PostHog `distinct_id`
+- any user/account/backend identifier beyond pseudonymous PostHog `distinct_id`
+
+Separate installations on separate devices count as separate pseudonymous IDs.
 
 Allowed property shapes:
 
@@ -45,6 +47,8 @@ Allowed property shapes:
 - raw error counts
 - app version
 - app build
+- app environment
+- platform
 - OS family
 - OS major version
 - device class bucket
@@ -90,19 +94,20 @@ let config = PostHogConfig(apiKey: ..., host: ...)
 config.optOut = true
 config.captureApplicationLifecycleEvents = true
 config.preloadFeatureFlags = true
-config.personProfiles = .never
+config.personProfiles = .always
 
 // Recommended unless explicitly needed.
-config.sendFeatureFlagEvent = false
+config.sendFeatureFlagEvent = true
 ```
 
 Notes:
 
 - SDK `optOut` should handle consent gating itself.
+- Project configured to discard stored client IP data in PostHog.
 - No session replay unless explicitly added here later.
 - No autocapture unless explicitly added here later.
 - Feature flags allowed.
-- Anonymous lifecycle events allowed.
+- Pseudonymous lifecycle events allowed.
 
 ### Event Catalog
 
@@ -146,6 +151,17 @@ Notes:
 | `import_export_failed` | import/export failure usage | `operation`, `stage` |
 | `empty_state_action_used` | empty-state recovery usage | `action`, `screen` |
 | `list_media_removed` | removing media from a user list | `list_type` |
+| `analytics_enabled` | analytics consent opt-in source | `source` |
+
+### Person Property Catalog
+
+| Property | Purpose | Allowed Values |
+| --- | --- | --- |
+| `app_environment` | separate debug/release installs | `debug`, `release` |
+| `platform` | platform segmentation | `ios` |
+| `app_version` | current installed app version | app version string |
+| `app_build` | current installed build number | app build string |
+| `first_seen_app_version` | first version seen for this installation | app version string |
 
 ### Approved Values
 
@@ -185,6 +201,11 @@ Notes:
 - `settings`
 - `add_media_limit`
 - `upcoming_list_lock`
+
+`source` values for `analytics_enabled`:
+
+- `onboarding`
+- `settings`
 
 `field` values for `list_configuration_changed`:
 

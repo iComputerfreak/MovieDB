@@ -44,6 +44,7 @@ public enum AnalyticsEvent: Sendable {
     case importExportFailed(operation: AnalyticsImportExportOperation, stage: AnalyticsImportExportStage)
     case emptyStateActionUsed(action: AnalyticsEmptyStateAction, screen: AnalyticsEmptyStateScreen)
     case listMediaRemoved(listType: AnalyticsListType)
+    case analyticsEnabled(source: AnalyticsEnabledSource)
 }
 
 extension AnalyticsEvent {
@@ -125,6 +126,8 @@ extension AnalyticsEvent {
             "empty_state_action_used"
         case .listMediaRemoved:
             "list_media_removed"
+        case .analyticsEnabled:
+            "analytics_enabled"
         }
     }
 
@@ -213,6 +216,8 @@ extension AnalyticsEvent {
             ]
         case let .listMediaRemoved(listType):
             ["list_type": listType.rawValue]
+        case let .analyticsEnabled(source):
+            ["source": source.rawValue]
         }
     }
 }

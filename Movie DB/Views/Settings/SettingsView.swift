@@ -21,6 +21,8 @@ struct SettingsView: View {
     private let storeManager: StoreManager = .shared
 
     @State private var viewModel = SettingsViewModel()
+    @State private var isShowingAnalyticsConsent = false
+    @State private var pendingAnalyticsEnableSource: AnalyticsEnabledSource?
     
     var body: some View {
         LoadingView(
@@ -29,13 +31,20 @@ struct SettingsView: View {
         ) {
             NavigationStack {
                 Form {
-                    PreferencesSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    PreferencesSection(
+                        config: $viewModel,
+                        reloadHandler: self.reloadMedia
+                    )
                     if !storeManager.hasPurchasedPro {
                         ProSection(config: $viewModel)
                     }
                     ImportExportSection(config: $viewModel)
                     ContactSection(config: $viewModel)
                     LibraryActionsSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    AnalyticsSection(
+                        enableAnalyticsHandler: { isShowingAnalyticsConsent = true },
+                        disableAnalyticsHandler: disableAnalytics
+                    )
                 }
                 .environmentObject(config)
                 .navigationTitle(Strings.TabView.settingsLabel)
@@ -59,6 +68,20 @@ struct SettingsView: View {
         }
         .onAppear {
             AnalyticsService.shared.track(.screenViewed(screenName: .settings))
+        }
+        .sheet(isPresented: $isShowingAnalyticsConsent, onDismiss: finalizeAnalyticsOptIn) {
+            AnalyticsConsentView(
+                onAllow: {
+                    pendingAnalyticsEnableSource = .settings
+                    config.analyticsConsentState = .allowed
+                    isShowingAnalyticsConsent = false
+                },
+                onKeepOff: {
+                    config.analyticsConsentState = .denied
+                    isShowingAnalyticsConsent = false
+                }
+            )
+            .presentationDetents([.large])
         }
     }
 
@@ -109,6 +132,19 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private func disableAnalytics() {
+        config.analyticsConsentState = .denied
+        AnalyticsService.shared.setTrackingEnabled(false)
+    }
+
+    private func finalizeAnalyticsOptIn() {
+        guard let source = pendingAnalyticsEnableSource else { return }
+
+        AnalyticsService.shared.setTrackingEnabled(true)
+        AnalyticsService.shared.track(.analyticsEnabled(source: source))
+        pendingAnalyticsEnableSource = nil
     }
 }
 

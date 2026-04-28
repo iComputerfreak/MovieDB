@@ -63,29 +63,8 @@ struct LibraryActionsSection: View {
             #endif
         } header: {
             Text(Strings.Settings.librarySectionHeader)
-        } footer: {
-            FooterView()
         }
         .disabled(self.config.isLoading)
-    }
-    
-    struct FooterView: View {
-        var body: some View {
-            HStack {
-                Spacer()
-                VStack(alignment: .center) {
-                    // Made with love footer
-                    Text(Strings.Settings.madeWithLoveFooter)
-                        .bold()
-                    // App version
-                    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                        Text(Strings.Settings.versionFooter(appVersion))
-                            .italic()
-                    }
-                }
-                Spacer()
-            }
-        }
     }
     
     func updateMedia() {

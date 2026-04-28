@@ -39,6 +39,12 @@ class JFConfig: ObservableObject {
     @AppStorage("defaultSubtitleContent")
     var defaultSubtitleContentRawValue: String = LibraryRow.SubtitleContent.watchState.rawValue
 
+    @AppStorage("analyticsConsentState")
+    private var analyticsConsentStateRawValue: String = AnalyticsConsentState.unknown.rawValue
+
+    @AppStorage("analyticsInstallationID")
+    private var analyticsInstallationIDRawValue: String = ""
+
     var defaultSubtitleContent: LibraryRow.SubtitleContent {
         get {
             LibraryRow.SubtitleContent(rawValue: defaultSubtitleContentRawValue) ?? .watchState
@@ -46,6 +52,27 @@ class JFConfig: ObservableObject {
         set {
             defaultSubtitleContentRawValue = newValue.rawValue
         }
+    }
+
+    var analyticsConsentState: AnalyticsConsentState {
+        get {
+            AnalyticsConsentState(rawValue: analyticsConsentStateRawValue) ?? .unknown
+        }
+        set {
+            analyticsConsentStateRawValue = newValue.rawValue
+        }
+    }
+
+    var isAnalyticsEnabled: Bool {
+        analyticsConsentState == .allowed
+    }
+
+    var analyticsInstallationID: String {
+        if analyticsInstallationIDRawValue.isEmpty {
+            analyticsInstallationIDRawValue = UUID().uuidString.lowercased()
+        }
+
+        return analyticsInstallationIDRawValue
     }
 
     private init() {}

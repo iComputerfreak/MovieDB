@@ -7991,6 +7991,414 @@
         }
       }
     },
+    "settings.section.analytics" : {
+      "comment" : "Section header for the settings analytics section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics"
+          }
+        }
+      }
+    },
+    "settings.analytics.label" : {
+      "comment" : "The title for the analytics consent setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonymous usage statistics"
+          }
+        }
+      }
+    },
+    "settings.analytics.status.on" : {
+      "comment" : "Status text for enabled analytics in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "settings.analytics.status.off" : {
+      "comment" : "Status text for disabled analytics in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "settings.analytics.summary" : {
+      "comment" : "Summary explaining the analytics policy in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hilft, Bildschirm- und Funktionsnutzung mit PostHog zu verstehen. Es werden keine Titel, Notizen, Tags, Bewertungen oder Suchtexte gesendet. IP-Adressen werden nicht gespeichert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helps understand screen and feature usage with PostHog. No titles, notes, tags, ratings, or search text are sent. IP addresses are not stored."
+          }
+        }
+      }
+    },
+    "settings.analytics.button.enable" : {
+      "comment" : "Button to enable anonymous analytics from settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken aktivieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analytics.button.disable" : {
+      "comment" : "Button to disable anonymous analytics from settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken deaktivieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.title" : {
+      "comment" : "Navigation title of the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonymous Usage Statistics"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.message" : {
+      "comment" : "Intro text on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App kann mit PostHog anonyme Nutzungsstatistiken senden, um zu verstehen, welche Bereiche nützlich sind und wo Reibung entsteht. IP-Adressen werden nicht gespeichert. Die Daten helfen nur bei Produktverbesserungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This app can use PostHog to send anonymous usage statistics to understand which parts are useful and where friction happens. IP addresses are not stored. The data is only used to improve the product."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.header" : {
+      "comment" : "Header for tracked examples on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was erfasst wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is tracked"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.screenViews.title" : {
+      "comment" : "Title for the screen-view example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmaufrufe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen views"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.screenViews.detail" : {
+      "comment" : "Detail for the screen-view example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Beispiel, ob Mediathek, Einstellungen oder Mediensuche geöffnet wurden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For example, whether the library, settings, or add-media screens were opened."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.featureUsage.title" : {
+      "comment" : "Title for the feature-usage example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funktionsnutzung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feature usage"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.featureUsage.detail" : {
+      "comment" : "Detail for the feature-usage example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Beispiel, ob Medien hinzugefügt, Importe gestartet oder Filter und Sortierung verwendet wurden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For example, whether media was added, imports were started, or filters and sorting were used."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.technicalContext.title" : {
+      "comment" : "Title for the technical-context example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grobe technische Infos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coarse technical context"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.technicalContext.detail" : {
+      "comment" : "Detail for the technical-context example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Version, Betriebssystem-Familie, Hauptversion und Geräteklasse."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App version, OS family, major OS version, and device class."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.header" : {
+      "comment" : "Header for not-tracked examples on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was nicht erfasst wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is not tracked"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.mediaData.title" : {
+      "comment" : "Title for the excluded media data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Inhalte aus deiner Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No library content"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.mediaData.detail" : {
+      "comment" : "Detail for the excluded media data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Film- oder Serien-Titel, keine TMDB-IDs, keine Notizen, Tags, Bewertungen oder Suchtexte."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No movie or show titles, no TMDB IDs, no notes, tags, ratings, or search text."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.personalData.title" : {
+      "comment" : "Title for the excluded personal data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Identitätsprofile"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No identity profiles"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.personalData.detail" : {
+      "comment" : "Detail for the excluded personal data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Kontodaten, keine Personenprofile und kein freier Text."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No account identity, no person profiles, and no free-form text."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.worksWithoutAnalytics" : {
+      "comment" : "Message clarifying that the app works without analytics.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Funktionen der App bleiben verfügbar, auch wenn du Analytik deaktiviert lässt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every app feature stays available even if you keep analytics turned off."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.button.allow" : {
+      "comment" : "Button that enables anonymous analytics.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken erlauben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.button.keepOff" : {
+      "comment" : "Button that keeps analytics disabled.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutzungsstatistiken deaktiviert lassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Analytics Off"
+          }
+        }
+      }
+    },
     "settings.toggle.showAdultContent.label" : {
       "comment" : "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content",
       "localizations" : {

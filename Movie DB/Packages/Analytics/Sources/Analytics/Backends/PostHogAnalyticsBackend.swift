@@ -8,14 +8,25 @@
 import PostHog
 
 final class PostHogAnalyticsBackend: AnalyticsBackend {
+    private let configuration: AnalyticsConfiguration
+
     init(configuration: AnalyticsConfiguration) {
+        self.configuration = configuration
+
         let config = PostHogConfig(apiKey: configuration.apiKey, host: configuration.host)
         config.captureApplicationLifecycleEvents = true
+        // Screen views don't make much sense with SwiftUI, as the screens are described as
+        // `UIHostingController<ModifiedContent<AnyView, RootModifier>>`, which could be anything.
+        config.captureScreenViews = false
         config.preloadFeatureFlags = true
         config.optOut = !configuration.isTrackingEnabled
-        config.personProfiles = .never
-        config.sendFeatureFlagEvent = false
+        config.personProfiles = .always
+        config.sendFeatureFlagEvent = true
         PostHogSDK.shared.setup(config)
+
+        if configuration.isTrackingEnabled {
+            identifyInstallation()
+        }
     }
 
     func track(_ event: AnalyticsEvent) {
@@ -25,8 +36,17 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
     func setTrackingEnabled(_ isEnabled: Bool) {
         if isEnabled {
             PostHogSDK.shared.optIn()
+            identifyInstallation()
         } else {
             PostHogSDK.shared.optOut()
         }
+    }
+
+    private func identifyInstallation() {
+        PostHogSDK.shared.identify(
+            configuration.distinctID,
+            userProperties: configuration.personProperties,
+            userPropertiesSetOnce: configuration.personPropertiesSetOnce
+        )
     }
 }
