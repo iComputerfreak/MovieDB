@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import Analytics
 import JFUtils
 import SwiftUI
 
@@ -101,10 +102,17 @@ struct MediaListsRootView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .mediaLists))
+        }
     }
     
     private func deleteDynamicList(indexSet: IndexSet) {
         for index in indexSet {
+            let list = dynamicLists[index]
+            AnalyticsService.shared.track(
+                .dynamicListDeleted(predicateType: list.filterSetting?.analyticsPrimaryFilterType ?? .unconfigured)
+            )
             self.managedObjectContext.delete(dynamicLists[index])
         }
         PersistenceController.saveContext(managedObjectContext)
@@ -112,6 +120,7 @@ struct MediaListsRootView: View {
     
     private func deleteUserList(indexSet: IndexSet) {
         for index in indexSet {
+            AnalyticsService.shared.track(.customListDeleted)
             self.managedObjectContext.delete(userLists[index])
         }
         PersistenceController.saveContext(managedObjectContext)
@@ -129,6 +138,7 @@ struct MediaListsRootView: View {
                     let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
                         let list = DynamicMediaList(context: managedObjectContext)
                         list.name = name
+                        AnalyticsService.shared.track(.dynamicListCreated(predicateType: .unconfigured))
                         PersistenceController.saveContext(managedObjectContext)
                     }
                     AlertHandler.presentAlert(alert: alert)
@@ -138,6 +148,7 @@ struct MediaListsRootView: View {
                     let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
                         let list = UserMediaList(context: managedObjectContext)
                         list.name = name
+                        AnalyticsService.shared.track(.customListCreated)
                         PersistenceController.saveContext(managedObjectContext)
                     }
                     AlertHandler.presentAlert(alert: alert)

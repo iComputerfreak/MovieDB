@@ -38,6 +38,7 @@ Allowed property shapes:
 
 - booleans
 - small enums
+- small enum arrays from fixed allowlists
 - counts
 - count buckets
 - raw durations
@@ -54,6 +55,20 @@ Allowed property shapes:
 
 Import/export count buckets:
 
+- `1_99`
+- `100_199`
+- `200_299`
+- `300_399`
+- `400_499`
+- `500_999`
+- `1000_1999`
+- `2000_4999`
+- `5000_9999`
+- `10000_plus`
+
+Search result count buckets:
+
+- `0`
 - `1_99`
 - `100_199`
 - `200_299`
@@ -114,7 +129,7 @@ Notes:
 | `dynamic_list_created` | dynamic list creation | `predicate_type` |
 | `custom_list_deleted` | custom list deletion | none |
 | `dynamic_list_deleted` | dynamic list deletion | `predicate_type` |
-| `library_home_filter_applied` | filter usage | `filter_type` |
+| `library_home_filter_applied` | filter usage | `filter_types` |
 | `library_searched` | search feature usage | `result_count_bucket` |
 | `setting_changed` | settings/config changes | `setting_key`, `new_value` |
 | `media_import_aborted` | import abort usage | `import_count_bucket`, `duration_seconds`, `error_count` |
@@ -125,6 +140,43 @@ Notes:
 | `media_context_menu_action_used` | long-press context menu usage | `action` |
 | `media_swipe_action_used` | swipe action usage | `action` |
 | `media_shared` | share feature usage | `share_target_type` |
+
+### Approved Values
+
+`result`:
+
+- `success`
+- `failure`
+
+`filter_types` values:
+
+- `unconfigured`
+- `adult`
+- `media_type`
+- `genre`
+- `rating`
+- `year`
+- `status`
+- `show_type`
+- `number_of_seasons`
+- `watch_state`
+- `watch_again`
+- `tag`
+- `watch_provider`
+- `compound`
+
+`setting_key` values:
+
+- `show_adults`
+- `language`
+- `region`
+- `default_watch_state`
+- `default_subtitle_content`
+- `watch_providers`
+
+`new_value` notes:
+
+- `watch_providers` must send selected provider count only, never provider names or IDs.
 
 ### Change Process
 

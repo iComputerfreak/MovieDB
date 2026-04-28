@@ -1,5 +1,6 @@
 // Copyright © 2025 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct WatchProvidersPicker: View {
@@ -10,6 +11,19 @@ struct WatchProvidersPicker: View {
     )
     var watchProviders: FetchedResults<WatchProvider>
 
+    private var selectedProviderCount: Int {
+        watchProviders.count { !$0.isHidden }
+    }
+
+    private func trackSelectionChange() {
+        AnalyticsService.shared.track(
+            .settingChanged(
+                settingKey: .watchProviders,
+                newValue: .integer(selectedProviderCount)
+            )
+        )
+    }
+
     var body: some View {
         List {
             Section {
@@ -17,15 +31,17 @@ struct WatchProvidersPicker: View {
                     for provider in watchProviders {
                         provider.isHidden = false
                     }
+                    trackSelectionChange()
                 }
                 Button(Strings.Generic.selectNone) {
                     for provider in watchProviders {
                         provider.isHidden = true
                     }
+                    trackSelectionChange()
                 }
             }
             ForEach(watchProviders, id: \.id) { provider in
-                WatchProviderPickerRow(provider: provider)
+                WatchProviderPickerRow(provider: provider, onChange: trackSelectionChange)
             }
         }
         .navigationTitle(Strings.Settings.watchProviderSettingsLabel)
@@ -34,10 +50,12 @@ struct WatchProvidersPicker: View {
 
 struct WatchProviderPickerRow: View {
     @ObservedObject var provider: WatchProvider
+    let onChange: () -> Void
 
     var body: some View {
         Button {
             provider.isHidden.toggle()
+            onChange()
         } label: {
             HStack {
                 Image(systemName: "checkmark")

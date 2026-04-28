@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Analytics
 import CoreData
 import os.log
 import SwiftUI
@@ -140,6 +141,15 @@ struct LibraryHome: View {
         }
         .navigationSplitViewStyle(.balanced)
         .environmentObject(filterSetting)
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .libraryHome))
+        }
+        .onSubmit(of: .search) {
+            guard !searchText.isEmpty else { return }
+            AnalyticsService.shared.track(
+                .librarySearched(resultCountBucket: .bucket(for: filteredMedia.count))
+            )
+        }
     }
     
     var footerText: Text {

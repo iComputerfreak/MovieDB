@@ -6,6 +6,7 @@
 //  Copyright © 2023 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import SwiftUI
 
 struct ExportTagsButton: View {
@@ -38,6 +39,15 @@ struct ExportTagsButton: View {
             await MainActor.run {
                 config.isLoading = false
                 config.exportedData = exportedData
+                if let exportedData {
+                    let tagCount = String(decoding: exportedData.data, as: UTF8.self)
+                        .components(separatedBy: .newlines)
+                        .filter(\.isNotEmpty)
+                        .count
+                    AnalyticsService.shared.track(
+                        .tagsExported(exportCountBucket: .bucket(for: tagCount))
+                    )
+                }
             }
         }
     }

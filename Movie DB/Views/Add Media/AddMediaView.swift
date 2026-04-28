@@ -70,6 +70,9 @@ struct AddMediaView: View {
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView()
         }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
+        }
     }
     
     func addMedia(_ result: TMDBSearchResult) async {
@@ -80,9 +83,7 @@ struct AddMediaView: View {
                 isLoading = false
             }
             try await library.addMedia(result)
-            if let mediaType = AnalyticsMediaType(rawValue: result.mediaType.rawValue) {
-                AnalyticsService.shared.track(.mediaAdded(mediaType: mediaType))
-            }
+            AnalyticsService.shared.track(.mediaAdded(mediaType: result.mediaType.analyticsValue))
             await MainActor.run {
                 isLoading = false
             }
@@ -99,9 +100,7 @@ struct AddMediaView: View {
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
-            if let mediaType = AnalyticsMediaType(rawValue: result.mediaType.rawValue) {
-                AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: mediaType))
-            }
+            AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: result.mediaType.analyticsValue))
             self.isShowingProPopup = true
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")

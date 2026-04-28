@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import Analytics
 import JFSwiftUI
 import os.log
 import SwiftUI
@@ -56,6 +57,9 @@ struct SettingsView: View {
                 )
             }
         }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .settings))
+        }
     }
 
     @ToolbarContentBuilder
@@ -78,6 +82,7 @@ struct SettingsView: View {
     }
 
     func reloadMedia() {
+        AnalyticsService.shared.track(.libraryReload)
         viewModel.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread

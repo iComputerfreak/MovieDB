@@ -13,13 +13,13 @@ struct DeleteMediaButton: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    var onAction: (() -> Void)? = nil
     var onDelete: (() -> Void)? = nil
     
     var body: some View {
         Button(role: .destructive) {
-            if let mediaType = AnalyticsMediaType(rawValue: mediaObject.type.rawValue) {
-                AnalyticsService.shared.track(.mediaDeleted(mediaType: mediaType))
-            }
+            onAction?()
+            AnalyticsService.shared.track(.mediaDeleted(mediaType: mediaObject.type.analyticsValue))
             // Delete the media
             self.managedObjectContext.delete(mediaObject)
             onDelete?()

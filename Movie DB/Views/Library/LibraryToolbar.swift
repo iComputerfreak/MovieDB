@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Analytics
 import JFUtils
 import OSLog
 import SwiftUI
@@ -52,7 +53,17 @@ struct LibraryToolbar: ToolbarContent {
                     }
                 }
                 // MARK: Sorting Options
-                SortingMenuSection(sortingOrder: $config.sortingOrder, sortingDirection: $config.sortingDirection)
+                SortingMenuSection(
+                    sortingOrder: $config.sortingOrder,
+                    sortingDirection: $config.sortingDirection
+                ) { sortingOrder, sortingDirection in
+                    AnalyticsService.shared.track(
+                        .libraryHomeSortingChanged(
+                            sortingOrder: sortingOrder.analyticsValue,
+                            sortingDirection: sortingDirection.analyticsValue
+                        )
+                    )
+                }
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
@@ -65,6 +76,7 @@ struct LibraryToolbar: ToolbarContent {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     selectedMediaObjects = []
+                    AnalyticsService.shared.track(.libraryHomeMultiselect(action: .exited))
                     withAnimation {
                         editMode?.wrappedValue = .inactive
                     }

@@ -1,5 +1,6 @@
 // Copyright © 2025 Jonas Frey. All rights reserved.
 
+import Analytics
 import Flow
 import SwiftUI
 
@@ -67,17 +68,30 @@ struct MediaDetailView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Menu {
                             Section {
-                                AddToFavoritesButton()
-                                AddToWatchlistButton()
-                                AddEnvironmentMediaToListMenu()
+                                AddToFavoritesButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleFavorite))
+                                }
+                                AddToWatchlistButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleWatchlist))
+                                }
+                                AddEnvironmentMediaToListMenu {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .addToList))
+                                }
                             }
                             Section {
-                                ReloadMediaButton()
-                                ShareMediaButton()
-                                DeleteMediaButton {
+                                ReloadMediaButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .reload))
+                                }
+                                ShareMediaButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .share))
+                                    AnalyticsService.shared.track(.mediaShared(shareTargetType: .systemShareSheet))
+                                }
+                                DeleteMediaButton(onAction: {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .delete))
+                                }, onDelete: {
                                     // Dismiss after deleting
                                     dismiss()
-                                }
+                                })
                             }
                         } label: {
                             MediaMenuLabel()

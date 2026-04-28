@@ -89,6 +89,15 @@ struct ImportMediaButton: View {
                     // Reset all the work we have just done
                     importContext.reset()
                     config.importLogger?.info("Undoing import. All imported objects removed.")
+                    let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
+                    let errorCount = config.importLogger?.count(of: .error) ?? 0
+                    AnalyticsService.shared.track(
+                        .mediaImportAborted(
+                            importCountBucket: .bucket(for: medias.count),
+                            durationSeconds: durationSeconds,
+                            errorCount: errorCount
+                        )
+                    )
                     self.config.importLogShowing = true
                 })
                 controller.addAction(.okayAction { _ in

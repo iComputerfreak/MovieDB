@@ -6,12 +6,34 @@
 //  Copyright © 2019 Jonas Frey. All rights reserved.
 //
 
+import Analytics
 import SwiftUI
 
 /// Represents the user data section in the ``MediaDetail`` view
 struct LegacyUserData: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.isEditing) private var isEditing
+
+    private var watchStateTrackingValue: String {
+        if let movie = mediaObject as? Movie {
+            return movie.watched?.rawValue ?? "unknown"
+        }
+
+        if let show = mediaObject as? Show {
+            switch show.watched {
+            case .none:
+                return "unknown"
+            case .notWatched:
+                return "not_watched"
+            case let .season(season):
+                return "season_\(season)"
+            case let .episode(season, episode):
+                return "season_\(season)_episode_\(episode)"
+            }
+        }
+
+        return "unknown"
+    }
     
     var body: some View {
         if self.mediaObject.isFault {
@@ -77,6 +99,12 @@ struct LegacyUserData: View {
                 if !mediaObject.notes.isEmpty || isEditing {
                     NotesView($mediaObject.notes)
                 }
+            }
+            .onChange(of: mediaObject.personalRating) { _, _ in
+                AnalyticsService.shared.track(.personalRatingChanged)
+            }
+            .onChange(of: watchStateTrackingValue) { _, _ in
+                AnalyticsService.shared.track(.watchStateChanged)
             }
         }
     }

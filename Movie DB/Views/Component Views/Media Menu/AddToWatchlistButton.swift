@@ -11,10 +11,12 @@ import SwiftUI
 
 struct AddToWatchlistButton: View {
     @EnvironmentObject private var mediaObject: Media
+    var onAction: (() -> Void)? = nil
 
     var body: some View {
         Button {
             let newValue = !mediaObject.isOnWatchlist
+            onAction?()
             mediaObject.isOnWatchlist.toggle()
             AnalyticsService.shared.track(.watchlistToggled(newValue: newValue))
             PersistenceController.saveContext()

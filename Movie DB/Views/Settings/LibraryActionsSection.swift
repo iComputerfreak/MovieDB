@@ -106,9 +106,11 @@ struct LibraryActionsSection: View {
                         title: Strings.Settings.Alert.updateMediaTitle,
                         message: Strings.Settings.Alert.updateMediaMessage(updateCount)
                     )
+                    AnalyticsService.shared.track(.libraryUpdate(result: .success))
                 }
             } catch {
                 Logger.library.error("Error updating media objects: \(error, privacy: .public)")
+                AnalyticsService.shared.track(.libraryUpdate(result: .failure))
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(

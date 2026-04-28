@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Analytics
 import SwiftUI
 
 extension View {
@@ -23,7 +24,10 @@ struct MediaSwipeActionsModifier: ViewModifier {
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 DeleteMediaSwipeAction()
 
-                let watchlistButton = AddToWatchlistButton().labelStyle(.iconOnly)
+                let watchlistButton = AddToWatchlistButton {
+                    AnalyticsService.shared.track(.mediaSwipeActionUsed(action: .toggleWatchlist))
+                }
+                .labelStyle(.iconOnly)
 
                 if let iconColor = PredicateMediaList.watchlist.iconColor {
                     watchlistButton
