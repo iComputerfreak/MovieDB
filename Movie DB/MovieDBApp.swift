@@ -60,16 +60,11 @@ struct MovieDBApp: App {
 private var analyticsPersonProperties: [String: String] {
     [
         "app_environment": analyticsAppEnvironment,
-        "platform": "ios",
-        "app_version": AppVersion.version,
-        "app_build": AppVersion.build,
     ]
 }
 
 private var analyticsPersonPropertiesSetOnce: [String: String] {
-    [
-        "first_seen_app_version": AppVersion.version,
-    ]
+    [:]
 }
 
 private enum AppVersion {

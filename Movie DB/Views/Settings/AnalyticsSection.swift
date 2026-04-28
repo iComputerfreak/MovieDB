@@ -37,6 +37,7 @@ struct AnalyticsSection: View {
                 preferences.isAnalyticsEnabled ? Strings.Settings.analyticsDisableButton : Strings.Settings.analyticsEnableButton,
                 action: preferences.isAnalyticsEnabled ? disableAnalyticsHandler : enableAnalyticsHandler
             )
+            .tint(preferences.isAnalyticsEnabled ? .red : .accentColor)
         } header: {
             Text(Strings.Settings.analyticsSectionHeader)
         } footer: {
