@@ -40,6 +40,9 @@ struct AppRootView: View {
             .presentationDetents([.large])
             .interactiveDismissDisabled(config.analyticsConsentState == .unknown)
         }
+        .task {
+            AnalyticsService.shared.reloadFeatureFlags {}
+        }
     }
 
     private func finalizeAnalyticsOptIn() {

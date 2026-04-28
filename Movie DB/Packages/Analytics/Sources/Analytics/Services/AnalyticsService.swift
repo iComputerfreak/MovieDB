@@ -30,6 +30,14 @@ public final class AnalyticsService: AnalyticsTracking, @unchecked Sendable {
         currentBackend().setTrackingEnabled(isEnabled)
     }
 
+    public func isFeatureEnabled(_ flag: AnalyticsFeatureFlag) -> Bool {
+        currentBackend().isFeatureEnabled(flag)
+    }
+
+    public func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
+        currentBackend().reloadFeatureFlags(completion: completion)
+    }
+
     private func currentBackend() -> any AnalyticsBackend {
         lock.lock()
         let backend = self.backend

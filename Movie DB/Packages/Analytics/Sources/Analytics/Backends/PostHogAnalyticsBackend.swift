@@ -42,6 +42,16 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
         }
     }
 
+    func isFeatureEnabled(_ flag: AnalyticsFeatureFlag) -> Bool {
+        PostHogSDK.shared.isFeatureEnabled(flag.rawValue) ?? false
+    }
+
+    func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
+        PostHogSDK.shared.reloadFeatureFlags {
+            completion()
+        }
+    }
+
     private func identifyInstallation() {
         PostHogSDK.shared.identify(
             configuration.distinctID,

@@ -87,8 +87,7 @@ struct SettingsView: View {
 
     @ToolbarContentBuilder
     private var debugMenuToolbarItem: some ToolbarContent {
-        // Don't show on screenshots
-        if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
+        if AnalyticsService.shared.isFeatureEnabled(.debugging), ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
             ToolbarItem(placement: .navigationBarLeading) {
                 NavigationLink {
                     DebugView()
