@@ -74,9 +74,9 @@ struct MediaDetailView: View {
                                 AddToWatchlistButton {
                                     AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleWatchlist))
                                 }
-                                AddEnvironmentMediaToListMenu {
+                                AddEnvironmentMediaToListMenu(onCompletion: {
                                     AnalyticsService.shared.track(.detailMenuActionUsed(action: .addToList))
-                                }
+                                })
                             }
                             Section {
                                 ReloadMediaButton {
