@@ -16,10 +16,6 @@ struct MediaDetailView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
 
-    @State private var titleViewHeight: CGFloat = 0
-    @State private var scrollOffset: CGFloat = 0
-    let scrollCoordinateSpaceName: String = "scroll"
-
     private var backgroundColor: Color {
         switch colorScheme {
         case .dark: return .black
@@ -29,16 +25,6 @@ struct MediaDetailView: View {
     }
 
     let imageHeight: CGFloat = 450
-    private var backdropGradient: LinearGradient {
-        .init(
-            stops: [
-                .init(color: .black, location: 0),
-                .init(color: .clear, location: 1),
-            ],
-            startPoint: .bottom,
-            endPoint: .top
-        )
-    }
 
     var body: some View {
         if mediaObject.isFault {
@@ -108,84 +94,35 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Leave place for the backdrop
-                Color.clear
-                    .frame(maxWidth: .infinity)
-                    .frame(height: imageHeight)
-                    .overlay(alignment: .bottom) {
-                        MediaTitleView()
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            // Some extra top padding for the gradient to run out
-                            .padding(.top, 48)
-                            .frame(maxWidth: .infinity)
-                            .background(backdropGradient)
-                            .background {
-                                titleImage
-                                    .padding(.top, -(imageHeight - titleViewHeight - scrollOffset))
-                                    .blur(radius: 30)
-                                    .frame(height: titleViewHeight, alignment: .top)
-                                    .clipped()
-                                    .mask(backdropGradient)
-                            }
-                            .background {
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .preference(key: TitleViewHeightKey.self, value: proxy.size.height)
-                                }
-                            }
-                            .onPreferenceChange(TitleViewHeightKey.self) { titleViewHeight in
-                                self.titleViewHeight = titleViewHeight
-                            }
-                    }
-
-                VStack(alignment: .leading) {
-                    UserDataSection()
-                        .environment(\.isEditing, isEditing)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    BasicInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    WatchProvidersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    TrailersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    ExtendedInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    MetadataInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .padding(16)
-                .frame(maxWidth: .infinity)
-                .background(backgroundColor)
-            }
-            .frame(maxWidth: .infinity)
-            .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .preference(
-                            key: ScrollOffsetKey.self,
-                            value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
-                        )
-                }
-            }
-            .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
-                self.scrollOffset = scrollOffset
-            }
-        }
-        .background(alignment: .top) {
+        ParallaxHeaderContentView(imageHeight: imageHeight) {
             titleImage
-                .frame(height: imageHeight)
+        } header: {
+            MediaTitleView()
+        } content: {
+            VStack(alignment: .leading) {
+                UserDataSection()
+                    .environment(\.isEditing, isEditing)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                BasicInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                WatchProvidersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                TrailersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                ExtendedInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                MetadataInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity)
+            .background(backgroundColor)
         }
-        .coordinateSpace(name: scrollCoordinateSpaceName)
-        .ignoresSafeArea(edges: .top)
     }
 
     @ViewBuilder
