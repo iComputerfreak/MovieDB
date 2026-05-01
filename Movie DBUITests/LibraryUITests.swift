@@ -25,12 +25,12 @@ class LibraryUITests: XCTestCase {
     
     func testAddMovie() {
         app.launch()
-        app.addMedia("The Matrix", name: "The Matrix", type: .movie)
+        app.addMedia("The Matrix", name: "The Matrix")
     }
     
     func testAddShow() {
         app.launch()
-        app.addMedia("Blacklist", name: "The Blacklist", type: .show)
+        app.addMedia("Blacklist", name: "The Blacklist")
     }
     
     func testAddTwice() {

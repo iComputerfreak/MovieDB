@@ -8,7 +8,6 @@
 
 import JFTestingUtils
 import JFUtils
-@testable import Movie_DB
 import XCTest
 
 public extension XCUIApplication {
@@ -54,7 +53,7 @@ extension XCUIApplication {
         return false
     }
     
-    func addMedia(_ query: String, name: String, type: MediaType, checkAdded: Bool = true) {
+    func addMedia(_ query: String, name: String, checkAdded: Bool = true) {
         let usesUnifiedSearch = openAddMediaEntryPoint()
         addMediaSearch.tap()
         addMediaSearch.typeText("\(query)\n")
@@ -86,11 +85,11 @@ extension XCUIApplication {
     }
     
     func addMatrix(checkAdded: Bool = true) {
-        addMedia("The Matrix", name: "The Matrix", type: .movie, checkAdded: checkAdded)
+        addMedia("The Matrix", name: "The Matrix", checkAdded: checkAdded)
     }
     
     func addBlacklist(checkAdded: Bool = true) {
-        addMedia("Blacklist", name: "The Blacklist", type: .show, checkAdded: checkAdded)
+        addMedia("Blacklist", name: "The Blacklist", checkAdded: checkAdded)
     }
     
     func addMatrixAndBlacklist() {
