@@ -2,25 +2,6 @@
 
 import SwiftUI
 
-/// Small helper view for the image header
-struct OptionalImageBackgroundView: View {
-    let image: UIImage?
-    let imageHeight: CGFloat
-
-    var body: some View {
-        if let image {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: imageHeight, alignment: .top)
-                .ignoresSafeArea(edges: .top)
-        } else {
-            Color.gray
-                .containerRelativeFrame(.vertical)
-        }
-    }
-}
-
 @available(iOS 26.0, *)
 struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>: View {
     private let imageHeight: CGFloat
@@ -51,20 +32,6 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
         self.background = background()
         self.header = header()
         self.content = content()
-    }
-
-    init(
-        imageHeight: CGFloat = 450,
-        backgroundImage: UIImage?,
-        @ViewBuilder header: () -> Header,
-        @ViewBuilder content: () -> Content
-    ) where Background == OptionalImageBackgroundView {
-        self.init(
-            imageHeight: imageHeight,
-            background: { OptionalImageBackgroundView(image: backgroundImage, imageHeight: imageHeight) },
-            header: header,
-            content: content
-        )
     }
 
     var body: some View {

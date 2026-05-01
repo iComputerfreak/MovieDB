@@ -39,14 +39,10 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
         } else {
             HStack(spacing: 12) {
                 // MARK: Thumbnail
-                Group {
-                    if let thumbnail = mediaObject.thumbnail {
-                        Image(uiImage: thumbnail)
-                            .thumbnailStyle()
-                    } else {
-                        PosterPlaceholderView.thumbnail()
-                    }
-                }
+                LoadableImageView(source: .image(mediaObject.thumbnail))
+                    .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
+                    .thumbnailStyle()
+
                 VStack(alignment: .leading, spacing: 4) {
                     // MARK: Title
                     Text(mediaObject.title)

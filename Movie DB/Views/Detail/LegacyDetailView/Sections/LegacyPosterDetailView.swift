@@ -13,18 +13,9 @@ struct LegacyPosterDetailView: View {
     }
     
     var body: some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding()
-        } loading: {
-            ProgressView()
-        } fallback: {
-            PosterPlaceholderView(cornerRadius: 24)
-                .aspectRatio(JFLiterals.thumbnailSize.width / JFLiterals.thumbnailSize.height, contentMode: .fit)
-                .padding()
-        }
+        LoadableImageView(source: .url(url), contentMode: .fit)
+            .aspectRatio(JFLiterals.thumbnailSize.width / JFLiterals.thumbnailSize.height, contentMode: .fit)
+            .padding()
     }
 }
 

@@ -24,18 +24,10 @@ struct SearchResultRow: View {
     var body: some View {
         HStack(spacing: 12) {
             // MARK: Thumbnail
-            Group {
-                if let thumbnail = result.thumbnail {
-                    Image(uiImage: thumbnail)
-                        .thumbnailStyle()
-                } else {
-                    if #available(iOS 26.0, *) {
-                        PosterPlaceholderView.thumbnail()
-                    } else {
-                        PosterPlaceholderView.legacyThumbnail()
-                    }
-                }
-            }
+            LoadableImageView(source: .image(result.thumbnail))
+                .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
+                .thumbnailStyle()
+
             VStack(alignment: .leading, spacing: 4) {
                 // MARK: Title
                 Text(verbatim: "\(result.title)")
@@ -93,6 +85,7 @@ struct SearchResultRow: View {
                 [
                     PlaceholderData.preview.searchResultMovie,
                     PlaceholderData.preview.searchResultShow,
+                    PlaceholderData.preview.searchResultMinimalMovie
                 ],
                 id: \.id
             ) { result in

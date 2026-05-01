@@ -50,7 +50,18 @@ class PlaceholderData {
         voteCount: 0,
         firstAirDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-23")
     )
-    
+    let searchResultMinimalMovie: TMDBSearchResult = TMDBMovieSearchResult(
+        id: 1,
+        title: "",
+        mediaType: .movie,
+        originalTitle: "",
+        originalLanguage: "",
+        popularity: 0.0,
+        voteAverage: 0.0,
+        voteCount: 0,
+        isAdult: false
+    )
+
     var fskRatings: [ParentalRating] {
         [
             Self.fskRating(0, context: context),

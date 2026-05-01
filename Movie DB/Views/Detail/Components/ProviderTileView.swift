@@ -7,18 +7,7 @@ struct ProviderTileView: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            Group {
-                if let image = provider.logoImage {
-                    Image(uiImage: image)
-                        .resizable()
-                } else {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(.quaternary)
-                        .overlay {
-                            Image(systemName: "photo")
-                        }
-                }
-            }
+            LoadableImageView(source: .image(provider.logoImage))
             .frame(maxWidth: .infinity)
             .aspectRatio(1, contentMode: .fill)
             .thumbnailStyle(cornerRadius: 12)

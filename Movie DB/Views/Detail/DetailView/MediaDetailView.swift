@@ -92,7 +92,9 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        ParallaxHeaderContentView(backgroundImage: mediaObject.thumbnail) {
+        ParallaxHeaderContentView {
+            LoadableImageView(source: .image(mediaObject.thumbnail))
+        } header: {
             MediaTitleView()
         } content: {
             VStack(alignment: .leading) {

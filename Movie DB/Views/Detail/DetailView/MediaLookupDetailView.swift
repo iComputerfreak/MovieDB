@@ -19,7 +19,9 @@ struct MediaLookupDetailView: View {
 
     var body: some View {
         NavigationStack {
-            ParallaxHeaderContentView(backgroundImage: mediaObject.thumbnail) {
+            ParallaxHeaderContentView {
+                LoadableImageView(source: .image(mediaObject.thumbnail))
+            } header: {
                 MediaTitleView(showsUserSpecificFields: false)
             } content: {
                 VStack(alignment: .leading) {
@@ -75,6 +77,15 @@ struct MediaLookupDetailView: View {
     NavigationStack {
         MediaLookupDetailView(showingDismissButton: true)
             .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .previewEnvironment()
+    }
+}
+
+@available(iOS 26.0, *)
+#Preview("Minimal Movie") {
+    NavigationStack {
+        MediaLookupDetailView(showingDismissButton: true)
+            .environmentObject(PlaceholderData.preview.staticMinimalMovie as Media)
             .previewEnvironment()
     }
 }

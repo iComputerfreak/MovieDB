@@ -4,18 +4,18 @@ import SwiftUI
 
 struct LegacyCastMemberRow: View {
     let castMember: CastMemberDummy
+
+    private var imageURL: URL? {
+        castMember.imagePath.flatMap { imagePath in
+            Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
+        }
+    }
     
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: castMember.imagePath.map { imagePath in
-                Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
-                // swiftlint:disable:next redundant_nil_coalescing
-            } ?? nil) { image in
-                image
-                    .thumbnail()
-            } placeholder: {
-                PosterPlaceholderView.legacyThumbnail()
-            }
+            LoadableImageView(source: .url(imageURL), contentMode: .fit)
+                .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
+                .shadow(radius: 3, y: 3.5)
 
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)

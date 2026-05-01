@@ -29,14 +29,9 @@ struct SeasonCardView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
-            Group {
-                if case let .some(.some(thumbnail)) = thumbnail {
-                    Image(uiImage: thumbnail)
-                        .thumbnailStyle(size: JFLiterals.seasonThumbnailSize)
-                } else {
-                    PosterPlaceholderView.thumbnail(size: JFLiterals.seasonThumbnailSize)
-                }
-            }
+            LoadableImageView(source: .image(thumbnail?.flatMap(\.self)))
+                .frame(width: JFLiterals.seasonThumbnailSize.width, height: JFLiterals.seasonThumbnailSize.height)
+                .thumbnailStyle()
 
             HStack(alignment: .top, spacing: 14) {
                 VStack(alignment: .leading, spacing: 8) {

@@ -5,17 +5,17 @@ import SwiftUI
 struct CastMemberRow: View {
     let castMember: CastMemberDummy
 
+    private var imageURL: URL? {
+        castMember.imagePath.flatMap { imagePath in
+            Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
+        }
+    }
+
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: castMember.imagePath.map { imagePath in
-                Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.castImageSize)
-                // swiftlint:disable:next redundant_nil_coalescing
-            } ?? nil) { image in
-                image
-                    .thumbnailStyle()
-            } placeholder: {
-                PosterPlaceholderView.thumbnail()
-            }
+            LoadableImageView(source: .url(imageURL))
+                .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
+                .thumbnailStyle()
 
             VStack(alignment: .leading) {
                 Text(verbatim: castMember.name)
