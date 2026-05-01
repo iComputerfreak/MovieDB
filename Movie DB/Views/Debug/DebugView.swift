@@ -59,9 +59,12 @@ struct DebugView: View {
             }
             Section("Duplicates" as String) {
                 let (duplicateID, duplicateTmdbID, duplicateObjectID) = duplicates
-                Text(verbatim: "There are \(duplicateID) media object with identical IDs.")
-                Text(verbatim: "There are \(duplicateTmdbID) media object with identical TMDB IDs.")
-                Text(verbatim: "There are \(duplicateObjectID) media object with identical Object IDs.")
+                VStack(alignment: .leading) {
+                    Text(verbatim: "There are \(duplicateID) media object with identical IDs.")
+                    Text(verbatim: "There are \(duplicateTmdbID) media object with identical TMDB IDs.")
+                    Text(verbatim: "There are \(duplicateObjectID) media object with identical Object IDs.")
+                }
+                .font(.callout)
             }
             BackgroundFetchDebugSection()
         }

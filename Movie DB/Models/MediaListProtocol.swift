@@ -7,7 +7,7 @@
 //
 
 import CoreData
-import Foundation
+import SwiftUI
 
 /// A list that displays media objects based on a custom `NSFetchRequest`
 protocol MediaListProtocol: ObservableObject, Hashable {
@@ -20,6 +20,10 @@ protocol MediaListProtocol: ObservableObject, Hashable {
     var subtitleContent: LibraryRow.SubtitleContent? { get set }
     /// The SF Symbols name of the icon used for this list
     var iconName: String { get }
+    /// The color of the icon
+    var iconColor: UIColor? { get }
+    /// The rendering mode of the icon
+    var iconRenderingMode: IconRenderingMode { get }
     /// The current ``SortingOrder`` used for this list
     var sortingOrder: SortingOrder { get set }
     /// The current ``SortingDirection`` used for this list

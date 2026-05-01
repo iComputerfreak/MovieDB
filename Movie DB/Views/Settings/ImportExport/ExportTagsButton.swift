@@ -12,7 +12,13 @@ struct ExportTagsButton: View {
     @Binding var config: SettingsViewModel
     
     var body: some View {
-        Button(Strings.Settings.exportTagsLabel, action: self.exportTags)
+        Button(action: self.exportTags) {
+            SettingsActionLabel(
+                title: Strings.Settings.exportTagsLabel,
+                systemImage: "arrow.up.circle.fill",
+                tint: .pink
+            )
+        }
     }
     
     func exportTags() {

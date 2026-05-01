@@ -23,9 +23,14 @@ struct WatchlistMediaList: View {
                         media.isOnWatchlist = false
                         PersistenceController.saveContext()
                     } label: {
-                        Label(Strings.Lists.removeMediaLabel, systemImage: "bookmark.slash.fill")
+                        let label = Label(Strings.Lists.removeMediaLabel, systemImage: "bookmark.slash.fill")
                             .labelStyle(.iconOnly)
-                            .tint(.blue)
+
+                        if let iconColor = PredicateMediaList.watchlist.iconColor {
+                            label.tint(Color(iconColor))
+                        } else {
+                            label
+                        }
                     }
                 }
                 .mediaContextMenu()

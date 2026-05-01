@@ -49,7 +49,7 @@ public extension WatchProvider {
         }
     }
 
-    enum ProviderType: String {
+    enum ProviderType: String, Sendable {
         case flatrate
         case ads
         case buy

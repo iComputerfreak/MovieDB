@@ -13,8 +13,14 @@ struct ProSection: View {
     @Binding var config: SettingsViewModel
     
     var body: some View {
-        Section {
-            Button(Strings.Settings.buyProLabel, action: { self.config.isShowingProInfo = true })
+        Section(Strings.Settings.proSectionHeader) {
+            Button(action: { self.config.isShowingProInfo = true }) {
+                SettingsActionLabel(
+                    title: Strings.Settings.buyProLabel,
+                    systemImage: "sparkles.rectangle.stack.fill",
+                    tint: .yellow
+                )
+            }
                 .sheet(isPresented: $config.isShowingProInfo) {
                     ProInfoView()
                 }

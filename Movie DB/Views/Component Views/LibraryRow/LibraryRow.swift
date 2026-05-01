@@ -107,7 +107,7 @@ public struct LibraryRow: View {
         }
         .navigationTitle(Text(verbatim: "Watchlist"))
     }
-
+    .previewEnvironment()
 }
 
 #Preview("Watch State") {
@@ -128,6 +128,29 @@ public struct LibraryRow: View {
         }
         .navigationTitle(Text(verbatim: "Watchlist"))
     }
+    .previewEnvironment()
+}
+
+#Preview("Watch Providers") {
+    @Previewable @State var problemShow: Media = PlaceholderData.preview.staticShow
+
+    NavigationStack {
+        List {
+            LibraryRow(subtitleContent: .flatrateWatchProviders)
+                .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            LibraryRow(subtitleContent: .flatrateWatchProviders)
+                .environmentObject(PlaceholderData.preview.staticShow as Media)
+            LibraryRow(subtitleContent: .flatrateWatchProviders)
+                .environmentObject(problemShow)
+        }
+        .navigationTitle(Text(verbatim: "Watchlist"))
+        .task {
+            do {
+                problemShow = try await PlaceholderData.preview.createShow(60797)
+            } catch {}
+        }
+    }
+    .previewEnvironment()
 }
 
 private func show(for watchState: ShowWatchState) -> Show {

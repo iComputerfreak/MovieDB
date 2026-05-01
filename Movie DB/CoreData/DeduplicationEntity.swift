@@ -57,4 +57,12 @@ enum DeduplicationEntity: CaseIterable {
             return WatchProvider.self
         }
     }
+
+    init?(entityName: String) {
+        if let matchingEntity = Self.allCases.first(where: \.entityName, equals: entityName) {
+            self = matchingEntity
+        } else {
+            return nil
+        }
+    }
 }

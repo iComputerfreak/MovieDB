@@ -23,7 +23,6 @@ struct ListIconColorPicker: View {
         UIColor.roseIcon,
         UIColor.brownIcon,
         UIColor.grayIcon,
-//        UIColor.lightBrownIcon,
     ]
     
     let colors: [UIColor]

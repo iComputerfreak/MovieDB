@@ -11,6 +11,7 @@ import Foundation
 import os.log
 import SwiftUI
 
+// swiftlint:disable:next type_body_length
 struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     
@@ -213,11 +214,11 @@ struct MediaLibrary {
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    // We catch individual errors here to not abort the whole update process
+                    // Catch individual download errors early, so we don't skip the other media downloads
                     do {
                         try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
                     } catch {
-                        Logger.library.error("Error updating media '\(media.title)': \(error)")
+                        Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
                     }
                 }
             }
@@ -230,11 +231,12 @@ struct MediaLibrary {
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
+                    let objectID = media.objectID
                     let mainMedia = await self.context.perform {
-                        self.context.object(with: media.objectID) as? Media
+                        self.context.object(with: objectID) as? Media
                     }
                     try Task.checkCancellation()
-                    mainMedia?.loadThumbnail(force: true)
+                    mainMedia?.loadImages(force: true)
                     // If we are in a background task, wait for the thumbnail download to finish
                     if fromBackground {
                         await mainMedia?.waitForThumbnailDownload()
@@ -250,6 +252,7 @@ struct MediaLibrary {
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970
         PersistenceController.saveContext()
+        Logger.library.info("Successfully reloaded \(medias.count) medias.")
     }
     
     /// Resets the library, deleting everything!
@@ -263,6 +266,10 @@ struct MediaLibrary {
     
     /// Performs a cleanup of the library, deleting unused entities
     func cleanup() throws {
+        if context.hasChanges {
+            try context.save()
+        }
+
         // MARK: Delete entities that are not used anymore
         Logger.library.info("Deleting unused entities...")
         try delete(
@@ -287,7 +294,18 @@ struct MediaLibrary {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetch.predicate = predicate
         let delete = NSBatchDeleteRequest(fetchRequest: fetch)
-        try context.execute(delete)
+        delete.resultType = .resultTypeObjectIDs
+
+        if
+            let result = try context.execute(delete) as? NSBatchDeleteResult,
+            let objectIDs = result.result as? [NSManagedObjectID],
+            !objectIDs.isEmpty
+        {
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs],
+                into: [context]
+            )
+        }
     }
     
     /// Resets all available tags and their relation to the media objects

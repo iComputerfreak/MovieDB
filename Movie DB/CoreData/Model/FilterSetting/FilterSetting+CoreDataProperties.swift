@@ -36,7 +36,7 @@ public extension FilterSetting {
     
     var isAdult: Bool? {
         get { getOptional(forKey: Schema.FilterSetting.isAdult) }
-        set { setOptional(newValue, forKey: Schema.FilterSetting.watchAgain) }
+        set { setOptional(newValue, forKey: Schema.FilterSetting.isAdult) }
     }
 
     var mediaType: MediaType? {

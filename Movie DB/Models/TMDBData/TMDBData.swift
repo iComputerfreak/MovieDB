@@ -11,12 +11,13 @@ import Foundation
 import UIKit
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
-struct TMDBData: Decodable {
+struct TMDBData: Decodable, Sendable {
     // Basic Data
     var id: Int
     var title: String
     var originalTitle: String
     var imagePath: String?
+    var backdropPath: String?
     var genres: [GenreDummy]
     var tagline: String?
     var overview: String?
@@ -48,6 +49,7 @@ struct TMDBData: Decodable {
         title: String,
         originalTitle: String,
         imagePath: String? = nil,
+        backdropPath: String? = nil,
         genres: [GenreDummy],
         tagline: String? = nil,
         overview: String? = nil,
@@ -73,6 +75,7 @@ struct TMDBData: Decodable {
         self.title = title
         self.originalTitle = originalTitle
         self.imagePath = imagePath
+        self.backdropPath = backdropPath
         self.genres = genres
         self.tagline = tagline
         self.overview = overview
@@ -101,6 +104,7 @@ struct TMDBData: Decodable {
         title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
         originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
         imagePath = try container.decode(String?.self, forKey: .imagePath)
+        backdropPath = try container.decode(String?.self, forKey: .backdropPath)
         genres = try container.decode([GenreDummy].self, forKey: .genres)
         overview = try container.decode(String?.self, forKey: .overview)
         tagline = try container.decode(String?.self, forKey: .tagline)
@@ -231,6 +235,7 @@ struct TMDBData: Decodable {
         case originalTitle = "original_title"
         case originalShowTitle = "original_name"
         case imagePath = "poster_path"
+        case backdropPath = "backdrop_path"
         case genres = "genres"
         case overview
         case tagline

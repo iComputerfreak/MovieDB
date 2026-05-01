@@ -9,7 +9,11 @@
 import CoreData
 import SwiftUI
 
-struct FilteredMediaList<RowContent: View, ListType, ExtraMenuItemContent: View>: View where ListType: MediaListProtocol & ObservableObject {
+struct FilteredMediaList<
+    RowContent: View,
+    ListType: MediaListProtocol & ObservableObject,
+    ExtraMenuItemContent: View
+>: View {
     @ObservedObject var list: ListType
     let filter: (Media) -> Bool
     let rowContent: (Media) -> RowContent

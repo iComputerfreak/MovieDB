@@ -78,7 +78,7 @@ actor TMDBAPI {
             }
             return media
         }
-        media.loadThumbnail()
+        media.loadImages()
         return media
     }
     
@@ -96,7 +96,7 @@ actor TMDBAPI {
             media.update(tmdbData: tmdbData)
         }
         // We have to always reload the thumbnail, because an iCloud sync could potentially update the imagePath, leaving the loaded thumbnail in an inconsistent state
-        media.loadThumbnail(force: true)
+        media.loadImages(force: true)
         // We save immediately, because the whole "update all medias" flow that might be running could be interrupted at any moment.
         PersistenceController.saveContext()
     }
@@ -265,6 +265,10 @@ actor TMDBAPI {
         }
         
         // MARK: Load the additional pages
+        guard min(wrapper.totalPages, lastPage) > (firstPage + 1) else {
+            return (wrapper.results, wrapper.totalPages)
+        }
+
         let additionalResults: [PageWrapper.ObjectWrapper] = try await withThrowingTaskGroup(
             of: [PageWrapper.ObjectWrapper].self
         ) { group in
@@ -284,14 +288,14 @@ actor TMDBAPI {
                     return wrapper.results
                 }
             }
-            
+
             var allResults: [PageWrapper.ObjectWrapper] = []
             for try await results in group {
                 allResults.append(contentsOf: results)
             }
             return allResults
         }
-        
+
         // Return the results from page 1 + the additional results loaded from the other pages
         return (wrapper.results + additionalResults, wrapper.totalPages)
     }

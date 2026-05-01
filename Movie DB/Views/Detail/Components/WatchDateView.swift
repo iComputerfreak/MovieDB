@@ -59,7 +59,7 @@ struct WatchDateView: View {
                     ) {
                         Text(Strings.Detail.watchDateHeadline)
                     }
-                    .datePickerStyle(.compact)
+                    .datePickerStyle(.graphical)
                     .animation(.easeIn(duration: 1), value: mediaObject.watchDate == nil)
                     .labelsHidden()
                 }

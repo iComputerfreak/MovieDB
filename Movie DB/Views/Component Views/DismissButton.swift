@@ -13,20 +13,28 @@ struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
     private let onDismiss: (() -> Void)?
 
+    private var dismissRole: ButtonRole? {
+        if #available(iOS 26.0, *) {
+            return .close
+        } else {
+            return nil
+        }
+    }
+
     init(onDismiss: (() -> Void)? = nil) {
         self.onDismiss = onDismiss
     }
 
     var body: some View {
-        Button {
-            if let onDismiss {
-                onDismiss()
-            } else {
-                dismiss()
-            }
+        Button(role: dismissRole) {
+            (onDismiss ?? dismiss.callAsFunction)()
         } label: {
-            Text(Strings.Generic.dismissViewDone)
-                .bold()
+            Label {
+                Text(Strings.Generic.dismissViewDone)
+                    .bold()
+            } icon: {
+                Image(systemName: "xmark")
+            }
         }
     }
 }

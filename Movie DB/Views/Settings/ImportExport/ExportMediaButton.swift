@@ -12,7 +12,13 @@ struct ExportMediaButton: View {
     @Binding var config: SettingsViewModel
     
     var body: some View {
-        Button(Strings.Settings.exportMediaLabel, action: self.exportMedia)
+        Button(action: self.exportMedia) {
+            SettingsActionLabel(
+                title: Strings.Settings.exportMediaLabel,
+                systemImage: "square.and.arrow.up.fill",
+                tint: .orange
+            )
+        }
     }
     
     func exportMedia() {

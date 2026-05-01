@@ -62,7 +62,7 @@ struct WatchedShowEditView: View {
             )
             // Warning: Selected season does not have any episodes
             return Text(
-                "detail.showWatchState.seasonWarningNoEpisodes \(season)",
+                "detail.showWatchState.seasonWarningNoEpisodes \(season.seasonNumber)",
                 // swiftlint:disable:next line_length
                 comment: "Warning text displayed when selecting a season as watched that does not have any episodes out yet."
             )

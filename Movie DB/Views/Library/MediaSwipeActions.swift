@@ -22,9 +22,15 @@ struct MediaSwipeActionsModifier: ViewModifier {
         content
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 DeleteMediaSwipeAction()
-                AddToWatchlistButton()
-                    .labelStyle(.iconOnly)
-                    .tint(.blue)
+
+                let watchlistButton = AddToWatchlistButton().labelStyle(.iconOnly)
+
+                if let iconColor = PredicateMediaList.watchlist.iconColor {
+                    watchlistButton
+                        .tint(Color(iconColor))
+                } else {
+                    watchlistButton
+                }
             }
     }
 }

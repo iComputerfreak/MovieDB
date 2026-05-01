@@ -19,7 +19,7 @@ struct FlatrateWatchProvidersLabel: View {
         } else {
             HStack(spacing: 0) {
                 ForEach(flatrateWatchProviders, id: \.id) { provider in
-                    ProviderView(
+                    LegacyProviderView(
                         provider: provider,
                         iconSize: JFLiterals.watchProviderSubtitleIconSize,
                         showTypeLabel: false

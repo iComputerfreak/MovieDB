@@ -37,7 +37,7 @@ struct DefaultMediaListsSection: View {
             NavigationLink {
                 WatchlistMediaList(selectedMediaObjects: $selectedMediaObjects)
             } label: {
-                ListRowLabel(list: PredicateMediaList.watchlist, iconColor: .blue, symbolRenderingMode: .monochrome)
+                ListRowLabel(list: PredicateMediaList.watchlist)
             }
 
             // MARK: Problems
@@ -52,11 +52,7 @@ struct DefaultMediaListsSection: View {
             NavigationLink {
                 NewSeasonsMediaList(selectedMediaObjects: $selectedMediaObjects)
             } label: {
-                ListRowLabel(
-                    list: PredicateMediaList.newSeasons,
-                    iconColor: .purple,
-                    symbolRenderingMode: .monochrome
-                )
+                ListRowLabel(list: PredicateMediaList.newSeasons)
                 .badge(newSeasonsMediasCount)
             }
 
@@ -65,11 +61,7 @@ struct DefaultMediaListsSection: View {
                 NavigationLink {
                     UpcomingMediaList(selectedMediaObjects: $selectedMediaObjects)
                 } label: {
-                    ListRowLabel(
-                        list: PredicateMediaList.upcoming,
-                        iconColor: .brownIcon,
-                        symbolRenderingMode: .multicolor
-                    )
+                    ListRowLabel(list: PredicateMediaList.upcoming)
                     .badge(upcomingMediasCount)
                 }
             } else {
@@ -84,11 +76,11 @@ struct DefaultMediaListsSection: View {
                         NavigationLinkChevron()
                     }
                 }
+                .sheet(isPresented: $isShowingProPopup) {
+                    ProInfoView(showCancelButton: true)
+                }
             }
         }
         .deleteDisabled(true)
-        .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView(showCancelButton: true)
-        }
     }
 }

@@ -52,6 +52,12 @@ extension Strings {
             localized: "detail.userData.headline.personalRating",
             comment: "The headline for the 'personal rating' property in the detail view"
         )
+        static func personalRatingValueLabel(_ amount: Double) -> String {
+            String(
+                localized: "detail.userData.value.personalRating \(amount)",
+                comment: "The current personal rating value in the detail view, ranging from 0 to 5 stars in 0.5 star steps"
+            )
+        }
         static let watchedHeadline = String(
             localized: "detail.userData.headline.watched",
             comment: "The headline for the 'watched' property in the detail view"
@@ -175,6 +181,14 @@ extension Strings {
             localized: "detail.seasonsInfo.navBar.title",
             comment: "The navigation bar title for the seasons info in the detail view"
         )
+        static let seasonsUnavailableTitle = String(
+            localized: "detail.seasons.unavailable.title",
+            comment: "Title shown when no seasons are available for a show"
+        )
+        static let seasonsUnavailableDescription = String(
+            localized: "detail.seasons.unavailable.description",
+            comment: "Description shown when no seasons are available for a show"
+        )
         static func seasonsInfoEpisodeCount(_ count: Int) -> String {
             String(
                 localized: "detail.extendedInfo.seasons.episodeCount \(count)",
@@ -269,7 +283,16 @@ extension Strings {
 
         static let castLabel = String(
             localized: "detail.basicInfo.cast",
+            comment: "The headline in the detail of a media object for the cast information."
+        )
+
+        static let viewCastMembersLabel = String(
+            localized: "detail.basicInfo.viewCastMembers.label",
             comment: "The button label in the detail of a media object that leads to the cast information."
+        )
+        static let castNoneAvailable = String(
+            localized: "detail.cast.noneAvailable",
+            comment: "The text displayed when there are no cast members available to display"
         )
         
         static func castMemberRole(_ roleName: String) -> String {

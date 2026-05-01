@@ -172,7 +172,7 @@ struct SeasonDummy: CoreDataDummy, Decodable {
     }
 }
 
-struct WatchProviderDummy: CoreDataDummy {
+struct WatchProviderDummy: CoreDataDummy, Sendable {
     typealias Entity = WatchProvider
     
     let id: Int

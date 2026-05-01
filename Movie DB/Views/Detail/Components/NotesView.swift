@@ -41,7 +41,7 @@ struct NotesView: View {
         }
     }
     
-    fileprivate struct EditView: View {
+    struct EditView: View {
         @Binding var notes: String
         @Environment(\.colorScheme) private var colorScheme
         @FocusState private var isFocused: Bool

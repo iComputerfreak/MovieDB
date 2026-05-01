@@ -98,6 +98,16 @@ extension Strings {
         )
 
         enum EmptyState {
+            static let searchInAddMedia = String(
+                localized: "library.emptyState.button.searchInAddMedia",
+                comment: "The button label that opens the add media search from the library empty state."
+            )
+            
+            static let resetFilter = String(
+                localized: "library.emptyState.button.resetFilter",
+                comment: "The button label that resets the filter in the library empty state."
+            )
+
             static let noResults = String(
                 localized: "library.emptyState.noResults",
                 comment: "The headline displayed when the search or filter does not match any items."

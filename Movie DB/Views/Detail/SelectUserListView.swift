@@ -9,6 +9,7 @@
 import CoreData
 import SwiftUI
 
+/// A list to allow the user to select a UserMediaList
 struct SelectUserListView: View {
     @Environment(\.dismiss) private var dismiss
     

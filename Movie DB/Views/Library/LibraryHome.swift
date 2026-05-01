@@ -12,6 +12,7 @@ import os.log
 import SwiftUI
 
 struct LibraryHome: View {
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.editMode) private var editMode
     @State private var selectedMediaObjects: Set<Media> = .init()
@@ -71,7 +72,12 @@ struct LibraryHome: View {
                 }
             }
             .overlay {
-                MediaListEmptyState(isSearching: !searchText.isEmpty, isFiltered: !filterSetting.isReset)
+                MediaListEmptyState(
+                    isSearching: !searchText.isEmpty,
+                    isFiltered: !filterSetting.isReset,
+                    action: openAddMediaSearch,
+                    resetFilterAction: filterSetting.reset
+                )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
             .environment(\.editMode, editMode)
@@ -97,8 +103,8 @@ struct LibraryHome: View {
             // Display the currently active sheet
             .sheet(item: $viewModel.activeSheet) { sheet in
                 switch sheet {
-                case .addMedia:
-                    AddMediaView()
+                case let .addMedia(initialSearchText):
+                    AddMediaView(initialSearchText: initialSearchText)
                 case .filter:
                     FilterView()
                 }
@@ -147,6 +153,17 @@ struct LibraryHome: View {
             // Only showing a subset of the total medias
             return Text(Strings.Library.footer(objCount))
         }
+    }
+
+    func openAddMediaSearch() {
+        guard !searchText.isEmpty else { return }
+
+        guard #available(iOS 26, *) else {
+            viewModel.activeSheet = .addMedia(initialSearchText: searchText)
+            return
+        }
+
+        unifiedSearchCoordinator.open(scope: .addMedia, text: searchText)
     }
 }
 

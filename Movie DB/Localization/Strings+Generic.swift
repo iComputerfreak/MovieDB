@@ -113,6 +113,10 @@ extension Strings {
             localized: "generic.dismissViewDone",
             comment: "The done button to dismiss a view (e.g. a popup or sheet view)"
         )
+        static let longTextShowMore = String(
+            localized: "generic.longText.showMore",
+            comment: "A button label that opens the full text when only a preview is shown"
+        )
         static let multipleObjectsSelected = String(
             localized: "generic.multipleObjectsSelected",
             comment: "A text that is displayed when there are multiple objects selected, but the user is supposed to only select one"

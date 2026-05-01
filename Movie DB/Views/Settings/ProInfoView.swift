@@ -25,17 +25,17 @@ struct ProInfoView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .center) {
-                HStack {
-                    Text(Strings.ProInfo.introText(JFLiterals.nonProMediaLimit))
-                        .padding()
-                    Spacer()
+            ScrollView {
+                VStack(spacing: 20) {
+                    heroCard
+                    featuresCard
+                    ctaCard
                 }
-                Spacer()
-                BuyProButton()
+                .padding(20)
             }
-            .padding()
+            .background(backgroundGradient.ignoresSafeArea())
             .navigationTitle(Strings.ProInfo.navBarTitle)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button(Strings.ProInfo.restoreButtonLabel) {
@@ -54,17 +54,150 @@ struct ProInfoView: View {
                 }
                 if showCancelButton {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button(Strings.ProInfo.navBarButtonCancelLabel) {
+                        Button {
                             self.dismiss()
+                        } label: {
+                            Label(Strings.ProInfo.navBarButtonCancelLabel, systemImage: "xmark")
                         }
                     }
                 }
             }
         }
     }
+
+    private var backgroundGradient: some View {
+        LinearGradient(
+            colors: [
+                Color.accentColor.opacity(0.12),
+                Color.purple.opacity(0.08),
+                Color.clear,
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    private var heroCard: some View {
+        VStack(spacing: 18) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [.yellow, .orange, .pink],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 82, height: 82)
+
+                Image(systemName: "sparkles.tv.fill")
+                    .font(.system(size: 34, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+
+            VStack(spacing: 10) {
+                Text(Strings.ProInfo.navBarTitle)
+                    .font(.title.bold())
+
+                Text(Strings.ProInfo.introText(JFLiterals.nonProMediaLimit))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(28)
+        .background(cardBackground)
+    }
+
+    private var featuresCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(Strings.ProInfo.featuresTitle)
+                .font(.headline)
+
+            benefitRow(
+                title: Strings.ProInfo.featureLibraryTitle,
+                description: Strings.ProInfo.featureLibraryDescription(JFLiterals.nonProMediaLimit),
+                systemImage: "square.stack.3d.up.fill",
+                tint: .accentColor
+            )
+
+            benefitRow(
+                title: Strings.ProInfo.featureUpcomingTitle,
+                description: Strings.ProInfo.featureUpcomingDescription,
+                systemImage: "calendar.badge.clock",
+                tint: .orange
+            )
+
+            benefitRow(
+                title: Strings.ProInfo.featureRestoreTitle,
+                description: Strings.ProInfo.featureRestoreDescription,
+                systemImage: "arrow.triangle.2.circlepath.circle.fill",
+                tint: .green
+            )
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(24)
+        .background(cardBackground)
+    }
+
+    private var ctaCard: some View {
+        VStack(spacing: 14) {
+            Text(Strings.ProInfo.ctaTitle)
+                .font(.headline)
+
+            Text(Strings.ProInfo.ctaDescription)
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.secondary)
+
+            BuyProButton()
+                .controlSize(.large)
+                .frame(maxWidth: .infinity)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(24)
+        .background(cardBackground)
+    }
+
+    private var cardBackground: some View {
+        RoundedRectangle(cornerRadius: 28, style: .continuous)
+            .fill(.regularMaterial)
+            .overlay {
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .strokeBorder(.white.opacity(0.2))
+            }
+            .shadow(color: .black.opacity(0.08), radius: 20, y: 10)
+    }
+
+    private func benefitRow(
+        title: String,
+        description: String,
+        systemImage: String,
+        tint: Color
+    ) -> some View {
+        HStack(alignment: .top, spacing: 14) {
+            Image(systemName: systemImage)
+                .font(.title3)
+                .foregroundStyle(tint)
+                .frame(width: 38, height: 38)
+                .background(tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 12))
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.headline)
+
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
 }
 
 #Preview {
-    ProInfoView()
+    Text(verbatim: "")
+        .sheet(isPresented: .constant(true)) {
+            ProInfoView()
+        }
         .previewEnvironment()
 }

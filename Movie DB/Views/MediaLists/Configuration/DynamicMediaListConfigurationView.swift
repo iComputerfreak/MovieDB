@@ -43,6 +43,7 @@ struct DynamicMediaListConfigurationView: View {
                             comment: "The header for the list configuration view's filter settings."
                         )
                     }
+                    .accessibilityIdentifier("filter-settings")
                     SubtitleContentPicker(subtitleContent: $list.subtitleContent, showsUseDefaultOption: true)
                 } header: {
                     Text(

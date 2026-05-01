@@ -81,21 +81,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AB0239EA2D5BE5B200C3FF52 /* Exceptions for "Packages" folder in "Movie DB" target */ = {
+		AB0239EA2D5BE5B200C3FF52 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppFoundation,
 			);
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 		};
-		AB5029FA2D58AE1B00D7DD9B /* Exceptions for "SupportingFiles" folder in "Movie DB" target */ = {
+		AB5029FA2D58AE1B00D7DD9B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 		};
-		AB8965252D57C58100F54EB1 /* Exceptions for "Movie DBTests" folder in "Movie DBTests" target */ = {
+		AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				.swiftlint.yml,
@@ -106,174 +106,21 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AB0239E82D5BE4C000C3FF52 /* Packages */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AB0239EA2D5BE5B200C3FF52 /* Exceptions for "Packages" folder in "Movie DB" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Packages;
-			sourceTree = "<group>";
-		};
-		AB5027AB2D58AD8700D7DD9B /* Utility */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
-		AB5027C02D58AD8700D7DD9B /* Preview Content */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		AB5027CD2D58AD8700D7DD9B /* CSV */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = CSV;
-			sourceTree = "<group>";
-		};
-		AB5028222D58AD8700D7DD9B /* CoreData */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		AB50287B2D58AD8700D7DD9B /* Models */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		AB5028962D58AD8700D7DD9B /* APIs */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = APIs;
-			sourceTree = "<group>";
-		};
-		AB5028A02D58AD8700D7DD9B /* Migrations */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Migrations;
-			sourceTree = "<group>";
-		};
-		AB50293A2D58AD8700D7DD9B /* Views */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		AB5029DA2D58AD8700D7DD9B /* Localization */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Localization;
-			sourceTree = "<group>";
-		};
-		AB5029F82D58AD8B00D7DD9B /* SupportingFiles */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AB5029FA2D58AE1B00D7DD9B /* Exceptions for "SupportingFiles" folder in "Movie DB" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		AB5029F92D58AD9A00D7DD9B /* Resources */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		AB8965132D57C58100F54EB1 /* Movie DBTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AB8965252D57C58100F54EB1 /* Exceptions for "Movie DBTests" folder in "Movie DBTests" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = "Movie DBTests";
-			sourceTree = "<group>";
-		};
-		AB89652F2D57C5C400F54EB1 /* Movie DBUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = "Movie DBUITests";
-			sourceTree = "<group>";
-		};
-		AB89653B2D57C5C900F54EB1 /* Movie DBScreenshots */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = "Movie DBScreenshots";
-			sourceTree = "<group>";
-		};
+		AB0239E82D5BE4C000C3FF52 /* Packages */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB0239EA2D5BE5B200C3FF52 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Packages; sourceTree = "<group>"; };
+		AB5027AB2D58AD8700D7DD9B /* Utility */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utility; sourceTree = "<group>"; };
+		AB5027C02D58AD8700D7DD9B /* Preview Content */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Preview Content"; sourceTree = "<group>"; };
+		AB5027CD2D58AD8700D7DD9B /* CSV */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CSV; sourceTree = "<group>"; };
+		AB5028222D58AD8700D7DD9B /* CoreData */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CoreData; sourceTree = "<group>"; };
+		AB50287B2D58AD8700D7DD9B /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		AB5028962D58AD8700D7DD9B /* APIs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = APIs; sourceTree = "<group>"; };
+		AB5028A02D58AD8700D7DD9B /* Migrations */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Migrations; sourceTree = "<group>"; };
+		AB50293A2D58AD8700D7DD9B /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		AB5029DA2D58AD8700D7DD9B /* Localization */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Localization; sourceTree = "<group>"; };
+		AB5029F82D58AD8B00D7DD9B /* SupportingFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB5029FA2D58AE1B00D7DD9B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportingFiles; sourceTree = "<group>"; };
+		AB5029F92D58AD9A00D7DD9B /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
+		AB8965132D57C58100F54EB1 /* Movie DBTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Movie DBTests"; sourceTree = "<group>"; };
+		AB89652F2D57C5C400F54EB1 /* Movie DBUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Movie DBUITests"; sourceTree = "<group>"; };
+		AB89653B2D57C5C900F54EB1 /* Movie DBScreenshots */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Movie DBScreenshots"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,22 +473,24 @@
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Movie DB.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
 			);
 			name = "Generate Licenses";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Movie DB/SupportingFiles/Settings.bundle/com.mono0926.LicensePlist.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$PRODUCT_NAME/SupportingFiles/Settings.bundle\"\n#fi\n";
+			shellPath = /bin/zsh;
+			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n    export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory --github-token $GITHUB_API_KEY\n#fi\n";
+			showEnvVarsInLog = 0;
 		};
 		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -891,11 +740,12 @@
 		AB6718DD22C0312B00F429E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = primary500;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/SupportingFiles/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
@@ -915,7 +765,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.8.3;
+				MARKETING_VERSION = 3.0.0;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=500";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB.debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -933,10 +783,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = primary500;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "Movie DB/SupportingFiles/Movie DB.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"Movie DB\"/Preview\\ Content";
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
@@ -956,7 +807,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.8.3;
+				MARKETING_VERSION = 3.0.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DB";
 				PRODUCT_NAME = "$(TARGET_NAME)";

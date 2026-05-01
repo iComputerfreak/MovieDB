@@ -12,6 +12,7 @@ import OSLog
 import SwiftUI
 
 struct LibraryToolbar: ToolbarContent {
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @EnvironmentObject private var filterSetting: FilterSetting
     @Environment(\.managedObjectContext) private var managedObjectContext
 
@@ -79,7 +80,12 @@ struct LibraryToolbar: ToolbarContent {
     private var addMediaButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                config.activeSheet = .addMedia
+                if #available(iOS 26, *) {
+                    unifiedSearchCoordinator.open(scope: .addMedia)
+                    return
+                }
+
+                config.activeSheet = .addMedia(initialSearchText: "")
             } label: {
                 Image(systemName: "plus")
             }

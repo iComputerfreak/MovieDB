@@ -16,7 +16,15 @@ struct ImportTagsButton: View {
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
     var body: some View {
-        Button(Strings.Settings.importTagsLabel) { isImportingTags = true }
+        Button {
+            isImportingTags = true
+        } label: {
+            SettingsActionLabel(
+                title: Strings.Settings.importTagsLabel,
+                systemImage: "arrow.down.circle.fill",
+                tint: .purple
+            )
+        }
             .fileImporter(isPresented: $isImportingTags, allowedContentTypes: [.plainText]) { result in
                 do {
                     let url = try result.get()

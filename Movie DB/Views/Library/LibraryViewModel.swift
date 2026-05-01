@@ -10,8 +10,9 @@ import Foundation
 import SwiftUI
 
 struct LibraryViewModel {
-    enum ActiveSheet: Identifiable {
-        case addMedia
+    enum ActiveSheet: Hashable, Identifiable {
+        @available(*, deprecated, message: "Use UnifiedSearchView instead. Kept for the legacy add-media sheet flow.")
+        case addMedia(initialSearchText: String)
         case filter
         
         var id: Int { hashValue }

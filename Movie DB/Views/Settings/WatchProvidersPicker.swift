@@ -42,7 +42,7 @@ struct WatchProviderPickerRow: View {
             HStack {
                 Image(systemName: "checkmark")
                     .opacity(provider.isHidden ? 0 : 1)
-                ProviderView(provider: provider, iconSize: 24, showTypeLabel: false)
+                LegacyProviderView(provider: provider, iconSize: 24, showTypeLabel: false)
                 Text(provider.name)
             }
         }
