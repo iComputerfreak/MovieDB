@@ -27,6 +27,8 @@ class PlaceholderData {
     let staticProblemShow: Show
     let staticUpcomingShow: Show
     let staticUpcomingMovie: Movie
+    let staticMinimalMovie: Movie
+    let staticMinimalShow: Show
     let searchResultMovie: TMDBSearchResult = TMDBMovieSearchResult(
         id: 603,
         title: "The Matrix",
@@ -74,6 +76,28 @@ class PlaceholderData {
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
         self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
         self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
+        self.staticMinimalMovie = Movie(
+            context: context,
+            tmdbData: .init(
+                id: 1,
+                title: "A",
+                originalTitle: "B",
+                genres: [],
+                status: .canceled,
+                originalLanguage: "English"
+            )
+        )
+        self.staticMinimalShow = Show(
+            context: context,
+            tmdbData: .init(
+                id: 1,
+                title: "A",
+                originalTitle: "B",
+                genres: [],
+                status: .canceled,
+                originalLanguage: "English"
+            )
+        )
     }
     
     func populateSamples() {
