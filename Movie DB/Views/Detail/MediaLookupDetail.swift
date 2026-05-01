@@ -18,7 +18,7 @@ struct MediaLookupDetail: View {
     private let localContext: NSManagedObjectContext
 
     @State private var state: LoadingState = .loading
-    @State private var hasStartedLoading = false
+    @State private var loadTaskID = UUID()
 
     init(tmdbID: Int, mediaType: MediaType, showingDismissButton: Bool = false) {
         localContext = PersistenceController.createDisposableViewContext()
@@ -31,32 +31,26 @@ struct MediaLookupDetail: View {
         Group {
             switch state {
             case .loading:
-                ProgressView()
-                    .navigationTitle(Strings.Generic.navBarLoadingTitle)
+                ScreenLoadingView(title: Strings.Generic.navBarLoadingTitle)
             case let .loaded(media):
-                Group {
-                    if #available(iOS 26.0, *) {
-                        MediaLookupDetailView(showingDismissButton: showingDismissButton)
-                            .environmentObject(media)
-                    } else {
-                        LegacyMediaLookupDetailView(showingDismissButton: showingDismissButton)
-                            .environmentObject(media)
-                    }
+                if #available(iOS 26.0, *) {
+                    MediaLookupDetailView(showingDismissButton: showingDismissButton)
+                        .environmentObject(media)
+                } else {
+                    LegacyMediaLookupDetailView(showingDismissButton: showingDismissButton)
+                        .environmentObject(media)
                 }
             case let .error(error):
-                VStack {
-                    Text(Strings.Lookup.errorLoadingMedia(error.localizedDescription))
-                    Button(Strings.Generic.retryLoading) {
-                        hasStartedLoading = false
-                        state = .loading
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
+                ScreenUnavailableView(
+                    title: Strings.Lookup.Alert.errorLoadingTitle,
+                    systemImage: "exclamationmark.triangle",
+                    description: errorDescription(for: error),
+                    actionTitle: Strings.Generic.retryLoading,
+                    action: retryLoading
+                )
             }
         }
-        .task(priority: .userInitiated) {
-            guard !hasStartedLoading else { return }
-            hasStartedLoading = true
+        .task(id: loadTaskID, priority: .userInitiated) {
             await loadMedia()
         }
     }
@@ -74,9 +68,24 @@ struct MediaLookupDetail: View {
             }
         }
     }
+
+    private func retryLoading() {
+        state = .loading
+        loadTaskID = UUID()
+    }
+
+    private func errorDescription(for error: Error) -> String {
+        let description = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+        return description.isEmpty ? Strings.Generic.errorText : description
+    }
 }
 
 #Preview {
     MediaLookupDetail(tmdbID: 603, mediaType: .movie)
+        .previewEnvironment()
+}
+
+#Preview("Error") {
+    MediaLookupDetail(tmdbID: 1, mediaType: .movie)
         .previewEnvironment()
 }
