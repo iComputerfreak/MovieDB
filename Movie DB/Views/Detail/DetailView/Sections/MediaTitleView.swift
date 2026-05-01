@@ -11,6 +11,8 @@ struct MediaTitleView: View {
 
     @EnvironmentObject private var mediaObject: Media
 
+    private let showsUserSpecificFields: Bool
+
     private let durationFormat: Duration.UnitsFormatStyle = .units(
         allowed: [.hours, .minutes],
         width: .abbreviated,
@@ -38,25 +40,31 @@ struct MediaTitleView: View {
         return overview
     }
 
+    init(showsUserSpecificFields: Bool = true) {
+        self.showsUserSpecificFields = showsUserSpecificFields
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(mediaObject.title)
                 .font(.largeTitle.scaled(by: 1.2))
                 .fontWeight(.heavy)
 
-            HStack {
-                StarRatingView(rating: mediaObject.personalRating)
-                    .font(.headline)
-                if mediaObject.isOnWatchlist {
-                    PredicateMediaList.watchlist.icon
-                }
-                if mediaObject.isFavorite {
-                    Image(systemName: PredicateMediaList.favorites.iconName)
-                        .symbolRenderingMode(.multicolor)
-                }
+            if showsUserSpecificFields {
+                HStack {
+                    StarRatingView(rating: mediaObject.personalRating)
+                        .font(.headline)
+                    if mediaObject.isOnWatchlist {
+                        PredicateMediaList.watchlist.icon
+                    }
+                    if mediaObject.isFavorite {
+                        Image(systemName: PredicateMediaList.favorites.iconName)
+                            .symbolRenderingMode(.multicolor)
+                    }
 
-                // TODO: Remove here and use in UserData section instead
-                WatchStateLabel()
+                    // TODO: Remove here and use in UserData section instead
+                    WatchStateLabel()
+                }
             }
 
             if let overview {

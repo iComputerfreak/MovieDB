@@ -42,7 +42,7 @@ struct AddMediaSearchRow: View {
             )
 
             NavigationLink {
-                LegacyMediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+                MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
             } label: {
                 SearchResultRow()
                     .environmentObject(result)
