@@ -35,20 +35,32 @@ struct AddMediaButton: View {
                 }
             }
         } label: {
-            if alreadyAdded {
-                Text(Strings.AddMedia.addMediaButtonAlreadyAdded)
-            } else if justAdded {
-                // Never triggers because we always re-evaluate "alreadyAdded" first
-                Image(systemName: "checkmark.circle")
+            if alreadyAdded || justAdded {
+                HStack(spacing: 2) {
+                    Image(systemName: "checkmark.circle")
+                    Text(Strings.AddMedia.addMediaButtonAlreadyAdded)
+                }
             } else {
-                Text(Strings.AddMedia.addMediaButtonAddToLibrary)
+                HStack(spacing: 2) {
+                    Image(systemName: "plus.circle")
+                    Text(Strings.AddMedia.addMediaButtonAddToLibrary)
+                }
             }
         }
+        .tint(.accentColor)
         .disabled(alreadyAdded)
     }
 }
 
-#Preview {
+#Preview("Not Added") {
+    MediaLookupDetail(tmdbID: 604, mediaType: .movie)
+        .previewEnvironment()
+}
+
+#Preview("Added") {
     MediaLookupDetail(tmdbID: 603, mediaType: .movie)
         .previewEnvironment()
+        .task {
+            try? await MediaLibrary.shared.addMedia(tmdbID: 603, mediaType: .movie)
+        }
 }
