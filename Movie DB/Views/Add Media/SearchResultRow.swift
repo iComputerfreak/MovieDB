@@ -17,14 +17,18 @@ struct SearchResultRow: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
             // MARK: Thumbnail
             Group {
                 if let thumbnail = result.thumbnail {
                     Image(uiImage: thumbnail)
-                        .thumbnail()
+                        .thumbnailStyle()
                 } else {
-                    PosterPlaceholderView.legacyThumbnail()
+                    if #available(iOS 26.0, *) {
+                        PosterPlaceholderView.thumbnail()
+                    } else {
+                        PosterPlaceholderView.legacyThumbnail()
+                    }
                 }
             }
             VStack(alignment: .leading, spacing: 4) {

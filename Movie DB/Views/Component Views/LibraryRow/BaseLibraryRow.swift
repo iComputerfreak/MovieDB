@@ -37,7 +37,7 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
             // This will be displayed while the object is being deleted or is unavailable
             ProgressView()
         } else {
-            HStack {
+            HStack(spacing: 12) {
                 // MARK: Thumbnail
                 Group {
                     if let thumbnail = mediaObject.thumbnail {
