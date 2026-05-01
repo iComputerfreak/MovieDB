@@ -15,11 +15,11 @@ struct PosterPlaceholderView: View {
         VStack(spacing: 12) {
             Image(systemName: "film")
                 .font(.system(size: 22, weight: .semibold))
-                .foregroundStyle(.black70)
+                .foregroundStyle(.black60)
                 .padding(.horizontal, 4)
                 .overlay {
                     Capsule(style: .continuous)
-                        .fill(.black70.opacity(0.8))
+                        .fill(.white60.opacity(0.8))
                         .frame(height: 5)
                         .rotationEffect(.degrees(-38))
                         .shadow(color: .black.opacity(0.28), radius: 2, y: 1)
