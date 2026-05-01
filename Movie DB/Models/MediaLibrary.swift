@@ -1,16 +1,11 @@
-//
-//  MediaLibrary.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
 import os.log
 import SwiftUI
 
+// swiftlint:disable:next type_body_length
 struct MediaLibrary {
     static let shared = Self(context: PersistenceController.viewContext)
     
@@ -61,7 +56,6 @@ struct MediaLibrary {
                     .values
                     // Add all duplicate arrays to the problems list
                     .forEach { duplicates in
-                        assert(duplicates.count > 1, "Fetch request returned non-duplicate medias.")
                         problems.append(.init(type: .duplicateMedia, associatedMedias: duplicates))
                     }
                 return problems
@@ -182,20 +176,43 @@ struct MediaLibrary {
     
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
-    func reloadAll() async throws {
+    func reloadAll(fromBackground: Bool = false) async throws {
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         
         // Fetch all media objects from the store (using the reload context)
         let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+        // Nil values are sorted at the top, followed by the medias that were longest not updated
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.lastUpdated, ascending: true)]
+        if fromBackground {
+            // Don't update medias that were updated in the last x days
+            // => only update medias that were last updated before the cutoff date
+            let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
+            fetchRequest.predicate = NSPredicate(
+                format: "%K == nil OR %K < %@",
+                Schema.Media.lastUpdated.rawValue,
+                Schema.Media.lastUpdated.rawValue,
+                cutoffDate as NSDate
+            )
+        }
         let medias = (try? reloadContext.fetch(fetchRequest)) ?? []
         Logger.library.info("Reloading \(medias.count) media objects.")
-        
+
+        guard !medias.isEmpty else {
+            lastUpdated = Date.now.timeIntervalSince1970
+            return
+        }
+
         // Reload all media objects using a task group
         try await withThrowingTaskGroup(of: Void.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
-                    try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    // Catch individual download errors early, so we don't skip the other media downloads
+                    do {
+                        try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                    } catch {
+                        Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                    }
                 }
             }
             // Wait for all tasks to finish updating the media objects and rethrow any errors
@@ -207,18 +224,28 @@ struct MediaLibrary {
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
+                    let objectID = media.objectID
                     let mainMedia = await self.context.perform {
-                        self.context.object(with: media.objectID) as? Media
+                        self.context.object(with: objectID) as? Media
                     }
                     try Task.checkCancellation()
-                    mainMedia?.loadThumbnail(force: true)
+                    mainMedia?.loadImages(force: true)
+                    // If we are in a background task, wait for the thumbnail download to finish
+                    if fromBackground {
+                        await mainMedia?.waitForThumbnailDownload()
+                    }
                 }
             }
-            // We don't need to wait for all the thumbnails to finish loading, we can just exit here
+            if fromBackground {
+                // Wait for all thumbnails to finish downloading
+                try await group.waitForAll()
+            }
         }
         // Since we just reloaded all media, they are all up-to-date
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970
+        PersistenceController.saveContext()
+        Logger.library.info("Successfully reloaded \(medias.count) medias.")
     }
     
     /// Resets the library, deleting everything!
@@ -232,6 +259,10 @@ struct MediaLibrary {
     
     /// Performs a cleanup of the library, deleting unused entities
     func cleanup() throws {
+        if context.hasChanges {
+            try context.save()
+        }
+
         // MARK: Delete entities that are not used anymore
         Logger.library.info("Deleting unused entities...")
         try delete(
@@ -256,7 +287,18 @@ struct MediaLibrary {
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetch.predicate = predicate
         let delete = NSBatchDeleteRequest(fetchRequest: fetch)
-        try context.execute(delete)
+        delete.resultType = .resultTypeObjectIDs
+
+        if
+            let result = try context.execute(delete) as? NSBatchDeleteResult,
+            let objectIDs = result.result as? [NSManagedObjectID],
+            !objectIDs.isEmpty
+        {
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs],
+                into: [context]
+            )
+        }
     }
     
     /// Resets all available tags and their relation to the media objects

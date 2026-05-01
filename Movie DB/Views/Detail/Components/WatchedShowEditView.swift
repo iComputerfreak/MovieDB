@@ -1,10 +1,4 @@
-//
-//  WatchedShowEditView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 29.01.24.
-//  Copyright © 2024 Jonas Frey. All rights reserved.
-//
+// Copyright © 2024 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -14,10 +8,7 @@ struct WatchedShowEditView: View {
     @EnvironmentObject private var mediaObject: Media
     
     var maxSeason: Int? {
-        guard let show = mediaObject as? Show else {
-            assertionFailure()
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         return show.latestNonEmptySeasonNumber
     }
     
@@ -49,20 +40,13 @@ struct WatchedShowEditView: View {
             // No warning
             return nil
         }
-        guard let show = mediaObject as? Show else {
-            assertionFailure("EnvironmentObject of \(String(describing: Self.self)) is not a Show")
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         
         // MARK: Option 1: The entered seasons does not have episodes out yet
         if let season = show.seasons.first(where: \.seasonNumber, equals: self.season) {
-            assert(
-                season.episodeCount == 0,
-                "There exists a season with count > 0, so seasonIsValid should be true"
-            )
             // Warning: Selected season does not have any episodes
             return Text(
-                "detail.showWatchState.seasonWarningNoEpisodes \(season)",
+                "detail.showWatchState.seasonWarningNoEpisodes \(season.seasonNumber)",
                 // swiftlint:disable:next line_length
                 comment: "Warning text displayed when selecting a season as watched that does not have any episodes out yet."
             )
@@ -83,16 +67,12 @@ struct WatchedShowEditView: View {
     }
     
     var isSeasonValid: Bool {
-        guard let maxSeason else {
-            return true
-        }
+        guard let maxSeason else { return true }
         return season <= maxSeason
     }
     
     var isEpisodeValid: Bool {
-        guard let maxEpisode else {
-            return true
-        }
+        guard let maxEpisode else { return true }
         return self.episode <= maxEpisode
     }
     
@@ -145,7 +125,7 @@ struct WatchedShowEditView: View {
                     }
                 }
             }
-            .onChange(of: self.season) { newSeason in
+            .onChange(of: self.season) { _, newSeason in
                 switch watchStateOption {
                 case .unknown, .notWatched:
                     // We don't use the season number for those
@@ -156,7 +136,7 @@ struct WatchedShowEditView: View {
                     self.watched = .episode(season: newSeason, episode: self.episode)
                 }
             }
-            .onChange(of: self.episode) { newEpisode in
+            .onChange(of: self.episode) { _, newEpisode in
                 switch watchStateOption {
                 case .unknown, .notWatched, .season:
                     // We don't use the episode number for those
@@ -165,7 +145,7 @@ struct WatchedShowEditView: View {
                     self.watched = .episode(season: self.season, episode: newEpisode)
                 }
             }
-            .onChange(of: watchStateOption) { newValue in
+            .onChange(of: watchStateOption) { _, newValue in
                 switch newValue {
                 case .unknown:
                     self.watched = nil

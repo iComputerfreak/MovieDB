@@ -1,10 +1,4 @@
-//
-//  AggregateCastMember.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.05.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -21,7 +15,7 @@ struct AggregateCastMember: Decodable {
     
     func createCastMember() -> CastMemberDummy {
         // List all role names, separated by comma
-        let roleName = roles.map(\.characterName).formatted()
+        let roleName = roles.map(\.characterName).filter(\.isNotEmpty).formatted()
         return CastMemberDummy(id: id, name: name, roleName: roleName, imagePath: imagePath)
     }
     

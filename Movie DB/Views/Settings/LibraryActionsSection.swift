@@ -1,15 +1,10 @@
-//
-//  LibraryActionsSection.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
 import os.log
 import SwiftUI
+import Analytics
 
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewModel
@@ -18,10 +13,28 @@ struct LibraryActionsSection: View {
     let reloadHandler: () -> Void
     
     var body: some View {
-        Section(footer: FooterView()) {
-            Button(Strings.Settings.updateLibraryLabel, action: self.updateMedia)
-            Button(Strings.Settings.reloadLibraryLabel, action: self.reloadHandler)
-            Button(Strings.Settings.resetLibraryLabel, action: self.resetLibrary)
+        Section {
+            Button(action: self.updateMedia) {
+                SettingsActionLabel(
+                    title: Strings.Settings.updateLibraryLabel,
+                    systemImage: "square.and.arrow.down.on.square.fill",
+                    tint: .green
+                )
+            }
+            Button(action: self.reloadHandler) {
+                SettingsActionLabel(
+                    title: Strings.Settings.reloadLibraryLabel,
+                    systemImage: "arrow.clockwise.circle.fill",
+                    tint: .indigo
+                )
+            }
+            Button(action: self.resetLibrary) {
+                SettingsActionLabel(
+                    title: Strings.Settings.resetLibraryLabel,
+                    systemImage: "trash.fill",
+                    tint: .red
+                )
+            }
             #if DEBUG
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
@@ -38,31 +51,14 @@ struct LibraryActionsSection: View {
                         }
                         // swiftlint:enable force_try
                     } label: {
-                        Text(verbatim: "Debug")
+                        SettingsActionLabel(title: "Debug", systemImage: "ladybug", tint: .indigo)
                     }
                 }
             #endif
+        } header: {
+            Text(Strings.Settings.librarySectionHeader)
         }
         .disabled(self.config.isLoading)
-    }
-    
-    struct FooterView: View {
-        var body: some View {
-            HStack {
-                Spacer()
-                VStack(alignment: .center) {
-                    // Made with love footer
-                    Text(Strings.Settings.madeWithLoveFooter)
-                        .bold()
-                    // App version
-                    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                        Text(Strings.Settings.versionFooter(appVersion))
-                            .italic()
-                    }
-                }
-                Spacer()
-            }
-        }
     }
     
     func updateMedia() {
@@ -83,9 +79,11 @@ struct LibraryActionsSection: View {
                         title: Strings.Settings.Alert.updateMediaTitle,
                         message: Strings.Settings.Alert.updateMediaMessage(updateCount)
                     )
+                    AnalyticsService.shared.track(.libraryUpdate(result: .success))
                 }
             } catch {
                 Logger.library.error("Error updating media objects: \(error, privacy: .public)")
+                AnalyticsService.shared.track(.libraryUpdate(result: .failure))
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(
@@ -113,6 +111,7 @@ struct LibraryActionsSection: View {
             Task(priority: .userInitiated) {
                 do {
                     Logger.library.info("Resetting Library...")
+                    AnalyticsService.shared.track(.libraryReset)
                     try self.library.reset()
                 } catch {
                     Logger.library.error("Error resetting library: \(error, privacy: .public)")

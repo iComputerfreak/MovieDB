@@ -1,10 +1,4 @@
-//
-//  ShowWatchState.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 15.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -37,7 +31,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     )
     // Filters for medias where the latest available season has been watched completely
     private static let watchedAllSeasonsPredicate = NSPredicate(
-        format: "lastSeasonWatched >= numberOfSeasons AND lastEpisodeWatched <= 0"
+        format: "lastSeasonWatched >= numberOfSeasons AND (lastEpisodeWatched == nil OR lastEpisodeWatched <= 0)"
     )
     /// A predicate that filters for all shows that have a partial watch state (watched some, but not all seasons/episodes)
     static let showsWatchedPartiallyPredicate = NSCompoundPredicate(type: .and, subpredicates: [
@@ -106,9 +100,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
     ///   if the user watched the full season or has not watched the show yet.
     init?(season: Int, episode: Int?) {
         // Season numbers < 0 mean "unknown"
-        guard season >= 0 else {
-            return nil
-        }
+        guard season >= 0 else { return nil }
         guard season > 0 else {
             self = .notWatched
             return
@@ -148,9 +140,7 @@ public enum ShowWatchState: WatchState, RawRepresentable, Equatable {
         if let match = rawValue.matches(of: /episode,[0-9]+,[0-9]+/).first {
             // Drop the first 8 characters ("episode,")
             let parameters = String(rawValue[match.range].dropFirst(8)).components(separatedBy: ",")
-            guard parameters.count == 2 else {
-                return nil
-            }
+            guard parameters.count == 2 else { return nil }
             if
                 let season = Int(parameters[0]),
                 let episode = Int(parameters[1])

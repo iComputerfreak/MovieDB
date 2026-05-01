@@ -1,10 +1,4 @@
-//
-//  DeduplicationEntity.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 21.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 
@@ -55,6 +49,14 @@ enum DeduplicationEntity: CaseIterable {
             return Video.self
         case .watchProvider:
             return WatchProvider.self
+        }
+    }
+
+    init?(entityName: String) {
+        if let matchingEntity = Self.allCases.first(where: \.entityName, equals: entityName) {
+            self = matchingEntity
+        } else {
+            return nil
         }
     }
 }

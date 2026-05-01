@@ -1,11 +1,4 @@
-//
-//  FilterSetting+CoreDataProperties.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -36,7 +29,7 @@ public extension FilterSetting {
     
     var isAdult: Bool? {
         get { getOptional(forKey: Schema.FilterSetting.isAdult) }
-        set { setOptional(newValue, forKey: Schema.FilterSetting.watchAgain) }
+        set { setOptional(newValue, forKey: Schema.FilterSetting.isAdult) }
     }
 
     var mediaType: MediaType? {
@@ -48,9 +41,7 @@ public extension FilterSetting {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
-            guard let value = getOptionalInt(forKey: Schema.FilterSetting.minRating), value >= 0 else {
-                return nil
-            }
+            guard let value = getOptionalInt(forKey: Schema.FilterSetting.minRating), value >= 0 else { return nil }
             return value
         }
         set { setOptionalInt(newValue, forKey: Schema.FilterSetting.minRating) }
@@ -60,9 +51,7 @@ public extension FilterSetting {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
-            guard let value = getOptionalInt(forKey: Schema.FilterSetting.maxRating), value >= 0 else {
-                return nil
-            }
+            guard let value = getOptionalInt(forKey: Schema.FilterSetting.maxRating), value >= 0 else { return nil }
             return value
         }
         set { setOptionalInt(newValue, forKey: Schema.FilterSetting.maxRating) }
@@ -72,9 +61,7 @@ public extension FilterSetting {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
-            guard let value = getOptionalInt(forKey: Schema.FilterSetting.minYear), value >= 0 else {
-                return nil
-            }
+            guard let value = getOptionalInt(forKey: Schema.FilterSetting.minYear), value >= 0 else { return nil }
             return value
         }
         set { setOptionalInt(newValue, forKey: Schema.FilterSetting.minYear) }
@@ -84,9 +71,7 @@ public extension FilterSetting {
         // We return nil for negative numbers, since this property does not make sense for negative numbers
         // and we use -1 as an initial value when the entity is first created
         get {
-            guard let value = getOptionalInt(forKey: Schema.FilterSetting.maxYear), value >= 0 else {
-                return nil
-            }
+            guard let value = getOptionalInt(forKey: Schema.FilterSetting.maxYear), value >= 0 else { return nil }
             return value
         }
         set { setOptionalInt(newValue, forKey: Schema.FilterSetting.maxYear) }
@@ -144,7 +129,9 @@ public extension FilterSetting {
     @NSManaged var tags: Set<Tag>
     /// The media list that uses this filter setting
     @NSManaged var mediaList: DynamicMediaList?
-    
+    /// The watch providers that are referenced by this filter setting
+    @NSManaged var watchProviders: Set<WatchProvider>
+
     var rating: ClosedRange<StarRating>? {
         get {
             guard
@@ -163,9 +150,7 @@ public extension FilterSetting {
     
     var year: ClosedRange<Int>? {
         get {
-            guard let minYear, let maxYear else {
-                return nil
-            }
+            guard let minYear, let maxYear else { return nil }
             return minYear...maxYear
         }
         set {

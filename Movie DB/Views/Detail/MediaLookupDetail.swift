@@ -1,108 +1,77 @@
-//
-//  MediaLookupDetail.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import CoreData
-import os.log
 import SwiftUI
+import os.log
 
 struct MediaLookupDetail: View {
-    enum LoadingState {
+    private enum LoadingState {
         case loading
         case loaded(Media)
         case error(Error)
     }
-    
+
     let tmdbID: Int
     let mediaType: MediaType
     let showingDismissButton: Bool
-    
+
     private let localContext: NSManagedObjectContext
+
     @State private var state: LoadingState = .loading
-    @Environment(\.dismiss) private var dismiss
-    
+    @State private var hasStartedLoading = false
+
     init(tmdbID: Int, mediaType: MediaType, showingDismissButton: Bool = false) {
         localContext = PersistenceController.createDisposableViewContext()
         self.tmdbID = tmdbID
         self.mediaType = mediaType
         self.showingDismissButton = showingDismissButton
     }
-    
+
     var body: some View {
         Group {
             switch state {
             case .loading:
                 ProgressView()
                     .navigationTitle(Strings.Generic.navBarLoadingTitle)
-                    .task(priority: .userInitiated) {
-                        // Load the media
-                        do {
-                            let media = try await TMDBAPI.shared.media(
-                                for: tmdbID,
-                                type: mediaType,
-                                context: localContext
-                            )
-                            await MainActor.run {
-                                // Update the relevant information
-                                // No need to load the thumbnail, since it will be loaded by the AsyncImage in LookupTitleView
-                                self.state = .loaded(media)
-                            }
-                        } catch {
-                            Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
-                            // Just change the state. Error will be displayed automatically
-                            await MainActor.run {
-                                self.state = .error(error)
-                            }
-                        }
+            case let .loaded(media):
+                Group {
+                    if #available(iOS 26.0, *) {
+                        MediaLookupDetailView(showingDismissButton: showingDismissButton)
+                            .environmentObject(media)
+                    } else {
+                        LegacyMediaLookupDetailView(showingDismissButton: showingDismissButton)
+                            .environmentObject(media)
                     }
-            case .loaded(let media):
-                LookupDetailView(showingDismissButton: showingDismissButton)
-                    .environmentObject(media)
-            case .error(let error):
+                }
+            case let .error(error):
                 VStack {
                     Text(Strings.Lookup.errorLoadingMedia(error.localizedDescription))
                     Button(Strings.Generic.retryLoading) {
-                        self.state = .loading
+                        hasStartedLoading = false
+                        state = .loading
                     }
                     .buttonStyle(.borderedProminent)
                 }
             }
         }
+        .task(priority: .userInitiated) {
+            guard !hasStartedLoading else { return }
+            hasStartedLoading = true
+            await loadMedia()
+        }
     }
-    
-    struct LookupDetailView: View {
-        @EnvironmentObject private var mediaObject: Media
-        let showingDismissButton: Bool
-        
-        var body: some View {
-            NavigationStack {
-                List {
-                    TitleView(media: mediaObject)
-                    BasicInfo()
-                    WatchProvidersInfo()
-                    TrailersView()
-                    ExtendedInfo()
-                }
-                .listStyle(.grouped)
-                .navigationTitle(mediaObject.title)
-                // We already have a TitleView that displays the title
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
-                    }
-                    if showingDismissButton {
-                        ToolbarItem(placement: .topBarLeading) {
-                            DismissButton()
-                        }
-                    }
-                }
+
+    private func loadMedia() async {
+        do {
+            let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: localContext)
+            await MainActor.run {
+                state = .loaded(media)
             }
-            .environmentObject(mediaObject)
+        } catch {
+            Logger.api.error("Error loading media for lookup: \(error, privacy: .public)")
+            await MainActor.run {
+                state = .error(error)
+            }
         }
     }
 }

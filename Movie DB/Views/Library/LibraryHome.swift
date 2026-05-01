@@ -1,18 +1,15 @@
-//
-//  LibraryHome.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 01.07.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Combine
+import Analytics
 import CoreData
 import os.log
 import SwiftUI
 
 struct LibraryHome: View {
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.editMode) private var editMode
     @State private var selectedMediaObjects: Set<Media> = .init()
     
     @State private var viewModel = LibraryViewModel()
@@ -54,9 +51,10 @@ struct LibraryHome: View {
         )
     }
     
+    // TODO: Break up modifiers
     var body: some View {
         NavigationSplitView {
-             List(selection: $selectedMediaObjects) {
+            List(selection: $selectedMediaObjects) {
                 Section(footer: footerText) {
                     ForEach(filteredMedia) { mediaObject in
                         NavigationLink(value: mediaObject) {
@@ -68,36 +66,52 @@ struct LibraryHome: View {
                     }
                 }
             }
+            .overlay {
+                MediaListEmptyState(
+                    screen: .libraryHome,
+                    isSearching: !searchText.isEmpty,
+                    isFiltered: !filterSetting.isReset,
+                    action: openAddMediaSearch,
+                    resetFilterAction: filterSetting.reset
+                )
+                    .opacity(filteredMedia.isEmpty ? 1 : 0)
+            }
+            .environment(\.editMode, editMode)
+            .animation(.default, value: editMode?.wrappedValue)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
-            .onChange(of: searchText) { _ in
+            .onChange(of: searchText) { _, _ in
                 filteredMedia.nsPredicate = predicate
             }
             .onReceive(filterSetting.objectWillChange) {
                 filteredMedia.nsPredicate = predicate
             }
-            .onChange(of: viewModel.sortingOrder) { _ in
+            .onChange(of: viewModel.sortingOrder) { _, _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
-            .onChange(of: viewModel.sortingDirection) { _ in
+            .onChange(of: viewModel.sortingDirection) { _, _ in
                 filteredMedia.nsSortDescriptors = sortDescriptors
             }
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
             .autocorrectionDisabled()
-            
             // Display the currently active sheet
             .sheet(item: $viewModel.activeSheet) { sheet in
                 switch sheet {
-                case .addMedia:
-                    AddMediaView()
+                case let .addMedia(initialSearchText):
+                    AddMediaView(initialSearchText: initialSearchText)
                 case .filter:
                     FilterView()
                 }
             }
             .toolbar {
-                LibraryToolbar(config: $viewModel)
+                LibraryToolbar(
+                    config: $viewModel,
+                    editMode: editMode,
+                    selectedMediaObjects: $selectedMediaObjects,
+                    allMediaObjects: Set(filteredMedia)
+                )
             }
             .navigationTitle(Strings.TabView.libraryLabel)
             .navigationBarTitleDisplayMode(.large)
@@ -109,8 +123,10 @@ struct LibraryHome: View {
             NavigationStack {
                 if selectedMediaObjects.isEmpty {
                     EmptyView()
-                } else if selectedMediaObjects.count == 1 {
-                    let media = selectedMediaObjects.first!
+                } else if
+                    selectedMediaObjects.count == 1,
+                    let media = selectedMediaObjects.first
+                {
                     MediaDetail()
                         .environmentObject(media)
                 } else {
@@ -120,12 +136,19 @@ struct LibraryHome: View {
         }
         .navigationSplitViewStyle(.balanced)
         .environmentObject(filterSetting)
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .libraryHome))
+        }
+        .onSubmit(of: .search) {
+            guard !searchText.isEmpty else { return }
+            AnalyticsService.shared.track(
+                .librarySearched(resultCountBucket: .bucket(for: filteredMedia.count))
+            )
+        }
     }
     
     var footerText: Text {
-        guard !filteredMedia.isEmpty else {
-            return Text(verbatim: "")
-        }
+        guard !filteredMedia.isEmpty else { return Text(verbatim: "") }
         let objCount = filteredMedia.count
         
         // Showing all media
@@ -135,6 +158,17 @@ struct LibraryHome: View {
             // Only showing a subset of the total medias
             return Text(Strings.Library.footer(objCount))
         }
+    }
+
+    func openAddMediaSearch() {
+        guard !searchText.isEmpty else { return }
+
+        guard #available(iOS 26, *) else {
+            viewModel.activeSheet = .addMedia(initialSearchText: searchText)
+            return
+        }
+
+        unifiedSearchCoordinator.open(scope: .addMedia, text: searchText)
     }
 }
 

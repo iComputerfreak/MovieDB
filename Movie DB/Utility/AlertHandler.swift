@@ -1,12 +1,7 @@
-//
-//  AlertHandler.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 25.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -21,6 +16,9 @@ struct AlertHandler {
             // UI Changes always have to be on the main thread
             Task(priority: .userInitiated) {
                 await MainActor.run {
+                    Logger.general.debug(
+                        "Showing alert with title '\(alert.title ?? "")' and message '\(alert.message ?? "")'"
+                    )
                     controller.present(alert, animated: true)
                 }
             }
@@ -53,6 +51,22 @@ struct AlertHandler {
         presentAlert(alert: controller)
     }
     
+    static func showDeleteAlert(
+        title: String = Strings.Generic.alertDeleteTitle,
+        message: String = Strings.Generic.alertDeleteMessage,
+        deleteButtonTitle: String = Strings.Generic.alertDeleteButtonTitle,
+        onDelete: @escaping () -> Void
+    ) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        controller.addAction(.cancelAction())
+        controller.addAction(UIAlertAction(
+            title: deleteButtonTitle,
+            style: .destructive,
+            handler: { _ in onDelete() }
+        ))
+        presentAlert(alert: controller)
+    }
+    
     // MARK: - Private functions
     
     private static func keyWindow() -> UIWindow? {
@@ -65,9 +79,7 @@ struct AlertHandler {
     }
 
     private static func topMostViewController() -> UIViewController? {
-        guard let rootController = keyWindow()?.rootViewController else {
-            return nil
-        }
+        guard let rootController = keyWindow()?.rootViewController else { return nil }
         return topMostViewController(for: rootController)
     }
 
@@ -75,14 +87,10 @@ struct AlertHandler {
         if let presentedController = controller.presentedViewController {
             return topMostViewController(for: presentedController)
         } else if let navigationController = controller as? UINavigationController {
-            guard let topController = navigationController.topViewController else {
-                return navigationController
-            }
+            guard let topController = navigationController.topViewController else { return navigationController }
             return topMostViewController(for: topController)
         } else if let tabController = controller as? UITabBarController {
-            guard let topController = tabController.selectedViewController else {
-                return tabController
-            }
+            guard let topController = tabController.selectedViewController else { return tabController }
             return topMostViewController(for: topController)
         }
         return controller

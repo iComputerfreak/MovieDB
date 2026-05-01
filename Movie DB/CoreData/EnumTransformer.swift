@@ -1,10 +1,4 @@
-//
-//  EnumTransformer.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -33,9 +27,9 @@ public final class EnumStringTransformer<EnumType: RawRepresentable>: ValueTrans
 }
 
 public final class EnumIntTransformer<EnumType: RawRepresentable>: ValueTransformer where EnumType.RawValue == Int {
-    override public class func transformedValueClass() -> AnyClass { NSNumber.self }
-    
-    override public class func allowsReverseTransformation() -> Bool { true }
+    override public static func transformedValueClass() -> AnyClass { NSNumber.self }
+
+    override public static func allowsReverseTransformation() -> Bool { true }
     
     override public func transformedValue(_ value: Any?) -> Any? {
         guard let enumValue = value as? EnumType else {

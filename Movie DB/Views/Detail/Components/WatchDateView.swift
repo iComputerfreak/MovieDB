@@ -1,10 +1,4 @@
-//
-//  WatchDateView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 22.06.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -59,7 +53,7 @@ struct WatchDateView: View {
                     ) {
                         Text(Strings.Detail.watchDateHeadline)
                     }
-                    .datePickerStyle(.compact)
+                    .datePickerStyle(.graphical)
                     .animation(.easeIn(duration: 1), value: mediaObject.watchDate == nil)
                     .labelsHidden()
                 }

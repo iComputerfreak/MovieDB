@@ -1,10 +1,4 @@
-//
-//  PredicateMediaList+Problems.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -12,6 +6,8 @@ extension PredicateMediaList {
     /// A media list that shows medias with problems (i.e. missing information)
     static let problems = PredicateMediaList(
         name: Strings.Lists.defaultListNameProblems,
+        subtitleContentUserDefaultsKey: "problemsSubtitleContent",
+        defaultSubtitleContent: .problems,
         description: Strings.Lists.problemsDescription,
         iconName: "exclamationmark.triangle.fill",
         // This predicate looks for movies or shows that are incomplete / have problems

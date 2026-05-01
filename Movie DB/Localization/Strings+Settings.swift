@@ -1,10 +1,4 @@
-//
-//  Strings+Settings.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 extension Strings {
     enum Settings {
@@ -32,6 +26,30 @@ extension Strings {
         static let showAdultContentLabel = String(
             localized: "settings.toggle.showAdultContent.label",
             comment: "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content"
+        )
+        static let preferencesSectionHeader = String(
+            localized: "settings.section.preferences",
+            comment: "Section header for the settings preferences section."
+        )
+        static let proSectionHeader = String(
+            localized: "settings.section.pro",
+            comment: "Section header for the settings pro section."
+        )
+        static let importExportSectionHeader = String(
+            localized: "settings.section.importExport",
+            comment: "Section header for the settings import and export section."
+        )
+        static let supportSectionHeader = String(
+            localized: "settings.section.support",
+            comment: "Section header for the settings support section."
+        )
+        static let analyticsSectionHeader = String(
+            localized: "settings.section.analytics",
+            comment: "Section header for the settings analytics section."
+        )
+        static let librarySectionHeader = String(
+            localized: "settings.section.library",
+            comment: "Section header for the settings library actions section."
         )
         static let buyProLabel = String(
             localized: "settings.actions.buyPro.label",
@@ -105,6 +123,30 @@ extension Strings {
             localized: "settings.feedback.label",
             comment: "The feedback button in the settings that opens a new e-mail"
         )
+        static let analyticsLabel = String(
+            localized: "settings.analytics.label",
+            comment: "The title for the analytics consent setting."
+        )
+        static let analyticsStatusOn = String(
+            localized: "settings.analytics.status.on",
+            comment: "Status text for enabled analytics in settings."
+        )
+        static let analyticsStatusOff = String(
+            localized: "settings.analytics.status.off",
+            comment: "Status text for disabled analytics in settings."
+        )
+        static let analyticsSummary = String(
+            localized: "settings.analytics.summary",
+            comment: "Summary explaining the analytics policy in settings."
+        )
+        static let analyticsEnableButton = String(
+            localized: "settings.analytics.button.enable",
+            comment: "Button to enable anonymous analytics from settings."
+        )
+        static let analyticsDisableButton = String(
+            localized: "settings.analytics.button.disable",
+            comment: "Button to disable anonymous analytics from settings."
+        )
         
         static let defaultWatchStatePickerLabel = String(
             localized: "settings.defaultWatchState.label",
@@ -126,7 +168,119 @@ extension Strings {
             localized: "settings.defaultWatchState.partiallyWatched",
             comment: "The label of the picker option for an 'partially watched' watch state in the settings"
         )
-        
+
+        static let defaultSubtitleContentPickerLabel = String(
+            localized: "settings.defaultSubtitleContent.label",
+            comment: "The label of the picker that lets the user choose the default subtitle content for newly added media"
+        )
+        static let defaultSubtitleContentPickerLabelWatchState = String(
+            localized: "settings.defaultSubtitleContent.watchState",
+            comment: "The label of the picker option for the watch state as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelPersonalRating = String(
+            localized: "settings.defaultSubtitleContent.personalRating",
+            comment: "The label of the picker option for the personal rating as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelWatchDate = String(
+            localized: "settings.defaultSubtitleContent.watchDate",
+            comment: "The label of the picker option for the watch date as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelLastModified = String(
+            localized: "settings.defaultSubtitleContent.lastModified",
+            comment: "The label of the picker option for the last modified date as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelWatchProviders = String(
+            localized: "settings.defaultSubtitleContent.watchProviders",
+            comment: "The label of the picker option for the watch providers as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelProblems = String(
+            localized: "settings.defaultSubtitleContent.problems",
+            comment: "The label of the picker option for the problems as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelTags = String(
+            localized: "settings.defaultSubtitleContent.tags",
+            comment: "The label of the picker option for the tags as the default subtitle content in the settings"
+        )
+        static let defaultSubtitleContentPickerLabelNothing = String(
+            localized: "settings.defaultSubtitleContent.nothing",
+            comment: "The label of the picker option for no subtitle content as the default subtitle content in the settings"
+        )
+        static let watchProviderSettingsLabel = String(
+            localized: "settings.watchProvider.label",
+            comment: "The label of the watch provider settings in the settings"
+        )
+
+        enum AnalyticsConsent {
+            static let title = String(
+                localized: "settings.analyticsConsent.title",
+                comment: "Navigation title of the analytics consent sheet."
+            )
+            static let message = String(
+                localized: "settings.analyticsConsent.message",
+                comment: "Intro text on the analytics consent sheet."
+            )
+            static let trackedHeader = String(
+                localized: "settings.analyticsConsent.tracked.header",
+                comment: "Header for tracked examples on the analytics consent sheet."
+            )
+            static let trackedScreenViewsTitle = String(
+                localized: "settings.analyticsConsent.tracked.screenViews.title",
+                comment: "Title for the screen-view example on the analytics consent sheet."
+            )
+            static let trackedScreenViewsDetail = String(
+                localized: "settings.analyticsConsent.tracked.screenViews.detail",
+                comment: "Detail for the screen-view example on the analytics consent sheet."
+            )
+            static let trackedFeatureUsageTitle = String(
+                localized: "settings.analyticsConsent.tracked.featureUsage.title",
+                comment: "Title for the feature-usage example on the analytics consent sheet."
+            )
+            static let trackedFeatureUsageDetail = String(
+                localized: "settings.analyticsConsent.tracked.featureUsage.detail",
+                comment: "Detail for the feature-usage example on the analytics consent sheet."
+            )
+            static let trackedTechnicalContextTitle = String(
+                localized: "settings.analyticsConsent.tracked.technicalContext.title",
+                comment: "Title for the technical-context example on the analytics consent sheet."
+            )
+            static let trackedTechnicalContextDetail = String(
+                localized: "settings.analyticsConsent.tracked.technicalContext.detail",
+                comment: "Detail for the technical-context example on the analytics consent sheet."
+            )
+            static let notTrackedHeader = String(
+                localized: "settings.analyticsConsent.notTracked.header",
+                comment: "Header for not-tracked examples on the analytics consent sheet."
+            )
+            static let notTrackedMediaDataTitle = String(
+                localized: "settings.analyticsConsent.notTracked.mediaData.title",
+                comment: "Title for the excluded media data example on the analytics consent sheet."
+            )
+            static let notTrackedMediaDataDetail = String(
+                localized: "settings.analyticsConsent.notTracked.mediaData.detail",
+                comment: "Detail for the excluded media data example on the analytics consent sheet."
+            )
+            static let notTrackedPersonalDataTitle = String(
+                localized: "settings.analyticsConsent.notTracked.personalData.title",
+                comment: "Title for the excluded personal data example on the analytics consent sheet."
+            )
+            static let notTrackedPersonalDataDetail = String(
+                localized: "settings.analyticsConsent.notTracked.personalData.detail",
+                comment: "Detail for the excluded personal data example on the analytics consent sheet."
+            )
+            static let worksWithoutAnalytics = String(
+                localized: "settings.analyticsConsent.worksWithoutAnalytics",
+                comment: "Message clarifying that the app works without analytics."
+            )
+            static let allowButton = String(
+                localized: "settings.analyticsConsent.button.allow",
+                comment: "Button that enables anonymous analytics."
+            )
+            static let keepOffButton = String(
+                localized: "settings.analyticsConsent.button.keepOff",
+                comment: "Button that keeps analytics disabled."
+            )
+        }
+
         enum Alert {
             static let reloadCompleteTitle = String(
                 localized: "settings.alert.reloadCompleted.title",

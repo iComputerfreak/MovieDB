@@ -1,14 +1,8 @@
-//
-//  ShowType.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 
-public enum ShowType: String, Codable, CaseIterable {
+public enum ShowType: String, Codable, CaseIterable, Sendable {
     case documentary = "Documentary"
     case news = "News"
     case miniseries = "Miniseries"

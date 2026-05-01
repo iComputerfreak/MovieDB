@@ -1,10 +1,4 @@
-//
-//  AppStoreScreenshotData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -59,7 +53,7 @@ struct AppStoreScreenshotData {
         let loki = try await api.media(for: 84958, type: .show, context: context) as! Show
         let expanse = try await api.media(for: 63639, type: .show, context: context) as! Show
         let drwho = try await api.media(for: 57243, type: .show, context: context) as! Show
-        
+
         await context.perform {
             // MARK: Configure properties
             matrix.personalRating = .fourStars

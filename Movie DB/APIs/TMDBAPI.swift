@@ -1,10 +1,4 @@
-//
-//  TMDBAPI.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -78,7 +72,7 @@ actor TMDBAPI {
             }
             return media
         }
-        media.loadThumbnail()
+        media.loadImages()
         return media
     }
     
@@ -88,7 +82,9 @@ actor TMDBAPI {
     ///   - context: The context to update the media objects in
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
-        assert(media.managedObjectContext == context || context.parent == media.managedObjectContext)
+        if !(media.managedObjectContext == context || context.parent == media.managedObjectContext) {
+            Logger.api.warning("Trying to update a media object in the wrong context!")
+        }
         let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
         // Update the media in the correct thread
         await context.perform {
@@ -96,7 +92,9 @@ actor TMDBAPI {
             media.update(tmdbData: tmdbData)
         }
         // We have to always reload the thumbnail, because an iCloud sync could potentially update the imagePath, leaving the loaded thumbnail in an inconsistent state
-        media.loadThumbnail(force: true)
+        media.loadImages(force: true)
+        // We save immediately, because the whole "update all medias" flow that might be running could be interrupted at any moment.
+        PersistenceController.saveContext()
     }
     
     /// Loads the TMDB IDs of all media objects changed in the given timeframe
@@ -118,11 +116,12 @@ actor TMDBAPI {
             let days = distance / .day
             // Round to compensate for rounding errors, the result should always be close to full numbers,
             // since we erased the time of both dates
-            assert(
-                abs(days - days.rounded()) < 0.01,
-                // swiftlint:disable:next line_length
-                "Distance between time-erased startDate (\(startDate)) and time-erased endDate (\(endDate)) is \(days) days."
-            )
+            if abs(days - days.rounded()) > 0.01 {
+                Logger.api.warning(
+                    // swiftlint:disable:next line_length
+                    "Distance between time-erased startDate (\(startDate)) and time-erased endDate (\(endDate)) is \(days) days."
+                )
+            }
             return Int(days.rounded())
         }
         
@@ -263,6 +262,10 @@ actor TMDBAPI {
         }
         
         // MARK: Load the additional pages
+        guard min(wrapper.totalPages, lastPage) > (firstPage + 1) else {
+            return (wrapper.results, wrapper.totalPages)
+        }
+
         let additionalResults: [PageWrapper.ObjectWrapper] = try await withThrowingTaskGroup(
             of: [PageWrapper.ObjectWrapper].self
         ) { group in
@@ -282,14 +285,14 @@ actor TMDBAPI {
                     return wrapper.results
                 }
             }
-            
+
             var allResults: [PageWrapper.ObjectWrapper] = []
             for try await results in group {
                 allResults.append(contentsOf: results)
             }
             return allResults
         }
-        
+
         // Return the results from page 1 + the additional results loaded from the other pages
         return (wrapper.results + additionalResults, wrapper.totalPages)
     }

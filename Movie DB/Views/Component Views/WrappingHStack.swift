@@ -1,14 +1,7 @@
-//
-//  WrappingHStack.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 19.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
-// TODO: Add alignment (leading, center, trailing, block)
 struct WrappingHStack: Layout {
     enum ContentAlignment: CaseIterable {
         case leading
@@ -152,9 +145,7 @@ struct WrappingHStack: Layout {
         }
         return subviews.indices.map { index in
             // The very last item gets a spacing of 0
-            guard index < subviews.count - 1 else {
-                return 0
-            }
+            guard index < subviews.count - 1 else { return 0 }
             return subviews[index].spacing.distance(to: subviews[index + 1].spacing, along: .horizontal)
         }
     }
@@ -191,9 +182,7 @@ struct WrappingHStack: Layout {
         
         return rows.indices.map { rowIndex in
             // The last row gets spacing 0
-            guard rowIndex < rows.count - 1 else {
-                return 0
-            }
+            guard rowIndex < rows.count - 1 else { return 0 }
             let row = rows[rowIndex]
             let nextRow = rows[rowIndex + 1]
             return spacing(from: row, to: nextRow)
@@ -237,7 +226,6 @@ struct WrappingHStack: Layout {
         }
         lineBreak()
         
-        assert(rows.map(\.count).reduce(0, +) == subviewSizes.count, "Row calculation has missed some subviews")
         return rows
     }
 }

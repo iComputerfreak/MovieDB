@@ -1,18 +1,10 @@
-//
-//  ImportLogViewer.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
 
 struct ImportLogViewer: View {
     let logger: TagImporter.BasicLogger
-    
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationStack {
@@ -29,9 +21,7 @@ struct ImportLogViewer: View {
             .navigationTitle(Strings.Settings.importLogNavBarTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(Strings.Generic.dismissViewDone) {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                    DismissButton()
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(Strings.Settings.importLogNavBarButtonCopy) {

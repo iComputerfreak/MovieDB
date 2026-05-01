@@ -1,10 +1,4 @@
-//
-//  TMDBDataHelpers.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -64,16 +58,16 @@ extension TMDBData {
     
     /// Represents a crew member decoded from the `/credits` api call
     struct CrewMemberDummy: Decodable {
-        let isAdult: Bool
-        let gender: Gender
-        let knownForDepartment: String
+        let isAdult: Bool?
+        let gender: Gender?
+        let knownForDepartment: String?
         let name: String
         let originalName: String
-        let popularity: Double
+        let popularity: Double?
         let imagePath: String?
-        let creditID: String
-        let department: String
-        let job: String
+        let creditID: String?
+        let department: String?
+        let job: String?
         
         enum Gender: Int, Decodable {
             case unknown = 0

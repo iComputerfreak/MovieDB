@@ -1,13 +1,7 @@
-//
-//  MediaListProtocol.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
-import Foundation
+import SwiftUI
 
 /// A list that displays media objects based on a custom `NSFetchRequest`
 protocol MediaListProtocol: ObservableObject, Hashable {
@@ -16,8 +10,14 @@ protocol MediaListProtocol: ObservableObject, Hashable {
     // We cannot call it `description`, as it would clash with the `CustomStringConvertible`'s `description`
     /// The user-visible description of what the list does
     var listDescription: String? { get }
+    /// The subtitle content to display in this list. If the content is `nil`, the default value specified in the app settings will be used.
+    var subtitleContent: LibraryRow.SubtitleContent? { get set }
     /// The SF Symbols name of the icon used for this list
     var iconName: String { get }
+    /// The color of the icon
+    var iconColor: UIColor? { get }
+    /// The rendering mode of the icon
+    var iconRenderingMode: IconRenderingMode { get }
     /// The current ``SortingOrder`` used for this list
     var sortingOrder: SortingOrder { get set }
     /// The current ``SortingDirection`` used for this list

@@ -1,10 +1,4 @@
-//
-//  JFSearchBar.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 19.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -68,7 +62,7 @@ struct JFSearchBar: View {
 }
 
 #Preview {
-    @State var text = ""
+    @Previewable @State var text = ""
     
     return JFSearchBar(text: $text, prompt: Text(Strings.AddMedia.searchPrompt), autoFocus: true)
 }

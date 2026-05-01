@@ -1,10 +1,4 @@
-//
-//  LastNameComparator.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 28.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -29,17 +23,11 @@ struct LastNameComparator: SortComparator {
     }
     
     private func compareOptional(_ lhs: String?, _ rhs: String?) -> ComparisonResult {
-        guard lhs != rhs else {
-            return .orderedSame
-        }
-        
-        guard let lhs, !lhs.isEmpty else {
-            return .orderedDescending
-        }
-        guard let rhs, !rhs.isEmpty else {
-            return .orderedAscending
-        }
-        
+        guard lhs != rhs else { return .orderedSame }
+
+        guard let lhs, !lhs.isEmpty else { return .orderedDescending }
+        guard let rhs, !rhs.isEmpty else { return .orderedAscending }
+
         return lhs.compare(rhs)
     }
 }

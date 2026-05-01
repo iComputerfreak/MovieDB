@@ -1,10 +1,4 @@
-//
-//  SortingOrder.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 12.05.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import Foundation
 

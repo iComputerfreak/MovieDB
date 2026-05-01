@@ -1,10 +1,4 @@
-//
-//  HistoryManager.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 21.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -73,6 +67,7 @@ class HistoryManager {
     func fetchChanges(_ notification: Notification) {
         // Process persistent history to merge changes from other coordinators.
         historyQueue.addOperation {
+            print("Processing persistent history")
             self.processPersistentHistory()
         }
     }
@@ -80,6 +75,8 @@ class HistoryManager {
     /// Process persistent history, posting any relevant transactions to the current view.
     func processPersistentHistory() {
         let taskContext = PersistenceController.shared.newBackgroundContext()
+        taskContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+
         taskContext.performAndWait {
             // Fetch history received from outside the app since the last token
             guard let historyFetchRequest = NSPersistentHistoryTransaction.fetchRequest else {
@@ -106,13 +103,9 @@ class HistoryManager {
                     userInfo: ["transactions": transactions]
                 )
                 
-                // !!!: Alternatively: (update on any change, like we did before)
                 for transaction in transactions {
-                    guard let userInfo = transaction.objectIDNotification().userInfo else {
-                        assertionFailure("Unable to get userInfo for remote change transaction")
-                        return
-                    }
-                    
+                    guard let userInfo = transaction.objectIDNotification().userInfo else { continue }
+
                     #if DEBUG
                     Logger.coreData.debug("\(transaction.description(in: taskContext))")
                     #endif
@@ -127,24 +120,25 @@ class HistoryManager {
             // Create a flattened array of all changes
             let relevantChanges = transactions
                 .flatMap { $0.changes ?? [] }
-            
+
+            let changedObjectIDsByEntity: [DeduplicationEntity?: [NSManagedObjectID]] = Dictionary(
+                grouping: relevantChanges,
+                by: { change in DeduplicationEntity(entityName: change.changedObjectID.entity.name ?? "") }
+            )
+                .mapValues { $0.map(\.changedObjectID) }
+
             // Deduplicate all entities
-            for entity in DeduplicationEntity.allCases {
-                let entityName = entity.entityName
-                
-                let changedObjectIDs = relevantChanges
-                    // Only consider changes that involve the current entity
-                    .filter { $0.changedObjectID.entity.name == entityName }
-                    // We only need the objectIDs of the changes
-                    .map(\.changedObjectID)
-                
-                // No need to call the deduplicator if we have no objects of this entity type
-                guard !changedObjectIDs.isEmpty else {
-                    continue
-                }
-                
+            for (entity, changedObjectIDs) in changedObjectIDsByEntity {
+                guard
+                    // We only process entities we know
+                    let entity,
+                    // No need to call the deduplicator if we have no objects of this entity type
+                    !changedObjectIDs.isEmpty
+                else { continue }
+
                 // We are still in a background context
-                deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs)
+                print("Processing deduplication")
+                deduplicator.deduplicateAndWait(entity, changedObjectIDs: changedObjectIDs, in: taskContext)
             }
             
             // Update the history token using the last transaction.

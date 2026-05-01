@@ -1,10 +1,4 @@
-//
-//  Persistence.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 12.03.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import os.log
@@ -19,7 +13,7 @@ class PersistenceController {
     static var viewContext: NSManagedObjectContext { shared.container.viewContext }
     
     /// The view context of the preview container
-    static var previewContext: NSManagedObjectContext { preview.container.viewContext }
+    static var xcodePreviewContext: NSManagedObjectContext { preview.container.viewContext }
     
     /// The PersistenceController to be used for previews. May not be used simultaneously with the shared controller
     static var preview: PersistenceController = .init(forTesting: true, usePersistentHistory: false)
@@ -47,11 +41,12 @@ class PersistenceController {
     /// * enable query generations
     private init(forTesting: Bool = false, usePersistentHistory: Bool = true) {
         // swiftlint:disable:previous function_body_length
-        assert(
-            Thread.isMainThread,
-            "Calling PersistenceController.init from a background thread. This may cause a deadlock " +
-            "if the main thread is waiting for the initialization to complete."
-        )
+        if !Thread.isMainThread && !forTesting {
+            Logger.lifeCycle.critical(
+                "Creating PersistenceController on a background thread. This may cause a deadlock."
+            )
+            assertionFailure("Creating PersistenceController on a background thread. This may cause a deadlock.")
+        }
         // If we already have an existing model, reuse it
         if let model = Self.model {
             // Use the existing model

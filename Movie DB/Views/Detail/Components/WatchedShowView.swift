@@ -1,10 +1,4 @@
-//
-//  WatchedShowView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import JFUtils
@@ -25,10 +19,8 @@ struct WatchedShowView: View {
         case .notWatched:
             return Strings.Detail.watchedShowLabelNo
         case let .season(s):
-            assert(s > 0)
             return Strings.Detail.watchedShowLabelSeason(s)
         case let .episode(season: s, episode: e):
-            assert(e > 0)
             return Strings.Detail.watchedShowLabelSeasonEpisode(s, e)
         }
     }

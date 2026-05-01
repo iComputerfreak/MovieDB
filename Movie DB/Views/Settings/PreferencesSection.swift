@@ -1,11 +1,6 @@
-//
-//  PreferencesSection.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
+import Analytics
 import Foundation
 import os.log
 import SwiftUI
@@ -20,19 +15,49 @@ struct PreferencesSection: View {
     @State private var reloadLibraryAlertShowing = false
     
     var body: some View {
-        Section {
+        Section(Strings.Settings.preferencesSectionHeader) {
             Toggle(Strings.Settings.showAdultContentLabel, isOn: $preferences.showAdults)
+                .onChange(of: preferences.showAdults) { _, newValue in
+                    AnalyticsService.shared.track(
+                        .settingChanged(settingKey: .showAdults, newValue: .boolean(newValue))
+                    )
+                }
             LanguagePickerView()
-                .onChange(of: preferences.language) { languageCode in
+                .onChange(of: preferences.language) { _, languageCode in
                     Logger.settings.info("Language changed to \(languageCode, privacy: .public)")
                     self.config.languageChanged = true
+                    AnalyticsService.shared.track(
+                        .settingChanged(settingKey: .language, newValue: .string(languageCode))
+                    )
                 }
             RegionPickerView()
-                .onChange(of: preferences.region) { regionCode in
+                .onChange(of: preferences.region) { _, regionCode in
                     Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
                     self.config.regionChanged = true
+                    AnalyticsService.shared.track(
+                        .settingChanged(settingKey: .region, newValue: .string(regionCode))
+                    )
                 }
             DefaultWatchStatePicker()
+                .onChange(of: preferences.defaultWatchState) { _, newValue in
+                    AnalyticsService.shared.track(
+                        .settingChanged(settingKey: .defaultWatchState, newValue: .string(newValue.rawValue))
+                    )
+                }
+            SubtitleContentPicker(subtitleContent: Binding($preferences.defaultSubtitleContent))
+                .onChange(of: preferences.defaultSubtitleContent) { _, newValue in
+                    AnalyticsService.shared.track(
+                        .settingChanged(
+                            settingKey: .defaultSubtitleContent,
+                            newValue: .string(newValue.rawValue)
+                        )
+                    )
+                }
+            NavigationLink {
+                WatchProvidersPicker()
+            } label: {
+                Text(Strings.Settings.watchProviderSettingsLabel)
+            }
         }
         .alert(
             Text(Strings.Settings.Alert.reloadLibraryTitle),

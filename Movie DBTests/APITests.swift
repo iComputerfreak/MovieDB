@@ -1,13 +1,8 @@
-//
-//  APITests.swift
-//  Movie DBTests
-//
-//  Created by Jonas Frey on 08.12.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
+
+@testable import Movie_DB
 
 import CoreData
-@testable import Movie_DB
 import XCTest
 
 class APITests: XCTestCase {
@@ -56,13 +51,14 @@ class APITests: XCTestCase {
     
     func testFetchTMDBData() async throws {
         let result = try await api.media(for: 603, type: .movie, context: testContext)
-        print(result)
+        assertMediaMatches(result, .init(tmdbID: 603, type: .movie, title: "The Matrix"))
+        XCTAssertNotNil((result as? Movie)?.releaseDate)
     }
     
     func testAPISuccess() async throws {
         let mediaObjects = [
             DummyMedia(tmdbID: 550, type: .movie, title: "Fight Club"),
-            DummyMedia(tmdbID: 603, type: .movie, title: "Matrix"),
+            DummyMedia(tmdbID: 603, type: .movie, title: "The Matrix"),
             DummyMedia(tmdbID: 1399, type: .show, title: "Game of Thrones"),
             DummyMedia(tmdbID: 46952, type: .show, title: "The Blacklist"),
         ]
@@ -80,26 +76,36 @@ class APITests: XCTestCase {
     }
     
     func testAPIFailure() async {
-        // TODO: How to test throwing of async functions?
-        do {
+        await assertAPIErrorThrown {
             _ = try await api.media(for: -1, type: .movie, context: testContext)
-            XCTFail("Invalid API call should have resulted in an error being thrown.")
-        } catch {}
-        do {
+        }
+        await assertAPIErrorThrown {
             try await api.updateMedia(brokenMedia, context: testContext)
-            XCTFail("Calling update on a broken media should have resulted in an error being thrown.")
-        } catch {}
+        }
     }
     
     func testSearch() async throws {
-        let (results, _) = try await api.searchMedia("matrix", includeAdult: true)
+        let (results, totalPages) = try await api.searchMedia("matrix", includeAdult: true, to: 1)
         XCTAssertGreaterThan(results.count, 0)
+        XCTAssertGreaterThanOrEqual(totalPages, 1)
+        XCTAssertEqual(results.first(where: { $0.id == 603 && $0.mediaType == .movie })?.title, "The Matrix")
         
         let (results2, _) = try await api.searchMedia(
             "ThisIsSomeReallyLongNameIHopeWillResultInZeroResults",
             includeAdult: true
         )
         XCTAssertEqual(results2.count, 0)
+    }
+
+    private func assertAPIErrorThrown<T>(_ operation: () async throws -> T) async {
+        do {
+            _ = try await operation()
+            XCTFail("Expected TMDBAPI.APIError to be thrown.")
+        } catch is TMDBAPI.APIError {
+            return
+        } catch {
+            XCTFail("Unexpected error type thrown: \(error)")
+        }
     }
 }
 

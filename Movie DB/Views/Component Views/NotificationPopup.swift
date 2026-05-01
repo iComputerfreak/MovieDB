@@ -1,10 +1,4 @@
-//
-//  NotificationPopup.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.09.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -22,9 +16,7 @@ struct NotificationPopup: View {
     private let imagePercentage: Double = 0.6
     // The size up to which the actual image will be scaled
     private let imageSize: Double = 75
-    // Padding is applied additionally to the popupSize! The final size will be `popupSize + 2 2 * padding`
-    private let padding: Double = 6
-    
+
     init(isPresented: Binding<Bool>, imageBuilder: () -> Image, title: String, subtitle: String? = nil) {
         self._isPresented = isPresented
         self.image = imageBuilder()
@@ -42,41 +34,32 @@ struct NotificationPopup: View {
     }
     
     var body: some View {
-        if isPresented {
-            VStack(spacing: 0) {
-                image
-                    .resizable()
-                    .frame(width: imageSize, height: imageSize)
-                    .frame(height: imagePercentage * popupSize)
-                VStack(alignment: .center) {
-                    Text(title)
-                        .font(.title2.weight(.medium))
-                    if let subtitle {
-                        Text(subtitle)
-                    }
-                    Spacer()
-                }
-                .multilineTextAlignment(.center)
-                // Text takes the rest of the popup size
-                .frame(maxHeight: (1 - imagePercentage) * popupSize)
-            }
-            .foregroundColor(.gray)
-            .frame(width: popupSize, height: popupSize)
-            .padding(padding)
-            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
-            .task {
-                // Wait x seconds
-                try? await Task.sleep(nanoseconds: UInt64(displayDuration * 1_000_000_000))
-                // Dismiss view
-                await MainActor.run {
-                    withAnimation {
-                        self.isPresented = false
-                    }
+        VStack(spacing: 24) {
+            image
+                .resizable()
+                .frame(width: imageSize, height: imageSize)
+            VStack(spacing: 8) {
+                Text(title)
+                    .font(.title2.weight(.medium))
+                if let subtitle {
+                    Text(subtitle)
                 }
             }
-        } else {
-            EmptyView()
         }
+        .multilineTextAlignment(.center)
+        .foregroundColor(.gray)
+        .padding(32)
+        .frame(maxWidth: 250)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .task { @MainActor in
+            // Wait x seconds
+            try? await Task.sleep(for: .seconds(displayDuration))
+            // Dismiss view
+            withAnimation {
+                self.isPresented = false
+            }
+        }
+        .opacity(isPresented ? 1 : 0)
     }
 }
 
@@ -112,9 +95,42 @@ extension View {
     }
 }
 
-#Preview {
-    @State var isActive = true
-    
+#Preview("Subtitle") {
+    return NavigationStack {
+        List {
+            ForEach(0..<30) { i in
+                Text(verbatim: "This is Item \(i)")
+            }
+        }
+        .navigationTitle(Text(verbatim: "Favorites"))
+    }
+    .notificationPopup(
+        isPresented: .constant(true),
+        systemImage: "plus.circle",
+        title: "Added to Playlist",
+        subtitle: "1 song has been added to \"Watching.\""
+    )
+}
+
+#Preview("Title only") {
+    return NavigationStack {
+        List {
+            ForEach(0..<30) { i in
+                Text(verbatim: "This is Item \(i)")
+            }
+        }
+        .navigationTitle(Text(verbatim: "Favorites"))
+    }
+    .notificationPopup(
+        isPresented: .constant(true),
+        systemImage: "plus.circle",
+        title: "Added to Playlist"
+    )
+}
+
+#Preview("Fading") {
+    @Previewable @State var isActive = true
+
     return NavigationStack {
         List {
             ForEach(0..<30) { i in

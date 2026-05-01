@@ -1,10 +1,4 @@
-//
-//  TMDBImageService.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 01.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -13,11 +7,12 @@ import SwiftUI
 /// An actor, resposible for downloading and caching media posters from themoviedatabase.org
 actor TMDBImageService {
     static let mediaThumbnails = TMDBImageService(imageSize: JFLiterals.thumbnailTMDBSize)
+    static let backdropImages = TMDBImageService(imageSize: JFLiterals.backdropImageTMDBSize)
     static let watchProviderLogos = TMDBImageService(imageSize: nil)
     
     let imageSize: Int?
     
-    private var activeDownloads: [AnyHashable: Task<UIImage, Error>] = [:]
+    private var activeDownloads: [AnyHashable: Task<UIImage?, Error>] = [:]
     
     /// Creates a new `TMDBImageService`
     /// - Parameter thumbnailSize: The size as used by the TMDB API for fetching the thumbnail
@@ -27,10 +22,14 @@ actor TMDBImageService {
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo``
     func thumbnail(for mediaID: UUID?, imagePath: String?, force: Bool = false) async throws -> UIImage? {
-        guard let mediaID else {
-            return nil
-        }
-        return try await image(for: imagePath, to: Utils.imageFileURL(for: mediaID), downloadID: mediaID)
+        guard let mediaID, let imagePath else { return nil }
+        return try await image(
+            for: imagePath,
+            to: Utils.imageFileURL(for: mediaID),
+            // TODO: For some reason, this still causes conflicts when starting the app (updating media)
+            downloadID: imagePath,
+            force: force
+        )
     }
     
     /// A convenience overload for ``image(for:to:downloadID:force:)-c3uo`` using an optional imagePath.
@@ -40,9 +39,7 @@ actor TMDBImageService {
         downloadID: AnyHashable,
         force: Bool = false
     ) async throws -> UIImage? {
-        guard let imagePath, !imagePath.isEmpty else {
-            return nil
-        }
+        guard let imagePath, !imagePath.isEmpty else { return nil }
         return try await image(for: imagePath, to: fileURL, downloadID: downloadID, force: force)
     }
     
@@ -95,13 +92,13 @@ actor TMDBImageService {
             return try UIImage(data: Data(contentsOf: fileURL))
         } else {
             // Download the poster image in thumbnail size
-            let downloadTask = Task {
+            let downloadTask = Task<UIImage?, Error> {
                 Logger.imageService.debug(
                     "Downloading image for downloadID \(String(describing: downloadID), privacy: .public)"
                 )
                 guard let webURL = Utils.getTMDBImageURL(path: imagePath, size: imageSize) else {
                     Logger.imageService.error("Unable to get TMDB image URL for imagePath '\(imagePath)'")
-                    return UIImage.posterPlaceholder
+                    return nil
                 }
                 return try await Utils.loadImage(from: webURL)
             }
@@ -113,7 +110,7 @@ actor TMDBImageService {
             let result = try await downloadTask.value
             
             // Save the image to disk for later requests
-            if let fileURL {
+            if let fileURL, let result {
                 do {
                     try result.pngData()?.write(to: fileURL)
                 } catch {

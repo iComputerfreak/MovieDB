@@ -1,10 +1,4 @@
-//
-//  DynamicMediaListView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -14,18 +8,17 @@ struct DynamicMediaListView: View {
     @Environment(\.editMode) private var editMode
     
     @ObservedObject var list: DynamicMediaList
-    @Binding var selectedMedia: Media?
+    @Binding var selectedMediaObjects: Set<Media>
     @State private var isShowingConfiguration = false
     
     var body: some View {
         // Default destination
-        FilteredMediaList(list: list, selectedMedia: $selectedMedia) { media in
-            NavigationLink(value: media) {
-                LibraryRow()
-                    .mediaSwipeActions()
-                    .mediaContextMenu()
-                    .environmentObject(media)
-            }
+        FilteredMediaList(list: list, selectedMediaObjects: $selectedMediaObjects) { media in
+            LibraryRow(subtitleContent: list.subtitleContent)
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
         }
         .toolbar {
             ListConfigurationButton($isShowingConfiguration)
@@ -39,8 +32,8 @@ struct DynamicMediaListView: View {
 
 #Preview {
     let previewList: DynamicMediaList = {
-        PersistenceController.previewContext.reset()
-        let list = DynamicMediaList(context: PersistenceController.previewContext)
+        PersistenceController.xcodePreviewContext.reset()
+        let list = DynamicMediaList(context: PersistenceController.xcodePreviewContext)
         list.name = "Test"
         list.iconName = "heart.fill"
         list.sortingOrder = .name
@@ -49,7 +42,7 @@ struct DynamicMediaListView: View {
     }()
     
     return NavigationStack {
-        DynamicMediaListView(list: previewList, selectedMedia: .constant(nil))
+        DynamicMediaListView(list: previewList, selectedMediaObjects: .constant([]))
             .previewEnvironment()
     }
 }

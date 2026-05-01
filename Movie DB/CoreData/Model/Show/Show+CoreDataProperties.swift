@@ -1,11 +1,4 @@
-//
-//  Show+CoreDataProperties.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -14,9 +7,7 @@ public extension Show {
     /// The watch state of the show (unknown, not watched or watched up to a spefic season or episode)
     var watched: ShowWatchState? {
         get {
-            guard let lastSeasonWatched else {
-                return nil
-            }
+            guard let lastSeasonWatched else { return nil }
             return .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
         }
         set {
@@ -29,6 +20,30 @@ public extension Show {
                 lastSeasonWatched = -1
                 lastEpisodeWatched = 0
             }
+        }
+    }
+
+    var isFullyWatched: Bool? {
+        guard let watched else { return nil }
+
+        let maximumSeason = seasons.max(on: \.seasonNumber, by: <)
+        switch watched {
+        case let .season(season):
+            if let maximumSeasonNumber = maximumSeason?.seasonNumber {
+                return season >= maximumSeasonNumber
+            } else {
+                return false
+            }
+
+        case let .episode(season, episode):
+            if let maximumSeasonNumber = maximumSeason?.seasonNumber {
+                return season >= maximumSeasonNumber && episode == maximumSeason?.episodeCount
+            } else {
+                return false
+            }
+
+        case .notWatched:
+            return false
         }
     }
 

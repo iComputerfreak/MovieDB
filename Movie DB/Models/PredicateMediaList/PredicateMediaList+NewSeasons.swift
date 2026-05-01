@@ -1,19 +1,18 @@
-//
-//  PredicateMediaList+NewSeasons.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
+import SwiftUI
 
 extension PredicateMediaList {
     /// A media list that features shows with new unwatched seasons
     static let newSeasons = PredicateMediaList(
         name: Strings.Lists.defaultListNameNewSeasons,
+        subtitleContentUserDefaultsKey: "newSeasonsSubtitleContent",
+        defaultSubtitleContent: .watchState,
         description: Strings.Lists.newSeasonsDescription,
         iconName: "sparkles.tv",
+        iconColor: UIColor(Color.purple),
+        iconRenderingMode: .monochrome,
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
             // Only shows that have been started watching
             ShowWatchState.showsWatchedAnyPredicate,
@@ -51,9 +50,7 @@ extension PredicateMediaList {
                 let watched = show.watched
             {
                 // MARK: Only include shows where the latestNonEmptySeasonNumber has not been watched yet
-                guard watched < ShowWatchState.season(latestNonEmptySeasonNumber) else {
-                    return false
-                }
+                guard watched < ShowWatchState.season(latestNonEmptySeasonNumber) else { return false }
                 
                 // MARK: Don't include shows where the unwatched seasons are in the future
                 let lastFullyWatchedSeason: Int? = {

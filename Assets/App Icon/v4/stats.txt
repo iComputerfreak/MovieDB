@@ -1,0 +1,6 @@
+Transform:
+- rotate: 15
+- x: 20
+- y: -15
+
+Card offsets: 20 / -45

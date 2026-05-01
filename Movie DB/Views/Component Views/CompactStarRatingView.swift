@@ -1,10 +1,4 @@
-//
-//  CompactStarRatingView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 18.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 

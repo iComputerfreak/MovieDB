@@ -1,26 +1,35 @@
-//
-//  AddMediaView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Combine
 import CoreData
 import Foundation
+import Analytics
 import struct JFSwiftUI.LoadingView
 import os.log
 import SwiftUI
 
+@available(
+    *,
+    deprecated,
+    message: "Use UnifiedSearchView with the Add Media segment. Kept for the legacy add-media sheet flow."
+)
 struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
     @State private var isLoading = false
-    @State private var searchText = ""
+    let initialSearchText: String
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.dismiss) private var dismiss
+
+    @available(
+        *,
+        deprecated,
+        message: "Use UnifiedSearchView with the Add Media segment. Kept for the legacy add-media sheet flow."
+    )
+    init(initialSearchText: String = "") {
+        self.initialSearchText = initialSearchText
+    }
     
     var prompt: Text {
         Text(Strings.AddMedia.searchPrompt)
@@ -30,7 +39,12 @@ struct AddMediaView: View {
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
                 VStack {
-                    SearchResultsView(selection: .constant(nil), prompt: prompt, autoFocus: true) { result in
+                    SearchResultsView(
+                        selection: .constant(nil),
+                        prompt: prompt,
+                        initialSearchText: initialSearchText,
+                        autoFocus: true
+                    ) { result in
                         Button {
                             Task(priority: .userInitiated) {
                                 await self.addMedia(result)
@@ -43,18 +57,15 @@ struct AddMediaView: View {
                     }
                     .navigationTitle(Strings.AddMedia.navBarTitle)
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(trailing: Button(action: {
-                        dismiss()
-                    }, label: {
-                        Text(Strings.Generic.dismissViewDone)
-                            .bold()
-                    }))
+                    .navigationBarItems(trailing: DismissButton())
                 }
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView()
-                .environmentObject(StoreManager.shared)
+            ProInfoView(source: .addMediaLimit)
+        }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
         }
     }
     
@@ -66,6 +77,7 @@ struct AddMediaView: View {
                 isLoading = false
             }
             try await library.addMedia(result)
+            AnalyticsService.shared.track(.mediaAdded(mediaType: result.mediaType.analyticsValue))
             await MainActor.run {
                 isLoading = false
             }
@@ -82,6 +94,7 @@ struct AddMediaView: View {
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
+            AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: result.mediaType.analyticsValue))
             self.isShowingProPopup = true
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")

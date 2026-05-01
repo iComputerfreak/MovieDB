@@ -1,11 +1,4 @@
-//
-//  Video+CoreDataProperties.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -41,7 +34,33 @@ public extension Video {
             return nil
         }
     }
-    
+
+    /// Returns a thumbnail URL for the video if supported by the host
+    var trailerThumbnailURL: URL? {
+        trailerThumbnailURLs.first
+    }
+
+    /// Returns thumbnail URLs for the video if supported by the host
+    var trailerThumbnailURLs: [URL] {
+        guard site.lowercased() == "youtube" else { return [] }
+
+        let hosts = ["i.ytimg.com", "img.youtube.com"]
+        let imageNames = [
+            "maxresdefault.jpg",
+            "sddefault.jpg",
+            "hqdefault.jpg",
+            "mqdefault.jpg",
+            "default.jpg",
+            "0.jpg"
+        ]
+
+        return hosts.flatMap { host in
+            imageNames.compactMap { imageName in
+                URL(string: "https://\(host)/vi/\(key)/\(imageName)")
+            }
+        }
+    }
+     
     @nonobjc
     class func fetchRequest() -> NSFetchRequest<Video> {
         NSFetchRequest<Video>(entityName: Schema.Video._entityName)

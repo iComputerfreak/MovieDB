@@ -1,10 +1,4 @@
-//
-//  Strings+Generic.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 extension Strings {
     enum Generic {
@@ -35,6 +29,18 @@ extension Strings {
         static let pickerValueNo = String(
             localized: "generic.picker.value.no",
             comment: "An option in a picker view"
+        )
+        static let alertDeleteTitle = String(
+            localized: "generic.alert.delete.title",
+            comment: "The title of the delete alert"
+        )
+        static let alertDeleteMessage = String(
+            localized: "generic.alert.delete.message",
+            comment: "The message of the delete alert"
+        )
+        static let alertDeleteButtonTitle = String(
+            localized: "generic.alert.delete.buttonTitle",
+            comment: "The title of the delete button on the delete alert"
         )
         static let navBarLoadingTitle = String(
             localized: "generic.navBar.loadingTitle",
@@ -101,6 +107,10 @@ extension Strings {
             localized: "generic.dismissViewDone",
             comment: "The done button to dismiss a view (e.g. a popup or sheet view)"
         )
+        static let longTextShowMore = String(
+            localized: "generic.longText.showMore",
+            comment: "A button label that opens the full text when only a preview is shown"
+        )
         static let multipleObjectsSelected = String(
             localized: "generic.multipleObjectsSelected",
             comment: "A text that is displayed when there are multiple objects selected, but the user is supposed to only select one"
@@ -108,6 +118,18 @@ extension Strings {
         static let retryLoading = String(
             localized: "generic.retryLoading",
             comment: "A button label indicating an action to retry loading something"
+        )
+        static let never = String(
+            localized: "generic.never",
+            comment: "A string indicating that something did never happen"
+        )
+        static let selectAll = String(
+            localized: "generic.selectAll",
+            comment: "A button label to select all items in a list"
+        )
+        static let selectNone = String(
+            localized: "generic.selectNone",
+            comment: "A button label to deselect all items in a list"
         )
     }
 }

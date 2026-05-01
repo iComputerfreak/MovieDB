@@ -1,10 +1,4 @@
-//
-//  DebugView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 18.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CloudKit
 import CoreData
@@ -33,9 +27,7 @@ struct DebugView: View {
     
     // swiftlint:disable:next large_tuple
     var duplicates: (id: Int, tmdbID: Int, objectID: Int) {
-        guard let allMedias = try? context.fetch(Media.fetchRequest()) else {
-            return (-1, -1, -1)
-        }
+        guard let allMedias = try? context.fetch(Media.fetchRequest()) else { return (-1, -1, -1) }
         let id = allMedias.removingDuplicates(key: \.id).count
         let tmdbID = allMedias.removingDuplicates(key: \.tmdbID).count
         let objectID = allMedias.removingDuplicates(key: \.objectID).count
@@ -61,9 +53,12 @@ struct DebugView: View {
             }
             Section("Duplicates" as String) {
                 let (duplicateID, duplicateTmdbID, duplicateObjectID) = duplicates
-                Text(verbatim: "There are \(duplicateID) media object with identical IDs.")
-                Text(verbatim: "There are \(duplicateTmdbID) media object with identical TMDB IDs.")
-                Text(verbatim: "There are \(duplicateObjectID) media object with identical Object IDs.")
+                VStack(alignment: .leading) {
+                    Text(verbatim: "There are \(duplicateID) media object with identical IDs.")
+                    Text(verbatim: "There are \(duplicateTmdbID) media object with identical TMDB IDs.")
+                    Text(verbatim: "There are \(duplicateObjectID) media object with identical Object IDs.")
+                }
+                .font(.callout)
             }
             BackgroundFetchDebugSection()
         }

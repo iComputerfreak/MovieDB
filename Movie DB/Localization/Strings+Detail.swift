@@ -1,10 +1,4 @@
-//
-//  Strings+Detail.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 extension Strings {
     enum Detail {
@@ -34,7 +28,15 @@ extension Strings {
             localized: "detail.menu.removeFromWatchlist",
             comment: "The 'remove from watchlist' media action that removes a media object from the user's watchlist"
         )
-        
+        static let menuButtonMarkAsWatched = String(
+            localized: "detail.menu.markAsWatched",
+            comment: "The 'mark as watched' media action that marks a media as watched"
+        )
+        static let menuButtonMarkAsNotWatched = String(
+            localized: "detail.menu.markAsNotWatched",
+            comment: "The 'mark as not watched' media action that marks a media as not watched"
+        )
+
         // MARK: UserData
         static let userDataSectionHeader = String(
             localized: "detail.userData.header",
@@ -44,6 +46,12 @@ extension Strings {
             localized: "detail.userData.headline.personalRating",
             comment: "The headline for the 'personal rating' property in the detail view"
         )
+        static func personalRatingValueLabel(_ amount: Double) -> String {
+            String(
+                localized: "detail.userData.value.personalRating \(amount)",
+                comment: "The current personal rating value in the detail view, ranging from 0 to 5 stars in 0.5 star steps"
+            )
+        }
         static let watchedHeadline = String(
             localized: "detail.userData.headline.watched",
             comment: "The headline for the 'watched' property in the detail view"
@@ -167,6 +175,14 @@ extension Strings {
             localized: "detail.seasonsInfo.navBar.title",
             comment: "The navigation bar title for the seasons info in the detail view"
         )
+        static let seasonsUnavailableTitle = String(
+            localized: "detail.seasons.unavailable.title",
+            comment: "Title shown when no seasons are available for a show"
+        )
+        static let seasonsUnavailableDescription = String(
+            localized: "detail.seasons.unavailable.description",
+            comment: "Description shown when no seasons are available for a show"
+        )
         static func seasonsInfoEpisodeCount(_ count: Int) -> String {
             String(
                 localized: "detail.extendedInfo.seasons.episodeCount \(count)",
@@ -261,7 +277,16 @@ extension Strings {
 
         static let castLabel = String(
             localized: "detail.basicInfo.cast",
+            comment: "The headline in the detail of a media object for the cast information."
+        )
+
+        static let viewCastMembersLabel = String(
+            localized: "detail.basicInfo.viewCastMembers.label",
             comment: "The button label in the detail of a media object that leads to the cast information."
+        )
+        static let castNoneAvailable = String(
+            localized: "detail.cast.noneAvailable",
+            comment: "The text displayed when there are no cast members available to display"
         )
         
         static func castMemberRole(_ roleName: String) -> String {
@@ -387,7 +412,11 @@ extension Strings {
             localized: "detail.metadata.headline.lastModified",
             comment: "The headline for the 'last modified' property in the detail view"
         )
-        
+        static let lastUpdatedHeadline = String(
+            localized: "detail.metadata.headline.lastUpdated",
+            comment: "The headline for the 'last updated' property in the detail view"
+        )
+
         // MARK: - Notifications
         static let addedToListNotificationTitle = String(
             localized: "detail.notification.addedToList.title",

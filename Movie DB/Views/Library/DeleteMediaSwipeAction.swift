@@ -1,11 +1,6 @@
-//
-//  DeleteMediaSwipeAction.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 03.07.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import os.log
 import SwiftUI
 
@@ -15,6 +10,8 @@ struct DeleteMediaSwipeAction: View {
     
     var body: some View {
         Button(role: .destructive) {
+            AnalyticsService.shared.track(.mediaSwipeActionUsed(action: .delete))
+            AnalyticsService.shared.track(.mediaDeleted(mediaType: mediaObject.type.analyticsValue))
             Logger.coreData.info(
                 // swiftlint:disable:next line_length
                 "Deleting \(mediaObject.title, privacy: .public) (mediaID: \(mediaObject.id?.uuidString ?? "nil", privacy: .public))"

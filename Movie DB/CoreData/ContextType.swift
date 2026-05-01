@@ -1,10 +1,4 @@
-//
-//  ContextType.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 20.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 
@@ -18,9 +12,7 @@ enum ContextType: String {
 extension NSManagedObjectContext {
     var type: ContextType? {
         get {
-            guard let name else {
-                return nil
-            }
+            guard let name else { return nil }
             return ContextType(rawValue: name)
         }
         set {

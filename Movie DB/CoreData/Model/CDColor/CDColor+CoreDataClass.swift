@@ -1,11 +1,4 @@
-//
-//  CDColor+CoreDataClass.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 17.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation

@@ -1,10 +1,4 @@
-//
-//  Schema+Media.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 protocol SchemaEntityKey: CVarArg {
     static var _entityName: String { get }
@@ -20,6 +14,19 @@ extension SchemaEntityKey {
 extension Schema {
     enum Media: String, SchemaEntityKey {
         static let _entityName = "Media"
+        /// Returns all keys that can be modified by the user
+        static var userDataKeys: [SchemaEntityKey] {
+            [
+                Schema.Media.personalRating,
+                Schema.Media.watchAgain,
+                Schema.Media.watchDate,
+                Schema.Media.tags,
+                Schema.Media.notes,
+                Schema.Movie.watchedState,
+                Schema.Show.lastSeasonWatched,
+                Schema.Show.lastEpisodeWatched,
+            ]
+        }
         
         // MARK: Attributes
         case id
@@ -49,7 +56,8 @@ extension Schema {
         case isFavorite
         case isOnWatchlist
         case watchDate
-        
+        case lastUpdated
+
         // MARK: Relationships
         case genres
         case tags

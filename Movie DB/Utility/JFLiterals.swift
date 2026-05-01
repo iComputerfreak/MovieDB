@@ -1,10 +1,4 @@
-//
-//  JFLiterals.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -12,7 +6,9 @@ import UIKit
 
 enum JFLiterals {
     /// The size of the thumbnail in the `LibraryHome` list
-    static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
+    static let thumbnailSize: CGSize = .init(width: 80 / 1.5, height: 80)
+    /// The size of the thumbnail in the seasons list
+    static let seasonThumbnailSize: CGSize = .init(width: 108 / 1.5, height: 108)
     /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
     static let detailThumbnailMultiplier: CGFloat = 2.0
     /// The size of thumbnails to load from the TMDB API
@@ -20,10 +16,10 @@ enum JFLiterals {
     /// Thumbnails are 53 pixels wide (@2x in the detail view)
     /// We use a much bigger sizer, in case we want to show them in some sort of collection view later
     static let thumbnailTMDBSize: Int = 500
+    /// The size of backdrop images to load from the TMDB API
+    static let backdropImageTMDBSize: Int = 1280
     /// The size of the cast pictures in the detail view, loaded from the TMDB API
     static let castImageSize: Int = 185
-    /// The name of the poster placeholder image
-    static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos
     static let trailerVideoType = "Trailer"
     /// The job property of directors in the credits of a movie
@@ -36,7 +32,9 @@ enum JFLiterals {
     static let inAppPurchaseIDs = [inAppPurchaseIDPro]
     /// The IAP ID for the Pro version of the app
     static let inAppPurchaseIDPro = "movie_db_pro"
-    
+    /// The size of the watch provider icons in the library list row
+    static let watchProviderSubtitleIconSize: CGFloat = 24
+
     enum Keys {
         /// The key used for storing the TagLibrary
         static let allTags = "allTags"
@@ -54,8 +52,6 @@ enum JFLiterals {
         static let posterDenyList = "posterDenyList"
         /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster deny list has last been updated
         static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
-        /// The id of the filter settings used for filtering in the library home
-        static let filterSetting = "filterSetting"
         /// The number of times the app has asked for app store ratings
         static let askedForAppRating = "askedForRating"
         /// The date when the app was first opened

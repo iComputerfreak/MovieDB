@@ -1,10 +1,4 @@
-//
-//  RangeEditingView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 03.12.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
 

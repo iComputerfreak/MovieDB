@@ -1,11 +1,4 @@
-//
-//  WatchProvider+CoreDataClass.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -60,10 +53,8 @@ public class WatchProvider: NSManagedObject {
         // Start loading the thumbnail
         // Use a dedicated overall task to be able to cancel it
         self.loadLogoTask = Task { [managedObjectContext] in
-            guard !Task.isCancelled else {
-                return
-            }
-            
+            guard !Task.isCancelled else { return }
+
             // We need to access the imagePath on the managedObjectContext's thread
             await managedObjectContext?.perform {
                 guard self.logoImage == nil else {
@@ -75,19 +66,15 @@ public class WatchProvider: NSManagedObject {
             var providerID: WatchProvider.ID?
             var imagePath: String?
             
-            guard !Task.isCancelled else {
-                return
-            }
-            
+            guard !Task.isCancelled else { return }
+
             await managedObjectContext?.perform {
                 providerID = self.id
                 imagePath = self.imagePath
             }
             
             Task { [providerID, imagePath] in
-                guard !Task.isCancelled, let providerID else {
-                    return
-                }
+                guard !Task.isCancelled, let providerID else { return }
                 
                 do {
                     let logoImage = try await TMDBImageService.watchProviderLogos.image(

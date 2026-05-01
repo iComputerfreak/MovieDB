@@ -1,10 +1,4 @@
-//
-//  TagEditRow.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -35,12 +29,8 @@ struct TagEditRow: View {
                     title: Strings.Detail.Alert.renameTagButtonRename,
                     style: .default
                 ) { _ in
-                    guard let textField = alert.textFields?.first else {
-                        return
-                    }
-                    guard let text = textField.text, !text.isEmpty else {
-                        return
-                    }
+                    guard let textField = alert.textFields?.first else { return }
+                    guard let text = textField.text, !text.isEmpty else { return }
                     guard !self.tags.contains(where: { $0.name == text }) else {
                         AlertHandler.showSimpleAlert(
                             title: Strings.Detail.Alert.tagAlreadyExistsTitle,
@@ -60,5 +50,5 @@ struct TagEditRow: View {
 }
 
 #Preview {
-    TagEditRow(tag: Tag(name: "Tag 1", context: PersistenceController.previewContext), tags: .constant([]))
+    TagEditRow(tag: Tag(name: "Tag 1", context: PersistenceController.xcodePreviewContext), tags: .constant([]))
 }

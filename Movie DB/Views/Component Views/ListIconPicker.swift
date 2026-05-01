@@ -1,22 +1,16 @@
-//
-//  ListIconPicker.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
 struct ListIconPicker: View {
     @Binding var symbolName: String
-    
+
     var symbolsPerRow: Int {
         // TODO: Differentiate by device or available space
         // Alternatively, we could use a WrappingHStack with same-sized children
         return 6
     }
-    
+
     var body: some View {
         LazyVGrid(
             columns: .init(
@@ -48,8 +42,8 @@ struct ListIconPicker: View {
 }
 
 #Preview {
-    @State var symbolName = "heart"
-    return VStack {
+    @Previewable @State var symbolName = "heart"
+    VStack {
         Text(verbatim: "Selection does not work in Preview!")
             .foregroundColor(.red)
             .bold()

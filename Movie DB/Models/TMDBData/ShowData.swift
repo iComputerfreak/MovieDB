@@ -1,28 +1,18 @@
-//
-//  ShowData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 
 extension TMDBData {
-    struct ShowData: Decodable, Hashable {
+    struct ShowData: Decodable, Hashable, Sendable {
         var rawFirstAirDate: String?
         var firstAirDate: Date? {
-            guard let rawFirstAirDate else {
-                return nil
-            }
+            guard let rawFirstAirDate else { return nil }
             return Utils.tmdbUTCDateFormatter.date(from: rawFirstAirDate)
         }
 
         var rawLastAirDate: String?
         var lastAirDate: Date? {
-            guard let rawLastAirDate else {
-                return nil
-            }
+            guard let rawLastAirDate else { return nil }
             return Utils.tmdbUTCDateFormatter.date(from: rawLastAirDate)
         }
 

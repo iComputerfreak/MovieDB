@@ -1,10 +1,4 @@
-//
-//  RatingView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -26,12 +20,11 @@ struct RatingView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
     List {
         ForEach(StarRating.allCases, id: \.rawValue) { rating in
             RatingView(rating: .constant(rating))
         }
     }
-    .previewLayout(.sizeThatFits)
     .padding()
 }

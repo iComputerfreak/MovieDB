@@ -1,13 +1,8 @@
-//
-//  CoreDataDummies.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 28.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
+import OSLog
 
 protocol CoreDataDummy: Hashable {
     associatedtype Entity: NSManagedObject
@@ -172,7 +167,7 @@ struct SeasonDummy: CoreDataDummy, Decodable {
     }
 }
 
-struct WatchProviderDummy: CoreDataDummy {
+struct WatchProviderDummy: CoreDataDummy, Sendable {
     typealias Entity = WatchProvider
     
     let id: Int
@@ -251,7 +246,10 @@ extension NSManagedObjectContext {
         predicate: (Dummy) -> NSPredicate,
         isEqual: (Dummy, Entity) -> Bool
     ) -> [Entity] where Dummy: CoreDataDummy, Dummy.Entity == Entity {
-        assert(dummies.count < 1000, "The NSFetchRequest below will fail for predicates with more than 1000 elements")
+        if dummies.count >= 1000 {
+            Logger.coreData.warning("The following fetch request will fail for predicates with more than 1000 elements")
+
+        }
         // Fetch all matching objects at once
         let fetchRequest: NSFetchRequest<Entity> = NSFetchRequest(entityName: Entity.entity().name!)
         let predicates = dummies.map(predicate)

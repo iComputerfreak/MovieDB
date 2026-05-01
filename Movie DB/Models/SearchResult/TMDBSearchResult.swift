@@ -1,10 +1,4 @@
-//
-//  TMDBSearchResult.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 29.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -70,22 +64,16 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     
     func loadThumbnail() {
         // If we are already downloading or already have a thumbnail, return
-        guard self.loadThumbnailTask == nil, thumbnail == nil else {
-            return
-        }
+        guard self.loadThumbnailTask == nil, thumbnail == nil else { return }
 
         // Start loading the thumbnail
         // Use a dedicated overall task to be able to cancel it
         self.loadThumbnailTask = Task {
-            guard !Task.isCancelled, let imagePath else {
-                return
-            }
-            
+            guard !Task.isCancelled, let imagePath else { return }
+
             do {
                 let thumbnail = try await TMDBImageService.mediaThumbnails.image(for: imagePath, downloadID: self.id)
-                guard !Task.isCancelled else {
-                    return
-                }
+                guard !Task.isCancelled else { return }
                 await MainActor.run {
                     self.objectWillChange.send()
                     self.thumbnail = thumbnail

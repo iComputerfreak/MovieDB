@@ -1,13 +1,8 @@
-//
-//  StoreManager.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 20.06.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
+import JFSwiftUI
 import StoreKit
 
 // Modeled after https://developer.apple.com/documentation/storekit/in-app_purchase/implementing_a_store_in_your_app_using_the_storekit_api
@@ -16,20 +11,18 @@ public enum StoreError: Error {
     case failedVerification
 }
 
-class StoreManager: ObservableObject {
+@Observable
+class StoreManager {
     static let shared = StoreManager()
     
-    @Published var products: [Product] = []
-    @Published var purchasedProducts: [Product] = []
-    
+    var products: [Product] = []
+    var purchasedProducts: [Product] = []
+
     /// Whether the user has purchased the pro version of the app
-    var hasPurchasedPro: Bool {
-        guard let proProduct = self.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
-            return false
-        }
-        return self.isPurchased(proProduct)
-    }
-    
+    @ObservationIgnored
+    @UserDefault("hasPurchasedPro", defaultValue: false)
+    private(set) var hasPurchasedPro: Bool
+
     // The task that is responsible for listening to background transactions
     var updateListenerTask: Task<Void, Error>? = nil
     
@@ -156,6 +149,11 @@ class StoreManager: ObservableObject {
         
         // Update the store information with the purchased products.
         self.purchasedProducts = purchasedProducts
+
+        // Update the pro status of the user
+        if let proProduct = self.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) {
+            self.hasPurchasedPro = self.isPurchased(proProduct)
+        }
     }
     
     /// Manually requests to restore previously purchased products

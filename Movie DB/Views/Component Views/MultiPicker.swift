@@ -1,10 +1,4 @@
-//
-//  MultiPicker.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 02.12.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -125,7 +119,7 @@ struct FilterMultiPicker<SelectionValue: Hashable, RowContent: View>: View {
 }
 
 #Preview {
-    @State var selection: [String] = ["Value 1"]
+    @Previewable @State var selection: [String] = ["Value 1"]
     
     return Form {
         FilterMultiPicker(

@@ -1,10 +1,4 @@
-//
-//  TMDBShowSearchResult.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 01.08.20.
-//  Copyright © 2020 Jonas Frey. All rights reserved.
-//
+// Copyright © 2020 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI

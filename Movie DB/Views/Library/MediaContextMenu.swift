@@ -1,12 +1,7 @@
-//
-//  MediaContextMenu.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 03.07.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
+import Analytics
 import SwiftUI
 
 struct MediaContextMenuModifier: ViewModifier {
@@ -15,14 +10,27 @@ struct MediaContextMenuModifier: ViewModifier {
             .contextMenu {
                 Group {
                     Section {
-                        AddToFavoritesButton()
-                        AddToWatchlistButton()
-                        AddToListMenu()
+                        AddToFavoritesButton {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .toggleFavorite))
+                        }
+                        AddToWatchlistButton {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .toggleWatchlist))
+                        }
+                        AddEnvironmentMediaToListMenu {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .addToList))
+                        }
                     }
                     Section {
-                        ReloadMediaButton()
-                        ShareMediaButton()
-                        DeleteMediaButton()
+                        ReloadMediaButton {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .reload))
+                        }
+                        ShareMediaButton {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .share))
+                            AnalyticsService.shared.track(.mediaShared(shareTargetType: .systemShareSheet))
+                        }
+                        DeleteMediaButton(onAction: {
+                            AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .delete))
+                        })
                     }
                 }
             }

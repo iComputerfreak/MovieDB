@@ -1,35 +1,28 @@
-//
-//  NewSeasonsMediaList.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 16.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
 struct NewSeasonsMediaList: View {
-    @Binding var selectedMedia: Media?
-    
+    @Binding var selectedMediaObjects: Set<Media>
+    @ObservedObject private var list: PredicateMediaList = .newSeasons
+
     var body: some View {
-        FilteredMediaList(
-            list: PredicateMediaList.newSeasons,
-            selectedMedia: $selectedMedia,
-            rowContent: { media in
-                NavigationLink(value: media) {
-                    LibraryRow()
-                        .mediaSwipeActions()
-                        .mediaContextMenu()
-                        .environmentObject(media)
-                }
-            }
-        )
+        PredicateMediaListView(
+            selectedMediaObjects: $selectedMediaObjects,
+            list: list
+        ) { media in
+            LibraryRow(subtitleContent: list.subtitleContent)
+                .mediaSwipeActions()
+                .mediaContextMenu()
+                .environmentObject(media)
+                .navigationLinkChevron()
+        }
     }
 }
 
 #Preview {
     NavigationStack {
-        NewSeasonsMediaList(selectedMedia: .constant(PlaceholderData.preview.staticMovie))
+        NewSeasonsMediaList(selectedMediaObjects: .constant([PlaceholderData.preview.staticMovie]))
             .previewEnvironment()
     }
 }

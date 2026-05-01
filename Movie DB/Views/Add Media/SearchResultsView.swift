@@ -1,13 +1,5 @@
-//
-//  SearchResultsView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
-import Combine
-import CoreData
 import JFSwiftUI
 import os.log
 import SwiftUI
@@ -16,28 +8,59 @@ import SwiftUI
 ///
 /// The `SearchResultsView` displays the search results and executes the given action when one of the results is pressed.
 struct SearchResultsView<RowContent: View>: View {
+    private enum ResultsState {
+        case idle
+        case loading
+        case noResults
+        case error
+
+        var text: String? {
+            switch self {
+            case .idle, .noResults:
+                nil
+            case .loading:
+                Strings.MediaSearch.loading
+            case .error:
+                Strings.MediaSearch.errorText
+            }
+        }
+    }
+
     @State private var results: [TMDBSearchResult] = []
-    @State private var resultsText: String = ""
+    @State private var resultsState: ResultsState = .idle
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
+    /// Fallback state property when the caller gave no binding to use
+    @State private var searchText: String
+    @State private var isLoadingNextPage: Bool = false
     @Binding var selection: TMDBSearchResult?
     let prompt: Text
+    let searchTextBinding: Binding<String>?
     let autoFocus: Bool
-    
-    // We use an observable model to store the searchText and publisher
-    // This way, we can access the publisher of the @Published searchText property directly to
-    // perform the searches and we have a mutable place to store the publisher of type AnyCancellable?
-    @StateObject private var model: SearchResultsModel = .init()
-    
-    @Environment(\.managedObjectContext) private var managedObjectContext
+    let showsSearchBar: Bool
+
     @EnvironmentObject private var config: JFConfig
     
     /// The action to execute when one of the results is pressed
     let content: (TMDBSearchResult) -> RowContent
-    
+
+    var activeSearchText: Binding<String> {
+        if let searchTextBinding {
+            searchTextBinding
+        } else {
+            $searchText
+        }
+    }
+
+    @available(
+        *,
+        deprecated,
+        message: "Use the shared-search initializer with `searchText:`. Kept for the legacy add-media sheet flow."
+    )
     init(
         selection: Binding<TMDBSearchResult?>,
         prompt: Text,
+        initialSearchText: String = "",
         autoFocus: Bool = false,
         @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
     ) {
@@ -45,101 +68,171 @@ struct SearchResultsView<RowContent: View>: View {
         self.prompt = prompt
         self._selection = selection
         self.autoFocus = autoFocus
+        self.showsSearchBar = true
+        self.searchTextBinding = nil
+        self._searchText = State(initialValue: initialSearchText)
+    }
+
+    init(
+        searchText: Binding<String>,
+        selection: Binding<TMDBSearchResult?>,
+        prompt: Text,
+        showsSearchBar: Bool,
+        autoFocus: Bool = false,
+        @ViewBuilder content: @escaping (TMDBSearchResult) -> RowContent
+    ) {
+        self.content = content
+        self.prompt = prompt
+        self._selection = selection
+        self.autoFocus = autoFocus
+        self.showsSearchBar = showsSearchBar
+        self.searchTextBinding = searchText
+        self._searchText = State(initialValue: searchText.wrappedValue)
     }
     
     var body: some View {
         VStack {
-            // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
-            JFSearchBar(text: $model.searchText, prompt: prompt, autoFocus: autoFocus)
-            List(selection: $selection) {
-                if self.results.isEmpty, !self.resultsText.isEmpty {
-                    HStack {
-                        Spacer()
-                        Text(self.resultsText)
-                            .italic()
-                        Spacer()
-                    }
-                } else {
-                    ForEach(self.results) { (result: TMDBSearchResult) in
-                        content(result)
-                    }
-                    if !self.allPagesLoaded, !self.results.isEmpty {
-                        Button {
-                            loadNextPage()
-                        } label: {
-                            HStack {
-                                Spacer()
-                                Text(Strings.MediaSearch.loadMore)
-                                    .italic()
-                                Spacer()
+            if showsSearchBar {
+                // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
+                JFSearchBar(text: activeSearchText, prompt: prompt, autoFocus: autoFocus)
+            }
+            if results.isEmpty, resultsState == .noResults {
+                ContentUnavailableView(
+                    Strings.MediaSearch.noResults,
+                    systemImage: "magnifyingglass"
+                )
+            } else {
+                List(selection: $selection) {
+                    if self.results.isEmpty, let resultsText = self.resultsState.text {
+                        HStack {
+                            Spacer()
+                            Text(resultsText)
+                                .italic()
+                            Spacer()
+                        }
+                    } else {
+                        ForEach(self.results) { (result: TMDBSearchResult) in
+                            content(result)
+                        }
+                        if !self.allPagesLoaded, !self.results.isEmpty {
+                            Button {
+                                loadNextPage()
+                            } label: {
+                                HStack {
+                                    ProgressView()
+                                        .opacity(isLoadingNextPage ? 1 : 0)
+                                    Text(Strings.MediaSearch.loadMore)
+                                }
                             }
                         }
-                        .foregroundColor(.primary)
                     }
                 }
             }
         }
-        .onAppear(perform: onAppear)
-    }
-    
-    func onAppear() {
-        // Register the publisher for the search results
-        model.publisher = model.$searchText
-            .receive(on: RunLoop.main)
-            .map { searchText in
-                Logger.addMedia.debug("Searching for: \(searchText, privacy: .public)")
-                return searchText
+        .onAppear { synchronizeExternalSearchText() }
+        .onChange(of: activeSearchText.wrappedValue) { _, searchText in
+            if showsSearchBar {
+                synchronizeExternalSearchText(with: searchText)
             }
-            // Wait 500 ms before actually searching for the text
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-            // Remove duplicate calls
-            .removeDuplicates()
-            // The search text should have at least 3 characters
-            .map { (searchText: String) -> String? in
-                if searchText.isEmpty {
-                    self.results = []
-                    // Clear the search result text (e.g. "No Results")
-                    self.resultsText = ""
-                }
-                return searchText.count >= 3 ? searchText : nil
-            }
-            // Remove nil
-            .compactMap { $0 }
-            // Execute searchMedia when the search text changes
-            .sink(receiveValue: searchMedia)
+        }
+        .task(id: activeSearchText.wrappedValue) {
+            await searchTask(for: activeSearchText.wrappedValue)
+        }
     }
-    
+}
+
+// MARK: - Search Helpers
+extension SearchResultsView {
+    func synchronizeExternalSearchText(with value: String? = nil) {
+        let value = value ?? self.searchText
+
+        guard
+            let searchTextBinding,
+            searchTextBinding.wrappedValue != value
+        else { return }
+
+        searchTextBinding.wrappedValue = value
+    }
+
+    func searchTask(for rawSearchText: String) async {
+        let searchText = rawSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        Logger.addMedia.debug("Searching for: \(searchText, privacy: .public)")
+
+        guard !searchText.isEmpty else {
+            await MainActor.run {
+                clearResults()
+            }
+            return
+        }
+
+        guard searchText.count >= 3 else {
+            await MainActor.run {
+                clearResults()
+            }
+            return
+        }
+
+        do {
+            try await Task.sleep(for: .milliseconds(500))
+        } catch {
+            return
+        }
+
+        guard !Task.isCancelled else { return }
+
+        await MainActor.run {
+            searchMedia(searchText)
+        }
+    }
+
+    func clearResults() {
+        results = []
+        resultsState = .idle
+        pagesLoaded = 0
+        allPagesLoaded = true
+    }
+
     func searchMedia(_ searchText: String) {
         Logger.addMedia.info("Searching for: \(searchText, privacy: .public)")
-        model.searchText = searchText
         results = []
         pagesLoaded = 0
-        guard !searchText.isEmpty else {
-            return
-        }
+        allPagesLoaded = true
+        guard !searchText.isEmpty else { return }
         // Load the first page of results
-        resultsText = Strings.MediaSearch.loading
-        loadNextPage()
+        resultsState = .loading
+        loadNextPage(for: searchText)
     }
     
-    func loadNextPage() {
+    func loadNextPage(for rawSearchText: String? = nil) {
+        let rawSearchText = rawSearchText ?? activeSearchText.wrappedValue
+        let searchText = rawSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
         // We cannot load results for an empty text
-        guard !model.searchText.isEmpty else {
-            return
-        }
+        guard !searchText.isEmpty else { return }
+
+        self.isLoadingNextPage = true
         // Fetch the additional search results async
         Task(priority: .userInitiated) {
             do {
                 let (results, totalPages) = try await TMDBAPI.shared.searchMedia(
-                    model.searchText,
+                    searchText,
                     includeAdult: config.showAdults,
                     from: self.pagesLoaded + 1,
                     to: self.pagesLoaded + 2
                 )
-                
+
+                let currentSearchText = activeSearchText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard currentSearchText == searchText else {
+                    await MainActor.run {
+                        self.isLoadingNextPage = false
+                    }
+                    // Search text changed since we started, abort
+                    return
+                }
+
                 // Clear "Loading..." from the first search
                 await MainActor.run {
-                    self.resultsText = ""
+                    self.resultsState = .idle
                 }
                 
                 // Filter the search results
@@ -150,23 +243,21 @@ struct SearchResultsView<RowContent: View>: View {
                         guard
                             config.showAdults,
                             let movieResult = result as? TMDBMovieSearchResult
-                        else {
-                            return true
-                        }
+                        else { return true }
                         // We only include non-adult movies
                         return !movieResult.isAdult
                     }
                     // Remove search results with the same TMDB ID
-                    .uniqued(on: \.id)
-                
+                    .removingDuplicates(key: \.id)
+
                 // Add the results to the list
                 await MainActor.run {
                     self.results.append(contentsOf: filteredResults)
                     self.pagesLoaded += 1
                     // If we loaded all pages that are available, we can stop displaying the "Load more search results" button
                     self.allPagesLoaded = self.pagesLoaded >= totalPages
-                    if filteredResults.isEmpty {
-                        self.resultsText = Strings.MediaSearch.noResults
+                    if filteredResults.isEmpty, self.results.isEmpty {
+                        self.resultsState = .noResults
                     }
                 }
             } catch TMDBAPI.APIError.pageOutOfBounds(_) {
@@ -177,7 +268,7 @@ struct SearchResultsView<RowContent: View>: View {
             } catch {
                 Logger.addMedia.error(
                     // swiftlint:disable:next line_length
-                    "Error searching for media with searchText '\(model.searchText, privacy: .public)': \(error, privacy: .public)"
+                    "Error searching for media with searchText '\(searchText, privacy: .public)': \(error, privacy: .public)"
                 )
                 await MainActor.run {
                     AlertHandler.showError(
@@ -185,25 +276,59 @@ struct SearchResultsView<RowContent: View>: View {
                         error: error
                     )
                     self.results = []
-                    self.resultsText = Strings.MediaSearch.errorText
+                    self.resultsState = .error
                 }
+            }
+
+            await MainActor.run {
+                self.isLoadingNextPage = false
             }
         }
     }
 }
 
-#Preview {
+#Preview("Results") {
     NavigationStack {
-        SearchResultsView(selection: .constant(nil), prompt: Text(verbatim: "Search...")) { result in
+        SearchResultsView(
+            selection: .constant(nil),
+            prompt: Text(verbatim: "Search..."),
+            initialSearchText: "asd"
+        ) { result in
             SearchResultRow()
                 .environmentObject(result)
         }
         .navigationTitle(Text(verbatim: "Add Media"))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {} label: {
+                    Text(verbatim: "Done")
+                }
+            }
+        }
     }
+    .previewEnvironment()
 }
 
-// The model that stores the publisher-related properties for the search
-class SearchResultsModel: ObservableObject {
-    @Published var searchText: String = ""
-    var publisher: AnyCancellable?
+#Preview("Empty") {
+    Text(verbatim: "")
+        .sheet(isPresented: .constant(true)) {
+            NavigationStack {
+                SearchResultsView(
+                    selection: .constant(nil),
+                    prompt: Text(verbatim: "Search...")
+                ) { result in
+                    SearchResultRow()
+                        .environmentObject(result)
+                }
+                .navigationTitle(Text(verbatim: "Add Media"))
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {} label: {
+                            Text(verbatim: "Done")
+                        }
+                    }
+                }
+            }
+        }
+        .previewEnvironment()
 }

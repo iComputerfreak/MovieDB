@@ -1,10 +1,4 @@
-//
-//  LongTextView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 08.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -34,6 +28,7 @@ struct LongTextView: View {
                 .navigationTitle(headline)
         } label: {
             Text(text)
+                .multilineTextAlignment(.leading)
                 .lineLimit(Self.lineLimit)
                 .headline(headline)
         }
@@ -44,7 +39,7 @@ struct LongTextView: View {
         
         var body: some View {
             HStack {
-                VStack(alignment: .center) {
+                VStack(alignment: .leading) {
                     Text(text)
                         .lineLimit(nil)
                         .padding()

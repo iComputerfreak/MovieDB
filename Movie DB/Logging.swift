@@ -1,10 +1,4 @@
-//
-//  Logging.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 07.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -18,6 +12,7 @@ extension Logger {
     
     // MARK: Categories
     static let general = Logger("general")
+    static let debug = Logger("debug")
     static let viewCycle = Logger("viewCycle")
     static let coreData = Logger("coreData")
     static let migrations = Logger("migrations")
@@ -35,7 +30,8 @@ extension Logger {
     static let imageService = Logger("imageService")
     static let preview = Logger("preview")
     static let scenes = Logger("scenes")
-    
+    static let tips = Logger("tips")
+
     /*
      * Log Levels:
      * - debug: useful only during debugging (alias: trace)

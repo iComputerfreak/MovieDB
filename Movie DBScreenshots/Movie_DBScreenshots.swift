@@ -1,10 +1,4 @@
-//
-//  Movie_DBScreenshots.swift
-//  Movie DBScreenshots
-//
-//  Created by Jonas Frey on 13.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import JFTestingUtils
 import XCTest
@@ -81,8 +75,8 @@ final class Movie_DBScreenshots: XCTestCase {
         snapshot("Detail2")
         
         // Go to lists
-        app.tabBars.buttons.element(boundBy: 1).tap()
-        
+        app.buttons["list.bullet"].tap()
+
         // Add dynamic list
         app.navigationBars.buttons["new-list"].forceTap() // New...
         app.buttons["new-dynamic-list"].tap()
@@ -107,6 +101,7 @@ final class Movie_DBScreenshots: XCTestCase {
         if UIDevice.current.userInterfaceIdiom == .phone {
             app.navigationBars.buttons.firstMatch.tap() // Back
         }
+        // TODO: Localize these list names for screenshots
         app.cells.buttons["5-star Movies"].tap()
         let buttonOffset = UIDevice.current.userInterfaceIdiom == .phone ? 1 : 0
         app.navigationBars["5-star Movies"].buttons.element(boundBy: buttonOffset).tap() // Configure...
@@ -118,8 +113,9 @@ final class Movie_DBScreenshots: XCTestCase {
         
         // Go into Filter Settings
         app.swipeDown(velocity: .fast)
-        app.cells.element(boundBy: 1).staticTexts.firstMatch.tap()
-        
+        // Go into filter settings
+        app.buttons["filter-settings"].firstMatch.tap()
+
         app.cells.buttons.element(boundBy: 3).tap() // Media type
         app.collectionViews.firstMatch.buttons.element(boundBy: 1).tap() // Movie
         app.cells.buttons.element(boundBy: 5).tap() // Personal Rating

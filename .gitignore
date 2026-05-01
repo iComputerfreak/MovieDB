@@ -4,9 +4,10 @@
 **/Settings.bundle/com.mono0926.LicensePlist.plist
 
 # Secrets
-TMDB_API_KEY
+GITHUB_API_KEY
+.env.local
 # Automatically generated:
-Movie\ DB/Secrets.swift
+Movie\ DB/Generated/Secrets.swift
 
 # Created by https://www.gitignore.io/api/swift,xcode,macos
 # Edit at https://www.gitignore.io/?templates=fastlane,swift,xcode,macos

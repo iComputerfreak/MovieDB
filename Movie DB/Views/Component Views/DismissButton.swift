@@ -1,22 +1,34 @@
-//
-//  DismissButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 07.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
 /// Represents a button that dismisses the currently active view (e.g., a sheet)
 struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
-    
+    private let onDismiss: (() -> Void)?
+
+    private var dismissRole: ButtonRole? {
+        if #available(iOS 26.0, *) {
+            return .close
+        } else {
+            return nil
+        }
+    }
+
+    init(onDismiss: (() -> Void)? = nil) {
+        self.onDismiss = onDismiss
+    }
+
     var body: some View {
-        Button {
-            dismiss()
+        Button(role: dismissRole) {
+            (onDismiss ?? dismiss.callAsFunction)()
         } label: {
-            Text(Strings.Generic.dismissViewDone)
+            Label {
+                Text(Strings.Generic.dismissViewDone)
+                    .bold()
+            } icon: {
+                Image(systemName: "xmark")
+            }
         }
     }
 }

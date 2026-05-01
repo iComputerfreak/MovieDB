@@ -1,12 +1,7 @@
-//
-//  SettingsView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
+import Analytics
 import JFSwiftUI
 import os.log
 import SwiftUI
@@ -15,10 +10,13 @@ struct SettingsView: View {
     @State private var library: MediaLibrary = .shared
     
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
-    @EnvironmentObject private var storeManager: StoreManager
     @EnvironmentObject private var config: JFConfig
-    
+
+    private let storeManager: StoreManager = .shared
+
     @State private var viewModel = SettingsViewModel()
+    @State private var isShowingAnalyticsConsent = false
+    @State private var pendingAnalyticsEnableSource: AnalyticsEnabledSource?
     
     var body: some View {
         LoadingView(
@@ -27,13 +25,20 @@ struct SettingsView: View {
         ) {
             NavigationStack {
                 Form {
-                    PreferencesSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    PreferencesSection(
+                        config: $viewModel,
+                        reloadHandler: self.reloadMedia
+                    )
                     if !storeManager.hasPurchasedPro {
                         ProSection(config: $viewModel)
                     }
                     ImportExportSection(config: $viewModel)
                     ContactSection(config: $viewModel)
                     LibraryActionsSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    AnalyticsSection(
+                        enableAnalyticsHandler: { isShowingAnalyticsConsent = true },
+                        disableAnalyticsHandler: disableAnalytics
+                    )
                 }
                 .environmentObject(config)
                 .navigationTitle(Strings.TabView.settingsLabel)
@@ -53,29 +58,56 @@ struct SettingsView: View {
                     }
                     
                     #if DEBUG
-                    // Don't show on screenshots
-                    if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            NavigationLink {
-                                DebugView()
-                            } label: {
-                                Text(verbatim: "Debug")
-                            }
-                        }
-                    }
+                    debugMenuToolbarItem
                     #endif
                 }
                 .notificationPopup(
                     isPresented: $viewModel.isShowingReloadCompleteNotification,
                     systemImage: "checkmark",
-                    title: "Reload complete",
+                    title: Strings.Detail.reloadCompleteNotificationTitle,
                     subtitle: nil
                 )
             }
         }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .settings))
+        }
+        .sheet(isPresented: $isShowingAnalyticsConsent, onDismiss: finalizeAnalyticsOptIn) {
+            AnalyticsConsentView(
+                onAllow: {
+                    pendingAnalyticsEnableSource = .settings
+                    config.analyticsConsentState = .allowed
+                    isShowingAnalyticsConsent = false
+                },
+                onKeepOff: {
+                    config.analyticsConsentState = .denied
+                    isShowingAnalyticsConsent = false
+                }
+            )
+            .presentationDetents([.large])
+        }
     }
-    
+
+    @ToolbarContentBuilder
+    private var debugMenuToolbarItem: some ToolbarContent {
+        if AnalyticsService.shared.isFeatureEnabled(.debugging), ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
+            ToolbarItem(placement: .navigationBarLeading) {
+                NavigationLink {
+                    DebugView()
+                } label: {
+                    Label {
+                        Text(verbatim: "Debug")
+                    } icon: {
+                        Image(systemName: "ladybug")
+                    }
+                }
+                .tint(.accentColor)
+            }
+        }
+    }
+
     func reloadMedia() {
+        AnalyticsService.shared.track(.libraryReload)
         viewModel.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
         
         // Perform the reload in the background on a different thread
@@ -102,6 +134,19 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private func disableAnalytics() {
+        config.analyticsConsentState = .denied
+        AnalyticsService.shared.setTrackingEnabled(false)
+    }
+
+    private func finalizeAnalyticsOptIn() {
+        guard let source = pendingAnalyticsEnableSource else { return }
+
+        AnalyticsService.shared.setTrackingEnabled(true)
+        AnalyticsService.shared.track(.analyticsEnabled(source: source))
+        pendingAnalyticsEnableSource = nil
     }
 }
 

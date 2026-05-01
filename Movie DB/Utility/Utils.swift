@@ -1,12 +1,5 @@
-//
-//  Utils.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
-import Algorithms
 import CoreData
 import Foundation
 import JFUtils
@@ -40,9 +33,7 @@ struct Utils {
     /// Returns an URL describing the directory with the given name in the documents directory and creates it, if neccessary
     /// - Parameter directory: The name of the folder in the documents directory
     static func url(for directory: String) -> URL? {
-        guard let url = documentsPath?.appendingPathComponent(directory) else {
-            return nil
-        }
+        guard let url = documentsPath?.appendingPathComponent(directory) else { return nil }
         // Create the directory, if it not already exists
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -119,8 +110,13 @@ struct Utils {
         let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
         let upperBound: Int = max(maxShow?.year, maxMovie?.year) ?? currentYear
         
-        assert(lowerBound <= upperBound, "The fetch request returned wrong results. " +
-            "Try inverting the ascending/descending order of the fetch requests")
+        guard lowerBound <= upperBound else {
+            Logger.general.error(
+                // swiftlint:disable:next line_length
+                "The fetch request returned wrong results. Try inverting the ascending/descending order of the fetch requests"
+            )
+            return min(lowerBound, upperBound)...max(lowerBound, upperBound)
+        }
         
         return lowerBound...upperBound
     }
@@ -136,17 +132,25 @@ struct Utils {
         return min!.numberOfSeasons!...(max?.numberOfSeasons ?? min!.numberOfSeasons!)
     }
     
-    /// Returns a list of all genres existing in the viewContext, sorted by id and not including duplicates.
+    /// Returns a list of all genres existing in the viewContext, sorted by name and not including duplicates.
     static func allGenres(context: NSManagedObjectContext) -> [Genre] {
         allObjects(entityName: Schema.Genre._entityName, context: context)
-            .uniqued(on: \.id)
+            .removingDuplicates(key: \.id)
             .sorted(on: \.name, by: <)
     }
-    
+
+    /// Returns a list of all watch providers existing in the viewContext, sorted by name and not including duplicates.
+    static func allNonBuyWatchProviders(context: NSManagedObjectContext) -> [WatchProvider] {
+        allObjects(entityName: Schema.WatchProvider._entityName, context: context)
+            .removingDuplicates(key: \.id)
+            .filter(where: \.type, isNotEqualTo: .buy)
+            .sorted(on: \.name, by: <)
+    }
+
     /// Returns a list of all media objects existing in the viewContext.
     static func allMedias(context: NSManagedObjectContext) -> [Media] {
         allObjects(entityName: Schema.Media._entityName, context: context)
-            .uniqued(on: \.id)
+            .removingDuplicates(key: \.id)
             .sorted(on: \.id, by: <)
     }
     
@@ -197,18 +201,16 @@ struct Utils {
     static func share(items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
         Task(priority: .userInitiated) {
             await MainActor.run {
-                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-                    return
-                }
-                guard let source = scene.windows.last?.rootViewController else {
-                    return
-                }
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                guard let source = scene.windows.last?.rootViewController else { return }
                 let vc = UIActivityViewController(
                     activityItems: items,
                     applicationActivities: nil
                 )
                 vc.excludedActivityTypes = excludedActivityTypes
                 vc.popoverPresentationController?.sourceView = source.view
+                vc.popoverPresentationController?.sourceRect = source.view.bounds
+                vc.popoverPresentationController?.permittedArrowDirections = .any
                 source.present(vc, animated: true)
             }
         }
@@ -258,22 +260,6 @@ struct Utils {
     }
 }
 
-// MARK: - Factory
-extension Utils {
-    static func buildEditButton(_ editMode: Binding<EditMode>?) -> Button<Text> {
-        Button {
-            let isEditing = editMode?.wrappedValue == .active
-            editMode?.wrappedValue = isEditing ? .inactive : .active
-        } label: {
-            Text(
-                editMode?.wrappedValue == .active ?
-                    Strings.Generic.editButtonLabelDone :
-                    Strings.Generic.editButtonLabelEdit
-            )
-        }
-    }
-}
-
 // MARK: - TMDB
 extension Utils {
     /// The list of TMDB image paths to not download
@@ -299,10 +285,6 @@ extension Utils {
         // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
         guard !posterDenyList.contains(path) else {
             Logger.network.warning("Poster path \(path, privacy: .public) is on deny list. Denying url fetch.")
-            assertionFailure(
-                "This should have been prevented from being called for poster paths on the deny list " +
-                "in the first place."
-            )
             return nil
         }
         let sizeString = size != nil ? "w\(size!)" : "original"
@@ -314,12 +296,8 @@ extension Utils {
         let codes = try await TMDBAPI.shared.tmdbLanguageCodes()
         // Sort the codes by the actual string that will be displayed, not the code itself
         let sortedCodes = codes.sorted { code1, code2 in
-            guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else {
-                return false
-            }
-            guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else {
-                return true
-            }
+            guard let displayString1 = Locale.current.localizedString(forIdentifier: code1) else { return false }
+            guard let displayString2 = Locale.current.localizedString(forIdentifier: code2) else { return true }
             
             return displayString1.lexicographicallyPrecedes(displayString2)
         }
@@ -393,6 +371,6 @@ func max<T>(_ x: T?, _ y: T?) -> T? where T: Comparable {
 }
 
 /// Array extension to make all arrays with hashable elements identifiable
-extension Array: Identifiable where Element: Hashable {
+extension Array: @retroactive Identifiable where Element: Hashable {
     public var id: Int { hashValue }
 }

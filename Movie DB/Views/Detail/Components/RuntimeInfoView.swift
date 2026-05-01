@@ -1,10 +1,4 @@
-//
-//  RuntimeInfoView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 08.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -30,17 +24,18 @@ struct RuntimeInfoView: View {
     
     var body: some View {
         if let runtime = (mediaObject as? Movie)?.runtime {
-            if runtime > 60 {
-                let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
-                let minutesString = Self.minutesFormatter.string(from: components)!
-                let hoursString = Self.hoursFormatter.string(from: components)!
-                Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
-                    .headline(Strings.Detail.runtimeHeadline)
-            } else {
-                let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
-                Text(Self.minutesFormatter.string(from: components)!)
-                    .headline(Strings.Detail.runtimeHeadline)
+            Group {
+                if runtime > 60 {
+                    let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
+                    let minutesString = Self.minutesFormatter.string(from: components)!
+                    let hoursString = Self.hoursFormatter.string(from: components)!
+                    Text(Strings.Detail.runtimeValueLabel(minutesString, hoursString))
+                } else {
+                    let components = DateComponents(calendar: .current, timeZone: .current, minute: runtime)
+                    Text(Self.minutesFormatter.string(from: components)!)
+                }
             }
+            .headline(Text("\(Image(systemName: "stopwatch")) \(Strings.Detail.runtimeHeadline)"))
         } else {
             EmptyView()
         }

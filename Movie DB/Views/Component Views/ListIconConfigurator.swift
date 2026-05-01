@@ -1,10 +1,4 @@
-//
-//  ListIconConfigurator.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -97,6 +91,7 @@ struct ListIconConfigurator<Content: View>: View {
             Section {
                 ListIconPicker(symbolName: $iconName)
                     .symbolRenderingMode(iconMode.symbolRenderingMode)
+                    .foregroundStyle(Color(iconColor))
                     .padding(.horizontal, 0)
             } header: {
                 Text(
@@ -111,11 +106,11 @@ struct ListIconConfigurator<Content: View>: View {
 }
 
 #Preview {
-    @State var listName = "Dynamic List"
-    @State var iconName = "music.note"
-    @State var iconColor: UIColor? = nil
-    @State var iconMode: IconRenderingMode = .multicolor
-    
+    @Previewable @State var listName = "Dynamic List"
+    @Previewable @State var iconName = "music.note"
+    @Previewable @State var iconColor: UIColor? = nil
+    @Previewable @State var iconMode: IconRenderingMode = .multicolor
+
     return ListIconConfigurator(
         name: $listName,
         iconName: $iconName,

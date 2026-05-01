@@ -1,25 +1,24 @@
-//
-//  AddToWatchlistButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct AddToWatchlistButton: View {
     @EnvironmentObject private var mediaObject: Media
-    
+    var onAction: (() -> Void)? = nil
+
     var body: some View {
         Button {
+            let newValue = !mediaObject.isOnWatchlist
+            onAction?()
             mediaObject.isOnWatchlist.toggle()
+            AnalyticsService.shared.track(.watchlistToggled(newValue: newValue))
+            PersistenceController.saveContext()
         } label: {
-            // TODO: I would like this to work, but swipe actions seem to always prefer the .fill variant
             if mediaObject.isOnWatchlist {
-                Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.fill")
+                Label(Strings.Detail.menuButtonRemoveFromWatchlist, systemImage: "bookmark.slash.fill")
             } else {
-                Label(Strings.Detail.menuButtonAddToWatchlist, systemImage: "bookmark")
+                Label(Strings.Detail.menuButtonAddToWatchlist, systemImage: "bookmark.fill")
             }
         }
     }

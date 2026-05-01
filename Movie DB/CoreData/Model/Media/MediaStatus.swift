@@ -1,16 +1,10 @@
-//
-//  MediaStatus.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 31.07.20.
-//  Copyright © 2020 Jonas Frey. All rights reserved.
-//
+// Copyright © 2020 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
 
 /// Represents the status of a media (e.g. Planned, Rumored, Returning Series, Canceled)
-public enum MediaStatus: String, Codable, CaseIterable, Hashable {
+public enum MediaStatus: String, Codable, CaseIterable, Hashable, Sendable {
     // MARK: General
     case planned = "Planned"
     case inProduction = "In Production"

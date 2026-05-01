@@ -1,11 +1,4 @@
-//
-//  UserMediaList+CoreDataProperties.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 22.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -18,7 +11,12 @@ public extension UserMediaList {
     @NSManaged var iconName: String
     /// The name of this media list
     @NSManaged var name: String
-    
+
+    var subtitleContent: LibraryRow.SubtitleContent? {
+        get { getOptionalEnum(forKey: Schema.UserMediaList.subtitleContent, defaultValue: nil)}
+        set { setOptionalEnum(newValue, forKey: Schema.UserMediaList.subtitleContent) }
+    }
+
     /// The order in which to sort the medias inside the list
     var sortingOrder: SortingOrder {
         get { getEnum(forKey: Schema.UserMediaList.sortingOrder, defaultValue: .default) }

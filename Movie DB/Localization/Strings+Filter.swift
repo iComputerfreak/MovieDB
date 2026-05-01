@@ -1,10 +1,4 @@
-//
-//  Strings+Filter.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 extension Strings.Library {
     enum Filter {
@@ -67,6 +61,10 @@ extension Strings.Library {
         static let genresLabel = String(
             localized: "library.filter.information.label.genres",
             comment: "The label of the genres picker in the library's filter view"
+        )
+        static let watchProvidersLabel = String(
+            localized: "library.filter.information.label.watchProviders",
+            comment: "The label of the watch providers picker in the library's filter view"
         )
         static let ratingLabel = String(
             localized: "library.filter.information.label.personalRating",

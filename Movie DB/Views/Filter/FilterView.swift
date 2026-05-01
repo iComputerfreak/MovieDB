@@ -1,12 +1,7 @@
-//
-//  FilterView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
+import Analytics
 import SwiftUI
 
 struct FilterView: View {
@@ -30,6 +25,9 @@ struct FilterView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         self.filterSetting.reset()
+                        AnalyticsService.shared.track(
+                            .libraryHomeFilterApplied(filterTypes: filterSetting.analyticsFilterTypes)
+                        )
                         self.dismiss()
                     } label: {
                         Text(Strings.Library.Filter.navBarButtonReset)
@@ -37,6 +35,9 @@ struct FilterView: View {
                 }
                 ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
                     Button {
+                        AnalyticsService.shared.track(
+                            .libraryHomeFilterApplied(filterTypes: filterSetting.analyticsFilterTypes)
+                        )
                         self.dismiss()
                     } label: {
                         Text(Strings.Library.Filter.navBarButtonApply)

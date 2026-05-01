@@ -1,11 +1,4 @@
-//
-//  Media+CoreDataProperties.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -115,7 +108,9 @@ public extension Media {
     @NSManaged var userLists: Set<UserMediaList>
     /// The date the user watched the media
     @NSManaged var watchDate: Date?
-    
+    /// The date when the media object was last updated (i.e., synchronized with the remote API)
+    @NSManaged var lastUpdated: Date?
+
     // MARK: - Computed Properties
     
     /// The year of the release or first airing of the media

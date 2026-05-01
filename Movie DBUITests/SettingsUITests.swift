@@ -1,10 +1,4 @@
-//
-//  SettingsUITests.swift
-//  Movie DBUITests
-//
-//  Created by Jonas Frey on 25.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import XCTest
 

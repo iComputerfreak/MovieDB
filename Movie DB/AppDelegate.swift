@@ -1,19 +1,18 @@
-//
-//  AppDelegate.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import BackgroundTasks
 import CoreData
 import Foundation
+import JFSwiftUI
 import os.log
 import StoreKit
+import TipKit
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    @UserDefault("lastAppStartUpdate", defaultValue: nil)
+    private var lastAppStartUpdate: Date?
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -23,32 +22,72 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             handleDebugParameters()
         #endif
         
+        // Initialize now to prevent it happening from a background thread later
+        _ = PersistenceController.shared
+        
         // MARK: Register transformers
         SerializableColorTransformer.register()
         EpisodeTransformer.register()
         
         // MARK: Update Poster Deny List
-        loadDenyList()
-        
+        // We currently don't load the deny list as it's not available and we might not need it anymore.
+        // TODO: Remove this in the future or implement a better way
+        // loadDenyList()
+
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
         }
-        
-        // MARK: Background Fetch
+
+        Task(priority: .background) {
+            try? await Task.sleep(for: .seconds(3))
+            let viewContext = PersistenceController.viewContext
+            await viewContext.perform {
+                do {
+                    let sharedFilterSettingID = FilterSetting.shared.id ?? UUID()
+                    // Get FilterSettings without a list and delete them
+                    let request = FilterSetting.fetchRequest()
+                    request.predicate = NSPredicate(format: "%K == nil", Schema.FilterSetting.mediaList.rawValue)
+                    let orphanedFilterSettings = try viewContext.fetch(request)
+                        .filter(where: \.id, isNotEqualTo: sharedFilterSettingID)
+                    Logger.coreData.info("Cleaning up \(orphanedFilterSettings.count) orphaned filter settings.")
+                    orphanedFilterSettings.forEach(viewContext.delete)
+                    PersistenceController.saveContext()
+                } catch {
+                    Logger.coreData.error("Error cleaning up filter settings: \(error, privacy: .public)")
+                }
+            }
+        }
+
+        // MARK: Background Processing
         // No need to keep a persistent reference
         let backgroundHandler = BackgroundHandler()
         backgroundHandler.setupBackgroundFetch()
         
         // MARK: Run Migrations
-        
         let migrationManager = MigrationManager()
         
         migrationManager.register(DeleteOldPosterFilesMigration.self)
         migrationManager.register(ReloadLibraryMigration.self)
         
         migrationManager.run()
-        
+
+        // MARK: Background updates
+        // If it has been at least one day since the app was last opened, we update the old objects
+        // in the media library
+        if lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > TimeInterval.day {
+            Task(priority: .background) {
+                do {
+                    Logger.library.info("Updating media library after app start...")
+                    try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                    Logger.library.info("App start update complete.")
+                    lastAppStartUpdate = .now
+                } catch {
+                    Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
+                }
+            }
+        }
+
         return true
     }
     
@@ -133,6 +172,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             JFConfig.shared.language = "en-US"
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            Tips.hideAllTipsForTesting()
         } else if CommandLine.launchArguments.contains(.screenshots) {
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
@@ -165,7 +205,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 // swiftlint:disable force_try
                 try! bgContext.save()
                 try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
-                    media.loadThumbnail(force: true)
+                    media.loadImages(force: true)
                 }
                 // swiftlint:enable force_try
             }

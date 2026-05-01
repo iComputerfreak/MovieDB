@@ -1,22 +1,18 @@
-//
-//  TMDBData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
+import OSLog
 import UIKit
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
-struct TMDBData: Decodable {
+struct TMDBData: Decodable, Sendable {
     // Basic Data
     var id: Int
     var title: String
     var originalTitle: String
     var imagePath: String?
+    var backdropPath: String?
     var genres: [GenreDummy]
     var tagline: String?
     var overview: String?
@@ -48,6 +44,7 @@ struct TMDBData: Decodable {
         title: String,
         originalTitle: String,
         imagePath: String? = nil,
+        backdropPath: String? = nil,
         genres: [GenreDummy],
         tagline: String? = nil,
         overview: String? = nil,
@@ -73,6 +70,7 @@ struct TMDBData: Decodable {
         self.title = title
         self.originalTitle = originalTitle
         self.imagePath = imagePath
+        self.backdropPath = backdropPath
         self.genres = genres
         self.tagline = tagline
         self.overview = overview
@@ -101,6 +99,7 @@ struct TMDBData: Decodable {
         title = try container.decodeAny(String.self, forKeys: [.title, .showTitle])
         originalTitle = try container.decodeAny(String.self, forKeys: [.originalTitle, .originalShowTitle])
         imagePath = try container.decode(String?.self, forKey: .imagePath)
+        backdropPath = try container.decode(String?.self, forKey: .backdropPath)
         genres = try container.decode([GenreDummy].self, forKey: .genres)
         overview = try container.decode(String?.self, forKey: .overview)
         tagline = try container.decode(String?.self, forKey: .tagline)
@@ -207,8 +206,10 @@ struct TMDBData: Decodable {
                 parentalRating = try decodeShowRating()
             }
         } else {
-            assertionFailure("Decoding TMDBData without mediaType in the userInfo dict. " +
-                "Please specify the type of media we are decoding! Guessing the type...")
+            Logger.general.error(
+                // swiftlint:disable:next line_length
+                "Decoding TMDBData without mediaType in the userInfo dict. Please specify the type of media we are decoding! Guessing the type..."
+            )
             // If we don't know the type of media, we have to try both and hope one works
             movieData = try? MovieData(from: decoder)
             showData = try? ShowData(from: decoder)
@@ -220,8 +221,11 @@ struct TMDBData: Decodable {
                 fatalError("Unable to decode media object. MediaType is unknown.")
             }
         }
-        
-        assert(!(movieData == nil && showData == nil), "Error decoding movie/show data for '\(title)'")
+
+        if movieData == nil, showData == nil {
+            let title = self.title
+            Logger.general.error("Error decoding movie/show data for '\(title)'")
+        }
     }
     
     enum CodingKeys: String, CodingKey {
@@ -231,6 +235,7 @@ struct TMDBData: Decodable {
         case originalTitle = "original_title"
         case originalShowTitle = "original_name"
         case imagePath = "poster_path"
+        case backdropPath = "backdrop_path"
         case genres = "genres"
         case overview
         case tagline

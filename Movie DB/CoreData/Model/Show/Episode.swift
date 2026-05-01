@@ -1,10 +1,4 @@
-//
-//  Episode.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -13,9 +7,7 @@ public class Episode: NSObject, NSCoding, NSSecureCoding, Decodable {
     
     var rawAirDate: String?
     var airDate: Date? {
-        guard let rawAirDate else {
-            return nil
-        }
+        guard let rawAirDate else { return nil }
         return Utils.tmdbUTCDateFormatter.date(from: rawAirDate)
     }
 
@@ -68,9 +60,7 @@ class EpisodeTransformer: NSSecureUnarchiveFromDataTransformer {
     }
     
     override func transformedValue(_ value: Any?) -> Any? {
-        guard let data = value as? Data else {
-            return nil
-        }
+        guard let data = value as? Data else { return nil }
         return try? NSKeyedUnarchiver.unarchivedArrayOfObjects(
             ofClasses: [Episode.self, NSString.self],
             from: data
@@ -78,9 +68,7 @@ class EpisodeTransformer: NSSecureUnarchiveFromDataTransformer {
     }
     
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let episode = value as? Episode else {
-            return nil
-        }
+        guard let episode = value as? Episode else { return nil }
         // swiftlint:disable:next force_try
         return try! NSKeyedArchiver.archivedData(withRootObject: episode, requiringSecureCoding: true)
     }

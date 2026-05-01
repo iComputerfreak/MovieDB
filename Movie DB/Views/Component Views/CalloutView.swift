@@ -1,10 +1,4 @@
-//
-//  CalloutView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -56,8 +50,8 @@ struct CalloutView: View {
                 .foregroundColor(type.foregroundColor)
                 .frame(maxWidth: iconSize, maxHeight: iconSize)
             Text(text)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .background {

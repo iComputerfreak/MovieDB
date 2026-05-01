@@ -1,10 +1,4 @@
-//
-//  NotesView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -41,15 +35,20 @@ struct NotesView: View {
         }
     }
     
-    fileprivate struct EditView: View {
+    struct EditView: View {
         @Binding var notes: String
         @Environment(\.colorScheme) private var colorScheme
+        @FocusState private var isFocused: Bool
         
         var body: some View {
             TextEditor(text: $notes)
+                .focused($isFocused)
                 .textInputAutocapitalization(.sentences)
                 .padding(5)
                 .navigationTitle(Strings.Detail.notesNavBarTitle)
+                .onAppear {
+                    isFocused = true
+                }
         }
     }
 }
@@ -70,5 +69,4 @@ struct NotesView: View {
     NavigationStack {
         NotesView.EditView(notes: .constant("This one is being edited."))
     }
-    .previewDisplayName("Editing View")
 }

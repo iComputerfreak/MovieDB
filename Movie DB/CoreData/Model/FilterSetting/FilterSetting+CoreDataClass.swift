@@ -1,11 +1,4 @@
-//
-//  FilterSetting+CoreDataClass.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Combine
 import CoreData
@@ -15,19 +8,8 @@ import SwiftUI
 @objc(FilterSetting)
 public class FilterSetting: NSManagedObject {
     static let shared: FilterSetting = {
-        // Load the filter setting or create a new one
-        if let id = UserDefaults.standard.object(forKey: JFLiterals.Keys.filterSetting) as? String {
-            // Fetch the FilterSetting with the loaded UUID
-            let fetchRequest: NSFetchRequest<FilterSetting> = FilterSetting.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "%K = %@", Schema.FilterSetting.id.rawValue, id)
-            fetchRequest.fetchLimit = 1
-            if let result = try? PersistenceController.viewContext.fetch(fetchRequest).first {
-                return result
-            }
-        }
-        // Create a new FilterSetting and store its ID for further retrieval
+        // Create a new FilterSetting (will be saved in the viewContext and cleaned up later at app start)
         let newFilterSetting = FilterSetting(with: PersistenceController.viewContext)
-        UserDefaults.standard.set(newFilterSetting.id?.uuidString, forKey: JFLiterals.Keys.filterSetting)
         PersistenceController.saveContext()
         return newFilterSetting
     }()
@@ -51,7 +33,8 @@ public class FilterSetting: NSManagedObject {
             self.numberOfSeasons == nil &&
             self.watched == nil &&
             self.watchAgain == nil &&
-            self.tags.isEmpty
+            self.tags.isEmpty &&
+            self.watchProviders.isEmpty
     }
     
     private var parentNotificationSubscription: AnyCancellable?
@@ -77,7 +60,8 @@ public class FilterSetting: NSManagedObject {
         watched: FilterWatchState? = nil,
         watchAgain: Bool? = nil,
         genres: Set<Genre> = [],
-        tags: Set<Tag> = []
+        tags: Set<Tag> = [],
+        watchProviders: Set<WatchProvider> = []
     ) {
         self.init(context: context)
         self.id = id
@@ -95,6 +79,7 @@ public class FilterSetting: NSManagedObject {
         self.watchAgain = watchAgain
         self.genres = genres
         self.tags = tags
+        self.watchProviders = watchProviders
     }
     
     func reset() {
@@ -109,6 +94,7 @@ public class FilterSetting: NSManagedObject {
         watched = nil
         watchAgain = nil
         tags = []
+        watchProviders = []
         assert(isReset, "FilterSetting is not in reset state after calling reset()")
     }
 }
@@ -298,6 +284,10 @@ extension FilterSetting {
         }
         if !tags.isEmpty {
             predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.tags.rawValue, tags))
+        }
+        if !watchProviders.isEmpty {
+            // If any of the media's watch providers is in the filter's watch providers
+            predicates.append(NSPredicate(format: "ANY %K IN %@", Schema.Media.watchProviders.rawValue, watchProviders))
         }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }

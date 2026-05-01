@@ -1,11 +1,6 @@
-//
-//  TagImporter.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.08.20.
-//  Copyright © 2020 Jonas Frey. All rights reserved.
-//
+// Copyright © 2020 Jonas Frey. All rights reserved.
 
+import AppFoundation
 import CoreData
 import Foundation
 
@@ -81,7 +76,12 @@ actor TagImporter {
         
         func log(contentsOf log: [String], level: LogLevel?) {
             let levelString = level.map { "[\($0.rawValue.uppercased())]" } ?? ""
-            _log.append(contentsOf: log.map { "\(levelString) \($0)" })
+            _log.append(contentsOf: log.filter(\.isNotEmpty).map { "\(levelString) \($0)" })
+        }
+
+        func count(of level: LogLevel) -> Int {
+            let prefix = "[\(level.rawValue.uppercased())]"
+            return _log.filter { $0.hasPrefix(prefix) }.count
         }
     }
 }

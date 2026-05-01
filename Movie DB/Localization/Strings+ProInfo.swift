@@ -1,10 +1,4 @@
-//
-//  Strings+ProInfo.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 
@@ -39,6 +33,44 @@ extension Strings {
                 comment: "Text in pro info view that explains the media limit which buying pro removes. The parameter is the amount of objects one can add in the free version"
             )
         }
+        static let featuresTitle = String(
+            localized: "proInfo.features.title",
+            comment: "Section title for the list of Pro benefits in the pro info view."
+        )
+        static let featureLibraryTitle = String(
+            localized: "proInfo.features.library.title",
+            comment: "Title of a benefit row explaining that Pro removes the library limit."
+        )
+        static func featureLibraryDescription(_ limit: Int) -> String {
+            String(
+                localized: "proInfo.features.library.description \(limit)",
+                comment: "Description of a benefit row explaining that Pro removes the library limit. The parameter is the amount of objects one can add in the free version."
+            )
+        }
+        static let featureUpcomingTitle = String(
+            localized: "proInfo.features.upcoming.title",
+            comment: "Title of a benefit row explaining that Pro unlocks the Upcoming list."
+        )
+        static let featureUpcomingDescription = String(
+            localized: "proInfo.features.upcoming.description",
+            comment: "Description of a benefit row explaining that Pro unlocks the Upcoming list."
+        )
+        static let featureRestoreTitle = String(
+            localized: "proInfo.features.restore.title",
+            comment: "Title of a benefit row explaining that purchases can be restored."
+        )
+        static let featureRestoreDescription = String(
+            localized: "proInfo.features.restore.description",
+            comment: "Description of a benefit row explaining that purchases can be restored."
+        )
+        static let ctaTitle = String(
+            localized: "proInfo.cta.title",
+            comment: "Title for the call to action card in the pro info view."
+        )
+        static let ctaDescription = String(
+            localized: "proInfo.cta.description",
+            comment: "Supporting text for the call to action card in the pro info view."
+        )
 
         enum Alert {
             static let buyProErrorTitle = String(

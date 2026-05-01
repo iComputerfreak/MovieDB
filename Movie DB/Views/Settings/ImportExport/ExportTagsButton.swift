@@ -1,26 +1,51 @@
-//
-//  ExportTagsButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 14.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct ExportTagsButton: View {
     @Binding var config: SettingsViewModel
     
     var body: some View {
-        Button(Strings.Settings.exportTagsLabel, action: self.exportTags)
+        Button(action: self.exportTags) {
+            SettingsActionLabel(
+                title: Strings.Settings.exportTagsLabel,
+                systemImage: "arrow.up.circle.fill",
+                tint: .pink
+            )
+        }
     }
     
     func exportTags() {
-        ImportExportSection.export(
-            filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
-            isLoading: $config.isLoading
-        ) { context in
-            try TagImporter.export(context: context)
+        Task(priority: .userInitiated) {
+            await MainActor.run {
+                config.isLoading = true
+            }
+
+            let exportedData = await config.export(
+                filename: "MovieDB_Tags_Export_\(Utils.isoDateString()).txt",
+                operation: .tagsExport
+            ) { context in
+                let exportContent = try TagImporter.export(context: context)
+                guard let exportData = exportContent.data(using: .utf8) else {
+                    throw SettingsViewModel.ExportFailure.failed(.tagsExport, .contentGeneration)
+                }
+                return exportData
+            }
+
+            await MainActor.run {
+                config.isLoading = false
+                config.exportedData = exportedData
+                if let exportedData {
+                    let tagCount = String(decoding: exportedData.data, as: UTF8.self)
+                        .components(separatedBy: .newlines)
+                        .filter(\.isNotEmpty)
+                        .count
+                    AnalyticsService.shared.track(
+                        .tagsExported(exportCountBucket: .bucket(for: tagCount))
+                    )
+                }
+            }
         }
     }
 }

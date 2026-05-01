@@ -1,10 +1,4 @@
-//
-//  CSVImporter.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 16.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -128,6 +122,12 @@ class CSVImporter {
                     // swiftlint:disable:next line_length
                     "Media from line '\(line, privacy: .private)' (line no. \(i + 1)) already exists in library. Skipping line..."
                 )
+            } catch let error as DecodingError {
+                log?("[Error] Error while decoding line \(line). Skipping this line. \(error)")
+                Logger.importExport.error(
+                    // swiftlint:disable:next line_length
+                    "Error while decoding line '\(line, privacy: .private)' (line no. \(i + 1)): \(error, privacy: .public)"
+                )
             } catch {
                 // If any other error occurs, log it and rethrow
                 log?("[Error] Unexpected error: \(error.localizedDescription). Aborting.")
@@ -180,7 +180,8 @@ class CSVImporter {
         
         // Create the media (TMDBAPI is an actor, so our thread does not matter here)
         let media = try await TMDBAPI.shared.media(for: tmdbID, type: mediaType, context: context)
-        
+        let arraySeparator = self.arraySeparator
+
         // From now on, we are working with media, so we need to be on the context's thread
         await context.perform {
             // Setting values with PartialKeyPaths is not possible, so we have to do it manually
@@ -197,11 +198,13 @@ class CSVImporter {
             }
             if let rawTags = values[.tags] {
                 var tags: [Tag] = []
-                let tagNames = rawTags.split(separator: self.arraySeparator).map(String.init)
+                let tagNames = rawTags.split(separator: arraySeparator).map(String.init)
                 if !tagNames.isEmpty {
                     for name in tagNames {
                         let tag = Tag.fetchOrCreate(name: name, in: context)
-                        assert(tag.managedObjectContext == context)
+                        if tag.managedObjectContext != context {
+                            Logger.importExport.warning("Tag \(tag.name) is not in the import context.")
+                        }
                         tags.append(tag)
                     }
                     media.tags = Set(tags)
@@ -211,14 +214,12 @@ class CSVImporter {
                 media.notes = notes
             }
             if let watched = values[.movieWatched].flatMap(MovieWatchState.init(rawValue:)) {
-                assert(mediaType == .movie)
                 if let movie = media as? Movie {
                     movie.watched = watched
                 }
             }
             // Legacy show watch state import
             if let watched = values[.showWatched].flatMap(ShowWatchState.init(rawValue:)) {
-                assert(mediaType == .show)
                 if let show = media as? Show {
                     show.watched = watched
                 }
@@ -228,7 +229,6 @@ class CSVImporter {
                 let rawLastEpisodeWatched = values[.lastEpisodeWatched]
                 let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
                 
-                assert(mediaType == .show)
                 if let show = media as? Show {
                     show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
                 }
@@ -241,7 +241,7 @@ class CSVImporter {
             }
         }
         
-        media.loadThumbnail()
+        media.loadImages()
         
         return media
     }

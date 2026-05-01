@@ -1,10 +1,4 @@
-//
-//  LibraryUITests.swift
-//  Movie DBUITests
-//
-//  Created by Jonas Frey on 25.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import XCTest
 
@@ -25,12 +19,12 @@ class LibraryUITests: XCTestCase {
     
     func testAddMovie() {
         app.launch()
-        app.addMedia("The Matrix", name: "The Matrix", type: .movie)
+        app.addMedia("The Matrix", name: "The Matrix")
     }
     
     func testAddShow() {
         app.launch()
-        app.addMedia("Blacklist", name: "The Blacklist", type: .show)
+        app.addMedia("Blacklist", name: "The Blacklist")
     }
     
     func testAddTwice() {
@@ -80,5 +74,28 @@ class LibraryUITests: XCTestCase {
         XCTAssertFalse(app.cells.staticTexts["Doctor Who"].exists)
         XCTAssertFalse(app.cells.staticTexts["Loki"].exists)
         XCTAssertFalse(app.cells.staticTexts["The Matrix"].exists)
+    }
+
+    func testSearchEmptyStateOpensAddMediaWithPrefilledSearchText() {
+        app.arguments.append(.prepareSamples)
+        app.launch()
+
+        let query = "Inception"
+        app.libraryNavBar.searchFields.element.wait().tap()
+        app.libraryNavBar.searchFields.element.typeText(query)
+
+        let addMediaSearchButton = app.descendants(matching: .any)["library-empty-state-add-media-search"]
+        XCTAssertTrue(addMediaSearchButton.waitForExistence(timeout: 10))
+        addMediaSearchButton.tap()
+
+        if app.unifiedSearchNavBar.waitForExistence(timeout: 5) {
+            let addMediaScopeButton = app.segmentedControls.buttons["Add Media"]
+            XCTAssertTrue(addMediaScopeButton.waitForExistence(timeout: 10))
+            XCTAssertTrue(addMediaScopeButton.isSelected)
+        } else {
+            XCTAssertTrue(app.addMediaNavBar.waitForExistence(timeout: 10))
+        }
+
+        XCTAssertEqual(app.addMediaSearch.value as? String, query)
     }
 }

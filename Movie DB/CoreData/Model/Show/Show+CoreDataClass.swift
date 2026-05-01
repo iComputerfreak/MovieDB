@@ -1,14 +1,8 @@
-//
-//  Show+CoreDataClass.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 05.02.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
+import OSLog
 
 @objc(Show)
 public class Show: Media {
@@ -57,12 +51,15 @@ public class Show: Media {
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
         guard let managedObjectContext else {
-            assertionFailure()
+            Logger.coreData.error("Media \(self.title) has no context.")
             return
         }
         managedObjectContext.performAndWait {
             // This is a show, therefore the TMDBData needs to have show specific data
-            let showData = tmdbData.showData!
+            guard let showData = tmdbData.showData else {
+                Logger.coreData.error("Show has no show data!")
+                return
+            }
             self.firstAirDate = showData.firstAirDate
             self.lastAirDate = showData.lastAirDate
             self.numberOfSeasons = showData.numberOfSeasons

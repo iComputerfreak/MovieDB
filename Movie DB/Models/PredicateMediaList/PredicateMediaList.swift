@@ -1,25 +1,28 @@
-//
-//  PredicateMediaList.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 04.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
+import JFSwiftUI
 import SwiftUI
 
 /// Represents a media list that fetches its media objects by a fixed predicate
-class PredicateMediaList: ObservableObject, MediaListProtocol {
+class PredicateMediaList: MediaListProtocol {
     let name: String
     let listDescription: String?
     let iconName: String
+    let iconColor: UIColor?
+    let iconRenderingMode: IconRenderingMode
     let predicate: NSPredicate
     let customFilter: ((Media) -> Bool)?
     let customSorting: ((Media, Media) -> Bool)?
-    
+
     var sortingOrder: SortingOrder {
+        willSet {
+            // Send the objectWillChange signal to notify SwiftUI about the change
+            // This would normally be done by `@Published`, but we need to do it manually here,
+            // as `@Published` would not trigger the `didSet` observer to save the changes to UserDefaults.
+            objectWillChange.send()
+        }
         didSet {
             let key = Self.userDefaultsKey(for: name, type: .sortingOrder)
             UserDefaults.standard.set(sortingOrder.rawValue, forKey: key)
@@ -27,24 +30,53 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     }
 
     var sortingDirection: SortingDirection {
+        willSet {
+            // Send the objectWillChange signal to notify SwiftUI about the change
+            // This would normally be done by `@Published`, but we need to do it manually here,
+            // as `@Published` would not trigger the `didSet` observer to save the changes to UserDefaults.
+            objectWillChange.send()
+        }
         didSet {
             let key = Self.userDefaultsKey(for: name, type: .sortingDirection)
             UserDefaults.standard.set(sortingDirection.rawValue, forKey: key)
         }
     }
-    
+
+    let subtitleContentUserDefaultsKey: String
+    let defaultSubtitleContent: LibraryRow.SubtitleContent?
+    var subtitleContent: LibraryRow.SubtitleContent? {
+        get {
+            guard let rawValue = UserDefaults.standard.string(forKey: subtitleContentUserDefaultsKey) else {
+                return defaultSubtitleContent
+            }
+            return LibraryRow.SubtitleContent(rawValue: rawValue) ?? defaultSubtitleContent
+        }
+        set {
+            objectWillChange.send()
+            UserDefaults.standard.set(newValue?.rawValue, forKey: subtitleContentUserDefaultsKey)
+        }
+    }
+
     init(
         name: String,
+        subtitleContentUserDefaultsKey: String,
+        defaultSubtitleContent: LibraryRow.SubtitleContent?,
         description: String,
         iconName: String,
+        iconColor: UIColor? = nil,
+        iconRenderingMode: IconRenderingMode = .multicolor,
         defaultSortingOrder: SortingOrder? = nil,
         predicate: NSPredicate,
         customFilter: ((Media) -> Bool)? = nil,
         customSorting: ((Media, Media) -> Bool)? = nil
     ) {
         self.name = name
+        self.subtitleContentUserDefaultsKey = subtitleContentUserDefaultsKey
+        self.defaultSubtitleContent = defaultSubtitleContent
         self.listDescription = description
         self.iconName = iconName
+        self.iconColor = iconColor
+        self.iconRenderingMode = iconRenderingMode
         self.predicate = predicate
         self.customFilter = customFilter
         self.customSorting = customSorting
@@ -59,7 +91,7 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
         } else {
             sortingOrder = defaultSortingOrder ?? .default
         }
-        
+
         let directionKey = Self.userDefaultsKey(for: name, type: .sortingDirection)
         if
             let sortingDirectionRawValue = UserDefaults.standard.string(forKey: directionKey),
@@ -90,17 +122,33 @@ class PredicateMediaList: ObservableObject, MediaListProtocol {
     }
     
     // MARK: - Hashable Conformance
-    
-    // TODO: We cannot include `filter` in the Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(iconName)
+        hasher.combine(iconColor)
+        hasher.combine(iconRenderingMode)
         hasher.combine(predicate)
     }
     
     static func == (lhs: PredicateMediaList, rhs: PredicateMediaList) -> Bool {
         lhs.name == rhs.name &&
             lhs.iconName == rhs.iconName &&
+            lhs.iconColor == rhs.iconColor &&
+            lhs.iconRenderingMode == rhs.iconRenderingMode &&
             lhs.predicate == rhs.predicate
+    }
+}
+
+extension PredicateMediaList {
+    @ViewBuilder
+    var icon: some View {
+        let image = Image(systemName: iconName)
+            .symbolRenderingMode(iconRenderingMode.symbolRenderingMode)
+
+        if let iconColor {
+            image.foregroundStyle(Color(iconColor))
+        } else {
+            image
+        }
     }
 }

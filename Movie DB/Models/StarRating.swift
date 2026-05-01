@@ -1,10 +1,4 @@
-//
-//  StarRating.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 15.05.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -37,9 +31,7 @@ public enum StarRating: Int, Strideable, Codable, Comparable, CaseIterable {
     }
     
     init?(integerRepresentation: Int) {
-        guard let rating = Self(rawValue: integerRepresentation) else {
-            return nil
-        }
+        guard let rating = Self(rawValue: integerRepresentation) else { return nil }
         self = rating
     }
     

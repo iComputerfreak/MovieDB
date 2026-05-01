@@ -1,11 +1,6 @@
-//
-//  ImportTagsButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 14.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import CoreData
 import os.log
 import SwiftUI
@@ -16,7 +11,15 @@ struct ImportTagsButton: View {
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
     
     var body: some View {
-        Button(Strings.Settings.importTagsLabel) { isImportingTags = true }
+        Button {
+            isImportingTags = true
+        } label: {
+            SettingsActionLabel(
+                title: Strings.Settings.importTagsLabel,
+                systemImage: "arrow.down.circle.fill",
+                tint: .purple
+            )
+        }
             .fileImporter(isPresented: $isImportingTags, allowedContentTypes: [.plainText]) { result in
                 do {
                     let url = try result.get()
@@ -28,6 +31,7 @@ struct ImportTagsButton: View {
     }
     
     func importTags(url: URL) {
+        let importStartedAt = Date()
         // Initialize the logger
         self.config.importLogger = .init()
         ImportExportSection.import(isLoading: $config.isLoading) { importContext in
@@ -56,7 +60,16 @@ struct ImportTagsButton: View {
                             do {
                                 try await TagImporter.import(importData, into: importContext)
                                 await PersistenceController.saveContext(importContext)
+                                let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
+                                AnalyticsService.shared.track(
+                                    .tagsImported(
+                                        importCountBucket: .bucket(for: count),
+                                        durationSeconds: durationSeconds,
+                                        errorCount: 0
+                                    )
+                                )
                             } catch {
+                                AnalyticsService.shared.track(.importExportFailed(operation: .tagsImport, stage: .importProcessing))
                                 Logger.importExport.error("Error importing tags: \(error, privacy: .public)")
                                 AlertHandler.showError(
                                     title: Strings.Settings.Alert.importTagsErrorTitle,

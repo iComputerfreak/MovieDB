@@ -1,10 +1,4 @@
-//
-//  WatchStateLabel.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -12,23 +6,19 @@ struct WatchStateLabel: View {
     @EnvironmentObject private var mediaObject: Media
     
     var maxSeason: Int? {
-        guard let show = mediaObject as? Show else {
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         return show.latestNonEmptySeasonNumber ?? show.numberOfSeasons
     }
     
     func maxEpisode(for season: Int) -> Int? {
-        guard let show = mediaObject as? Show else {
-            return nil
-        }
+        guard let show = mediaObject as? Show else { return nil }
         return show.seasons.first(where: \.seasonNumber, equals: season)?.episodeCount
     }
     
     var body: some View {
         Group {
-            if let movie = mediaObject as? Movie, movie.watched != nil {
-                switch movie.watched! {
+            if let movie = mediaObject as? Movie, let movieWatched = movie.watched {
+                switch movieWatched {
                 case .watched:
                     self.watchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateWatched)
                 case .partially:
@@ -38,8 +28,8 @@ struct WatchStateLabel: View {
                 case .notWatched:
                     self.notWatchedLabel(Strings.Lists.watchlistRowLabelWatchlistStateNotWatched)
                 }
-            } else if let show = mediaObject as? Show, show.watched != nil {
-                switch show.watched! {
+            } else if let show = mediaObject as? Show, let showWatched = show.watched {
+                switch showWatched {
                 case let .season(s):
                     if let maxSeason, s < maxSeason {
                         // Show as partially watched, since there are further seasons available

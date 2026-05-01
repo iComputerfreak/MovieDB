@@ -1,10 +1,4 @@
-//
-//  JFConfig.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 02.12.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -15,7 +9,6 @@ class JFConfig: ObservableObject {
     
     // MARK: - Settings
     
-    // swiftlint:disable redundant_type_annotation
     @AppStorage("showAdults")
     var showAdults: Bool = false
 
@@ -36,9 +29,46 @@ class JFConfig: ObservableObject {
     
     @AppStorage("defaultWatchState")
     var defaultWatchState: GenericWatchState = .unknown
-    
-    // swiftlint:enable redundant_type_annotation
-    
+
+    @AppStorage("defaultSubtitleContent")
+    var defaultSubtitleContentRawValue: String = LibraryRow.SubtitleContent.watchState.rawValue
+
+    @AppStorage("analyticsConsentState")
+    private var analyticsConsentStateRawValue: String = AnalyticsConsentState.unknown.rawValue
+
+    @AppStorage("analyticsInstallationID")
+    private var analyticsInstallationIDRawValue: String = ""
+
+    var defaultSubtitleContent: LibraryRow.SubtitleContent {
+        get {
+            LibraryRow.SubtitleContent(rawValue: defaultSubtitleContentRawValue) ?? .watchState
+        }
+        set {
+            defaultSubtitleContentRawValue = newValue.rawValue
+        }
+    }
+
+    var analyticsConsentState: AnalyticsConsentState {
+        get {
+            AnalyticsConsentState(rawValue: analyticsConsentStateRawValue) ?? .unknown
+        }
+        set {
+            analyticsConsentStateRawValue = newValue.rawValue
+        }
+    }
+
+    var isAnalyticsEnabled: Bool {
+        analyticsConsentState == .allowed
+    }
+
+    var analyticsInstallationID: String {
+        if analyticsInstallationIDRawValue.isEmpty {
+            analyticsInstallationIDRawValue = UUID().uuidString.lowercased()
+        }
+
+        return analyticsInstallationIDRawValue
+    }
+
     private init() {}
     
     // TODO: Remove when @AppStorage works with [String]

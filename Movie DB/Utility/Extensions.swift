@@ -1,10 +1,4 @@
-//
-//  Extensions.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 18.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -19,12 +13,12 @@ extension View {
     /// **Not intended for production use!**
     func previewEnvironment() -> some View {
         self
-            .environment(\.managedObjectContext, PersistenceController.previewContext)
+            .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
             .environmentObject(JFConfig.shared)
-            .environmentObject(StoreManager.shared)
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
         // Will not work, but will prevent the preview from crashing
             .environmentObject(NotificationProxy())
             .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
+            .environment(UnifiedSearchCoordinator())
     }
 }

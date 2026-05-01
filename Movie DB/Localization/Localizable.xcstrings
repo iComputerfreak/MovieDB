@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : ""
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
@@ -32,7 +38,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@" : {
       "localizations" : {
@@ -46,6 +53,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@"
+          }
+        }
+      }
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
           }
         }
       }
@@ -113,7 +130,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Already Added"
+            "value" : "Already added"
           }
         }
       }
@@ -130,7 +147,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Loading Media"
+            "value" : "Error loading media"
           }
         }
       }
@@ -147,7 +164,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Already in Library"
+            "value" : "Already in library"
           }
         }
       }
@@ -198,7 +215,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add Media"
+            "value" : "Add media"
           }
         }
       }
@@ -232,7 +249,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to List..."
+            "value" : "Add to list..."
           }
         }
       }
@@ -317,7 +334,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error executing request. HTTP Reponse code %lld."
+            "value" : "Error executing request. HTTP reponse code %lld."
           }
         }
       }
@@ -351,7 +368,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "HTTP Error %lld: %@"
+            "value" : "HTTP error %lld: %@"
           }
         }
       }
@@ -373,6 +390,23 @@
         }
       }
     },
+    "components.subtitleContentPicker.useDefaultValue" : {
+      "comment" : "The label for the subtitle content picker option to use the default setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use default"
+          }
+        }
+      }
+    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -385,7 +419,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Loading Cast"
+            "value" : "Error loading cast"
           }
         }
       }
@@ -436,7 +470,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Tag"
+            "value" : "New tag"
           }
         }
       }
@@ -487,7 +521,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rename Tag"
+            "value" : "Rename tag"
           }
         }
       }
@@ -521,13 +555,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tag Already Exists"
+            "value" : "Tag already exists"
           }
         }
       }
     },
     "detail.basicInfo.cast" : {
-      "comment" : "The button label in the detail of a media object that leads to the cast information.",
+      "comment" : "The headline in the detail of a media object for the cast information.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -589,7 +623,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basic Information"
+            "value" : "Basic information"
           }
         }
       }
@@ -623,7 +657,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "First Aired"
+            "value" : "First aired"
           }
         }
       }
@@ -657,7 +691,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Last Aired"
+            "value" : "Last aired"
           }
         }
       }
@@ -674,7 +708,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Last Episode"
+            "value" : "Last episode"
           }
         }
       }
@@ -691,7 +725,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next Episode"
+            "value" : "Next episode"
           }
         }
       }
@@ -708,7 +742,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Original Language"
+            "value" : "Original language"
           }
         }
       }
@@ -725,7 +759,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Original Title"
+            "value" : "Original title"
           }
         }
       }
@@ -742,7 +776,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Production Countries"
+            "value" : "Production countries"
           }
         }
       }
@@ -759,7 +793,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Release Date"
+            "value" : "Release date"
           }
         }
       }
@@ -810,7 +844,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Type"
+            "value" : "Show type"
           }
         }
       }
@@ -902,6 +936,40 @@
         }
       }
     },
+    "detail.basicInfo.viewCastMembers.label" : {
+      "comment" : "The button label in the detail of a media object that leads to the cast information.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Besetzung anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View cast members"
+          }
+        }
+      }
+    },
+    "detail.cast.noneAvailable" : {
+      "comment" : "The text displayed when there are no cast members available to display",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Besetzung verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cast available"
+          }
+        }
+      }
+    },
     "detail.cast.roleNameLabel %@" : {
       "comment" : "The label text that describes the role a cast member fulfills. The parameter is the role name.",
       "localizations" : {
@@ -982,7 +1050,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Extended Information"
+            "value" : "Extended information"
           }
         }
       }
@@ -1101,7 +1169,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Production Companies"
+            "value" : "Production companies"
           }
         }
       }
@@ -1342,19 +1410,19 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "1 Episode"
+                  "value" : "1 episode"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld Episodes"
+                  "value" : "%lld episodes"
                 }
               },
               "zero" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "No Episodes"
+                  "value" : "No episodes"
                 }
               }
             }
@@ -1408,7 +1476,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to Watchlist"
+            "value" : "Add to watchlist"
           }
         }
       }
@@ -1430,6 +1498,40 @@
         }
       }
     },
+    "detail.menu.markAsNotWatched" : {
+      "comment" : "The 'mark as not watched' media action that marks a media as not watched",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht angeschaut"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not watched"
+          }
+        }
+      }
+    },
+    "detail.menu.markAsWatched" : {
+      "comment" : "The 'mark as watched' media action that marks a media as watched",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched"
+          }
+        }
+      }
+    },
     "detail.menu.removeFromWatchlist" : {
       "comment" : "The 'remove from watchlist' media action that removes a media object from the user's watchlist",
       "localizations" : {
@@ -1442,7 +1544,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remove from Watchlist"
+            "value" : "Remove from watchlist"
           }
         }
       }
@@ -1527,7 +1629,24 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Last Modified"
+            "value" : "Last modified"
+          }
+        }
+      }
+    },
+    "detail.metadata.headline.lastUpdated" : {
+      "comment" : "The headline for the 'last updated' property in the detail view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt aktualisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last updated"
           }
         }
       }
@@ -1595,7 +1714,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Added to List"
+            "value" : "Added to list"
           }
         }
       }
@@ -1613,6 +1732,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reload complete"
+          }
+        }
+      }
+    },
+    "detail.seasons.unavailable.description" : {
+      "comment" : "Description shown when no seasons are available for a show",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diese Serie sind aktuell keine Staffelinformationen verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season information for this show is not available right now."
+          }
+        }
+      }
+    },
+    "detail.seasons.unavailable.title" : {
+      "comment" : "Title shown when no seasons are available for a show",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Staffeln verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Seasons Available"
           }
         }
       }
@@ -1710,23 +1863,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "detail.showWatchState.seasonWarningNoEpisodes %@" : {
-      "comment" : "Warning text displayed when selecting a season as watched that does not have any episodes out yet.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Von Staffel %@ wurden noch keine Folgen veröffentlicht."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Season %@ does not have any episodes released yet."
           }
         }
       }
@@ -1870,7 +2006,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "User Data"
+            "value" : "User data"
           }
         }
       }
@@ -1904,7 +2040,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Personal Rating"
+            "value" : "Personal rating"
           }
         }
       }
@@ -1972,7 +2108,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watch Date"
+            "value" : "Watch date"
           }
         }
       }
@@ -2023,7 +2159,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No Notes"
+            "value" : "No notes"
           }
         }
       }
@@ -2034,13 +2170,30 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keine"
+            "value" : "Keine Schlüsselwörter"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "None"
+            "value" : "No tags"
+          }
+        }
+      }
+    },
+    "detail.userData.value.personalRating %lf" : {
+      "comment" : "The current personal rating value in the detail view, ranging from 0 to 5 stars in 0.5 star steps",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%g / 5"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%g / 5"
           }
         }
       }
@@ -2057,7 +2210,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date Known"
+            "value" : "Date known"
           }
         }
       }
@@ -2125,7 +2278,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Up to which Episode did you watch?"
+            "value" : "Up to which episode did you watch?"
           }
         }
       }
@@ -2142,7 +2295,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All Episodes"
+            "value" : "All episodes"
           }
         }
       }
@@ -2193,7 +2346,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Watched"
+            "value" : "Not watched"
           }
         }
       }
@@ -2227,7 +2380,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Season %lld, Episode %lld"
+            "value" : "Season %lld, episode %lld"
           }
         }
       }
@@ -2250,7 +2403,7 @@
       }
     },
     "detail.userData.watchedShow.label.unknown" : {
-      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show",
+      "comment" : "The label in the detail view describing that it is unknown whether the user has watched the show\nThe label of the picker in the detail view where the user specifies up to which episode they watched. Label specifies that the watch state of the show is unknown.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2295,7 +2448,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Up to Episode..."
+            "value" : "Up to episode..."
           }
         }
       }
@@ -2312,7 +2465,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Watched"
+            "value" : "Not watched"
           }
         }
       }
@@ -2329,7 +2482,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Up to Season..."
+            "value" : "Up to season..."
           }
         }
       }
@@ -2346,7 +2499,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Specified"
+            "value" : "Not specified"
           }
         }
       }
@@ -2425,13 +2578,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streaminganbieter"
+            "value" : "Streamingdienste"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watch Providers"
+            "value" : "Streaming services"
           }
         }
       }
@@ -2448,7 +2601,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There is no watch provider information available."
+            "value" : "There is no streaming service information available."
           }
         }
       }
@@ -2517,6 +2670,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yes"
+          }
+        }
+      }
+    },
+    "generic.alert.delete.buttonTitle" : {
+      "comment" : "The title of the delete button on the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "generic.alert.delete.message" : {
+      "comment" : "The message of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Aktion kann nicht widerrufen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        }
+      }
+    },
+    "generic.alert.delete.title" : {
+      "comment" : "The title of the delete alert",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen bestätigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm delete"
           }
         }
       }
@@ -2623,6 +2827,23 @@
         }
       }
     },
+    "generic.longText.showMore" : {
+      "comment" : "A button label that opens the full text when only a preview is shown",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr zeigen…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show more..."
+          }
+        }
+      }
+    },
     "generic.multipleObjectsSelected" : {
       "comment" : "A text that is displayed when there are multiple objects selected, but the user is supposed to only select one",
       "localizations" : {
@@ -2653,6 +2874,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading"
+          }
+        }
+      }
+    },
+    "generic.never" : {
+      "comment" : "A string indicating that something did never happen",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
           }
         }
       }
@@ -2851,6 +3089,40 @@
         }
       }
     },
+    "generic.selectAll" : {
+      "comment" : "A button label to select all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        }
+      }
+    },
+    "generic.selectNone" : {
+      "comment" : "A button label to deselect all items in a list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select none"
+          }
+        }
+      }
+    },
     "generic.symbolRenderingMode.hierarchical" : {
       "comment" : "Represents a rendering mode for an SF Symbol.",
       "localizations" : {
@@ -2948,7 +3220,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Loading Data"
+            "value" : "Error loading data"
           }
         }
       }
@@ -2965,7 +3237,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Saving Data"
+            "value" : "Error saving data"
           }
         }
       }
@@ -2999,7 +3271,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TV Show"
+            "value" : "TV show"
           }
         }
       }
@@ -3050,7 +3322,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loading Languages..."
+            "value" : "Loading languages..."
           }
         }
       }
@@ -3067,7 +3339,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select API Language"
+            "value" : "Select API language"
           }
         }
       }
@@ -3084,7 +3356,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Icon: %@"
+            "value" : "App icon: %@"
           }
         }
       }
@@ -3135,7 +3407,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Updating %@: %@"
+            "value" : "Error updating %@: %@"
           }
         }
       }
@@ -3152,7 +3424,48 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Updating"
+            "value" : "Error updating"
+          }
+        }
+      }
+    },
+    "library.alert.multiDelete.message %lld" : {
+      "comment" : "The message of the delete multiple medias alert",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Mediaobjekt löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Wollen Sie wirklich %lld Medien löschen? Diese Aktion kann nicht widerrufen werden."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media object? This action cannot be undone."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Do you want to delete %lld media objects? This action cannot be undone."
+                }
+              }
+            }
           }
         }
       }
@@ -3170,6 +3483,142 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select a media"
+          }
+        }
+      }
+    },
+    "library.emptyState.button.resetFilter" : {
+      "comment" : "The button label that resets the filter in the library empty state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter zurücksetzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset filter"
+          }
+        }
+      }
+    },
+    "library.emptyState.button.searchInAddMedia" : {
+      "comment" : "The button label that opens the add media search from the library empty state.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zur Mediathek hinzufügen..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Library..."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noContent" : {
+      "comment" : "The description displayed when there are no items in the library yet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügen Sie neue Filme oder Serien\nüber das ‘+’ hinzu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add a new movie or tv show\nby tapping the '+' button."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noFilterResults" : {
+      "comment" : "The description displayed when the filter does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Filme oder Serien zu den aktuellen Filtereinstellungen gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your current filter settings do not match\nany movies or tv shows."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noSearchAndFilterResults" : {
+      "comment" : "The description displayed when the search and filter do not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Suchergebnisse mit den aktuellen Filtereinstellungen gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no results for your\ncurrent search and filter settings."
+          }
+        }
+      }
+    },
+    "library.emptyState.description.noSearchResults" : {
+      "comment" : "The description displayed when the search does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Suchergebnisse gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no results for your search."
+          }
+        }
+      }
+    },
+    "library.emptyState.noResults" : {
+      "comment" : "The headline displayed when the search or filter does not match any items.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Ergebnisse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results"
+          }
+        }
+      }
+    },
+    "library.emptyState.nothingHere" : {
+      "comment" : "The headline displayed when the library is empty.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch kein Inhalt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing here yet"
           }
         }
       }
@@ -3237,7 +3686,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Media Type"
+            "value" : "Media type"
           }
         }
       }
@@ -3254,7 +3703,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Personal Rating"
+            "value" : "Personal rating"
           }
         }
       }
@@ -3436,6 +3885,23 @@
         }
       }
     },
+    "library.filter.information.label.watchProviders" : {
+      "comment" : "The label of the watch providers picker in the library's filter view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaming services"
+          }
+        }
+      }
+    },
     "library.filter.information.label.year" : {
       "comment" : "The label for the picker for selecting the release year in the library filter view",
       "localizations" : {
@@ -3499,7 +3965,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Media Type"
+            "value" : "Media type"
           }
         }
       }
@@ -3516,7 +3982,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter Options"
+            "value" : "Filter options"
           }
         }
       }
@@ -3533,7 +3999,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Specific"
+            "value" : "Show specific"
           }
         }
       }
@@ -3709,7 +4175,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Type"
+            "value" : "Show type"
           }
         }
       }
@@ -3794,7 +4260,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watch Again / Continue?"
+            "value" : "Watch again / continue?"
           }
         }
       }
@@ -3828,7 +4294,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Watched"
+            "value" : "Not watched"
           }
         }
       }
@@ -3879,7 +4345,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watched Fully"
+            "value" : "Watched fully"
           }
         }
       }
@@ -3896,7 +4362,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watched Partially"
+            "value" : "Watched partially"
           }
         }
       }
@@ -3913,7 +4379,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to List..."
+            "value" : "Add to list..."
           }
         }
       }
@@ -4052,6 +4518,40 @@
         }
       }
     },
+    "library.list.rowSubtitle.lastModified %@" : {
+      "comment" : "The subtitle of a library row, showing the last modified date",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeitet: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modified: %@"
+          }
+        }
+      }
+    },
+    "library.list.rowSubtitle.watchDate %@" : {
+      "comment" : "The subtitle of a library row, showing the watch date",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch date: %@"
+          }
+        }
+      }
+    },
     "library.list.showSymbolText" : {
       "comment" : "A short text describing a tv show (e.g. 'TV'). Used in the library list beneath the name.",
       "localizations" : {
@@ -4064,7 +4564,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TV Show"
+            "value" : "TV show"
           }
         }
       }
@@ -4120,6 +4620,40 @@
         }
       }
     },
+    "library.navBar.button.select" : {
+      "comment" : "The text of the multi-selection button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
+          }
+        }
+      }
+    },
+    "library.navBar.deselectAll" : {
+      "comment" : "The deselect all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles abwählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect all"
+          }
+        }
+      }
+    },
     "library.navBar.header.sorting" : {
       "comment" : "Heading for the sorting direction picker in the library menu",
       "localizations" : {
@@ -4137,6 +4671,23 @@
         }
       }
     },
+    "library.navBar.selectAll" : {
+      "comment" : "The select all button in the library menu",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        }
+      }
+    },
     "library.searchPlaceholder" : {
       "comment" : "The placeholder text displayed in the search field in the library view",
       "localizations" : {
@@ -4149,7 +4700,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search my Library"
+            "value" : "Search my library"
           }
         }
       }
@@ -4183,7 +4734,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "List Already Exists"
+            "value" : "List already exists"
           }
         }
       }
@@ -4217,7 +4768,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Custom List"
+            "value" : "New custom list"
           }
         }
       }
@@ -4234,7 +4785,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Dynamic List"
+            "value" : "New dynamic list"
           }
         }
       }
@@ -4268,7 +4819,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter Settings"
+            "value" : "Filter settings"
           }
         }
       }
@@ -4302,7 +4853,24 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Icon Color"
+            "value" : "Icon color"
+          }
+        }
+      }
+    },
+    "lists.configuration.header.settings" : {
+      "comment" : "The header for the list configuration view's settings section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         }
       }
@@ -4319,7 +4887,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Color Mode"
+            "value" : "Color mode"
           }
         }
       }
@@ -4336,7 +4904,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "List Name"
+            "value" : "List name"
           }
         }
       }
@@ -4353,7 +4921,24 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter Settings"
+            "value" : "Filter settings"
+          }
+        }
+      }
+    },
+    "lists.customList.emptyState.description" : {
+      "comment" : "The description of the empty state of a custom list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Hinzufügen von Medien\nden Eintrag gedrückt halten\nund “Hinzufügen...” auswählen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add media to this list by\nlong pressing on a media object\nand selecting 'Add to List'."
           }
         }
       }
@@ -4387,7 +4972,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Seasons"
+            "value" : "New seasons"
           }
         }
       }
@@ -4500,13 +5085,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Serien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt."
+            "value" : "Diese Liste zeigt alle Filme mit einem bevorstehenden Erscheinungsdatum und alle Serien mit neuen bevorstehenden Staffeln. Die Liste enthält auch Filme und Serien, die vor bis zu 14 Tagen erschienen sind.\nSerien, bei denen Sie \"Nochmal/weiter ansehen\" auf \"Nein\" gesetzt haben werden hier nicht angezeigt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. Shows for which you specified \"Watch again / continue?\" as \"No\" don't appear here."
+            "value" : "This list shows all movies with an upcoming release date and all TV shows that have new upcoming seasons. The list also includes movies or shows that have released in the past 14 days.\nShows for which you specified \"Watch again / continue?\" as \"No\" don't appear here."
           }
         }
       }
@@ -4574,7 +5159,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "List Information"
+            "value" : "List information"
           }
         }
       }
@@ -4659,7 +5244,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Custom Lists"
+            "value" : "Custom lists"
           }
         }
       }
@@ -4676,7 +5261,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Default Lists"
+            "value" : "Default lists"
           }
         }
       }
@@ -4693,7 +5278,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dynamic Lists"
+            "value" : "Dynamic lists"
           }
         }
       }
@@ -4778,7 +5363,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Custom List"
+            "value" : "Custom list"
           }
         }
       }
@@ -4795,7 +5380,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dynamic List"
+            "value" : "Dynamic list"
           }
         }
       }
@@ -4817,36 +5402,87 @@
         }
       }
     },
-    "lists.upcoming.subtitle.movie" : {
+    "lists.upcoming.subtitle.movie %@" : {
       "comment" : "The subtitle string for a movie in the 'Upcoming' list.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erscheint in "
+            "value" : "Erscheint in %@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Releases in "
+            "value" : "Releases in %@"
           }
         }
       }
     },
-    "lists.upcoming.subtitle.show %lld" : {
-      "comment" : "The subtitle string for a show in the 'Upcoming' list.",
+    "lists.upcoming.subtitle.movieRecentlyReleased %@" : {
+      "comment" : "The subtitle string for a movie in the 'Upcoming' list that has been released in the last 14 days.",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Staffel %lld erscheint in "
+            "value" : "Ist vor %@ erschienen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Season %lld releases in "
+            "value" : "Released %@ ago"
+          }
+        }
+      }
+    },
+    "lists.upcoming.subtitle.show %lld %@" : {
+      "comment" : "The subtitle string for a show in the 'Upcoming' list that will be released in the future.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staffel %1$lld erscheint in %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %1$lld releases in %2$@"
+          }
+        }
+      }
+    },
+    "lists.upcoming.subtitle.showRecentlyReleased %lld %@" : {
+      "comment" : "The subtitle string for a show in the 'Upcoming' list that has been released in the last 14 days.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Staffel %1$lld ist vor %2$@ erschienen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %1$lld released %2$@ ago"
+          }
+        }
+      }
+    },
+    "lists.watchlist.removeWatched" : {
+      "comment" : "The label of the button to remove watched movies and shows from the watchlist.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehene entfernen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove watched"
           }
         }
       }
@@ -4863,7 +5499,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Watched"
+            "value" : "Not watched"
           }
         }
       }
@@ -4880,7 +5516,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Partially Watched"
+            "value" : "Partially watched"
           }
         }
       }
@@ -4931,7 +5567,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Season %lld, Episode %lld"
+            "value" : "Season %lld, episode %lld"
           }
         }
       }
@@ -4965,7 +5601,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Loading Media"
+            "value" : "Error loading media"
           }
         }
       }
@@ -5084,7 +5720,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Performing Search"
+            "value" : "Error performing search"
           }
         }
       }
@@ -5101,7 +5737,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Loading Search Results"
+            "value" : "Error loading search results"
           }
         }
       }
@@ -5203,7 +5839,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In Production"
+            "value" : "In production"
           }
         }
       }
@@ -5254,7 +5890,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Post Production"
+            "value" : "Post production"
           }
         }
       }
@@ -5319,13 +5955,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fehlt: %@"
+            "value" : "Fehlt:"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Missing: %@"
+            "value" : "Missing:"
           }
         }
       }
@@ -5376,7 +6012,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Duplicate Media Objects"
+            "value" : "Duplicate media objects"
           }
         }
       }
@@ -5455,13 +6091,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pro Kaufen - %@"
+            "value" : "Pro Kaufen – %@"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buy Pro - %@"
+            "value" : "Buy Pro – %@"
           }
         }
       }
@@ -5478,7 +6114,202 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Already Purchased"
+            "value" : "Already purchased"
+          }
+        }
+      }
+    },
+    "proInfo.cta.description" : {
+      "comment" : "Supporting text for the call to action card in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kauf wird sicher über den App Store abgewickelt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase is handled securely through the App Store."
+          }
+        }
+      }
+    },
+    "proInfo.cta.title" : {
+      "comment" : "Title for the call to action card in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freischalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro"
+          }
+        }
+      }
+    },
+    "proInfo.features.library.description %lld" : {
+      "comment" : "Description of a benefit row explaining that Pro removes the library limit. The parameter is the amount of objects one can add in the free version.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügen Sie mehr als %#@count@ zu Ihrer Mediathek hinzu, ohne an das Gratis-Limit zu stoßen."
+          },
+          "substitutions" : {
+            "count" : {
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "1 Objekt"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Objekte"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more than %#@count@ to your library without running into the free limit."
+          },
+          "substitutions" : {
+            "count" : {
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "1 item"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg items"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "proInfo.features.library.title" : {
+      "comment" : "Title of a benefit row explaining that Pro removes the library limit.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbegrenzte Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited library"
+          }
+        }
+      }
+    },
+    "proInfo.features.restore.description" : {
+      "comment" : "Description of a benefit row explaining that purchases can be restored.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stellen Sie Ihren Kauf auf weiteren Geräten mit demselben Apple Account wieder her."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore your purchase on other devices with the same Apple Account."
+          }
+        }
+      }
+    },
+    "proInfo.features.restore.title" : {
+      "comment" : "Title of a benefit row explaining that purchases can be restored.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jederzeit wiederherstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore anytime"
+          }
+        }
+      }
+    },
+    "proInfo.features.title" : {
+      "comment" : "Section title for the list of Pro benefits in the pro info view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Pro erhalten Sie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Included with Pro"
+          }
+        }
+      }
+    },
+    "proInfo.features.upcoming.description" : {
+      "comment" : "Description of a benefit row explaining that Pro unlocks the Upcoming list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten Sie kommende Filme und Serien direkt neben dem Rest Ihrer Sammlung im Blick."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep upcoming movies and shows visible right alongside the rest of your collection."
+          }
+        }
+      }
+    },
+    "proInfo.features.upcoming.title" : {
+      "comment" : "Title of a benefit row explaining that Pro unlocks the Upcoming list.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming-Liste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming list"
           }
         }
       }
@@ -5656,7 +6487,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export Media"
+            "value" : "Export media"
           }
         }
       }
@@ -5673,7 +6504,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export Tags"
+            "value" : "Export tags"
           }
         }
       }
@@ -5690,7 +6521,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Media"
+            "value" : "Import media"
           }
         }
       }
@@ -5707,7 +6538,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Tags"
+            "value" : "Import tags"
           }
         }
       }
@@ -5724,7 +6555,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reload Library"
+            "value" : "Reload library"
           }
         }
       }
@@ -5741,7 +6572,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset Library"
+            "value" : "Reset library"
           }
         }
       }
@@ -5758,7 +6589,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset Tags"
+            "value" : "Reset tags"
           }
         }
       }
@@ -5775,7 +6606,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update Library"
+            "value" : "Update library"
           }
         }
       }
@@ -5809,7 +6640,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to complete Purchase"
+            "value" : "Unable to complete purchase"
           }
         }
       }
@@ -5843,7 +6674,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unable to Purchase"
+            "value" : "Unable to purchase"
           }
         }
       }
@@ -5860,7 +6691,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Reloading Library"
+            "value" : "Error reloading library"
           }
         }
       }
@@ -5894,7 +6725,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export Error"
+            "value" : "Export error"
           }
         }
       }
@@ -5911,7 +6742,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Error"
+            "value" : "Import error"
           }
         }
       }
@@ -6109,7 +6940,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update Error"
+            "value" : "Update error"
           }
         }
       }
@@ -6143,7 +6974,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Purchase Complete"
+            "value" : "Purchase complete"
           }
         }
       }
@@ -6160,7 +6991,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Purchase Error"
+            "value" : "Purchase error"
           }
         }
       }
@@ -6194,7 +7025,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Purchases Restored"
+            "value" : "Purchases restored"
           }
         }
       }
@@ -6228,7 +7059,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reload Completed"
+            "value" : "Reload completed"
           }
         }
       }
@@ -6313,7 +7144,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset Library"
+            "value" : "Reset library"
           }
         }
       }
@@ -6381,7 +7212,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset Tags"
+            "value" : "Reset tags"
           }
         }
       }
@@ -6415,7 +7246,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Importing Tags"
+            "value" : "Error importing tags"
           }
         }
       }
@@ -6491,7 +7322,551 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update Completed"
+            "value" : "Update completed"
+          }
+        }
+      }
+    },
+    "settings.analytics.button.disable" : {
+      "comment" : "Button to disable anonymous analytics from settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken deaktivieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analytics.button.enable" : {
+      "comment" : "Button to enable anonymous analytics from settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken aktivieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analytics.label" : {
+      "comment" : "The title for the analytics consent setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonymous usage statistics"
+          }
+        }
+      }
+    },
+    "settings.analytics.status.off" : {
+      "comment" : "Status text for disabled analytics in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "settings.analytics.status.on" : {
+      "comment" : "Status text for enabled analytics in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "settings.analytics.summary" : {
+      "comment" : "Summary explaining the analytics policy in settings.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hilft, Bildschirm- und Funktionsnutzung mit PostHog zu verstehen. Es werden keine Titel, Notizen, Tags, Bewertungen oder Suchtexte gesendet. IP-Adressen werden nicht gespeichert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helps understand screen and feature usage with PostHog. No titles, notes, tags, ratings, or search text are sent. IP addresses are not stored."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.button.allow" : {
+      "comment" : "Button that enables anonymous analytics.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken erlauben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Anonymous Analytics"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.button.keepOff" : {
+      "comment" : "Button that keeps analytics disabled.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutzungsstatistiken deaktiviert lassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Analytics Off"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.message" : {
+      "comment" : "Intro text on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App kann mit PostHog anonyme Nutzungsstatistiken senden, um zu verstehen, welche Bereiche nützlich sind und wo Reibung entsteht. IP-Adressen werden nicht gespeichert. Die Daten helfen nur bei Produktverbesserungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This app can use PostHog to send anonymous usage statistics to understand which parts are useful and where friction happens. IP addresses are not stored. The data is only used to improve the product."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.header" : {
+      "comment" : "Header for not-tracked examples on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was nicht erfasst wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is not tracked"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.mediaData.detail" : {
+      "comment" : "Detail for the excluded media data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Film- oder Serien-Titel, keine TMDB-IDs, keine Notizen, Tags, Bewertungen oder Suchtexte."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No movie or show titles, no TMDB IDs, no notes, tags, ratings, or search text."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.mediaData.title" : {
+      "comment" : "Title for the excluded media data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Inhalte aus deiner Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No library content"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.personalData.detail" : {
+      "comment" : "Detail for the excluded personal data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Kontodaten, keine Personenprofile und kein freier Text."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No account identity, no person profiles, and no free-form text."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.notTracked.personalData.title" : {
+      "comment" : "Title for the excluded personal data example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Identitätsprofile"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No identity profiles"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.title" : {
+      "comment" : "Navigation title of the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonyme Nutzungsstatistiken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anonymous Usage Statistics"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.featureUsage.detail" : {
+      "comment" : "Detail for the feature-usage example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Beispiel, ob Medien hinzugefügt, Importe gestartet oder Filter und Sortierung verwendet wurden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For example, whether media was added, imports were started, or filters and sorting were used."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.featureUsage.title" : {
+      "comment" : "Title for the feature-usage example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funktionsnutzung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feature usage"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.header" : {
+      "comment" : "Header for tracked examples on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was erfasst wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is tracked"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.screenViews.detail" : {
+      "comment" : "Detail for the screen-view example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Beispiel, ob Mediathek, Einstellungen oder Mediensuche geöffnet wurden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For example, whether the library, settings, or add-media screens were opened."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.screenViews.title" : {
+      "comment" : "Title for the screen-view example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmaufrufe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen views"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.technicalContext.detail" : {
+      "comment" : "Detail for the technical-context example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Version, Betriebssystem-Familie, Hauptversion und Geräteklasse."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App version, OS family, major OS version, and device class."
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.tracked.technicalContext.title" : {
+      "comment" : "Title for the technical-context example on the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grobe technische Infos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coarse technical context"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.worksWithoutAnalytics" : {
+      "comment" : "Message clarifying that the app works without analytics.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Funktionen der App bleiben verfügbar, auch wenn du Analytik deaktiviert lässt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every app feature stays available even if you keep analytics turned off."
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.label" : {
+      "comment" : "The label of the picker that lets the user choose the default subtitle content for newly added media",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medien-Untertitel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library row subtitle"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.lastModified" : {
+      "comment" : "The label of the picker option for the last modified date as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeitet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last modified"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.nothing" : {
+      "comment" : "The label of the picker option for no subtitle content as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.personalRating" : {
+      "comment" : "The label of the picker option for the personal rating as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persönliche Bewertung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal rating"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.problems" : {
+      "comment" : "The label of the picker option for the problems as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probleme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problems"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.tags" : {
+      "comment" : "The label of the picker option for the tags as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schlüsselwörter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.watchDate" : {
+      "comment" : "The label of the picker option for the watch date as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angeschaut am"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch date"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.watchProviders" : {
+      "comment" : "The label of the picker option for the watch providers as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaming services"
+          }
+        }
+      }
+    },
+    "settings.defaultSubtitleContent.watchState" : {
+      "comment" : "The label of the picker option for the watch state as the default subtitle content in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch state"
           }
         }
       }
@@ -6508,7 +7883,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Default Watch State"
+            "value" : "Default watch state"
           }
         }
       }
@@ -6525,7 +7900,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not Watched"
+            "value" : "Not watched"
           }
         }
       }
@@ -6542,7 +7917,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Partially Watched"
+            "value" : "Partially watched"
           }
         }
       }
@@ -6763,7 +8138,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Log"
+            "value" : "Import log"
           }
         }
       }
@@ -6797,7 +8172,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error Updating Languages"
+            "value" : "Error updating languages"
           }
         }
       }
@@ -6882,7 +8257,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resetting Library..."
+            "value" : "Resetting library..."
           }
         }
       }
@@ -6899,7 +8274,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resetting Tags..."
+            "value" : "Resetting tags..."
           }
         }
       }
@@ -6938,6 +8313,108 @@
         }
       }
     },
+    "settings.section.analytics" : {
+      "comment" : "Section header for the settings analytics section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics"
+          }
+        }
+      }
+    },
+    "settings.section.importExport" : {
+      "comment" : "Section header for the settings import and export section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import & Export"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import & Export"
+          }
+        }
+      }
+    },
+    "settings.section.library" : {
+      "comment" : "Section header for the settings library actions section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediathek"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
+          }
+        }
+      }
+    },
+    "settings.section.preferences" : {
+      "comment" : "Section header for the settings preferences section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Präferenzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
+          }
+        }
+      }
+    },
+    "settings.section.pro" : {
+      "comment" : "Section header for the settings pro section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro"
+          }
+        }
+      }
+    },
+    "settings.section.support" : {
+      "comment" : "Section header for the settings support section.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        }
+      }
+    },
     "settings.toggle.showAdultContent.label" : {
       "comment" : "The label of the toggle in the settings that allows the user to specify whether the search results and library should include adult content",
       "localizations" : {
@@ -6950,7 +8427,24 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Adult Content"
+            "value" : "Show adult content"
+          }
+        }
+      }
+    },
+    "settings.watchProvider.label" : {
+      "comment" : "The label of the watch provider settings in the settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meine Streamingdienste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My streaming services"
           }
         }
       }
@@ -7069,7 +8563,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Talk Show"
+            "value" : "Talk show"
           }
         }
       }
@@ -7171,7 +8665,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next Release"
+            "value" : "Next release"
           }
         }
       }
@@ -7205,7 +8699,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Release Date"
+            "value" : "Release date"
           }
         }
       }
@@ -7222,7 +8716,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Watch Date"
+            "value" : "Watch date"
           }
         }
       }
@@ -7327,6 +8821,40 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "TV Shows watched: %1$lld (%2$lld seasons)"
+    	  }
+	 	}
+	  }
+	},
+    "tips.libraryRow.message" : {
+      "comment" : "The message to display in the tip for the library row setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie können jetzt auswählen, welche Informationen in der dritten Zeile der Bibliotheksliste angezeigt werden sollen.\nSchauen Sie sich Option 'Streaminganbieter' an!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can now choose, what information to display in the third line of the library list.\nCheck out the 'Streaming services' option!"
+          }
+        }
+      }
+    },
+    "tips.libraryRow.title" : {
+      "comment" : "The title to display in the tip for the library row setting.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library row customization"
           }
         }
       }

@@ -1,23 +1,25 @@
-//
-//  ImportMediaButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 14.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import os.log
 import SwiftUI
+import Analytics
 
 struct ImportMediaButton: View {
     @Binding var config: SettingsViewModel
     @State private var isImportingMedia = false
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
-    @EnvironmentObject private var storeManager: StoreManager
-    
+
+    private let storeManager: StoreManager = .shared
+
     var body: some View {
-        Button(Strings.Settings.importMediaLabel, action: { isImportingMedia = true })
+        Button(action: { isImportingMedia = true }) {
+            SettingsActionLabel(
+                title: Strings.Settings.importMediaLabel,
+                systemImage: "square.and.arrow.down.fill",
+                tint: .green
+            )
+        }
             .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in
                 do {
                     let url = try result.get()
@@ -31,6 +33,8 @@ struct ImportMediaButton: View {
     
     // swiftlint:disable:next function_body_length
     func importMedia(url: URL) {
+        let importStartedAt = Date()
+
         if !storeManager.hasPurchasedPro {
             let mediaCount = MediaLibrary.shared.mediaCount() ?? 0
             guard mediaCount < JFLiterals.nonProMediaLimit else {
@@ -55,10 +59,14 @@ struct ImportMediaButton: View {
                     self.config.loadingText = Strings.Settings.loadingTextMediaImport(progress, importer.rowCount)
                 } log: { message in
                     // TODO: Replace with other logger when reworking import view
+                    // TODO: Maybe we can stream a specific OSLog logger to a buffer and display it?
                     self.config.importLogger?.log(message, level: .none)
                 }
             } catch {
-                self.config.importLogShowing = true
+                DispatchQueue.main.async {
+                    self.config.importLogShowing = true
+                }
+                AnalyticsService.shared.track(.importExportFailed(operation: .mediaImport, stage: .importProcessing))
                 // Rethrow
                 throw error
             }
@@ -76,6 +84,15 @@ struct ImportMediaButton: View {
                     // Reset all the work we have just done
                     importContext.reset()
                     config.importLogger?.info("Undoing import. All imported objects removed.")
+                    let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
+                    let errorCount = config.importLogger?.count(of: .error) ?? 0
+                    AnalyticsService.shared.track(
+                        .mediaImportAborted(
+                            importCountBucket: .bucket(for: medias.count),
+                            durationSeconds: durationSeconds,
+                            errorCount: errorCount
+                        )
+                    )
                     self.config.importLogShowing = true
                 })
                 controller.addAction(.okayAction { _ in
@@ -84,6 +101,15 @@ struct ImportMediaButton: View {
                         // main context and then to disk
                         await PersistenceController.saveContext(importContext)
                         await PersistenceController.saveContext(PersistenceController.viewContext)
+                        let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
+                        let errorCount = config.importLogger?.count(of: .error) ?? 0
+                        AnalyticsService.shared.track(
+                            .mediaImported(
+                                importCountBucket: .bucket(for: medias.count),
+                                durationSeconds: durationSeconds,
+                                errorCount: errorCount
+                            )
+                        )
                         await MainActor.run {
                             self.config.importLogger?.info("Import complete.")
                             self.config.importLogShowing = true
@@ -92,7 +118,7 @@ struct ImportMediaButton: View {
                         Task(priority: .userInitiated) {
                             do {
                                 try PersistenceController.viewContext.fetch(Media.fetchRequest())
-                                    .forEach { $0.loadThumbnail() }
+                                    .forEach { $0.loadImages() }
                             } catch {
                                 Logger.library.error(
                                     // swiftlint:disable:next line_length

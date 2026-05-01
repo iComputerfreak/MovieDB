@@ -1,10 +1,4 @@
-//
-//  FilterUITests.swift
-//  Movie DBUITests
-//
-//  Created by Jonas Frey on 08.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import JFTestingUtils
 import XCTest

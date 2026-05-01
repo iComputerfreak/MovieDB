@@ -1,17 +1,11 @@
-//
-//  TagListView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import os.log
 import SwiftUI
 
 struct TagListView: View {
-    private enum NavigationDestination {
+    enum NavigationDestination {
         case editing
     }
     
@@ -29,9 +23,6 @@ struct TagListView: View {
             NavigationLink(value: NavigationDestination.editing) {
                 TagListViewLabel(tags: tags)
                     .headline(Strings.Detail.tagsHeadline)
-            }
-            .navigationDestination(for: NavigationDestination.self) { _ in
-                EditView(tags: $tags)
             }
         } else {
             TagListViewLabel(tags: tags)
@@ -97,9 +88,6 @@ struct TagListView: View {
                                 // swiftlint:disable:next line_length
                                 "Removing Tag '\(tag.name, privacy: .public)' (\(tag.id?.uuidString ?? "nil", privacy: .public))"
                             )
-                            // If we are making UI changes, we better be on the main thread/context
-                            assert(Thread.current.isMainThread)
-                            assert(managedObjectContext == PersistenceController.viewContext)
                             self.managedObjectContext.delete(tag)
                         }
                         // Save the deletion of the tags asynchronously
@@ -131,12 +119,8 @@ struct TagListView: View {
                 title: Strings.Detail.Alert.newTagButtonAdd,
                 style: .default
             ) { _ in
-                guard let textField = alert.textFields?.first else {
-                    return
-                }
-                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else {
-                    return
-                }
+                guard let textField = alert.textFields?.first else { return }
+                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return }
                 guard !self.tags.contains(where: { $0.name == text }) else {
                     AlertHandler.showSimpleAlert(
                         title: Strings.Detail.Alert.tagAlreadyExistsTitle,

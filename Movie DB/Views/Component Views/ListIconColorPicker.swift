@@ -1,10 +1,4 @@
-//
-//  ListIconColorPicker.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Flow
 import SwiftUI
@@ -23,7 +17,6 @@ struct ListIconColorPicker: View {
         UIColor.roseIcon,
         UIColor.brownIcon,
         UIColor.grayIcon,
-//        UIColor.lightBrownIcon,
     ]
     
     let colors: [UIColor]
@@ -72,7 +65,7 @@ struct ColorSwatch: View {
 }
 
 #Preview {
-    @State var color: UIColor = .red
+    @Previewable @State var color: UIColor = .red
     
     return List {
         HStack {
