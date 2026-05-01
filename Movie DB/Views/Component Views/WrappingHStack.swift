@@ -1,10 +1,4 @@
-//
-//  WrappingHStack.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 19.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -232,7 +226,6 @@ struct WrappingHStack: Layout {
         }
         lineBreak()
         
-        assert(rows.map(\.count).reduce(0, +) == subviewSizes.count, "Row calculation has missed some subviews")
         return rows
     }
 }

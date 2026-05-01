@@ -1,10 +1,4 @@
-//
-//  HistoryManager.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 21.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -110,11 +104,8 @@ class HistoryManager {
                 )
                 
                 for transaction in transactions {
-                    guard let userInfo = transaction.objectIDNotification().userInfo else {
-                        assertionFailure("Unable to get userInfo for remote change transaction")
-                        return
-                    }
-                    
+                    guard let userInfo = transaction.objectIDNotification().userInfo else { continue }
+
                     #if DEBUG
                     Logger.coreData.debug("\(transaction.description(in: taskContext))")
                     #endif

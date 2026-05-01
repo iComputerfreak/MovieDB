@@ -1,5 +1,6 @@
 // Copyright © 2024 Jonas Frey. All rights reserved.
 
+import Analytics
 import OSLog
 import SwiftUI
 
@@ -27,6 +28,9 @@ struct MultiSelectionMenu: View {
     
     var body: some View {
         Button {
+            AnalyticsService.shared.track(
+                .libraryHomeMultiselect(action: isEditing ? .exited : .entered)
+            )
             withAnimation {
                 editMode?.wrappedValue = isEditing ? .inactive : .active
             }
@@ -50,7 +54,9 @@ private extension MultiSelectionMenu {
     var multiSelectActions: some View {
         selectAllButton
         Group {
-            AddMultipleToListMenu(mediaObjects: selectedMediaObjects) {
+            AddMultipleToListMenu(mediaObjects: selectedMediaObjects, onAction: {
+                AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .addToList))
+            }) {
                 dismissEditing()
             }
             addToWatchlistButton
@@ -65,6 +71,9 @@ private extension MultiSelectionMenu {
     
     var selectAllButton: some View {
         Button {
+            AnalyticsService.shared.track(
+                .libraryMultiselectActionUsed(action: areAllSelected ? .deselectAll : .selectAll)
+            )
             if areAllSelected {
                 selectedMediaObjects = []
             } else {
@@ -82,6 +91,7 @@ private extension MultiSelectionMenu {
     var addToWatchlistButton: some View {
         Button {
             let isOnWatchlist = !areAllOnWatchlist
+            AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .toggleWatchlist))
             for media in selectedMediaObjects {
                 media.isOnWatchlist = isOnWatchlist
             }
@@ -99,6 +109,7 @@ private extension MultiSelectionMenu {
         Button {
             // If there is at least one media which is not favorited yet, favorite all medias
             let isFavorite = !areAllFavorite
+            AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .toggleFavorite))
             for media in selectedMediaObjects {
                 media.isFavorite = isFavorite
             }
@@ -115,6 +126,7 @@ private extension MultiSelectionMenu {
 
     var markAsWatchedButton: some View {
         Button {
+            AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .markWatched))
             for media in selectedMediaObjects {
                 if let movie = media as? Movie {
                     movie.watched = .watched
@@ -135,6 +147,7 @@ private extension MultiSelectionMenu {
 
     var markAsNotWatchedButton: some View {
         Button {
+            AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .markNotWatched))
             for media in selectedMediaObjects {
                 if let movie = media as? Movie {
                     movie.watched = .notWatched
@@ -154,6 +167,7 @@ private extension MultiSelectionMenu {
 
     var reloadButton: some View {
         Button {
+            AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .reload))
             Task {
                 for media in selectedMediaObjects {
                     do {
@@ -177,6 +191,7 @@ private extension MultiSelectionMenu {
             AlertHandler.showDeleteAlert(
                 message: Strings.Library.multiDeleteAlertMessage(count: selectedMediaObjects.count)
             ) {
+                AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .delete))
                 withAnimation {
                     for media in selectedMediaObjects {
                         managedObjectContext.delete(media)

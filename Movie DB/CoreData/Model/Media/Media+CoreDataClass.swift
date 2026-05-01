@@ -1,10 +1,4 @@
-//
-//  Media+CoreDataClass.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CloudKit
 import Combine
@@ -52,7 +46,7 @@ public class Media: NSManagedObject {
     
     private func setTMDBData(_ tmdbData: TMDBData) {
         guard let managedObjectContext else {
-            assertionFailure()
+            Logger.coreData.error("Media \(self.title) has no context.")
             return
         }
         

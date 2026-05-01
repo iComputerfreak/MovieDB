@@ -1,11 +1,6 @@
-//
-//  UserMediaListView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 22.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
+import Analytics
 import JFUtils
 import SwiftUI
 
@@ -37,6 +32,7 @@ struct UserMediaListView: View {
             LibraryRow(subtitleContent: list.subtitleContent)
                 .swipeActions {
                     Button(Strings.Lists.removeMediaLabel) {
+                        AnalyticsService.shared.track(.listMediaRemoved(listType: .custom))
                         list.medias.remove(media)
                         PersistenceController.saveContext()
                     }

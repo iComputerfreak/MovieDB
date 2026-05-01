@@ -1,10 +1,4 @@
-//
-//  TitleView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 08.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -26,9 +20,15 @@ struct LegacyTitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            Image(uiImage: media.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
-                .padding(.trailing)
+            Group {
+                if let thumbnail = media.thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
+                } else {
+                    PosterPlaceholderView.legacyThumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
+                }
+            }
+            .padding(.trailing)
             // Title and year
             VStack(alignment: .leading) {
                 Text(media.title)

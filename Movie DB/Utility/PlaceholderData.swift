@@ -1,10 +1,4 @@
-//
-//  PlaceholderData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 12.03.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -27,6 +21,8 @@ class PlaceholderData {
     let staticProblemShow: Show
     let staticUpcomingShow: Show
     let staticUpcomingMovie: Movie
+    let staticMinimalMovie: Movie
+    let staticMinimalShow: Show
     let searchResultMovie: TMDBSearchResult = TMDBMovieSearchResult(
         id: 603,
         title: "The Matrix",
@@ -74,6 +70,14 @@ class PlaceholderData {
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
         self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
         self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
+        self.staticMinimalMovie = Movie(
+            context: context,
+            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .movie)
+        )
+        self.staticMinimalShow = Show(
+            context: context,
+            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .show)
+        )
     }
     
     func populateSamples() {
@@ -306,7 +310,6 @@ class PlaceholderData {
         show.tags = []
         show.notes = ""
         show.watchAgain = true
-        assert(!show.seasons.isEmpty)
         let latestSeason = show.seasons.map(\.seasonNumber).max() ?? 0
         show.watched = latestSeason > 0 ? .season(latestSeason) : .notWatched
         let upcomingSeason = context.importDummies([
@@ -338,7 +341,35 @@ class PlaceholderData {
         movie.releaseDate = .now.addingTimeInterval(.day * 7).timeErased()
         return movie
     }
-    
+
+    static func createStaticMinimalTMDBData(in context: NSManagedObjectContext, mediaType: MediaType) -> TMDBData {
+        return .init(
+            id: 1,
+            title: "",
+            originalTitle: "",
+            genres: [],
+            status: .canceled,
+            originalLanguage: "",
+            movieData: mediaType == .movie ? .init(
+                rawReleaseDate: "",
+                budget: 0,
+                revenue: 0,
+                isAdult: false,
+                directors: []
+            ) : nil,
+            showData: mediaType == .show ? .init(
+                rawFirstAirDate: nil,
+                rawLastAirDate: nil,
+                numberOfEpisodes: 0,
+                episodeRuntime: [],
+                isInProduction: false,
+                seasons: [],
+                networks: [],
+                createdBy: []
+            ) : nil
+        )
+    }
+
     private static func load<T: Decodable>(
         _ filename: String,
         mediaType: MediaType? = nil,

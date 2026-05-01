@@ -1,11 +1,6 @@
-//
-//  UnifiedSearchView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 25.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
+import Analytics
 import JFSwiftUI
 import Observation
 import os.log
@@ -47,7 +42,18 @@ struct UnifiedSearchView: View {
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView()
+            ProInfoView(source: .addMediaLimit)
+        }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .lookup))
+            if unifiedSearchCoordinator.scope == .addMedia {
+                AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
+            }
+        }
+        .onChange(of: unifiedSearchCoordinator.scope) { _, newValue in
+            if newValue == .addMedia {
+                AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
+            }
         }
     }
 
@@ -91,6 +97,7 @@ struct UnifiedSearchView: View {
 
         do {
             try await MediaLibrary.shared.addMedia(result)
+            AnalyticsService.shared.track(.mediaAdded(mediaType: result.mediaType.analyticsValue))
             await MainActor.run {
                 isLoading = false
             }
@@ -106,6 +113,7 @@ struct UnifiedSearchView: View {
             return false
         } catch UserError.noPro {
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
+            AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: result.mediaType.analyticsValue))
             await MainActor.run {
                 isLoading = false
                 isShowingProPopup = true

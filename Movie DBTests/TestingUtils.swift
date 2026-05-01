@@ -1,10 +1,4 @@
-//
-//  TestingUtils.swift
-//  Movie DBTests
-//
-//  Created by Jonas Frey on 29.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 @testable import Movie_DB
 

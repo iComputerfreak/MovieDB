@@ -1,10 +1,4 @@
-//
-//  Utils.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -116,8 +110,13 @@ struct Utils {
         let lowerBound: Int = min(minShow?.year, minMovie?.year) ?? currentYear
         let upperBound: Int = max(maxShow?.year, maxMovie?.year) ?? currentYear
         
-        assert(lowerBound <= upperBound, "The fetch request returned wrong results. " +
-            "Try inverting the ascending/descending order of the fetch requests")
+        guard lowerBound <= upperBound else {
+            Logger.general.error(
+                // swiftlint:disable:next line_length
+                "The fetch request returned wrong results. Try inverting the ascending/descending order of the fetch requests"
+            )
+            return min(lowerBound, upperBound)...max(lowerBound, upperBound)
+        }
         
         return lowerBound...upperBound
     }
@@ -286,10 +285,6 @@ extension Utils {
         // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
         guard !posterDenyList.contains(path) else {
             Logger.network.warning("Poster path \(path, privacy: .public) is on deny list. Denying url fetch.")
-            assertionFailure(
-                "This should have been prevented from being called for poster paths on the deny list " +
-                "in the first place."
-            )
             return nil
         }
         let sizeString = size != nil ? "w\(size!)" : "original"

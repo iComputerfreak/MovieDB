@@ -1,10 +1,4 @@
-//
-//  MediaLibrary.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -62,7 +56,6 @@ struct MediaLibrary {
                     .values
                     // Add all duplicate arrays to the problems list
                     .forEach { duplicates in
-                        assert(duplicates.count > 1, "Fetch request returned non-duplicate medias.")
                         problems.append(.init(type: .duplicateMedia, associatedMedias: duplicates))
                     }
                 return problems

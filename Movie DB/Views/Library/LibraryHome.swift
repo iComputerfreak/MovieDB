@@ -1,12 +1,7 @@
-//
-//  LibraryHome.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 01.07.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Combine
+import Analytics
 import CoreData
 import os.log
 import SwiftUI
@@ -73,6 +68,7 @@ struct LibraryHome: View {
             }
             .overlay {
                 MediaListEmptyState(
+                    screen: .libraryHome,
                     isSearching: !searchText.isEmpty,
                     isFiltered: !filterSetting.isReset,
                     action: openAddMediaSearch,
@@ -140,6 +136,15 @@ struct LibraryHome: View {
         }
         .navigationSplitViewStyle(.balanced)
         .environmentObject(filterSetting)
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .libraryHome))
+        }
+        .onSubmit(of: .search) {
+            guard !searchText.isEmpty else { return }
+            AnalyticsService.shared.track(
+                .librarySearched(resultCountBucket: .bucket(for: filteredMedia.count))
+            )
+        }
     }
     
     var footerText: Text {

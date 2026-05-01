@@ -1,10 +1,4 @@
-//
-//  JFLiterals.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -12,7 +6,9 @@ import UIKit
 
 enum JFLiterals {
     /// The size of the thumbnail in the `LibraryHome` list
-    static let thumbnailSize: CGSize = .init(width: 80.0 / 1.5, height: 80.0)
+    static let thumbnailSize: CGSize = .init(width: 80 / 1.5, height: 80)
+    /// The size of the thumbnail in the seasons list
+    static let seasonThumbnailSize: CGSize = .init(width: 108 / 1.5, height: 108)
     /// Size multiplier for the size of the thumbnail in the `MediaDetail` view
     static let detailThumbnailMultiplier: CGFloat = 2.0
     /// The size of thumbnails to load from the TMDB API
@@ -24,8 +20,6 @@ enum JFLiterals {
     static let backdropImageTMDBSize: Int = 1280
     /// The size of the cast pictures in the detail view, loaded from the TMDB API
     static let castImageSize: Int = 185
-    /// The name of the poster placeholder image
-    static let posterPlaceholderName = "PosterPlaceholder"
     /// The type property of trailer videos
     static let trailerVideoType = "Trailer"
     /// The job property of directors in the credits of a movie

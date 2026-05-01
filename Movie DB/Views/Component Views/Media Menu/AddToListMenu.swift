@@ -1,28 +1,24 @@
-//
-//  AddToListMenu.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
 struct AddEnvironmentMediaToListMenu: View {
     @EnvironmentObject private var mediaObject: Media
+    var onAction: (() -> Void)? = nil
     var onCompletion: (() -> Void)?
     
     var body: some View {
-        AddToListMenu(mediaObjects: [mediaObject], onCompletion: onCompletion)
+        AddToListMenu(mediaObjects: [mediaObject], onAction: onAction, onCompletion: onCompletion)
     }
 }
 
 struct AddMultipleToListMenu: View {
     var mediaObjects: Set<Media>
+    var onAction: (() -> Void)? = nil
     var onCompletion: (() -> Void)?
     
     var body: some View {
-        AddToListMenu(mediaObjects: mediaObjects, onCompletion: onCompletion)
+        AddToListMenu(mediaObjects: mediaObjects, onAction: onAction, onCompletion: onCompletion)
     }
 }
 
@@ -36,10 +32,12 @@ private struct AddToListMenu: View {
     private var userLists: FetchedResults<UserMediaList>
     
     var mediaObjects: Set<Media>
+    var onAction: (() -> Void)?
     var onCompletion: (() -> Void)?
     
-    init(mediaObjects: Set<Media>, onCompletion: (() -> Void)? = nil) {
+    init(mediaObjects: Set<Media>, onAction: (() -> Void)? = nil, onCompletion: (() -> Void)? = nil) {
         self.mediaObjects = mediaObjects
+        self.onAction = onAction
         self.onCompletion = onCompletion
     }
     
@@ -47,6 +45,7 @@ private struct AddToListMenu: View {
         Menu {
             ForEach(userLists) { (list: UserMediaList) in
                 Button {
+                    onAction?()
                     for media in mediaObjects {
                         media.userLists.insert(list)
                     }

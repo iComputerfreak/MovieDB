@@ -1,13 +1,8 @@
-//
-//  TMDBData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
+import OSLog
 import UIKit
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
@@ -211,8 +206,10 @@ struct TMDBData: Decodable, Sendable {
                 parentalRating = try decodeShowRating()
             }
         } else {
-            assertionFailure("Decoding TMDBData without mediaType in the userInfo dict. " +
-                "Please specify the type of media we are decoding! Guessing the type...")
+            Logger.general.error(
+                // swiftlint:disable:next line_length
+                "Decoding TMDBData without mediaType in the userInfo dict. Please specify the type of media we are decoding! Guessing the type..."
+            )
             // If we don't know the type of media, we have to try both and hope one works
             movieData = try? MovieData(from: decoder)
             showData = try? ShowData(from: decoder)
@@ -224,8 +221,11 @@ struct TMDBData: Decodable, Sendable {
                 fatalError("Unable to decode media object. MediaType is unknown.")
             }
         }
-        
-        assert(!(movieData == nil && showData == nil), "Error decoding movie/show data for '\(title)'")
+
+        if movieData == nil, showData == nil {
+            let title = self.title
+            Logger.general.error("Error decoding movie/show data for '\(title)'")
+        }
     }
     
     enum CodingKeys: String, CodingKey {

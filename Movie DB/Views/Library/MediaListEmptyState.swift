@@ -1,8 +1,10 @@
 // Copyright © 2025 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct MediaListEmptyState: View {
+    let screen: AnalyticsEmptyStateScreen
     let isSearching: Bool
     let isFiltered: Bool
     let customNothingHereYetDescription: String?
@@ -10,12 +12,14 @@ struct MediaListEmptyState: View {
     let resetFilterAction: (() -> Void)?
 
     init(
+        screen: AnalyticsEmptyStateScreen,
         isSearching: Bool,
         isFiltered: Bool,
         customNothingHereYetDescription: String? = nil,
         action: (() -> Void)? = nil,
         resetFilterAction: (() -> Void)? = nil
     ) {
+        self.screen = screen
         self.isSearching = isSearching
         self.isFiltered = isFiltered
         self.customNothingHereYetDescription = customNothingHereYetDescription
@@ -53,11 +57,17 @@ struct MediaListEmptyState: View {
             Text(description)
         } actions: {
             if let action {
-                Button(Strings.Library.EmptyState.searchInAddMedia, action: action)
+                Button(Strings.Library.EmptyState.searchInAddMedia) {
+                    AnalyticsService.shared.track(.emptyStateActionUsed(action: .openLookup, screen: screen))
+                    action()
+                }
                     .accessibilityIdentifier("library-empty-state-add-media-search")
             }
             if showsFilterResetButton, let resetFilterAction {
-                Button(Strings.Library.EmptyState.resetFilter, action: resetFilterAction)
+                Button(Strings.Library.EmptyState.resetFilter) {
+                    AnalyticsService.shared.track(.emptyStateActionUsed(action: .resetFilter, screen: screen))
+                    resetFilterAction()
+                }
                     .accessibilityIdentifier("library-empty-state-reset-filter")
             }
         }
@@ -70,7 +80,10 @@ struct MediaListEmptyState: View {
             Text(Strings.Library.EmptyState.descriptionNoFilterResults)
         } actions: {
             if let resetFilterAction {
-                Button(Strings.Library.EmptyState.resetFilter, action: resetFilterAction)
+                Button(Strings.Library.EmptyState.resetFilter) {
+                    AnalyticsService.shared.track(.emptyStateActionUsed(action: .resetFilter, screen: screen))
+                    resetFilterAction()
+                }
                     .accessibilityIdentifier("library-empty-state-reset-filter")
             }
         }
@@ -84,26 +97,27 @@ struct MediaListEmptyState: View {
             .refreshable {}
             .searchable(text: .constant("Search text"))
             .overlay {
-                MediaListEmptyState(isSearching: true, isFiltered: true, action: {})
+                MediaListEmptyState(screen: .libraryHome, isSearching: true, isFiltered: true, action: {})
             }
     }
 }
 
 #Preview("Searching") {
     List {
-        MediaListEmptyState(isSearching: true, isFiltered: false, action: {})
+        MediaListEmptyState(screen: .libraryHome, isSearching: true, isFiltered: false, action: {})
     }
 }
 
 #Preview("Filtering") {
     List {
-        MediaListEmptyState(isSearching: false, isFiltered: true)
+        MediaListEmptyState(screen: .libraryHome, isSearching: false, isFiltered: true)
     }
 }
 
 #Preview("Filtering with Reset Filter Button") {
     List {
         MediaListEmptyState(
+            screen: .libraryHome,
             isSearching: false,
             isFiltered: true,
             resetFilterAction: {}
@@ -113,6 +127,6 @@ struct MediaListEmptyState: View {
 
 #Preview("No Media") {
     List {
-        MediaListEmptyState(isSearching: false, isFiltered: false)
+        MediaListEmptyState(screen: .libraryHome, isSearching: false, isFiltered: false)
     }
 }

@@ -1,10 +1,4 @@
-//
-//  StoreManager.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 20.06.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log

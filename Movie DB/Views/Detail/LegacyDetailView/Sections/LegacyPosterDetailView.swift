@@ -1,10 +1,4 @@
-//
-//  PosterDetailView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import JFSwiftUI
 import SwiftUI
@@ -27,9 +21,8 @@ struct LegacyPosterDetailView: View {
         } loading: {
             ProgressView()
         } fallback: {
-            Image(uiImage: UIImage.posterPlaceholder)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            PosterPlaceholderView(cornerRadius: 24)
+                .aspectRatio(JFLiterals.thumbnailSize.width / JFLiterals.thumbnailSize.height, contentMode: .fit)
                 .padding()
         }
     }

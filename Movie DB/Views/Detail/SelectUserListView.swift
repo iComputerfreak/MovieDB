@@ -1,10 +1,4 @@
-//
-//  SelectUserListView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 22.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import SwiftUI

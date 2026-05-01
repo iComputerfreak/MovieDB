@@ -1,14 +1,9 @@
-//
-//  AddMediaView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Combine
 import CoreData
 import Foundation
+import Analytics
 import struct JFSwiftUI.LoadingView
 import os.log
 import SwiftUI
@@ -67,7 +62,10 @@ struct AddMediaView: View {
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
-            ProInfoView()
+            ProInfoView(source: .addMediaLimit)
+        }
+        .onAppear {
+            AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
         }
     }
     
@@ -79,6 +77,7 @@ struct AddMediaView: View {
                 isLoading = false
             }
             try await library.addMedia(result)
+            AnalyticsService.shared.track(.mediaAdded(mediaType: result.mediaType.analyticsValue))
             await MainActor.run {
                 isLoading = false
             }
@@ -95,6 +94,7 @@ struct AddMediaView: View {
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
             Logger.appStore.warning("User tried adding a media, but reached their pro limit.")
+            AnalyticsService.shared.track(.mediaAddFailedProLimit(mediaType: result.mediaType.analyticsValue))
             self.isShowingProPopup = true
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")

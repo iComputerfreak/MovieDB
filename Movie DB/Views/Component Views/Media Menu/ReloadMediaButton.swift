@@ -1,11 +1,6 @@
-//
-//  ReloadMediaButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import os.log
 import SwiftUI
 
@@ -13,9 +8,11 @@ struct ReloadMediaButton: View {
     @EnvironmentObject private var mediaObject: Media
     @EnvironmentObject private var notificationProxy: NotificationProxy
     @Environment(\.managedObjectContext) private var managedObjectContext
+    var onAction: (() -> Void)? = nil
     
     var body: some View {
         Button {
+            onAction?()
             Task(priority: .userInitiated) {
                 do {
                     try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)

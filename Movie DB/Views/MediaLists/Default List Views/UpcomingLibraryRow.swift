@@ -1,10 +1,4 @@
-//
-//  UpcomingLibraryRow.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -36,7 +30,6 @@ struct UpcomingLibraryRow: View {
         } else if mediaObject is Show {
             return upcomingSeason?.airDate
         } else {
-            assertionFailure("Media is neither a Movie, nor a Show.")
             return nil
         }
     }

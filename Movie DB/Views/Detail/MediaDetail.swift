@@ -1,19 +1,19 @@
-//
-//  MediaDetail.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.07.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct MediaDetail: View {
     var body: some View {
-        if #available(iOS 26.0, *) {
-            MediaDetailView()
-        } else {
-            MediaDetailLegacyView()
+        Group {
+            if #available(iOS 26.0, *) {
+                MediaDetailView()
+            } else {
+                MediaDetailLegacyView()
+            }
+        }
+        .task {
+            AnalyticsService.shared.track(.screenViewed(screenName: .mediaDetail))
         }
     }
 }

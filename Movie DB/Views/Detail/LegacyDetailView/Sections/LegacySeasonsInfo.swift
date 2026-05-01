@@ -1,10 +1,4 @@
-//
-//  SeasonsInfo.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 25.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -94,9 +88,14 @@ struct SeasonInfo: View {
     
     var body: some View {
         HStack {
-            // swiftlint:disable:next redundant_nil_coalescing
-            Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
+            Group {
+                if case let .some(.some(thumbnail)) = thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnail()
+                } else {
+                    PosterPlaceholderView.legacyThumbnail()
+                }
+            }
             VStack(alignment: .leading) {
                 Text(season.name)
                     .bold()

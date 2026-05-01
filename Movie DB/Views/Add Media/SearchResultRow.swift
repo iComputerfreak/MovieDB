@@ -1,10 +1,4 @@
-//
-//  SearchResultRow.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 29.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import os.log
 import SwiftUI
@@ -12,6 +6,11 @@ import SwiftUI
 struct SearchResultRow: View {
     /// The search result to display
     @EnvironmentObject private var result: TMDBSearchResult
+    var alreadyInLibraryOverride: Bool?
+
+    private var alreadyInLibrary: Bool {
+        alreadyInLibraryOverride ?? MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
+    }
     
     var year: Int? {
         if let releaseDate = (result as? TMDBMovieSearchResult)?.releaseDate {
@@ -23,10 +22,20 @@ struct SearchResultRow: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
             // MARK: Thumbnail
-            Image(uiImage: result.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
+            Group {
+                if let thumbnail = result.thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnailStyle()
+                } else {
+                    if #available(iOS 26.0, *) {
+                        PosterPlaceholderView.thumbnail()
+                    } else {
+                        PosterPlaceholderView.legacyThumbnail()
+                    }
+                }
+            }
             VStack(alignment: .leading, spacing: 4) {
                 // MARK: Title
                 Text(verbatim: "\(result.title)")
@@ -47,7 +56,7 @@ struct SearchResultRow: View {
                 }
                 .font(.subheadline)
                 // MARK: Third Line: Already added
-                if MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType) {
+                if alreadyInLibrary {
                     Group {
                         Text(Image(systemName: "checkmark.circle.fill")) +
                         Text(verbatim: " ") +

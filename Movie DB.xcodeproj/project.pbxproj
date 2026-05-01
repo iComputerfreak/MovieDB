@@ -19,6 +19,7 @@
 		AB50278C2D58AD7400D7DD9B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026642D58AD7400D7DD9B /* SceneDelegate.swift */; };
 		AB50278D2D58AD7400D7DD9B /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026652D58AD7400D7DD9B /* Secrets.swift */; };
 		AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB6478D722C7B2A300F3E14E /* JFSwiftUI */; };
+		AB9A1C2D3E4F5061728394A5 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB9A1C2D3E4F5061728394A4 /* Analytics */; };
 		ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB644932971760A0024BD80 /* StoreKit.framework */; };
 		ABD249032A2394CC002DEB3D /* JFUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249022A2394CC002DEB3D /* JFUtils */; };
 		ABD249082A23955F002DEB3D /* JFTestingUtils in Frameworks */ = {isa = PBXBuildFile; productRef = ABD249072A23955F002DEB3D /* JFTestingUtils */; };
@@ -138,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABE17B6A284FA06900879C30 /* CloudKit.framework in Frameworks */,
+				AB9A1C2D3E4F5061728394A5 /* Analytics in Frameworks */,
 				AB0239EC2D5BE69D00C3FF52 /* AppFoundation in Frameworks */,
 				ABB644942971760A0024BD80 /* StoreKit.framework in Frameworks */,
 				AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */,
@@ -287,7 +289,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AB0239E82D5BE4C000C3FF52 /* Packages */,
 				AB5027AB2D58AD8700D7DD9B /* Utility */,
 				AB5027C02D58AD8700D7DD9B /* Preview Content */,
 				AB5027CD2D58AD8700D7DD9B /* CSV */,
@@ -307,6 +308,7 @@
 				ABD249022A2394CC002DEB3D /* JFUtils */,
 				AB02A0242B460F05008362D7 /* Flow */,
 				AB0239EB2D5BE69D00C3FF52 /* AppFoundation */,
+				AB9A1C2D3E4F5061728394A4 /* Analytics */,
 			);
 			productName = "Movie DB";
 			productReference = AB6718BD22C0312B00F429E4 /* Movie DB.app */;
@@ -401,6 +403,8 @@
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
+				AB9A1C2D3E4F5061728394A2 /* XCLocalSwiftPackageReference "Movie DB/Packages/AppFoundation" */,
+				AB9A1C2D3E4F5061728394A3 /* XCLocalSwiftPackageReference "Movie DB/Packages/Analytics" */,
 				AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */,
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
@@ -468,7 +472,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating API Key...\"\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\n# The TMDB_API_KEY environment variable is used in Secrets.swift.gyb\nif [[ -f \"TMDB_API_KEY\" ]]; then\n    export TMDB_API_KEY=\"$(head TMDB_API_KEY)\"\nfi\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        /usr/bin/env gyb --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
+			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        python3 \"$GYB_PATH\" --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
@@ -509,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --quiet\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -953,6 +957,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AB9A1C2D3E4F5061728394A2 /* XCLocalSwiftPackageReference "Movie DB/Packages/AppFoundation" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Movie DB/Packages/AppFoundation";
+		};
+		AB9A1C2D3E4F5061728394A3 /* XCLocalSwiftPackageReference "Movie DB/Packages/Analytics" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Movie DB/Packages/Analytics";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1002,6 +1017,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB6478D622C7B2A300F3E14E /* XCRemoteSwiftPackageReference "JFSwiftUI" */;
 			productName = JFSwiftUI;
+		};
+		AB9A1C2D3E4F5061728394A4 /* Analytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Analytics;
 		};
 		ABD249022A2394CC002DEB3D /* JFUtils */ = {
 			isa = XCSwiftPackageProductDependency;

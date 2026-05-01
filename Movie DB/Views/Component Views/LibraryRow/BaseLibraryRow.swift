@@ -1,10 +1,4 @@
-//
-//  BaseLibraryRow.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -43,10 +37,16 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
             // This will be displayed while the object is being deleted or is unavailable
             ProgressView()
         } else {
-            HStack {
+            HStack(spacing: 12) {
                 // MARK: Thumbnail
-                Image(uiImage: mediaObject.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                    .thumbnailStyle()
+                Group {
+                    if let thumbnail = mediaObject.thumbnail {
+                        Image(uiImage: thumbnail)
+                            .thumbnailStyle()
+                    } else {
+                        PosterPlaceholderView.thumbnail()
+                    }
+                }
                 VStack(alignment: .leading, spacing: 4) {
                     // MARK: Title
                     Text(mediaObject.title)

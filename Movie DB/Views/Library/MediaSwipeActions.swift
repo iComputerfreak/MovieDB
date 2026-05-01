@@ -1,12 +1,7 @@
-//
-//  MediaSwipeActions.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 03.07.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
+import Analytics
 import SwiftUI
 
 extension View {
@@ -23,7 +18,10 @@ struct MediaSwipeActionsModifier: ViewModifier {
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 DeleteMediaSwipeAction()
 
-                let watchlistButton = AddToWatchlistButton().labelStyle(.iconOnly)
+                let watchlistButton = AddToWatchlistButton {
+                    AnalyticsService.shared.track(.mediaSwipeActionUsed(action: .toggleWatchlist))
+                }
+                .labelStyle(.iconOnly)
 
                 if let iconColor = PredicateMediaList.watchlist.iconColor {
                     watchlistButton

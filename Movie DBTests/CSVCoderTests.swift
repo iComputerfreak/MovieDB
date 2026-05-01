@@ -1,10 +1,4 @@
-//
-//  CSVCoderTests.swift
-//  Movie DBTests
-//
-//  Created by Jonas Frey on 03.08.20.
-//  Copyright © 2020 Jonas Frey. All rights reserved.
-//
+// Copyright © 2020 Jonas Frey. All rights reserved.
 
 import CoreData
 import JFTestingUtils

@@ -1,10 +1,4 @@
-//
-//  AddMediaSearchRow.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.04.26.
-//  Copyright © 2026 Jonas Frey. All rights reserved.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -42,9 +36,9 @@ struct AddMediaSearchRow: View {
             )
 
             NavigationLink {
-                LegacyMediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
+                MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
             } label: {
-                SearchResultRow()
+                SearchResultRow(alreadyInLibraryOverride: alreadyAdded)
                     .environmentObject(result)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

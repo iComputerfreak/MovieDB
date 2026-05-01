@@ -1,11 +1,6 @@
-//
-//  DynamicMediaListConfigurationView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 12.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import OSLog
 import SwiftUI
 
@@ -19,7 +14,6 @@ struct DynamicMediaListConfigurationView: View {
         self.list = list
         if list.filterSetting == nil {
             Logger.coreData.warning("Dynamic media list has no FilterSetting. Recovering by creating a new one.")
-            assertionFailure("List should have a FilterSetting.")
             list.filterSetting = FilterSetting(context: managedObjectContext)
         }
     }
@@ -56,6 +50,21 @@ struct DynamicMediaListConfigurationView: View {
             .toolbar {
                 DismissButton()
             }
+        }
+        .onChange(of: list.name) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .name))
+        }
+        .onChange(of: list.iconName) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconName))
+        }
+        .onChange(of: list.iconColor) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconColor))
+        }
+        .onChange(of: list.iconRenderingMode) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .iconRenderingMode))
+        }
+        .onChange(of: list.subtitleContent) { _, _ in
+            AnalyticsService.shared.track(.listConfigurationChanged(field: .subtitleContent))
         }
     }
 }

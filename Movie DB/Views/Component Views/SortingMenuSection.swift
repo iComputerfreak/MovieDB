@@ -1,17 +1,13 @@
-//
-//  SortingMenuSection.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 29.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
+import Analytics
 import Foundation
 import SwiftUI
 
 struct SortingMenuSection: View {
     @Binding var sortingOrder: SortingOrder
     @Binding var sortingDirection: SortingDirection
+    var onSelectionChanged: ((SortingOrder, SortingDirection) -> Void)? = nil
 
     // To allow toggling the sorting direction, we need to use a custom binding as proxy
     private var sortingOrderProxy: Binding<SortingOrder> {
@@ -28,6 +24,7 @@ struct SortingMenuSection: View {
                     self.sortingDirection = newValue.defaultDirection
                 }
                 self.sortingOrder = newValue
+                onSelectionChanged?(self.sortingOrder, self.sortingDirection)
             }
         }
     }

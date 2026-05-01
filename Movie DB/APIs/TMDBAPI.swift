@@ -1,10 +1,4 @@
-//
-//  TMDBAPI.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.06.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -88,7 +82,9 @@ actor TMDBAPI {
     ///   - context: The context to update the media objects in
     func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
         // The given media object should be from the context to perform the update in
-        assert(media.managedObjectContext == context || context.parent == media.managedObjectContext)
+        if !(media.managedObjectContext == context || context.parent == media.managedObjectContext) {
+            Logger.api.warning("Trying to update a media object in the wrong context!")
+        }
         let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
         // Update the media in the correct thread
         await context.perform {
@@ -120,11 +116,12 @@ actor TMDBAPI {
             let days = distance / .day
             // Round to compensate for rounding errors, the result should always be close to full numbers,
             // since we erased the time of both dates
-            assert(
-                abs(days - days.rounded()) < 0.01,
-                // swiftlint:disable:next line_length
-                "Distance between time-erased startDate (\(startDate)) and time-erased endDate (\(endDate)) is \(days) days."
-            )
+            if abs(days - days.rounded()) > 0.01 {
+                Logger.api.warning(
+                    // swiftlint:disable:next line_length
+                    "Distance between time-erased startDate (\(startDate)) and time-erased endDate (\(endDate)) is \(days) days."
+                )
+            }
             return Int(days.rounded())
         }
         

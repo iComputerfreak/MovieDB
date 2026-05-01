@@ -1,10 +1,4 @@
-//
-//  AppStoreScreenshotData.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.01.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation

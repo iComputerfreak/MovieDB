@@ -1,10 +1,4 @@
-//
-//  LanguageChooser.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.05.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import os.log
 import SwiftUI

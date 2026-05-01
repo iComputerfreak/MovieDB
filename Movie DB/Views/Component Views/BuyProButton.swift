@@ -1,14 +1,9 @@
-//
-//  BuyProButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 13.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import os.log
 import StoreKit
 import SwiftUI
+import Analytics
 
 struct BuyProButton: View {
     @Environment(\.dismiss) private var dismiss
@@ -53,10 +48,26 @@ struct BuyProButton: View {
         guard let proProduct = storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro) else {
             throw PurchaseError.productNotFound
         }
+
+        AnalyticsService.shared.track(
+            .proPurchaseStarted(
+                productID: .pro,
+                price: NSDecimalNumber(decimal: proProduct.price).doubleValue
+            )
+        )
         
         // Execute the purchase
         let result = try await storeManager.purchase(proProduct)
-        
+
+        if result != nil {
+            AnalyticsService.shared.track(
+                .boughtPro(
+                    productID: .pro,
+                    price: NSDecimalNumber(decimal: proProduct.price).doubleValue
+                )
+            )
+        }
+
         // Dismiss on a successful purchase
         if result != nil {
             dismiss()

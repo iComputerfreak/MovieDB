@@ -1,15 +1,10 @@
-//
-//  LibraryActionsSection.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
 import os.log
 import SwiftUI
+import Analytics
 
 struct LibraryActionsSection: View {
     @Binding var config: SettingsViewModel
@@ -62,29 +57,8 @@ struct LibraryActionsSection: View {
             #endif
         } header: {
             Text(Strings.Settings.librarySectionHeader)
-        } footer: {
-            FooterView()
         }
         .disabled(self.config.isLoading)
-    }
-    
-    struct FooterView: View {
-        var body: some View {
-            HStack {
-                Spacer()
-                VStack(alignment: .center) {
-                    // Made with love footer
-                    Text(Strings.Settings.madeWithLoveFooter)
-                        .bold()
-                    // App version
-                    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                        Text(Strings.Settings.versionFooter(appVersion))
-                            .italic()
-                    }
-                }
-                Spacer()
-            }
-        }
     }
     
     func updateMedia() {
@@ -105,9 +79,11 @@ struct LibraryActionsSection: View {
                         title: Strings.Settings.Alert.updateMediaTitle,
                         message: Strings.Settings.Alert.updateMediaMessage(updateCount)
                     )
+                    AnalyticsService.shared.track(.libraryUpdate(result: .success))
                 }
             } catch {
                 Logger.library.error("Error updating media objects: \(error, privacy: .public)")
+                AnalyticsService.shared.track(.libraryUpdate(result: .failure))
                 // Update UI on the main thread
                 await MainActor.run {
                     AlertHandler.showError(
@@ -135,6 +111,7 @@ struct LibraryActionsSection: View {
             Task(priority: .userInitiated) {
                 do {
                     Logger.library.info("Resetting Library...")
+                    AnalyticsService.shared.track(.libraryReset)
                     try self.library.reset()
                 } catch {
                     Logger.library.error("Error resetting library: \(error, privacy: .public)")

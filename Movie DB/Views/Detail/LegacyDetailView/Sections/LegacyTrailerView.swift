@@ -1,10 +1,4 @@
-//
-//  TrailerView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 08.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
 
@@ -35,10 +29,6 @@ struct LegacyTrailerView: View {
             }
         } else {
             EmptyView()
-                .onAppear {
-                    // We should never arrive here. Videos with missing URLs are filtered out in the super view
-                    assertionFailure("Trying to present a trailer with an invalid URL.")
-                }
         }
     }
 }

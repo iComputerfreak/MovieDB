@@ -1,5 +1,6 @@
-// Copyright © 2025 Jonas Frey. All rights reserved.
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Analytics
 import Flow
 import SwiftUI
 
@@ -15,28 +16,12 @@ struct MediaDetailView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
 
-    @State private var titleViewHeight: CGFloat = 0
-    @State private var scrollOffset: CGFloat = 0
-    let scrollCoordinateSpaceName: String = "scroll"
-
     private var backgroundColor: Color {
         switch colorScheme {
         case .dark: return .black
         case .light: return .white
         @unknown default: return .white
         }
-    }
-
-    let imageHeight: CGFloat = 450
-    private var backdropGradient: LinearGradient {
-        .init(
-            stops: [
-                .init(color: .black, location: 0),
-                .init(color: .clear, location: 1),
-            ],
-            startPoint: .bottom,
-            endPoint: .top
-        )
     }
 
     var body: some View {
@@ -67,17 +52,30 @@ struct MediaDetailView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Menu {
                             Section {
-                                AddToFavoritesButton()
-                                AddToWatchlistButton()
-                                AddEnvironmentMediaToListMenu()
+                                AddToFavoritesButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleFavorite))
+                                }
+                                AddToWatchlistButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleWatchlist))
+                                }
+                                AddEnvironmentMediaToListMenu(onCompletion: {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .addToList))
+                                })
                             }
                             Section {
-                                ReloadMediaButton()
-                                ShareMediaButton()
-                                DeleteMediaButton {
+                                ReloadMediaButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .reload))
+                                }
+                                ShareMediaButton {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .share))
+                                    AnalyticsService.shared.track(.mediaShared(shareTargetType: .systemShareSheet))
+                                }
+                                DeleteMediaButton(onAction: {
+                                    AnalyticsService.shared.track(.detailMenuActionUsed(action: .delete))
+                                }, onDelete: {
                                     // Dismiss after deleting
                                     dismiss()
-                                }
+                                })
                             }
                         } label: {
                             MediaMenuLabel()
@@ -94,120 +92,59 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Leave place for the backdrop
-                Color.clear
-                    .frame(maxWidth: .infinity)
-                    .frame(height: imageHeight)
-                    .overlay(alignment: .bottom) {
-                        MediaTitleView()
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            // Some extra top padding for the gradient to run out
-                            .padding(.top, 48)
-                            .frame(maxWidth: .infinity)
-                            .background(backdropGradient)
-                            .background {
-                                titleImage
-                                    .padding(.top, -(imageHeight - titleViewHeight - scrollOffset))
-                                    .blur(radius: 30)
-                                    .frame(height: titleViewHeight, alignment: .top)
-                                    .clipped()
-                                    .mask(backdropGradient)
-                            }
-                            .background {
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .preference(key: TitleViewHeightKey.self, value: proxy.size.height)
-                                }
-                            }
-                            .onPreferenceChange(TitleViewHeightKey.self) { titleViewHeight in
-                                self.titleViewHeight = titleViewHeight
-                            }
-                    }
+        ParallaxHeaderContentView(backgroundImage: mediaObject.thumbnail) {
+            MediaTitleView()
+        } content: {
+            VStack(alignment: .leading) {
+                UserDataSection()
+                    .environment(\.isEditing, isEditing)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                VStack(alignment: .leading) {
-                    UserDataSection()
-                        .environment(\.isEditing, isEditing)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                BasicInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    BasicInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                WatchProvidersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    WatchProvidersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                TrailersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    TrailersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                ExtendedInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    ExtendedInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    MetadataInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .padding(16)
-                .frame(maxWidth: .infinity)
-                .background(backgroundColor)
+                MetadataInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .padding(16)
             .frame(maxWidth: .infinity)
-            .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .preference(
-                            key: ScrollOffsetKey.self,
-                            value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
-                        )
-                }
-            }
-            .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
-                self.scrollOffset = scrollOffset
-            }
-        }
-        .background(alignment: .top) {
-            titleImage
-                .frame(height: imageHeight)
-        }
-        .coordinateSpace(name: scrollCoordinateSpaceName)
-        .ignoresSafeArea(edges: .top)
-    }
-
-    @ViewBuilder
-    private var titleImage: some View {
-        if let image = mediaObject.thumbnail {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: imageHeight, alignment: .top)
-                .ignoresSafeArea(edges: .top)
-        } else {
-            Color.gray
+            .background(backgroundColor)
         }
     }
 }
 
+@available(iOS 26.0, *)
 #Preview("Movie") {
-    if #available(iOS 26.0, *) {
-        NavigationStack {
-            MediaDetailView()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                .previewEnvironment()
-        }
-    } else {
-        Text(verbatim: "This view is only supported on iOS 26 and newer.")
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            .previewEnvironment()
     }
 }
 
+@available(iOS 26.0, *)
 #Preview("Show") {
-    if #available(iOS 26.0, *) {
-        NavigationStack {
-            MediaDetailView()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-                .previewEnvironment()
-        }
-    } else {
-        Text(verbatim: "This view is only supported on iOS 26 and newer.")
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .previewEnvironment()
+    }
+}
+
+@available(iOS 26.0, *)
+#Preview("No image") {
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticMinimalMovie as Media)
+            .previewEnvironment()
     }
 }

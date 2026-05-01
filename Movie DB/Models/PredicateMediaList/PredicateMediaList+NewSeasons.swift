@@ -1,10 +1,4 @@
-//
-//  PredicateMediaList+NewSeasons.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 import SwiftUI

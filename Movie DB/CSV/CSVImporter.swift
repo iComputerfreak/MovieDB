@@ -1,10 +1,4 @@
-//
-//  CSVImporter.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 16.03.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
 import Foundation
@@ -208,7 +202,9 @@ class CSVImporter {
                 if !tagNames.isEmpty {
                     for name in tagNames {
                         let tag = Tag.fetchOrCreate(name: name, in: context)
-                        assert(tag.managedObjectContext == context)
+                        if tag.managedObjectContext != context {
+                            Logger.importExport.warning("Tag \(tag.name) is not in the import context.")
+                        }
                         tags.append(tag)
                     }
                     media.tags = Set(tags)
@@ -218,14 +214,12 @@ class CSVImporter {
                 media.notes = notes
             }
             if let watched = values[.movieWatched].flatMap(MovieWatchState.init(rawValue:)) {
-                assert(mediaType == .movie)
                 if let movie = media as? Movie {
                     movie.watched = watched
                 }
             }
             // Legacy show watch state import
             if let watched = values[.showWatched].flatMap(ShowWatchState.init(rawValue:)) {
-                assert(mediaType == .show)
                 if let show = media as? Show {
                     show.watched = watched
                 }
@@ -235,7 +229,6 @@ class CSVImporter {
                 let rawLastEpisodeWatched = values[.lastEpisodeWatched]
                 let lastEpisodeWatched = rawLastEpisodeWatched == nil ? nil : Int(rawLastEpisodeWatched!)
                 
-                assert(mediaType == .show)
                 if let show = media as? Show {
                     show.watched = .init(season: lastSeasonWatched, episode: lastEpisodeWatched)
                 }

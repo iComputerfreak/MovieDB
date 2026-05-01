@@ -15,10 +15,12 @@ Rules and guidelines for working on this Xcode project.
 
 ## File conventions
 - Default to one primary (non-accessory) type per file; the filename should match that type.
-- Keep every new view in its own file by default; avoid multi-view files unless the accessory view is tiny, private, and tightly coupled to one primary view.
+- Use individual files per type by default, including package code; only keep tiny, private helpers in the same file when splitting would add noise.
+- Keep views in their own files in most cases; only co-locate a view when it is a tiny accessory tightly coupled to one primary type.
 - Extract helper/accessory types into dedicated files; keep tiny, private helpers alongside the primary type only when splitting would add noise.
 - Keep extracted types in the closest logical folder.
 - Preserve the standard header comment at the top of new files.
+- New source files should use a single-line copyright header: `// Copyright © <year> Jonas Frey. All rights reserved.`
 
 ## SwiftUI conventions
 - Keep view modifiers in a consistent top-to-bottom order: layout -> style -> overlay -> padding.
@@ -32,6 +34,12 @@ Rules and guidelines for working on this Xcode project.
 - Do not inline visible UI strings with concatenation or interpolation in views when text can be localized.
 - When dynamic text is needed, add `Strings` static functions with localized format keys.
 - Keep changes localized to the feature you are working on; avoid broad copy rewrites unless requested.
+
+## Analytics
+- Follow `ANALYTICS.md` for all tracking work.
+- Analytics must remain explicit opt-in, anonymous-only, and allowlist-only unless the user explicitly changes policy.
+- Never send titles, IDs, notes, tags, ratings, search text, file names, URLs with content data, or other free-form/user-provided data.
+- Any new event or property requires a doc update in `ANALYTICS.md` and user approval before implementation.
 
 ## Xcode project hygiene
 - Minimize changes to `project.pbxproj`; only edit when necessary for new files or resources.

@@ -1,21 +1,19 @@
-//
-//  DeleteMediaButton.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 27.05.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct DeleteMediaButton: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(\.managedObjectContext) private var managedObjectContext
     
+    var onAction: (() -> Void)? = nil
     var onDelete: (() -> Void)? = nil
     
     var body: some View {
         Button(role: .destructive) {
+            onAction?()
+            AnalyticsService.shared.track(.mediaDeleted(mediaType: mediaObject.type.analyticsValue))
             // Delete the media
             self.managedObjectContext.delete(mediaObject)
             onDelete?()

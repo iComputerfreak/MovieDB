@@ -1,10 +1,4 @@
-//
-//  OpenShareURL.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.09.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 import os.log
@@ -71,7 +65,7 @@ struct ShareDetailView: View {
         // FIX: For some reason, using a NavigationStack here makes the MediaLookupDetail view load indefinitely.
         // NavigationStack {
         if let presentedTMDBID, let presentedTMDBMediaType {
-            LegacyMediaLookupDetail(
+            MediaLookupDetail(
                 tmdbID: presentedTMDBID,
                 mediaType: presentedTMDBMediaType,
                 showingDismissButton: true

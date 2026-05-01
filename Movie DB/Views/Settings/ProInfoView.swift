@@ -1,13 +1,8 @@
-//
-//  ProInfoView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 30.05.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import os.log
 import SwiftUI
+import Analytics
 
 enum PurchaseError: Error {
     case productNotFound
@@ -17,10 +12,12 @@ struct ProInfoView: View {
     @Environment(\.dismiss) private var dismiss
 
     let showCancelButton: Bool
+    let source: AnalyticsProSheetSource
     private let storeManager: StoreManager = .shared
 
-    init(showCancelButton: Bool = true) {
+    init(showCancelButton: Bool = true, source: AnalyticsProSheetSource = .settings) {
         self.showCancelButton = showCancelButton
+        self.source = source
     }
     
     var body: some View {
@@ -43,6 +40,7 @@ struct ProInfoView: View {
                         Task {
                             do {
                                 try await storeManager.restorePurchases()
+                                AnalyticsService.shared.track(.restoredPro)
                             } catch {
                                 AlertHandler.showSimpleAlert(
                                     title: Strings.ProInfo.Alert.restoreFailedTitle,
@@ -62,6 +60,9 @@ struct ProInfoView: View {
                     }
                 }
             }
+        }
+        .task {
+            AnalyticsService.shared.track(.proSheetViewed(source: source))
         }
     }
 
