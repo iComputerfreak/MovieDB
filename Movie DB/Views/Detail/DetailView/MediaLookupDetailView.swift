@@ -25,9 +25,7 @@ struct MediaLookupDetailView: View {
 
     var body: some View {
         NavigationStack {
-            ParallaxHeaderContentView {
-                titleImage
-            } header: {
+            ParallaxHeaderContentView(backgroundImage: mediaObject.thumbnail) {
                 MediaTitleView(showsUserSpecificFields: false)
             } content: {
                 VStack(alignment: .leading) {
@@ -65,19 +63,6 @@ struct MediaLookupDetailView: View {
                     mediaObject.loadImages()
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    private var titleImage: some View {
-        if let image = mediaObject.thumbnail {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 450, alignment: .top)
-                .ignoresSafeArea(edges: .top)
-        } else {
-            Color.gray
         }
     }
 }

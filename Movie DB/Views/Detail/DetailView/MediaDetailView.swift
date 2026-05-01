@@ -24,8 +24,6 @@ struct MediaDetailView: View {
         }
     }
 
-    let imageHeight: CGFloat = 450
-
     var body: some View {
         if mediaObject.isFault {
             Text(Strings.Detail.errorLoadingText)
@@ -94,9 +92,7 @@ struct MediaDetailView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        ParallaxHeaderContentView(imageHeight: imageHeight) {
-            titleImage
-        } header: {
+        ParallaxHeaderContentView(backgroundImage: mediaObject.thumbnail) {
             MediaTitleView()
         } content: {
             VStack(alignment: .leading) {
@@ -124,41 +120,31 @@ struct MediaDetailView: View {
             .background(backgroundColor)
         }
     }
-
-    @ViewBuilder
-    private var titleImage: some View {
-        if let image = mediaObject.thumbnail {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: imageHeight, alignment: .top)
-                .ignoresSafeArea(edges: .top)
-        } else {
-            Color.gray
-        }
-    }
 }
 
+@available(iOS 26.0, *)
 #Preview("Movie") {
-    if #available(iOS 26.0, *) {
-        NavigationStack {
-            MediaDetailView()
-                .environmentObject(PlaceholderData.preview.staticMovie as Media)
-                .previewEnvironment()
-        }
-    } else {
-        Text(verbatim: "This view is only supported on iOS 26 and newer.")
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticMovie as Media)
+            .previewEnvironment()
     }
 }
 
+@available(iOS 26.0, *)
 #Preview("Show") {
-    if #available(iOS 26.0, *) {
-        NavigationStack {
-            MediaDetailView()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
-                .previewEnvironment()
-        }
-    } else {
-        Text(verbatim: "This view is only supported on iOS 26 and newer.")
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticShow as Media)
+            .previewEnvironment()
+    }
+}
+
+@available(iOS 26.0, *)
+#Preview("No image") {
+    NavigationStack {
+        MediaDetailView()
+            .environmentObject(PlaceholderData.preview.staticMinimalMovie as Media)
+            .previewEnvironment()
     }
 }
