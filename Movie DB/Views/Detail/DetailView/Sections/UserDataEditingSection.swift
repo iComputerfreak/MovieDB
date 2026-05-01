@@ -133,10 +133,9 @@ struct UserDataEditingSection: View {
     }
 
     @ViewBuilder private var personalRatingEditor: some View {
-        HStack(alignment: .center, spacing: 12) {
+        HStack(alignment: .center, spacing: 8) {
             StarRatingView(rating: mediaObject.personalRating)
                 .font(.title3)
-                .foregroundStyle(.yellow)
 
             Text(Strings.Detail.personalRatingValueLabel(mediaObject.personalRating.doubleRepresentation))
                 .font(.headline)
