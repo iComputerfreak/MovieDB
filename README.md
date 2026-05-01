@@ -57,7 +57,7 @@ POSTHOG_HOST=https://eu.i.posthog.com
 ```
 * The build also accepts these values as environment variables, which is useful for CI.
 * When you build the project, GYB will read these values and obfuscate them into a Swift file `Secrets.swift`. You can then access them from code with `Secrets.tmdbAPIKey`, `Secrets.postHogProjectToken`, and `Secrets.postHogHost`.
-* Additionally, you will also need a GitHub personal access token as a `GITHUB_API_KEY` environment variable during build time or as a local file `GITHUB_API_KEY` in your project root. This token will be used by [LicensePlist](https://github.com/mono0926/LicensePlist) to download the licenses of the packages you use.
+* Additionally, you will also need a GitHub personal access token as a `LICENSE_PLIST_GITHUB_TOKEN` environment variable during build time. This token will be used by [LicensePlist](https://github.com/mono0926/LicensePlist) to download the licenses of the packages you use.
 * PostHog credentials are required for local builds, but analytics remain disabled until the user explicitly opts in at runtime.
 
 ---
