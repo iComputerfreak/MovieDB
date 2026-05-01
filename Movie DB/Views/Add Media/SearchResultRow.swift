@@ -6,6 +6,11 @@ import SwiftUI
 struct SearchResultRow: View {
     /// The search result to display
     @EnvironmentObject private var result: TMDBSearchResult
+    var alreadyInLibraryOverride: Bool?
+
+    private var alreadyInLibrary: Bool {
+        alreadyInLibraryOverride ?? MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
+    }
     
     var year: Int? {
         if let releaseDate = (result as? TMDBMovieSearchResult)?.releaseDate {
@@ -51,7 +56,7 @@ struct SearchResultRow: View {
                 }
                 .font(.subheadline)
                 // MARK: Third Line: Already added
-                if MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType) {
+                if alreadyInLibrary {
                     Group {
                         Text(Image(systemName: "checkmark.circle.fill")) +
                         Text(verbatim: " ") +

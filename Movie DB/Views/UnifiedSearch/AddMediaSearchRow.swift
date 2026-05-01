@@ -38,7 +38,7 @@ struct AddMediaSearchRow: View {
             NavigationLink {
                 MediaLookupDetail(tmdbID: result.id, mediaType: result.mediaType)
             } label: {
-                SearchResultRow()
+                SearchResultRow(alreadyInLibraryOverride: alreadyAdded)
                     .environmentObject(result)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
