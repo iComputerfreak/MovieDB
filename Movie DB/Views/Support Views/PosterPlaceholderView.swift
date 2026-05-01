@@ -46,6 +46,22 @@ struct PosterPlaceholderView: View {
     }
 }
 
+extension PosterPlaceholderView {
+    static func thumbnail(size: CGSize = JFLiterals.thumbnailSize, cornerRadius: CGFloat = 14) -> some View {
+        PosterPlaceholderView(cornerRadius: cornerRadius)
+            .frame(width: size.width, height: size.height)
+    }
+
+    static func legacyThumbnail(multiplier: CGFloat = 1.0) -> some View {
+        PosterPlaceholderView(cornerRadius: 0)
+            .frame(
+                width: JFLiterals.thumbnailSize.width * multiplier,
+                height: JFLiterals.thumbnailSize.height * multiplier,
+                alignment: .center
+            )
+    }
+}
+
 #Preview("Scaled up") {
     PosterPlaceholderView()
         .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)

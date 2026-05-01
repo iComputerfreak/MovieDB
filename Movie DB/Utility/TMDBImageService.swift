@@ -12,7 +12,7 @@ actor TMDBImageService {
     
     let imageSize: Int?
     
-    private var activeDownloads: [AnyHashable: Task<UIImage, Error>] = [:]
+    private var activeDownloads: [AnyHashable: Task<UIImage?, Error>] = [:]
     
     /// Creates a new `TMDBImageService`
     /// - Parameter thumbnailSize: The size as used by the TMDB API for fetching the thumbnail
@@ -92,13 +92,13 @@ actor TMDBImageService {
             return try UIImage(data: Data(contentsOf: fileURL))
         } else {
             // Download the poster image in thumbnail size
-            let downloadTask = Task {
+            let downloadTask = Task<UIImage?, Error> {
                 Logger.imageService.debug(
                     "Downloading image for downloadID \(String(describing: downloadID), privacy: .public)"
                 )
                 guard let webURL = Utils.getTMDBImageURL(path: imagePath, size: imageSize) else {
                     Logger.imageService.error("Unable to get TMDB image URL for imagePath '\(imagePath)'")
-                    return UIImage.posterPlaceholder
+                    return nil
                 }
                 return try await Utils.loadImage(from: webURL)
             }
@@ -110,7 +110,7 @@ actor TMDBImageService {
             let result = try await downloadTask.value
             
             // Save the image to disk for later requests
-            if let fileURL {
+            if let fileURL, let result {
                 do {
                     try result.pngData()?.write(to: fileURL)
                 } catch {

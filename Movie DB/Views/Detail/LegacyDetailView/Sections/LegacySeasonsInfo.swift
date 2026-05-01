@@ -88,9 +88,14 @@ struct SeasonInfo: View {
     
     var body: some View {
         HStack {
-            // swiftlint:disable:next redundant_nil_coalescing
-            Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
+            Group {
+                if case let .some(.some(thumbnail)) = thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnail()
+                } else {
+                    PosterPlaceholderView.legacyThumbnail()
+                }
+            }
             VStack(alignment: .leading) {
                 Text(season.name)
                     .bold()

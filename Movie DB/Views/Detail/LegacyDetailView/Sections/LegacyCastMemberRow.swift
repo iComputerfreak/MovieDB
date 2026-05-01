@@ -14,8 +14,7 @@ struct LegacyCastMemberRow: View {
                 image
                     .thumbnail()
             } placeholder: {
-                Image(uiImage: UIImage.posterPlaceholder)
-                    .thumbnail()
+                PosterPlaceholderView.legacyThumbnail()
             }
 
             VStack(alignment: .leading) {

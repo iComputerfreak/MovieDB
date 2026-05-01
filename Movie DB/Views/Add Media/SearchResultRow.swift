@@ -19,8 +19,14 @@ struct SearchResultRow: View {
     var body: some View {
         HStack {
             // MARK: Thumbnail
-            Image(uiImage: result.thumbnail, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnail()
+            Group {
+                if let thumbnail = result.thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnail()
+                } else {
+                    PosterPlaceholderView.legacyThumbnail()
+                }
+            }
             VStack(alignment: .leading, spacing: 4) {
                 // MARK: Title
                 Text(verbatim: "\(result.title)")

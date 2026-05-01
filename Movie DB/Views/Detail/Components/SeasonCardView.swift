@@ -29,9 +29,14 @@ struct SeasonCardView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
-            // swiftlint:disable:next redundant_nil_coalescing
-            Image(uiImage: thumbnail ?? nil, defaultImage: JFLiterals.posterPlaceholderName)
-                .thumbnailStyle(size: .init(width: 74, height: 108))
+            Group {
+                if case let .some(.some(thumbnail)) = thumbnail {
+                    Image(uiImage: thumbnail)
+                        .thumbnailStyle(size: JFLiterals.seasonThumbnailSize)
+                } else {
+                    PosterPlaceholderView.thumbnail(size: JFLiterals.seasonThumbnailSize)
+                }
+            }
 
             HStack(alignment: .top, spacing: 14) {
                 VStack(alignment: .leading, spacing: 8) {

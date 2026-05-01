@@ -14,8 +14,7 @@ struct CastMemberRow: View {
                 image
                     .thumbnailStyle()
             } placeholder: {
-                Image(uiImage: UIImage.posterPlaceholder)
-                    .thumbnailStyle()
+                PosterPlaceholderView.thumbnail()
             }
 
             VStack(alignment: .leading) {
