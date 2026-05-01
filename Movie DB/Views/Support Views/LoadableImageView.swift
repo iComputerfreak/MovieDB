@@ -6,11 +6,15 @@ import UIKit
 enum LoadableImageSource {
     case image(UIImage?)
     case url(URL?)
+    case loader(id: AnyHashable, load: @Sendable () async throws -> UIImage?)
 }
 
 struct LoadableImageView: View {
     let source: LoadableImageSource
     let contentMode: ContentMode
+
+    @State private var loadedImage: UIImage?
+    @State private var isLoading = false
 
     init(source: LoadableImageSource, contentMode: ContentMode = .fill) {
         self.source = source
@@ -20,6 +24,17 @@ struct LoadableImageView: View {
     var body: some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .task(id: loaderID) {
+                await loadImageIfNeeded()
+            }
+    }
+
+    private var loaderID: AnyHashable? {
+        if case let .loader(id, _) = source {
+            id
+        } else {
+            nil
+        }
     }
 
     @ViewBuilder
@@ -31,7 +46,7 @@ struct LoadableImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: contentMode)
             } else {
-                PosterPlaceholderView()
+                emptyState
             }
 
         case let .url(url):
@@ -39,7 +54,7 @@ struct LoadableImageView: View {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .empty:
-                        ProgressView()
+                        loadingState
 
                     case let .success(image):
                         image
@@ -47,16 +62,56 @@ struct LoadableImageView: View {
                             .aspectRatio(contentMode: contentMode)
 
                     case .failure:
-                        PosterPlaceholderView()
+                        errorState
 
                     @unknown default:
-                        PosterPlaceholderView()
+                        emptyState
                     }
                 }
             } else {
-                PosterPlaceholderView()
+                emptyState
+            }
+
+        case .loader:
+            if isLoading {
+                loadingState
+            } else if let loadedImage {
+                Image(uiImage: loadedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: contentMode)
+            } else {
+                // TODO: This is technically also the error state
+                emptyState
             }
         }
+    }
+
+    @MainActor
+    private func loadImageIfNeeded() async {
+        guard case let .loader(_, load) = source else { return }
+
+        isLoading = true
+        loadedImage = nil
+
+        do {
+            loadedImage = try await load()
+        } catch {
+            loadedImage = nil
+        }
+
+        isLoading = false
+    }
+
+    private var loadingState: some View {
+        ProgressView()
+    }
+
+    private var errorState: some View {
+        PosterPlaceholderView()
+    }
+
+    private var emptyState: some View {
+        PosterPlaceholderView()
     }
 }
 

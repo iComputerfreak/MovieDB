@@ -34,9 +34,6 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     /// Whether the result is a movie and is for adults only
     var isAdultMovie: Bool? { (self as? TMDBMovieSearchResult)?.isAdult }
     
-    /// The task responsible for loading the thumbnail
-    private var loadThumbnailTask: Task<Void, Never>?
-    
     /// Creates a new `TMDBSearchResult` object with the given values
     init(
         id: Int,
@@ -60,31 +57,6 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
         self.popularity = popularity
         self.voteAverage = voteAverage
         self.voteCount = voteCount
-    }
-    
-    func loadThumbnail() {
-        // If we are already downloading or already have a thumbnail, return
-        guard self.loadThumbnailTask == nil, thumbnail == nil else { return }
-
-        // Start loading the thumbnail
-        // Use a dedicated overall task to be able to cancel it
-        self.loadThumbnailTask = Task {
-            guard !Task.isCancelled, let imagePath else { return }
-
-            do {
-                let thumbnail = try await TMDBImageService.mediaThumbnails.image(for: imagePath, downloadID: self.id)
-                guard !Task.isCancelled else { return }
-                await MainActor.run {
-                    self.objectWillChange.send()
-                    self.thumbnail = thumbnail
-                }
-            } catch {
-                Logger.addMedia.warning(
-                    // swiftlint:disable:next line_length
-                    "[\(self.title, privacy: .public)] Error (down-)loading thumbnail for search result: \(error) (mediaID: \(self.id, privacy: .public))"
-                )
-            }
-        }
     }
     
     // MARK: - Codable Conformance

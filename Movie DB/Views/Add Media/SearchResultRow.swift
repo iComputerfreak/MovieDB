@@ -11,7 +11,12 @@ struct SearchResultRow: View {
     private var alreadyInLibrary: Bool {
         alreadyInLibraryOverride ?? MediaLibrary.shared.mediaExists(result.id, mediaType: result.mediaType)
     }
-    
+
+    private var imageURL: URL? {
+        guard let imagePath = result.imagePath else { return nil }
+        return Utils.getTMDBImageURL(path: imagePath, size: JFLiterals.thumbnailTMDBSize)
+    }
+
     var year: Int? {
         if let releaseDate = (result as? TMDBMovieSearchResult)?.releaseDate {
             return releaseDate[.year]
@@ -24,7 +29,7 @@ struct SearchResultRow: View {
     var body: some View {
         HStack(spacing: 12) {
             // MARK: Thumbnail
-            LoadableImageView(source: .image(result.thumbnail))
+            LoadableImageView(source: .url(imageURL))
                 .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
                 .thumbnailStyle()
 
@@ -60,7 +65,6 @@ struct SearchResultRow: View {
                 }
             }
         }
-        .onAppear(perform: result.loadThumbnail)
     }
     
     func yearFromMediaResult(_ result: TMDBSearchResult) -> Date? {

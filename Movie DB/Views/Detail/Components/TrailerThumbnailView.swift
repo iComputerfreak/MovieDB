@@ -7,35 +7,30 @@ import os.log
 struct TrailerThumbnailView: View {
     @ObservedObject var video: Video
 
-    @State private var image: UIImage?
-
-    var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } else {
-                Rectangle()
-                    .fill(.quaternary)
-            }
-        }
-        // We explicitly use .onAppear instead of .task here to continue the download even if the view (temporarily) disappears.
-        .onAppear {
-            Task {
-                await loadThumbnail()
-            }
-        }
-    }
-
-    @MainActor
-    private func loadThumbnail() async {
-        image = nil
-
+    private var imageSource: LoadableImageSource {
+        let thumbnailURLs = video.trailerThumbnailURLs
         let videoName = video.name
         let videoKey = video.key
 
-        for thumbnailURL in video.trailerThumbnailURLs {
+        return .loader(id: video.objectID) {
+            await Self.loadThumbnail(
+                from: thumbnailURLs,
+                videoName: videoName,
+                videoKey: videoKey
+            )
+        }
+    }
+
+    var body: some View {
+        LoadableImageView(source: imageSource)
+    }
+
+    private static func loadThumbnail(
+        from thumbnailURLs: [URL],
+        videoName: String,
+        videoKey: String
+    ) async -> UIImage? {
+        for thumbnailURL in thumbnailURLs {
             do {
                 let (data, response) = try await URLSession.shared.data(from: thumbnailURL)
                 let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
@@ -53,8 +48,7 @@ struct TrailerThumbnailView: View {
                     continue
                 }
 
-                image = loadedImage
-                return
+                return loadedImage
             } catch {
                 let thumbnailURLString = thumbnailURL.absoluteString
                 let errorDescription = error.localizedDescription
@@ -64,10 +58,12 @@ struct TrailerThumbnailView: View {
             }
         }
 
-        if !video.trailerThumbnailURLs.isEmpty {
+        if !thumbnailURLs.isEmpty {
             // swiftlint:disable:next line_length
-            Logger.detail.error("All trailer thumbnail candidates failed for \(videoName, privacy: .public) with key \(videoKey, privacy: .public)")
+            Logger.detail.warning("All trailer thumbnail candidates failed for \(videoName, privacy: .public) with key \(videoKey, privacy: .public)")
         }
+
+        return nil
     }
 }
 
