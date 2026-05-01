@@ -1,9 +1,4 @@
-//
-//  AnalyticsCountBucket.swift
-//  Analytics
-//
-//  Created by OpenCode on 27.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 public enum AnalyticsCountBucket: String, Sendable {
     case oneToNinetyNine = "1_99"

@@ -1,9 +1,4 @@
-//
-//  AnalyticsSettingValue.swift
-//  Analytics
-//
-//  Created by OpenCode on 27.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 public enum AnalyticsSettingValue: Sendable {
     case boolean(Bool)

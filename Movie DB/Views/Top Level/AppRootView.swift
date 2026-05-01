@@ -1,9 +1,4 @@
-//
-//  AppRootView.swift
-//  Movie DB
-//
-//  Created by OpenCode on 28.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import Analytics
 import SwiftUI

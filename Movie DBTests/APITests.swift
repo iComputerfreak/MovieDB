@@ -1,10 +1,4 @@
-//
-//  APITests.swift
-//  Movie DBTests
-//
-//  Created by Jonas Frey on 08.12.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 @testable import Movie_DB
 

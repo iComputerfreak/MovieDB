@@ -20,6 +20,7 @@ Rules and guidelines for working on this Xcode project.
 - Extract helper/accessory types into dedicated files; keep tiny, private helpers alongside the primary type only when splitting would add noise.
 - Keep extracted types in the closest logical folder.
 - Preserve the standard header comment at the top of new files.
+- New source files should use a single-line copyright header: `// Copyright © <year> Jonas Frey. All rights reserved.`
 
 ## SwiftUI conventions
 - Keep view modifiers in a consistent top-to-bottom order: layout -> style -> overlay -> padding.

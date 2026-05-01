@@ -1,10 +1,4 @@
-//
-//  MediaDetail.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 06.07.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import Analytics
 import SwiftUI

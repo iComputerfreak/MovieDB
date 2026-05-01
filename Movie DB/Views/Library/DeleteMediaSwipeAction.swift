@@ -1,10 +1,4 @@
-//
-//  DeleteMediaSwipeAction.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 03.07.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Analytics
 import os.log

@@ -1,9 +1,4 @@
-//
-//  AnalyticsBackend.swift
-//  Analytics
-//
-//  Created by OpenCode on 27.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 protocol AnalyticsBackend: AnyObject {
     func track(_ event: AnalyticsEvent)

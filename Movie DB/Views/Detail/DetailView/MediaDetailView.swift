@@ -1,4 +1,4 @@
-// Copyright © 2025 Jonas Frey. All rights reserved.
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import Analytics
 import Flow

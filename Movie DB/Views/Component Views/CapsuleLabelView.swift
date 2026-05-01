@@ -1,10 +1,4 @@
-//
-//  CapsuleLabelView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 16.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import JFUtils
 import SwiftUI

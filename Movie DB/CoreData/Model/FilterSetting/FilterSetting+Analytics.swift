@@ -1,9 +1,4 @@
-//
-//  FilterSetting+Analytics.swift
-//  Movie DB
-//
-//  Created by OpenCode on 27.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import Analytics
 

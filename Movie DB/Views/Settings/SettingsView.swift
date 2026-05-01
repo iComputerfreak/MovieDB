@@ -1,10 +1,4 @@
-//
-//  SettingsView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 26.11.19.
-//  Copyright © 2019 Jonas Frey. All rights reserved.
-//
+// Copyright © 2019 Jonas Frey. All rights reserved.
 
 import CoreData
 import Analytics

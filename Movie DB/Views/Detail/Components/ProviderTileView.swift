@@ -1,10 +1,4 @@
-//
-//  ProviderTileView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 17.04.26.
-//  Copyright © 2026 Jonas Frey. All rights reserved.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import SwiftUI
 

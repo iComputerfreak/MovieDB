@@ -1,10 +1,4 @@
-//
-//  SortingMenuSection.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 29.06.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import Analytics
 import Foundation

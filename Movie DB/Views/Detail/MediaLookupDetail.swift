@@ -1,10 +1,4 @@
-//
-//  MediaLookupDetail.swift
-//  Movie DB
-//
-//  Created by OpenCode on 30.04.26.
-//  Copyright © 2026 Jonas Frey. All rights reserved.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 import CoreData
 import SwiftUI

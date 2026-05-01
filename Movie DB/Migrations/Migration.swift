@@ -1,10 +1,4 @@
-//
-//  Migration.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 23.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import Foundation
 

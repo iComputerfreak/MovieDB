@@ -1,10 +1,4 @@
-//
-//  Persistence.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 12.03.21.
-//  Copyright © 2021 Jonas Frey. All rights reserved.
-//
+// Copyright © 2021 Jonas Frey. All rights reserved.
 
 import CoreData
 import os.log

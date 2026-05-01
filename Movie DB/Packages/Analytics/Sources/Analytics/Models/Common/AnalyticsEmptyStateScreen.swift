@@ -1,9 +1,4 @@
-//
-//  AnalyticsEmptyStateScreen.swift
-//  Analytics
-//
-//  Created by OpenCode on 28.04.26.
-//
+// Copyright © 2026 Jonas Frey. All rights reserved.
 
 public enum AnalyticsEmptyStateScreen: String, Sendable {
     case libraryHome = "library_home"

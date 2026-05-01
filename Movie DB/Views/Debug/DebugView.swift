@@ -1,10 +1,4 @@
-//
-//  DebugView.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 18.02.23.
-//  Copyright © 2023 Jonas Frey. All rights reserved.
-//
+// Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CloudKit
 import CoreData

@@ -1,10 +1,4 @@
-//
-//  SerializableColor.swift
-//  Movie DB
-//
-//  Created by Jonas Frey on 24.04.22.
-//  Copyright © 2022 Jonas Frey. All rights reserved.
-//
+// Copyright © 2022 Jonas Frey. All rights reserved.
 
 import class CoreGraphics.CGColor
 import class CoreGraphics.CGColorSpace
