@@ -9,11 +9,9 @@ struct WatchDateView: View {
     var body: some View {
         if isEditing {
             EditingView()
-                .headline(Strings.Detail.watchDateHeadline)
         } else {
             let watchDateString = mediaObject.watchDate?.formatted(date: .complete, time: .omitted)
             Text(watchDateString ?? Strings.Generic.unknown)
-                .headline(Strings.Detail.watchDateHeadline)
         }
     }
     

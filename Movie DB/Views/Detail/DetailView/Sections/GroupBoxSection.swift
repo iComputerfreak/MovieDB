@@ -19,7 +19,7 @@ struct GroupBoxSection<Content: View>: View {
             EmptyView()
         } else {
             GroupBox {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 12) {
                     content()
                 }
                 .padding(.top, 2)

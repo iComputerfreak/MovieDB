@@ -41,9 +41,11 @@ struct TruncatingTextSheet: View {
                         textContent
                         if isTruncated {
                             Text(moreButtonTitle)
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
                 }
+                .buttonStyle(.plain)
             }
             .sheet(isPresented: $isShowingFullText) {
                 fullTextSheetContent

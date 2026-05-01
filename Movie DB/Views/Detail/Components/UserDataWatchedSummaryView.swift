@@ -4,7 +4,7 @@ import SwiftUI
 
 struct UserDataWatchedSummaryView: View {
     let summary: String
-    let isEditing: Bool
+    let isShowingChevron: Bool
 
     var body: some View {
         HStack(spacing: 8) {
@@ -14,7 +14,7 @@ struct UserDataWatchedSummaryView: View {
 
             Spacer(minLength: 0)
 
-            if isEditing {
+            if isShowingChevron {
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.tertiary)

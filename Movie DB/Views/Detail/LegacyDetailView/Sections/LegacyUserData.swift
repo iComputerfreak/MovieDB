@@ -87,6 +87,7 @@ struct LegacyUserData: View {
                     )
                 // MARK: Watch Date
                 WatchDateView()
+                    .headline(Strings.Detail.watchDateHeadline)
                 // MARK: Taglist
                 TagListView($mediaObject.tags)
                 // MARK: Notes

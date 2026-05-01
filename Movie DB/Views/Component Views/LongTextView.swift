@@ -30,8 +30,11 @@ struct LongTextView: View {
             Text(text)
                 .multilineTextAlignment(.leading)
                 .lineLimit(Self.lineLimit)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .headline(headline)
+                .contentShape(.rect)
         }
+        .buttonStyle(.plain)
     }
     
     struct ContentView: View {
@@ -52,5 +55,8 @@ struct LongTextView: View {
 }
 
 #Preview {
-    LongTextView("A very long text", headline: "Description")
+    NavigationStack {
+        LongTextView("A very long text", headline: "Description")
+            .padding()
+    }
 }

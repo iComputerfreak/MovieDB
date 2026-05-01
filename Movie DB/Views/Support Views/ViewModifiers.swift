@@ -24,7 +24,7 @@ struct HeadlineModifier: ViewModifier {
     let title: Text
     
     func body(content: Content) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 2) {
             title
                 .font(.caption)
                 .foregroundColor(.primary)
@@ -57,5 +57,12 @@ extension View {
     /// - Parameter title: The title to use for the headline
     func headline(_ image: Image, _ title: String) -> some View {
         self.headline(Text("\(image) \(title)"))
+    }
+
+    /// Adds a headline view above this view with the given title and leading image
+    /// - Parameter systemImage: The system image name to display as an icon before the headline
+    /// - Parameter title: The title to use for the headline
+    func headline(_ systemImage: String, _ title: String) -> some View {
+        self.headline(Image(systemName: systemImage), title)
     }
 }

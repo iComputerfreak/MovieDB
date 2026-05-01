@@ -16,8 +16,14 @@ struct UserDataCard<Content: View>: View {
 
                 content
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
+}
+
+#Preview {
+    UserDataCard(title: "Title", systemImage: "gear") {
+        Text(verbatim: "Content")
+    }
+    .padding()
+    .background(.gray)
 }
