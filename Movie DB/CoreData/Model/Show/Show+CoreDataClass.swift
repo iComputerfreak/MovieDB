@@ -63,7 +63,10 @@ public class Show: Media {
         }
         managedObjectContext.performAndWait {
             // This is a show, therefore the TMDBData needs to have show specific data
-            let showData = tmdbData.showData!
+            guard let showData = tmdbData.showData else {
+                Logger.coreData.error("Show has no show data!")
+                return
+            }
             self.firstAirDate = showData.firstAirDate
             self.lastAirDate = showData.lastAirDate
             self.numberOfSeasons = showData.numberOfSeasons

@@ -78,25 +78,11 @@ class PlaceholderData {
         self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
         self.staticMinimalMovie = Movie(
             context: context,
-            tmdbData: .init(
-                id: 1,
-                title: "A",
-                originalTitle: "B",
-                genres: [],
-                status: .canceled,
-                originalLanguage: "English"
-            )
+            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .movie)
         )
         self.staticMinimalShow = Show(
             context: context,
-            tmdbData: .init(
-                id: 1,
-                title: "A",
-                originalTitle: "B",
-                genres: [],
-                status: .canceled,
-                originalLanguage: "English"
-            )
+            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .show)
         )
     }
     
@@ -361,7 +347,35 @@ class PlaceholderData {
         movie.releaseDate = .now.addingTimeInterval(.day * 7).timeErased()
         return movie
     }
-    
+
+    static func createStaticMinimalTMDBData(in context: NSManagedObjectContext, mediaType: MediaType) -> TMDBData {
+        return .init(
+            id: 1,
+            title: "",
+            originalTitle: "",
+            genres: [],
+            status: .canceled,
+            originalLanguage: "",
+            movieData: mediaType == .movie ? .init(
+                rawReleaseDate: "",
+                budget: 0,
+                revenue: 0,
+                isAdult: false,
+                directors: []
+            ) : nil,
+            showData: mediaType == .show ? .init(
+                rawFirstAirDate: nil,
+                rawLastAirDate: nil,
+                numberOfEpisodes: 0,
+                episodeRuntime: [],
+                isInProduction: false,
+                seasons: [],
+                networks: [],
+                createdBy: []
+            ) : nil
+        )
+    }
+
     private static func load<T: Decodable>(
         _ filename: String,
         mediaType: MediaType? = nil,

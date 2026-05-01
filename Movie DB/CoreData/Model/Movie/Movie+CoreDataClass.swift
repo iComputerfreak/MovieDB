@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import OSLog
 
 @objc(Movie)
 public class Movie: Media {
@@ -56,7 +57,10 @@ public class Movie: Media {
     private func setTMDBMovieData(_ tmdbData: TMDBData) {
         managedObjectContext!.performAndWait {
             // This is a movie, therefore the TMDBData needs to have movie specific data
-            let movieData = tmdbData.movieData!
+            guard let movieData = tmdbData.movieData else {
+                Logger.coreData.error("Movie has no movie data!")
+                return
+            }
             self.releaseDate = movieData.releaseDate
             self.runtime = movieData.runtime
             self.budget = movieData.budget
