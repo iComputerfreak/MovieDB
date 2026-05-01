@@ -36,7 +36,6 @@ struct UpcomingLibraryRow: View {
         } else if mediaObject is Show {
             return upcomingSeason?.airDate
         } else {
-            assertionFailure("Media is neither a Movie, nor a Show.")
             return nil
         }
     }

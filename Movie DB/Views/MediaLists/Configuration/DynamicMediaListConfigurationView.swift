@@ -20,7 +20,6 @@ struct DynamicMediaListConfigurationView: View {
         self.list = list
         if list.filterSetting == nil {
             Logger.coreData.warning("Dynamic media list has no FilterSetting. Recovering by creating a new one.")
-            assertionFailure("List should have a FilterSetting.")
             list.filterSetting = FilterSetting(context: managedObjectContext)
         }
     }

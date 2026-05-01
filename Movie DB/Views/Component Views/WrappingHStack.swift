@@ -232,7 +232,6 @@ struct WrappingHStack: Layout {
         }
         lineBreak()
         
-        assert(rows.map(\.count).reduce(0, +) == subviewSizes.count, "Row calculation has missed some subviews")
         return rows
     }
 }

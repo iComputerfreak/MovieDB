@@ -306,7 +306,6 @@ class PlaceholderData {
         show.tags = []
         show.notes = ""
         show.watchAgain = true
-        assert(!show.seasons.isEmpty)
         let latestSeason = show.seasons.map(\.seasonNumber).max() ?? 0
         show.watched = latestSeason > 0 ? .season(latestSeason) : .notWatched
         let upcomingSeason = context.importDummies([

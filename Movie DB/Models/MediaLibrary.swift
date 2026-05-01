@@ -62,7 +62,6 @@ struct MediaLibrary {
                     .values
                     // Add all duplicate arrays to the problems list
                     .forEach { duplicates in
-                        assert(duplicates.count > 1, "Fetch request returned non-duplicate medias.")
                         problems.append(.init(type: .duplicateMedia, associatedMedias: duplicates))
                     }
                 return problems

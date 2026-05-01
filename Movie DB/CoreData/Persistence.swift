@@ -47,9 +47,11 @@ class PersistenceController {
     /// * enable query generations
     private init(forTesting: Bool = false, usePersistentHistory: Bool = true) {
         // swiftlint:disable:previous function_body_length
-        if !Thread.isMainThread {
-            Logger.lifeCycle.error("Creating PersistenceController on a background thread. This may cause a deadlock.")
-            assertionFailure()
+        if !Thread.isMainThread && !forTesting {
+            Logger.lifeCycle.critical(
+                "Creating PersistenceController on a background thread. This may cause a deadlock."
+            )
+            assertionFailure("Creating PersistenceController on a background thread. This may cause a deadlock.")
         }
         // If we already have an existing model, reuse it
         if let model = Self.model {

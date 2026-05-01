@@ -94,9 +94,6 @@ struct TagListView: View {
                                 // swiftlint:disable:next line_length
                                 "Removing Tag '\(tag.name, privacy: .public)' (\(tag.id?.uuidString ?? "nil", privacy: .public))"
                             )
-                            // If we are making UI changes, we better be on the main thread/context
-                            assert(Thread.current.isMainThread)
-                            assert(managedObjectContext == PersistenceController.viewContext)
                             self.managedObjectContext.delete(tag)
                         }
                         // Save the deletion of the tags asynchronously

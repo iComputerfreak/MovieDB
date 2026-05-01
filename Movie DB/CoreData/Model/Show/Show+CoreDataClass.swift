@@ -9,6 +9,7 @@
 
 import CoreData
 import Foundation
+import OSLog
 
 @objc(Show)
 public class Show: Media {
@@ -57,7 +58,7 @@ public class Show: Media {
     
     private func setTMDBShowData(_ tmdbData: TMDBData) {
         guard let managedObjectContext else {
-            assertionFailure()
+            Logger.coreData.error("Media \(self.title) has no context.")
             return
         }
         managedObjectContext.performAndWait {

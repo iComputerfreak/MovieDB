@@ -52,7 +52,7 @@ public class Media: NSManagedObject {
     
     private func setTMDBData(_ tmdbData: TMDBData) {
         guard let managedObjectContext else {
-            assertionFailure()
+            Logger.coreData.error("Media \(self.title) has no context.")
             return
         }
         

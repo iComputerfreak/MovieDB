@@ -204,12 +204,16 @@ class Deduplicator {
         uniquePropertyValue propertyValue: some CVarArg & CustomStringConvertible,
         performingContext: NSManagedObjectContext
     ) {
-        // We crash here since it does not make sense to continue. We will crash in the switch statement below anyways
-        assert(
-            entity.modelType == Entity.self || entity == .movie || entity == .show,
-            "\(#function) called with mismatching object of type \(Entity.self) " +
-            "and entity parameter of type \(entity.modelType)."
-        )
+        // We return here since it does not make sense to continue. We will crash in the switch statement below anyways
+        guard
+            entity.modelType == Entity.self || entity == .movie || entity == .show
+        else {
+            Logger.coreData.error(
+                // swiftlint:disable:next line_length
+                "\(#function) called with mismatching object of type \(Entity.self) and entity parameter of type \(entity.modelType)."
+            )
+            return
+        }
         
         // Fetch all objects with matching properties, sorted by the given keyPath
         let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entity().name!)
@@ -229,10 +233,11 @@ class Deduplicator {
         )
         
         // Remove the winner object from the duplicates
-        assert(
-            Set(duplicates.map(\.objectID)).count == duplicates.count,
-            "There are duplicates with identical objectIDs! The below selection algorithm will not work."
-        )
+        if Set(duplicates.map(\.objectID)).count != duplicates.count {
+            Logger.coreData.warning(
+                "There are duplicates with identical objectIDs! The below selection algorithm will not work."
+            )
+        }
         let winner = chooseWinner(duplicates)
         guard let winnerIndex = duplicates.firstIndex(where: \.objectID, equals: winner.objectID) else {
             Logger.coreData.error("The selected deduplication winner is not part of the provided duplicates.")

@@ -23,7 +23,6 @@ struct SearchResultsPageWrapper: PageWrapperProtocol {
         // Create two identical containers, so we can extract the same value twice
         var arrayContainer = try container.nestedUnkeyedContainer(forKey: .results)
         var arrayContainer2 = try container.nestedUnkeyedContainer(forKey: .results)
-        assert(arrayContainer.count == arrayContainer2.count)
         while !arrayContainer.isAtEnd {
             // Decode the media object as a GenericMedia to read the type
             let mediaTypeContainer = try arrayContainer.nestedContainer(keyedBy: GenericMedia.CodingKeys.self)

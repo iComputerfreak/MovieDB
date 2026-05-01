@@ -35,10 +35,6 @@ struct LegacyTrailerView: View {
             }
         } else {
             EmptyView()
-                .onAppear {
-                    // We should never arrive here. Videos with missing URLs are filtered out in the super view
-                    assertionFailure("Trying to present a trailer with an invalid URL.")
-                }
         }
     }
 }

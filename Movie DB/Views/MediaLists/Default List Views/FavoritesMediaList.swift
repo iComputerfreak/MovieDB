@@ -20,7 +20,6 @@ struct FavoritesMediaList: View {
             LibraryRow(subtitleContent: list.subtitleContent)
                 .swipeActions {
                     Button {
-                        assert(media.isFavorite)
                         media.isFavorite = false
                     } label: {
                         Label(Strings.Detail.menuButtonUnfavorite, systemImage: "heart.slash.fill")
