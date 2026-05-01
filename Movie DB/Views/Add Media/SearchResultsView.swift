@@ -13,26 +13,17 @@ struct SearchResultsView<RowContent: View>: View {
         case loading
         case noResults
         case error
-
-        var text: String? {
-            switch self {
-            case .idle, .noResults:
-                nil
-            case .loading:
-                Strings.MediaSearch.loading
-            case .error:
-                Strings.MediaSearch.errorText
-            }
-        }
     }
 
     @State private var results: [TMDBSearchResult] = []
     @State private var resultsState: ResultsState = .idle
     @State private var pagesLoaded: Int = 0
     @State private var allPagesLoaded = true
+    @State private var loadError: Error?
     /// Fallback state property when the caller gave no binding to use
     @State private var searchText: String
     @State private var isLoadingNextPage: Bool = false
+    @State private var searchTaskID = UUID()
     @Binding var selection: TMDBSearchResult?
     let prompt: Text
     let searchTextBinding: Binding<String>?
@@ -96,33 +87,22 @@ struct SearchResultsView<RowContent: View>: View {
                 // !!!: We don't use .searchable here to prevent the "Cancel" button from covering the "Done" button and confusing the user
                 JFSearchBar(text: activeSearchText, prompt: prompt, autoFocus: autoFocus)
             }
-            if results.isEmpty, resultsState == .noResults {
-                ContentUnavailableView(
-                    Strings.MediaSearch.noResults,
-                    systemImage: "magnifyingglass"
-                )
+            if results.isEmpty {
+                emptyStateView
             } else {
                 List(selection: $selection) {
-                    if self.results.isEmpty, let resultsText = self.resultsState.text {
-                        HStack {
-                            Spacer()
-                            Text(resultsText)
-                                .italic()
-                            Spacer()
-                        }
-                    } else {
-                        ForEach(self.results) { (result: TMDBSearchResult) in
-                            content(result)
-                        }
-                        if !self.allPagesLoaded, !self.results.isEmpty {
-                            Button {
-                                loadNextPage()
-                            } label: {
-                                HStack {
-                                    ProgressView()
-                                        .opacity(isLoadingNextPage ? 1 : 0)
-                                    Text(Strings.MediaSearch.loadMore)
-                                }
+                    ForEach(self.results) { (result: TMDBSearchResult) in
+                        content(result)
+                    }
+
+                    if !self.allPagesLoaded, !self.results.isEmpty {
+                        Button {
+                            loadNextPage()
+                        } label: {
+                            HStack {
+                                ProgressView()
+                                    .opacity(isLoadingNextPage ? 1 : 0)
+                                Text(Strings.MediaSearch.loadMore)
                             }
                         }
                     }
@@ -135,7 +115,7 @@ struct SearchResultsView<RowContent: View>: View {
                 synchronizeExternalSearchText(with: searchText)
             }
         }
-        .task(id: activeSearchText.wrappedValue) {
+        .task(id: searchTaskContext) {
             await searchTask(for: activeSearchText.wrappedValue)
         }
     }
@@ -143,6 +123,38 @@ struct SearchResultsView<RowContent: View>: View {
 
 // MARK: - Search Helpers
 extension SearchResultsView {
+    @ViewBuilder
+    private var emptyStateView: some View {
+        switch resultsState {
+        case .idle:
+            Color.clear
+
+        case .loading:
+            ScreenLoadingView(message: Strings.MediaSearch.loading)
+
+        case .noResults:
+            ScreenUnavailableView(
+                title: Strings.MediaSearch.noResults,
+                systemImage: "magnifyingglass"
+            )
+
+        case .error:
+            if let loadError {
+                ScreenUnavailableView(
+                    title: Strings.MediaSearch.Alert.errorSearchingTitle,
+                    systemImage: "exclamationmark.triangle",
+                    error: loadError,
+                    actionTitle: Strings.Generic.retryLoading,
+                    action: retryLoading
+                )
+            }
+        }
+    }
+
+    private var searchTaskContext: String {
+        "\(activeSearchText.wrappedValue)-\(searchTaskID.uuidString)"
+    }
+
     func synchronizeExternalSearchText(with value: String? = nil) {
         let value = value ?? self.searchText
 
@@ -191,6 +203,7 @@ extension SearchResultsView {
         resultsState = .idle
         pagesLoaded = 0
         allPagesLoaded = true
+        loadError = nil
     }
 
     func searchMedia(_ searchText: String) {
@@ -198,6 +211,7 @@ extension SearchResultsView {
         results = []
         pagesLoaded = 0
         allPagesLoaded = true
+        loadError = nil
         guard !searchText.isEmpty else { return }
         // Load the first page of results
         resultsState = .loading
@@ -271,10 +285,7 @@ extension SearchResultsView {
                     "Error searching for media with searchText '\(searchText, privacy: .public)': \(error, privacy: .public)"
                 )
                 await MainActor.run {
-                    AlertHandler.showError(
-                        title: Strings.MediaSearch.Alert.errorSearchingTitle,
-                        error: error
-                    )
+                    self.loadError = error
                     self.results = []
                     self.resultsState = .error
                 }
@@ -284,6 +295,12 @@ extension SearchResultsView {
                 self.isLoadingNextPage = false
             }
         }
+    }
+
+    func retryLoading() {
+        loadError = nil
+        resultsState = .loading
+        searchTaskID = UUID()
     }
 }
 
@@ -310,6 +327,31 @@ extension SearchResultsView {
 }
 
 #Preview("Empty") {
+    Text(verbatim: "")
+        .sheet(isPresented: .constant(true)) {
+            NavigationStack {
+                SearchResultsView(
+                    selection: .constant(nil),
+                    prompt: Text(verbatim: "Search..."),
+                    initialSearchText: "asdfasdf"
+                ) { result in
+                    SearchResultRow()
+                        .environmentObject(result)
+                }
+                .navigationTitle(Text(verbatim: "Add Media"))
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {} label: {
+                            Text(verbatim: "Done")
+                        }
+                    }
+                }
+            }
+        }
+        .previewEnvironment()
+}
+
+#Preview("Idle") {
     Text(verbatim: "")
         .sheet(isPresented: .constant(true)) {
             NavigationStack {

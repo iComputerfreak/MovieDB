@@ -44,7 +44,7 @@ struct MediaLookupDetail: View {
                 ScreenUnavailableView(
                     title: Strings.Lookup.Alert.errorLoadingTitle,
                     systemImage: "exclamationmark.triangle",
-                    description: errorDescription(for: error),
+                    error: error,
                     actionTitle: Strings.Generic.retryLoading,
                     action: retryLoading
                 )
@@ -72,11 +72,6 @@ struct MediaLookupDetail: View {
     private func retryLoading() {
         state = .loading
         loadTaskID = UUID()
-    }
-
-    private func errorDescription(for error: Error) -> String {
-        let description = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
-        return description.isEmpty ? Strings.Generic.errorText : description
     }
 }
 

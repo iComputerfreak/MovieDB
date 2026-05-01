@@ -27,30 +27,18 @@ struct CastDetailView: View {
             if mediaObject.isFault {
                 EmptyView()
             } else if previewState == .loading || isLoading {
-                HStack(spacing: 8) {
-                    ProgressView()
-                    Text(Strings.Generic.loadingText)
-                }
+                ScreenLoadingView()
             } else if let loadError {
-                ContentUnavailableView {
-                    Label(
-                        Strings.Detail.Alert.errorLoadingCastTitle,
-                        systemImage: "person.crop.circle.badge.exclamationmark"
-                    )
-                } description: {
-                    Text(
-                        loadError.localizedDescription.isEmpty
-                            ? Strings.Generic.errorText
-                            : loadError.localizedDescription
-                    )
-                } actions: {
-                    Button(Strings.Generic.retryLoading) {
-                        loadTaskID = UUID()
-                    }
-                }
+                ScreenUnavailableView(
+                    title: Strings.Detail.Alert.errorLoadingCastTitle,
+                    systemImage: "person.crop.circle.badge.exclamationmark",
+                    error: loadError,
+                    actionTitle: Strings.Generic.retryLoading,
+                    action: retryLoading
+                )
             } else if previewState == .empty || cast.isEmpty {
-                ContentUnavailableView(
-                    Strings.Detail.castNoneAvailable,
+                ScreenUnavailableView(
+                    title: Strings.Detail.castNoneAvailable,
                     systemImage: "person.3.sequence.fill"
                 )
             } else {
@@ -93,6 +81,10 @@ struct CastDetailView: View {
         }
 
         isLoading = false
+    }
+
+    private func retryLoading() {
+        loadTaskID = UUID()
     }
 }
 

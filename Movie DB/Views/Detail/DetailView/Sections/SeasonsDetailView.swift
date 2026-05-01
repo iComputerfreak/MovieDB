@@ -30,16 +30,13 @@ struct SeasonsDetailView: View {
             if mediaObject.isFault {
                 EmptyView()
             } else if previewState == .loading || isLoading {
-                HStack(spacing: 8) {
-                    ProgressView()
-                    Text(Strings.Generic.loadingText)
-                }
+                ScreenLoadingView()
             } else if previewState == .empty || show.seasons.isEmpty {
-                ContentUnavailableView {
-                    Label(Strings.Detail.seasonsUnavailableTitle, systemImage: "list.number")
-                } description: {
-                    Text(Strings.Detail.seasonsUnavailableDescription)
-                }
+                ScreenUnavailableView(
+                    title: Strings.Detail.seasonsUnavailableTitle,
+                    systemImage: "list.number",
+                    description: Strings.Detail.seasonsUnavailableDescription
+                )
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {

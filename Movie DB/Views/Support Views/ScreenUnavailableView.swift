@@ -23,6 +23,24 @@ struct ScreenUnavailableView: View {
         self.action = action
     }
 
+    init(
+        title: String,
+        systemImage: String,
+        error: Error,
+        actionTitle: String? = nil,
+        action: (() -> Void)? = nil
+    ) {
+        let description = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        self.init(
+            title: title,
+            systemImage: systemImage,
+            description: description.isEmpty ? Strings.Generic.errorText : description,
+            actionTitle: actionTitle,
+            action: action
+        )
+    }
+
     var body: some View {
         ContentUnavailableView {
             Label(title, systemImage: systemImage)
