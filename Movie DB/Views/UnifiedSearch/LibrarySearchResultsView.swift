@@ -26,15 +26,17 @@ struct LibrarySearchResultsView: View {
     var body: some View {
         Group {
             if searchText.isEmpty {
-                UnifiedSearchPlaceholderView(
+                ScreenUnavailableView(
                     title: Strings.TabView.libraryLabel,
+                    systemImage: "magnifyingglass",
                     description: Strings.Library.searchPlaceholder
                 )
             } else if mediaObjects.isEmpty {
-                UnifiedSearchPlaceholderView(
+                ScreenUnavailableView(
                     title: Strings.Library.EmptyState.noResults,
+                    systemImage: "magnifyingglass",
                     description: Strings.Library.EmptyState.descriptionNoSearchResults,
-                    buttonTitle: Strings.Library.EmptyState.searchInAddMedia,
+                    actionTitle: Strings.Library.EmptyState.searchInAddMedia,
                     action: switchToAddMedia
                 )
             } else {

@@ -66,8 +66,9 @@ struct UnifiedSearchView: View {
             }
         case .addMedia:
             if trimmedSearchText.count < 3 {
-                UnifiedSearchPlaceholderView(
+                ScreenUnavailableView(
                     title: Strings.AddMedia.navBarTitle,
+                    systemImage: "magnifyingglass",
                     description: Strings.AddMedia.searchPrompt
                 )
             } else {

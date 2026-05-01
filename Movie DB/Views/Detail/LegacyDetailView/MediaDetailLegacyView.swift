@@ -15,7 +15,11 @@ struct MediaDetailLegacyView: View {
 
     var body: some View {
         if mediaObject.isFault {
-            Text(Strings.Detail.errorLoadingText)
+            ScreenUnavailableView(
+                title: Strings.Detail.navBarErrorTitle,
+                systemImage: "exclamationmark.triangle",
+                description: Strings.Detail.errorLoadingText
+            )
                 .navigationTitle(Strings.Detail.navBarErrorTitle)
         } else {
             List {
