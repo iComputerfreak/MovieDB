@@ -40,6 +40,7 @@ public enum AnalyticsEvent: Sendable {
     case emptyStateActionUsed(action: AnalyticsEmptyStateAction, screen: AnalyticsEmptyStateScreen)
     case listMediaRemoved(listType: AnalyticsListType)
     case analyticsEnabled(source: AnalyticsEnabledSource)
+    case backgroundFetch(result: AnalyticsOperationResult, cancelled: Bool, updatedMediaCount: Int)
 }
 
 extension AnalyticsEvent {
@@ -123,6 +124,8 @@ extension AnalyticsEvent {
             "list_media_removed"
         case .analyticsEnabled:
             "analytics_enabled"
+        case .backgroundFetch:
+            "background_fetch"
         }
     }
 
@@ -214,6 +217,12 @@ extension AnalyticsEvent {
             ["list_type": listType.rawValue]
         case let .analyticsEnabled(source):
             ["source": source.rawValue]
+        case let .backgroundFetch(result, cancelled, updatedMediaCount):
+            [
+                "result": result.rawValue,
+                "cancelled": cancelled,
+                "updated_media_count": max(updatedMediaCount, 0),
+            ]
         }
     }
 }

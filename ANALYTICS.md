@@ -152,6 +152,7 @@ Notes:
 | `empty_state_action_used` | empty-state recovery usage | `action`, `screen` |
 | `list_media_removed` | removing media from a user list | `list_type` |
 | `analytics_enabled` | analytics consent opt-in source | `source` |
+| `background_fetch` | background library refresh execution | `result`, `cancelled`, `updated_media_count` |
 
 ### Person Property Catalog
 

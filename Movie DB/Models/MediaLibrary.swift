@@ -176,7 +176,7 @@ struct MediaLibrary {
     
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
-    func reloadAll(fromBackground: Bool = false) async throws {
+    func reloadAll(fromBackground: Bool = false) async throws -> Int {
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         
@@ -200,27 +200,36 @@ struct MediaLibrary {
 
         guard !medias.isEmpty else {
             lastUpdated = Date.now.timeIntervalSince1970
-            return
+            return 0
         }
 
         // Reload all media objects using a task group
-        try await withThrowingTaskGroup(of: Void.self) { group in
+        let updatedMediaCount = await withTaskGroup(of: Bool.self) { group in
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
                     // Catch individual download errors early, so we don't skip the other media downloads
                     do {
                         try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                        return true
                     } catch {
                         Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                        return false
                     }
                 }
             }
-            // Wait for all tasks to finish updating the media objects and rethrow any errors
-            try await group.waitForAll()
-            // Save the reloaded media into the parent context (viewContext)
-            await PersistenceController.saveContext(reloadContext)
-            // Save the view context
-            await PersistenceController.saveContext(PersistenceController.viewContext)
+            var updatedMediaCount = 0
+            for await didUpdate in group where didUpdate {
+                updatedMediaCount += 1
+            }
+            return updatedMediaCount
+        }
+
+        // Save the reloaded media into the parent context (viewContext)
+        await PersistenceController.saveContext(reloadContext)
+        // Save the view context
+        await PersistenceController.saveContext(PersistenceController.viewContext)
+
+        try await withThrowingTaskGroup(of: Void.self) { group in
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {
                 _ = group.addTaskUnlessCancelled {
@@ -246,6 +255,7 @@ struct MediaLibrary {
         lastUpdated = Date.now.timeIntervalSince1970
         PersistenceController.saveContext()
         Logger.library.info("Successfully reloaded \(medias.count) medias.")
+        return updatedMediaCount
     }
     
     /// Resets the library, deleting everything!
