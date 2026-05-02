@@ -7,6 +7,7 @@ struct ScreenUnavailableView: View {
     let systemImage: String
     let description: String?
     let actionTitle: String?
+    let actionSystemImage: String
     let action: (() -> Void)?
 
     init(
@@ -14,12 +15,14 @@ struct ScreenUnavailableView: View {
         systemImage: String,
         description: String? = nil,
         actionTitle: String? = nil,
+        actionSystemImage: String = "arrow.clockwise",
         action: (() -> Void)? = nil
     ) {
         self.title = title
         self.systemImage = systemImage
         self.description = description
         self.actionTitle = actionTitle
+        self.actionSystemImage = actionSystemImage
         self.action = action
     }
 
@@ -28,6 +31,7 @@ struct ScreenUnavailableView: View {
         systemImage: String,
         error: Error,
         actionTitle: String? = nil,
+        actionSystemImage: String = "arrow.clockwise",
         action: (() -> Void)? = nil
     ) {
         let description = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -37,6 +41,7 @@ struct ScreenUnavailableView: View {
             systemImage: systemImage,
             description: description.isEmpty ? Strings.Generic.errorText : description,
             actionTitle: actionTitle,
+            actionSystemImage: actionSystemImage,
             action: action
         )
     }
@@ -51,7 +56,7 @@ struct ScreenUnavailableView: View {
         } actions: {
             if let actionTitle, let action {
                 Button(action: action) {
-                    Label(actionTitle, systemImage: "arrow.clockwise")
+                    Label(actionTitle, systemImage: actionSystemImage)
                         .padding(4)
                 }
                 .buttonStyle(.borderedProminent)

@@ -37,6 +37,7 @@ struct LibrarySearchResultsView: View {
                     systemImage: "magnifyingglass",
                     description: Strings.Library.EmptyState.descriptionNoSearchResults,
                     actionTitle: Strings.Library.EmptyState.searchInAddMedia,
+                    actionSystemImage: "magnifyingglass",
                     action: switchToAddMedia
                 )
             } else {
