@@ -96,6 +96,7 @@ struct FilteredMediaList<
         VStack {
             // Show a warning when the filter of a dynamic list is reset
             emptyDynamicListWarning
+
             // Filtered media should not be empty
             List(selection: $selectedMediaObjects) {
                 Section {
@@ -110,7 +111,7 @@ struct FilteredMediaList<
                     }
                 }
             }
-            .listStyle(.grouped)
+            .safeAreaPadding(.top, 8)
             .animation(.default, value: editMode?.wrappedValue)
             .searchable(text: $searchText, prompt: Text(Strings.Lists.searchPlaceholder(list.name)))
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
@@ -145,7 +146,10 @@ struct FilteredMediaList<
     
     @ViewBuilder
     var emptyDynamicListWarning: some View {
-        if (list as? DynamicMediaList)?.filterSetting?.isReset ?? false {
+        if
+            let dynamicList = list as? DynamicMediaList,
+            dynamicList.filterSetting?.isReset ?? true
+        {
             CalloutView(text: Strings.Lists.filteredListResetWarning, type: .warning)
                 .padding(.horizontal, 8)
         }
@@ -192,21 +196,50 @@ struct FilteredMediaList<
     }
 }
 
-#Preview {
+#Preview("Reset") {
     let dynamicList: DynamicMediaList = {
         PlaceholderData.preview.populateSamples()
         let l = DynamicMediaList(context: PersistenceController.xcodePreviewContext)
         l.name = "Dynamic List"
         l.iconName = "gear"
+        l.filterSetting = nil
         return l
     }()
-    
-    NavigationStack {
-        FilteredMediaList(list: dynamicList, selectedMediaObjects: .constant([])) { media in
-            LibraryRow(subtitleContent: .watchState)
-                .environmentObject(media)
+
+    TabView {
+        NavigationStack {
+            FilteredMediaList(list: dynamicList, selectedMediaObjects: .constant([])) { media in
+                LibraryRow(subtitleContent: .watchState)
+                    .environmentObject(media)
+            }
+            .navigationTitle(dynamicList.name)
+            .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
         }
-        .navigationTitle(dynamicList.name)
-        .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
     }
+    .previewEnvironment()
+}
+
+#Preview("Configured") {
+    let dynamicList: DynamicMediaList = {
+        PlaceholderData.preview.populateSamples()
+        let context = PersistenceController.xcodePreviewContext
+        let l = DynamicMediaList(context: context)
+        l.name = "Dynamic List"
+        l.iconName = "gear"
+        l.filterSetting = FilterSetting(context: context)
+        l.filterSetting?.numberOfSeasons = 1...7
+        return l
+    }()
+
+    TabView {
+        NavigationStack {
+            FilteredMediaList(list: dynamicList, selectedMediaObjects: .constant([])) { media in
+                LibraryRow(subtitleContent: .watchState)
+                    .environmentObject(media)
+            }
+            .navigationTitle(dynamicList.name)
+            .environment(\.managedObjectContext, PersistenceController.xcodePreviewContext)
+        }
+    }
+    .previewEnvironment()
 }
