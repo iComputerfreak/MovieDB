@@ -20,25 +20,30 @@ struct UnifiedSearchView: View {
 
         LoadingView(isShowing: $isLoading) {
             NavigationStack {
-                VStack(spacing: 0) {
-                    Picker(Strings.Lookup.searchPrompt, selection: $unifiedSearchCoordinator.scope) {
-                        Text(Strings.TabView.libraryLabel)
-                            .tag(UnifiedSearchScope.library)
-                        Text(Strings.AddMedia.navBarTitle)
-                            .tag(UnifiedSearchScope.addMedia)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
-
+                // This stack is needed, as otherwise the searchContent where the toolbar is attached to is replaced
+                // during the animation, cancelling it.
+                HStack {
                     searchContent
                 }
-                .navigationTitle(Strings.TabView.lookupLabel)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Picker(Strings.Lookup.searchPrompt, selection: $unifiedSearchCoordinator.scope) {
+                            Text(Strings.TabView.libraryLabel)
+                                .tag(UnifiedSearchScope.library)
+                            Text(Strings.AddMedia.navBarTitle)
+                                .tag(UnifiedSearchScope.addMedia)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 300)
+                    }
+                }
                 .navigationDestination(for: Media.self) { mediaObject in
                     MediaDetail()
                         .environmentObject(mediaObject)
                 }
+                .toolbarTitleDisplayMode(.inline)
                 .searchable(text: $unifiedSearchCoordinator.text, prompt: Text(Strings.Lookup.searchPrompt))
+                .searchPresentationToolbarBehavior(.avoidHidingContent)
             }
         }
         .sheet(isPresented: $isShowingProPopup) {
