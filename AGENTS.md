@@ -37,6 +37,7 @@ Rules and guidelines for working on this Xcode project.
 
 ## Analytics
 - Follow `ANALYTICS.md` for all tracking work.
+- When adding or touching features, screens, or major user flows, consider whether a new tracking event should be added and implement it when it clearly fits the analytics rules and has user approval.
 - Analytics must remain explicit opt-in, anonymous-only, and allowlist-only unless the user explicitly changes policy.
 - Never send titles, IDs, notes, tags, ratings, search text, file names, URLs with content data, or other free-form/user-provided data.
 - Any new event or property requires a doc update in `ANALYTICS.md` and user approval before implementation.
