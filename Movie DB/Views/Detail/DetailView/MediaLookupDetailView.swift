@@ -18,46 +18,44 @@ struct MediaLookupDetailView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ParallaxHeaderContentView {
-                LoadableImageView(source: .image(mediaObject.thumbnail))
-            } header: {
-                MediaTitleView(showsUserSpecificFields: false)
-            } content: {
-                VStack(alignment: .leading) {
-                    BasicInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+        ParallaxHeaderContentView {
+            LoadableImageView(source: .image(mediaObject.thumbnail))
+        } header: {
+            MediaTitleView(showsUserSpecificFields: false)
+        } content: {
+            VStack(alignment: .leading) {
+                BasicInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    WatchProvidersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                WatchProvidersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    TrailersSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                TrailersSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    ExtendedInfoSection()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .padding(16)
-                .frame(maxWidth: .infinity)
-                .background(backgroundColor)
+                ExtendedInfoSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .scrollEdgeEffectHidden(for: .top)
-            .navigationTitle("")
-            .toolbarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
-                }
-                if showingDismissButton {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        DismissButton()
-                    }
+            .padding(16)
+            .frame(maxWidth: .infinity)
+            .background(backgroundColor)
+        }
+        .scrollEdgeEffectHidden(for: .top)
+        .navigationTitle("")
+        .toolbarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
+            }
+            if showingDismissButton {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    DismissButton()
                 }
             }
-            .task(priority: .userInitiated) {
-                if mediaObject.thumbnail == nil {
-                    mediaObject.loadImages()
-                }
+        }
+        .task(priority: .userInitiated) {
+            if mediaObject.thumbnail == nil {
+                mediaObject.loadImages()
             }
         }
     }
