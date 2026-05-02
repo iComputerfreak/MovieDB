@@ -43,34 +43,51 @@ struct UpcomingLibraryRow: View {
             return Self.durationFormatter.string(from: releaseDate, to: .now)
         }
     }
-    
+
+    var isReleased: Bool {
+        guard let releaseDate else { return false }
+        return releaseDate <= .now
+    }
+
+    var subtitleColor: Color {
+        isReleased ? .green : .yellow
+    }
+
+    var subtitleString: String? {
+        guard let durationString else { return nil }
+
+        switch (mediaObject, isReleased) {
+        case (is Movie, true):
+            return Strings.Lists.upcomingSubtitleMovieRecentlyReleased(durationString)
+
+        case (is Movie, false):
+            return Strings.Lists.upcomingSubtitleMovie(durationString)
+
+        case (is Show, true):
+            if let upcomingSeasonNumber = upcomingSeason?.seasonNumber {
+                return Strings.Lists.upcomingSubtitleShowRecentlyReleased(upcomingSeasonNumber, durationString)
+            } else {
+                return nil
+            }
+
+        case (is Show, false):
+            if let upcomingSeasonNumber = upcomingSeason?.seasonNumber {
+                return Strings.Lists.upcomingSubtitleShow(upcomingSeasonNumber, durationString)
+            } else {
+                return nil
+            }
+
+        default:
+            return nil
+        }
+    }
+
     var body: some View {
         BaseLibraryRow {
-            if let durationString {
-                if mediaObject is Movie {
-                    if let releaseDate, releaseDate > Date.now {
-                        // Release date in future
-                        Text(Strings.Lists.upcomingSubtitleMovie(durationString))
-                    } else {
-                        // Release date in past
-                        Text(Strings.Lists.upcomingSubtitleMovieRecentlyReleased(durationString))
-                            .italic()
-                    }
-                } else if
-                    mediaObject is Show,
-                    let upcomingSeasonNumber = upcomingSeason?.seasonNumber
-                {
-                    if let releaseDate, releaseDate > Date.now {
-                        // Release date in future
-                        Text(Strings.Lists.upcomingSubtitleShow(upcomingSeasonNumber, durationString))
-                    } else {
-                        // Release date in the past
-                        Text(Strings.Lists.upcomingSubtitleShowRecentlyReleased(upcomingSeasonNumber, durationString))
-                            .italic()
-                    }
-                } else {
-                    EmptyView()
-                }
+            if let subtitleString {
+                Text(subtitleString)
+                    .foregroundStyle(subtitleColor)
+                    .bold()
             }
         }
     }
@@ -80,7 +97,7 @@ struct UpcomingLibraryRow: View {
     NavigationStack {
         List {
             UpcomingLibraryRow()
-                .environmentObject(PlaceholderData.preview.staticShow as Media)
+                .environmentObject(PlaceholderData.preview.staticRecentlyReleasedMovie as Media)
             UpcomingLibraryRow()
                 .environmentObject(PlaceholderData.preview.staticUpcomingMovie as Media)
             UpcomingLibraryRow()

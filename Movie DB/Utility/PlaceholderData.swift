@@ -20,6 +20,7 @@ class PlaceholderData {
     let staticShow: Show
     let staticProblemShow: Show
     let staticUpcomingShow: Show
+    let staticRecentlyReleasedMovie: Movie
     let staticUpcomingMovie: Movie
     let staticMinimalMovie: Movie
     let staticMinimalShow: Show
@@ -79,6 +80,8 @@ class PlaceholderData {
         self.staticMovie.isFavorite = true
         self.staticShow = Self.createStaticShow(in: context)
         self.staticProblemShow = Self.createStaticProblemShow(in: context)
+        self.staticRecentlyReleasedMovie = Self.createStaticUpcomingMovie(in: context)
+        self.staticRecentlyReleasedMovie.releaseDate = Date.now.addingTimeInterval(-9 * .day)
         self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
         self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
         self.staticMinimalMovie = Movie(
