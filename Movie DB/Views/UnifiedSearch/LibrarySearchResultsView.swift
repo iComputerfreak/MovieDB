@@ -1,5 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct LibrarySearchResultsView: View {
@@ -38,7 +39,12 @@ struct LibrarySearchResultsView: View {
                     description: Strings.Library.EmptyState.descriptionNoSearchResults,
                     actionTitle: Strings.Library.EmptyState.searchInAddMedia,
                     actionSystemImage: "magnifyingglass",
-                    action: switchToAddMedia
+                    action: {
+                        AnalyticsService.shared.track(
+                            .emptyStateActionUsed(action: .searchInAddMedia, screen: .librarySearchResults)
+                        )
+                        switchToAddMedia()
+                    }
                 )
             } else {
                 List {

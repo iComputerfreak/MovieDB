@@ -6,5 +6,9 @@ public enum AnalyticsScreenName: String, Sendable {
     case lookup = "lookup"
     case settings = "settings"
     case mediaDetail = "media_detail"
+    case mediaLookupDetail = "media_lookup_detail"
     case addMedia = "add_media"
+    case languageChooser = "language_chooser"
+    case analyticsConsent = "analytics_consent"
+    case filter = "filter"
 }

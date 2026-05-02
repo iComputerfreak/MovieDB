@@ -1,5 +1,6 @@
 // Copyright © 2021 Jonas Frey. All rights reserved.
 
+import Analytics
 import os.log
 import SwiftUI
 
@@ -52,6 +53,9 @@ struct LanguageChooser: View {
         }
         .task(id: loadTaskID, priority: .userInitiated) {
             await loadLanguages()
+        }
+        .task {
+            AnalyticsService.shared.track(.screenViewed(screenName: .languageChooser))
         }
     }
 

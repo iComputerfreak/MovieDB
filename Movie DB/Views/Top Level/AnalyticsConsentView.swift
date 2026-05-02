@@ -1,5 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Analytics
 import SwiftUI
 
 struct AnalyticsConsentView: View {
@@ -85,6 +86,9 @@ struct AnalyticsConsentView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .interactiveDismissDisabled()
+        .task {
+            AnalyticsService.shared.track(.screenViewed(screenName: .analyticsConsent))
+        }
     }
 
     private func consentExampleRow(

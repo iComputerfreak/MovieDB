@@ -45,6 +45,9 @@ struct FilterView: View {
                 }
             }
         }
+        .task {
+            AnalyticsService.shared.track(.screenViewed(screenName: .filter))
+        }
     }
 }
 

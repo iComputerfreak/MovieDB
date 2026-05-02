@@ -232,11 +232,26 @@ Notes:
 
 - `open_lookup`
 - `reset_filter`
+- `search_in_add_media`
 
 `screen` values for `empty_state_action_used`:
 
 - `library_home`
 - `media_list`
+- `library_search_results`
+
+`screen_name` values:
+
+- `library_home`
+- `media_lists`
+- `lookup`
+- `settings`
+- `media_detail`
+- `media_lookup_detail`
+- `add_media`
+- `language_chooser`
+- `analytics_consent`
+- `filter`
 
 `list_type` values for `list_media_removed`:
 

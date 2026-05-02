@@ -1,5 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Analytics
 import CoreData
 import SwiftUI
 import os.log
@@ -52,6 +53,9 @@ struct MediaLookupDetail: View {
         }
         .task(id: loadTaskID, priority: .userInitiated) {
             await loadMedia()
+        }
+        .task {
+            AnalyticsService.shared.track(.screenViewed(screenName: .mediaLookupDetail))
         }
     }
 
