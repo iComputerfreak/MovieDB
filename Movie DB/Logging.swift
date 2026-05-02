@@ -4,7 +4,7 @@ import Foundation
 import os.log
 
 extension Logger {
-    private static let subsystem = Bundle.main.bundleIdentifier!
+    private static let subsystem = "de.JonasFrey.MovieDB"
     
     private init(_ category: String) {
         self.init(subsystem: Self.subsystem, category: category)

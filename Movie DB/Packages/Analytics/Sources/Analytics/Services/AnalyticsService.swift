@@ -1,5 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import OSLog
 import Foundation
 
 public final class AnalyticsService: AnalyticsTracking, @unchecked Sendable {
@@ -30,7 +31,10 @@ public final class AnalyticsService: AnalyticsTracking, @unchecked Sendable {
     }
 
     public func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
-        currentBackend().reloadFeatureFlags(completion: completion)
+        currentBackend().reloadFeatureFlags {
+            Logger.analytics.info("Feature flags reloaded.")
+            completion()
+        }
     }
 
     private func currentBackend() -> any AnalyticsBackend {

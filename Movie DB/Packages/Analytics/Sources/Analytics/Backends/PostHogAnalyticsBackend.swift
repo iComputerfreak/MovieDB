@@ -35,6 +35,7 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
         if isEnabled {
             PostHogSDK.shared.optIn()
             identifyInstallation()
+            reloadFeatureFlags(completion: {})
         } else {
             PostHogSDK.shared.optOut()
         }
