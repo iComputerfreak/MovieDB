@@ -188,6 +188,13 @@ extension Strings {
             comment: "The description of the upcoming list that is displayed to the user when tapping the info button."
         )
 
+        static func searchPlaceholder(_ listName: String) -> String {
+            String(
+                localized: "lists.searchPlaceholder \(listName)",
+                comment: "The placeholder text displayed in the search field for a media list. The parameter is the list name."
+            )
+        }
+
         static func upcomingSubtitleMovie(_ days: String) -> String {
             String(
                 localized: "lists.upcoming.subtitle.movie \(days)",

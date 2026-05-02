@@ -112,7 +112,7 @@ struct FilteredMediaList<
             }
             .listStyle(.grouped)
             .animation(.default, value: editMode?.wrappedValue)
-            .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
+            .searchable(text: $searchText, prompt: Text(Strings.Lists.searchPlaceholder(list.name)))
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
             .autocorrectionDisabled()

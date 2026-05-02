@@ -5406,6 +5406,23 @@
         }
       }
     },
+    "lists.searchPlaceholder %@" : {
+      "comment" : "The placeholder text displayed in the search field for a media list. The parameter is the list name.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ durchsuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search %1$@"
+          }
+        }
+      }
+    },
     "lists.upcoming.subtitle.movie %@" : {
       "comment" : "The subtitle string for a movie in the 'Upcoming' list.",
       "localizations" : {
