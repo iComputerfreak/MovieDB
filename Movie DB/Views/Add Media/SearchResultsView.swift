@@ -252,10 +252,10 @@ extension SearchResultsView {
                 // Filter the search results
                 let filteredResults = results
                     .filter { result in
-                        // If we are showing adult movies, there is nothing to filter
-                        // If the result is not a movie, we cannot check if it is "adult"
                         guard
-                            config.showAdults,
+                            // If adult movies are not forbidden, we can include everything.
+                            !config.showAdults,
+                            // If the result is not a movie, we cannot check if it is "adult"
                             let movieResult = result as? TMDBMovieSearchResult
                         else { return true }
                         // We only include non-adult movies
