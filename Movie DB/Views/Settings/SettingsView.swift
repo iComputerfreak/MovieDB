@@ -141,4 +141,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .previewEnvironment()
 }

@@ -4,9 +4,17 @@ import Analytics
 import SwiftUI
 
 struct WatchProvidersPicker: View {
+    @EnvironmentObject private var preferences: JFConfig
+
     @FetchRequest(
         entity: WatchProvider.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \WatchProvider.priority, ascending: true)],
+        sortDescriptors: [
+            NSSortDescriptor(
+                key: Schema.WatchProvider.name.rawValue,
+                ascending: true,
+                selector: #selector(NSString.localizedStandardCompare(_:))
+            ),
+        ],
         predicate: NSPredicate(format: "type != %@", WatchProvider.ProviderType.buy.rawValue)
     )
     var watchProviders: FetchedResults<WatchProvider>
@@ -24,6 +32,11 @@ struct WatchProvidersPicker: View {
         )
     }
 
+    private func handleSelectionChange() {
+        preferences.hasConfiguredWatchProviders = true
+        trackSelectionChange()
+    }
+
     var body: some View {
         List {
             Section {
@@ -31,17 +44,17 @@ struct WatchProvidersPicker: View {
                     for provider in watchProviders {
                         provider.isHidden = false
                     }
-                    trackSelectionChange()
+                    handleSelectionChange()
                 }
                 Button(Strings.Generic.selectNone) {
                     for provider in watchProviders {
                         provider.isHidden = true
                     }
-                    trackSelectionChange()
+                    handleSelectionChange()
                 }
             }
             ForEach(watchProviders, id: \.id) { provider in
-                WatchProviderPickerRow(provider: provider, onChange: trackSelectionChange)
+                WatchProviderPickerRow(provider: provider, onChange: handleSelectionChange)
             }
         }
         .navigationTitle(Strings.Settings.watchProviderSettingsLabel)

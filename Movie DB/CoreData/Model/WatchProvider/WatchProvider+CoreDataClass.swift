@@ -20,6 +20,7 @@ public class WatchProvider: NSManagedObject {
         self.name = name
         self.imagePath = imagePath
         self.priority = priority
+        self.isHidden = JFConfig.shared.hasConfiguredWatchProviders
     }
     
     convenience init(context: NSManagedObjectContext, dummy: WatchProviderDummy, type: WatchProvider.ProviderType) {
