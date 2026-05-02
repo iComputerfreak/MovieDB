@@ -48,9 +48,9 @@ struct SettingsView: View {
                             LegalView()
                         }
                     }
-                    #if DEBUG
-                    debugMenuToolbarItem
-                    #endif
+                    if AnalyticsService.shared.isFeatureEnabled(.debugging) {
+                        debugMenuToolbarItem
+                    }
                 }
                 .notificationPopup(
                     isPresented: $viewModel.isShowingReloadCompleteNotification,
@@ -81,19 +81,17 @@ struct SettingsView: View {
 
     @ToolbarContentBuilder
     private var debugMenuToolbarItem: some ToolbarContent {
-        if AnalyticsService.shared.isFeatureEnabled(.debugging), ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
-            ToolbarItem(placement: .navigationBarLeading) {
-                NavigationLink {
-                    DebugView()
-                } label: {
-                    Label {
-                        Text(verbatim: "Debug")
-                    } icon: {
-                        Image(systemName: "ladybug")
-                    }
+        ToolbarItem(placement: .navigationBarLeading) {
+            NavigationLink {
+                DebugView()
+            } label: {
+                Label {
+                    Text(verbatim: "Debug")
+                } icon: {
+                    Image(systemName: "ladybug")
                 }
-                .tint(.accentColor)
             }
+            .tint(.accentColor)
         }
     }
 
