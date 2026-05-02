@@ -13,7 +13,9 @@ struct ImportMediaButton: View {
     private let storeManager: StoreManager = .shared
 
     var body: some View {
-        Button(action: { isImportingMedia = true }) {
+        Button {
+            isImportingMedia = true
+        } label: {
             SettingsActionLabel(
                 title: Strings.Settings.importMediaLabel,
                 systemImage: "square.and.arrow.down.fill",

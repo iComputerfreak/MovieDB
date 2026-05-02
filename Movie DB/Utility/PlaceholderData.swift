@@ -6,7 +6,7 @@ import os.log
 import UIKit
 
 // swiftlint:disable:next blanket_disable_command
-// swiftlint:disable function_body_length type_body_length
+// swiftlint:disable function_body_length type_body_length file_length
 class PlaceholderData {
     static let preview: PlaceholderData = .init(context: PersistenceController.xcodePreviewContext)
     

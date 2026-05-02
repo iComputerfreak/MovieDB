@@ -248,7 +248,6 @@ extension NSManagedObjectContext {
     ) -> [Entity] where Dummy: CoreDataDummy, Dummy.Entity == Entity {
         if dummies.count >= 1000 {
             Logger.coreData.warning("The following fetch request will fail for predicates with more than 1000 elements")
-
         }
         // Fetch all matching objects at once
         let fetchRequest: NSFetchRequest<Entity> = NSFetchRequest(entityName: Entity.entity().name!)

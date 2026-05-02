@@ -13,7 +13,7 @@ public enum AnalyticsResultCountBucket: String, Sendable {
     case fiveThousandToNineThousandNineHundredNinetyNine = "5000_9999"
     case tenThousandPlus = "10000_plus"
 
-    public static func bucket(for count: Int) -> AnalyticsResultCountBucket {
+    public static func bucket(for count: Int) -> Self {
         switch count {
         case ..<1:
             .zero

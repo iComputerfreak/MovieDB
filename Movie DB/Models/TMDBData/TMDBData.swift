@@ -227,7 +227,9 @@ struct TMDBData: Decodable, Sendable {
             Logger.general.error("Error decoding movie/show data for '\(title)'")
         }
     }
-    
+}
+
+private extension TMDBData {
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -256,7 +258,7 @@ struct TMDBData: Decodable, Sendable {
         case credits
         case externalIDs = "external_ids"
     }
-    
+
     enum ExternalIDsCodingKeys: String, CodingKey {
         case imdbID = "imdb_id"
     }

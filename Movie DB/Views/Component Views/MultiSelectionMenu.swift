@@ -54,11 +54,15 @@ private extension MultiSelectionMenu {
     var multiSelectActions: some View {
         selectAllButton
         Group {
-            AddMultipleToListMenu(mediaObjects: selectedMediaObjects, onAction: {
-                AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .addToList))
-            }) {
-                dismissEditing()
-            }
+            AddMultipleToListMenu(
+                mediaObjects: selectedMediaObjects,
+                onAction: {
+                    AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .addToList))
+                },
+                onCompletion: {
+                    dismissEditing()
+                }
+            )
             addToWatchlistButton
             addToFavoritesButton
             markAsWatchedButton

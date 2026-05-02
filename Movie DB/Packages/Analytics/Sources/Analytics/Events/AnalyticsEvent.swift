@@ -154,7 +154,8 @@ extension AnalyticsEvent {
                 "duration_seconds": max(durationSeconds, 0),
                 "error_count": max(errorCount, 0),
             ]
-        case .libraryReset, .watchStateChanged, .personalRatingChanged, .libraryReload, .customListCreated, .customListDeleted:
+        case .libraryReset, .watchStateChanged, .personalRatingChanged, .libraryReload, .customListCreated,
+                .customListDeleted:
             nil
         case let .libraryUpdate(result):
             ["result": result.rawValue]

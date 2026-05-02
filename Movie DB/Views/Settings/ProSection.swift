@@ -8,7 +8,9 @@ struct ProSection: View {
     
     var body: some View {
         Section(Strings.Settings.proSectionHeader) {
-            Button(action: { self.config.isShowingProInfo = true }) {
+            Button {
+                self.config.isShowingProInfo = true
+            } label: {
                 SettingsActionLabel(
                     title: Strings.Settings.buyProLabel,
                     systemImage: "sparkles.rectangle.stack.fill",

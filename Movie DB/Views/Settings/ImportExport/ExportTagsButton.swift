@@ -37,10 +37,11 @@ struct ExportTagsButton: View {
                 config.isLoading = false
                 config.exportedData = exportedData
                 if let exportedData {
-                    let tagCount = String(decoding: exportedData.data, as: UTF8.self)
+                    let tagCount = String(bytes: exportedData.data, encoding: .utf8)?
                         .components(separatedBy: .newlines)
                         .filter(\.isNotEmpty)
                         .count
+                        ?? 0
                     AnalyticsService.shared.track(
                         .tagsExported(exportCountBucket: .bucket(for: tagCount))
                     )

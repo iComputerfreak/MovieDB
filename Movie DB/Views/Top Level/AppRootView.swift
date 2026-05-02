@@ -41,9 +41,7 @@ struct AppRootView: View {
     }
 
     private func finalizeAnalyticsOptIn() {
-        guard let source = pendingAnalyticsEnableSource else {
-            return
-        }
+        guard let source = pendingAnalyticsEnableSource else { return }
 
         AnalyticsService.shared.setTrackingEnabled(true)
         AnalyticsService.shared.track(.analyticsEnabled(source: source))
