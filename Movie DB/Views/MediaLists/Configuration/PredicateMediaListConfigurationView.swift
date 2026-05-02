@@ -18,7 +18,8 @@ struct PredicateMediaListConfigurationView: View {
         NavigationStack {
             VStack(spacing: 8) {
                 if let listDescription = list.listDescription {
-                    CalloutView(text: listDescription, type: .info)
+                    CalloutView(text: listDescription, type: .info, backgroundColor: .gray90)
+                        .fixedSize(horizontal: false, vertical: true)
                         .padding(.bottom, 16)
                 }
                 Text(

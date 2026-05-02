@@ -38,8 +38,21 @@ struct PredicateMediaListView<RowContent: View, MoreMenuItemContent: View>: View
     }
 }
 
-#Preview {
-    PredicateMediaListView(selectedMediaObjects: .constant([]), list: PredicateMediaList.favorites) { media in
-        LibraryRow().environmentObject(media)
+#Preview("Favorites") {
+    NavigationStack {
+        PredicateMediaListView(selectedMediaObjects: .constant([]), list: PredicateMediaList.favorites) { media in
+            LibraryRow().environmentObject(media)
+        }
     }
+    .previewEnvironment()
+}
+
+#Preview("Upcoming") {
+    NavigationStack {
+        PredicateMediaListView(selectedMediaObjects: .constant([]), list: PredicateMediaList.upcoming) { media in
+            LibraryRow()
+                .environmentObject(media)
+        }
+    }
+    .previewEnvironment()
 }

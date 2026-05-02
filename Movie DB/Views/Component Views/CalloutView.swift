@@ -35,10 +35,12 @@ struct CalloutView: View {
     let text: String
     let type: CalloutType
     let iconSize: CGFloat = 20
-    
-    init(text: String, type: CalloutType) {
+    let backgroundColor: Color
+
+    init(text: String, type: CalloutType, backgroundColor: Color = .calloutBackground) {
         self.text = text
         self.type = type
+        self.backgroundColor = backgroundColor
     }
     
     var body: some View {
@@ -56,7 +58,7 @@ struct CalloutView: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color("CalloutBackground"))
+                .fill(backgroundColor)
         }
     }
 }
