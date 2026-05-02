@@ -7,8 +7,13 @@ import Analytics
 
 struct BuyProButton: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding private var isLoading: Bool
 
     private let storeManager: StoreManager = .shared
+
+    init(isLoading: Binding<Bool> = .constant(false)) {
+        self._isLoading = isLoading
+    }
 
     var product: Product? {
         storeManager.products.first(where: \.id, equals: JFLiterals.inAppPurchaseIDPro)
@@ -28,19 +33,26 @@ struct BuyProButton: View {
     
     var body: some View {
         Button(buttonLabel) {
+            isLoading = true
             Task(priority: .userInitiated) {
+                defer {
+                    Task { @MainActor in
+                        isLoading = false
+                    }
+                }
+
                 do {
                     try await buyPro()
                 } catch {
                     AlertHandler.showSimpleAlert(
-                        title: Strings.ProInfo.Alert.buyProErrorMessage,
+                        title: Strings.ProInfo.Alert.buyProErrorTitle,
                         message: Strings.ProInfo.Alert.buyProErrorMessage
                     )
                 }
             }
         }
         .buttonStyle(.borderedProminent)
-        .disabled(storeManager.hasPurchasedPro)
+        .disabled(storeManager.hasPurchasedPro || isLoading)
     }
     
     func buyPro() async throws {

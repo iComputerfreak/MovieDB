@@ -1,6 +1,7 @@
 // Copyright © 2021 Jonas Frey. All rights reserved.
 
 import os.log
+import JFSwiftUI
 import SwiftUI
 import Analytics
 
@@ -10,6 +11,7 @@ enum PurchaseError: Error {
 
 struct ProInfoView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var isLoading = false
 
     let showCancelButton: Bool
     let source: AnalyticsProSheetSource
@@ -21,41 +23,52 @@ struct ProInfoView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    heroCard
-                    featuresCard
-                    ctaCard
+        LoadingView(isShowing: $isLoading) {
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        heroCard
+                        featuresCard
+                        ctaCard
+                    }
+                    .padding(20)
                 }
-                .padding(20)
-            }
-            .background(backgroundGradient.ignoresSafeArea())
-            .navigationTitle(Strings.ProInfo.navBarTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button(Strings.ProInfo.restoreButtonLabel) {
-                        Logger.appStore.info("Restoring Purchases")
-                        Task {
-                            do {
-                                try await storeManager.restorePurchases()
-                                AnalyticsService.shared.track(.restoredPro)
-                            } catch {
-                                AlertHandler.showSimpleAlert(
-                                    title: Strings.ProInfo.Alert.restoreFailedTitle,
-                                    message: Strings.ProInfo.Alert.restoreFailedMessage(error.localizedDescription)
-                                )
+                .background(backgroundGradient.ignoresSafeArea())
+                .navigationTitle(Strings.ProInfo.navBarTitle)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button(Strings.ProInfo.restoreButtonLabel) {
+                            Logger.appStore.info("Restoring Purchases")
+                            isLoading = true
+                            Task {
+                                defer {
+                                    Task { @MainActor in
+                                        isLoading = false
+                                    }
+                                }
+
+                                do {
+                                    try await storeManager.restorePurchases()
+                                    AnalyticsService.shared.track(.restoredPro)
+                                } catch {
+                                    AlertHandler.showSimpleAlert(
+                                        title: Strings.ProInfo.Alert.restoreFailedTitle,
+                                        message: Strings.ProInfo.Alert.restoreFailedMessage(error.localizedDescription)
+                                    )
+                                }
                             }
                         }
+                        .disabled(isLoading)
                     }
-                }
-                if showCancelButton {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button {
-                            self.dismiss()
-                        } label: {
-                            Label(Strings.ProInfo.navBarButtonCancelLabel, systemImage: "xmark")
+                    if showCancelButton {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button {
+                                self.dismiss()
+                            } label: {
+                                Label(Strings.ProInfo.navBarButtonCancelLabel, systemImage: "xmark")
+                            }
+                            .disabled(isLoading)
                         }
                     }
                 }
@@ -151,7 +164,7 @@ struct ProInfoView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
 
-            BuyProButton()
+            BuyProButton(isLoading: $isLoading)
                 .controlSize(.large)
                 .frame(maxWidth: .infinity)
         }

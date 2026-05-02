@@ -8,7 +8,10 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
     init(configuration: AnalyticsConfiguration) {
         self.configuration = configuration
 
-        let config = PostHogConfig(apiKey: configuration.apiKey, host: configuration.host)
+        let config = PostHogConfig(
+            projectToken: configuration.apiKey,
+            host: configuration.host
+        )
         config.captureApplicationLifecycleEvents = true
         // Screen views don't make much sense with SwiftUI, as the screens are described as
         // `UIHostingController<ModifiedContent<AnyView, RootModifier>>`, which could be anything.
@@ -38,7 +41,7 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
     }
 
     func isFeatureEnabled(_ flag: AnalyticsFeatureFlag) -> Bool {
-        PostHogSDK.shared.isFeatureEnabled(flag.rawValue) ?? false
+        PostHogSDK.shared.isFeatureEnabled(flag.rawValue)
     }
 
     func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
