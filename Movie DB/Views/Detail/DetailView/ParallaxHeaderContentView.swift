@@ -16,7 +16,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
     private let backdropGradient: LinearGradient = .init(
         stops: [
             .init(color: .black, location: 0),
-            .init(color: .clear, location: 1),
+            .init(color: .clear, location: 0.5),
         ],
         startPoint: .bottom,
         endPoint: .top
@@ -36,57 +36,54 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                Color.clear
-                    .frame(maxWidth: .infinity)
-                    .frame(height: imageHeight)
-                    .overlay(alignment: .bottom) {
-                        header
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .padding(.top, 48)
-                            .frame(maxWidth: .infinity)
-                            .background(backdropGradient)
-                            .background {
-                                background
-                                    .padding(.top, -(imageHeight - headerHeight - scrollOffset))
-                                    .blur(radius: 30)
-                                    .frame(height: headerHeight, alignment: .top)
-                                    .clipped()
-                                    .mask(backdropGradient)
-                            }
-                            .background {
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .preference(key: TitleViewHeightKey.self, value: proxy.size.height)
-                                }
-                            }
-                            .onPreferenceChange(TitleViewHeightKey.self) { headerHeight in
-                                self.headerHeight = headerHeight
-                            }
+            ZStack(alignment: .top) {
+                // MARK: Layer 1: Background
+                background
+                    // Keep background fixed in place (negate scrolling)
+                    .padding(.top, scrollOffset)
+                    .background {
+                        GeometryReader { proxy in
+                            Color.clear
+                                .preference(
+                                    key: ScrollOffsetKey.self,
+                                    value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
+                                )
+                        }
+                    }
+                    .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
+                        print("Scroll offset: \(scrollOffset)")
+                        self.scrollOffset = scrollOffset
                     }
 
+                // MARK: Layer 2: Header Background
+                background
+                // Make the background image NOT scroll with the content
+                    .padding(.top, scrollOffset)
+                    .blur(radius: 30)
+                    .mask(alignment: .top) {
+                        backdropGradient
+                            .frame(height: imageHeight)
+                    }
+
+                // MARK: Layer 3: Content
                 content
+                    .padding(.top, imageHeight)
+                    .frame(maxWidth: .infinity)
+
+                // MARK: Layer 4: Header
+                header
+                    .readHeight(into: $headerHeight)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    // Put content at the bottom border of the header window
+                    .frame(height: imageHeight, alignment: .bottom)
+                    .background(alignment: .top) {
+                        backdropGradient
+                            .frame(height: imageHeight)
+                    }
             }
-            .frame(maxWidth: .infinity)
-            .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .preference(
-                            key: ScrollOffsetKey.self,
-                            value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
-                        )
-                }
-            }
-            .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
-                self.scrollOffset = scrollOffset
-            }
-        }
-        .background(alignment: .top) {
-            background
-                .frame(height: imageHeight)
         }
         .coordinateSpace(name: scrollCoordinateSpaceName)
         .ignoresSafeArea(edges: .top)

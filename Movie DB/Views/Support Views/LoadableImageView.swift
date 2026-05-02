@@ -12,18 +12,20 @@ enum LoadableImageSource {
 struct LoadableImageView: View {
     let source: LoadableImageSource
     let contentMode: ContentMode
+    let alignment: Alignment
 
     @State private var loadedImage: UIImage?
     @State private var isLoading = false
 
-    init(source: LoadableImageSource, contentMode: ContentMode = .fill) {
+    init(source: LoadableImageSource, contentMode: ContentMode = .fill, alignment: Alignment = .center) {
         self.source = source
         self.contentMode = contentMode
+        self.alignment = alignment
     }
 
     var body: some View {
         content
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: alignment)
             .task(id: loaderID) {
                 await loadImageIfNeeded()
             }
