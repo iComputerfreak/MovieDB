@@ -28,8 +28,7 @@ struct MediaTitleView: View {
         let elements = [
             mediaObject.year.map { $0.formatted(.number.grouping(.never)) },
             movie?.runtime.map { Duration.seconds($0 * 60).formatted(durationFormat) },
-            // TODO: Localize and use correct values
-            mediaObject.parentalRating.map { "Ab \($0.label) Jahren" },
+            mediaObject.parentalRating.map(formattedParentalRatingLabel),
         ] + sortedGenreNames
 
         return elements.compactMap(\.self)
@@ -38,6 +37,20 @@ struct MediaTitleView: View {
     private var overview: String? {
         guard let overview = mediaObject.overview, !overview.isEmpty else { return nil }
         return overview
+    }
+
+    private func formattedParentalRatingLabel(_ rating: ParentalRating) -> String {
+        let label = rating.label.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard
+            rating.countryCode.uppercased() == "DE",
+            !label.isEmpty,
+            label.unicodeScalars.allSatisfy(CharacterSet.decimalDigits.contains)
+        else {
+            return label
+        }
+
+        return Strings.Detail.parentalRatingAgeLabel(label)
     }
 
     init(showsUserSpecificFields: Bool = true) {

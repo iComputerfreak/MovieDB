@@ -203,6 +203,12 @@ extension Strings {
             localized: "detail.basicInfo.headline.description",
             comment: "The headline for the 'description' property in the detail view"
         )
+        static func parentalRatingAgeLabel(_ age: String) -> String {
+            String(
+                localized: "detail.basicInfo.parentalRating.ageLabel \(age)",
+                comment: "An age-based parental rating label shown in the detail title for German, e.g. 'Ab 12 Jahren'. The parameter is the minimum age."
+            )
+        }
         static let releaseDateHeadline = String(
             localized: "detail.basicInfo.headline.releaseDate",
             comment: "The headline for the 'release date' property in the detail view"

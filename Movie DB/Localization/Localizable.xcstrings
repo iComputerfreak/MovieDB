@@ -632,6 +632,23 @@
         }
       }
     },
+    "detail.basicInfo.parentalRating.ageLabel %@" : {
+      "comment" : "An age-based parental rating label shown in the detail title for German, e.g. 'Ab 12 Jahren'. The parameter is the minimum age.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ab %@ Jahren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
     "detail.basicInfo.headline.firstAired" : {
       "comment" : "The headline for the 'first aired' property in the detail view",
       "localizations" : {

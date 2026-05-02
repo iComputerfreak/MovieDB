@@ -8,6 +8,7 @@ import UIKit
 public class ParentalRating: NSManagedObject {
     convenience init(context: NSManagedObjectContext, countryCode: String, label: String, color: UIColor? = nil) {
         self.init(context: context)
+        self.countryCode = countryCode
         self.label = label
         self.uiColor = color
     }
