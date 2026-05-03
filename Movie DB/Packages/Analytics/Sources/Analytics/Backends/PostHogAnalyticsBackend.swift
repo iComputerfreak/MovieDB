@@ -45,6 +45,10 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
         PostHogSDK.shared.isFeatureEnabled(flag.rawValue)
     }
 
+    func featureFlagPayload<T: Decodable>(_ flag: AnalyticsFeatureFlag, as type: T.Type) -> T? {
+        PostHogSDK.shared.getFeatureFlagResult(flag.rawValue)?.payloadAs(type)
+    }
+
     func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
         PostHogSDK.shared.reloadFeatureFlags {
             completion()

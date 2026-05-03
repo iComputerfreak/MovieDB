@@ -2,4 +2,5 @@
 
 public enum AnalyticsFeatureFlag: String, CaseIterable, Sendable {
     case debugging
+    case backgroundUpdates = "background_updates"
 }

@@ -1,6 +1,7 @@
 // Copyright © 2019 Jonas Frey. All rights reserved.
 
 import BackgroundTasks
+import Analytics
 import CoreData
 import Foundation
 import JFSwiftUI
@@ -12,6 +13,8 @@ import UIKit
 class AppDelegate: NSObject, UIApplicationDelegate {
     @UserDefault("lastAppStartUpdate", defaultValue: nil)
     private var lastAppStartUpdate: Date?
+
+    private let backgroundHandler = BackgroundHandler()
 
     func application(
         _ application: UIApplication,
@@ -60,9 +63,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
 
         // MARK: Background Processing
-        // No need to keep a persistent reference
-        let backgroundHandler = BackgroundHandler()
         backgroundHandler.setupBackgroundFetch()
+
+        AnalyticsService.shared.reloadFeatureFlags { [weak self] in
+            guard let self else { return }
+
+            Task(priority: .background) {
+                let didSchedule = await self.backgroundHandler.refreshBackgroundFetch()
+                Logger.background.info("Background fetch config refresh finished: \(didSchedule, privacy: .public)")
+            }
+
+            self.performAppLaunchBackgroundUpdateIfNeeded()
+        }
         
         // MARK: Run Migrations
         let migrationManager = MigrationManager()
@@ -71,22 +83,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         migrationManager.register(ReloadLibraryMigration.self)
         
         migrationManager.run()
-
-        // MARK: Background updates
-        // If it has been at least one day since the app was last opened, we update the old objects
-        // in the media library
-        if lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > TimeInterval.day {
-            Task(priority: .background) {
-                do {
-                    Logger.library.info("Updating media library after app start...")
-                    try await MediaLibrary.shared.reloadAll(fromBackground: true)
-                    Logger.library.info("App start update complete.")
-                    lastAppStartUpdate = .now
-                } catch {
-                    Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
-                }
-            }
-        }
 
         return true
     }
@@ -99,6 +95,28 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
         sceneConfig.delegateClass = SceneDelegate.self
         return sceneConfig
+    }
+
+    private func performAppLaunchBackgroundUpdateIfNeeded() {
+        guard let interval = BackgroundHandler.currentBackgroundUpdateInterval else {
+            Logger.library.info("Skipping app start library update because background updates are disabled.")
+            return
+        }
+
+        guard lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > interval else {
+            return
+        }
+
+        Task(priority: .background) {
+            do {
+                Logger.library.info("Updating media library after app start...")
+                try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                Logger.library.info("App start update complete.")
+                lastAppStartUpdate = .now
+            } catch {
+                Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
+            }
+        }
     }
     
     private func loadDenyList() {

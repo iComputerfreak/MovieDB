@@ -9,6 +9,10 @@ final class NoopAnalyticsBackend: AnalyticsBackend {
         false
     }
 
+    func featureFlagPayload<T: Decodable>(_ flag: AnalyticsFeatureFlag, as type: T.Type) -> T? {
+        nil
+    }
+
     func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
         completion()
     }

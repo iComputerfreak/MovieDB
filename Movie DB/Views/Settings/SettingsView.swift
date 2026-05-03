@@ -134,6 +134,11 @@ struct SettingsView: View {
         guard let source = pendingAnalyticsEnableSource else { return }
 
         AnalyticsService.shared.setTrackingEnabled(true)
+        AnalyticsService.shared.reloadFeatureFlags {
+            Task {
+                _ = await BackgroundHandler().refreshBackgroundFetch()
+            }
+        }
         AnalyticsService.shared.track(.analyticsEnabled(source: source))
         pendingAnalyticsEnableSource = nil
     }

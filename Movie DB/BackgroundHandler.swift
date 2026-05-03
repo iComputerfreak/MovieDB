@@ -8,8 +8,7 @@ import UIKit
 
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"
-    // Run the background task every day
-    static let bgTaskInterval: TimeInterval = .day
+    static let defaultBackgroundUpdateInterval: TimeInterval = .day
     
     init() {}
 
@@ -18,6 +17,14 @@ class BackgroundHandler {
         static let lastCancelled = "debug_lastBGFetchCancelled"
         static let lastRescheduleResult = "debug_lastBGFetchRescheduleResult"
         static let lastResult = "debug_lastBGFetchResult"
+    }
+
+    static var currentBackgroundUpdateInterval: TimeInterval? {
+        guard AnalyticsService.shared.isFeatureEnabled(.backgroundUpdates) else {
+            return nil
+        }
+
+        return resolvedBackgroundUpdateInterval()
     }
     
     /// Registers the background fetch task ID and schedules the recurring execution.
@@ -33,22 +40,27 @@ class BackgroundHandler {
             )
         }
         Task {
-            let didSchedule = await scheduleBackgroundFetch()
+            let didSchedule = await refreshBackgroundFetch()
             writeDebugRescheduleResult(didSchedule)
         }
     }
-    
-    /// Schedules a background fetch to be executed ``bgTaskInterval`` from now.
-    /// If there is already a background fetch scheduled, re-scheduling will be skipped.
-    private func scheduleBackgroundFetch() async -> Bool {
-        let pendingTasks = await BGTaskScheduler.shared.pendingTaskRequests()
-        // Only schedule this task if it is not already pending.
-        if pendingTasks.contains(where: { $0.identifier == Self.bgTaskID }) {
+
+    @discardableResult
+    func refreshBackgroundFetch() async -> Bool {
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.bgTaskID)
+
+        guard let interval = Self.currentBackgroundUpdateInterval else {
+            Logger.background.info("Background updates disabled by feature flag.")
             return true
         }
 
+        return await scheduleBackgroundFetch(after: interval)
+    }
+
+    /// Schedules a background fetch to be executed after the passed interval.
+    private func scheduleBackgroundFetch(after interval: TimeInterval) async -> Bool {
         let request = BGProcessingTaskRequest(identifier: Self.bgTaskID)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: Self.bgTaskInterval)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: interval)
         do {
             try BGTaskScheduler.shared.submit(request)
             Logger.background.info("Successfully scheduled background processing task request.")
@@ -64,9 +76,16 @@ class BackgroundHandler {
         writeDebugRunTime(.now)
         writeDebugCancelled(false)
 
+        guard let interval = Self.currentBackgroundUpdateInterval else {
+            Logger.background.info("Skipping background task because feature flag is disabled.")
+            writeDebugResult(true)
+            bgTask.setTaskCompleted(success: true)
+            return
+        }
+
         // MARK: Re-schedule
         Task {
-            let didSchedule = await scheduleBackgroundFetch()
+            let didSchedule = await scheduleBackgroundFetch(after: interval)
             writeDebugRescheduleResult(didSchedule)
         }
 
@@ -112,5 +131,18 @@ class BackgroundHandler {
 
     private func writeDebugResult(_ result: Bool) {
         UserDefaults.standard.set(result, forKey: DebugKey.lastResult)
+    }
+
+    private static func resolvedBackgroundUpdateInterval() -> TimeInterval {
+        let hours = AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Int.self)
+            .map(Double.init)
+            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Double.self)
+            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: String.self).flatMap(Double.init)
+
+        guard let hours, hours > 0 else {
+            return defaultBackgroundUpdateInterval
+        }
+
+        return hours * 60 * 60
     }
 }

@@ -30,6 +30,10 @@ public final class AnalyticsService: AnalyticsTracking, @unchecked Sendable {
         currentBackend().isFeatureEnabled(flag)
     }
 
+    public func featureFlagPayload<T: Decodable>(_ flag: AnalyticsFeatureFlag, as type: T.Type) -> T? {
+        currentBackend().featureFlagPayload(flag, as: type)
+    }
+
     public func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
         currentBackend().reloadFeatureFlags {
             Logger.analytics.info("Feature flags reloaded.")
