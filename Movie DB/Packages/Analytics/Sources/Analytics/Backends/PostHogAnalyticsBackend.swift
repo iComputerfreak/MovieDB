@@ -1,12 +1,16 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Foundation
 import PostHog
 
 final class PostHogAnalyticsBackend: AnalyticsBackend {
     private let configuration: AnalyticsConfiguration
+    private let lock = NSLock()
+    private var isTrackingEnabled: Bool
 
     init(configuration: AnalyticsConfiguration) {
         self.configuration = configuration
+        self.isTrackingEnabled = configuration.isTrackingEnabled
 
         let config = PostHogConfig(
             projectToken: configuration.apiKey,
@@ -17,9 +21,13 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
         // `UIHostingController<ModifiedContent<AnyView, RootModifier>>`, which could be anything.
         config.captureScreenViews = false
         config.preloadFeatureFlags = true
-        config.optOut = !configuration.isTrackingEnabled
         config.personProfiles = .always
         config.sendFeatureFlagEvent = true
+        config.setBeforeSend { [weak self] event in
+            guard let self, self.currentTrackingEnabled() else { return nil }
+
+            return event
+        }
         PostHogSDK.shared.setup(config)
 
         if configuration.isTrackingEnabled {
@@ -28,25 +36,26 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
     }
 
     func track(_ event: AnalyticsEvent) {
+        guard currentTrackingEnabled() else { return }
+
         PostHogSDK.shared.capture(event.name, properties: event.properties)
     }
 
     func setTrackingEnabled(_ isEnabled: Bool) {
+        setTrackingEnabledState(isEnabled)
+
         if isEnabled {
-            PostHogSDK.shared.optIn()
             identifyInstallation()
             reloadFeatureFlags(completion: {})
-        } else {
-            PostHogSDK.shared.optOut()
         }
     }
 
     func isFeatureEnabled(_ flag: AnalyticsFeatureFlag) -> Bool {
-        PostHogSDK.shared.isFeatureEnabled(flag.rawValue)
+        featureFlagResult(for: flag)?.enabled ?? false
     }
 
     func featureFlagPayload<T: Decodable>(_ flag: AnalyticsFeatureFlag, as type: T.Type) -> T? {
-        PostHogSDK.shared.getFeatureFlagResult(flag.rawValue)?.payloadAs(type)
+        featureFlagResult(for: flag)?.payloadAs(type)
     }
 
     func reloadFeatureFlags(completion: @escaping @Sendable () -> Void) {
@@ -61,5 +70,21 @@ final class PostHogAnalyticsBackend: AnalyticsBackend {
             userProperties: configuration.personProperties,
             userPropertiesSetOnce: configuration.personPropertiesSetOnce
         )
+    }
+
+    private func featureFlagResult(for flag: AnalyticsFeatureFlag) -> PostHogFeatureFlagResult? {
+        PostHogSDK.shared.getFeatureFlagResult(flag.rawValue, sendFeatureFlagEvent: currentTrackingEnabled())
+    }
+
+    private func currentTrackingEnabled() -> Bool {
+        lock.withLock {
+            isTrackingEnabled
+        }
+    }
+
+    private func setTrackingEnabledState(_ isEnabled: Bool) {
+        lock.withLock {
+            isTrackingEnabled = isEnabled
+        }
     }
 }
