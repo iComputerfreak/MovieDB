@@ -20,7 +20,7 @@ class StoreManager {
 
     /// Whether the user has purchased the pro version of the app
     @ObservationIgnored
-    @UserDefault("hasPurchasedPro", defaultValue: false)
+    @UserDefault(JFLiterals.Keys.hasPurchasedPro, defaultValue: false)
     private(set) var hasPurchasedPro: Bool
 
     // The task that is responsible for listening to background transactions

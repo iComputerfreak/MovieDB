@@ -172,6 +172,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             JFConfig.shared.analyticsConsentState = .denied
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            UserDefaults.standard.set(true, forKey: JFLiterals.Keys.hasPurchasedPro)
             Tips.hideAllTipsForTesting()
         }
 

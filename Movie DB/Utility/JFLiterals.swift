@@ -54,6 +54,9 @@ enum JFLiterals {
         static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
         /// The number of times the app has asked for app store ratings
         static let askedForAppRating = "askedForRating"
+        /// Whether the user has purchased the Pro IAP.
+        /// - Note: Do not read directly, use `StoreManager.shared.hasPurchasedPro` instead.
+        static let hasPurchasedPro = "hasPurchasedPro"
         /// The date when the app was first opened
         static let firstAppOpenDate = "firstAppOpen"
         /// The key storing the Date in `.timeIntervalSince1970` of the last `MediaLibrary` update
