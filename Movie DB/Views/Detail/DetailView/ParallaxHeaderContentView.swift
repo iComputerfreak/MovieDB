@@ -38,9 +38,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
         ScrollView {
             ZStack(alignment: .top) {
                 // MARK: Layer 1: Background
-                background
-                    // Keep background fixed in place (negate scrolling)
-                    .offset(y: scrollOffset)
+                backgroundView
                     .background {
                         GeometryReader { proxy in
                             Color.clear
@@ -56,9 +54,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                     }
 
                 // MARK: Layer 2: Header Background
-                background
-                // Make the background image NOT scroll with the content
-                    .offset(y: scrollOffset)
+                backgroundView
                     .blur(radius: 30)
                     .mask(alignment: .top) {
                         backdropGradient
@@ -87,6 +83,14 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
         }
         .coordinateSpace(name: scrollCoordinateSpaceName)
         .ignoresSafeArea(edges: .top)
+    }
+
+    private var backgroundView: some View {
+        background
+        // Keep background fixed in place (negate scrolling)
+        // min(imageHeight, ...) lets the image scroll once it's not visible anymore.
+        // Without the min(), we would see the image once we scrolled all the way to the bottom
+            .offset(y: min(imageHeight, scrollOffset))
     }
 }
 
