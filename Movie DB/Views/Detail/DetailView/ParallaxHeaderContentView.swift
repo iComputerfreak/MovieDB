@@ -37,21 +37,17 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
     var body: some View {
         ScrollView {
             ZStack(alignment: .top) {
+                // MARK: Layer 0: Scroll offset measuring
+                Color.clear
+                    .frame(height: 0)
+                    .readGeometryValue(
+                        into: $scrollOffset,
+                        transform: { -$0.frame(in: .named(scrollCoordinateSpaceName)).minY },
+                        shouldUpdate: { _, _ in true }
+                    )
+
                 // MARK: Layer 1: Background
                 backgroundView
-                    .background {
-                        GeometryReader { proxy in
-                            Color.clear
-                                .preference(
-                                    key: ScrollOffsetKey.self,
-                                    value: -proxy.frame(in: .named(scrollCoordinateSpaceName)).minY
-                                )
-                        }
-                    }
-                    .onPreferenceChange(ScrollOffsetKey.self) { scrollOffset in
-                        print("Scroll offset: \(scrollOffset)")
-                        self.scrollOffset = scrollOffset
-                    }
 
                 // MARK: Layer 2: Header Background
                 backgroundView

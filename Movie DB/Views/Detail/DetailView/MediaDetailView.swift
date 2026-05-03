@@ -98,6 +98,7 @@ struct MediaDetailView: View {
     private var detailView: some View {
         ParallaxHeaderContentView {
             LoadableImageView(source: .image(mediaObject.thumbnail), contentMode: .fit, alignment: .top)
+                .aspectRatio(1 / 1.5, contentMode: .fit)
         } header: {
             MediaTitleView()
         } content: {
