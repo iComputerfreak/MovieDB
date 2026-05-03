@@ -34,7 +34,7 @@ struct UnifiedSearchView: View {
                                 .tag(UnifiedSearchScope.addMedia)
                         }
                         .pickerStyle(.segmented)
-                        .frame(width: 300)
+                        .frame(width: 350)
                     }
                 }
                 .navigationDestination(for: Media.self) { mediaObject in
