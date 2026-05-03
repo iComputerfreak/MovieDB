@@ -102,7 +102,7 @@ struct MediaDetailView: View {
         } header: {
             MediaTitleView()
         } content: {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 12) {
                 UserDataSection()
                     .environment(\.isEditing, isEditing)
                     .frame(maxWidth: .infinity, alignment: .leading)

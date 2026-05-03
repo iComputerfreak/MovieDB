@@ -9,7 +9,6 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
     private let header: Header
     private let content: Content
 
-    @State private var headerHeight: CGFloat = 0
     @State private var scrollOffset: CGFloat = 0
 
     private let scrollCoordinateSpaceName: String = "scroll"
@@ -64,17 +63,13 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
 
                 // MARK: Layer 4: Header
                 header
-                    .readHeight(into: $headerHeight)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     // Put content at the bottom border of the header window
                     .frame(height: imageHeight, alignment: .bottom)
-                    .background(alignment: .top) {
-                        backdropGradient
-                            .frame(height: imageHeight)
-                    }
+                    .background(backdropGradient)
             }
         }
         .coordinateSpace(name: scrollCoordinateSpaceName)
