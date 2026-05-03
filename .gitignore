@@ -9,6 +9,8 @@ GITHUB_API_KEY
 # Automatically generated:
 Movie\ DB/Generated/Secrets.swift
 
+fastlane/screenshots/*.html
+
 # Created by https://www.gitignore.io/api/swift,xcode,macos
 # Edit at https://www.gitignore.io/?templates=fastlane,swift,xcode,macos
 
@@ -27,7 +29,7 @@ Movie\ DB/Generated/Secrets.swift
 **/fastlane/Preview.html
 
 # snapshot generated screenshots
-**/fastlane/screenshots
+# **/fastlane/screenshots
 
 # scan temporary files
 **/fastlane/test_output
@@ -133,7 +135,7 @@ Dependencies/
 
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/**/*.png
+# fastlane/screenshots/**/*.png
 fastlane/test_output
 
 # Code Injection
@@ -183,9 +185,6 @@ iOSInjectionProject/
 
 # deliver temporary files
 **/fastlane/Preview.html
-
-# snapshot generated screenshots
-**/fastlane/screenshots
 
 # scan temporary files
 **/fastlane/test_output
