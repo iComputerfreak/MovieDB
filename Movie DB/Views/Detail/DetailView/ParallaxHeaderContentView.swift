@@ -40,7 +40,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                 // MARK: Layer 1: Background
                 background
                     // Keep background fixed in place (negate scrolling)
-                    .padding(.top, scrollOffset)
+                    .offset(y: scrollOffset)
                     .background {
                         GeometryReader { proxy in
                             Color.clear
@@ -58,7 +58,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                 // MARK: Layer 2: Header Background
                 background
                 // Make the background image NOT scroll with the content
-                    .padding(.top, scrollOffset)
+                    .offset(y: scrollOffset)
                     .blur(radius: 30)
                     .mask(alignment: .top) {
                         backdropGradient
