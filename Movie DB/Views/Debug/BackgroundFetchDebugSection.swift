@@ -5,21 +5,37 @@ import SwiftUI
 struct BackgroundFetchDebugSection: View {
     var body: some View {
         Section("Background Fetch" as String) {
-            let time = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "debug_lastBGFetchTime"))
-            let cancelled = UserDefaults.standard.bool(forKey: "debug_lastBGFetchCancelled")
-            let rescheduleResult = UserDefaults.standard.bool(forKey: "debug_lastBGFetchRescheduleResult")
-            let result = UserDefaults.standard.bool(forKey: "debug_lastBGFetchResult")
+            let debugState = BackgroundHandler.debugState
+            let time = debugState.lastRunTime?.formatted(.iso8601) ?? "never"
+            let cancelled = debugState.lastCancelled == true
+            let rescheduleResult = debugState.lastRescheduleResult.rawValue
+            let result = debugState.lastResult.rawValue
+            let resolvedInterval = debugState.lastResolvedInterval
+            let lastErrorDescription = debugState.lastErrorDescription ?? "none"
             let lastLibraryUpdate = Date(timeIntervalSince1970: MediaLibrary.shared.lastUpdated)
+            let currentInterval = BackgroundHandler.currentBackgroundUpdateInterval
+            let currentState = currentInterval == nil ? "disabled" : "enabled"
+            let intervalDescription = resolvedInterval.map(Self.intervalDescription) ?? "n/a"
+            let currentIntervalDescription = currentInterval.map(Self.intervalDescription) ?? "n/a"
             Text(
                 verbatim: """
-                Last BG Fetch was at \(time.formatted(.iso8601))
+                Current State: \(currentState)
+                Current Interval: \(currentIntervalDescription)
+                Last BG Fetch was at \(time)
                 Cancelled: \(cancelled ? "Yes" : "No")
-                Rescheduled: \(rescheduleResult ? "Yes" : "No")
-                Result: \(result ? "success" : "failure")
+                Last Reschedule Result: \(rescheduleResult)
+                Last Resolved Interval: \(intervalDescription)
+                Last Execution Result: \(result)
+                Last Error: \(lastErrorDescription)
                 Last Library Update: \(lastLibraryUpdate)
                 """
             )
         }
+    }
+
+    private static func intervalDescription(_ interval: TimeInterval) -> String {
+        let hours = interval / 60 / 60
+        return "\(hours.formatted(.number.precision(.fractionLength(0...2))))h"
     }
 }
 

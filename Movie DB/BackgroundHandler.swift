@@ -9,14 +9,34 @@ import UIKit
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"
     static let defaultBackgroundUpdateInterval: TimeInterval = .day
+
+    enum DebugExecutionResult: String, Codable {
+        case success
+        case failure
+        case skippedFlagDisabled = "skipped_flag_disabled"
+        case unknown
+    }
+
+    enum DebugRescheduleResult: String, Codable {
+        case scheduled
+        case disabledByFlag = "disabled_by_flag"
+        case failed
+        case unknown
+    }
+
+    struct DebugState: Codable {
+        var lastRunTime: Date?
+        var lastCancelled: Bool?
+        var lastRescheduleResult: DebugRescheduleResult = .unknown
+        var lastResult: DebugExecutionResult = .unknown
+        var lastResolvedInterval: TimeInterval?
+        var lastErrorDescription: String?
+    }
     
     init() {}
 
     private enum DebugKey {
-        static let lastRunTime = "debug_lastBGFetchTime"
-        static let lastCancelled = "debug_lastBGFetchCancelled"
-        static let lastRescheduleResult = "debug_lastBGFetchRescheduleResult"
-        static let lastResult = "debug_lastBGFetchResult"
+        static let state = "debug_backgroundFetchState"
     }
 
     static var currentBackgroundUpdateInterval: TimeInterval? {
@@ -26,7 +46,28 @@ class BackgroundHandler {
 
         return resolvedBackgroundUpdateInterval()
     }
-    
+
+    static var debugState: DebugState {
+        get {
+            guard
+                let data = UserDefaults.standard.data(forKey: DebugKey.state),
+                let state = try? JSONDecoder().decode(DebugState.self, from: data)
+            else {
+                return DebugState()
+            }
+
+            return state
+        }
+        set {
+            guard let data = try? JSONEncoder().encode(newValue) else {
+                Logger.background.error("Could not encode background fetch debug state.")
+                return
+            }
+
+            UserDefaults.standard.set(data, forKey: DebugKey.state)
+        }
+    }
+
     /// Registers the background fetch task ID and schedules the recurring execution.
     func setupBackgroundFetch() {
         let result = BGTaskScheduler.shared.register(
@@ -40,8 +81,7 @@ class BackgroundHandler {
             )
         }
         Task {
-            let didSchedule = await refreshBackgroundFetch()
-            writeDebugRescheduleResult(didSchedule)
+            _ = await refreshBackgroundFetch()
         }
     }
 
@@ -51,9 +91,17 @@ class BackgroundHandler {
 
         guard let interval = Self.currentBackgroundUpdateInterval else {
             Logger.background.info("Background updates disabled by feature flag.")
+            var debugState = Self.debugState
+            debugState.lastResolvedInterval = nil
+            debugState.lastRescheduleResult = .disabledByFlag
+            debugState.lastErrorDescription = nil
+            Self.debugState = debugState
             return true
         }
 
+        var debugState = Self.debugState
+        debugState.lastResolvedInterval = interval
+        Self.debugState = debugState
         return await scheduleBackgroundFetch(after: interval)
     }
 
@@ -64,29 +112,46 @@ class BackgroundHandler {
         do {
             try BGTaskScheduler.shared.submit(request)
             Logger.background.info("Successfully scheduled background processing task request.")
+            var debugState = Self.debugState
+            debugState.lastRescheduleResult = .scheduled
+            debugState.lastErrorDescription = nil
+            Self.debugState = debugState
             return true
         } catch {
             Logger.background.error("Could not schedule app processing task: \(error, privacy: .public)")
+            var debugState = Self.debugState
+            debugState.lastRescheduleResult = .failed
+            debugState.lastErrorDescription = String(describing: error)
+            Self.debugState = debugState
             return false
         }
     }
     
     /// Executes the background task and re-schedules it
     private func executeBackgroundProcessingTask(bgTask: BGTask) {
-        writeDebugRunTime(.now)
-        writeDebugCancelled(false)
+        var debugState = Self.debugState
+        debugState.lastRunTime = .now
+        debugState.lastCancelled = false
+        Self.debugState = debugState
 
         guard let interval = Self.currentBackgroundUpdateInterval else {
             Logger.background.info("Skipping background task because feature flag is disabled.")
-            writeDebugResult(true)
+            var debugState = Self.debugState
+            debugState.lastResolvedInterval = nil
+            debugState.lastResult = .skippedFlagDisabled
+            debugState.lastErrorDescription = nil
+            Self.debugState = debugState
             bgTask.setTaskCompleted(success: true)
             return
         }
 
+        debugState = Self.debugState
+        debugState.lastResolvedInterval = interval
+        Self.debugState = debugState
+
         // MARK: Re-schedule
         Task {
-            let didSchedule = await scheduleBackgroundFetch(after: interval)
-            writeDebugRescheduleResult(didSchedule)
+            _ = await scheduleBackgroundFetch(after: interval)
         }
 
         // MARK: Create Operation
@@ -95,14 +160,20 @@ class BackgroundHandler {
                 Logger.background.info("Updating Library from background task...")
                 let updatedMediaCount = try await MediaLibrary.shared.reloadAll(fromBackground: true)
                 Logger.background.info("Reloaded \(updatedMediaCount) media objects from background task.")
-                writeDebugResult(true)
+                var debugState = Self.debugState
+                debugState.lastResult = .success
+                debugState.lastErrorDescription = nil
+                Self.debugState = debugState
                 AnalyticsService.shared.track(.backgroundFetch(result: .success, cancelled: false, updatedMediaCount: updatedMediaCount))
                 bgTask.setTaskCompleted(success: true)
             } catch {
                 let wasCancelled = error is CancellationError || Task.isCancelled
                 Logger.background.error("Error executing background task: \(error, privacy: .public)")
-                writeDebugCancelled(wasCancelled)
-                writeDebugResult(false)
+                var debugState = Self.debugState
+                debugState.lastCancelled = wasCancelled
+                debugState.lastResult = .failure
+                debugState.lastErrorDescription = String(describing: error)
+                Self.debugState = debugState
                 AnalyticsService.shared.track(.backgroundFetch(result: .failure, cancelled: wasCancelled, updatedMediaCount: 0))
                 bgTask.setTaskCompleted(success: false)
             }
@@ -112,25 +183,11 @@ class BackgroundHandler {
         // MARK: Expiration Handler
         bgTask.expirationHandler = {
             Logger.background.info("Cancelling background task...")
-            self.writeDebugCancelled(true)
+            var debugState = Self.debugState
+            debugState.lastCancelled = true
+            Self.debugState = debugState
             operation.cancel()
         }
-    }
-
-    private func writeDebugRunTime(_ date: Date) {
-        UserDefaults.standard.set(date.timeIntervalSince1970, forKey: DebugKey.lastRunTime)
-    }
-
-    private func writeDebugCancelled(_ cancelled: Bool) {
-        UserDefaults.standard.set(cancelled, forKey: DebugKey.lastCancelled)
-    }
-
-    private func writeDebugRescheduleResult(_ result: Bool) {
-        UserDefaults.standard.set(result, forKey: DebugKey.lastRescheduleResult)
-    }
-
-    private func writeDebugResult(_ result: Bool) {
-        UserDefaults.standard.set(result, forKey: DebugKey.lastResult)
     }
 
     private static func resolvedBackgroundUpdateInterval() -> TimeInterval {
