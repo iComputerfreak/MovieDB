@@ -81,6 +81,6 @@ struct WatchProvidersSection: View {
             Spacer()
         }
     }
-    .previewEnvironment()
     .environmentObject(PlaceholderData.preview.staticShow as Media)
+    .previewEnvironment()
 }

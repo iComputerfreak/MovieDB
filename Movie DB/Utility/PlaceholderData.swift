@@ -297,6 +297,7 @@ class PlaceholderData {
         s.watched = .season(7)
         s.watchAgain = true
         s.parentalRating = fskRating(16, context: context)
+        s.watchProviders = Set(s.watchProviders.filter { $0.logoImage == nil } )
         return s
     }
     
