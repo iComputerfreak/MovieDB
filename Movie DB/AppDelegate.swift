@@ -165,17 +165,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     #if DEBUG
     private func handleDebugParameters() {
-        if CommandLine.launchArguments.contains(.uiTesting) {
+        let isUITesting = CommandLine.launchArguments.contains(.uiTesting)
+        let isScreenshots = CommandLine.launchArguments.contains(.screenshots)
+
+        if isUITesting || isScreenshots {
+            JFConfig.shared.analyticsConsentState = .denied
+            // Make sure the app does not ask for a rating during UI testing
+            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            Tips.hideAllTipsForTesting()
+        }
+
+        if isUITesting {
             // Prepare a fresh container to do the UI testing in
             PersistenceController.prepareForUITesting()
             JFConfig.shared.region = "DE"
             JFConfig.shared.language = "en-US"
-            // Make sure the app does not ask for a rating during UI testing
-            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
-            Tips.hideAllTipsForTesting()
-        } else if CommandLine.launchArguments.contains(.screenshots) {
-            // Make sure the app does not ask for a rating during UI testing
-            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+        } else if isScreenshots {
             // Prepare with sample data for taking screenshots
             PersistenceController.prepareForUITesting()
             JFConfig.shared.region = Locale.current.region?.identifier ?? ""
