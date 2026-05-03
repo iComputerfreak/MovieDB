@@ -34,6 +34,19 @@ extension View {
             }
     }
 
+    /// Reads the rendered width of a view into the given binding.
+    /// - Parameter width: The binding to update with the rendered width.
+    public func readWidth(into width: Binding<CGFloat>) -> some View {
+        readGeometryValue(
+            into: width,
+            transform: \.size.width,
+            shouldUpdate: { currentValue, newValue in
+                // Only report the new value if it's a bit larger/smaller than the previous one.
+                abs(currentValue - newValue) > 0.5
+            }
+        )
+    }
+
     /// Reads the rendered height of a view into the given binding.
     /// - Parameter height: The binding to update with the rendered height.
     public func readHeight(into height: Binding<CGFloat>) -> some View {
@@ -43,6 +56,19 @@ extension View {
             shouldUpdate: { currentValue, newValue in
                 // Only report the new value if it's a bit larger/smaller than the previous one.
                 abs(currentValue - newValue) > 0.5
+            }
+        )
+    }
+
+    /// Reads the rendered size of a view into the given binding.
+    /// - Parameter size: The binding to update with the rendered size.
+    public func readSize(into size: Binding<CGSize>) -> some View {
+        readGeometryValue(
+            into: size,
+            transform: { $0.size },
+            shouldUpdate: { currentValue, newValue in
+                // Only report the new value if it's a bit larger/smaller than the previous one.
+                abs(currentValue.width - newValue.width) > 0.5 || abs(currentValue.height - newValue.height) > 0.5
             }
         )
     }

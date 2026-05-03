@@ -7,41 +7,42 @@ struct PosterPlaceholderView: View {
 
     let cornerRadius: CGFloat
 
+    @State private var viewSize: CGSize = .zero
+
     init(cornerRadius: CGFloat = 14) {
         self.cornerRadius = cornerRadius
     }
 
     var body: some View {
-        GeometryReader { proxy in
-            // The view is designed for JFLiterals.thumbnailSize (80 high with aspect ratio 1.5)
-            let scaleFactor = min(10, min(proxy.size.width / (80 / 1.5), proxy.size.height / 80))
-            let lineThickness: CGFloat = 5 * scaleFactor
-            VStack(spacing: 6 * scaleFactor) {
-                Image(systemName: "film")
-                    .font(.system(size: 22 * scaleFactor, weight: .semibold))
-                    .foregroundStyle(.black60)
-                    .padding(.horizontal, scaleFactor)
-                    .overlay {
-                        Capsule(style: .continuous)
-                            .fill(.white60.opacity(0.8))
-                            .frame(height: lineThickness)
-                            .rotationEffect(.degrees(-38))
-                            .shadow(color: .black.opacity(0.28), radius: 2, y: 1)
-                    }
-
-                VStack(spacing: 3 * scaleFactor) {
-                    placeholderLine(thickness: lineThickness)
-                        .frame(width: 34 * scaleFactor)
-                    placeholderLine(thickness: lineThickness)
-                        .frame(width: 22 * scaleFactor)
+        // The view is designed for JFLiterals.thumbnailSize (80 high with aspect ratio 1.5)
+        let scaleFactor = min(10, min(viewSize.width / (80 / 1.5), viewSize.height / 80))
+        let lineThickness: CGFloat = 5 * scaleFactor
+        VStack(spacing: 6 * scaleFactor) {
+            Image(systemName: "film")
+                .font(.system(size: 22 * scaleFactor, weight: .semibold))
+                .foregroundStyle(.black60)
+                .padding(.horizontal, scaleFactor)
+                .overlay {
+                    Capsule(style: .continuous)
+                        .fill(.white60.opacity(0.8))
+                        .frame(height: lineThickness)
+                        .rotationEffect(.degrees(-38))
+                        .shadow(color: .black.opacity(0.28), radius: 2, y: 1)
                 }
+
+            VStack(spacing: 3 * scaleFactor) {
+                placeholderLine(thickness: lineThickness)
+                    .frame(width: 34 * scaleFactor)
+                placeholderLine(thickness: lineThickness)
+                    .frame(width: 22 * scaleFactor)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 14)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white90)
-            .thumbnailStyle(cornerRadius: cornerRadius)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white90)
+        .thumbnailStyle(cornerRadius: cornerRadius)
+        .readSize(into: $viewSize)
     }
 
     private func placeholderLine(thickness: CGFloat) -> some View {
