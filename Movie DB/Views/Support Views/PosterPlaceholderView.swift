@@ -12,37 +12,42 @@ struct PosterPlaceholderView: View {
     }
 
     var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "film")
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundStyle(.black60)
-                .padding(.horizontal, 4)
-                .overlay {
-                    Capsule(style: .continuous)
-                        .fill(.white60.opacity(0.8))
-                        .frame(height: 5)
-                        .rotationEffect(.degrees(-38))
-                        .shadow(color: .black.opacity(0.28), radius: 2, y: 1)
-                }
+        GeometryReader { proxy in
+            // The view is designed for JFLiterals.thumbnailSize (80 high with aspect ratio 1.5)
+            let scaleFactor = min(10, min(proxy.size.width / (80 / 1.5), proxy.size.height / 80))
+            let lineThickness: CGFloat = 5 * scaleFactor
+            VStack(spacing: 6 * scaleFactor) {
+                Image(systemName: "film")
+                    .font(.system(size: 22 * scaleFactor, weight: .semibold))
+                    .foregroundStyle(.black60)
+                    .padding(.horizontal, scaleFactor)
+                    .overlay {
+                        Capsule(style: .continuous)
+                            .fill(.white60.opacity(0.8))
+                            .frame(height: lineThickness)
+                            .rotationEffect(.degrees(-38))
+                            .shadow(color: .black.opacity(0.28), radius: 2, y: 1)
+                    }
 
-            VStack(spacing: 6) {
-                placeholderLine
-                    .frame(width: 34)
-                placeholderLine
-                    .frame(width: 22)
+                VStack(spacing: 3 * scaleFactor) {
+                    placeholderLine(thickness: lineThickness)
+                        .frame(width: 34 * scaleFactor)
+                    placeholderLine(thickness: lineThickness)
+                        .frame(width: 22 * scaleFactor)
+                }
             }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white90)
+            .thumbnailStyle(cornerRadius: cornerRadius)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 14)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white90)
-        .thumbnailStyle(cornerRadius: cornerRadius)
     }
 
-    private var placeholderLine: some View {
+    private func placeholderLine(thickness: CGFloat) -> some View {
         Capsule(style: .continuous)
             .fill(.quaternary)
-            .frame(height: 5)
+            .frame(height: thickness)
     }
 }
 
@@ -73,6 +78,19 @@ extension PosterPlaceholderView {
 #Preview("Library Size") {
     PosterPlaceholderView()
         .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
+        .padding()
+        .background(Color.systemBackground)
+}
+
+#Preview("Full Size") {
+    PosterPlaceholderView()
+        .padding()
+        .background(Color.systemBackground)
+}
+
+#Preview("10x") {
+    PosterPlaceholderView()
+        .frame(width: JFLiterals.thumbnailSize.width * 10, height: JFLiterals.thumbnailSize.height * 10)
         .padding()
         .background(Color.systemBackground)
 }
