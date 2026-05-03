@@ -3,6 +3,10 @@
 import SwiftUI
 
 struct PosterPlaceholderView: View {
+    private enum GeometryReadID {
+        case viewSize
+    }
+
     @Environment(\.colorScheme) private var colorScheme
 
     let cornerRadius: CGFloat
@@ -42,7 +46,7 @@ struct PosterPlaceholderView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white90)
         .thumbnailStyle(cornerRadius: cornerRadius)
-        .readSize(into: $viewSize)
+        .readSize(id: GeometryReadID.viewSize, into: $viewSize)
     }
 
     private func placeholderLine(thickness: CGFloat) -> some View {

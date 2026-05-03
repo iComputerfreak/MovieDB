@@ -4,6 +4,11 @@ import SwiftUI
 
 /// Represents a line-limited text preview that can open the full text in a sheet when it is truncated.
 struct TruncatingTextSheet: View {
+    private enum GeometryReadID {
+        case fullTextHeight
+        case truncatedTextHeight
+    }
+
     let text: String
     let sheetTitle: String
     let lineLimit: Int
@@ -59,13 +64,13 @@ struct TruncatingTextSheet: View {
         Text(text)
             .multilineTextAlignment(.leading)
             .lineLimit(lineLimit)
-            .readHeight(into: $truncatedTextHeight)
+            .readHeight(id: GeometryReadID.truncatedTextHeight, into: $truncatedTextHeight)
             .background {
                 Text(text)
                     .multilineTextAlignment(.leading)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
-                    .readHeight(into: $fullTextHeight)
+                    .readHeight(id: GeometryReadID.fullTextHeight, into: $fullTextHeight)
                     .hidden()
                     .accessibilityHidden(true)
             }

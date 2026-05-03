@@ -4,6 +4,10 @@ import SwiftUI
 
 @available(iOS 26.0, *)
 struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>: View {
+    private enum GeometryReadID {
+        case scrollOffset
+    }
+
     private let imageHeight: CGFloat
     private let background: Background
     private let header: Header
@@ -40,6 +44,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                 Color.clear
                     .frame(height: 0)
                     .readGeometryValue(
+                        id: GeometryReadID.scrollOffset,
                         into: $scrollOffset,
                         transform: { -$0.frame(in: .named(scrollCoordinateSpaceName)).minY },
                         shouldUpdate: { _, _ in true }
