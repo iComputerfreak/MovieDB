@@ -11,6 +11,10 @@ struct UnifiedSearchView: View {
     @State private var isLoading = false
     @State private var isShowingProPopup = false
 
+    private var showsScopePickerInContent: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+
     private var trimmedSearchText: String {
         unifiedSearchCoordinator.text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
@@ -23,18 +27,22 @@ struct UnifiedSearchView: View {
                 // This stack is needed, as otherwise the searchContent where the toolbar is attached to is replaced
                 // during the animation, cancelling it.
                 HStack {
-                    searchContent
+                    if showsScopePickerInContent {
+                        VStack(spacing: 12) {
+                            scopePicker
+                                .padding(.horizontal)
+                                .padding(.top)
+                            searchContent
+                        }
+                    } else {
+                        searchContent
+                    }
                 }
                 .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Picker(Strings.Lookup.searchPrompt, selection: $unifiedSearchCoordinator.scope) {
-                            Text(Strings.TabView.libraryLabel)
-                                .tag(UnifiedSearchScope.library)
-                            Text(Strings.AddMedia.navBarTitle)
-                                .tag(UnifiedSearchScope.addMedia)
+                    if !showsScopePickerInContent {
+                        ToolbarItem(placement: .principal) {
+                            scopePicker
                         }
-                        .pickerStyle(.segmented)
-                        .frame(width: 350)
                     }
                 }
                 .navigationDestination(for: Media.self) { mediaObject in
@@ -60,6 +68,20 @@ struct UnifiedSearchView: View {
                 AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
             }
         }
+    }
+
+    private var scopePicker: some View {
+        Picker(Strings.Lookup.searchPrompt, selection: Binding(
+            get: { unifiedSearchCoordinator.scope },
+            set: { unifiedSearchCoordinator.scope = $0 }
+        )) {
+            Text(Strings.TabView.libraryLabel)
+                .tag(UnifiedSearchScope.library)
+            Text(Strings.AddMedia.navBarTitle)
+                .tag(UnifiedSearchScope.addMedia)
+        }
+        .pickerStyle(.segmented)
+        .frame(width: 350)
     }
 
     @ViewBuilder

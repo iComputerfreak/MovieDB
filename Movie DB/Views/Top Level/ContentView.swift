@@ -85,12 +85,12 @@ struct ContentView: View {
                 MediaListsRootView()
             }
 
-            Tab(value: RootTab.search, role: .search) {
-                UnifiedSearchView()
-            }
-
             Tab(Strings.TabView.settingsLabel, systemImage: "gear", value: .settings) {
                 SettingsView()
+            }
+
+            Tab(value: RootTab.search, role: .search) {
+                UnifiedSearchView()
             }
         }
         .tabViewSearchActivation(.searchTabSelection)
