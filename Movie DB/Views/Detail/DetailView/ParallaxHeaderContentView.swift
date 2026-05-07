@@ -52,7 +52,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
 
                 // MARK: Layer 1: Background
                 backgroundView
-                    .overlay {
+                    .overlay(alignment: .bottom) {
                         // Cover the part of the image below the header with the background color to prevent it showing below the content
                         Color(UIColor.systemBackground)
                             .offset(y: imageHeight)
@@ -79,11 +79,15 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                     .padding(.vertical, 8)
                     // Put content at the bottom border of the header window
                     .frame(height: imageHeight, alignment: .bottom)
-                    .background(backdropGradient)
+                    .background {
+                        backdropGradient
+                            .backgroundExtensionEffect(isEnabled: false)
+                    }
             }
         }
         .coordinateSpace(name: scrollCoordinateSpaceName)
         .ignoresSafeArea(edges: .top)
+        .toolbarBackgroundVisibility(.hidden, for: .tabBar)
     }
 
     private var backgroundView: some View {
@@ -97,7 +101,9 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
 
 @available(iOS 26.0, *)
 #Preview {
-    NavigationStack {
+    NavigationSplitView {
+        Text(verbatim: "Sidebar")
+    } detail: {
         ParallaxHeaderContentView {
             LinearGradient(colors: [.orange, .purple], startPoint: .top, endPoint: .bottom)
         } header: {
