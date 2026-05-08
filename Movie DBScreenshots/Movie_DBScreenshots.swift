@@ -140,7 +140,7 @@ final class Movie_DBScreenshots: XCTestCase {
         // Go into Filter Settings
         let filterSettingsButton = app.buttons["filter-settings"].firstMatch
         for _ in 0 ..< 3 where !filterSettingsButton.exists {
-            app.swipeDown(velocity: .fast)
+            app.images.firstMatch.swipeDown(velocity: .fast)
         }
         XCTAssertTrue(filterSettingsButton.waitForExistence(timeout: 10))
         filterSettingsButton.tap()
