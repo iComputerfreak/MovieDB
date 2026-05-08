@@ -15,7 +15,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     " " : {
       "localizations" : {
@@ -46,6 +47,12 @@
     },
     "%@ %@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -632,23 +639,6 @@
         }
       }
     },
-    "detail.basicInfo.parentalRating.ageLabel %@" : {
-      "comment" : "An age-based parental rating label shown in the detail title for German, e.g. 'Ab 12 Jahren'. The parameter is the minimum age.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ab %@ Jahren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
-    },
     "detail.basicInfo.headline.firstAired" : {
       "comment" : "The headline for the 'first aired' property in the detail view",
       "localizations" : {
@@ -866,6 +856,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Status"
+          }
+        }
+      }
+    },
+    "detail.basicInfo.parentalRating.ageLabel %@" : {
+      "comment" : "An age-based parental rating label shown in the detail title for German, e.g. 'Ab 12 Jahren'. The parameter is the minimum age.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ab %@ Jahren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
           }
         }
       }
@@ -3554,7 +3561,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your current filter settings do not match\nany movies or tv shows."
+            "value" : "Your current filter settings do not match any movies or tv shows."
           }
         }
       }
