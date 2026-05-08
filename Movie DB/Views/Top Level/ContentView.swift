@@ -1,12 +1,6 @@
 // Copyright © 2019 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import TipKit
-
-struct LibraryRowSettingsTip: Tip {
-    let title = Text(Strings.Tips.libraryRowTipTitle)
-    let message: Text? = Text(Strings.Tips.libraryRowTipMessage)
-}
 
 struct ContentView: View {
     private enum RootTab: Hashable {
@@ -35,9 +29,6 @@ struct ContentView: View {
                 guard shouldOpenSearchTab else { return }
                 selectedTab = .search
                 unifiedSearchCoordinator.shouldOpenSearchTab = false
-            }
-            .background(alignment: .bottomTrailing) {
-                tabBarTipBackground
             }
             .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {
                 ResolveProblemsView(problems: $problems)
@@ -94,17 +85,6 @@ struct ContentView: View {
             }
         }
         .tabViewSearchActivation(.searchTabSelection)
-    }
-
-    var tabBarTipBackground: some View {
-        HStack(spacing: 0) {
-            Color.clear
-            Color.clear
-            Color.clear
-            Color.clear
-                .popoverTip(LibraryRowSettingsTip(), arrowEdge: .bottom)
-        }
-        .frame(height: 50)
     }
 }
 
