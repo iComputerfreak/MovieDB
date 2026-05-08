@@ -131,9 +131,12 @@ struct BasicInfoSection: View {
                 } label: {
                     // Use the highest seasonNumber, not number of elements, since there could be "Specials" seasons which do not count to the normal seasons
                     let maxSeasonNumber = show.seasons.map(\.seasonNumber).max() ?? 0
-                    Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
-                        .headline(Image(systemName: "list.number"), Strings.Detail.seasonsHeadline)
+                    HStack(spacing: 4) {
+                        Text(Strings.Detail.seasonCountLabel(maxSeasonNumber))
+                        Image(systemName: "chevron.right")
+                    }
                 }
+                .headline(Image(systemName: "list.number"), Strings.Detail.seasonsHeadline)
             }
 
             // MARK: Directors
