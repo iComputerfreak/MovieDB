@@ -44,13 +44,18 @@ struct UnifiedSearchView: View {
                             scopePicker
                         }
                     }
+                    doneButton
                 }
                 .navigationDestination(for: Media.self) { mediaObject in
                     MediaDetail()
                         .environmentObject(mediaObject)
                 }
                 .toolbarTitleDisplayMode(.inline)
-                .searchable(text: $unifiedSearchCoordinator.text, prompt: Text(Strings.Lookup.searchPrompt))
+                .searchable(
+                    text: $unifiedSearchCoordinator.text,
+                    isPresented: $unifiedSearchCoordinator.isPresented,
+                    prompt: Text(Strings.Lookup.searchPrompt)
+                )
                 .searchPresentationToolbarBehavior(.avoidHidingContent)
             }
         }
@@ -58,6 +63,7 @@ struct UnifiedSearchView: View {
             ProInfoView(source: .addMediaLimit)
         }
         .onAppear {
+            unifiedSearchCoordinator.isPresented = true
             AnalyticsService.shared.track(.screenViewed(screenName: .lookup))
             if unifiedSearchCoordinator.scope == .addMedia {
                 AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
@@ -82,6 +88,20 @@ struct UnifiedSearchView: View {
         }
         .pickerStyle(.segmented)
         .frame(width: 350)
+    }
+
+    @ToolbarContentBuilder
+    private var doneButton: some ToolbarContent {
+        if showsScopePickerInContent && (unifiedSearchCoordinator.isPresented || !unifiedSearchCoordinator.text.isEmpty) {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    unifiedSearchCoordinator.dismiss()
+                } label: {
+                    Text(Strings.Generic.dismissViewDone)
+                        .bold()
+                }
+            }
+        }
     }
 
     @ViewBuilder
