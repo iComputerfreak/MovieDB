@@ -48,7 +48,11 @@ struct SettingsView: View {
                             LegalView()
                         }
                     }
-                    if AnalyticsService.shared.isFeatureEnabled(.debugging) {
+                    if
+                        AnalyticsService.shared.isFeatureEnabled(.debugging),
+                        // When we do App Store screenshots, we hide the debug menu
+                        !CommandLine.launchArguments.contains(.screenshots)
+                    {
                         debugMenuToolbarItem
                     }
                 }
