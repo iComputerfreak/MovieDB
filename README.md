@@ -15,12 +15,11 @@ With background refresh, TMDB-based metadata updates, universal-link sharing, an
 This product uses the TMDB API but is not endorsed or certified by TMDB.
 
 <p align="center">
-  <img src="./readme_images/01_Library_framed.png" width="16%" />
-  <img src="./readme_images/02_AddMedia_framed.png" width="16%" />
-  <img src="./readme_images/03_Lists_framed.png" width="16%" />
-  <img src="./readme_images/04_WList_framed.png" width="16%" />
-  <img src="./readme_images/05_ListConfiguration_framed.png" width="16%" />
-  <img src="./readme_images/06_Settings_framed.png" width="16%" />
+  <img src="./readme_images/screenshot_1.jpg" width="19%" />
+  <img src="./readme_images/screenshot_2.jpg" width="19%" />
+  <img src="./readme_images/screenshot_3.jpg" width="19%" />
+  <img src="./readme_images/screenshot_4.jpg" width="19%" />
+  <img src="./readme_images/screenshot_5.jpg" width="19%" />
 </p>
 
 

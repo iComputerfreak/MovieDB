@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appleApp</key>
+	<dict>
+		<key>bundleId</key>
+		<string>de.JonasFrey.Movie-DB</string>
+		<key>iconURL</key>
+		<dict>
+			<key>relative</key>
+			<string>https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/46/1d/cd/461dcd60-4d82-e171-36e2-ef3b4aff42e6/AppIcon76x76@2x_U007eipad.png/150x150bb.png</string>
+		</dict>
+		<key>id</key>
+		<string>1552079477</string>
+		<key>name</key>
+		<string>Movie DB</string>
+	</dict>
+	<key>baseLanguage</key>
+	<string>en-US</string>
+	<key>localizations</key>
+	<array>
+		<string>en-US</string>
+		<string>de-DE</string>
+	</array>
+	<key>selectedAppleWatchSpecification</key>
+	<string>appleWatchUltra</string>
+	<key>selectedPlatforms</key>
+	<array>
+		<string>iPhone</string>
+		<string>iPad</string>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>backgroundColor</key>
+	<string>#007AFF</string>
+	<key>backgroundGradientColors</key>
+	<array>
+		<string>#004593</string>
+		<string>#007AFF</string>
+		<string>#007AFF</string>
+	</array>
+	<key>backgroundLinearGradientDirection</key>
+	<string>topToBottom</string>
+	<key>backgroundStyle</key>
+	<string>solid</string>
+	<key>bodyColor</key>
+	<string>#FFFFFF</string>
+	<key>bodyFontName</key>
+	<string>SF Pro</string>
+	<key>bodyFontWeight</key>
+	<dict>
+		<key>fontName</key>
+		<string>SFPro-ExpandedLight</string>
+		<key>weight</key>
+		<string>Expanded Light</string>
+	</dict>
+	<key>bodyHighlightColor</key>
+	<string>#003066</string>
+	<key>bodyNumberOfLines</key>
+	<integer>0</integer>
+	<key>bodyTextSize</key>
+	<string>xSmall</string>
+	<key>devicePosition</key>
+	<string>overflowBottom</string>
+	<key>deviceScaleFactor</key>
+	<real>1</real>
+	<key>frameStyle</key>
+	<string>borderless</string>
+	<key>glitchDirection</key>
+	<string>leadingToTrailing</string>
+	<key>glitchEndColor</key>
+	<string>#76FEFD</string>
+	<key>glitchStartColor</key>
+	<string>#F657FD</string>
+	<key>glowColor</key>
+	<string>#0088FF</string>
+	<key>mobileBodySystemFontStyle</key>
+	<dict>
+		<key>name</key>
+		<string>Expanded Light</string>
+		<key>weight</key>
+		<string>light</string>
+		<key>width</key>
+		<string>expanded</string>
+	</dict>
+	<key>mobileTitleSystemFontStyle</key>
+	<dict>
+		<key>name</key>
+		<string>Expanded Bold</string>
+		<key>weight</key>
+		<string>bold</string>
+		<key>width</key>
+		<string>expanded</string>
+	</dict>
+	<key>orientation</key>
+	<string>landscape</string>
+	<key>showBodyMessage</key>
+	<true/>
+	<key>stickerColor</key>
+	<string>#000000</string>
+	<key>textAlignment</key>
+	<string>center</string>
+	<key>textBackgroundColor</key>
+	<string>#004593</string>
+	<key>textBackgroundGradientColors</key>
+	<array>
+		<string>#004593</string>
+		<string>#007AFF</string>
+		<string>#007AFF00</string>
+	</array>
+	<key>textBackgroundLinearGradientDirection</key>
+	<string>topToBottom</string>
+	<key>textBackgroundStyle</key>
+	<string>none</string>
+	<key>textColorStyle</key>
+	<string>manual</string>
+	<key>titleColor</key>
+	<string>#FFFFFF</string>
+	<key>titleFontName</key>
+	<string>SF Pro</string>
+	<key>titleFontWeight</key>
+	<dict>
+		<key>fontName</key>
+		<string>SFPro-ExpandedBold</string>
+		<key>weight</key>
+		<string>Expanded Bold</string>
+	</dict>
+	<key>titleHighlightColor</key>
+	<string>#003066</string>
+	<key>titleNumberOfLines</key>
+	<integer>0</integer>
+	<key>titleTextSize</key>
+	<string>medium</string>
+	<key>titleTextStyle</key>
+	<string>original</string>
+	<key>waveTime</key>
+	<real>0</real>
+</dict>
+</plist>
