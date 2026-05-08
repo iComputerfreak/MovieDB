@@ -18,29 +18,31 @@ struct WatchProvidersSection: View {
 
     var body: some View {
         GroupBoxSection(title: Strings.Detail.watchProvidersSectionHeader) {
-            if providers.isEmpty {
-                HStack {
-                    Spacer()
-                    Text(Strings.Detail.watchProvidersNoneAvailable)
-                        .multilineTextAlignment(.center)
-                        .font(.callout)
-                        .padding(.vertical, 16)
-                    Spacer()
-                }
-            } else {
-                LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                    ForEach(providers, id: \.id) { provider in
-                        ProviderTileView(provider: provider)
+            VStack(alignment: .leading, spacing: 4) {
+                if providers.isEmpty {
+                    HStack {
+                        Spacer()
+                        Text(Strings.Detail.watchProvidersNoneAvailable)
+                            .multilineTextAlignment(.center)
+                            .font(.callout)
+                            .padding(.vertical, 16)
+                        Spacer()
                     }
+                } else {
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+                        ForEach(providers, id: \.id) { provider in
+                            ProviderTileView(provider: provider)
+                        }
+                    }
+                    .padding(.top, 4)
                 }
-                .padding(.vertical, 4)
-            }
 
-            let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
-            Text(attribution ?? AttributedString("Powered by JustWatch.com"))
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .padding(.top, 4)
+                let attribution = try? AttributedString(markdown: Strings.Detail.watchProvidersAttribution)
+                Text(attribution ?? AttributedString("Powered by JustWatch.com"))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 4)
+            }
         }
     }
 }
