@@ -81,6 +81,10 @@ If you enable analytics, Movie DB uses PostHog to understand app usage, improve 
 
 Analytics data is linked to an app-generated analytics installation ID. The app displays this ID in the settings so you can include it when requesting access to or deletion of analytics data.
 
+Movie DB may also use PostHog to retrieve feature flag configuration even when optional analytics is disabled. Feature flags help enable, disable, or configure app functionality.
+
+If analytics is disabled, Movie DB does not send analytics events or feature flag exposure events to PostHog. However, the app may still contact PostHog to fetch feature flag values. These requests may include standard technical request data and the app-generated analytics installation ID used by PostHog to evaluate or return feature flag configuration.
+
 Analytics may include:
 
 - App version, build, platform, OS family or OS major version, and broad device class.
@@ -156,7 +160,7 @@ You may withdraw analytics consent at any time in the app settings. Withdrawal d
 Depending on how you use the app, data may be processed by or disclosed to:
 
 - Apple, for App Store distribution, purchases, iCloud/CloudKit sync, backups, crash reports, and platform services.
-- PostHog, for optional analytics and diagnostics.
+- PostHog, for feature flag configuration, optional analytics, and diagnostics.
 - TMDB, for movie and TV metadata, search, and images.
 - YouTube image servers, for video thumbnails.
 - Email and hosting providers used to receive support messages or serve app-related resources.
