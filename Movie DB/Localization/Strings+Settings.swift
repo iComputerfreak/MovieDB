@@ -279,6 +279,10 @@ extension Strings {
                 localized: "settings.analyticsConsent.button.keepOff",
                 comment: "Button that keeps analytics disabled."
             )
+            static let privacyPolicyButton = String(
+                localized: "settings.analyticsConsent.button.privacyPolicy",
+                comment: "Button that opens the privacy policy from the analytics consent sheet."
+            )
         }
 
         enum Alert {

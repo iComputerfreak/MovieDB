@@ -1,18 +1,46 @@
 // Copyright © 2021 Jonas Frey. All rights reserved.
 
 import SwiftUI
+import UIKit
 
 struct LegalView: View {
+    @EnvironmentObject private var config: JFConfig
+
+    @State private var isShowingCopyConfirmation = false
+
     var tmdbLogo: some View {
         Image(uiImage: UIImage.tmDbLogo)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: 20)
     }
-    
+
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 16) {
+                NavigationLink(Strings.Legal.privacyPolicyButtonTitle) {
+                    PrivacyPolicyView()
+                }
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(Strings.Legal.analyticsIdentifierTitle)
+                        .font(.headline)
+
+                    Text(Strings.Legal.analyticsIdentifierDescription)
+                        .foregroundStyle(.secondary)
+
+                    Text(verbatim: config.analyticsInstallationID)
+                        .font(.footnote.monospaced())
+                        .textSelection(.enabled)
+
+                    Button(Strings.Legal.analyticsIdentifierCopyButton) {
+                        UIPasteboard.general.string = config.analyticsInstallationID
+                        isShowingCopyConfirmation = true
+                    }
+                }
+
+                Divider()
+
                 Text(verbatim: """
                 This app uses data from The Movie Database.
                 This product uses the TMDb API but is not endorsed or certified by TMDb.
@@ -38,6 +66,11 @@ struct LegalView: View {
         .lineLimit(nil)
         .padding()
         .navigationTitle(Strings.Legal.navBarTitle)
+        .notificationPopup(
+            isPresented: $isShowingCopyConfirmation,
+            systemImage: "doc.on.doc",
+            title: Strings.Legal.analyticsIdentifierCopied
+        )
     }
 }
 

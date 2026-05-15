@@ -4,6 +4,8 @@ import Analytics
 import SwiftUI
 
 struct AnalyticsConsentView: View {
+    @EnvironmentObject private var config: JFConfig
+
     let onAllow: () -> Void
     let onKeepOff: () -> Void
 
@@ -57,6 +59,11 @@ struct AnalyticsConsentView: View {
                     Text(Strings.Settings.AnalyticsConsent.worksWithoutAnalytics)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+
+                    NavigationLink(Strings.Settings.AnalyticsConsent.privacyPolicyButton) {
+                        PrivacyPolicyView()
+                            .environmentObject(config)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()

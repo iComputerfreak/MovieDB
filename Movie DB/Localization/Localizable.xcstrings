@@ -3372,6 +3372,74 @@
         }
       }
     },
+    "legal.analyticsIdentifier.copied" : {
+      "comment" : "Confirmation shown after copying the analytics installation identifier.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics-ID kopiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics ID copied"
+          }
+        }
+      }
+    },
+    "legal.analyticsIdentifier.copy" : {
+      "comment" : "Button title to copy the analytics installation identifier.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID kopieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy ID"
+          }
+        }
+      }
+    },
+    "legal.analyticsIdentifier.description" : {
+      "comment" : "Explanation for why the analytics installation identifier is shown.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib diese ID bei Datenschutzanfragen an, damit Analytics-Daten deiner App-Installation zugeordnet werden können."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include this ID in privacy requests so analytics data can be matched to your app installation."
+          }
+        }
+      }
+    },
+    "legal.analyticsIdentifier.title" : {
+      "comment" : "Title shown above the analytics installation identifier in the legal view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics-Installations-ID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics Installation ID"
+          }
+        }
+      }
+    },
     "legal.legalNotice %@" : {
       "comment" : "The legal notice in the legal view. The parameter is the legal e-mail address.",
       "localizations" : {
@@ -3402,6 +3470,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Legal"
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.button" : {
+      "comment" : "The button title that opens the privacy policy from the legal view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzerklärung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.language.english" : {
+      "comment" : "English label in the privacy policy language picker.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.language.german" : {
+      "comment" : "German label in the privacy policy language picker.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deutsch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "German"
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.languagePicker" : {
+      "comment" : "Accessibility label for the privacy policy language picker.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprache der Datenschutzerklärung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy language"
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.loadError" : {
+      "comment" : "Fallback text when the bundled privacy policy cannot be loaded.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datenschutzerklärung konnte nicht geladen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The privacy policy could not be loaded."
+          }
+        }
+      }
+    },
+    "legal.privacyPolicy.title" : {
+      "comment" : "The navigation bar title for the privacy policy view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzerklärung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
           }
         }
       }
@@ -7484,6 +7654,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep Analytics Off"
+          }
+        }
+      }
+    },
+    "settings.analyticsConsent.button.privacyPolicy" : {
+      "comment" : "Button that opens the privacy policy from the analytics consent sheet.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzerklärung lesen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read Privacy Policy"
           }
         }
       }
