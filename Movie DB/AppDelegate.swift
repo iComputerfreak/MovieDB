@@ -32,11 +32,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         SerializableColorTransformer.register()
         EpisodeTransformer.register()
         
-        // MARK: Update Poster Deny List
-        // We currently don't load the deny list as it's not available and we might not need it anymore.
-        // TODO: Remove this in the future or implement a better way
-        // loadDenyList()
-
         // MARK: Cleanup
         Task(priority: .background) {
             try MediaLibrary.shared.cleanup()
@@ -116,68 +111,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             } catch {
                 Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
             }
-        }
-    }
-    
-    private func loadDenyList() {
-        Task(priority: .background) {
-            // Only update once per day
-            let lastUpdated = UserDefaults.standard.double(forKey: JFLiterals.Keys.posterDenyListLastUpdated)
-            // Convert to full seconds
-            let time = Date().timeIntervalSince1970
-            let diff = time - lastUpdated
-            
-            // Only update once every 24h
-            guard diff >= 24 * 60 * 60 else {
-                let durationString = (diff / Double(60 * 60)).formatted(.number.precision(.fractionLength(2)))
-                Logger.network.info(
-                    // swiftlint:disable:next line_length
-                    "Last deny list update was \(durationString, privacy: .public) hours ago. Not updating deny list. (< 24h)"
-                )
-                return
-            }
-            Logger.network.info("Updating deny list...")
-            
-            // Load the deny list
-            let denyListURL = URL(string: "https://jonasfrey.de/appdata/moviedb-poster-blacklist.txt")!
-            let (data, response) = try await Utils.request(from: denyListURL)
-            
-            guard
-                let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode == 200
-            else {
-                let bodyString = String(data: data, encoding: .utf8) ?? "nil"
-                Logger.network.error(
-                    // swiftlint:disable:next line_length
-                    "Error updating deny list. HTTP response: \(response, privacy: .public), body: \(bodyString, privacy: .private)"
-                )
-                return
-            }
-            
-            guard let text = String(data: data, encoding: .utf8) else {
-                Logger.network.error("Error decoding deny list:\n\(data, privacy: .private)")
-                return
-            }
-            
-            var newDenyList: [String] = []
-            let denyListLines = text.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespaces) }
-            // Skip empty lines and comments
-            for line in denyListLines where !line.isEmpty && !line.starts(with: "#") {
-                if !line.starts(with: "/") {
-                    // swiftlint:disable:next line_length
-                    Logger.network.warning("Invalid line: '\(line, privacy: .private)'. Lines must begin with a '/'. Skipping...")
-                    continue
-                }
-                // Otherwise, we assume the line contains a poster path
-                newDenyList.append(line)
-            }
-            
-            // Update the deny list in memory
-            Utils.posterDenyList = newDenyList
-            // Update the timestamp
-            UserDefaults.standard.set(time, forKey: JFLiterals.Keys.posterDenyListLastUpdated)
-            // Save the deny list
-            UserDefaults.standard.set(newDenyList, forKey: JFLiterals.Keys.posterDenyList)
         }
     }
     

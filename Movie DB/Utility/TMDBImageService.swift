@@ -65,21 +65,6 @@ actor TMDBImageService {
         downloadID: AnyHashable,
         force: Bool = false
     ) async throws -> UIImage? {
-        // If the image is on deny list, delete it and don't reload
-        guard !Utils.posterDenyList.contains(imagePath) else {
-            if let fileURL {
-                Logger.imageService.warning("[\(downloadID, privacy: .public)] Image is on deny list. Purging now.")
-                do {
-                    if FileManager.default.fileExists(atPath: fileURL.path()) {
-                        try FileManager.default.removeItem(at: fileURL)
-                    }
-                } catch {
-                    Logger.imageService.error("Error deleting image on deny list: \(error, privacy: .public)")
-                }
-            }
-            return nil
-        }
-        
         // Check if there is already a download in progress
         if let task = activeDownloads[downloadID] {
             // Return the result once it's available

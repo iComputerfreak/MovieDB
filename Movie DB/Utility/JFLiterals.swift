@@ -48,10 +48,6 @@ enum JFLiterals {
         static let sortingOrder = "sortingOrder"
         /// The direction in which to sort the media objects (ascending or descending)
         static let sortingDirection = "sortingDirection"
-        /// The paths of posters that should not be loaded
-        static let posterDenyList = "posterDenyList"
-        /// The time in seconds since 1970 (``Date.timeIntervalSince1970``) when the poster deny list has last been updated
-        static let posterDenyListLastUpdated = "posterDenyListLastUpdated"
         /// The number of times the app has asked for app store ratings
         static let askedForAppRating = "askedForRating"
         /// Whether the user has purchased the Pro IAP.

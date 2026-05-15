@@ -262,9 +262,6 @@ struct Utils {
 
 // MARK: - TMDB
 extension Utils {
-    /// The list of TMDB image paths to not download
-    static var posterDenyList = UserDefaults.standard.array(forKey: JFLiterals.Keys.posterDenyList) as? [String] ?? []
-    
     /// The `DateFormatter` for translating to and from TMDB date representation (using the UTC time zone)
     static var tmdbUTCDateFormatter: DateFormatter = createTMDBDateFormatter(in: .utc)
     /// The `DateFormatter` for translating to and from TMDB date representation (using the current time zone)
@@ -282,11 +279,6 @@ extension Utils {
     ///   - path: The path of the image
     ///   - size: The size of the image. Must be a size supported by the TMDB API
     static func getTMDBImageURL(path: String, size: Int?) -> URL? {
-        // Don't load images on the deny list (should be checked before calling this function and replace with a placeholder image)
-        guard !posterDenyList.contains(path) else {
-            Logger.network.warning("Poster path \(path, privacy: .public) is on deny list. Denying url fetch.")
-            return nil
-        }
         let sizeString = size != nil ? "w\(size!)" : "original"
         return URL(string: "https://image.tmdb.org/t/p/\(sizeString)/\(path)")
     }
