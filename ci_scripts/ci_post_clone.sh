@@ -3,7 +3,7 @@
 set -e
 
 echo "Installing Command Line Tools (required for gyb)..."
-xcode-select --install
+xcode-select --install || true
 
 HOMEBREW_NO_AUTO_UPDATE=1 # disable homebrew's automatic updates.
 echo "Setting up homebrew dependencies..."
