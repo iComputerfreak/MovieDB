@@ -109,6 +109,7 @@ class BackgroundHandler {
     private func scheduleBackgroundFetch(after interval: TimeInterval) async -> Bool {
         let request = BGProcessingTaskRequest(identifier: Self.bgTaskID)
         request.earliestBeginDate = Date(timeIntervalSinceNow: interval)
+        request.requiresNetworkConnectivity = true
         do {
             try BGTaskScheduler.shared.submit(request)
             Logger.background.info("Successfully scheduled background processing task request.")
