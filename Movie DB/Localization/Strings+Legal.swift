@@ -48,6 +48,18 @@ extension Strings {
             localized: "legal.analyticsIdentifier.copied",
             comment: "Confirmation shown after copying the analytics installation identifier."
         )
+        static let imprintTitle = String(
+            localized: "legal.imprint.title",
+            comment: "Imprint page title"
+        )
+        static let imprintLoadError = String(
+            localized: "legal.imprint.loadError",
+            comment: "Fallback text when the bundled imprint cannot be loaded."
+        )
+        static let imprintButtonTitle = String(
+            localized: "legal.imprint.button",
+            comment: "The button title that opens the imprint from the legal view."
+        )
         static func legalNoticeMail(_ mailAddress: AttributedString) -> AttributedString {
             AttributedString(
                 localized: "legal.legalNotice \(mailAddress)",

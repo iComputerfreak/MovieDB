@@ -3,13 +3,13 @@
 import SwiftUI
 import WebKit
 
-struct PrivacyPolicyView: View {
+struct ImprintView: View {
     @EnvironmentObject private var config: JFConfig
 
-    @State private var selectedLanguage: PrivacyPolicyLanguage = .english
+    @State private var selectedLanguage: ImprintLanguage = .english
     @State private var didApplyPreferredLanguage = false
 
-    private enum PrivacyPolicyLanguage: String, CaseIterable, Identifiable {
+    private enum ImprintLanguage: String, CaseIterable, Identifiable {
         case english
         case german
 
@@ -18,9 +18,9 @@ struct PrivacyPolicyView: View {
         var bundleResourceName: String {
             switch self {
             case .english:
-                "PrivacyPolicy"
+                "Imprint"
             case .german:
-                "PrivacyPolicy.de"
+                "Imprint.de"
             }
         }
 
@@ -37,7 +37,7 @@ struct PrivacyPolicyView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Picker(Strings.Legal.privacyPolicyLanguagePickerTitle, selection: $selectedLanguage) {
-                ForEach(PrivacyPolicyLanguage.allCases) { language in
+                ForEach(ImprintLanguage.allCases) { language in
                     Text(language.title)
                         .tag(language)
                 }
@@ -46,17 +46,17 @@ struct PrivacyPolicyView: View {
             .padding(.horizontal)
             .padding(.top)
 
-            if let policyURL {
-                JFWebView(url: policyURL)
+            if let imprintURL {
+                JFWebView(url: imprintURL)
             } else {
                 ContentUnavailableView(
-                    Strings.Legal.privacyPolicyTitle,
+                    Strings.Legal.imprintTitle,
                     systemImage: "doc.text",
-                    description: Text(Strings.Legal.privacyPolicyLoadError)
+                    description: Text(Strings.Legal.imprintLoadError)
                 )
             }
         }
-        .navigationTitle(Strings.Legal.privacyPolicyTitle)
+        .navigationTitle(Strings.Legal.imprintTitle)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             guard !didApplyPreferredLanguage else { return }
@@ -66,7 +66,7 @@ struct PrivacyPolicyView: View {
         }
     }
 
-    private var preferredLanguage: PrivacyPolicyLanguage {
+    private var preferredLanguage: ImprintLanguage {
         if config.language.lowercased().hasPrefix("de") {
             return .german
         }
@@ -78,7 +78,7 @@ struct PrivacyPolicyView: View {
         return .english
     }
 
-    private var policyURL: URL? {
+    private var imprintURL: URL? {
         if let url = Bundle.main.url(
             forResource: selectedLanguage.bundleResourceName,
             withExtension: "html",
@@ -96,7 +96,7 @@ struct PrivacyPolicyView: View {
 
 #Preview {
     NavigationStack {
-        PrivacyPolicyView()
+        ImprintView()
             .environmentObject(JFConfig.shared)
     }
 }

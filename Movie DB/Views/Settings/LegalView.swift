@@ -22,6 +22,12 @@ struct LegalView: View {
                     PrivacyPolicyView()
                 }
 
+                NavigationLink(Strings.Legal.imprintButtonTitle) {
+                    ImprintView()
+                }
+
+                Divider()
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text(Strings.Legal.analyticsIdentifierTitle)
                         .font(.headline)

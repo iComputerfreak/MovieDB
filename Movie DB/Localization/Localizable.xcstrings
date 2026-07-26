@@ -3355,23 +3355,6 @@
         }
       }
     },
-    "legal.appIconAttribution %@" : {
-      "comment" : "The attribution for the app icon. The parameter is the attribution link.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Icon: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App icon: %@"
-          }
-        }
-      }
-    },
     "legal.analyticsIdentifier.copied" : {
       "comment" : "Confirmation shown after copying the analytics installation identifier.",
       "localizations" : {
@@ -3436,6 +3419,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analytics Installation ID"
+          }
+        }
+      }
+    },
+    "legal.appIconAttribution %@" : {
+      "comment" : "The attribution for the app icon. The parameter is the attribution link.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Icon: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App icon: %@"
+          }
+        }
+      }
+    },
+    "legal.imprint.button" : {
+      "comment" : "The button title that opens the imprint from the legal view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impressum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprint"
+          }
+        }
+      }
+    },
+    "legal.imprint.loadError" : {
+      "comment" : "Fallback text when the bundled imprint cannot be loaded.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Impressum konnte nicht geladen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The imprint could not be loaded."
+          }
+        }
+      }
+    },
+    "legal.imprint.title" : {
+      "comment" : "Imprint page title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impressum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprint"
           }
         }
       }
