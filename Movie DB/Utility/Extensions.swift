@@ -17,7 +17,7 @@ extension View {
             .environmentObject(JFConfig.shared)
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
         // Will not work, but will prevent the preview from crashing
-            .environmentObject(NotificationProxy())
+            .environment(NotificationProxy())
             .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
             .environment(UnifiedSearchCoordinator())
     }

@@ -8,7 +8,7 @@ import SwiftUI
 struct NotificationView<Content: View>: View {
     var contentBuilder: (NotificationProxy) -> Content
     
-    @StateObject private var proxy = NotificationProxy()
+    @Bindable private var proxy = NotificationProxy()
     
     init(contentBuilder: @escaping (NotificationProxy) -> Content) {
         self.contentBuilder = contentBuilder
@@ -28,8 +28,9 @@ struct NotificationView<Content: View>: View {
 /// Represents a proxy used to propagate the information to display in a notification popup from the ``NotificationView``'s content to the NotificationView itself.
 ///
 /// Use ``show(title:subtitle:systemImage:)`` to set the required data.
-class NotificationProxy: ObservableObject {
-    @Published fileprivate var isDisplayed = false
+@Observable
+class NotificationProxy {
+    fileprivate var isDisplayed = false
     fileprivate var title: String = ""
     fileprivate var subtitle: String?
     fileprivate var systemImage: String = ""

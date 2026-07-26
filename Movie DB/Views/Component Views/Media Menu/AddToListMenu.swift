@@ -23,7 +23,7 @@ struct AddMultipleToListMenu: View {
 }
 
 private struct AddToListMenu: View {
-    @EnvironmentObject private var notificationProxy: NotificationProxy
+    @Environment(NotificationProxy.self) private var notificationProxy: NotificationProxy
     
     @FetchRequest(
         entity: UserMediaList.entity(),

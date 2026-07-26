@@ -6,7 +6,7 @@ import SwiftUI
 
 struct ReloadMediaButton: View {
     @EnvironmentObject private var mediaObject: Media
-    @EnvironmentObject private var notificationProxy: NotificationProxy
+    @Environment(NotificationProxy.self) private var notificationProxy: NotificationProxy
     @Environment(\.managedObjectContext) private var managedObjectContext
     var onAction: (() -> Void)? = nil
     

@@ -24,7 +24,7 @@ struct ContentView: View {
                 }
             }
             .environment(unifiedSearchCoordinator)
-            .environmentObject(notificationProxy)
+            .environment(notificationProxy)
             .onChange(of: unifiedSearchCoordinator.shouldOpenSearchTab) { _, shouldOpenSearchTab in
                 guard shouldOpenSearchTab else { return }
                 selectedTab = .search

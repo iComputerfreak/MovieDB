@@ -51,15 +51,18 @@ struct NotificationPopup: View {
         .padding(32)
         .frame(maxWidth: 250)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
-        .task { @MainActor in
+        .opacity(isPresented ? 1 : 0)
+        .task(id: isPresented) {
+            guard isPresented else { return }
             // Wait x seconds
             try? await Task.sleep(for: .seconds(displayDuration))
             // Dismiss view
-            withAnimation {
-                self.isPresented = false
+            await MainActor.run {
+                withAnimation {
+                    self.isPresented = false
+                }
             }
         }
-        .opacity(isPresented ? 1 : 0)
     }
 }
 
