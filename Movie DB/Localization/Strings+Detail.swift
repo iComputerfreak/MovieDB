@@ -294,7 +294,10 @@ extension Strings {
             localized: "detail.cast.noneAvailable",
             comment: "The text displayed when there are no cast members available to display"
         )
-        
+        static let castNoSearchResults = String(
+            localized: "detail.cast.noSearchResults",
+            comment: "The text displayed when there are no cast members available that match the search text"
+        )
         static func castMemberRole(_ roleName: String) -> String {
             String(
                 localized: "detail.cast.roleNameLabel \(roleName)",

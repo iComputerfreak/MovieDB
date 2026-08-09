@@ -7,6 +7,7 @@ struct CastDetailView: View {
     enum PreviewState {
         case loading
         case empty
+        case searchNoResults
     }
 
     @EnvironmentObject private var mediaObject: Media
@@ -17,6 +18,15 @@ struct CastDetailView: View {
     @State private var isLoading = false
     @State private var loadError: Error?
     @State private var loadTaskID = UUID()
+    @State private var searchText: String = ""
+
+    private var filteredCast: [CastMemberDummy] {
+        cast.filter { castMember in
+            searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            castMember.roleName.localizedCaseInsensitiveContains(searchText) ||
+            castMember.name.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 
     init(previewState: PreviewState? = nil) {
         self.previewState = previewState
@@ -36,6 +46,11 @@ struct CastDetailView: View {
                     actionTitle: Strings.Generic.retryLoading,
                     action: retryLoading
                 )
+            } else if previewState == .searchNoResults || (filteredCast.isEmpty && !searchText.isEmpty) {
+                ScreenUnavailableView(
+                    title: Strings.Detail.castNoSearchResults,
+                    systemImage: "magnifyingglass"
+                )
             } else if previewState == .empty || cast.isEmpty {
                 ScreenUnavailableView(
                     title: Strings.Detail.castNoneAvailable,
@@ -43,12 +58,13 @@ struct CastDetailView: View {
                 )
             } else {
                 List {
-                    ForEach(cast) { member in
+                    ForEach(filteredCast) { member in
                         CastMemberRow(castMember: member)
                     }
                 }
             }
         }
+        .searchable(text: $searchText)
         .task(id: loadTaskID) {
             await loadCast()
         }
