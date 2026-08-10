@@ -13,7 +13,7 @@ struct LibraryToolbar: ToolbarContent {
 
     // TODO: Use @EnvironmentObject
     @Binding var config: LibraryViewModel
-    var editMode: Binding<EditMode>?
+    @Environment(\.editMode) private var editMode: Binding<EditMode>?
     @Binding var selectedMediaObjects: Set<Media>
     var allMediaObjects: Set<Media>
     
@@ -35,7 +35,6 @@ struct LibraryToolbar: ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu {
                 MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: allMediaObjects)
-                    .environment(\.editMode, editMode)
                 Section {
                     Button {
                         config.activeSheet = .filter

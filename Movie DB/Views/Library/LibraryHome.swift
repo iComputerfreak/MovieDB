@@ -7,14 +7,14 @@ import os.log
 import SwiftUI
 
 struct LibraryHome: View {
-    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
-    @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.editMode) private var editMode
+    @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator: UnifiedSearchCoordinator
+    @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
+    @State private var editMode: EditMode = .inactive
     @State private var selectedMediaObjects: Set<Media> = .init()
-    
-    @State private var viewModel = LibraryViewModel()
-    @ObservedObject private var filterSetting = FilterSetting.shared
-    
+
+    @State private var viewModel: LibraryViewModel = .init()
+    @ObservedObject private var filterSetting: FilterSetting = .shared
+
     @State private var searchText: String = ""
     
     var totalMediaItems: Int {
@@ -76,8 +76,7 @@ struct LibraryHome: View {
                 )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
-            .environment(\.editMode, editMode)
-            .animation(.default, value: editMode?.wrappedValue)
+            .animation(.default, value: editMode)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
@@ -108,7 +107,6 @@ struct LibraryHome: View {
             .toolbar {
                 LibraryToolbar(
                     config: $viewModel,
-                    editMode: editMode,
                     selectedMediaObjects: $selectedMediaObjects,
                     allMediaObjects: Set(filteredMedia)
                 )
@@ -119,6 +117,7 @@ struct LibraryHome: View {
                 MediaDetail()
                     .environmentObject(mediaObject)
             }
+            .environment(\.editMode, $editMode)
         } detail: {
             NavigationStack {
                 if selectedMediaObjects.isEmpty {
@@ -146,7 +145,7 @@ struct LibraryHome: View {
             )
         }
     }
-    
+
     var footerText: Text {
         guard !filteredMedia.isEmpty else { return Text(verbatim: "") }
         let objCount = filteredMedia.count
