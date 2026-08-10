@@ -20,7 +20,10 @@ struct SettingsView: View {
     
     var body: some View {
         LoadingView(
-            isShowing: $viewModel.isLoading,
+            isShowing: Binding(
+                get: { viewModel.isLoading && viewModel.showsBlockingLoadingIndicator },
+                set: { viewModel.isLoading = $0 }
+            ),
             text: viewModel.loadingText ?? Strings.Settings.loadingPlaceholder
         ) {
             NavigationStack {
@@ -101,8 +104,12 @@ struct SettingsView: View {
 
     func reloadMedia() {
         AnalyticsService.shared.track(.libraryReload)
-        viewModel.beginLoading(Strings.Settings.ProgressView.reloadLibrary)
-        
+        let showsBlockingIndicator = if #available(iOS 26, *) { false } else { true }
+        viewModel.beginLoading(
+            Strings.Settings.ProgressView.reloadLibrary,
+            showsBlockingIndicator: showsBlockingIndicator
+        )
+
         // Perform the reload in the background on a different thread
         Task(priority: .userInitiated) {
             Logger.library.info("Starting reload...")

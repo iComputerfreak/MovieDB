@@ -140,6 +140,25 @@ extension Strings {
                     comment: "Progress text shown in the library-update banner, e.g. '12 of 340'. First argument is the number of items completed so far, second is the total."
                 )
             }
+
+            static let updatingTitle = String(
+                localized: "library.updateStatus.title.updating",
+                comment: "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running"
+            )
+
+            static let reloadingTitle = String(
+                localized: "library.updateStatus.title.reloading",
+                comment: "Title shown in the library-update bottom bar accessory while MediaLibrary.reloadAll() (full reload) is running"
+            )
+
+            static func title(for origin: LibraryUpdateStatus.Origin) -> String {
+                switch origin {
+                case .manualUpdate:
+                    updatingTitle
+                case .manualReload, .appLaunch, .backgroundRefresh, .migration:
+                    reloadingTitle
+                }
+            }
         }
 
         enum Alert {

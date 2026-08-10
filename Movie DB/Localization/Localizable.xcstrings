@@ -4971,6 +4971,40 @@
         }
       }
     },
+    "library.updateStatus.title.updating" : {
+      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothek wird aktualisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updating Library"
+          }
+        }
+      }
+    },
+    "library.updateStatus.title.reloading" : {
+      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.reloadAll() (full reload) is running",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothek wird neu geladen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reloading Library"
+          }
+        }
+      }
+    },
     "lists.alerts.alreadyExists.message %@" : {
       "comment" : "The message of an alert informing the user that the name of a new media list already exists",
       "localizations" : {

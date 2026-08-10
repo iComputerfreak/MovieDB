@@ -13,6 +13,11 @@ struct ExportData {
 struct SettingsViewModel {
     var isLoading = false
     var loadingText: String?
+    /// Whether the blocking `LoadingView` popup should be shown while `isLoading` is `true`.
+    /// Lets callers keep `isLoading` (which disables the library action buttons) `true` while
+    /// suppressing the blurred popup itself, e.g. on iOS 26+ where the tab bar accessory already
+    /// shows progress for manual library updates.
+    var showsBlockingLoadingIndicator = true
     var languageChanged = false
     var regionChanged = false
     var isShowingProInfo = false
@@ -25,14 +30,16 @@ struct SettingsViewModel {
         case failed(AnalyticsImportExportOperation, AnalyticsImportExportStage)
     }
 
-    mutating func beginLoading(_ text: String) {
+    mutating func beginLoading(_ text: String, showsBlockingIndicator: Bool = true) {
         self.isLoading = true
         self.loadingText = text
+        self.showsBlockingLoadingIndicator = showsBlockingIndicator
     }
-    
+
     mutating func stopLoading() {
         self.isLoading = false
         self.loadingText = nil
+        self.showsBlockingLoadingIndicator = true
     }
 
     func export(

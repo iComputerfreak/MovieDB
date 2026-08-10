@@ -62,7 +62,8 @@ struct LibraryActionsSection: View {
     }
     
     func updateMedia() {
-        config.beginLoading(Strings.Settings.ProgressView.updateMedia)
+        let showsBlockingIndicator = if #available(iOS 26, *) { false } else { true }
+        config.beginLoading(Strings.Settings.ProgressView.updateMedia, showsBlockingIndicator: showsBlockingIndicator)
         // Execute the update in the background
         Task(priority: .userInitiated) {
             // We have to handle our errors inside this task manually, otherwise they are simply discarded

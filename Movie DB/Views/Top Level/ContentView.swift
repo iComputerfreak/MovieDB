@@ -66,7 +66,7 @@ struct ContentView: View {
     }
 
     @available(iOS 26, *)
-    var modernTabView: some View {
+    private var modernTabViewContent: some View {
         TabView(selection: $selectedTab) {
             Tab(Strings.TabView.libraryLabel, systemImage: "film", value: .library) {
                 LibraryHome()
@@ -82,6 +82,20 @@ struct ContentView: View {
 
             Tab(value: RootTab.search, role: .search) {
                 UnifiedSearchView()
+            }
+        }
+    }
+
+    @available(iOS 26, *)
+    var modernTabView: some View {
+        Group {
+            if LibraryUpdateStatus.shared.isActive {
+                modernTabViewContent
+                    .tabViewBottomAccessory {
+                        LibraryUpdateBottomAccessory()
+                    }
+            } else {
+                modernTabViewContent
             }
         }
         .tabViewSearchActivation(.searchTabSelection)
