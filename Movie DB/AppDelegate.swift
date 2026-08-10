@@ -105,7 +105,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Task(priority: .background) {
             do {
                 Logger.library.info("Updating media library after app start...")
-                try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                try await MediaLibrary.shared.reloadAll(fromBackground: true, origin: .appLaunch)
                 Logger.library.info("App start update complete.")
                 lastAppStartUpdate = .now
             } catch {

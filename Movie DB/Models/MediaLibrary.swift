@@ -150,20 +150,28 @@ struct MediaLibrary {
             try medias.append(contentsOf: context.fetch(fetchRequest))
         }
         Logger.library.info("Updating \(medias.count) media objects.")
-        
+
+        let updateID = await LibraryUpdateStatus.shared.begin(origin: .manualUpdate, total: medias.count)
+
         // Update the media objects using a task group
         var updateCount = 0
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            for media in medias {
-                _ = group.addTaskUnlessCancelled {
-                    // Update the media inside the update context (including the thumbnail)
-                    try await TMDBAPI.shared.updateMedia(media, context: updateContext)
+        do {
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                for media in medias {
+                    _ = group.addTaskUnlessCancelled {
+                        // Update the media inside the update context (including the thumbnail)
+                        try await TMDBAPI.shared.updateMedia(media, context: updateContext)
+                        await LibraryUpdateStatus.shared.increment(updateID)
+                    }
+                }
+                // Count how many medias were updated and wait for all of them to finish
+                for try await _ in group {
+                    updateCount += 1
                 }
             }
-            // Count how many medias were updated and wait for all of them to finish
-            for try await _ in group {
-                updateCount += 1
-            }
+        } catch {
+            await LibraryUpdateStatus.shared.finish(updateID)
+            throw error
         }
         // After they all have been updated without errors, we can update the lastUpdate property
         lastUpdated = Date.now.timeIntervalSince1970
@@ -171,12 +179,13 @@ struct MediaLibrary {
         await PersistenceController.saveContext(updateContext)
         // Save the view context to make the changes persistent
         await PersistenceController.saveContext(context)
+        await LibraryUpdateStatus.shared.finish(updateID)
         return updateCount
     }
     
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
-    func reloadAll(fromBackground: Bool = false) async throws -> Int {
+    func reloadAll(fromBackground: Bool = false, origin: LibraryUpdateStatus.Origin) async throws -> Int {
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         
@@ -203,6 +212,8 @@ struct MediaLibrary {
             return 0
         }
 
+        let reloadID = await LibraryUpdateStatus.shared.begin(origin: origin, total: medias.count)
+
         // Reload all media objects using a task group
         let updatedMediaCount = await withTaskGroup(of: Bool.self) { group in
             for media in medias {
@@ -210,9 +221,11 @@ struct MediaLibrary {
                     // Catch individual download errors early, so we don't skip the other media downloads
                     do {
                         try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                        await LibraryUpdateStatus.shared.increment(reloadID)
                         return true
                     } catch {
                         Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                        await LibraryUpdateStatus.shared.increment(reloadID)
                         return false
                     }
                 }
@@ -228,6 +241,9 @@ struct MediaLibrary {
         await PersistenceController.saveContext(reloadContext)
         // Save the view context
         await PersistenceController.saveContext(PersistenceController.viewContext)
+
+        // The per-item metadata refresh is done; the thumbnail reload below runs without progress tracking
+        await LibraryUpdateStatus.shared.finish(reloadID)
 
         try await withThrowingTaskGroup(of: Void.self) { group in
             // Reload the thumbnails of all updated media objects in the main context

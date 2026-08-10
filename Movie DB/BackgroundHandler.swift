@@ -159,7 +159,7 @@ class BackgroundHandler {
         let operation = Task(priority: .high) {
             do {
                 Logger.background.info("Updating Library from background task...")
-                let updatedMediaCount = try await MediaLibrary.shared.reloadAll(fromBackground: true)
+                let updatedMediaCount = try await MediaLibrary.shared.reloadAll(fromBackground: true, origin: .backgroundRefresh)
                 Logger.background.info("Reloaded \(updatedMediaCount) media objects from background task.")
                 var debugState = Self.debugState
                 debugState.lastResult = .success

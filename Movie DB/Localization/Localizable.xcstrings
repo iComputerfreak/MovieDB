@@ -4954,6 +4954,23 @@
         }
       }
     },
+    "library.updateStatus.progress %lld %lld" : {
+      "comment" : "Progress text shown in the library-update banner, e.g. '12 of 340'. First argument is the number of items completed so far, second is the total.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld von %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld of %lld"
+          }
+        }
+      }
+    },
     "lists.alerts.alreadyExists.message %@" : {
       "comment" : "The message of an alert informing the user that the name of a new media list already exists",
       "localizations" : {

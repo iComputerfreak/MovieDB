@@ -108,7 +108,7 @@ struct SettingsView: View {
             Logger.library.info("Starting reload...")
             do {
                 // Reload and show the result
-                try await self.library.reloadAll()
+                try await self.library.reloadAll(origin: .manualReload)
                 await MainActor.run {
                     self.viewModel.stopLoading()
                     AlertHandler.showSimpleAlert(

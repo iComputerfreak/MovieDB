@@ -10,6 +10,6 @@ struct ReloadLibraryMigration: Migration {
     let migrationKey = "migration_reloadLibrary_v2"
     
     func run() async throws {
-        _ = try await MediaLibrary.shared.reloadAll()
+        _ = try await MediaLibrary.shared.reloadAll(origin: .migration)
     }
 }

@@ -133,6 +133,15 @@ extension Strings {
             )
         }
 
+        enum UpdateStatus {
+            static func progress(_ current: Int, _ total: Int) -> String {
+                String(
+                    localized: "library.updateStatus.progress \(current) \(total)",
+                    comment: "Progress text shown in the library-update banner, e.g. '12 of 340'. First argument is the number of items completed so far, second is the total."
+                )
+            }
+        }
+
         enum Alert {
             static let updateErrorTitle = String(
                 localized: "library.alert.errorUpdating.title",
