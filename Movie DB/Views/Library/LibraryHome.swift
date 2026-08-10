@@ -62,6 +62,7 @@ struct LibraryHome: View {
                                 .mediaSwipeActions()
                                 .mediaContextMenu()
                                 .environmentObject(mediaObject)
+                                .environment(\.editMode, $editMode)
                         }
                     }
                 }
@@ -76,7 +77,6 @@ struct LibraryHome: View {
                 )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
-            .animation(.default, value: editMode)
             .listStyle(.insetGrouped)
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
@@ -117,6 +117,7 @@ struct LibraryHome: View {
                 MediaDetail()
                     .environmentObject(mediaObject)
             }
+            .animation(.default, value: editMode)
             .environment(\.editMode, $editMode)
         } detail: {
             NavigationStack {
