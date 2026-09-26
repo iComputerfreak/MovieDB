@@ -13,7 +13,7 @@ struct TitleImportTests {
         Name,Year,Director,Runtime,Type,Ignored
         "Alien, The",1979,Ridley Scott,117,movie,value
         """
-        let result = try TitleImportCSVParser().parse(string: csv)
+        let result = try TitleImportCSVParser(locale: Locale(identifier: "de")).parse(string: csv)
         let row = try #require(result.rows.first)
 
         #expect(result.delimiter == ",")
@@ -29,15 +29,27 @@ struct TitleImportTests {
     func parsesGermanCSV() throws {
         let csv = """
         Titel;Erscheinungsjahr;Regie;Laufzeit;Medientyp
-        Dark;2017;Baran bo Odar;0:53:00;Serie
+        Dark;2017;Baran bo Odar und Jantje Friese;53 Minuten;Serie
         """
-        let row = try #require(TitleImportCSVParser().parse(string: csv).rows.first)
+        let locale = Locale(identifier: "de")
+        let row = try #require(TitleImportCSVParser(locale: locale).parse(string: csv).rows.first)
 
         #expect(row.title == "Dark")
         #expect(row.year == 2017)
-        #expect(row.directors == ["Baran bo Odar"])
+        #expect(row.directors == ["Baran bo Odar", "Jantje Friese"])
         #expect(row.runtimeMinutes == 53)
         #expect(row.mediaType == .show)
+        #expect(TitleImportCSVParser.parseDirectors("Unbekannt", locale: locale).isEmpty)
+    }
+
+    @Test("Uses only English and the active localization")
+    func usesActiveLocalization() {
+        #expect(throws: TitleImportCSVParser.ParserError.self) {
+            try TitleImportCSVParser(locale: Locale(identifier: "en")).parse(string: """
+            Titel,Jahr
+            Dark,2017
+            """)
+        }
     }
 
     @Test("Prioritizes dedicated year columns over release dates")
@@ -66,7 +78,7 @@ struct TitleImportTests {
 
     @Test("Ignores tied optional headers")
     func ignoresTiedOptionalHeaders() throws {
-        let result = try TitleImportCSVParser().parse(string: """
+        let result = try TitleImportCSVParser(locale: Locale(identifier: "de")).parse(string: """
         Title,Year,Jahr
         Alien,1979,1980
         """)
@@ -105,7 +117,7 @@ struct TitleImportTests {
         ]
     )
     func parsesRuntime(value: String, expected: Int) {
-        #expect(TitleImportCSVParser.parseRuntime(value) == expected)
+        #expect(TitleImportCSVParser.parseRuntime(value, locale: Locale(identifier: "en")) == expected)
     }
 
     @Test(

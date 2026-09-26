@@ -9949,6 +9949,240 @@
         }
       }
     },
+    "titleImport.parser.director.conjunctions" : {
+      "comment" : "Pipe-separated conjunctions joining director names. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "und"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "and"
+          }
+        }
+      }
+    },
+    "titleImport.parser.director.unknown" : {
+      "comment" : "Pipe-separated values meaning an unknown director. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "unbekannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "unknown"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.director" : {
+      "comment" : "Pipe-separated CSV director header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "regisseur|regisseure|regie|künstler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "director|directors|artist"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.mediaType" : {
+      "comment" : "Pipe-separated CSV media-type header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "typ|medientyp|art"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "type|media type|kind"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.runtime" : {
+      "comment" : "Pipe-separated CSV runtime header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "laufzeit|dauer|gesamtdauer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "runtime|duration|length|total time"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.title" : {
+      "comment" : "Pipe-separated CSV title header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "titel|name|film|filmtitel|medientitel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "title|name|movie title|film|media title"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.date" : {
+      "comment" : "Pipe-separated generic date CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "datum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "date"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.exact" : {
+      "comment" : "Pipe-separated exact year CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "year"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.releaseDate" : {
+      "comment" : "Pipe-separated release-date CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "veröffentlichungsdatum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "release date"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.releaseYear" : {
+      "comment" : "Pipe-separated release-year CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "erscheinungsjahr|veröffentlichungsjahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "release year"
+          }
+        }
+      }
+    },
+    "titleImport.parser.mediaType.movie" : {
+      "comment" : "Pipe-separated CSV values meaning movie. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "film|kino"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "movie|film"
+          }
+        }
+      }
+    },
+    "titleImport.parser.mediaType.show" : {
+      "comment" : "Pipe-separated CSV values meaning TV show. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "serie|fernsehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "tv|show|series|television"
+          }
+        }
+      }
+    },
+    "titleImport.parser.runtime.units" : {
+      "comment" : "Pipe-separated minute unit suffixes. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minute|minuten|min"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "minute|minutes|min|mins"
+          }
+        }
+      }
+    },
     "titleImport.preflight.columns" : {
       "comment" : "Detected columns section",
       "extractionState" : "extracted_with_value",

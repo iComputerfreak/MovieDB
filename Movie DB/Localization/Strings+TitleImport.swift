@@ -1,5 +1,7 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import Foundation
+
 extension Strings {
     enum TitleImport {
         static let settingsAction = String(
@@ -35,6 +37,181 @@ extension Strings {
                 String(localized: "titleImport.field.runtime", defaultValue: "Runtime", comment: "Runtime CSV field")
             case .mediaType:
                 String(localized: "titleImport.field.mediaType", defaultValue: "Media Type", comment: "Media type CSV field")
+            }
+        }
+
+        enum ParserVocabulary {
+            static func titleHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.title",
+                        defaultValue: "title|name|movie title|film|media title",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV title header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func exactYearHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.year.exact",
+                        defaultValue: "year",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated exact year CSV header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func releaseYearHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.year.releaseYear",
+                        defaultValue: "release year",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated release-year CSV header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func releaseDateHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.year.releaseDate",
+                        defaultValue: "release date",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated release-date CSV header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func dateHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.year.date",
+                        defaultValue: "date",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated generic date CSV header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func directorHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.director",
+                        defaultValue: "director|directors|artist",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV director header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func runtimeHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.runtime",
+                        defaultValue: "runtime|duration|length|total time",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV runtime header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func mediaTypeHeaders(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.header.mediaType",
+                        defaultValue: "type|media type|kind",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV media-type header aliases. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func unknownDirectors(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.director.unknown",
+                        defaultValue: "unknown",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated values meaning an unknown director. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func directorConjunctions(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.director.conjunctions",
+                        defaultValue: "and",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated conjunctions joining director names. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func runtimeUnits(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.runtime.units",
+                        defaultValue: "minute|minutes|min|mins",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated minute unit suffixes. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func movieValues(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.mediaType.movie",
+                        defaultValue: "movie|film",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV values meaning movie. Keep the pipe separators."
+                    )
+                )
+            }
+
+            static func showValues(locale: Locale) -> [String] {
+                terms(
+                    String(
+                        localized: "titleImport.parser.mediaType.show",
+                        defaultValue: "tv|show|series|television",
+                        bundle: localizedBundle(for: locale),
+                        locale: locale,
+                        comment: "Pipe-separated CSV values meaning TV show. Keep the pipe separators."
+                    )
+                )
+            }
+
+            private static func terms(_ value: String) -> [String] {
+                value.split(separator: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            }
+
+            private static func localizedBundle(for locale: Locale) -> Bundle {
+                let localization = Bundle.preferredLocalizations(
+                    from: Bundle.main.localizations,
+                    forPreferences: [locale.identifier]
+                ).first
+                guard let localization,
+                      let path = Bundle.main.path(forResource: localization, ofType: "lproj"),
+                      let bundle = Bundle(path: path) else {
+                    return .main
+                }
+                return bundle
             }
         }
 

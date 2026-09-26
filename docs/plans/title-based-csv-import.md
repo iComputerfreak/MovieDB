@@ -127,7 +127,7 @@ Initial German aliases should include forms such as:
 | Runtime | `laufzeit`, `dauer`, `gesamtdauer` |
 | Media type | `typ`, `medientyp`, `art` |
 
-English aliases are always active. All currently supported localized alias tables should also be active regardless of current app locale. Adding an app language should include a corresponding header-alias table.
+English parser vocabulary is always active as a fallback. Merge it with vocabulary from the current app localization. Store localized aliases as pipe-separated String Catalog values so adding an app language requires translations, not Swift changes. Keep separate localized year groups for exact year, release year, release date, and generic date aliases so canonical-name priority remains deterministic.
 
 If multiple optional columns map to one field, use deterministic canonical-name priority. If no unique optional column can be selected, ignore that hint and display a preflight warning rather than rejecting an otherwise valid file.
 
@@ -155,10 +155,11 @@ Director parsing should:
 
 - Ignore empty and localized `Unknown` values.
 - Split common list separators.
+- Load localized unknown values and conjunctions from the String Catalog.
 - Preserve original names for review.
 - Normalize initials, punctuation, ordering, and diacritics for comparison.
 
-Media-type parsing should recognize localized movie and TV values. Treat it as strong evidence, not a hard filter, because movie exports can contain TV miniseries.
+Runtime unit suffixes and media-type values should use the same English-plus-current-localization vocabulary. Media type remains strong evidence, not a hard filter, because movie exports can contain TV miniseries.
 
 ## 5. Import Models
 

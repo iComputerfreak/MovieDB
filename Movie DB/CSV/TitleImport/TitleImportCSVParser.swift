@@ -4,6 +4,12 @@ import Foundation
 import SwiftCSV
 
 struct TitleImportCSVParser {
+    private let locale: Locale
+
+    init(locale: Locale = .current) {
+        self.locale = locale
+    }
+
     enum ParserError: LocalizedError {
         case emptyFile
         case unsupportedDelimiter
@@ -41,7 +47,7 @@ struct TitleImportCSVParser {
         let csv = try CSV<Enumerated>(string: string, delimiter: guessedDelimiter, loadColumns: false)
         var mappedIndices: [TitleImportField: [(index: Int, priority: Int)]] = [:]
         for index in csv.header.indices {
-            guard let match = TitleImportField.match(for: csv.header[index]) else { continue }
+            guard let match = TitleImportField.match(for: csv.header[index], locale: locale) else { continue }
             mappedIndices[match.field, default: []].append((index, match.priority))
         }
 
@@ -84,11 +90,11 @@ struct TitleImportCSVParser {
                     title: title,
                     year: explicitYear ?? Self.yearFromTitle(title),
                     directors: value(for: .director, in: values, indices: selectedIndices)
-                        .map(Self.parseDirectors) ?? [],
+                        .map { Self.parseDirectors($0, locale: locale) } ?? [],
                     runtimeMinutes: value(for: .runtime, in: values, indices: selectedIndices)
-                        .flatMap(Self.parseRuntime),
+                        .flatMap { Self.parseRuntime($0, locale: locale) },
                     mediaType: value(for: .mediaType, in: values, indices: selectedIndices)
-                        .flatMap(Self.parseMediaType)
+                        .flatMap { Self.parseMediaType($0, locale: locale) }
                 )
             )
         }
@@ -118,7 +124,10 @@ struct TitleImportCSVParser {
         let value = row[index].trimmingCharacters(in: .whitespacesAndNewlines)
         return value.isEmpty ? nil : value
     }
+}
 
+// MARK: - Value Parsing
+extension TitleImportCSVParser {
     static func parseYear(_ value: String) -> Int? {
         // Constrain matching to plausible movie/TV years instead of accepting any four-digit metadata value.
         guard let match = value.firstMatch(of: /(?:18|19|20|21)\d{2}/) else { return nil }
@@ -131,23 +140,45 @@ struct TitleImportCSVParser {
         return Int(match.output.1)
     }
 
-    static func parseDirectors(_ value: String) -> [String] {
+    static func parseDirectors(_ value: String, locale: Locale = .current) -> [String] {
         let normalized = TitleImportField.normalizeHeader(value)
-        guard normalized != "unknown", normalized != "unbekannt" else { return [] }
+        let unknownValues = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.unknownDirectors)
+            .map(TitleImportField.normalizeHeader)
+        guard !unknownValues.contains(normalized) else { return [] }
         // Treat localized conjunctions as separators before handling common CSV list delimiters.
-        return value
-            .replacing(/(?i:\s+(?:and|und)\s+)/, with: ",")
+        let separated = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.directorConjunctions)
+            .reduce(value) { value, conjunction in
+                value.replacingOccurrences(
+                    of: " \(conjunction) ",
+                    with: ",",
+                    options: [.caseInsensitive, .diacriticInsensitive]
+                )
+            }
+        return separated
             .split(whereSeparator: { $0 == "," || $0 == ";" || $0 == "&" })
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
     }
 
-    static func parseRuntime(_ value: String) -> Int? {
+    static func parseRuntime(_ value: String, locale: Locale = .current) -> Int? {
         // Strip localized unit suffixes so plain minute values and clock-style values share one parser.
-        let cleaned = value
+        var cleaned = value
             .lowercased()
-            .replacing(/(?i:\s*(?:minutes?|mins?|minuten?)\.?\s*$)/, with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
+        if cleaned.hasSuffix(".") {
+            cleaned.removeLast()
+            cleaned = cleaned.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        let runtimeUnits = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.runtimeUnits)
+            .sorted { $0.count > $1.count }
+        for unit in runtimeUnits {
+            guard let range = cleaned.range(
+                of: unit,
+                options: [.caseInsensitive, .diacriticInsensitive, .backwards, .anchored]
+            ) else { continue }
+            cleaned = cleaned[..<range.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+            break
+        }
         if let minutes = Int(cleaned), minutes > 0 {
             return minutes
         }
@@ -177,15 +208,27 @@ struct TitleImportCSVParser {
         }
     }
 
-    static func parseMediaType(_ value: String) -> MediaType? {
-        switch TitleImportField.normalizeHeader(value) {
-        case "movie", "film", "kino":
+    static func parseMediaType(_ value: String, locale: Locale = .current) -> MediaType? {
+        let normalized = TitleImportField.normalizeHeader(value)
+        let movies = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.movieValues)
+            .map(TitleImportField.normalizeHeader)
+        let shows = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.showValues)
+            .map(TitleImportField.normalizeHeader)
+        switch normalized {
+        case _ where movies.contains(normalized):
             return .movie
-        case "tv", "show", "series", "television", "serie", "fernsehen":
+        case _ where shows.contains(normalized):
             return .show
         default:
             return nil
         }
+    }
+
+    private static func vocabulary(
+        locale: Locale,
+        from localizedTerms: (Locale) -> [String]
+    ) -> Set<String> {
+        Set(localizedTerms(Locale(identifier: "en")) + localizedTerms(locale))
     }
 
     private static func requiredInt(_ value: Substring) throws -> Int {
