@@ -56,3 +56,12 @@ struct TitleImportPreflightView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        TitleImportPreflightView(preflight: TitleImportPreviewData.preflight, startAction: {})
+            .navigationTitle(Strings.TitleImport.title)
+    }
+}
+#endif

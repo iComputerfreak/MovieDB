@@ -41,3 +41,12 @@ struct TitleImportReviewView: View {
         return workflow.includedCount.description
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        TitleImportReviewView(workflow: TitleImportPreviewData.workflow())
+            .navigationTitle(Strings.TitleImport.reviewTitle)
+    }
+}
+#endif

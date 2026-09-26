@@ -44,3 +44,14 @@ struct TitleImportStatusLabel: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    VStack(alignment: .leading, spacing: 12) {
+        ForEach(TitleImportReviewStatus.allCases, id: \.self) { status in
+            TitleImportStatusLabel(status: status)
+        }
+    }
+    .padding()
+}
+#endif

@@ -105,6 +105,14 @@ struct TitleImportReviewRow: View {
     }
 }
 
+#if DEBUG
+#Preview {
+    List {
+        TitleImportReviewRow(item: TitleImportPreviewData.acceptedItem, setIncluded: { _ in })
+    }
+}
+#endif
+
 #Preview {
     @Previewable @State var items: [TitleImportReviewItem] = [
         .init(

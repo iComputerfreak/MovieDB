@@ -20,3 +20,9 @@ struct TitleImportProgressView: View {
         .padding()
     }
 }
+
+#if DEBUG
+#Preview {
+    TitleImportProgressView(processedCount: 38, totalCount: 120, cancelAction: {})
+}
+#endif

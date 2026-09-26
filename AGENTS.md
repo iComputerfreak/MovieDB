@@ -25,7 +25,7 @@ Rules and guidelines for working on this Xcode project.
 ## SwiftUI conventions
 - Keep view modifiers in a consistent top-to-bottom order: layout -> style -> overlay -> padding.
 - Avoid heavy logic in views; move formatting and derived values into computed properties or models.
-- Provide `#Preview` entries for new views or variants when possible.
+- Provide each new view with a `#Preview` using representative sample data when practical.
 - Follow DRY: avoid duplicated code when a shared abstraction is appropriate.
 - Prefer modern native observation/state patterns already used by the codebase.
 

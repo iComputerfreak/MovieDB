@@ -38,3 +38,11 @@ struct TitleCSVImportButton: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    List {
+        TitleCSVImportButton(config: .constant(SettingsViewModel()))
+    }
+}
+#endif
