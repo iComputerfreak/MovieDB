@@ -58,6 +58,7 @@ final class TitleImportWorkflow: Identifiable {
             let matchesFilter = switch reviewFilter {
             case .all: true
             case .included: item.isIncluded
+            case .notIncluded: !item.isIncluded
             case .ambiguous: item.status == .ambiguous
             case .duplicate: item.status == .duplicate
             case .noMatch: item.status == .noMatch

@@ -179,6 +179,11 @@ extension Strings {
                 defaultValue: "Included",
                 comment: "Included results filter"
             )
+            static let notIncluded = String(
+                localized: "titleImport.filter.notIncluded",
+                defaultValue: "Not Included",
+                comment: "Not included results filter"
+            )
             static let ambiguous = String(
                 localized: "titleImport.filter.ambiguous",
                 defaultValue: "Ambiguous",

@@ -9174,6 +9174,12 @@
     "titleImport.confirmation.ambiguousIncluded" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Einbezogene unklare Treffer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9185,6 +9191,12 @@
     "titleImport.confirmation.back" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Zurück zur Prüfung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9196,6 +9208,12 @@
     "titleImport.confirmation.estimatedTime" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Geschätzte Mindestdauer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9207,6 +9225,12 @@
     "titleImport.confirmation.excluded" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ausgeschlossen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9218,6 +9242,12 @@
     "titleImport.confirmation.existingDuplicates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vorhandene Mediatheksduplikate"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9229,6 +9259,12 @@
     "titleImport.confirmation.failed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fehlgeschlagene Treffer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9240,6 +9276,12 @@
     "titleImport.confirmation.fileDuplicates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "CSV-Duplikate"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9251,6 +9293,12 @@
     "titleImport.confirmation.importSelected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ausgewählte importieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9261,12 +9309,53 @@
     },
     "titleImport.confirmation.minimumSeconds" : {
       "comment" : "Minimum title import duration in seconds",
-      "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Mindestens %lld Sekunde"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Mindestens %lld Sekunden"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Mindestens %lld Sekunden"
+                }
+              }
+            }
+          }
+        },
         "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "At least %lld sec"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "At least %lld sec"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "At least %lld sec"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "At least %lld sec"
+                }
+              }
+            }
           }
         }
       }
@@ -9274,6 +9363,12 @@
     "titleImport.confirmation.noMatch" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kein Treffer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9285,6 +9380,12 @@
     "titleImport.confirmation.selected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ausgewählt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9296,6 +9397,12 @@
     "titleImport.confirmation.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Import bestätigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9310,7 +9417,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Mehrere Titelspalten gefunden: %@"
           }
         },
@@ -9328,7 +9435,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Die ausgewählte CSV-Datei ist leer."
           }
         },
@@ -9346,7 +9453,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Keine Titelspalte gefunden. Verfügbare Spalten: %@"
           }
         },
@@ -9364,7 +9471,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Die CSV-Datei enthält keine verwendbaren Medieneinträge."
           }
         },
@@ -9382,7 +9489,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "CSV kann nicht importiert werden"
           }
         },
@@ -9400,7 +9507,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nur kommagetrennte und semikolongetrennte CSV-Dateien werden unterstützt."
           }
         },
@@ -9418,7 +9525,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Regie"
           }
         },
@@ -9436,7 +9543,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Medientyp"
           }
         },
@@ -9454,7 +9561,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Laufzeit"
           }
         },
@@ -9472,7 +9579,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Titel"
           }
         },
@@ -9490,7 +9597,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Jahr"
           }
         },
@@ -9508,7 +9615,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Alle"
           }
         },
@@ -9526,7 +9633,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Unklar"
           }
         },
@@ -9544,7 +9651,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Duplikate"
           }
         },
@@ -9562,7 +9669,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fehlgeschlagen"
           }
         },
@@ -9580,7 +9687,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ausgewählt"
           }
         },
@@ -9598,7 +9705,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kein Treffer"
           }
         },
@@ -9610,13 +9717,31 @@
         }
       }
     },
+    "titleImport.filter.notIncluded" : {
+      "comment" : "Not included results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Not Included"
+          }
+        }
+      }
+    },
     "titleImport.final.progress" : {
       "comment" : "Final title import progress",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$lld von %2$lld verarbeitet"
           }
         },
@@ -9633,7 +9758,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Import stoppen"
           }
         },
@@ -9650,7 +9775,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Importieren"
           }
         },
@@ -9668,7 +9793,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "CSV wird gelesen …"
           }
         },
@@ -9686,7 +9811,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sicherer Treffer (Punktzahl %lld)."
           }
         },
@@ -9704,7 +9829,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vorgeschlagenen Treffer prüfen (Punktzahl %1$lld, Vorsprung %2$lld)."
           }
         },
@@ -9722,7 +9847,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bereits in deiner Mediathek."
           }
         },
@@ -9740,7 +9865,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Dasselbe TMDB-Medium wie in Quellzeile %lld."
           }
         },
@@ -9758,7 +9883,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kein TMDB-Treffer gefunden."
           }
         },
@@ -9776,7 +9901,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Erkannte Spalten"
           }
         },
@@ -9794,7 +9919,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Komma"
           }
         },
@@ -9812,7 +9937,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Trennzeichen"
           }
         },
@@ -9830,7 +9955,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Datei"
           }
         },
@@ -9848,7 +9973,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lass Movie DB geöffnet, während Treffer gesucht werden."
           }
         },
@@ -9866,7 +9991,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ignorierte Spalten"
           }
         },
@@ -9884,7 +10009,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Medieneinträge"
           }
         },
@@ -9902,7 +10027,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Semikolon"
           }
         },
@@ -9920,7 +10045,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Übersprungene Zeilen"
           }
         },
@@ -9938,7 +10063,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Treffer suchen"
           }
         },
@@ -9956,7 +10081,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$lld von %2$lld abgeglichen"
           }
         },
@@ -9974,7 +10099,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Weiter"
           }
         },
@@ -9992,7 +10117,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Filter"
           }
         },
@@ -10010,7 +10135,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Einbeziehen"
           }
         },
@@ -10028,7 +10153,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ergebnisse (%lld)"
           }
         },
@@ -10046,7 +10171,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ergebnisse durchsuchen"
           }
         },
@@ -10064,7 +10189,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ausgewählt"
           }
         },
@@ -10082,7 +10207,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "%1$lld von %2$lld"
           }
         },
@@ -10100,7 +10225,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Treffer prüfen"
           }
         },
@@ -10118,7 +10243,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "CSV nach Titel importieren"
           }
         },
@@ -10136,7 +10261,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Akzeptiert"
           }
         },
@@ -10154,7 +10279,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Prüfung nötig"
           }
         },
@@ -10172,7 +10297,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Duplikat"
           }
         },
@@ -10190,7 +10315,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fehlgeschlagen"
           }
         },
@@ -10208,7 +10333,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kein Treffer"
           }
         },
@@ -10225,7 +10350,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Stoppen"
           }
         },
@@ -10242,7 +10367,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Der aktuelle Vorgang wird sicher gestoppt. Abgeschlossene Importe bleiben in deiner Mediathek."
           }
         },
@@ -10259,7 +10384,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aktuellen Vorgang stoppen?"
           }
         },
@@ -10276,7 +10401,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Neu erkannte Duplikate"
           }
         },
@@ -10293,7 +10418,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fehlgeschlagen"
           }
         },
@@ -10310,7 +10435,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fertig"
           }
         },
@@ -10327,7 +10452,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Importiert"
           }
         },
@@ -10344,7 +10469,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Verbleibend"
           }
         },
@@ -10361,7 +10486,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fehlgeschlagene wiederholen"
           }
         },
@@ -10378,7 +10503,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Import abgeschlossen"
           }
         },
@@ -10396,7 +10521,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "CSV-Import"
           }
         },
@@ -10443,5 +10568,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.3"
 }

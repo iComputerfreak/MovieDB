@@ -5,6 +5,7 @@ import Foundation
 enum TitleImportReviewFilter: String, CaseIterable, Identifiable {
     case all
     case included
+    case notIncluded
     case ambiguous
     case duplicate
     case noMatch
@@ -16,6 +17,7 @@ enum TitleImportReviewFilter: String, CaseIterable, Identifiable {
         switch self {
         case .all: Strings.TitleImport.Filter.all
         case .included: Strings.TitleImport.Filter.included
+        case .notIncluded: Strings.TitleImport.Filter.notIncluded
         case .ambiguous: Strings.TitleImport.Filter.ambiguous
         case .duplicate: Strings.TitleImport.Filter.duplicates
         case .noMatch: Strings.TitleImport.Filter.noMatch
