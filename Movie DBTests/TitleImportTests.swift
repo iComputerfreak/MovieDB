@@ -154,6 +154,60 @@ struct TitleImportTests {
         #expect(variants.contains("rocky 4"))
     }
 
+    @Test("Treats trailing parenthesized edition labels as equivalent in either direction")
+    func scoresEditionEquivalence() {
+        let scorer = TitleImportScorer()
+        let editionSource = scorer.score(
+            candidate(id: 1, title: "Alien", year: nil),
+            for: sourceRow(title: "Alien (Extended Edition)", year: nil)
+        )
+        let editionCandidate = scorer.score(
+            candidate(id: 2, title: "Alien (Unrated Cut)", year: nil),
+            for: sourceRow(title: "Alien", year: nil)
+        )
+        let unknownLabel = scorer.score(
+            candidate(id: 3, title: "Alien (Fan Commentary)", year: nil),
+            for: sourceRow(title: "Alien", year: nil)
+        )
+
+        #expect(editionSource.score >= 75)
+        #expect(editionSource.evidence.titleMatch)
+        #expect(editionCandidate.score >= 75)
+        #expect(editionCandidate.evidence.titleMatch)
+        #expect(unknownLabel.score < 75)
+        #expect(!unknownLabel.evidence.titleMatch)
+    }
+
+    @Test("Requires an exact year for colon-subtitle equivalence")
+    func scoresYearQualifiedSubtitleEquivalence() {
+        let scorer = TitleImportScorer()
+        let subtitleSource = scorer.score(
+            candidate(id: 1, title: "Blood Lake", year: 2014),
+            for: sourceRow(title: "Blood Lake: Attack of the Killer Lampreys", year: 2014)
+        )
+        let subtitleCandidate = scorer.score(
+            candidate(id: 2, title: "Blood Lake: Attack of the Killer Lampreys", year: 2014),
+            for: sourceRow(title: "Blood Lake", year: 2014)
+        )
+        let wrongYear = scorer.score(
+            candidate(id: 3, title: "Blood Lake: Attack of the Killer Lampreys", year: 2013),
+            for: sourceRow(title: "Blood Lake", year: 2014)
+        )
+        let missingYear = scorer.score(
+            candidate(id: 4, title: "Blood Lake", year: nil),
+            for: sourceRow(title: "Blood Lake: Attack of the Killer Lampreys", year: nil)
+        )
+
+        #expect(subtitleSource.score >= 75)
+        #expect(subtitleSource.evidence.titleMatch)
+        #expect(subtitleCandidate.score >= 75)
+        #expect(subtitleCandidate.evidence.titleMatch)
+        #expect(wrongYear.score < 75)
+        #expect(!wrongYear.evidence.titleMatch)
+        #expect(missingYear.score < 75)
+        #expect(!missingYear.evidence.titleMatch)
+    }
+
     @Test("Director and runtime overcome an incorrect year")
     func scoresCorroboratingDetails() {
         let source = sourceRow(title: "Crossroads", year: 2020, director: "Walter Hill", runtime: 99)

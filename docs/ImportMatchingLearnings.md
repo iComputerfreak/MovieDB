@@ -191,6 +191,8 @@ Additional observed labels included:
 
 Edition cleanup should support trailing text outside parentheses as well as parenthesized labels. It should generate search variants rather than destructively changing the source title.
 
+For scoring, a trailing parenthesized known-edition label can be removed symmetrically from either source or candidate title. A colon-delimited subtitle can be removed from either side only when the source and candidate years match exactly; subtitle removal alone is not exact-title evidence.
+
 ### Unicode and Punctuation
 
 Observed differences included:

@@ -3,9 +3,19 @@
 import Foundation
 
 enum TitleImportTitleMatcher {
+    enum Equivalence: Equatable {
+        case exact
+        case edition
+        case subtitle
+    }
+
     private static let romanNumbers: [String: String] = [
         "i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5",
         "vi": "6", "vii": "7", "viii": "8", "ix": "9", "x": "10",
+    ]
+    private static let editionWords = [
+        "edition", "cut", "extended", "unrated", "uncut", "restoration", "restored",
+        "theatrical", "director s", "final", "ultimate", "complete", "commemorative", "special",
     ]
 
     static func normalize(_ value: String) -> String {
@@ -36,10 +46,6 @@ enum TitleImportTitleMatcher {
         while let match = stripped.wholeMatch(of: /(?s)(.*?)\s*[\[(]([^\])]+)[\])]\s*$/) {
             let label = normalize(String(match.output.2))
             let isYear = label.wholeMatch(of: /(?:18|19|20|21)\d{2}/) != nil
-            let editionWords = [
-                "edition", "cut", "extended", "unrated", "uncut", "restoration", "restored",
-                "theatrical", "director s", "final", "ultimate", "complete", "commemorative",
-            ]
             guard isYear || editionWords.contains(where: label.contains) else { break }
             stripped = String(match.output.1).trimmingCharacters(in: .whitespacesAndNewlines)
             if !stripped.isEmpty { variants.append(stripped) }
@@ -61,6 +67,32 @@ enum TitleImportTitleMatcher {
             let normalizedVariant = normalize(variant)
             return !normalizedVariant.isEmpty && seen.insert(normalizedVariant).inserted
         }
+    }
+
+    static func equivalence(
+        between left: String,
+        and right: String,
+        exactYearMatch: Bool
+    ) -> Equivalence? {
+        let normalizedLeft = normalize(left)
+        let normalizedRight = normalize(right)
+        guard normalizedLeft != normalizedRight else { return .exact }
+
+        let leftEditionBase = editionBase(for: left)
+        let rightEditionBase = editionBase(for: right)
+        if leftEditionBase != nil || rightEditionBase != nil,
+           (leftEditionBase ?? normalizedLeft) == (rightEditionBase ?? normalizedRight) {
+            return .edition
+        }
+
+        guard exactYearMatch else { return nil }
+        let leftSubtitleBase = subtitleBase(for: left)
+        let rightSubtitleBase = subtitleBase(for: right)
+        if leftSubtitleBase != nil || rightSubtitleBase != nil,
+           (leftSubtitleBase ?? normalizedLeft) == (rightSubtitleBase ?? normalizedRight) {
+            return .subtitle
+        }
+        return nil
     }
 
     static func similarity(_ left: String, _ right: String) -> Double {
@@ -86,6 +118,25 @@ enum TitleImportTitleMatcher {
         return leftWords == rightWords ||
             (leftWords.joined() == rightWords.joined()) ||
             (leftLast == rightLast && leftFirst.first == rightFirst.first)
+    }
+
+    private static func editionBase(for title: String) -> String? {
+        var stripped = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        var removedLabel = false
+        while let match = stripped.wholeMatch(of: /(?s)(.*?)\s*[\[(]([^\])]+)[\])]\s*$/) {
+            let label = normalize(String(match.output.2))
+            guard editionWords.contains(where: label.contains) else { break }
+            stripped = String(match.output.1).trimmingCharacters(in: .whitespacesAndNewlines)
+            removedLabel = true
+        }
+        return removedLabel ? normalize(stripped) : nil
+    }
+
+    private static func subtitleBase(for title: String) -> String? {
+        guard let separator = title.firstIndex(of: ":") else { return nil }
+        let base = String(title[..<separator]).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard base.count >= 3 else { return nil }
+        return normalize(base)
     }
 
     private static func levenshteinDistance(_ left: String, _ right: String) -> Int {

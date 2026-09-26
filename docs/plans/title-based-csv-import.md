@@ -268,6 +268,8 @@ Classify the best candidate using both:
 
 Exact normalized title is strong evidence, not a mandatory condition.
 
+Treat titles as equivalent when one side differs only by a trailing parenthesized known-edition label. Treat a colon-delimited base-title match as title evidence only when source and candidate years match exactly. Apply both comparisons symmetrically to display, original, and alternative candidate titles. Confidence still requires the normal score margin over the runner-up.
+
 Outcomes:
 
 - `accepted`: score and margin are sufficient

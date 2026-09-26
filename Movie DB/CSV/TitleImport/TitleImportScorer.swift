@@ -7,27 +7,55 @@ struct TitleImportScorer {
     func score(_ candidate: TitleImportCandidate, for source: TitleImportSourceRow) -> TitleImportScoredCandidate {
         let sourceVariants = TitleImportTitleMatcher.variants(for: source.title)
         let candidateTitles = [candidate.title, candidate.originalTitle] + candidate.alternativeTitles
+        let exactYearMatch = source.year != nil && source.year == candidate.year
+        let equivalences = candidateTitles.compactMap { candidateTitle in
+            TitleImportTitleMatcher.equivalence(
+                between: source.title,
+                and: candidateTitle,
+                exactYearMatch: exactYearMatch
+            )
+        }
         let normalizedSource = sourceVariants.map(TitleImportTitleMatcher.normalize)
         let normalizedCandidates = candidateTitles.map(TitleImportTitleMatcher.normalize)
 
         let rawTitle = normalizedSource.first ?? ""
         let rawExact = normalizedCandidates.contains(rawTitle)
-        let variantExact = normalizedSource.dropFirst().contains { normalizedCandidates.contains($0) }
+        let editionExact = equivalences.contains { $0 == .edition }
+        let subtitleExact = equivalences.contains { $0 == .subtitle }
+        let variantExact = candidateTitles.contains { candidateTitle in
+            matchesSourceVariant(
+                candidateTitle,
+                sourceTitle: source.title,
+                sourceVariants: sourceVariants,
+                exactYearMatch: exactYearMatch
+            )
+        }
         let alternativeExact = candidate.alternativeTitles
-            .map(TitleImportTitleMatcher.normalize)
-            .contains(where: normalizedSource.contains)
+            .contains { alternativeTitle in
+                let normalized = TitleImportTitleMatcher.normalize(alternativeTitle)
+                return normalized == rawTitle || matchesSourceVariant(
+                    alternativeTitle,
+                    sourceTitle: source.title,
+                    sourceVariants: sourceVariants,
+                    exactYearMatch: exactYearMatch
+                )
+            }
         let similarity = sourceVariants.flatMap { sourceTitle in
             candidateTitles.map { TitleImportTitleMatcher.similarity(sourceTitle, $0) }
         }
             .max() ?? 0
 
         var evidence = TitleImportMatchEvidence()
-        evidence.titleMatch = rawExact || variantExact
+        evidence.titleMatch = rawExact || editionExact || subtitleExact || variantExact
         evidence.alternativeTitleMatch = alternativeExact
 
         var score: Double
         if rawExact {
             score = 75
+        } else if editionExact {
+            score = 75
+        } else if subtitleExact {
+            score = 66
         } else if variantExact || alternativeExact {
             score = 66
         } else if similarity >= 0.92 {
@@ -96,5 +124,23 @@ struct TitleImportScorer {
         }
 
         return TitleImportScoredCandidate(candidate: candidate, score: score, evidence: evidence)
+    }
+
+    private func matchesSourceVariant(
+        _ candidateTitle: String,
+        sourceTitle: String,
+        sourceVariants: [String],
+        exactYearMatch: Bool
+    ) -> Bool {
+        let normalizedCandidate = TitleImportTitleMatcher.normalize(candidateTitle)
+        guard sourceVariants.dropFirst().contains(where: { sourceVariant in
+            TitleImportTitleMatcher.normalize(sourceVariant) == normalizedCandidate
+        }) else { return false }
+        let wouldRemoveSubtitle = TitleImportTitleMatcher.equivalence(
+            between: sourceTitle,
+            and: candidateTitle,
+            exactYearMatch: true
+        ) == .subtitle
+        return !wouldRemoveSubtitle || exactYearMatch
     }
 }
