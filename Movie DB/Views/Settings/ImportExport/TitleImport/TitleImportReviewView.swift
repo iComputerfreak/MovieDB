@@ -26,6 +26,8 @@ struct TitleImportReviewView: View {
                         item: item,
                         setIncluded: { workflow.setIncluded($0, itemID: item.id) }
                     )
+                    .listRowSeparatorTint(.white80)
+                    .alignmentGuide(.listRowSeparatorLeading, computeValue: { _ in 0 })
                 }
             } header: {
                 Text(Strings.TitleImport.Review.results(filteredItems.count))

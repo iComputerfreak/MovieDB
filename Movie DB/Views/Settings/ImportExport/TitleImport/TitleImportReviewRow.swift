@@ -23,8 +23,6 @@ struct TitleImportReviewRow: View {
                 // Quote view
                 quoteView
 
-                Divider()
-
                 HStack(alignment: .center, spacing: 12) {
                     poster
                         .frame(maxHeight: .infinity, alignment: .top)
@@ -45,6 +43,7 @@ struct TitleImportReviewRow: View {
                         Text(item.reason)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .lineLimit(2)
                     }
                 }
             }
@@ -88,6 +87,7 @@ struct TitleImportReviewRow: View {
             }
             .foregroundStyle(.gray)
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder
@@ -106,13 +106,6 @@ struct TitleImportReviewRow: View {
 }
 
 #if DEBUG
-#Preview {
-    List {
-        TitleImportReviewRow(item: TitleImportPreviewData.acceptedItem, setIncluded: { _ in })
-    }
-}
-#endif
-
 #Preview {
     @Previewable @State var items: [TitleImportReviewItem] = [
         .init(
@@ -145,7 +138,7 @@ struct TitleImportReviewRow: View {
             source: .init(
                 id: 1,
                 title: "Source Title 2",
-                year: 2012,
+                year: nil,
                 directors: [],
                 runtimeMinutes: 119,
                 mediaType: .movie
@@ -164,6 +157,31 @@ struct TitleImportReviewRow: View {
             reason: "Already included.",
             evidence: .init(titleMatch: true),
             isIncluded: false
+        ),
+        .init(
+            id: 2,
+            source: .init(
+                id: 2,
+                title: "Source Title 3 is a bit longer to force a line break",
+                year: nil,
+                directors: [],
+                runtimeMinutes: nil,
+                mediaType: nil
+            ),
+            candidate: .init(
+                identity: .init(type: .movie, tmdbID: 603),
+                title: "Candidate Title 2",
+                originalTitle: "Original Title",
+                year: 2012,
+                imagePath: nil,
+                popularity: 0,
+                alternativeTitles: [],
+                directors: []
+            ),
+            status: .noMatch,
+            reason: "This reason is long as well, forcing a line break too.",
+            evidence: .init(titleMatch: true),
+            isIncluded: false
         )
     ]
 
@@ -176,3 +194,4 @@ struct TitleImportReviewRow: View {
         }
     }
 }
+#endif
