@@ -9,9 +9,13 @@ enum TitleImportField: String, CaseIterable, Sendable {
     case runtime
     case mediaType
 
-    static func field(for header: String) -> Self? {
+    static func match(for header: String) -> (field: Self, priority: Int)? {
         let header = normalizeHeader(header)
-        return allCases.first { aliases[$0, default: []].contains(header) }
+        for field in allCases {
+            guard let priority = aliasGroups[field]?.firstIndex(where: { $0.contains(header) }) else { continue }
+            return (field, priority)
+        }
+        return nil
     }
 
     static func normalizeHeader(_ value: String) -> String {
@@ -24,14 +28,19 @@ enum TitleImportField: String, CaseIterable, Sendable {
             .joined(separator: " ")
     }
 
-    private static let aliases: [Self: Set<String>] = [
-        .title: ["title", "name", "movie title", "film", "media title", "titel", "filmtitel", "medientitel"],
+    // Earlier groups are more specific. This makes dedicated year columns win over date-derived hints.
+    private static let aliasGroups: [Self: [Set<String>]] = [
+        .title: [["title", "name", "movie title", "film", "media title", "titel", "filmtitel", "medientitel"]],
         .year: [
-            "year", "release year", "release date", "date", "jahr", "erscheinungsjahr",
-            "veroffentlichungsjahr", "veroffentlichungsdatum",
+            ["year", "jahr"],
+            ["release year", "erscheinungsjahr", "veroffentlichungsjahr"],
+            ["release date", "veroffentlichungsdatum"],
+            ["date"],
         ],
-        .director: ["director", "directors", "artist", "regisseur", "regisseure", "regie", "kunstler"],
-        .runtime: ["runtime", "duration", "length", "total time", "laufzeit", "dauer", "gesamtdauer"],
-        .mediaType: ["type", "media type", "kind", "typ", "medientyp", "art"],
-    ].mapValues { Set($0.map(normalizeHeader)) }
+        .director: [["director", "directors", "artist", "regisseur", "regisseure", "regie", "kunstler"]],
+        .runtime: [["runtime", "duration", "length", "total time", "laufzeit", "dauer", "gesamtdauer"]],
+        .mediaType: [["type", "media type", "kind", "typ", "medientyp", "art"]],
+    ].mapValues { groups in
+        groups.map { Set($0.map(normalizeHeader)) }
+    }
 }

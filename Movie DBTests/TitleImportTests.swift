@@ -40,6 +40,50 @@ struct TitleImportTests {
         #expect(row.mediaType == .show)
     }
 
+    @Test("Prioritizes dedicated year columns over release dates")
+    func prioritizesYearColumns() throws {
+        let explicitYear = try TitleImportCSVParser().parse(string: """
+        Title,Year,Release Date
+        Alien,1979,1979-05-25
+        """)
+        let releaseYear = try TitleImportCSVParser().parse(string: """
+        Title,Release Year,Date
+        Alien,1979,1979-05-25
+        """)
+        let releaseDate = try TitleImportCSVParser().parse(string: """
+        Title,Release Date
+        Alien,1979-05-25
+        """)
+
+        #expect(explicitYear.rows.first?.year == 1979)
+        #expect(explicitYear.mappedHeaders[.year] == "Year")
+        #expect(explicitYear.ignoredHeaders == ["Release Date"])
+        #expect(releaseYear.mappedHeaders[.year] == "Release Year")
+        #expect(releaseYear.ignoredHeaders == ["Date"])
+        #expect(releaseDate.rows.first?.year == 1979)
+        #expect(releaseDate.mappedHeaders[.year] == "Release Date")
+    }
+
+    @Test("Ignores tied optional headers")
+    func ignoresTiedOptionalHeaders() throws {
+        let result = try TitleImportCSVParser().parse(string: """
+        Title,Year,Jahr
+        Alien,1979,1980
+        """)
+
+        #expect(result.rows.first?.year == nil)
+        #expect(result.mappedHeaders[.year] == nil)
+        #expect(result.ignoredHeaders == ["Year", "Jahr"])
+    }
+
+    @Test(
+        "Rejects years outside the accepted range",
+        arguments: ["1799", "2200", "unknown"]
+    )
+    func rejectsInvalidYears(_ value: String) {
+        #expect(TitleImportCSVParser.parseYear(value) == nil)
+    }
+
     @Test("Rejects missing and ambiguous title headers")
     func rejectsInvalidHeaders() {
         #expect(throws: TitleImportCSVParser.ParserError.self) {

@@ -39,10 +39,10 @@ struct TitleImportCSVParser {
         }
 
         let csv = try CSV<Enumerated>(string: string, delimiter: guessedDelimiter, loadColumns: false)
-        var mappedIndices: [TitleImportField: [Int]] = [:]
+        var mappedIndices: [TitleImportField: [(index: Int, priority: Int)]] = [:]
         for index in csv.header.indices {
-            guard let field = TitleImportField.field(for: csv.header[index]) else { continue }
-            mappedIndices[field, default: []].append(index)
+            guard let match = TitleImportField.match(for: csv.header[index]) else { continue }
+            mappedIndices[match.field, default: []].append((index, match.priority))
         }
 
         let titleIndices = mappedIndices[.title, default: []]
@@ -50,13 +50,15 @@ struct TitleImportCSVParser {
             throw ParserError.missingTitleHeader(csv.header)
         }
         guard titleIndices.count == 1 else {
-            throw ParserError.ambiguousTitleHeader(titleIndices.map { csv.header[$0] })
+            throw ParserError.ambiguousTitleHeader(titleIndices.map { csv.header[$0.index] })
         }
 
-        var selectedIndices: [TitleImportField: Int] = [.title: titleIndices[0]]
+        var selectedIndices: [TitleImportField: Int] = [.title: titleIndices[0].index]
         for field in TitleImportField.allCases where field != .title {
-            guard let indices = mappedIndices[field], indices.count == 1 else { continue }
-            selectedIndices[field] = indices[0]
+            guard let matches = mappedIndices[field], let bestPriority = matches.map(\.priority).min() else { continue }
+            let preferredMatches = matches.filter { $0.priority == bestPriority }
+            guard preferredMatches.count == 1 else { continue }
+            selectedIndices[field] = preferredMatches[0].index
         }
 
         var malformedRowCount = 0
