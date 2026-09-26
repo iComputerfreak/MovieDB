@@ -9,7 +9,7 @@ extension Image {
     /// - Returns: The image resized to a thumbnail
     func thumbnail(multiplier: CGFloat = 1.0) -> some View {
         resizable()
-            .aspectRatio(contentMode: .fit)
+            .scaledToFit()
             .frame(
                 width: JFLiterals.thumbnailSize.width * multiplier,
                 height: JFLiterals.thumbnailSize.height * multiplier,

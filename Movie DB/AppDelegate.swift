@@ -34,7 +34,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // MARK: Cleanup
         Task(priority: .background) {
-            try MediaLibrary.shared.cleanup()
+            do {
+                try MediaLibrary.shared.cleanup()
+            } catch {
+                Logger.lifeCycle.error("Error cleaning up library: \(error)")
+            }
         }
 
         Task(priority: .background) {
@@ -98,9 +102,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             return
         }
 
-        guard lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > interval else {
-            return
-        }
+        guard lastAppStartUpdate == nil || lastAppStartUpdate!.distance(to: .now) > interval else { return }
 
         Task(priority: .background) {
             do {

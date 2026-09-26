@@ -53,9 +53,7 @@ struct TrailersSection: View {
 
 #Preview {
     let movieWithoutTrailers: Media = {
-        var movie = PlaceholderData.preview.createStaticMovie()
-        movie.videos = []
-        return movie
+        return PlaceholderData.preview.createStaticMovie()
     }()
 
     NavigationStack {

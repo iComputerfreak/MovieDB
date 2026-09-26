@@ -185,7 +185,9 @@ struct MediaLibrary {
     
     /// Reloads all media objects in the library by re-fetching their TMDBData
     /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
+    @discardableResult
     func reloadAll(fromBackground: Bool = false, origin: LibraryUpdateStatus.Origin) async throws -> Int {
+        // swiftlint:disable:previous function_body_length
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         

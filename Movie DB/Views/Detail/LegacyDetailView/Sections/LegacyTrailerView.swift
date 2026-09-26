@@ -20,7 +20,7 @@ struct LegacyTrailerView: View {
                         Spacer()
                         Image(systemName: "play.fill")
                             .resizable()
-                            .aspectRatio(contentMode: .fit)
+                            .scaledToFit()
                             .frame(height: 24)
                             .padding(8)
                         Spacer()

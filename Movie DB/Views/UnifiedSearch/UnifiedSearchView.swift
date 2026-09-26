@@ -92,7 +92,10 @@ struct UnifiedSearchView: View {
 
     @ToolbarContentBuilder
     private var doneButton: some ToolbarContent {
-        if showsScopePickerInContent && (unifiedSearchCoordinator.isPresented || !unifiedSearchCoordinator.text.isEmpty) {
+        if
+            showsScopePickerInContent,
+            unifiedSearchCoordinator.isPresented || !unifiedSearchCoordinator.text.isEmpty
+        {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     unifiedSearchCoordinator.dismiss()

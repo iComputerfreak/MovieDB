@@ -16,9 +16,9 @@ struct MediaContextMenuModifier: ViewModifier {
                         AddToWatchlistButton {
                             AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .toggleWatchlist))
                         }
-                        AddEnvironmentMediaToListMenu {
+                        AddEnvironmentMediaToListMenu(onCompletion: {
                             AnalyticsService.shared.track(.mediaContextMenuActionUsed(action: .addToList))
-                        }
+                        })
                     }
                     Section {
                         ReloadMediaButton {

@@ -186,7 +186,7 @@ struct TitleImportReviewRow: View {
     ]
 
     List {
-        ForEach(Array(items.enumerated()), id: \.element.id) { (index, item) in
+        ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
             TitleImportReviewRow(
                 item: item,
                 setIncluded: { items[index].isIncluded = $0 }

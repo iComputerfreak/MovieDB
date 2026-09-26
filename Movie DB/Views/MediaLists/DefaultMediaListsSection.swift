@@ -1,5 +1,6 @@
 // Copyright © 2025 Jonas Frey. All rights reserved.
 
+import CoreData
 import SwiftUI
 
 struct DefaultMediaListsSection: View {

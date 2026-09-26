@@ -47,7 +47,7 @@ struct CalloutView: View {
         HStack {
             type.symbol
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .scaledToFit()
                 .symbolRenderingMode(.multicolor)
                 .foregroundColor(type.foregroundColor)
                 .frame(maxWidth: iconSize, maxHeight: iconSize)

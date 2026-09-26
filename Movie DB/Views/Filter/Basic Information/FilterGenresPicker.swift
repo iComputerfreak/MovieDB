@@ -1,5 +1,6 @@
 // Copyright © 2023 Jonas Frey. All rights reserved.
 
+import CoreData
 import SwiftUI
 
 struct FilterGenresPicker: View {

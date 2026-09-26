@@ -1,6 +1,7 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 import Analytics
+import CoreData
 import SwiftUI
 
 struct LibrarySearchResultsView: View {
