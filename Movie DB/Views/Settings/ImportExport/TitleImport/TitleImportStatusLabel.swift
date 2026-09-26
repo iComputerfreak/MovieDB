@@ -6,9 +6,12 @@ struct TitleImportStatusLabel: View {
     let status: TitleImportReviewStatus
 
     var body: some View {
-        Label(label, systemImage: systemImage)
-            .font(.caption.bold())
-            .foregroundStyle(color)
+        HStack(spacing: 4) {
+            Image(systemName: systemImage)
+            Text(label)
+        }
+        .font(.caption.bold())
+        .foregroundStyle(color)
     }
 
     private var label: String {
