@@ -29,6 +29,9 @@ struct ImportExportSection: View {
         Section(Strings.Settings.importExportSectionHeader) {
             // MARK: - Import Button
             ImportMediaButton(config: $config)
+
+            // MARK: - Title-Based Import
+            TitleCSVImportButton(config: $config)
             
             // MARK: - Export Button
             ExportMediaButton(config: $config)

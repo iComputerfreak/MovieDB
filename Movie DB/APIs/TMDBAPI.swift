@@ -205,6 +205,40 @@ actor TMDBAPI {
             context: disposableContext
         )
     }
+
+    func titleImportSearch(_ query: String, page: Int) async throws -> [TitleImportCandidate] {
+        let (results, _) = try await searchMedia(query, from: page, to: page)
+        return results.map { result in
+            let year: Int?
+            if let movie = result as? TMDBMovieSearchResult {
+                year = movie.releaseDate?[.year]
+            } else if let show = result as? TMDBShowSearchResult {
+                year = show.firstAirDate?[.year]
+            } else {
+                year = nil
+            }
+            return TitleImportCandidate(
+                identity: MediaIdentity(type: result.mediaType, tmdbID: result.id),
+                title: result.title,
+                originalTitle: result.originalTitle,
+                year: year,
+                imagePath: result.imagePath,
+                popularity: result.popularity,
+                alternativeTitles: [],
+                directors: [],
+                runtimeMinutes: nil
+            )
+        }
+    }
+
+    func titleImportDetails(for identity: MediaIdentity) async throws -> TitleImportCandidateDetails {
+        let response = try await decodeAPIURL(
+            path: "/\(identity.type.rawValue)/\(identity.tmdbID)",
+            additionalParameters: ["append_to_response": "credits,alternative_titles"],
+            as: TitleImportDetailsResponse.self
+        )
+        return response.candidateDetails
+    }
     
     /// Returns all language codes available in the TMDB API
     func tmdbLanguageCodes() async throws -> [String] {

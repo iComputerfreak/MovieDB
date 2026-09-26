@@ -64,6 +64,7 @@ Rules and guidelines for working on this Xcode project.
 ## Documentation
 - If you learn a new generalized project rule or receive a reusable instruction, persist it in `AGENTS.md`.
 - Prefer reusable, clean, maintainable, and human-readable implementations over one-off feature code.
+- Add concise comments for non-obvious regexes, algorithms, and heuristics; explain intent or invariants, not syntax.
 - When adding an extension with a `// MARK: - <Description>` comment, place the extension immediately after the MARK without a blank line.
 - For long `Logger` messages, prefer direct interpolation plus a targeted `swiftlint:disable:next line_length` comment over building the message from temporary strings.
 

@@ -4971,23 +4971,6 @@
         }
       }
     },
-    "library.updateStatus.title.updating" : {
-      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bibliothek wird aktualisiert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Updating Library"
-          }
-        }
-      }
-    },
     "library.updateStatus.title.reloading" : {
       "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.reloadAll() (full reload) is running",
       "localizations" : {
@@ -5001,6 +4984,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reloading Library"
+          }
+        }
+      }
+    },
+    "library.updateStatus.title.updating" : {
+      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothek wird aktualisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updating Library"
           }
         }
       }
@@ -9167,6 +9167,870 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Library row customization"
+          }
+        }
+      }
+    },
+    "titleImport.error.ambiguousTitleHeader" : {
+      "comment" : "Ambiguous title header error. Argument lists matching headers.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mehrere Titelspalten gefunden: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Multiple title columns were found: %@"
+          }
+        }
+      }
+    },
+    "titleImport.error.emptyFile" : {
+      "comment" : "Empty CSV error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Die ausgewählte CSV-Datei ist leer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The selected CSV file is empty."
+          }
+        }
+      }
+    },
+    "titleImport.error.missingTitleHeader" : {
+      "comment" : "Missing title header error. Argument lists found headers.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Keine Titelspalte gefunden. Verfügbare Spalten: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No title column was found. Available headers: %@"
+          }
+        }
+      }
+    },
+    "titleImport.error.noRows" : {
+      "comment" : "No usable CSV rows error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Die CSV-Datei enthält keine verwendbaren Medieneinträge."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The CSV file contains no usable media rows."
+          }
+        }
+      }
+    },
+    "titleImport.error.title" : {
+      "comment" : "Title import error title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "CSV kann nicht importiert werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unable to Import CSV"
+          }
+        }
+      }
+    },
+    "titleImport.error.unsupportedDelimiter" : {
+      "comment" : "Unsupported CSV delimiter error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nur kommagetrennte und semikolongetrennte CSV-Dateien werden unterstützt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Only comma- and semicolon-separated CSV files are supported."
+          }
+        }
+      }
+    },
+    "titleImport.field.director" : {
+      "comment" : "Director CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Regie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Director"
+          }
+        }
+      }
+    },
+    "titleImport.field.mediaType" : {
+      "comment" : "Media type CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Medientyp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media Type"
+          }
+        }
+      }
+    },
+    "titleImport.field.runtime" : {
+      "comment" : "Runtime CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Laufzeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Runtime"
+          }
+        }
+      }
+    },
+    "titleImport.field.title" : {
+      "comment" : "Title CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Titel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "titleImport.field.year" : {
+      "comment" : "Year CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Year"
+          }
+        }
+      }
+    },
+    "titleImport.filter.all" : {
+      "comment" : "All results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Alle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "titleImport.filter.ambiguous" : {
+      "comment" : "Ambiguous results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Unklar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ambiguous"
+          }
+        }
+      }
+    },
+    "titleImport.filter.duplicates" : {
+      "comment" : "Duplicate results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Duplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.filter.failed" : {
+      "comment" : "Failed results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.filter.included" : {
+      "comment" : "Included results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Included"
+          }
+        }
+      }
+    },
+    "titleImport.filter.noMatch" : {
+      "comment" : "No match results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kein Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.loadingFile" : {
+      "comment" : "CSV loading progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "CSV wird gelesen …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reading CSV..."
+          }
+        }
+      }
+    },
+    "titleImport.match.accepted" : {
+      "comment" : "Accepted match score",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sicherer Treffer (Punktzahl %lld)."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Confident match (score %lld)."
+          }
+        }
+      }
+    },
+    "titleImport.match.ambiguous" : {
+      "comment" : "Ambiguous match score and runner-up margin",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vorgeschlagenen Treffer prüfen (Punktzahl %1$lld, Vorsprung %2$lld)."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review suggested match (score %1$lld, lead %2$lld)."
+          }
+        }
+      }
+    },
+    "titleImport.match.existingDuplicate" : {
+      "comment" : "Match already exists in library",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bereits in deiner Mediathek."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Already in your library."
+          }
+        }
+      }
+    },
+    "titleImport.match.fileDuplicate" : {
+      "comment" : "Duplicate source row number",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Dasselbe TMDB-Medium wie in Quellzeile %lld."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Same TMDB media as source row %lld."
+          }
+        }
+      }
+    },
+    "titleImport.match.noResults" : {
+      "comment" : "No TMDB result",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kein TMDB-Treffer gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No TMDB match found."
+          }
+        }
+      }
+    },
+    "titleImport.preflight.columns" : {
+      "comment" : "Detected columns section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Erkannte Spalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Detected Columns"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.comma" : {
+      "comment" : "Comma delimiter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Komma"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Comma"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.delimiter" : {
+      "comment" : "CSV delimiter label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Trennzeichen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delimiter"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.file" : {
+      "comment" : "File summary section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Datei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "File"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.foregroundWarning" : {
+      "comment" : "Foreground processing warning",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Lass Movie DB geöffnet, während Treffer gesucht werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Keep Movie DB open while matches are being found."
+          }
+        }
+      }
+    },
+    "titleImport.preflight.ignoredColumns" : {
+      "comment" : "Ignored columns section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ignorierte Spalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ignored Columns"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.rows" : {
+      "comment" : "CSV row count label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Medieneinträge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media Rows"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.semicolon" : {
+      "comment" : "Semicolon delimiter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Semikolon"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Semicolon"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.skippedRows" : {
+      "comment" : "Skipped malformed rows label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Übersprungene Zeilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Skipped Rows"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.start" : {
+      "comment" : "Start matching button",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Treffer suchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Find Matches"
+          }
+        }
+      }
+    },
+    "titleImport.progress.resolving" : {
+      "comment" : "Matching progress. Arguments are processed and total row counts.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%1$lld von %2$lld abgeglichen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Matched %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.review.filter" : {
+      "comment" : "Review filter picker",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Filter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Filter"
+          }
+        }
+      }
+    },
+    "titleImport.review.include" : {
+      "comment" : "Include match toggle",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Einbeziehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Include"
+          }
+        }
+      }
+    },
+    "titleImport.review.results" : {
+      "comment" : "Visible review result count",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ergebnisse (%lld)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Results (%lld)"
+          }
+        }
+      }
+    },
+    "titleImport.review.search" : {
+      "comment" : "Review search prompt",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ergebnisse durchsuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search results"
+          }
+        }
+      }
+    },
+    "titleImport.review.selected" : {
+      "comment" : "Selected count label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selected"
+          }
+        }
+      }
+    },
+    "titleImport.review.selectedWithLimit" : {
+      "comment" : "Selected count and free-user limit",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.review.title" : {
+      "comment" : "Import review title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Treffer prüfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review Matches"
+          }
+        }
+      }
+    },
+    "titleImport.settingsAction" : {
+      "comment" : "Settings action",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "CSV nach Titel importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import CSV by Title"
+          }
+        }
+      }
+    },
+    "titleImport.status.accepted" : {
+      "comment" : "Accepted match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Akzeptiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accepted"
+          }
+        }
+      }
+    },
+    "titleImport.status.ambiguous" : {
+      "comment" : "Ambiguous match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Prüfung nötig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Needs Review"
+          }
+        }
+      }
+    },
+    "titleImport.status.duplicate" : {
+      "comment" : "Duplicate match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Duplikat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duplicate"
+          }
+        }
+      }
+    },
+    "titleImport.status.failed" : {
+      "comment" : "Failed match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.status.noMatch" : {
+      "comment" : "No match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kein Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.title" : {
+      "comment" : "Import flow title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "CSV-Import"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CSV Import"
           }
         }
       }
