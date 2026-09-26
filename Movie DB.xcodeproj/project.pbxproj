@@ -96,6 +96,13 @@
 			);
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 		};
+		AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				.swiftlint.yml,
+			);
+			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
+		};
 		AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -116,7 +123,7 @@
 		AB5028962D58AD8700D7DD9B /* APIs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = APIs; sourceTree = "<group>"; };
 		AB5028A02D58AD8700D7DD9B /* Migrations */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Migrations; sourceTree = "<group>"; };
 		AB50293A2D58AD8700D7DD9B /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
-		AB5029DA2D58AD8700D7DD9B /* Localization */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Localization; sourceTree = "<group>"; };
+		AB5029DA2D58AD8700D7DD9B /* Localization */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Localization; sourceTree = "<group>"; };
 		AB5029F82D58AD8B00D7DD9B /* SupportingFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB5029FA2D58AE1B00D7DD9B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportingFiles; sourceTree = "<group>"; };
 		AB5029F92D58AD9A00D7DD9B /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		AB8965132D57C58100F54EB1 /* Movie DBTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Movie DBTests"; sourceTree = "<group>"; };
@@ -474,7 +481,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        python3 \"$GYB_PATH\" --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
+			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\nTEMPLATE=\"$PROJECT_DIR/Movie DB/Generated/Secrets.swift.gyb\"\nOUTPUT=\"$PROJECT_DIR/Movie DB/Generated/Secrets.swift\"\nTEMP_OUTPUT=\"$DERIVED_FILE_DIR/Secrets.swift\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\necho \"Translating file $TEMPLATE...\"\npython3 \"$GYB_PATH\" --line-directive '' -o \"$TEMP_OUTPUT\" \"$TEMPLATE\"\n\nif [[ ! -f \"$OUTPUT\" ]] || ! cmp -s \"$TEMP_OUTPUT\" \"$OUTPUT\"; then\n    cp \"$TEMP_OUTPUT\" \"$OUTPUT\"\nfi\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
@@ -495,7 +502,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\nif [ -n \"$DEVELOPMENT_ASSET_PATHS\" ]; then\n  echo \"Detected Preview build. Skipping license plist generation.\"\n  exit 0\nfi\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n  export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nif [ $CONFIGURATION = \"Debug\" ]; then\n  cd $SRCROOT\n  /opt/homebrew/bin/license-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory\nfi\n";
+			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n  export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nif [ $CONFIGURATION = \"Debug\" ]; then\n  cd $SRCROOT\n  /opt/homebrew/bin/license-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
