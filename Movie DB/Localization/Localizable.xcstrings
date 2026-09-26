@@ -9411,6 +9411,60 @@
         }
       }
     },
+    "titleImport.dismiss.action" : {
+      "comment" : "Destructive action that dismisses title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Abort Import"
+          }
+        }
+      }
+    },
+    "titleImport.dismiss.message" : {
+      "comment" : "Message shown before dismissing title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Importfortschritt und deine Trefferauswahl gehen verloren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your import progress and match selections will be lost."
+          }
+        }
+      }
+    },
+    "titleImport.dismiss.title" : {
+      "comment" : "Title of confirmation dialog shown before dismissing title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import abbrechen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Abort Import?"
+          }
+        }
+      }
+    },
     "titleImport.error.ambiguousTitleHeader" : {
       "comment" : "Ambiguous title header error. Argument lists matching headers.",
       "extractionState" : "extracted_with_value",
@@ -9812,13 +9866,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sicherer Treffer (Punktzahl %lld)."
+            "value" : "Sicherer Treffer."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Confident match (score %lld)."
+            "value" : "Confident match."
           }
         }
       }
@@ -9829,14 +9883,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorgeschlagenen Treffer prüfen (Punktzahl %1$lld, Vorsprung %2$lld)."
+            "state" : "needs_review",
+            "value" : "Vorgeschlagenen Treffer prüfen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Review suggested match (score %1$lld, lead %2$lld)."
+            "value" : "Review suggested match."
           }
         }
       }
@@ -10154,13 +10208,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ergebnisse (%lld)"
+            "value" : "Ergebnisse"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Results (%lld)"
+            "value" : "Results"
           }
         }
       }
@@ -10201,8 +10255,8 @@
         }
       }
     },
-    "titleImport.review.selectedWithLimit" : {
-      "comment" : "Selected count and free-user limit",
+    "titleImport.review.selectedCount" : {
+      "comment" : "Selected count and total count",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
@@ -10215,6 +10269,24 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.review.selectedWithLimit" : {
+      "comment" : "Selected count, total and free-user limit",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld (Limit: %3$lld)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld (Limit: %3$lld)"
           }
         }
       }

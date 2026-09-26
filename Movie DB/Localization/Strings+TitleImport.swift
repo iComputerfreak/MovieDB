@@ -144,20 +144,16 @@ extension Strings {
                 defaultValue: "No TMDB match found.",
                 comment: "No TMDB result"
             )
-            static func accepted(_ score: Int) -> String {
-                String(
-                    localized: "titleImport.match.accepted",
-                    defaultValue: "Confident match (score \(score)).",
-                    comment: "Accepted match score"
-                )
-            }
-            static func ambiguous(_ score: Int, _ margin: Int) -> String {
-                String(
-                    localized: "titleImport.match.ambiguous",
-                    defaultValue: "Review suggested match (score \(score), lead \(margin)).",
-                    comment: "Ambiguous match score and runner-up margin"
-                )
-            }
+            static let accepted = String(
+                localized: "titleImport.match.accepted",
+                defaultValue: "Confident match.",
+                comment: "Accepted match score"
+            )
+            static let ambiguous = String(
+                localized: "titleImport.match.ambiguous",
+                defaultValue: "Review suggested match.",
+                comment: "Ambiguous match score and runner-up margin"
+            )
             static let existingDuplicate = String(
                 localized: "titleImport.match.existingDuplicate",
                 defaultValue: "Already in your library.",
@@ -217,20 +213,25 @@ extension Strings {
                 defaultValue: "Selected",
                 comment: "Selected count label"
             )
-            static func selectedWithLimit(_ selected: Int, _ limit: Int) -> String {
+            static func selectedCount(_ selected: Int, _ total: Int) -> String {
+                String(
+                    localized: "titleImport.review.selectedCount",
+                    defaultValue: "\(selected) of \(total)",
+                    comment: "Selected count and total count"
+                )
+            }
+            static func selectedWithLimit(_ selected: Int, _ total: Int, _ limit: Int) -> String {
                 String(
                     localized: "titleImport.review.selectedWithLimit",
-                    defaultValue: "\(selected) of \(limit)",
-                    comment: "Selected count and free-user limit"
+                    defaultValue: "\(selected) of \(total) (Limit: \(limit))",
+                    comment: "Selected count, total and free-user limit"
                 )
             }
-            static func results(_ count: Int) -> String {
-                String(
-                    localized: "titleImport.review.results",
-                    defaultValue: "Results (\(count))",
-                    comment: "Visible review result count"
-                )
-            }
+            static let results = String(
+                localized: "titleImport.review.results",
+                defaultValue: "Results",
+                comment: "Visible review result count"
+            )
             static let searchPrompt = String(
                 localized: "titleImport.review.search",
                 defaultValue: "Search results",
@@ -319,6 +320,24 @@ extension Strings {
                 defaultValue: "Current work stops safely. Completed imports stay in your library."
             )
             static let stop = String(localized: "titleImport.stop.action", defaultValue: "Stop")
+        }
+
+        enum DismissConfirmation {
+            static let title = String(
+                localized: "titleImport.dismiss.title",
+                defaultValue: "Abort Import?",
+                comment: "Title of confirmation dialog shown before dismissing title import"
+            )
+            static let message = String(
+                localized: "titleImport.dismiss.message",
+                defaultValue: "Your import progress and match selections will be lost.",
+                comment: "Message shown before dismissing title import"
+            )
+            static let abort = String(
+                localized: "titleImport.dismiss.action",
+                defaultValue: "Abort Import",
+                comment: "Destructive action that dismisses title import"
+            )
         }
 
         enum Status {

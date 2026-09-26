@@ -233,7 +233,10 @@ extension TitleImportWorkflow {
             defer {
                 importTask = nil
             }
-            let result = await finalImporter.importMedia(identities: identities, libraryLimit: libraryLimit) { [weak self] count in
+            let result = await finalImporter.importMedia(
+                identities: identities,
+                libraryLimit: libraryLimit
+            ) { [weak self] count in
                 self?.finalImportProcessedCount = count
             }
             if let previousResult {

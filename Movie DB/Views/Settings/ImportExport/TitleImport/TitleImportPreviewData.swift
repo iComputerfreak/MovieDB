@@ -61,7 +61,7 @@ enum TitleImportPreviewData {
             runtimeMinutes: 136
         ),
         status: .accepted,
-        reason: Strings.TitleImport.Match.accepted(107),
+        reason: Strings.TitleImport.Match.accepted,
         evidence: TitleImportMatchEvidence(
             titleMatch: true,
             yearMatch: true,
@@ -89,7 +89,7 @@ enum TitleImportPreviewData {
                 runtimeMinutes: 60
             ),
             status: .ambiguous,
-            reason: Strings.TitleImport.Match.ambiguous(74, 5),
+            reason: Strings.TitleImport.Match.ambiguous,
             evidence: TitleImportMatchEvidence(titleMatch: true, yearMatch: true),
             isIncluded: false
         ),

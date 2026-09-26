@@ -6,6 +6,7 @@ struct TitleImportFlowView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var workflow: TitleImportWorkflow
     @State private var isShowingStopConfirmation = false
+    @State private var isShowingDismissalConfirmation = false
 
     init(workflow: TitleImportWorkflow) {
         _workflow = State(initialValue: workflow)
@@ -63,7 +64,7 @@ struct TitleImportFlowView: View {
                         if workflow.isPerformingWork {
                             isShowingStopConfirmation = true
                         } else {
-                            dismiss()
+                            requestDismissal()
                         }
                     }
                 }
@@ -82,7 +83,34 @@ struct TitleImportFlowView: View {
         } message: {
             Text(Strings.TitleImport.StopConfirmation.message)
         }
-        .interactiveDismissDisabled(workflow.isPerformingWork)
+        .titleImportDismissalConfirmationDialog(
+            shouldPresent: shouldConfirmDismissal,
+            fallbackIsPresented: $isShowingDismissalConfirmation
+        )
+        .interactiveDismissDisabled(shouldDisableInteractiveDismissal)
+    }
+
+    private var shouldConfirmDismissal: Bool {
+        workflow.totalCount > 0 && workflow.stage != .review && workflow.stage != .summary
+    }
+
+    private var shouldDisableInteractiveDismissal: Bool {
+        if #available(iOS 27.0, *) {
+            return workflow.isPerformingWork
+        }
+        return workflow.isPerformingWork || shouldConfirmDismissal
+    }
+
+    private func requestDismissal() {
+        guard shouldConfirmDismissal else {
+            dismiss()
+            return
+        }
+        if #available(iOS 27.0, *) {
+            dismiss()
+        } else {
+            isShowingDismissalConfirmation = true
+        }
     }
 
     private var navigationTitle: String {

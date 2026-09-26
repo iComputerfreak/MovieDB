@@ -27,12 +27,12 @@ struct ImportExportSection: View {
 
     var body: some View {
         Section(Strings.Settings.importExportSectionHeader) {
+            // MARK: - Title-Based Import
+            TitleCSVImportButton(config: $config)
+
             // MARK: - Import Button
             ImportMediaButton(config: $config)
 
-            // MARK: - Title-Based Import
-            TitleCSVImportButton(config: $config)
-            
             // MARK: - Export Button
             ExportMediaButton(config: $config)
             

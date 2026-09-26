@@ -18,8 +18,7 @@ struct TitleImportReviewRow: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            checkbox
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 12) {
                 // Quote view
                 quoteView
 
@@ -47,6 +46,8 @@ struct TitleImportReviewRow: View {
                     }
                 }
             }
+            Spacer(minLength: 0)
+            checkbox
         }
         .listRowBackground(selectionColor.opacity(0.1))
         .padding(.vertical, 4)
@@ -128,7 +129,7 @@ struct TitleImportReviewRow: View {
                 alternativeTitles: [],
                 directors: []
             ),
-            status: .ambiguous,
+            status: .accepted,
             reason: "Reason",
             evidence: .init(titleMatch: true),
             isIncluded: true
@@ -178,8 +179,24 @@ struct TitleImportReviewRow: View {
                 alternativeTitles: [],
                 directors: []
             ),
-            status: .noMatch,
+            status: .ambiguous,
             reason: "This reason is long as well, forcing a line break too.",
+            evidence: .init(titleMatch: true),
+            isIncluded: false
+        ),
+        .init(
+            id: 3,
+            source: .init(
+                id: 3,
+                title: "Source Title 3 is a bit longer to force a line break",
+                year: nil,
+                directors: [],
+                runtimeMinutes: nil,
+                mediaType: nil
+            ),
+            candidate: nil,
+            status: .noMatch,
+            reason: "Nothing found.",
             evidence: .init(titleMatch: true),
             isIncluded: false
         )

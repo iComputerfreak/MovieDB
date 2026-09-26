@@ -105,9 +105,7 @@ struct TitleImportResolver: Sendable {
                 source: source,
                 candidate: best.candidate,
                 status: accepted ? .accepted : .ambiguous,
-                reason: accepted
-                    ? Strings.TitleImport.Match.accepted(Int(best.score.rounded()))
-                    : Strings.TitleImport.Match.ambiguous(Int(best.score.rounded()), Int(margin.rounded())),
+                reason: accepted ? Strings.TitleImport.Match.accepted : Strings.TitleImport.Match.ambiguous,
                 evidence: best.evidence,
                 isIncluded: accepted
             )
