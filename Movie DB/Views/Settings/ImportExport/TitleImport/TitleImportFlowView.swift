@@ -5,6 +5,7 @@ import SwiftUI
 struct TitleImportFlowView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var workflow: TitleImportWorkflow
+    @State private var isShowingStopConfirmation = false
 
     init(workflow: TitleImportWorkflow) {
         _workflow = State(initialValue: workflow)
@@ -24,10 +25,26 @@ struct TitleImportFlowView: View {
                     TitleImportProgressView(
                         processedCount: workflow.processedCount,
                         totalCount: workflow.totalCount,
-                        cancelAction: workflow.cancelResolution
+                        cancelAction: { isShowingStopConfirmation = true }
                     )
                 case .review:
                     TitleImportReviewView(workflow: workflow)
+                case .confirmation:
+                    TitleImportConfirmationView(workflow: workflow)
+                case .importing:
+                    TitleImportFinalProgressView(
+                        processedCount: workflow.finalImportProcessedCount,
+                        totalCount: workflow.finalImportTotalCount,
+                        cancelAction: { isShowingStopConfirmation = true }
+                    )
+                case .summary:
+                    if let result = workflow.finalResult {
+                        TitleImportSummaryView(
+                            result: result,
+                            retryAction: workflow.retryFailedImports,
+                            finishAction: dismiss.callAsFunction
+                        )
+                    }
                 case .failure:
                     ScreenUnavailableView(
                         title: Strings.TitleImport.Error.title,
@@ -43,19 +60,37 @@ struct TitleImportFlowView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(Strings.Generic.dismissViewDone) {
-                        workflow.cancelResolution()
-                        dismiss()
+                        if workflow.isPerformingWork {
+                            isShowingStopConfirmation = true
+                        } else {
+                            dismiss()
+                        }
                     }
                 }
             }
         }
         .task { await workflow.loadFile() }
-        .interactiveDismissDisabled(workflow.stage == .resolving)
+        .confirmationDialog(
+            Strings.TitleImport.StopConfirmation.title,
+            isPresented: $isShowingStopConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(Strings.TitleImport.StopConfirmation.stop, role: .destructive) {
+                workflow.cancelCurrentWork()
+            }
+            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+        } message: {
+            Text(Strings.TitleImport.StopConfirmation.message)
+        }
+        .interactiveDismissDisabled(workflow.isPerformingWork)
     }
 
     private var navigationTitle: String {
         switch workflow.stage {
         case .review: Strings.TitleImport.reviewTitle
+        case .confirmation: Strings.TitleImport.Confirmation.title
+        case .importing: Strings.TitleImport.FinalImport.title
+        case .summary: Strings.TitleImport.Summary.title
         default: Strings.TitleImport.title
         }
     }

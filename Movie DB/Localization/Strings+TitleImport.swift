@@ -236,6 +236,84 @@ extension Strings {
                 defaultValue: "Include",
                 comment: "Include match toggle"
             )
+            static let continueButton = String(
+                localized: "titleImport.review.continue",
+                defaultValue: "Continue",
+                comment: "Continue from title import review to confirmation"
+            )
+        }
+
+        enum Confirmation {
+            static let title = String(localized: "titleImport.confirmation.title", defaultValue: "Confirm Import")
+            static let selected = String(localized: "titleImport.confirmation.selected", defaultValue: "Selected")
+            static let excluded = String(localized: "titleImport.confirmation.excluded", defaultValue: "Excluded")
+            static let ambiguousIncluded = String(
+                localized: "titleImport.confirmation.ambiguousIncluded",
+                defaultValue: "Unclear Matches Included"
+            )
+            static let existingDuplicates = String(
+                localized: "titleImport.confirmation.existingDuplicates",
+                defaultValue: "Existing Library Duplicates"
+            )
+            static let fileDuplicates = String(
+                localized: "titleImport.confirmation.fileDuplicates",
+                defaultValue: "CSV Duplicates"
+            )
+            static let noMatch = String(localized: "titleImport.confirmation.noMatch", defaultValue: "No Match")
+            static let failed = String(localized: "titleImport.confirmation.failed", defaultValue: "Failed Matches")
+            static let estimatedTime = String(
+                localized: "titleImport.confirmation.estimatedTime",
+                defaultValue: "Estimated Minimum Time"
+            )
+            static func minimumSeconds(_ seconds: Int) -> String {
+                String(
+                    localized: "titleImport.confirmation.minimumSeconds",
+                    defaultValue: "At least \(seconds) sec",
+                    comment: "Minimum title import duration in seconds"
+                )
+            }
+            static let importSelected = String(
+                localized: "titleImport.confirmation.importSelected",
+                defaultValue: "Import Selected"
+            )
+            static let back = String(localized: "titleImport.confirmation.back", defaultValue: "Back to Review")
+        }
+
+        enum FinalImport {
+            static let title = String(localized: "titleImport.final.title", defaultValue: "Importing")
+            static func progress(_ processed: Int, _ total: Int) -> String {
+                String(
+                    localized: "titleImport.final.progress",
+                    defaultValue: "Processed \(processed) of \(total)",
+                    comment: "Final title import progress"
+                )
+            }
+            static let stop = String(localized: "titleImport.final.stop", defaultValue: "Stop Import")
+        }
+
+        enum Summary {
+            static let title = String(localized: "titleImport.summary.title", defaultValue: "Import Complete")
+            static let imported = String(localized: "titleImport.summary.imported", defaultValue: "Imported")
+            static let duplicates = String(
+                localized: "titleImport.summary.duplicates",
+                defaultValue: "Newly Detected Duplicates"
+            )
+            static let failed = String(localized: "titleImport.summary.failed", defaultValue: "Failed")
+            static let remaining = String(localized: "titleImport.summary.remaining", defaultValue: "Remaining")
+            static let retryFailed = String(
+                localized: "titleImport.summary.retryFailed",
+                defaultValue: "Retry Failed"
+            )
+            static let finish = String(localized: "titleImport.summary.finish", defaultValue: "Finish")
+        }
+
+        enum StopConfirmation {
+            static let title = String(localized: "titleImport.stop.title", defaultValue: "Stop Current Work?")
+            static let message = String(
+                localized: "titleImport.stop.message",
+                defaultValue: "Current work stops safely. Completed imports stay in your library."
+            )
+            static let stop = String(localized: "titleImport.stop.action", defaultValue: "Stop")
         }
 
         enum Status {

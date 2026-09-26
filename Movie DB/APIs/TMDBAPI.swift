@@ -57,7 +57,12 @@ actor TMDBAPI {
     ///   - type: The type of media
     ///   - context: The context to insert the new media object into
     /// - Returns: The decoded media object
-    func media(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
+    func media(
+        for id: Int,
+        type: MediaType,
+        context: NSManagedObjectContext,
+        loadImages: Bool = true
+    ) async throws -> Media {
         // Get the TMDB Data (TMDBData is no NSManagedObject, so we don't need to perform in the context's thread)
         let tmdbData = try await tmdbData(for: id, type: type, context: context)
         // We need to be in the context's thread to create new medias
@@ -66,13 +71,12 @@ actor TMDBAPI {
             let media: Media
             switch type {
             case .movie:
-                media = Movie(context: context, tmdbData: tmdbData)
+                media = Movie(context: context, tmdbData: tmdbData, loadImages: loadImages)
             case .show:
-                media = Show(context: context, tmdbData: tmdbData)
+                media = Show(context: context, tmdbData: tmdbData, loadImages: loadImages)
             }
             return media
         }
-        media.loadImages()
         return media
     }
     

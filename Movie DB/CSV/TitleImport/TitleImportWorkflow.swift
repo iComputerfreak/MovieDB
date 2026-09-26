@@ -12,25 +12,39 @@ final class TitleImportWorkflow: Identifiable {
         case preflight
         case resolving
         case review
+        case confirmation
+        case importing
+        case summary
         case failure
     }
 
     let id = UUID()
     private let fileURL: URL
     private let resolver: TitleImportResolver
+    private let finalImporter: TitleImportFinalImporter
     private var resolutionTask: Task<Void, Never>?
+    private var importTask: Task<Void, Never>?
+    private var frozenIdentities: [MediaIdentity] = []
 
     var stage: Stage = .loading
     var preflight: TitleImportPreflight?
     var reviewItems: [TitleImportReviewItem] = []
     var processedCount = 0
+    var finalImportProcessedCount = 0
+    var finalImportTotalCount = 0
+    var finalResult: TitleImportFinalResult?
     var error: Error?
     var reviewFilter: TitleImportReviewFilter = .all
     var reviewSearchText = ""
 
-    init(fileURL: URL, resolver: TitleImportResolver = TitleImportResolver()) {
+    init(
+        fileURL: URL,
+        resolver: TitleImportResolver = TitleImportResolver(),
+        finalImporter: TitleImportFinalImporter = TitleImportFinalImporter()
+    ) {
         self.fileURL = fileURL
         self.resolver = resolver
+        self.finalImporter = finalImporter
     }
 
     var totalCount: Int { preflight?.rows.count ?? 0 }
@@ -143,5 +157,95 @@ final class TitleImportWorkflow: Identifiable {
             let string = try String(contentsOf: url, encoding: .utf8)
             return try TitleImportCSVParser().parse(string: string)
         }.value
+    }
+}
+
+// MARK: - Final Import
+extension TitleImportWorkflow {
+    var excludedCount: Int { reviewItems.count - includedCount }
+    var ambiguousIncludedCount: Int {
+        reviewItems.filter { $0.status == .ambiguous && $0.isIncluded }.count
+    }
+    var existingDuplicateCount: Int {
+        reviewItems.filter { $0.duplicateKind == .existingLibrary }.count
+    }
+    var fileDuplicateCount: Int { count(for: .duplicate) - existingDuplicateCount }
+    var estimatedImportSeconds: Int {
+        guard includedCount > 0 else { return 0 }
+        return Int(ceil(Double(includedCount) / Double(TMDBAPI.maxRequestsPerSecond)))
+    }
+    var isPerformingWork: Bool { stage == .resolving || stage == .importing }
+
+    func prepareForImport() {
+        applyFreeSelectionLimit()
+        // Freeze identities at confirmation so later review-state changes cannot alter an active import.
+        frozenIdentities = reviewItems.compactMap { item in
+            guard item.isIncluded else { return nil }
+            return item.candidate?.identity
+        }
+        guard !frozenIdentities.isEmpty else { return }
+        stage = .confirmation
+    }
+
+    func returnToReview() {
+        guard stage == .confirmation else { return }
+        stage = .review
+    }
+
+    func startImport() {
+        guard stage == .confirmation, !frozenIdentities.isEmpty else { return }
+        runFinalImport(frozenIdentities, preserving: nil)
+    }
+
+    func retryFailedImports() {
+        guard stage == .summary, let finalResult, !finalResult.failedIdentities.isEmpty else { return }
+        runFinalImport(finalResult.failedIdentities, preserving: finalResult)
+    }
+
+    func cancelCurrentWork() {
+        switch stage {
+        case .resolving:
+            resolutionTask?.cancel()
+        case .importing:
+            importTask?.cancel()
+        default:
+            break
+        }
+    }
+
+    private func runFinalImport(
+        _ identities: [MediaIdentity],
+        preserving previousResult: TitleImportFinalResult?
+    ) {
+        guard importTask == nil else { return }
+        stage = .importing
+        finalImportProcessedCount = 0
+        finalImportTotalCount = identities.count
+        let priorIdleTimerState = UIApplication.shared.isIdleTimerDisabled
+        UIApplication.shared.isIdleTimerDisabled = true
+        let libraryLimit = StoreManager.shared.hasPurchasedPro ? nil : JFLiterals.nonProMediaLimit
+        importTask = Task { [weak self, finalImporter] in
+            defer {
+                UIApplication.shared.isIdleTimerDisabled = priorIdleTimerState
+            }
+            guard let self else { return }
+            defer {
+                importTask = nil
+            }
+            let result = await finalImporter.importMedia(identities: identities, libraryLimit: libraryLimit) { [weak self] count in
+                self?.finalImportProcessedCount = count
+            }
+            if let previousResult {
+                finalResult = TitleImportFinalResult(
+                    importedCount: previousResult.importedCount + result.importedCount,
+                    duplicateCount: previousResult.duplicateCount + result.duplicateCount,
+                    failedIdentities: result.failedIdentities,
+                    remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
+                )
+            } else {
+                finalResult = result
+            }
+            stage = .summary
+        }
     }
 }

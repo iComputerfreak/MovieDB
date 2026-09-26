@@ -9171,6 +9171,139 @@
         }
       }
     },
+    "titleImport.confirmation.ambiguousIncluded" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unclear Matches Included"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.back" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Back to Review"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.estimatedTime" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Estimated Minimum Time"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.excluded" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Excluded"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.existingDuplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Existing Library Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed Matches"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.fileDuplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CSV Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.importSelected" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import Selected"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.minimumSeconds" : {
+      "comment" : "Minimum title import duration in seconds",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "At least %lld sec"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.noMatch" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.selected" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selected"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Confirm Import"
+          }
+        }
+      }
+    },
     "titleImport.error.ambiguousTitleHeader" : {
       "comment" : "Ambiguous title header error. Argument lists matching headers.",
       "extractionState" : "extracted_with_value",
@@ -9473,6 +9606,58 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.final.progress" : {
+      "comment" : "Final title import progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%1$lld von %2$lld verarbeitet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Processed %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.final.stop" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Import stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Import"
+          }
+        }
+      }
+    },
+    "titleImport.final.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Importing"
           }
         }
       }
@@ -9783,6 +9968,24 @@
         }
       }
     },
+    "titleImport.review.continue" : {
+      "comment" : "Continue from title import review to confirmation",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Weiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
     "titleImport.review.filter" : {
       "comment" : "Review filter picker",
       "extractionState" : "extracted_with_value",
@@ -10013,6 +10216,176 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.stop.action" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop"
+          }
+        }
+      }
+    },
+    "titleImport.stop.message" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Der aktuelle Vorgang wird sicher gestoppt. Abgeschlossene Importe bleiben in deiner Mediathek."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Current work stops safely. Completed imports stay in your library."
+          }
+        }
+      }
+    },
+    "titleImport.stop.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aktuellen Vorgang stoppen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Current Work?"
+          }
+        }
+      }
+    },
+    "titleImport.summary.duplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Neu erkannte Duplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Newly Detected Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.summary.failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.summary.finish" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fertig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Finish"
+          }
+        }
+      }
+    },
+    "titleImport.summary.imported" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Importiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Imported"
+          }
+        }
+      }
+    },
+    "titleImport.summary.remaining" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Verbleibend"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remaining"
+          }
+        }
+      }
+    },
+    "titleImport.summary.retryFailed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fehlgeschlagene wiederholen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retry Failed"
+          }
+        }
+      }
+    },
+    "titleImport.summary.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Import abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import Complete"
           }
         }
       }

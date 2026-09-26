@@ -17,9 +17,9 @@ public class Show: Media {
     }
     
     /// Creates a new `Show` object.
-    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
+    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData, loadImages: Bool = true) {
         self.init(context: context)
-        initMedia(type: .show, tmdbData: tmdbData)
+        initMedia(type: .show, tmdbData: tmdbData, shouldLoadImages: loadImages)
     }
     
     override public func awakeFromInsert() {
@@ -37,8 +37,8 @@ public class Show: Media {
         }
     }
     
-    override func initMedia(type: MediaType, tmdbData: TMDBData) {
-        super.initMedia(type: type, tmdbData: tmdbData)
+    override func initMedia(type: MediaType, tmdbData: TMDBData, shouldLoadImages: Bool = true) {
+        super.initMedia(type: type, tmdbData: tmdbData, shouldLoadImages: shouldLoadImages)
         setTMDBShowData(tmdbData)
     }
     

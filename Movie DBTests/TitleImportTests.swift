@@ -1,6 +1,7 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 @testable import Movie_DB
+import CoreData
 import Foundation
 import Testing
 
@@ -172,6 +173,118 @@ struct TitleImportTests {
         #expect(results[2].status == .duplicate)
     }
 
+    @Test("Final import preserves successes and rolls back failures")
+    @MainActor
+    func importsPartialResults() async throws {
+        let container = PersistenceController.createTestingContainer()
+        let writer = container.newBackgroundContext()
+        let duplicate = MediaIdentity(type: .movie, tmdbID: 2)
+        try await container.viewContext.perform {
+            _ = Movie(context: container.viewContext, id: duplicate.tmdbID, title: "Existing")
+            try container.viewContext.save()
+        }
+        let importer = TitleImportFinalImporter(
+            provider: MockTitleImportMediaProvider(failingIDs: [3]),
+            writerContext: writer,
+            batchSize: 2
+        )
+
+        let result = await importer.importMedia(
+            identities: [
+                MediaIdentity(type: .movie, tmdbID: 1),
+                duplicate,
+                MediaIdentity(type: .movie, tmdbID: 3),
+            ],
+            libraryLimit: nil
+        ) { _ in }
+
+        #expect(result.importedCount == 1)
+        #expect(result.duplicateCount == 1)
+        #expect(result.failedIdentities == [MediaIdentity(type: .movie, tmdbID: 3)])
+        let verificationContext = container.newBackgroundContext()
+        let storedIDs = try await verificationContext.perform {
+            try verificationContext.fetch(Media.fetchRequest()).map { $0.tmdbID }
+        }
+        #expect(Set(storedIDs) == [1, 2])
+    }
+
+    @Test("Final import saves writer context in bounded batches")
+    @MainActor
+    func savesBatches() async {
+        let container = PersistenceController.createTestingContainer()
+        let writer = container.newBackgroundContext()
+        let saveCounter = LockedCounter()
+        let token = NotificationCenter.default.addObserver(
+            forName: .NSManagedObjectContextDidSave,
+            object: writer,
+            queue: nil
+        ) { _ in
+            saveCounter.increment()
+        }
+        defer { NotificationCenter.default.removeObserver(token) }
+        let importer = TitleImportFinalImporter(
+            provider: MockTitleImportMediaProvider(),
+            writerContext: writer,
+            batchSize: 2
+        )
+
+        let result = await importer.importMedia(
+            identities: (1...3).map { MediaIdentity(type: .movie, tmdbID: $0) },
+            libraryLimit: nil
+        ) { _ in }
+
+        #expect(result.importedCount == 3)
+        #expect(saveCounter.value == 2)
+    }
+
+    @Test("Final import stops at the free library limit")
+    @MainActor
+    func enforcesFinalLibraryLimit() async throws {
+        let container = PersistenceController.createTestingContainer()
+        try await container.viewContext.perform {
+            for id in 1...24 {
+                _ = Movie(context: container.viewContext, id: id, title: "Existing \(id)")
+            }
+            try container.viewContext.save()
+        }
+        let importer = TitleImportFinalImporter(
+            provider: MockTitleImportMediaProvider(),
+            writerContext: container.newBackgroundContext(),
+            batchSize: 10
+        )
+        let identities = [
+            MediaIdentity(type: .movie, tmdbID: 25),
+            MediaIdentity(type: .movie, tmdbID: 26),
+        ]
+
+        let result = await importer.importMedia(identities: identities, libraryLimit: 25) { _ in }
+
+        #expect(result.importedCount == 1)
+        #expect(result.remainingIdentities == [identities[1]])
+    }
+
+    @Test("Final import cancellation reports remaining identities")
+    @MainActor
+    func cancelsFinalImport() async throws {
+        let container = PersistenceController.createTestingContainer()
+        let importer = TitleImportFinalImporter(
+            provider: MockTitleImportMediaProvider(delay: .seconds(1)),
+            writerContext: container.newBackgroundContext()
+        )
+        let identities = (1...3).map { MediaIdentity(type: .movie, tmdbID: $0) }
+        let task = Task {
+            await importer.importMedia(identities: identities, libraryLimit: nil) { _ in }
+        }
+
+        try await Task.sleep(for: .milliseconds(20))
+        task.cancel()
+        let result = await task.value
+
+        #expect(result.importedCount == 0)
+        #expect(result.failedCount == 0)
+        #expect(result.remainingIdentities == identities)
+    }
+
     @Test("Parses 10,000 rows")
     func parsesLargeCSV() throws {
         let rows = (1...10_000).map { "Movie \($0),2000" }.joined(separator: "\n")
@@ -256,5 +369,49 @@ private actor MockTitleImportProvider: TitleImportTMDBProviding {
             directors: [],
             runtimeMinutes: nil
         )
+    }
+}
+
+private struct MockTitleImportMediaProvider: TitleImportMediaProviding {
+    let failingIDs: Set<Int>
+    let delay: Duration?
+
+    init(failingIDs: Set<Int> = [], delay: Duration? = nil) {
+        self.failingIDs = failingIDs
+        self.delay = delay
+    }
+
+    func titleImportMedia(for identity: MediaIdentity, context: NSManagedObjectContext) async throws {
+        if let delay {
+            try await Task.sleep(for: delay)
+        }
+        try await context.perform {
+            switch identity.type {
+            case .movie:
+                _ = Movie(context: context, id: identity.tmdbID, title: "Imported")
+            case .show:
+                _ = Show(context: context, id: identity.tmdbID, title: "Imported")
+            }
+            if failingIDs.contains(identity.tmdbID) {
+                throw MockImportError.failed
+            }
+        }
+    }
+
+    private enum MockImportError: Error {
+        case failed
+    }
+}
+
+private final class LockedCounter: @unchecked Sendable {
+    private let lock = NSLock()
+    private var count = 0
+
+    var value: Int {
+        lock.withLock { count }
+    }
+
+    func increment() {
+        lock.withLock { count += 1 }
     }
 }

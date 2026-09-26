@@ -32,6 +32,14 @@ struct TitleImportReviewView: View {
             } header: {
                 Text(Strings.TitleImport.Review.results(filteredItems.count))
             }
+
+            Section {
+                Button(Strings.TitleImport.Review.continueButton, action: workflow.prepareForImport)
+                    .frame(maxWidth: .infinity)
+                    .buttonStyle(.borderedProminent)
+                    .disabled(workflow.includedCount == 0)
+                    .listRowBackground(Color.clear)
+            }
         }
         .searchable(text: $workflow.reviewSearchText, prompt: Strings.TitleImport.Review.searchPrompt)
     }

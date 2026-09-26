@@ -8,7 +8,7 @@ Movie DB is the ultimate app for movie and TV show enthusiasts. With this app, y
 
 The app features an integration with TheMovieDB.org, which allows you to add movies and TV shows to your library, and get information about them such as synopsis, cast, release date, trailers, and watch provider availability.
 
-Movie DB also allows you to add custom tags and notes, organize media in your favorites, watchlist, custom lists, and dynamic lists, and keep your library in sync across devices with iCloud. The app also features CSV import/export and tag import/export, making it easy to transfer your library between devices or apps.
+Movie DB also allows you to add custom tags and notes, organize media in your favorites, watchlist, custom lists, and dynamic lists, and keep your library in sync across devices with iCloud. CSV files can be imported directly by TMDB ID or matched by title with an explicit review step, making it easy to transfer a library from devices or other apps even when TMDB IDs are unavailable.
 
 With background refresh, TMDB-based metadata updates, universal-link sharing, and optional privacy-friendly analytics, Movie DB helps you keep your movie and TV show collection up to date without getting in your way.
 
@@ -31,6 +31,7 @@ This product uses the TMDB API but is not endorsed or certified by TMDB.
 * Mark them as watched, add custom tags and notes
 * Update your entries with new information from TheMovieDB.org
 * CSV Import/Export
+* Match title-based CSV files against TMDB, review suggestions, and import selected results
 * Tag Import/Export
 * iCloud Sync
 * Background library refresh

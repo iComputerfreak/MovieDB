@@ -32,10 +32,12 @@ enum TitleImportDeduplicator {
             var item = item
             if existingIdentities.contains(identity) {
                 item.status = .duplicate
+                item.duplicateKind = .existingLibrary
                 item.reason = Strings.TitleImport.Match.existingDuplicate
                 item.isIncluded = false
             } else if let owner = owners[identity] {
                 item.status = .duplicate
+                item.duplicateKind = .sourceRow(owner)
                 item.reason = Strings.TitleImport.Match.fileDuplicate(owner)
                 item.isIncluded = false
             } else {

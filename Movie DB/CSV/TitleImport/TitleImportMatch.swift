@@ -10,6 +10,11 @@ enum TitleImportReviewStatus: String, CaseIterable, Sendable {
     case failed
 }
 
+enum TitleImportDuplicateKind: Equatable, Sendable {
+    case existingLibrary
+    case sourceRow(Int)
+}
+
 struct TitleImportMatchEvidence: Hashable, Sendable {
     var titleMatch = false
     var alternativeTitleMatch = false
@@ -30,6 +35,7 @@ struct TitleImportReviewItem: Identifiable, Sendable {
     let source: TitleImportSourceRow
     let candidate: TitleImportCandidate?
     var status: TitleImportReviewStatus
+    var duplicateKind: TitleImportDuplicateKind? = nil
     var reason: String
     let evidence: TitleImportMatchEvidence
     var isIncluded: Bool

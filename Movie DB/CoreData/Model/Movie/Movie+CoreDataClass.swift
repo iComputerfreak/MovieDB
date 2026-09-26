@@ -17,9 +17,9 @@ public class Movie: Media {
     }
     
     /// Creates a new `Movie` object.
-    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData) {
+    convenience init(context: NSManagedObjectContext, tmdbData: TMDBData, loadImages: Bool = true) {
         self.init(context: context)
-        initMedia(type: .movie, tmdbData: tmdbData)
+        initMedia(type: .movie, tmdbData: tmdbData, shouldLoadImages: loadImages)
     }
     
     override public func awakeFromInsert() {
@@ -37,8 +37,8 @@ public class Movie: Media {
         }
     }
     
-    override func initMedia(type: MediaType, tmdbData: TMDBData) {
-        super.initMedia(type: type, tmdbData: tmdbData)
+    override func initMedia(type: MediaType, tmdbData: TMDBData, shouldLoadImages: Bool = true) {
+        super.initMedia(type: type, tmdbData: tmdbData, shouldLoadImages: shouldLoadImages)
         setTMDBMovieData(tmdbData)
     }
     
