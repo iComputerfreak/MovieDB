@@ -96,13 +96,6 @@
 			);
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 		};
-		AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				.swiftlint.yml,
-			);
-			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
-		};
 		AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -110,6 +103,13 @@
 				Info.plist,
 			);
 			target = AB6718D222C0312B00F429E4 /* Movie DBTests */;
+		};
+		AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				.swiftlint.yml,
+			);
+			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -286,7 +286,6 @@
 			buildPhases = (
 				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
-				ABEEB07C28104BE100230F0B /* SwiftLint */,
 				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
@@ -294,6 +293,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD79F6383068205D0038C62E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AB5027AB2D58AD8700D7DD9B /* Utility */,
@@ -416,6 +416,7 @@
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
+				DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -505,25 +506,6 @@
 			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n  export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nif [ $CONFIGURATION = \"Debug\" ]; then\n  cd $SRCROOT\n  /opt/homebrew/bin/license-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --quiet\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -580,6 +562,10 @@
 			isa = PBXTargetDependency;
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 			targetProxy = ABB644A12971C10D0024BD80 /* PBXContainerItemProxy */;
+		};
+		DD79F6383068205D0038C62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DD79F6373068205D0038C62E /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1002,6 +988,14 @@
 				minimumVersion = 0.8.1;
 			};
 		};
+		DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.65.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1062,6 +1056,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
 			productName = SwiftCSV;
+		};
+		DD79F6373068205D0038C62E /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
