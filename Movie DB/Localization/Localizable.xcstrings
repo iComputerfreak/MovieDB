@@ -9949,6 +9949,18 @@
         }
       }
     },
+    "titleImport.noColumn" : {
+      "comment" : "Picker value for mapping a field to no column.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "— No column —"
+          }
+        }
+      }
+    },
     "titleImport.parser.director.conjunctions" : {
       "comment" : "Pipe-separated conjunctions joining director names. Keep the pipe separators.",
       "extractionState" : "extracted_with_value",
