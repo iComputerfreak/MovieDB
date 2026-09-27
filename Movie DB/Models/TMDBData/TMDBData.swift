@@ -154,8 +154,12 @@ struct TMDBData: Decodable, Sendable {
         // MARK: Movie/Show specific
         
         func decodeMovieRating() throws -> ParentalRatingDummy? {
-            let releaseDates = try container.decode([String: [ReleaseDatesCountry]].self, forKey: .releaseDates)
-            let releaseDatesCountry: ReleaseDatesCountry? = releaseDates["results"]!
+            let releaseDatesContainer = try container.nestedContainer(
+                keyedBy: GenericResultsCodingKeys.self,
+                forKey: .releaseDates
+            )
+            let releaseDates = try releaseDatesContainer.decode([ReleaseDatesCountry].self, forKey: .results)
+            let releaseDatesCountry: ReleaseDatesCountry? = releaseDates
                 // We are only interested in results for our country
                 // We should only have one result for our country
                 .first(where: { $0.countryCode.lowercased() == JFConfig.shared.region.lowercased() })
