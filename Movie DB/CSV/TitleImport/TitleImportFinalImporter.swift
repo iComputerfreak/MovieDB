@@ -1,27 +1,146 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import BackgroundTasks
 import CoreData
 import Foundation
+import OSLog
 
 /// Imports resolved identities through disposable child contexts and bounded writer-context batches.
 struct TitleImportFinalImporter {
     private let provider: any TitleImportMediaProviding
     private let writerContext: NSManagedObjectContext
     private let batchSize: Int
+    private let usesBackgroundContinuation: Bool
 
     /// Creates a final importer.
     /// - Parameters:
     ///   - provider: The provider that creates complete media object graphs.
     ///   - writerContext: The context that commits successful child-context batches to persistent storage.
     ///   - batchSize: The maximum number of successfully decoded identities saved per writer batch.
+    ///   - usesBackgroundContinuation: Whether imports use continued background processing on supported systems.
     init(
         provider: any TitleImportMediaProviding = TMDBAPI.shared,
         writerContext: NSManagedObjectContext = PersistenceController.shared.newBackgroundContext(),
-        batchSize: Int = 10
+        batchSize: Int = 10,
+        usesBackgroundContinuation: Bool = true
     ) {
         self.provider = provider
         self.writerContext = writerContext
         self.batchSize = max(1, batchSize)
+        self.usesBackgroundContinuation = usesBackgroundContinuation
+    }
+
+    /// Starts an import with continued background processing when available.
+    /// - Parameters:
+    ///   - identities: The ordered identities selected for import.
+    ///   - libraryLimit: The maximum allowed total library count, or `nil` for no limit.
+    ///   - onProgress: A main-actor callback receiving the number of processed identities.
+    /// - Returns: A summary of imported, duplicate, failed, and unprocessed identities.
+    func startMediaImport(
+        identities: [MediaIdentity],
+        libraryLimit: Int?,
+        onProgress: @MainActor @escaping (Int) -> Void
+    ) async -> TitleImportFinalResult {
+        if #available(iOS 26.0, *), usesBackgroundContinuation {
+            let bundleIdentifier = Bundle.main.bundleIdentifier ?? "de.JonasFrey.Movie-DB"
+            let taskIdentifier = "\(bundleIdentifier).import.\(UUID().uuidString)"
+            let scheduler = BGTaskScheduler.shared
+            let coordinator = TitleImportTaskCoordinator(
+                taskIdentifier: taskIdentifier,
+                remainingIdentities: identities,
+                scheduler: scheduler
+            )
+
+            let request = BGContinuedProcessingTaskRequest(
+                identifier: taskIdentifier,
+                title: Strings.TitleImport.FinalImport.title,
+                subtitle: Strings.TitleImport.FinalImport.progress(0, identities.count)
+            )
+
+            return await withTaskCancellationHandler {
+                await withCheckedContinuation { continuation in
+                    guard coordinator.install(continuation) else { return }
+
+                    let didRegister = scheduler.register(forTaskWithIdentifier: taskIdentifier, using: nil) { task in
+                        guard let task = task as? BGContinuedProcessingTask else {
+                            task.setTaskCompleted(success: false)
+                            coordinator.cancel()
+                            return
+                        }
+
+                        task.expirationHandler = {
+                            coordinator.cancel()
+                        }
+                        coordinator.start(backgroundTask: task) {
+                            await startMediaImportContinuationTask(
+                                identities: identities,
+                                libraryLimit: libraryLimit,
+                                onProgress: onProgress,
+                                task: task
+                            )
+                        }
+                    }
+
+                    guard didRegister else {
+                        Logger.importExport.error("Could not register continued task for title import.")
+                        coordinator.start(backgroundTask: nil) {
+                            await importMedia(
+                                identities: identities,
+                                libraryLimit: libraryLimit,
+                                onProgress: onProgress
+                            )
+                        }
+                        return
+                    }
+
+                    do {
+                        try coordinator.submit(request)
+                    } catch {
+                        Logger.importExport.error("Error submitting task request for title import: \(error)")
+                        coordinator.start(backgroundTask: nil) {
+                            await importMedia(
+                                identities: identities,
+                                libraryLimit: libraryLimit,
+                                onProgress: onProgress
+                            )
+                        }
+                    }
+                }
+            } onCancel: {
+                coordinator.cancel()
+            }
+        } else {
+            return await importMedia(identities: identities, libraryLimit: libraryLimit, onProgress: onProgress)
+        }
+    }
+
+    /// Runs an import while reporting system-visible continued-task progress.
+    /// - Parameters:
+    ///   - identities: The ordered identities selected for import.
+    ///   - libraryLimit: The maximum allowed total library count, or `nil` for no limit.
+    ///   - onProgress: A main-actor callback receiving the number of processed identities.
+    ///   - task: The continued-processing task protecting the import.
+    /// - Returns: A summary of imported, duplicate, failed, and unprocessed identities.
+    @available(iOS 26.0, *)
+    private func startMediaImportContinuationTask(
+        identities: [MediaIdentity],
+        libraryLimit: Int?,
+        onProgress: @MainActor @escaping (Int) -> Void,
+        task: BGContinuedProcessingTask
+    ) async -> TitleImportFinalResult {
+        task.progress.totalUnitCount = Int64(identities.count)
+
+        return await importMedia(
+            identities: identities,
+            libraryLimit: libraryLimit
+        ) { completedCount in
+            task.progress.completedUnitCount = Int64(completedCount)
+            task.updateTitle(
+                Strings.TitleImport.FinalImport.title,
+                subtitle: Strings.TitleImport.FinalImport.progress(completedCount, identities.count)
+            )
+            onProgress(completedCount)
+        }
     }
 
     /// Imports identities sequentially while preserving completed batches across failures or cancellation.
@@ -30,7 +149,7 @@ struct TitleImportFinalImporter {
     ///   - libraryLimit: The maximum allowed total library count, or `nil` for no limit.
     ///   - onProgress: A main-actor callback receiving the number of processed identities.
     /// - Returns: A summary of imported, duplicate, failed, and unprocessed identities.
-    func importMedia(
+    private func importMedia(
         identities: [MediaIdentity],
         libraryLimit: Int?,
         onProgress: @MainActor @escaping (Int) -> Void

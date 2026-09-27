@@ -296,10 +296,11 @@ struct TitleImportTests {
         let importer = TitleImportFinalImporter(
             provider: MockTitleImportMediaProvider(failingIDs: [3]),
             writerContext: writer,
-            batchSize: 2
+            batchSize: 2,
+            usesBackgroundContinuation: false
         )
 
-        let result = await importer.importMedia(
+        let result = await importer.startMediaImport(
             identities: [
                 MediaIdentity(type: .movie, tmdbID: 1),
                 duplicate,
@@ -335,10 +336,11 @@ struct TitleImportTests {
         let importer = TitleImportFinalImporter(
             provider: MockTitleImportMediaProvider(),
             writerContext: writer,
-            batchSize: 2
+            batchSize: 2,
+            usesBackgroundContinuation: false
         )
 
-        let result = await importer.importMedia(
+        let result = await importer.startMediaImport(
             identities: (1...3).map { MediaIdentity(type: .movie, tmdbID: $0) },
             libraryLimit: nil
         ) { _ in }
@@ -360,14 +362,15 @@ struct TitleImportTests {
         let importer = TitleImportFinalImporter(
             provider: MockTitleImportMediaProvider(),
             writerContext: container.newBackgroundContext(),
-            batchSize: 10
+            batchSize: 10,
+            usesBackgroundContinuation: false
         )
         let identities = [
             MediaIdentity(type: .movie, tmdbID: 25),
             MediaIdentity(type: .movie, tmdbID: 26),
         ]
 
-        let result = await importer.importMedia(identities: identities, libraryLimit: 25) { _ in }
+        let result = await importer.startMediaImport(identities: identities, libraryLimit: 25) { _ in }
 
         #expect(result.importedCount == 1)
         #expect(result.remainingIdentities == [identities[1]])
@@ -379,11 +382,12 @@ struct TitleImportTests {
         let container = PersistenceController.createTestingContainer()
         let importer = TitleImportFinalImporter(
             provider: MockTitleImportMediaProvider(delay: .seconds(1)),
-            writerContext: container.newBackgroundContext()
+            writerContext: container.newBackgroundContext(),
+            usesBackgroundContinuation: false
         )
         let identities = (1...3).map { MediaIdentity(type: .movie, tmdbID: $0) }
         let task = Task {
-            await importer.importMedia(identities: identities, libraryLimit: nil) { _ in }
+            await importer.startMediaImport(identities: identities, libraryLimit: nil) { _ in }
         }
 
         try await Task.sleep(for: .milliseconds(20))

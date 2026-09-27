@@ -263,23 +263,24 @@ extension TitleImportWorkflow {
                 importTask = nil
             }
             // Keep committed prior results while replacing retryable failures with this attempt's outcome.
-            let result = await finalImporter.importMedia(
-                    identities: identities,
-                    libraryLimit: libraryLimit
-                ) { [weak self] count in
-                    self?.finalImportProcessedCount = count
-                }
-                if let previousResult {
-                    finalResult = TitleImportFinalResult(
-                        importedCount: previousResult.importedCount + result.importedCount,
-                        duplicateCount: previousResult.duplicateCount + result.duplicateCount,
-                        failedIdentities: result.failedIdentities,
-                        remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
-                    )
-                } else {
-                    finalResult = result
-                }
-                stage = .summary
+            let result = await finalImporter.startMediaImport(
+                identities: identities,
+                libraryLimit: libraryLimit
+            ) { [weak self] count in
+                self?.finalImportProcessedCount = count
+            }
+
+            if let previousResult {
+                finalResult = TitleImportFinalResult(
+                    importedCount: previousResult.importedCount + result.importedCount,
+                    duplicateCount: previousResult.duplicateCount + result.duplicateCount,
+                    failedIdentities: result.failedIdentities,
+                    remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
+                )
+            } else {
+                finalResult = result
+            }
+            stage = .summary
         }
     }
 }

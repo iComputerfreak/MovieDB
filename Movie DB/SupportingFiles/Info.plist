@@ -4,6 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER).import.*</string>
 		<string>de.JonasFrey.Movie-DB.updateLibrary</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
