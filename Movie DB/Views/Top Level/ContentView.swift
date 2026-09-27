@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var problems = MediaLibrary.shared.problems()
     @State private var selectedTab: RootTab = .library
     @State private var unifiedSearchCoordinator = UnifiedSearchCoordinator()
+    @State private var problemsIgnored: Bool = false
 
     var body: some View {
         NotificationView { notificationProxy in
@@ -30,9 +31,11 @@ struct ContentView: View {
                 selectedTab = .search
                 unifiedSearchCoordinator.shouldOpenSearchTab = false
             }
-            .fullScreenCover(isPresented: .init(get: { !problems.isEmpty })) {
-                ResolveProblemsView(problems: $problems)
+            .fullScreenCover(isPresented: .init(get: { !problems.isEmpty && !problemsIgnored })) {
+                ResolveProblemsView(problems: $problems, ignoreProblems: { self.problemsIgnored = true })
                     .environment(\.managedObjectContext, PersistenceController.viewContext)
+                    .environment(notificationProxy)
+                    .environment(unifiedSearchCoordinator)
             }
         }
     }

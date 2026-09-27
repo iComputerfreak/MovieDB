@@ -13,7 +13,7 @@ struct MediaLibrary {
     
     @AppStorage(JFLiterals.Keys.lastLibraryUpdate)
     var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
-    
+
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
         var problems: [Problem] = []
