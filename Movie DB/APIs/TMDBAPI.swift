@@ -408,6 +408,7 @@ actor TMDBAPI {
         // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
         assert(path.starts(with: "/"))
+        try Task.checkCancellation()
         
         // MARK: Build URL components
         var components = URLComponents()
@@ -441,6 +442,7 @@ actor TMDBAPI {
             timeSinceLastRequest = calculateTimeSinceLastRequest()
         }
         lastRequestDate = .now
+        try Task.checkCancellation()
         
         var request = URLRequest(url: components.url!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

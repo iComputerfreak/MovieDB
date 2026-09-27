@@ -50,6 +50,14 @@ actor TitleImportRequestCache {
         return try await value(of: task)
     }
 
+    /// Cancels every in-flight request owned by this import and clears cached task references.
+    func cancelAll() {
+        searchTasks.values.forEach { $0.cancel() }
+        detailTasks.values.forEach { $0.cancel() }
+        searchTasks.removeAll()
+        detailTasks.removeAll()
+    }
+
     /// Awaits a cached unstructured task while forwarding caller cancellation.
     /// - Parameter task: The cached request task to await.
     /// - Returns: The request task's value.

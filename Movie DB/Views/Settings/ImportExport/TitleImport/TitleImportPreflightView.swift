@@ -36,12 +36,17 @@ struct TitleImportPreflightView: View {
             } header: {
                 Text(Strings.TitleImport.Preflight.columnsSection)
             } footer: {
-                if !preflight.hasTitleMapping {
-                    Text(Strings.TitleImport.Preflight.titleRequired)
-                        .foregroundStyle(.red)
-                } else if preflight.usableRowCount == 0 {
-                    Text(Strings.TitleImport.Preflight.noUsableTitles)
-                        .foregroundStyle(.red)
+                VStack(alignment: .leading) {
+                    if !preflight.hasTitleMapping {
+                        Text(Strings.TitleImport.Preflight.titleRequired)
+                            .foregroundStyle(.red)
+                    } else if preflight.usableRowCount == 0 {
+                        Text(Strings.TitleImport.Preflight.noUsableTitles)
+                            .foregroundStyle(.red)
+                    }
+                    if #unavailable(iOS 26.0) {
+                        Text(Strings.TitleImport.Preflight.foregroundWarning)
+                    }
                 }
             }
 
@@ -51,8 +56,6 @@ struct TitleImportPreflightView: View {
                         .foregroundStyle(.secondary)
                 } header: {
                     Text(Strings.TitleImport.Preflight.ignoredColumnsSection)
-                } footer: {
-                    Text(Strings.TitleImport.Preflight.foregroundWarning)
                 }
             }
         }

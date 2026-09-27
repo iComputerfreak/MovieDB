@@ -3,16 +3,16 @@
 import BackgroundTasks
 import Foundation
 
-/// Coordinates one title import across scheduler callbacks, Swift task cancellation, and completion.
+/// Coordinates one title-import operation across scheduler callbacks, Swift task cancellation, and completion.
 @available(iOS 26.0, *)
-final class TitleImportTaskCoordinator {
+final class TitleImportTaskCoordinator<Outcome: Sendable> {
     private let lock = NSLock()
     private let scheduler: BGTaskScheduler
     private let taskIdentifier: String
-    private let cancellationResult: TitleImportFinalResult
+    private let cancellationOutcome: Outcome
 
     private var backgroundTask: BGContinuedProcessingTask?
-    private var continuation: CheckedContinuation<TitleImportFinalResult, Never>?
+    private var continuation: CheckedContinuation<Outcome, Never>?
     private var worker: Task<Void, Never>?
     private var didStart = false
     private var didFinish = false
@@ -21,26 +21,26 @@ final class TitleImportTaskCoordinator {
     /// Creates a coordinator for one scheduler request.
     /// - Parameters:
     ///   - taskIdentifier: The unique scheduler request identifier.
-    ///   - remainingIdentities: The identities to report if cancellation occurs before work starts.
+    ///   - cancellationOutcome: The outcome returned if cancellation occurs before work starts.
     ///   - scheduler: The scheduler used to cancel a queued request.
     init(
         taskIdentifier: String,
-        remainingIdentities: [MediaIdentity],
+        cancellationOutcome: Outcome,
         scheduler: BGTaskScheduler = .shared
     ) {
         self.taskIdentifier = taskIdentifier
         self.scheduler = scheduler
-        self.cancellationResult = TitleImportFinalResult(remainingIdentities: remainingIdentities)
+        self.cancellationOutcome = cancellationOutcome
     }
 
     /// Stores the awaiting continuation or immediately returns when cancellation already completed the task.
     /// - Parameter continuation: The continuation awaiting the import result.
     /// - Returns: Whether setup should continue.
-    func install(_ continuation: CheckedContinuation<TitleImportFinalResult, Never>) -> Bool {
+    func install(_ continuation: CheckedContinuation<Outcome, Never>) -> Bool {
         lock.lock()
         if didFinish {
             lock.unlock()
-            continuation.resume(returning: cancellationResult)
+            continuation.resume(returning: cancellationOutcome)
             return false
         }
         self.continuation = continuation
@@ -68,13 +68,13 @@ final class TitleImportTaskCoordinator {
         }
     }
 
-    /// Starts the import at most once and associates it with an optional continued-processing task.
+    /// Starts the operation at most once and associates it with an optional continued-processing task.
     /// - Parameters:
     ///   - backgroundTask: The system task protecting the import, or `nil` for foreground fallback.
-    ///   - operation: The asynchronous import operation.
+    ///   - operation: The asynchronous operation.
     func start(
         backgroundTask: BGContinuedProcessingTask?,
-        operation: @escaping @Sendable () async -> TitleImportFinalResult
+        operation: @escaping @Sendable () async -> Outcome
     ) {
         lock.lock()
         guard !didFinish, !didStart else {
@@ -125,13 +125,13 @@ final class TitleImportTaskCoordinator {
 
         if shouldFinishImmediately {
             backgroundTask?.setTaskCompleted(success: false)
-            continuation?.resume(returning: cancellationResult)
+            continuation?.resume(returning: cancellationOutcome)
         }
     }
 
     /// Completes the scheduler task and resumes the caller exactly once.
-    /// - Parameter result: The completed or partially completed import result.
-    private func finish(with result: TitleImportFinalResult) {
+    /// - Parameter outcome: The completed or partially completed operation outcome.
+    private func finish(with outcome: Outcome) {
         lock.lock()
         guard !didFinish else {
             lock.unlock()
@@ -147,6 +147,6 @@ final class TitleImportTaskCoordinator {
         lock.unlock()
 
         backgroundTask?.setTaskCompleted(success: !wasCancelled)
-        continuation?.resume(returning: result)
+        continuation?.resume(returning: outcome)
     }
 }

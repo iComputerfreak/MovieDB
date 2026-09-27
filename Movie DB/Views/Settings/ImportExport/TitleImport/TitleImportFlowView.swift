@@ -68,7 +68,7 @@ struct TitleImportFlowView: View {
                 if showCancelButton {
                     ToolbarItem(placement: .cancellationAction) {
                         Button(Strings.Generic.alertButtonCancel, role: .cancel) {
-                            if workflow.stage == .importing, workflow.isPerformingWork {
+                            if workflow.isPerformingWork {
                                 isShowingStopConfirmation = true
                             } else {
                                 requestDismissal()

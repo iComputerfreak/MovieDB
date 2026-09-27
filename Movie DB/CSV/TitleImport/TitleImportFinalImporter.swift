@@ -47,7 +47,7 @@ struct TitleImportFinalImporter {
             let scheduler = BGTaskScheduler.shared
             let coordinator = TitleImportTaskCoordinator(
                 taskIdentifier: taskIdentifier,
-                remainingIdentities: identities,
+                cancellationOutcome: TitleImportFinalResult(remainingIdentities: identities),
                 scheduler: scheduler
             )
 

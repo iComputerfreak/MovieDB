@@ -93,18 +93,26 @@ final class TitleImportWorkflow: Identifiable {
         }
     }
 
-    /// Starts foreground candidate resolution, deduplication, and free-limit selection enforcement.
+    /// Starts candidate resolution, deduplication, and free-limit selection enforcement.
     func startResolution() {
         guard let preflight, preflight.canStartResolution, resolutionTask == nil else { return }
         stage = .resolving
         processedCount = 0
         resolutionTotalCount = preflight.usableRowCount
         let priorIdleTimerState = UIApplication.shared.isIdleTimerDisabled
-        // Resolution is foreground-only; prevent auto-lock while a long import is actively progressing.
-        UIApplication.shared.isIdleTimerDisabled = true
+        let shouldDisableIdleTimer: Bool
+        if #available(iOS 26.0, *) {
+            shouldDisableIdleTimer = false
+        } else {
+            shouldDisableIdleTimer = true
+            // Keep older-system foreground-only resolution progressing through long imports.
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
         resolutionTask = Task { [weak self, resolver] in
             defer {
-                UIApplication.shared.isIdleTimerDisabled = priorIdleTimerState
+                if shouldDisableIdleTimer {
+                    UIApplication.shared.isIdleTimerDisabled = priorIdleTimerState
+                }
             }
             guard let self else { return }
             defer {
@@ -118,7 +126,7 @@ final class TitleImportWorkflow: Identifiable {
                 }.value
                 try Task.checkCancellation()
                 // Resolve, deduplicate, and enforce entitlement limits before exposing mutable review state.
-                let items = try await resolver.resolve(rows) { [weak self] count in
+                let items = try await resolver.startResolution(rows) { [weak self] count in
                     self?.processedCount = count
                 }
                 let existing = try await TitleImportDeduplicator.existingIdentities()

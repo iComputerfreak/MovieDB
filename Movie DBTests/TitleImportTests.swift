@@ -306,6 +306,30 @@ struct TitleImportTests {
         #expect(result.evidence.directorMatch)
     }
 
+    @Test("Resolver cancellation aborts in-flight searches")
+    @MainActor
+    func cancelsResolverRequests() async throws {
+        let provider = MockTitleImportProvider(searchResults: [:], delay: .seconds(1))
+        let resolver = TitleImportResolver(
+            provider: provider,
+            workerCount: 6,
+            usesBackgroundContinuation: false
+        )
+        let rows = (1...6).map { sourceRow(id: $0, title: "Movie \($0)", year: 2000) }
+        let task = Task {
+            try await resolver.startResolution(rows) { _ in }
+        }
+
+        try await Task.sleep(for: .milliseconds(50))
+        task.cancel()
+
+        await #expect(throws: CancellationError.self) {
+            try await task.value
+        }
+        #expect(await provider.searchCallCount > 0)
+        #expect(await provider.cancelledSearchCount == provider.searchCallCount)
+    }
+
     @Test("Deduplicates by media type and TMDB ID")
     func deduplicatesIdentities() {
         let movie = candidate(id: 10, type: .movie, title: "Example", year: 2020)
@@ -504,18 +528,30 @@ struct TitleImportTests {
 private actor MockTitleImportProvider: TitleImportTMDBProviding {
     private let searchResults: [String: [TitleImportCandidate]]
     private let details: [MediaIdentity: TitleImportCandidateDetails]
+    private let delay: Duration?
     private(set) var searchCallCount = 0
+    private(set) var cancelledSearchCount = 0
 
     init(
         searchResults: [String: [TitleImportCandidate]],
-        details: [MediaIdentity: TitleImportCandidateDetails] = [:]
+        details: [MediaIdentity: TitleImportCandidateDetails] = [:],
+        delay: Duration? = nil
     ) {
         self.searchResults = searchResults
         self.details = details
+        self.delay = delay
     }
 
     func titleImportSearch(_ query: String, page: Int) async throws -> [TitleImportCandidate] {
         searchCallCount += 1
+        if let delay {
+            do {
+                try await Task.sleep(for: delay)
+            } catch is CancellationError {
+                cancelledSearchCount += 1
+                throw CancellationError()
+            }
+        }
         return page == 1 ? searchResults[query, default: []] : []
     }
 

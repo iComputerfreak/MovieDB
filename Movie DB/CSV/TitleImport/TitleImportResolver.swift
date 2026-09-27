@@ -1,20 +1,103 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+import BackgroundTasks
 import Foundation
+import OSLog
 
 /// Resolves source rows into ranked TMDB candidates using bounded concurrency and progressive fallbacks.
 struct TitleImportResolver: Sendable {
+    /// Carries resolution values and errors through the nonthrowing scheduler coordinator.
+    private typealias ResolutionOutcome = Result<[TitleImportReviewItem], any Error>
+
     private let cache: TitleImportRequestCache
     private let scorer = TitleImportScorer()
     private let workerCount: Int
+    private let usesBackgroundContinuation: Bool
 
     /// Creates a resolver with an import-scoped request cache and bounded worker count.
     /// - Parameters:
     ///   - provider: The provider used for TMDB search and detail requests.
     ///   - workerCount: The maximum number of source rows resolved concurrently.
-    init(provider: any TitleImportTMDBProviding = TMDBAPI.shared, workerCount: Int = 6) {
+    ///   - usesBackgroundContinuation: Whether resolution uses continued background processing on supported systems.
+    init(
+        provider: any TitleImportTMDBProviding = TMDBAPI.shared,
+        workerCount: Int = 6,
+        usesBackgroundContinuation: Bool = true
+    ) {
         self.cache = TitleImportRequestCache(provider: provider)
         self.workerCount = max(1, workerCount)
+        self.usesBackgroundContinuation = usesBackgroundContinuation
+    }
+
+    /// Starts resolution with continued background processing when available.
+    /// - Parameters:
+    ///   - rows: The normalized source rows to resolve.
+    ///   - onProgress: A main-actor callback receiving the number of completed rows.
+    /// - Returns: One review item per source row in original order.
+    /// - Throws: A resolution error or `CancellationError` when resolution is cancelled.
+    func startResolution(
+        _ rows: [TitleImportSourceRow],
+        onProgress: @MainActor @escaping (Int) -> Void
+    ) async throws -> [TitleImportReviewItem] {
+        guard #available(iOS 26.0, *), usesBackgroundContinuation else {
+            return try await resolve(rows, onProgress: onProgress)
+        }
+
+        let bundleIdentifier = Bundle.main.bundleIdentifier ?? "de.JonasFrey.Movie-DB"
+        let taskIdentifier = "\(bundleIdentifier).import.matching.\(UUID().uuidString)"
+        let scheduler = BGTaskScheduler.shared
+        let coordinator = TitleImportTaskCoordinator(
+            taskIdentifier: taskIdentifier,
+            cancellationOutcome: ResolutionOutcome.failure(CancellationError()),
+            scheduler: scheduler
+        )
+        let request = BGContinuedProcessingTaskRequest(
+            identifier: taskIdentifier,
+            title: Strings.TitleImport.title,
+            subtitle: Strings.TitleImport.Progress.resolving(0, rows.count)
+        )
+
+        let outcome = await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                guard coordinator.install(continuation) else { return }
+
+                let didRegister = scheduler.register(forTaskWithIdentifier: taskIdentifier, using: nil) { task in
+                    guard let task = task as? BGContinuedProcessingTask else {
+                        task.setTaskCompleted(success: false)
+                        coordinator.cancel()
+                        return
+                    }
+
+                    task.expirationHandler = {
+                        coordinator.cancel()
+                    }
+                    coordinator.start(backgroundTask: task) {
+                        await resolutionOutcome(rows, task: task, onProgress: onProgress)
+                    }
+                }
+
+                guard didRegister else {
+                    Logger.importExport.error("Could not register continued task for title matching.")
+                    coordinator.start(backgroundTask: nil) {
+                        await resolutionOutcome(rows, onProgress: onProgress)
+                    }
+                    return
+                }
+
+                do {
+                    try coordinator.submit(request)
+                } catch {
+                    Logger.importExport.error("Error submitting continued task for title matching: \(error)")
+                    coordinator.start(backgroundTask: nil) {
+                        await resolutionOutcome(rows, onProgress: onProgress)
+                    }
+                }
+            }
+        } onCancel: {
+            coordinator.cancel()
+        }
+
+        return try outcome.get()
     }
 
     /// Resolves source rows while preserving source order and reporting throttled progress on the main actor.
@@ -34,30 +117,63 @@ struct TitleImportResolver: Sendable {
         var lastProgressUpdate = ContinuousClock.now
 
         // Maintain a fixed-size rolling task group so large imports cannot enqueue thousands of network tasks.
-        try await withThrowingTaskGroup(of: (Int, TitleImportReviewItem).self) { group in
-            for _ in 0..<min(workerCount, rows.count) {
-                let index = nextIndex
-                nextIndex += 1
-                group.addTask { (index, try await resolve(rows[index])) }
-            }
-
-            while let (index, item) = try await group.next() {
-                resolved[index] = item
-                completed += 1
-                let now = ContinuousClock.now
-                if completed == rows.count || lastProgressUpdate.duration(to: now) >= .milliseconds(200) {
-                    await onProgress(completed)
-                    lastProgressUpdate = now
-                }
-
-                if nextIndex < rows.count {
+        do {
+            try await withThrowingTaskGroup(of: (Int, TitleImportReviewItem).self) { group in
+                for _ in 0..<min(workerCount, rows.count) {
                     let index = nextIndex
                     nextIndex += 1
                     group.addTask { (index, try await resolve(rows[index])) }
                 }
+
+                while let (index, item) = try await group.next() {
+                    resolved[index] = item
+                    completed += 1
+                    let now = ContinuousClock.now
+                    if completed == rows.count || lastProgressUpdate.duration(to: now) >= .milliseconds(200) {
+                        await onProgress(completed)
+                        lastProgressUpdate = now
+                    }
+
+                    if nextIndex < rows.count {
+                        let index = nextIndex
+                        nextIndex += 1
+                        group.addTask { (index, try await resolve(rows[index])) }
+                    }
+                }
             }
+        } catch is CancellationError {
+            await cache.cancelAll()
+            throw CancellationError()
         }
         return resolved.compactMap { $0 }
+    }
+
+    /// Resolves rows and converts throwing completion into a scheduler-safe outcome.
+    /// - Parameters:
+    ///   - rows: The normalized source rows to resolve.
+    ///   - task: The continued-processing task receiving progress, or `nil` for foreground fallback.
+    ///   - onProgress: A main-actor callback receiving the number of completed rows.
+    /// - Returns: The completed rows or encountered error.
+    @available(iOS 26.0, *)
+    private func resolutionOutcome(
+        _ rows: [TitleImportSourceRow],
+        task: BGContinuedProcessingTask? = nil,
+        onProgress: @MainActor @escaping (Int) -> Void
+    ) async -> ResolutionOutcome {
+        task?.progress.totalUnitCount = Int64(rows.count)
+        do {
+            let items = try await resolve(rows) { completedCount in
+                task?.progress.completedUnitCount = Int64(completedCount)
+                task?.updateTitle(
+                    Strings.TitleImport.title,
+                    subtitle: Strings.TitleImport.Progress.resolving(completedCount, rows.count)
+                )
+                onProgress(completedCount)
+            }
+            return .success(items)
+        } catch {
+            return .failure(error)
+        }
     }
 
     /// Resolves one source row through search variants, optional enrichment, and page-two fallback.
