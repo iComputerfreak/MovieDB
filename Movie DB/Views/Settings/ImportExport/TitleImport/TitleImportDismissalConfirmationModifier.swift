@@ -2,12 +2,16 @@
 
 import SwiftUI
 
+/// Protects title-import dismissal with native confirmation and an older-system fallback.
 struct TitleImportDismissalConfirmationModifier: ViewModifier {
     @Environment(\.dismiss) private var dismiss
     @Binding var isPresented: Bool
     let shouldPresent: Bool
 
     @ViewBuilder
+    /// Applies native dismissal confirmation on iOS 27 and a button-driven compatibility dialog on older systems.
+    /// - Parameter content: The title-import content whose presentation should be protected.
+    /// - Returns: Content configured with the appropriate dismissal behavior for the running OS.
     func body(content: Content) -> some View {
         if #available(iOS 27.0, *) {
             content.dismissalConfirmationDialog(
@@ -39,6 +43,11 @@ struct TitleImportDismissalConfirmationModifier: ViewModifier {
 }
 
 extension View {
+    /// Protects a title-import presentation from accidental dismissal.
+    /// - Parameters:
+    ///   - shouldPresent: Whether a dismissal attempt should require confirmation.
+    ///   - fallbackIsPresented: Controls the explicit confirmation dialog used before iOS 27.
+    /// - Returns: A view with title-import dismissal protection applied.
     func titleImportDismissalConfirmationDialog(
         shouldPresent: Bool,
         fallbackIsPresented: Binding<Bool>

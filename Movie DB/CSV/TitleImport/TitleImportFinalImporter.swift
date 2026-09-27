@@ -3,11 +3,17 @@
 import CoreData
 import Foundation
 
+/// Imports resolved identities through disposable child contexts and bounded writer-context batches.
 struct TitleImportFinalImporter {
     private let provider: any TitleImportMediaProviding
     private let writerContext: NSManagedObjectContext
     private let batchSize: Int
 
+    /// Creates a final importer.
+    /// - Parameters:
+    ///   - provider: The provider that creates complete media object graphs.
+    ///   - writerContext: The context that commits successful child-context batches to persistent storage.
+    ///   - batchSize: The maximum number of successfully decoded identities saved per writer batch.
     init(
         provider: any TitleImportMediaProviding = TMDBAPI.shared,
         writerContext: NSManagedObjectContext = PersistenceController.shared.newBackgroundContext(),
@@ -18,6 +24,12 @@ struct TitleImportFinalImporter {
         self.batchSize = max(1, batchSize)
     }
 
+    /// Imports identities sequentially while preserving completed batches across failures or cancellation.
+    /// - Parameters:
+    ///   - identities: The ordered identities selected for import.
+    ///   - libraryLimit: The maximum allowed total library count, or `nil` for no limit.
+    ///   - onProgress: A main-actor callback receiving the number of processed identities.
+    /// - Returns: A summary of imported, duplicate, failed, and unprocessed identities.
     func importMedia(
         identities: [MediaIdentity],
         libraryLimit: Int?,
@@ -34,6 +46,7 @@ struct TitleImportFinalImporter {
             }
 
             do {
+                // Recheck mutable library constraints immediately before creating each object graph.
                 if try await limitReached(libraryLimit, pendingCount: pendingIdentities.count) {
                     result.remainingIdentities = Array(identities[index...])
                     break
@@ -61,6 +74,7 @@ struct TitleImportFinalImporter {
                 result.failedIdentities.append(identity)
             }
 
+            // Commit bounded batches so prior successes survive later failures or cancellation.
             if pendingIdentities.count >= batchSize {
                 await flush(&pendingIdentities, into: &result)
             }
@@ -71,6 +85,10 @@ struct TitleImportFinalImporter {
         return result
     }
 
+    /// Checks persisted storage for an identity, excluding unsaved writer-context changes.
+    /// - Parameter identity: The media identity to look up.
+    /// - Returns: Whether persistent storage already contains the identity.
+    /// - Throws: A Core Data count error when the lookup cannot complete.
     private func contains(_ identity: MediaIdentity) async throws -> Bool {
         try await writerContext.perform {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Media")
@@ -88,6 +106,12 @@ struct TitleImportFinalImporter {
         }
     }
 
+    /// Checks whether persisted and pending objects have reached the active library limit.
+    /// - Parameters:
+    ///   - limit: The maximum total count, or `nil` for no limit.
+    ///   - pendingCount: The number of successfully decoded objects awaiting a writer save.
+    /// - Returns: Whether importing another identity would exceed the limit.
+    /// - Throws: A Core Data count error when the current library size cannot be read.
     private func limitReached(_ limit: Int?, pendingCount: Int) async throws -> Bool {
         guard let limit else { return false }
         return try await writerContext.perform {
@@ -97,6 +121,8 @@ struct TitleImportFinalImporter {
         }
     }
 
+    /// Creates a disposable private child context whose successful save feeds the writer context.
+    /// - Returns: A configured child context for one identity.
     private func makeChildContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.parent = writerContext
@@ -107,6 +133,10 @@ struct TitleImportFinalImporter {
         return context
     }
 
+    /// Saves one pending batch or converts the entire batch to failures after rolling back the writer.
+    /// - Parameters:
+    ///   - pendingIdentities: The identities represented by unsaved writer-context changes.
+    ///   - result: The result summary updated with imported or failed identities.
     private func flush(
         _ pendingIdentities: inout [MediaIdentity],
         into result: inout TitleImportFinalResult

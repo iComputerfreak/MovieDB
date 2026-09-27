@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Defines the review-list subsets available to the user.
 enum TitleImportReviewFilter: String, CaseIterable, Identifiable {
     case all
     case included

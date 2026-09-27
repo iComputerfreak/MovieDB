@@ -64,6 +64,9 @@ Rules and guidelines for working on this Xcode project.
 ## Documentation
 - If you learn a new generalized project rule or receive a reusable instruction, persist it in `AGENTS.md`.
 - Prefer reusable, clean, maintainable, and human-readable implementations over one-off feature code.
+- Add a documentation comment to every new production type, function, and explicit initializer, including private declarations. Document every parameter, non-`Void` return value, and possible thrown error.
+- Update existing production documentation incrementally when adding or substantially changing a feature; do not perform unrelated codebase-wide documentation rewrites.
+- Add concise follow-along comments to long functions to identify non-obvious phases, decisions, side effects, and invariants without narrating syntax.
 - Add concise comments for non-obvious regexes, algorithms, and heuristics; explain intent or invariants, not syntax.
 - When adding an extension with a `// MARK: - <Description>` comment, place the extension immediately after the MARK without a blank line.
 - For long `Logger` messages, prefer direct interpolation plus a targeted `swiftlint:disable:next line_length` comment over building the message from temporary strings.

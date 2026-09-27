@@ -3,6 +3,7 @@
 import AppFoundation
 import SwiftUI
 
+/// Displays filterable match results and lets the user choose which candidates to import.
 struct TitleImportReviewView: View {
     @Bindable var workflow: TitleImportWorkflow
     @Environment(\.dismiss) private var dismiss: DismissAction
@@ -63,6 +64,7 @@ struct TitleImportReviewView: View {
 
     private var shouldConfirmDismissal: Bool { workflow.totalCount > 0 }
 
+    /// Requests dismissal immediately or presents the compatibility confirmation dialog when review state exists.
     private func requestDismissal() {
         guard shouldConfirmDismissal else {
             dismiss()

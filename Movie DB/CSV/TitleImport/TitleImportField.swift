@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Defines the logical CSV columns understood by title-based import.
 enum TitleImportField: String, CaseIterable, Sendable {
     case title
     case year
@@ -9,6 +10,11 @@ enum TitleImportField: String, CaseIterable, Sendable {
     case runtime
     case mediaType
 
+    /// Matches a CSV header against ranked English and localized aliases.
+    /// - Parameters:
+    ///   - header: The raw CSV header to classify.
+    ///   - locale: The locale whose header aliases should supplement English aliases.
+    /// - Returns: The matching field and alias priority, or `nil` when no alias matches.
     static func match(for header: String, locale: Locale = .current) -> (field: Self, priority: Int)? {
         let header = normalizeHeader(header)
         let aliasGroups = aliasGroups(locale: locale)
@@ -19,6 +25,9 @@ enum TitleImportField: String, CaseIterable, Sendable {
         return nil
     }
 
+    /// Normalizes a header or vocabulary term for punctuation-, case-, and diacritic-insensitive comparison.
+    /// - Parameter value: The text to normalize.
+    /// - Returns: A space-separated sequence of Unicode letters and numbers.
     static func normalizeHeader(_ value: String) -> String {
         let folded = value
             .precomposedStringWithCompatibilityMapping
@@ -29,6 +38,9 @@ enum TitleImportField: String, CaseIterable, Sendable {
             .joined(separator: " ")
     }
 
+    /// Builds ranked normalized alias groups for every logical field.
+    /// - Parameter locale: The locale whose aliases should supplement English aliases.
+    /// - Returns: Alias sets ordered from most specific to least specific for each field.
     private static func aliasGroups(locale: Locale) -> [Self: [Set<String>]] {
         // Earlier groups are more specific. This makes dedicated year columns win over date-derived hints.
         [
@@ -45,6 +57,11 @@ enum TitleImportField: String, CaseIterable, Sendable {
         ]
     }
 
+    /// Combines and normalizes English aliases with aliases from one locale.
+    /// - Parameters:
+    ///   - locale: The locale whose aliases should be included.
+    ///   - localizedTerms: A localized alias provider for one field or priority group.
+    /// - Returns: The deduplicated normalized aliases.
     private static func aliases(
         locale: Locale,
         from localizedTerms: (Locale) -> [String]

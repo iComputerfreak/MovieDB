@@ -4,6 +4,7 @@ import OSLog
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// Starts title-based CSV import from settings after enforcing the free-library entry constraint.
 struct TitleCSVImportButton: View {
     @Binding var config: SettingsViewModel
     @State private var isPickingFile = false
@@ -29,6 +30,7 @@ struct TitleCSVImportButton: View {
         }
     }
 
+    /// Opens the file picker or presents Pro information when the free library is already full.
     private func beginFileSelection() {
         if !StoreManager.shared.hasPurchasedPro,
            (MediaLibrary.shared.mediaCount() ?? 0) >= JFLiterals.nonProMediaLimit {

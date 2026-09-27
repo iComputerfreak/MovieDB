@@ -2,9 +2,16 @@
 
 import Foundation
 
+/// Scores TMDB candidates against source metadata and records the evidence contributing to each score.
 struct TitleImportScorer {
-    // swiftlint:disable:next function_body_length
+    // swiftlint:disable function_body_length
+    /// Scores one candidate using title equivalence, similarity, year, director, runtime, and media type.
+    /// - Parameters:
+    ///   - candidate: The TMDB candidate to evaluate.
+    ///   - source: The normalized source row supplying matching evidence.
+    /// - Returns: The candidate's aggregate score and evidence flags.
     func score(_ candidate: TitleImportCandidate, for source: TitleImportSourceRow) -> TitleImportScoredCandidate {
+        // Establish title equivalence before adding independent metadata evidence.
         let sourceVariants = TitleImportTitleMatcher.variants(for: source.title)
         let candidateTitles = [candidate.title, candidate.originalTitle] + candidate.alternativeTitles
         let exactYearMatch = source.year != nil && source.year == candidate.year
@@ -49,6 +56,7 @@ struct TitleImportScorer {
         evidence.titleMatch = rawExact || editionExact || subtitleExact || variantExact
         evidence.alternativeTitleMatch = alternativeExact
 
+        // Exact and safe-equivalence matches establish the base score; fuzzy matches receive less weight.
         var score: Double
         if rawExact {
             score = 75
@@ -68,6 +76,7 @@ struct TitleImportScorer {
             score = 0
         }
 
+        // Corroborating metadata adjusts confidence without overriding a clearly unrelated title.
         if let sourceYear = source.year, let candidateYear = candidate.year {
             switch abs(sourceYear - candidateYear) {
             case 0:
@@ -125,7 +134,15 @@ struct TitleImportScorer {
 
         return TitleImportScoredCandidate(candidate: candidate, score: score, evidence: evidence)
     }
+    // swiftlint:enable function_body_length
 
+    /// Checks a generated source variant without allowing unqualified subtitle removal.
+    /// - Parameters:
+    ///   - candidateTitle: The candidate title to compare.
+    ///   - sourceTitle: The unmodified source title used to classify subtitle removal.
+    ///   - sourceVariants: The ordered variants generated from the source title.
+    ///   - exactYearMatch: Whether a colon-delimited subtitle may be removed safely.
+    /// - Returns: Whether the candidate matches an allowed non-primary source variant.
     private func matchesSourceVariant(
         _ candidateTitle: String,
         sourceTitle: String,

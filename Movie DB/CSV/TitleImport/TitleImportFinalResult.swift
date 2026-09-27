@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Summarizes completed, duplicate, failed, and unprocessed items from a final import attempt.
 struct TitleImportFinalResult: Sendable {
     var importedCount = 0
     var duplicateCount = 0

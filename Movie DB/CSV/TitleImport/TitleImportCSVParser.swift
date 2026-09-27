@@ -3,13 +3,17 @@
 import Foundation
 import SwiftCSV
 
+/// Parses title-oriented CSV files into normalized source rows and header-mapping metadata.
 struct TitleImportCSVParser {
     private let locale: Locale
 
+    /// Creates a parser using localized vocabulary for a specific locale plus English fallback terms.
+    /// - Parameter locale: The locale whose parser vocabulary should supplement English vocabulary.
     init(locale: Locale = .current) {
         self.locale = locale
     }
 
+    /// Describes validation failures that prevent a title-oriented CSV file from being reviewed.
     enum ParserError: LocalizedError {
         case emptyFile
         case unsupportedDelimiter
@@ -33,17 +37,23 @@ struct TitleImportCSVParser {
         }
     }
 
-    // swiftlint:disable:next function_body_length
+    // swiftlint:disable function_body_length
+    /// Parses CSV content, selects canonical header mappings, and normalizes valid source rows.
+    /// - Parameter string: The complete CSV document to parse.
+    /// - Returns: Preflight metadata and the valid source rows extracted from the document.
+    /// - Throws: A ``ParserError`` for unsupported or unusable input, or a SwiftCSV parsing error for malformed CSV.
     func parse(string: String) throws -> TitleImportPreflight {
         guard !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw ParserError.emptyFile
         }
 
+        // Validate file shape before asking SwiftCSV to materialize rows.
         let guessedDelimiter = CSVDelimiter.guessed(string: string)
         guard guessedDelimiter.rawValue == "," || guessedDelimiter.rawValue == ";" else {
             throw ParserError.unsupportedDelimiter
         }
 
+        // Rank every recognized header, then select one unambiguous mapping per logical field.
         let csv = try CSV<Enumerated>(string: string, delimiter: guessedDelimiter, loadColumns: false)
         var mappedIndices: [TitleImportField: [(index: Int, priority: Int)]] = [:]
         for index in csv.header.indices {
@@ -67,6 +77,7 @@ struct TitleImportCSVParser {
             selectedIndices[field] = preferredMatches[0].index
         }
 
+        // Preserve source line numbers while dropping blank rows and counting rows without a usable title.
         var malformedRowCount = 0
         var rows: [TitleImportSourceRow] = []
         rows.reserveCapacity(csv.rows.count)
@@ -101,6 +112,7 @@ struct TitleImportCSVParser {
 
         guard !rows.isEmpty else { throw ParserError.noRows }
 
+        // Return all headers so preflight UI can revise automatic mappings before resolution starts.
         let mappedHeaders: [TitleImportField: String?] = Dictionary(
             uniqueKeysWithValues: TitleImportField.allCases.map { field in
                 if let selectedIndex = selectedIndices[field] {
@@ -123,7 +135,14 @@ struct TitleImportCSVParser {
             malformedRowCount: malformedRowCount
         )
     }
+    // swiftlint:enable function_body_length
 
+    /// Reads and trims the source value mapped to a logical field.
+    /// - Parameters:
+    ///   - field: The logical field whose mapped value should be read.
+    ///   - row: The raw CSV row values.
+    ///   - indices: The selected CSV-column index for each logical field.
+    /// - Returns: A nonempty trimmed value, or `nil` when the field is unmapped, missing, or empty.
     private func value(
         for field: TitleImportField,
         in row: [String],
@@ -137,18 +156,29 @@ struct TitleImportCSVParser {
 
 // MARK: - Value Parsing
 extension TitleImportCSVParser {
+    /// Extracts a plausible four-digit release year from a source value.
+    /// - Parameter value: The source year or date text.
+    /// - Returns: A year from 1800 through 2199, or `nil` when no plausible year exists.
     static func parseYear(_ value: String) -> Int? {
         // Constrain matching to plausible movie/TV years instead of accepting any four-digit metadata value.
         guard let match = value.firstMatch(of: /(?:18|19|20|21)\d{2}/) else { return nil }
         return Int(match.output)
     }
 
+    /// Extracts a trailing parenthesized year from a title.
+    /// - Parameter title: The source title to inspect.
+    /// - Returns: The trailing year from 1800 through 2199, or `nil` when the title has none.
     static func yearFromTitle(_ title: String) -> Int? {
         // A year is a title hint only when it is the final parenthesized component.
         guard let match = title.firstMatch(of: /\(((?:18|19|20|21)\d{2})\)\s*$/) else { return nil }
         return Int(match.output.1)
     }
 
+    /// Splits localized director text into individual names while filtering unknown-value markers.
+    /// - Parameters:
+    ///   - value: The source director text.
+    ///   - locale: The locale whose parser vocabulary should supplement English vocabulary.
+    /// - Returns: The trimmed director names in source order.
     static func parseDirectors(_ value: String, locale: Locale = .current) -> [String] {
         let normalized = TitleImportField.normalizeHeader(value)
         let unknownValues = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.unknownDirectors)
@@ -169,6 +199,11 @@ extension TitleImportCSVParser {
             .filter { !$0.isEmpty }
     }
 
+    /// Converts plain-minute or clock-style runtime text into minutes.
+    /// - Parameters:
+    ///   - value: The source runtime text.
+    ///   - locale: The locale whose minute-unit vocabulary should supplement English units.
+    /// - Returns: A positive runtime in minutes, or `nil` when the value is invalid.
     static func parseRuntime(_ value: String, locale: Locale = .current) -> Int? {
         // Strip localized unit suffixes so plain minute values and clock-style values share one parser.
         var cleaned = value
@@ -217,6 +252,11 @@ extension TitleImportCSVParser {
         }
     }
 
+    /// Maps localized source values to a supported media type.
+    /// - Parameters:
+    ///   - value: The source media-type text.
+    ///   - locale: The locale whose media-type vocabulary should supplement English values.
+    /// - Returns: The recognized media type, or `nil` when the value is unknown.
     static func parseMediaType(_ value: String, locale: Locale = .current) -> MediaType? {
         let normalized = TitleImportField.normalizeHeader(value)
         let movies = vocabulary(locale: locale, from: Strings.TitleImport.ParserVocabulary.movieValues)
@@ -233,6 +273,11 @@ extension TitleImportCSVParser {
         }
     }
 
+    /// Combines English parser terms with terms from the active locale.
+    /// - Parameters:
+    ///   - locale: The locale whose terms should be included.
+    ///   - localizedTerms: A localized-term provider for one vocabulary category.
+    /// - Returns: A deduplicated set containing English and localized terms.
     private static func vocabulary(
         locale: Locale,
         from localizedTerms: (Locale) -> [String]
@@ -240,16 +285,25 @@ extension TitleImportCSVParser {
         Set(localizedTerms(Locale(identifier: "en")) + localizedTerms(locale))
     }
 
+    /// Converts a required runtime component to an integer.
+    /// - Parameter value: The runtime component to convert.
+    /// - Returns: The parsed integer.
+    /// - Throws: ``ParseError/invalidNumber`` when the component is not an integer.
     private static func requiredInt(_ value: Substring) throws -> Int {
         guard let result = Int(value) else { throw ParseError.invalidNumber }
         return result
     }
 
+    /// Converts a required runtime component to a floating-point number.
+    /// - Parameter value: The runtime component to convert.
+    /// - Returns: The parsed number.
+    /// - Throws: ``ParseError/invalidNumber`` when the component is not numeric.
     private static func requiredDouble(_ value: Substring) throws -> Double {
         guard let result = Double(value) else { throw ParseError.invalidNumber }
         return result
     }
 
+    /// Describes an invalid numeric component encountered while parsing runtime text.
     private enum ParseError: Error {
         case invalidNumber
     }

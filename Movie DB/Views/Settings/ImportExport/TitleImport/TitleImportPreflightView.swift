@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Summarizes parsed CSV metadata and lets the user revise header mappings before resolution.
 struct TitleImportPreflightView: View {
     @Binding var preflight: TitleImportPreflight
     let startAction: () -> Void

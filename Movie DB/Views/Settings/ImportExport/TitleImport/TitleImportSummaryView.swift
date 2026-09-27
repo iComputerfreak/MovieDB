@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Summarizes final import outcomes and offers retry or completion actions.
 struct TitleImportSummaryView: View {
     let result: TitleImportFinalResult
     let retryAction: () -> Void

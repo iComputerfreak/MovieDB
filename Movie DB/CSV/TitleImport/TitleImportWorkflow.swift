@@ -6,7 +6,9 @@ import UIKit
 
 @MainActor
 @Observable
+/// Owns title-import UI state and coordinates parsing, resolution, review, and final import stages.
 final class TitleImportWorkflow: Identifiable {
+    /// Identifies the screen or operation currently presented by the workflow.
     enum Stage: Equatable {
         case loading
         case preflight
@@ -37,6 +39,11 @@ final class TitleImportWorkflow: Identifiable {
     var reviewFilter: TitleImportReviewFilter = .all
     var reviewSearchText = ""
 
+    /// Creates a workflow for one security-scoped CSV file.
+    /// - Parameters:
+    ///   - fileURL: The selected CSV file URL.
+    ///   - resolver: The resolver used to match parsed rows to TMDB candidates.
+    ///   - finalImporter: The importer used to persist confirmed identities.
     init(
         fileURL: URL,
         resolver: TitleImportResolver = TitleImportResolver(),
@@ -71,6 +78,7 @@ final class TitleImportWorkflow: Identifiable {
         }
     }
 
+    /// Parses the selected file and transitions to preflight or failure.
     func loadFile() async {
         guard stage == .loading else { return }
         do {
@@ -82,6 +90,7 @@ final class TitleImportWorkflow: Identifiable {
         }
     }
 
+    /// Starts foreground candidate resolution, deduplication, and free-limit selection enforcement.
     func startResolution() {
         guard let preflight, resolutionTask == nil else { return }
         stage = .resolving
@@ -98,6 +107,7 @@ final class TitleImportWorkflow: Identifiable {
                 resolutionTask = nil
             }
             do {
+                // Resolve, deduplicate, and enforce entitlement limits before exposing mutable review state.
                 let items = try await resolver.resolve(preflight.rows) { [weak self] count in
                     self?.processedCount = count
                 }
@@ -114,16 +124,22 @@ final class TitleImportWorkflow: Identifiable {
         }
     }
 
+    /// Requests cancellation of the active resolution task.
     func cancelResolution() {
         resolutionTask?.cancel()
     }
 
+    /// Clears a loading failure and starts parsing the selected file again.
     func retryLoading() {
         error = nil
         stage = .loading
         Task { await loadFile() }
     }
 
+    /// Updates a review item's inclusion state when status and entitlement constraints allow it.
+    /// - Parameters:
+    ///   - included: Whether the review item should be selected for import.
+    ///   - itemID: The source-row identifier of the review item.
     func setIncluded(_ included: Bool, itemID: Int) {
         guard let index = reviewItems.firstIndex(where: { $0.id == itemID }), !reviewItems[index].inclusionLocked else {
             return
@@ -134,10 +150,14 @@ final class TitleImportWorkflow: Identifiable {
         reviewItems[index].isIncluded = included
     }
 
+    /// Counts review items with a specific status.
+    /// - Parameter status: The review status to count.
+    /// - Returns: The number of matching review items.
     func count(for status: TitleImportReviewStatus) -> Int {
         reviewItems.filter { $0.status == status }.count
     }
 
+    /// Deselects included items beyond the current free-library capacity in source order.
     private func applyFreeSelectionLimit() {
         guard let freeSelectionLimit else { return }
         var remaining = freeSelectionLimit
@@ -150,6 +170,10 @@ final class TitleImportWorkflow: Identifiable {
         }
     }
 
+    /// Reads and parses a security-scoped CSV file outside main-actor isolation.
+    /// - Parameter url: The security-scoped file URL to parse.
+    /// - Returns: Parsed preflight metadata and source rows.
+    /// - Throws: `ImportError.noPermissions`, a file-reading error, a CSV parsing error, or cancellation.
     private nonisolated static func parseFile(at url: URL) async throws -> TitleImportPreflight {
         // File decoding and large CSV parsing do not need main-actor isolation.
         try await Task.detached(priority: .userInitiated) {
@@ -177,6 +201,7 @@ extension TitleImportWorkflow {
     }
     var isPerformingWork: Bool { stage == .resolving || stage == .importing }
 
+    /// Freezes currently included identities and advances to final confirmation.
     func prepareForImport() {
         applyFreeSelectionLimit()
         // Freeze identities at confirmation so later review-state changes cannot alter an active import.
@@ -188,21 +213,25 @@ extension TitleImportWorkflow {
         stage = .confirmation
     }
 
+    /// Returns from confirmation to editable review state.
     func returnToReview() {
         guard stage == .confirmation else { return }
         stage = .review
     }
 
+    /// Starts final import for the identities frozen at confirmation.
     func startImport() {
         guard stage == .confirmation, !frozenIdentities.isEmpty else { return }
         runFinalImport(frozenIdentities, preserving: nil)
     }
 
+    /// Starts another final-import attempt containing only previously failed identities.
     func retryFailedImports() {
         guard stage == .summary, let finalResult, !finalResult.failedIdentities.isEmpty else { return }
         runFinalImport(finalResult.failedIdentities, preserving: finalResult)
     }
 
+    /// Requests cancellation of the active resolution or final-import task.
     func cancelCurrentWork() {
         switch stage {
         case .resolving:
@@ -214,6 +243,10 @@ extension TitleImportWorkflow {
         }
     }
 
+    /// Runs one final-import attempt and merges retry results with prior successful outcomes.
+    /// - Parameters:
+    ///   - identities: The identities to import during this attempt.
+    ///   - previousResult: A previous summary whose completed counts should be preserved, or `nil`.
     private func runFinalImport(
         _ identities: [MediaIdentity],
         preserving previousResult: TitleImportFinalResult?
@@ -233,6 +266,7 @@ extension TitleImportWorkflow {
             defer {
                 importTask = nil
             }
+            // Keep committed prior results while replacing retryable failures with this attempt's outcome.
             let result = await finalImporter.importMedia(
                 identities: identities,
                 libraryLimit: libraryLimit

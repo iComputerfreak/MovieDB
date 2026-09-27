@@ -4,6 +4,7 @@
 import Foundation
 
 @MainActor
+/// Supplies representative parsed and resolved data for title-import previews.
 enum TitleImportPreviewData {
     static let sourceRows = [
         TitleImportSourceRow(
@@ -113,6 +114,9 @@ enum TitleImportPreviewData {
         ),
     ]
 
+    /// Creates a populated preview workflow at a requested stage.
+    /// - Parameter stage: The workflow stage to display.
+    /// - Returns: A main-actor workflow populated with representative preflight and review data.
     static func workflow(stage: TitleImportWorkflow.Stage = .review) -> TitleImportWorkflow {
         let workflow = TitleImportWorkflow(fileURL: URL(fileURLWithPath: "/tmp/title-import-preview.csv"))
         workflow.stage = stage

@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Displays candidate-resolution progress and an action to stop the operation.
 struct TitleImportProgressView: View {
     let processedCount: Int
     let totalCount: Int

@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Summarizes the reviewed selection and asks the user to confirm final import.
 struct TitleImportConfirmationView: View {
     let workflow: TitleImportWorkflow
 

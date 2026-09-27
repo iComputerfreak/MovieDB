@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Contains normalized matching hints parsed from one source CSV row.
 struct TitleImportSourceRow: Identifiable, Sendable {
     let id: Int
     let title: String

@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Contains parsed rows and editable header-mapping metadata shown before resolution begins.
 struct TitleImportPreflight: Sendable {
     let rows: [TitleImportSourceRow]
     let delimiter: Character

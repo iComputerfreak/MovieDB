@@ -2,12 +2,15 @@
 
 import SwiftUI
 
+/// Presents the stage-driven container for the complete title-import flow.
 struct TitleImportFlowView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var workflow: TitleImportWorkflow
     @State private var isShowingStopConfirmation = false
     @State private var isShowingDismissalConfirmation = false
 
+    /// Creates the flow around an existing workflow instance.
+    /// - Parameter workflow: The workflow whose state drives navigation and actions.
     init(workflow: TitleImportWorkflow) {
         _workflow = State(initialValue: workflow)
     }
@@ -101,6 +104,7 @@ struct TitleImportFlowView: View {
         return workflow.isPerformingWork || shouldConfirmDismissal
     }
 
+    /// Requests dismissal immediately or presents the compatibility confirmation dialog when work would be lost.
     private func requestDismissal() {
         guard shouldConfirmDismissal else {
             dismiss()

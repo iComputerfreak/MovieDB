@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Displays a localized review status with matching icon and semantic color.
 struct TitleImportStatusLabel: View {
     let status: TitleImportReviewStatus
 

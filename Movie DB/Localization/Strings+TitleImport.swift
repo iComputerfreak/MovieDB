@@ -3,6 +3,7 @@
 import Foundation
 
 extension Strings {
+    /// Provides localized user-facing text and parser vocabulary for title-based CSV import.
     enum TitleImport {
         static let settingsAction = String(
             localized: "titleImport.settingsAction",
@@ -30,6 +31,9 @@ extension Strings {
             comment: "Picker value for mapping a field to no column."
         )
 
+        /// Returns the localized display name for a logical import field.
+        /// - Parameter field: The field whose name should be displayed.
+        /// - Returns: The localized field name.
         static func fieldName(_ field: TitleImportField) -> String {
             switch field {
             case .title:
@@ -45,7 +49,11 @@ extension Strings {
             }
         }
 
+        /// Loads locale-specific parser terms from pipe-separated String Catalog values.
         enum ParserVocabulary {
+            /// Loads localized title-header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Title-header aliases for the locale.
             static func titleHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -58,6 +66,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized exact-year header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Exact-year header aliases for the locale.
             static func exactYearHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -70,6 +81,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized release-year header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Release-year header aliases for the locale.
             static func releaseYearHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -82,6 +96,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized release-date header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Release-date header aliases for the locale.
             static func releaseDateHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -94,6 +111,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized generic-date header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Generic-date header aliases for the locale.
             static func dateHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -106,6 +126,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized director-header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Director-header aliases for the locale.
             static func directorHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -118,6 +141,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized runtime-header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Runtime-header aliases for the locale.
             static func runtimeHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -130,6 +156,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized media-type header aliases.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Media-type header aliases for the locale.
             static func mediaTypeHeaders(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -142,6 +171,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized values representing an unknown director.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Unknown-director values for the locale.
             static func unknownDirectors(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -154,6 +186,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized conjunctions that separate director names.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Director conjunctions for the locale.
             static func directorConjunctions(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -166,6 +201,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized minute-unit suffixes.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Runtime unit suffixes for the locale.
             static func runtimeUnits(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -178,6 +216,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized values representing movies.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: Movie values for the locale.
             static func movieValues(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -190,6 +231,9 @@ extension Strings {
                 )
             }
 
+            /// Loads localized values representing TV shows.
+            /// - Parameter locale: The localization to load.
+            /// - Returns: TV-show values for the locale.
             static func showValues(locale: Locale) -> [String] {
                 terms(
                     String(
@@ -202,10 +246,16 @@ extension Strings {
                 )
             }
 
+            /// Splits a pipe-separated localized vocabulary value into trimmed terms.
+            /// - Parameter value: The localized pipe-separated value.
+            /// - Returns: Nonempty terms in catalog order.
             private static func terms(_ value: String) -> [String] {
                 value.split(separator: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             }
 
+            /// Resolves the app localization bundle that best matches a locale.
+            /// - Parameter locale: The requested locale.
+            /// - Returns: The matching localization bundle, or the main bundle when no match can be loaded.
             private static func localizedBundle(for locale: Locale) -> Bundle {
                 let localization = Bundle.preferredLocalizations(
                     from: Bundle.main.localizations,
@@ -220,6 +270,7 @@ extension Strings {
             }
         }
 
+        /// Provides localized errors for CSV parsing and workflow failures.
         enum Error {
             static let title = String(
                 localized: "titleImport.error.title",
@@ -236,6 +287,9 @@ extension Strings {
                 defaultValue: "Only comma- and semicolon-separated CSV files are supported.",
                 comment: "Unsupported CSV delimiter error"
             )
+            /// Formats an error listing headers when no title column can be recognized.
+            /// - Parameter headers: The available headers formatted for display.
+            /// - Returns: The localized missing-title-column error.
             static func missingTitleHeader(_ headers: String) -> String {
                 String(
                     localized: "titleImport.error.missingTitleHeader",
@@ -243,6 +297,9 @@ extension Strings {
                     comment: "Missing title header error. Argument lists found headers."
                 )
             }
+            /// Formats an error listing multiple recognized title columns.
+            /// - Parameter headers: The conflicting headers formatted for display.
+            /// - Returns: The localized ambiguous-title-column error.
             static func ambiguousTitleHeader(_ headers: String) -> String {
                 String(
                     localized: "titleImport.error.ambiguousTitleHeader",
@@ -257,6 +314,7 @@ extension Strings {
             )
         }
 
+        /// Provides localized text for parsed-file preflight and header mapping.
         enum Preflight {
             static let fileSection = String(
                 localized: "titleImport.preflight.file",
@@ -310,7 +368,13 @@ extension Strings {
             )
         }
 
+        /// Provides localized text for candidate-resolution progress.
         enum Progress {
+            /// Formats current title-resolution progress.
+            /// - Parameters:
+            ///   - processed: The number of completed source rows.
+            ///   - total: The total number of source rows.
+            /// - Returns: The localized progress description.
             static func resolving(_ processed: Int, _ total: Int) -> String {
                 String(
                     localized: "titleImport.progress.resolving",
@@ -320,6 +384,7 @@ extension Strings {
             }
         }
 
+        /// Provides localized explanations for match and duplicate outcomes.
         enum Match {
             static let noResults = String(
                 localized: "titleImport.match.noResults",
@@ -341,6 +406,9 @@ extension Strings {
                 defaultValue: "Already in your library.",
                 comment: "Match already exists in library"
             )
+            /// Formats the source-row owner of a repeated TMDB identity.
+            /// - Parameter row: The earlier source row that owns the identity.
+            /// - Returns: The localized file-duplicate explanation.
             static func fileDuplicate(_ row: Int) -> String {
                 String(
                     localized: "titleImport.match.fileDuplicate",
@@ -350,6 +418,7 @@ extension Strings {
             }
         }
 
+        /// Provides localized labels for review filters.
         enum Filter {
             static let all = String(localized: "titleImport.filter.all", defaultValue: "All", comment: "All results filter")
             static let included = String(
@@ -384,6 +453,7 @@ extension Strings {
             )
         }
 
+        /// Provides localized text for selecting and filtering review results.
         enum Review {
             static let filter = String(
                 localized: "titleImport.review.filter",
@@ -395,6 +465,11 @@ extension Strings {
                 defaultValue: "Selected",
                 comment: "Selected count label"
             )
+            /// Formats selected and total review counts.
+            /// - Parameters:
+            ///   - selected: The number of included review items.
+            ///   - total: The total number of review items.
+            /// - Returns: The localized selection count.
             static func selectedCount(_ selected: Int, _ total: Int) -> String {
                 String(
                     localized: "titleImport.review.selectedCount",
@@ -402,6 +477,12 @@ extension Strings {
                     comment: "Selected count and total count"
                 )
             }
+            /// Formats selection counts together with the active free-user limit.
+            /// - Parameters:
+            ///   - selected: The number of included review items.
+            ///   - total: The total number of review items.
+            ///   - limit: The maximum number of items the user may select.
+            /// - Returns: The localized selection and limit description.
             static func selectedWithLimit(_ selected: Int, _ total: Int, _ limit: Int) -> String {
                 String(
                     localized: "titleImport.review.selectedWithLimit",
@@ -431,6 +512,7 @@ extension Strings {
             )
         }
 
+        /// Provides localized text for the final import confirmation screen.
         enum Confirmation {
             static let title = String(localized: "titleImport.confirmation.title", defaultValue: "Confirm Import")
             static let selected = String(localized: "titleImport.confirmation.selected", defaultValue: "Selected")
@@ -453,6 +535,9 @@ extension Strings {
                 localized: "titleImport.confirmation.estimatedTime",
                 defaultValue: "Estimated Minimum Time"
             )
+            /// Formats a minimum estimated import duration.
+            /// - Parameter seconds: The estimated minimum number of seconds.
+            /// - Returns: The localized duration description.
             static func minimumSeconds(_ seconds: Int) -> String {
                 String(
                     localized: "titleImport.confirmation.minimumSeconds",
@@ -467,8 +552,14 @@ extension Strings {
             static let back = String(localized: "titleImport.confirmation.back", defaultValue: "Back to Review")
         }
 
+        /// Provides localized text for final media creation progress.
         enum FinalImport {
             static let title = String(localized: "titleImport.final.title", defaultValue: "Importing")
+            /// Formats final-import progress.
+            /// - Parameters:
+            ///   - processed: The number of processed identities.
+            ///   - total: The total number of identities in the attempt.
+            /// - Returns: The localized progress description.
             static func progress(_ processed: Int, _ total: Int) -> String {
                 String(
                     localized: "titleImport.final.progress",
@@ -479,6 +570,7 @@ extension Strings {
             static let stop = String(localized: "titleImport.final.stop", defaultValue: "Stop Import")
         }
 
+        /// Provides localized text for final import outcomes and actions.
         enum Summary {
             static let title = String(localized: "titleImport.summary.title", defaultValue: "Import Complete")
             static let imported = String(localized: "titleImport.summary.imported", defaultValue: "Imported")
@@ -495,6 +587,7 @@ extension Strings {
             static let finish = String(localized: "titleImport.summary.finish", defaultValue: "Finish")
         }
 
+        /// Provides localized text for safely stopping active work.
         enum StopConfirmation {
             static let title = String(localized: "titleImport.stop.title", defaultValue: "Stop Current Work?")
             static let message = String(
@@ -504,6 +597,7 @@ extension Strings {
             static let stop = String(localized: "titleImport.stop.action", defaultValue: "Stop")
         }
 
+        /// Provides localized text for aborting and dismissing the import flow.
         enum DismissConfirmation {
             static let title = String(
                 localized: "titleImport.dismiss.title",
@@ -522,6 +616,7 @@ extension Strings {
             )
         }
 
+        /// Provides localized labels for review statuses.
         enum Status {
             static let accepted = String(
                 localized: "titleImport.status.accepted",

@@ -210,6 +210,12 @@ actor TMDBAPI {
         )
     }
 
+    /// Searches one TMDB page and converts heterogeneous results into lightweight title-import candidates.
+    /// - Parameters:
+    ///   - query: The title query to search.
+    ///   - page: The one-based result page to request.
+    /// - Returns: Movie and show candidates containing metadata available directly from search results.
+    /// - Throws: A network, API, decoding, Core Data, or cancellation error when the search cannot complete.
     func titleImportSearch(_ query: String, page: Int) async throws -> [TitleImportCandidate] {
         let (results, _) = try await searchMedia(query, from: page, to: page)
         return results.map { result in
@@ -235,6 +241,10 @@ actor TMDBAPI {
         }
     }
 
+    /// Loads combined credits and alternative-title details for one title-import candidate.
+    /// - Parameter identity: The movie or show identity to enrich.
+    /// - Returns: Alternative titles, directors or creators, and runtime metadata.
+    /// - Throws: A network, API, decoding, or cancellation error when candidate details cannot be loaded.
     func titleImportDetails(for identity: MediaIdentity) async throws -> TitleImportCandidateDetails {
         let response = try await decodeAPIURL(
             path: "/\(identity.type.rawValue)/\(identity.tmdbID)",

@@ -2,7 +2,9 @@
 
 import Foundation
 
+/// Normalizes titles, generates safe search variants, and compares title or person names.
 enum TitleImportTitleMatcher {
+    /// Classifies exact and conditionally safe title equivalence.
     enum Equivalence: Equatable {
         case exact
         case edition
@@ -18,6 +20,9 @@ enum TitleImportTitleMatcher {
         "theatrical", "director s", "final", "ultimate", "complete", "commemorative", "special",
     ]
 
+    /// Normalizes title text while preserving Unicode words and canonicalizing supported number forms.
+    /// - Parameter value: The title text to normalize.
+    /// - Returns: A lowercase, punctuation-separated comparison value.
     static func normalize(_ value: String) -> String {
         var value = value.lowercased()
         // Add boundaries around superscripts before compatibility mapping merges them into adjacent words.
@@ -38,6 +43,9 @@ enum TitleImportTitleMatcher {
         return words.joined(separator: " ")
     }
 
+    /// Generates ordered search variants by safely peeling years, edition labels, and subtitles.
+    /// - Parameter title: The original source title.
+    /// - Returns: Unique variants in descending specificity, beginning with the original title.
     static func variants(for title: String) -> [String] {
         var variants = [title.trimmingCharacters(in: .whitespacesAndNewlines)]
         var stripped = variants[0]
@@ -69,6 +77,12 @@ enum TitleImportTitleMatcher {
         }
     }
 
+    /// Determines whether two titles are exactly or conditionally equivalent.
+    /// - Parameters:
+    ///   - left: The first title to compare.
+    ///   - right: The second title to compare.
+    ///   - exactYearMatch: Whether subtitle removal is allowed because release years match exactly.
+    /// - Returns: The strongest supported equivalence, or `nil` when the titles are not equivalent.
     static func equivalence(
         between left: String,
         and right: String,
@@ -95,6 +109,11 @@ enum TitleImportTitleMatcher {
         return nil
     }
 
+    /// Calculates the strongest token-overlap or edit-distance similarity between two titles.
+    /// - Parameters:
+    ///   - left: The first title to compare.
+    ///   - right: The second title to compare.
+    /// - Returns: A normalized similarity score from `0` through `1`.
     static func similarity(_ left: String, _ right: String) -> Double {
         let left = normalize(left)
         let right = normalize(right)
@@ -110,6 +129,11 @@ enum TitleImportTitleMatcher {
         return max(tokenScore, editScore, (tokenScore + editScore) / 2)
     }
 
+    /// Compares person names using normalized full names and first-initial/last-name equivalence.
+    /// - Parameters:
+    ///   - left: The first person name.
+    ///   - right: The second person name.
+    /// - Returns: Whether the names represent the same person under supported normalization rules.
     static func peopleMatch(_ left: String, _ right: String) -> Bool {
         let leftWords = normalize(left).split(separator: " ")
         let rightWords = normalize(right).split(separator: " ")
@@ -120,6 +144,9 @@ enum TitleImportTitleMatcher {
             (leftLast == rightLast && leftFirst.first == rightFirst.first)
     }
 
+    /// Removes trailing parenthesized or bracketed known-edition labels.
+    /// - Parameter title: The title to inspect.
+    /// - Returns: The normalized base title when a label was removed, otherwise `nil`.
     private static func editionBase(for title: String) -> String? {
         var stripped = title.trimmingCharacters(in: .whitespacesAndNewlines)
         var removedLabel = false
@@ -132,6 +159,9 @@ enum TitleImportTitleMatcher {
         return removedLabel ? normalize(stripped) : nil
     }
 
+    /// Extracts the normalized title segment before a colon.
+    /// - Parameter title: The title to inspect.
+    /// - Returns: A base title of at least three characters, or `nil` when no valid segment exists.
     private static func subtitleBase(for title: String) -> String? {
         guard let separator = title.firstIndex(of: ":") else { return nil }
         let base = String(title[..<separator]).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -139,6 +169,11 @@ enum TitleImportTitleMatcher {
         return normalize(base)
     }
 
+    /// Calculates edit distance using one retained dynamic-programming row.
+    /// - Parameters:
+    ///   - left: The first normalized title.
+    ///   - right: The second normalized title.
+    /// - Returns: The minimum number of single-character edits needed to transform one title into the other.
     private static func levenshteinDistance(_ left: String, _ right: String) -> Int {
         let left = Array(left)
         let right = Array(right)

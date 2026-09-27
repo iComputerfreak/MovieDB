@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Compares one source row with its proposed candidate and exposes its inclusion control.
 struct TitleImportReviewRow: View {
     let item: TitleImportReviewItem
     let setIncluded: (Bool) -> Void

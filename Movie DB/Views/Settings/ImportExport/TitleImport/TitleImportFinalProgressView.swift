@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+/// Displays final media-creation progress and an action to stop remaining work.
 struct TitleImportFinalProgressView: View {
     let processedCount: Int
     let totalCount: Int

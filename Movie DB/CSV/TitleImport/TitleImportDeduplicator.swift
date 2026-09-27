@@ -3,7 +3,11 @@
 import CoreData
 import Foundation
 
+/// Detects candidates already in the library or repeated within the current source file.
 enum TitleImportDeduplicator {
+    /// Fetches every persisted media identity without materializing full managed objects.
+    /// - Returns: The identities currently stored in the library.
+    /// - Throws: A Core Data fetch error when existing identities cannot be read.
     static func existingIdentities() async throws -> Set<MediaIdentity> {
         let context = PersistenceController.shared.newBackgroundContext()
         return try await context.perform {
@@ -21,6 +25,11 @@ enum TitleImportDeduplicator {
         }
     }
 
+    /// Marks review items as duplicates while preserving the first source-row owner of each identity.
+    /// - Parameters:
+    ///   - items: The review items in source-file order.
+    ///   - existingIdentities: The identities already stored in the library.
+    /// - Returns: Review items with duplicate status, provenance, reason, and inclusion state applied.
     static func apply(
         to items: [TitleImportReviewItem],
         existingIdentities: Set<MediaIdentity>
