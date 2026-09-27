@@ -28,8 +28,7 @@ struct TitleImportFlowView: View {
                 case .resolving:
                     TitleImportProgressView(
                         processedCount: workflow.processedCount,
-                        totalCount: workflow.totalCount,
-                        cancelAction: { isShowingStopConfirmation = true }
+                        totalCount: workflow.totalCount
                     )
                 case .review:
                     TitleImportReviewView(workflow: workflow)
@@ -38,8 +37,7 @@ struct TitleImportFlowView: View {
                 case .importing:
                     TitleImportFinalProgressView(
                         processedCount: workflow.finalImportProcessedCount,
-                        totalCount: workflow.finalImportTotalCount,
-                        cancelAction: { isShowingStopConfirmation = true }
+                        totalCount: workflow.finalImportTotalCount
                     )
                 case .summary:
                     if let result = workflow.finalResult {
@@ -57,60 +55,69 @@ struct TitleImportFlowView: View {
                         actionTitle: Strings.Generic.retryLoading,
                         action: workflow.retryLoading
                     )
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(Strings.Generic.dismissViewDone, role: .legacyClose, action: dismiss.callAsFunction)
+                        }
+                    }
                 }
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(Strings.Generic.dismissViewDone, role: .cancel) {
-                        if workflow.isPerformingWork {
-                            isShowingStopConfirmation = true
-                        } else {
-                            requestDismissal()
+                if showCancelButton {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(Strings.Generic.alertButtonCancel, role: .cancel) {
+                            if workflow.stage == .importing, workflow.isPerformingWork {
+                                isShowingStopConfirmation = true
+                            } else {
+                                requestDismissal()
+                            }
+                        }
+                        .titleImportDismissalConfirmationDialog(fallbackIsPresented: $isShowingDismissalConfirmation)
+                        .confirmationDialog(
+                            Strings.TitleImport.StopConfirmation.title,
+                            isPresented: $isShowingStopConfirmation,
+                            titleVisibility: .visible
+                        ) {
+                            Button(Strings.TitleImport.StopConfirmation.stop, role: .destructive) {
+                                workflow.cancelCurrentWork()
+                            }
+                            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+                        } message: {
+                            Text(Strings.TitleImport.StopConfirmation.message)
                         }
                     }
                 }
             }
         }
         .task { await workflow.loadFile() }
-        .confirmationDialog(
-            Strings.TitleImport.StopConfirmation.title,
-            isPresented: $isShowingStopConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button(Strings.TitleImport.StopConfirmation.stop, role: .destructive) {
-                workflow.cancelCurrentWork()
-            }
-            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
-        } message: {
-            Text(Strings.TitleImport.StopConfirmation.message)
-        }
-        .titleImportDismissalConfirmationDialog(
-            shouldPresent: shouldConfirmDismissal,
-            fallbackIsPresented: $isShowingDismissalConfirmation
-        )
-        .interactiveDismissDisabled(shouldDisableInteractiveDismissal)
+        .interactiveDismissDisabled()
     }
 
-    private var shouldConfirmDismissal: Bool {
-        workflow.totalCount > 0 && workflow.stage != .review && workflow.stage != .summary
-    }
+    private var showCancelButton: Bool {
+        switch workflow.stage {
+        case .loading, .preflight, .resolving, .importing:
+            return true
 
-    private var shouldDisableInteractiveDismissal: Bool {
-        if #available(iOS 27.0, *) {
-            return workflow.isPerformingWork
+        case .review:
+            // If there is no selectable item, hide the cancel button
+            guard workflow.includedCount == 0 else { return true }
+            return workflow.reviewItems.contains(where: { !$0.inclusionLocked || $0.isIncluded })
+
+        case .confirmation:
+            // In confirmation, we show a "back to review" button instead
+            return false
+
+        case .summary, .failure:
+            return false
         }
-        return workflow.isPerformingWork || shouldConfirmDismissal
     }
 
     /// Requests dismissal immediately or presents the compatibility confirmation dialog when work would be lost.
     private func requestDismissal() {
-        guard shouldConfirmDismissal else {
-            dismiss()
-            return
-        }
         if #available(iOS 27.0, *) {
+            // Dismiss confirmation is handled by the view modifier
             dismiss()
         } else {
             isShowingDismissalConfirmation = true
@@ -129,7 +136,24 @@ struct TitleImportFlowView: View {
 }
 
 #if DEBUG
-#Preview {
-    TitleImportFlowView(workflow: TitleImportPreviewData.workflow())
+#Preview("Review") {
+    NavigationStack {
+        TitleImportFlowView(workflow: TitleImportPreviewData.workflow())
+    }
+}
+#Preview("Confirmation") {
+    NavigationStack {
+        TitleImportFlowView(workflow: TitleImportPreviewData.workflow(stage: .confirmation))
+    }
+}
+#Preview("Success") {
+    NavigationStack {
+        TitleImportFlowView(workflow: TitleImportPreviewData.workflow(stage: .summary))
+    }
+}
+#Preview("Failure") {
+    NavigationStack {
+        TitleImportFlowView(workflow: TitleImportPreviewData.workflow(stage: .failure))
+    }
 }
 #endif

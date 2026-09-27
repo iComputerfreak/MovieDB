@@ -23,12 +23,10 @@ struct TitleImportSummaryView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
-
-            Section {
-                Button(Strings.TitleImport.Summary.finish, action: finishAction)
-                    .frame(maxWidth: .infinity)
-                    .buttonStyle(.borderedProminent)
-                    .listRowBackground(Color.clear)
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(Strings.TitleImport.Summary.finish, role: .legacyConfirm, action: finishAction)
             }
         }
     }

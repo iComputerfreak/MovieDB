@@ -35,22 +35,21 @@ struct TitleImportConfirmationView: View {
                     value: workflow.count(for: .failed).description
                 )
             }
-
-            Section {
-                LabeledContent(
-                    Strings.TitleImport.Confirmation.estimatedTime,
-                    value: Strings.TitleImport.Confirmation.minimumSeconds(workflow.estimatedImportSeconds)
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(
+                    Strings.TitleImport.Confirmation.back,
+                    role: .cancel,
+                    action: workflow.returnToReview
                 )
             }
-
-            Section {
-                Button(Strings.TitleImport.Confirmation.importSelected, action: workflow.startImport)
-                    .frame(maxWidth: .infinity)
-                    .buttonStyle(.borderedProminent)
-                    .listRowBackground(Color.clear)
-                Button(Strings.TitleImport.Confirmation.back, action: workflow.returnToReview)
-                    .frame(maxWidth: .infinity)
-                    .listRowBackground(Color.clear)
+            ToolbarItem(placement: .confirmationAction) {
+                Button(
+                    Strings.TitleImport.Confirmation.importSelected,
+                    role: .legacyConfirm,
+                    action: workflow.startImport
+                )
             }
         }
     }

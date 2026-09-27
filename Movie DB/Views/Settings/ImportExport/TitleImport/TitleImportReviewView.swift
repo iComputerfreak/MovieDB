@@ -30,7 +30,6 @@ struct TitleImportReviewView: View {
                         item: item,
                         setIncluded: { workflow.setIncluded($0, itemID: item.id) }
                     )
-                    .listRowSeparatorTint(.white80)
                     .alignmentGuide(.listRowSeparatorLeading, computeValue: { _ in 0 })
                 }
             } header: {
@@ -40,37 +39,34 @@ struct TitleImportReviewView: View {
         .searchable(text: $workflow.reviewSearchText, prompt: Strings.TitleImport.Review.searchPrompt)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button(
-                    Strings.TitleImport.Review.continueButton,
-                    role: .legacyConfirm,
-                    action: workflow.prepareForImport
-                )
-                .disabled(workflow.includedCount == 0)
-            }
-
-            ToolbarItem(placement: .cancellationAction) {
-                Button(
-                    Strings.Generic.alertButtonCancel,
-                    role: .legacyClose,
-                    action: requestDismissal
-                )
+                if
+                    workflow.includedCount == 0,
+                    workflow.reviewItems.allSatisfy({ $0.inclusionLocked && !$0.isIncluded })
+                {
+                    Button(
+                        Strings.Generic.dismissViewDone,
+                        role: .legacyConfirm,
+                        action: { dismiss() }
+                    )
+                } else {
+                    Button(
+                        Strings.TitleImport.Review.continueButton,
+                        role: .legacyConfirm,
+                        action: workflow.prepareForImport
+                    )
+                    .disabled(workflow.includedCount == 0)
+                    .titleImportDismissalConfirmationDialog(
+                        fallbackIsPresented: $isShowingDismissalConfirmation
+                    )
+                }
             }
         }
-        .titleImportDismissalConfirmationDialog(
-            shouldPresent: shouldConfirmDismissal,
-            fallbackIsPresented: $isShowingDismissalConfirmation
-        )
     }
-
-    private var shouldConfirmDismissal: Bool { workflow.totalCount > 0 }
 
     /// Requests dismissal immediately or presents the compatibility confirmation dialog when review state exists.
     private func requestDismissal() {
-        guard shouldConfirmDismissal else {
-            dismiss()
-            return
-        }
         if #available(iOS 27.0, *) {
+            // Dismiss confirmation is handled by the view modifier
             dismiss()
         } else {
             isShowingDismissalConfirmation = true

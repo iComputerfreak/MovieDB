@@ -31,6 +31,7 @@ Rules and guidelines for working on this Xcode project.
 
 ## Localization and content
 - Route user-facing copy through `Strings` helpers backed by `Localizable.xcstrings`.
+- Give every localized string a translator comment and a translation in `Localizable.xcstrings` for each supported language.
 - Do not inline visible UI strings with concatenation or interpolation in views when text can be localized.
 - When dynamic text is needed, add `Strings` static functions with localized format keys.
 - Keep changes localized to the feature you are working on; avoid broad copy rewrites unless requested.
@@ -41,6 +42,11 @@ Rules and guidelines for working on this Xcode project.
 - Analytics must remain explicit opt-in, anonymous-only, and allowlist-only unless the user explicitly changes policy.
 - Never send titles, IDs, notes, tags, ratings, search text, file names, URLs with content data, or other free-form/user-provided data.
 - Any new event or property requires a doc update in `ANALYTICS.md` and user approval before implementation.
+
+## Logging
+- Use OSLog (`Logger`) for production logging where it provides useful diagnostics.
+- Log caught errors in `do`-`catch` blocks when the failure is meaningful or otherwise hidden.
+- Log the full `Error` value, not `error.localizedDescription`, so diagnostics retain the error type and underlying context.
 
 ## Xcode project hygiene
 - Minimize changes to `project.pbxproj`; only edit when necessary for new files or resources.

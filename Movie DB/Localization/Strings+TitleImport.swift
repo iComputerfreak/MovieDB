@@ -348,7 +348,7 @@ extension Strings {
             )
             static let start = String(
                 localized: "titleImport.preflight.start",
-                defaultValue: "Find Matches",
+                defaultValue: "Search",
                 comment: "Start matching button"
             )
             static let foregroundWarning = String(
@@ -535,21 +535,11 @@ extension Strings {
                 localized: "titleImport.confirmation.estimatedTime",
                 defaultValue: "Estimated Minimum Time"
             )
-            /// Formats a minimum estimated import duration.
-            /// - Parameter seconds: The estimated minimum number of seconds.
-            /// - Returns: The localized duration description.
-            static func minimumSeconds(_ seconds: Int) -> String {
-                String(
-                    localized: "titleImport.confirmation.minimumSeconds",
-                    defaultValue: "At least \(seconds) sec",
-                    comment: "Minimum title import duration in seconds"
-                )
-            }
             static let importSelected = String(
                 localized: "titleImport.confirmation.importSelected",
-                defaultValue: "Import Selected"
+                defaultValue: "Import"
             )
-            static let back = String(localized: "titleImport.confirmation.back", defaultValue: "Back to Review")
+            static let back = String(localized: "titleImport.confirmation.back", defaultValue: "Review")
         }
 
         /// Provides localized text for final media creation progress.

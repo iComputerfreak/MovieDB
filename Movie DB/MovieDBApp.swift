@@ -46,7 +46,12 @@ struct MovieDBApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView()
-                .environment(\.managedObjectContext, ProcessInfo.isRunningForPreviews ? PersistenceController.xcodePreviewContext : PersistenceController.viewContext)
+                .environment(
+                    \.managedObjectContext,
+                     ProcessInfo.isRunningForPreviews
+                       ? PersistenceController.xcodePreviewContext
+                       : PersistenceController.viewContext
+                )
                 .environmentObject(config)
             // Respond to universal links
             .openShareURLModifier()

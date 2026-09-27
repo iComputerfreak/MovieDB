@@ -195,10 +195,6 @@ extension TitleImportWorkflow {
         reviewItems.filter { $0.duplicateKind == .existingLibrary }.count
     }
     var fileDuplicateCount: Int { count(for: .duplicate) - existingDuplicateCount }
-    var estimatedImportSeconds: Int {
-        guard includedCount > 0 else { return 0 }
-        return Int(ceil(Double(includedCount) / Double(TMDBAPI.maxRequestsPerSecond)))
-    }
     var isPerformingWork: Bool { stage == .resolving || stage == .importing }
 
     /// Freezes currently included identities and advances to final confirmation.
@@ -268,22 +264,22 @@ extension TitleImportWorkflow {
             }
             // Keep committed prior results while replacing retryable failures with this attempt's outcome.
             let result = await finalImporter.importMedia(
-                identities: identities,
-                libraryLimit: libraryLimit
-            ) { [weak self] count in
-                self?.finalImportProcessedCount = count
-            }
-            if let previousResult {
-                finalResult = TitleImportFinalResult(
-                    importedCount: previousResult.importedCount + result.importedCount,
-                    duplicateCount: previousResult.duplicateCount + result.duplicateCount,
-                    failedIdentities: result.failedIdentities,
-                    remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
-                )
-            } else {
-                finalResult = result
-            }
-            stage = .summary
+                    identities: identities,
+                    libraryLimit: libraryLimit
+                ) { [weak self] count in
+                    self?.finalImportProcessedCount = count
+                }
+                if let previousResult {
+                    finalResult = TitleImportFinalResult(
+                        importedCount: previousResult.importedCount + result.importedCount,
+                        duplicateCount: previousResult.duplicateCount + result.duplicateCount,
+                        failedIdentities: result.failedIdentities,
+                        remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
+                    )
+                } else {
+                    finalResult = result
+                }
+                stage = .summary
         }
     }
 }

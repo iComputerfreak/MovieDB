@@ -964,23 +964,6 @@
         }
       }
     },
-    "detail.cast.noneAvailable" : {
-      "comment" : "The text displayed when there are no cast members available to display",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Besetzung verfügbar"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No cast available"
-          }
-        }
-      }
-    },
     "detail.cast.noSearchResults" : {
       "comment" : "The text displayed when there are no cast members available that match the search text",
       "localizations" : {
@@ -994,6 +977,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No cast matching your search"
+          }
+        }
+      }
+    },
+    "detail.cast.noneAvailable" : {
+      "comment" : "The text displayed when there are no cast members available to display",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Besetzung verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cast available"
           }
         }
       }
@@ -2532,57 +2532,6 @@
         }
       }
     },
-    "detail.watchprovider.ads" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Werbung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ads"
-          }
-        }
-      }
-    },
-    "detail.watchprovider.buy" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaufen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buy"
-          }
-        }
-      }
-    },
-    "detail.watchprovider.flatrate" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flatrate"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flatrate"
-          }
-        }
-      }
-    },
     "detail.watchProviders.attribution" : {
       "comment" : "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com",
       "localizations" : {
@@ -2630,6 +2579,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "There is no streaming service information available."
+          }
+        }
+      }
+    },
+    "detail.watchprovider.ads" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werbung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ads"
+          }
+        }
+      }
+    },
+    "detail.watchprovider.buy" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaufen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy"
+          }
+        }
+      }
+    },
+    "detail.watchprovider.flatrate" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate"
           }
         }
       }
@@ -4514,23 +4514,6 @@
         }
       }
     },
-    "library.filter.watched.navBar.title" : {
-      "comment" : "The navigation bar title for the watched? field in the library's filter view",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Angesehen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Watched?"
-          }
-        }
-      }
-    },
     "library.filter.watchStateNotWatched" : {
       "comment" : "The picker value for a generic watch state of either a movie or a show that indicates that the user has not watched this media completely.",
       "localizations" : {
@@ -4612,6 +4595,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Watched partially"
+          }
+        }
+      }
+    },
+    "library.filter.watched.navBar.title" : {
+      "comment" : "The navigation bar title for the watched? field in the library's filter view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched?"
           }
         }
       }
@@ -5498,23 +5498,6 @@
         }
       }
     },
-    "lists.filteredListEmpty.message" : {
-      "comment" : "The message showed in a filtered list when the list is empty",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es gibt keine Einträge in dieser Liste."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are no media objects in this list."
-          }
-        }
-      }
-    },
     "lists.filterResetWarning" : {
       "comment" : "The warning showed in a filtered list when the filter is reset and thus the list is showing all media objects",
       "localizations" : {
@@ -5528,6 +5511,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This list currently has no filter configured."
+          }
+        }
+      }
+    },
+    "lists.filteredListEmpty.message" : {
+      "comment" : "The message showed in a filtered list when the list is empty",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es gibt keine Einträge in dieser Liste."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no media objects in this list."
           }
         }
       }
@@ -6059,23 +6059,6 @@
         }
       }
     },
-    "mediaSearch.loading" : {
-      "comment" : "Placeholder text to show while the data is loading",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laden..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading..."
-          }
-        }
-      }
-    },
     "mediaSearch.loadMore" : {
       "comment" : "The button label to load more search results",
       "localizations" : {
@@ -6089,6 +6072,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Load more results..."
+          }
+        }
+      }
+    },
+    "mediaSearch.loading" : {
+      "comment" : "Placeholder text to show while the data is loading",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
           }
         }
       }
@@ -6259,91 +6259,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rumored"
-          }
-        }
-      }
-    },
-    "problems.list.missingListPrefix" : {
-      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fehlt:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Missing:"
-          }
-        }
-      }
-    },
-    "problems.navBar.title" : {
-      "comment" : "The navigation bar title for the problems view",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probleme"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Problems"
-          }
-        }
-      }
-    },
-    "problems.noProblemsText" : {
-      "comment" : "The text displayed in the problems view when there are no problematic media objects",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Probleme in der Mediathek gefunden."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are no problems in your library."
-          }
-        }
-      }
-    },
-    "problemType.duplicateMedia.description" : {
-      "comment" : "A type of library problem (e.g. duplicate medias)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doppelte Medien"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duplicate media objects"
-          }
-        }
-      }
-    },
-    "problemType.duplicateMedia.recovery" : {
-      "comment" : "A recovery suggestion to resolve a library problem (e.g. duplicate medias)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Löschen Sie eines der folgenden Medien"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete one of the following medias"
           }
         }
       }
@@ -6717,6 +6632,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie DB Pro"
+          }
+        }
+      }
+    },
+    "problemType.duplicateMedia.description" : {
+      "comment" : "A type of library problem (e.g. duplicate medias)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doppelte Medien"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate media objects"
+          }
+        }
+      }
+    },
+    "problemType.duplicateMedia.recovery" : {
+      "comment" : "A recovery suggestion to resolve a library problem (e.g. duplicate medias)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen Sie eines der folgenden Medien"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete one of the following medias"
+          }
+        }
+      }
+    },
+    "problems.list.missingListPrefix" : {
+      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlt:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing:"
+          }
+        }
+      }
+    },
+    "problems.navBar.title" : {
+      "comment" : "The navigation bar title for the problems view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probleme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problems"
+          }
+        }
+      }
+    },
+    "problems.noProblemsText" : {
+      "comment" : "The text displayed in the problems view when there are no problematic media objects",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Probleme in der Mediathek gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no problems in your library."
           }
         }
       }
@@ -9193,14 +9193,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Zurück zur Prüfung"
+            "state" : "translated",
+            "value" : "Prüfung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Back to Review"
+            "value" : "Review"
           }
         }
       }
@@ -9295,67 +9295,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Ausgewählte importieren"
+            "state" : "translated",
+            "value" : "Importieren"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Import Selected"
-          }
-        }
-      }
-    },
-    "titleImport.confirmation.minimumSeconds" : {
-      "comment" : "Minimum title import duration in seconds",
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Mindestens %lld Sekunde"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Mindestens %lld Sekunden"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Mindestens %lld Sekunden"
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "At least %lld sec"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "At least %lld sec"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "At least %lld sec"
-                }
-              }
-            }
+            "value" : "Import"
           }
         }
       }
@@ -9883,7 +9830,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vorgeschlagenen Treffer prüfen."
           }
         },
@@ -9953,6 +9900,12 @@
       "comment" : "Picker value for mapping a field to no column.",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— Keine Spalte —"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10363,14 +10316,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Treffer suchen"
+            "state" : "needs_review",
+            "value" : "Suchen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Find Matches"
+            "value" : "Search"
           }
         }
       }

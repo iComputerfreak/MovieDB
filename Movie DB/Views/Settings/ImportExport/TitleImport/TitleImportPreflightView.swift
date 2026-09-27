@@ -48,7 +48,7 @@ struct TitleImportPreflightView: View {
         }
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button(action: startAction) {
+                Button(role: .legacyConfirm, action: startAction) {
                     Text(Strings.TitleImport.Preflight.start)
                 }
             }

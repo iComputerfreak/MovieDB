@@ -6,7 +6,6 @@ import SwiftUI
 struct TitleImportFinalProgressView: View {
     let processedCount: Int
     let totalCount: Int
-    let cancelAction: () -> Void
 
     var body: some View {
         VStack(spacing: 24) {
@@ -15,8 +14,6 @@ struct TitleImportFinalProgressView: View {
             Text(Strings.TitleImport.FinalImport.progress(processedCount, totalCount))
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
-            Button(Strings.TitleImport.FinalImport.stop, role: .destructive, action: cancelAction)
-                .buttonStyle(.bordered)
         }
         .padding()
     }
@@ -24,6 +21,6 @@ struct TitleImportFinalProgressView: View {
 
 #if DEBUG
 #Preview {
-    TitleImportFinalProgressView(processedCount: 7, totalCount: 20, cancelAction: {})
+    TitleImportFinalProgressView(processedCount: 7, totalCount: 20)
 }
 #endif

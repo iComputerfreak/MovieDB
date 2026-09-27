@@ -20,7 +20,6 @@ struct TitleImportReviewRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 12) {
-                // Quote view
                 quoteView
 
                 HStack(alignment: .center, spacing: 12) {
