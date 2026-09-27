@@ -101,7 +101,15 @@ struct TitleImportCSVParser {
 
         guard !rows.isEmpty else { throw ParserError.noRows }
 
-        let mappedHeaders = selectedIndices.mapValues { csv.header[$0] }
+        let mappedHeaders: [TitleImportField: String?] = Dictionary(
+            uniqueKeysWithValues: TitleImportField.allCases.map { field in
+                if let selectedIndex = selectedIndices[field] {
+                    return (field, csv.header[selectedIndex])
+                } else {
+                    return (field, nil)
+                }
+            }
+        )
         let selectedIndexSet = Set(selectedIndices.values)
         let ignoredHeaders = csv.header.enumerated().compactMap { offset, element in
             selectedIndexSet.contains(offset) ? nil : element
@@ -109,7 +117,8 @@ struct TitleImportCSVParser {
         return TitleImportPreflight(
             rows: rows,
             delimiter: guessedDelimiter.rawValue,
-            mappedHeaders: mappedHeaders,
+            allHeaders: csv.header,
+            headerMappings: mappedHeaders,
             ignoredHeaders: ignoredHeaders,
             malformedRowCount: malformedRowCount
         )

@@ -35,7 +35,16 @@ enum TitleImportPreviewData {
     static let preflight = TitleImportPreflight(
         rows: sourceRows,
         delimiter: ";",
-        mappedHeaders: [
+        allHeaders: [
+            "Titel",
+            "Jahr",
+            "Regie",
+            "Laufzeit",
+            "Typ",
+            "Bewertung",
+            "Notizen"
+        ],
+        headerMappings: [
             .title: "Titel",
             .year: "Jahr",
             .director: "Regie",

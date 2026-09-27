@@ -24,6 +24,11 @@ extension Strings {
             defaultValue: "Reading CSV...",
             comment: "CSV loading progress"
         )
+        static let noColumn = String(
+            localized: "titleImport.noColumn",
+            defaultValue: "— No column —",
+            comment: "Picker value for mapping a field to no column."
+        )
 
         static func fieldName(_ field: TitleImportField) -> String {
             switch field {

@@ -19,7 +19,7 @@ struct TitleImportFlowView: View {
                 case .loading:
                     ProgressView(Strings.TitleImport.loadingFile)
                 case .preflight:
-                    if let preflight = workflow.preflight {
+                    if let preflight = Binding($workflow.preflight) {
                         TitleImportPreflightView(preflight: preflight, startAction: workflow.startResolution)
                     }
                 case .resolving:
@@ -59,8 +59,8 @@ struct TitleImportFlowView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(Strings.Generic.dismissViewDone) {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(Strings.Generic.dismissViewDone, role: .cancel) {
                         if workflow.isPerformingWork {
                             isShowingStopConfirmation = true
                         } else {

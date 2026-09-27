@@ -5,7 +5,8 @@ import Foundation
 struct TitleImportPreflight: Sendable {
     let rows: [TitleImportSourceRow]
     let delimiter: Character
-    let mappedHeaders: [TitleImportField: String]
+    let allHeaders: [String]
+    var headerMappings: [TitleImportField: String?]
     let ignoredHeaders: [String]
     let malformedRowCount: Int
 }

@@ -68,12 +68,12 @@ struct TitleImportTests {
         """)
 
         #expect(explicitYear.rows.first?.year == 1979)
-        #expect(explicitYear.mappedHeaders[.year] == "Year")
+        #expect(explicitYear.headerMappings[.year] == "Year")
         #expect(explicitYear.ignoredHeaders == ["Release Date"])
-        #expect(releaseYear.mappedHeaders[.year] == "Release Year")
+        #expect(releaseYear.headerMappings[.year] == "Release Year")
         #expect(releaseYear.ignoredHeaders == ["Date"])
         #expect(releaseDate.rows.first?.year == 1979)
-        #expect(releaseDate.mappedHeaders[.year] == "Release Date")
+        #expect(releaseDate.headerMappings[.year] == "Release Date")
     }
 
     @Test("Ignores tied optional headers")
@@ -84,7 +84,7 @@ struct TitleImportTests {
         """)
 
         #expect(result.rows.first?.year == nil)
-        #expect(result.mappedHeaders[.year] == nil)
+        #expect(result.headerMappings[.year] == nil)
         #expect(result.ignoredHeaders == ["Year", "Jahr"])
     }
 

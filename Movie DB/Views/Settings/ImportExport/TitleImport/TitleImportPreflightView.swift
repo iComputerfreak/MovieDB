@@ -3,11 +3,11 @@
 import SwiftUI
 
 struct TitleImportPreflightView: View {
-    let preflight: TitleImportPreflight
+    @Binding var preflight: TitleImportPreflight
     let startAction: () -> Void
 
     var body: some View {
-        List {
+        Form {
             Section(Strings.TitleImport.Preflight.fileSection) {
                 LabeledContent(Strings.TitleImport.Preflight.rows, value: preflight.rows.count.description)
                 LabeledContent(Strings.TitleImport.Preflight.delimiter, value: delimiterName)
@@ -22,28 +22,34 @@ struct TitleImportPreflightView: View {
 
             Section(Strings.TitleImport.Preflight.columnsSection) {
                 ForEach(TitleImportField.allCases, id: \.self) { field in
-                    if let header = preflight.mappedHeaders[field] {
-                        LabeledContent(Strings.TitleImport.fieldName(field), value: header)
+                    Picker(Strings.TitleImport.fieldName(field), selection: $preflight.headerMappings[field]) {
+                        Text(Strings.TitleImport.noColumn)
+                            .tag(nil as String?)
+
+                        ForEach(preflight.allHeaders, id: \.self) { header in
+                            Text(header)
+                                .tag(header as String?)
+                        }
                     }
                 }
             }
 
             if !preflight.ignoredHeaders.isEmpty {
-                Section(Strings.TitleImport.Preflight.ignoredColumnsSection) {
+                Section {
                     Text(preflight.ignoredHeaders.joined(separator: ", "))
                         .foregroundStyle(.secondary)
+                } header: {
+                    Text(Strings.TitleImport.Preflight.ignoredColumnsSection)
+                } footer: {
+                    Text(Strings.TitleImport.Preflight.foregroundWarning)
                 }
             }
-
-            Section {
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
                 Button(action: startAction) {
                     Text(Strings.TitleImport.Preflight.start)
-                        .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent)
-                .listRowBackground(Color.clear)
-            } footer: {
-                Text(Strings.TitleImport.Preflight.foregroundWarning)
             }
         }
     }
@@ -59,8 +65,10 @@ struct TitleImportPreflightView: View {
 
 #if DEBUG
 #Preview {
+    @Previewable @State var preflight = TitleImportPreviewData.preflight
+
     NavigationStack {
-        TitleImportPreflightView(preflight: TitleImportPreviewData.preflight, startAction: {})
+        TitleImportPreflightView(preflight: $preflight, startAction: {})
             .navigationTitle(Strings.TitleImport.title)
     }
 }
