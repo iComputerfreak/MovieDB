@@ -26,12 +26,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         #endif
         
         // Initialize now to prevent it happening from a background thread later
-        _ = PersistenceController.shared
-        
+        if !ProcessInfo.isRunningForPreviews {
+            _ = PersistenceController.shared
+        }
+
         // MARK: Register transformers
         SerializableColorTransformer.register()
         EpisodeTransformer.register()
-        
+
+        // MARK: Early Exit for Previews
+        guard !ProcessInfo.isRunningForPreviews else { return true }
+
         // MARK: Cleanup
         Task(priority: .background) {
             do {
@@ -83,6 +88,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         migrationManager.run()
 
+
+        // MARK: Initialize Store Manager
+        _ = StoreManager.shared
+
         return true
     }
     
@@ -118,10 +127,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     #if DEBUG
     private func handleDebugParameters() {
+        let isPreview = ProcessInfo.isRunningForPreviews
         let isUITesting = CommandLine.launchArguments.contains(.uiTesting)
         let isScreenshots = CommandLine.launchArguments.contains(.screenshots)
 
-        if isUITesting || isScreenshots {
+        if isPreview || isUITesting || isScreenshots {
             JFConfig.shared.analyticsConsentState = .denied
             // Make sure the app does not ask for a rating during UI testing
             UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
