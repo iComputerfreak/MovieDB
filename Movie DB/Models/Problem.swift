@@ -6,6 +6,7 @@ struct Problem: Identifiable {
     let id = UUID()
     let type: ProblemType
     let associatedMedias: [Media]
+    var isIgnored: Bool = false
 }
 
 enum ProblemType {
