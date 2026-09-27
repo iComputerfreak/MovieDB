@@ -287,26 +287,6 @@ extension Strings {
                 defaultValue: "Only comma- and semicolon-separated CSV files are supported.",
                 comment: "Unsupported CSV delimiter error"
             )
-            /// Formats an error listing headers when no title column can be recognized.
-            /// - Parameter headers: The available headers formatted for display.
-            /// - Returns: The localized missing-title-column error.
-            static func missingTitleHeader(_ headers: String) -> String {
-                String(
-                    localized: "titleImport.error.missingTitleHeader",
-                    defaultValue: "No title column was found. Available headers: \(headers)",
-                    comment: "Missing title header error. Argument lists found headers."
-                )
-            }
-            /// Formats an error listing multiple recognized title columns.
-            /// - Parameter headers: The conflicting headers formatted for display.
-            /// - Returns: The localized ambiguous-title-column error.
-            static func ambiguousTitleHeader(_ headers: String) -> String {
-                String(
-                    localized: "titleImport.error.ambiguousTitleHeader",
-                    defaultValue: "Multiple title columns were found: \(headers)",
-                    comment: "Ambiguous title header error. Argument lists matching headers."
-                )
-            }
             static let noRows = String(
                 localized: "titleImport.error.noRows",
                 defaultValue: "The CSV file contains no usable media rows.",
@@ -340,6 +320,16 @@ extension Strings {
                 localized: "titleImport.preflight.columns",
                 defaultValue: "Detected Columns",
                 comment: "Detected columns section"
+            )
+            static let titleRequired = String(
+                localized: "titleImport.preflight.titleRequired",
+                defaultValue: "Select a title column to continue.",
+                comment: "Validation shown when no title column is mapped during CSV import preflight."
+            )
+            static let noUsableTitles = String(
+                localized: "titleImport.preflight.noUsableTitles",
+                defaultValue: "The selected title column contains no usable titles.",
+                comment: "Validation shown when every value in the selected title column is empty."
             )
             static let ignoredColumnsSection = String(
                 localized: "titleImport.preflight.ignoredColumns",

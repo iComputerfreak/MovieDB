@@ -4,7 +4,7 @@ import Foundation
 import SwiftCSV
 
 /// Parses title-oriented CSV files into normalized source rows and header-mapping metadata.
-struct TitleImportCSVParser {
+struct TitleImportCSVParser: Sendable {
     private let locale: Locale
 
     /// Creates a parser using localized vocabulary for a specific locale plus English fallback terms.
@@ -17,8 +17,6 @@ struct TitleImportCSVParser {
     enum ParserError: LocalizedError {
         case emptyFile
         case unsupportedDelimiter
-        case missingTitleHeader([String])
-        case ambiguousTitleHeader([String])
         case noRows
 
         var errorDescription: String? {
@@ -27,20 +25,15 @@ struct TitleImportCSVParser {
                 return Strings.TitleImport.Error.emptyFile
             case .unsupportedDelimiter:
                 return Strings.TitleImport.Error.unsupportedDelimiter
-            case let .missingTitleHeader(headers):
-                return Strings.TitleImport.Error.missingTitleHeader(headers.joined(separator: ", "))
-            case let .ambiguousTitleHeader(headers):
-                return Strings.TitleImport.Error.ambiguousTitleHeader(headers.joined(separator: ", "))
             case .noRows:
                 return Strings.TitleImport.Error.noRows
             }
         }
     }
 
-    // swiftlint:disable function_body_length
-    /// Parses CSV content, selects canonical header mappings, and normalizes valid source rows.
+    /// Parses CSV structure and selects unambiguous default header mappings for preflight review.
     /// - Parameter string: The complete CSV document to parse.
-    /// - Returns: Preflight metadata and the valid source rows extracted from the document.
+    /// - Returns: Preflight metadata and raw nonempty rows for deferred field mapping.
     /// - Throws: A ``ParserError`` for unsupported or unusable input, or a SwiftCSV parsing error for malformed CSV.
     func parse(string: String) throws -> TitleImportPreflight {
         guard !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -61,81 +54,64 @@ struct TitleImportCSVParser {
             mappedIndices[match.field, default: []].append((index, match.priority))
         }
 
-        let titleIndices = mappedIndices[.title, default: []]
-        guard !titleIndices.isEmpty else {
-            throw ParserError.missingTitleHeader(csv.header)
-        }
-        guard titleIndices.count == 1 else {
-            throw ParserError.ambiguousTitleHeader(titleIndices.map { csv.header[$0.index] })
-        }
-
-        var selectedIndices: [TitleImportField: Int] = [.title: titleIndices[0].index]
-        for field in TitleImportField.allCases where field != .title {
+        var selectedIndices: [TitleImportField: Int] = [:]
+        for field in TitleImportField.allCases {
             guard let matches = mappedIndices[field], let bestPriority = matches.map(\.priority).min() else { continue }
             let preferredMatches = matches.filter { $0.priority == bestPriority }
             guard preferredMatches.count == 1 else { continue }
             selectedIndices[field] = preferredMatches[0].index
         }
 
-        // Preserve source line numbers while dropping blank rows and counting rows without a usable title.
-        var malformedRowCount = 0
-        var rows: [TitleImportSourceRow] = []
-        rows.reserveCapacity(csv.rows.count)
-        for (offset, values) in csv.rows.enumerated() {
-            if values.allSatisfy({ $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) {
-                continue
+        // Preserve source line numbers while dropping rows that contain no data in any column.
+        let rawRows = csv.rows.enumerated().compactMap { offset, values -> TitleImportRawRow? in
+            guard !values.allSatisfy({ $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) else {
+                return nil
             }
-            guard
-                let rawTitle = value(for: .title, in: values, indices: selectedIndices),
-                !rawTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            else {
-                malformedRowCount += 1
-                continue
-            }
-
-            let title = rawTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-            let explicitYear = value(for: .year, in: values, indices: selectedIndices).flatMap(Self.parseYear)
-            rows.append(
-                TitleImportSourceRow(
-                    id: offset + 2,
-                    title: title,
-                    year: explicitYear ?? Self.yearFromTitle(title),
-                    directors: value(for: .director, in: values, indices: selectedIndices)
-                        .map { Self.parseDirectors($0, locale: locale) } ?? [],
-                    runtimeMinutes: value(for: .runtime, in: values, indices: selectedIndices)
-                        .flatMap { Self.parseRuntime($0, locale: locale) },
-                    mediaType: value(for: .mediaType, in: values, indices: selectedIndices)
-                        .flatMap { Self.parseMediaType($0, locale: locale) }
-                )
-            )
+            return TitleImportRawRow(rowNumber: offset + 2, values: values)
         }
-
-        guard !rows.isEmpty else { throw ParserError.noRows }
+        guard !rawRows.isEmpty else { throw ParserError.noRows }
 
         // Return all headers so preflight UI can revise automatic mappings before resolution starts.
-        let mappedHeaders: [TitleImportField: String?] = Dictionary(
-            uniqueKeysWithValues: TitleImportField.allCases.map { field in
-                if let selectedIndex = selectedIndices[field] {
-                    return (field, csv.header[selectedIndex])
-                } else {
-                    return (field, nil)
-                }
+        let mappedHeaders: [TitleImportField: String] = Dictionary(
+            uniqueKeysWithValues: selectedIndices.map { field, selectedIndex in
+                (field, csv.header[selectedIndex])
             }
         )
-        let selectedIndexSet = Set(selectedIndices.values)
-        let ignoredHeaders = csv.header.enumerated().compactMap { offset, element in
-            selectedIndexSet.contains(offset) ? nil : element
-        }
         return TitleImportPreflight(
-            rows: rows,
+            rawRows: rawRows,
             delimiter: guessedDelimiter.rawValue,
             allHeaders: csv.header,
-            headerMappings: mappedHeaders,
-            ignoredHeaders: ignoredHeaders,
-            malformedRowCount: malformedRowCount
+            headerMappings: mappedHeaders
         )
     }
-    // swiftlint:enable function_body_length
+    /// Materializes normalized source rows using the mappings confirmed during preflight.
+    /// - Parameter preflight: The raw rows, headers, and current field mappings.
+    /// - Returns: Rows with nonempty mapped titles in original source order.
+    func sourceRows(from preflight: TitleImportPreflight) -> [TitleImportSourceRow] {
+        let selectedIndices = Dictionary(
+            uniqueKeysWithValues: preflight.headerMappings.compactMap { field, header in
+                preflight.allHeaders.firstIndex(of: header).map { (field, $0) }
+            }
+        )
+        guard selectedIndices[.title] != nil else { return [] }
+
+        return preflight.rawRows.compactMap { row in
+            guard let rawTitle = value(for: .title, in: row.values, indices: selectedIndices) else { return nil }
+            let title = rawTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            let explicitYear = value(for: .year, in: row.values, indices: selectedIndices).flatMap(Self.parseYear)
+            return TitleImportSourceRow(
+                id: row.rowNumber,
+                title: title,
+                year: explicitYear ?? Self.yearFromTitle(title),
+                directors: value(for: .director, in: row.values, indices: selectedIndices)
+                    .map { Self.parseDirectors($0, locale: locale) } ?? [],
+                runtimeMinutes: value(for: .runtime, in: row.values, indices: selectedIndices)
+                    .flatMap { Self.parseRuntime($0, locale: locale) },
+                mediaType: value(for: .mediaType, in: row.values, indices: selectedIndices)
+                    .flatMap { Self.parseMediaType($0, locale: locale) }
+            )
+        }
+    }
 
     /// Reads and trims the source value mapped to a logical field.
     /// - Parameters:

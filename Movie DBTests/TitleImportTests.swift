@@ -13,8 +13,9 @@ struct TitleImportTests {
         Name,Year,Director,Runtime,Type,Ignored
         "Alien, The",1979,Ridley Scott,117,movie,value
         """
-        let result = try TitleImportCSVParser(locale: Locale(identifier: "de")).parse(string: csv)
-        let row = try #require(result.rows.first)
+        let parser = TitleImportCSVParser(locale: Locale(identifier: "de"))
+        let result = try parser.parse(string: csv)
+        let row = try #require(parser.sourceRows(from: result).first)
 
         #expect(result.delimiter == ",")
         #expect(row.title == "Alien, The")
@@ -32,7 +33,9 @@ struct TitleImportTests {
         Dark;2017;Baran bo Odar und Jantje Friese;53 Minuten;Serie
         """
         let locale = Locale(identifier: "de")
-        let row = try #require(TitleImportCSVParser(locale: locale).parse(string: csv).rows.first)
+        let parser = TitleImportCSVParser(locale: locale)
+        let preflight = try parser.parse(string: csv)
+        let row = try #require(parser.sourceRows(from: preflight).first)
 
         #expect(row.title == "Dark")
         #expect(row.year == 2017)
@@ -43,13 +46,14 @@ struct TitleImportTests {
     }
 
     @Test("Uses only English and the active localization")
-    func usesActiveLocalization() {
-        #expect(throws: TitleImportCSVParser.ParserError.self) {
-            try TitleImportCSVParser(locale: Locale(identifier: "en")).parse(string: """
-            Titel,Jahr
-            Dark,2017
-            """)
-        }
+    func usesActiveLocalization() throws {
+        let result = try TitleImportCSVParser(locale: Locale(identifier: "en")).parse(string: """
+        Titel,Jahr
+        Dark,2017
+        """)
+
+        #expect(result.headerMappings[.title] == nil)
+        #expect(!result.canStartResolution)
     }
 
     @Test("Prioritizes dedicated year columns over release dates")
@@ -67,12 +71,12 @@ struct TitleImportTests {
         Alien,1979-05-25
         """)
 
-        #expect(explicitYear.rows.first?.year == 1979)
+        #expect(TitleImportCSVParser().sourceRows(from: explicitYear).first?.year == 1979)
         #expect(explicitYear.headerMappings[.year] == "Year")
         #expect(explicitYear.ignoredHeaders == ["Release Date"])
         #expect(releaseYear.headerMappings[.year] == "Release Year")
         #expect(releaseYear.ignoredHeaders == ["Date"])
-        #expect(releaseDate.rows.first?.year == 1979)
+        #expect(TitleImportCSVParser().sourceRows(from: releaseDate).first?.year == 1979)
         #expect(releaseDate.headerMappings[.year] == "Release Date")
     }
 
@@ -83,7 +87,7 @@ struct TitleImportTests {
         Alien,1979,1980
         """)
 
-        #expect(result.rows.first?.year == nil)
+        #expect(TitleImportCSVParser(locale: Locale(identifier: "de")).sourceRows(from: result).first?.year == nil)
         #expect(result.headerMappings[.year] == nil)
         #expect(result.ignoredHeaders == ["Year", "Jahr"])
     }
@@ -96,14 +100,50 @@ struct TitleImportTests {
         #expect(TitleImportCSVParser.parseYear(value) == nil)
     }
 
-    @Test("Rejects missing and ambiguous title headers")
-    func rejectsInvalidHeaders() {
-        #expect(throws: TitleImportCSVParser.ParserError.self) {
-            try TitleImportCSVParser().parse(string: "Year,Director\n1999,Lana Wachowski")
-        }
-        #expect(throws: TitleImportCSVParser.ParserError.self) {
-            try TitleImportCSVParser().parse(string: "Title,Name\nThe Matrix,The Matrix")
-        }
+    @Test("Missing and ambiguous title headers remain editable in preflight")
+    func mapsUnrecognizedHeaders() throws {
+        let parser = TitleImportCSVParser()
+        var missing = try parser.parse(string: """
+        Work,Released,Maker,Length,Category
+        The Matrix,1999,Lana Wachowski,136,movie
+        """)
+        let ambiguous = try parser.parse(string: """
+        Title,Name
+        The Matrix,The Matrix
+        """)
+
+        #expect(missing.headerMappings[.title] == nil)
+        #expect(!missing.canStartResolution)
+        #expect(missing.ignoredHeaders == ["Work", "Released", "Maker", "Category"])
+        #expect(ambiguous.headerMappings[.title] == nil)
+        #expect(!ambiguous.canStartResolution)
+
+        missing.headerMappings = [
+            .title: "Work",
+            .year: "Released",
+            .director: "Maker",
+            .runtime: "Length",
+            .mediaType: "Category",
+        ]
+        let row = try #require(parser.sourceRows(from: missing).first)
+        #expect(missing.canStartResolution)
+        #expect(missing.ignoredHeaders.isEmpty)
+        #expect(row.title == "The Matrix")
+        #expect(row.year == 1999)
+        #expect(row.directors == ["Lana Wachowski"])
+        #expect(row.runtimeMinutes == 136)
+        #expect(row.mediaType == .movie)
+    }
+
+    @Test("An empty mapped title column cannot start resolution")
+    func rejectsEmptyMappedTitleColumn() throws {
+        var result = try TitleImportCSVParser().parse(string: "Work,Year\n,1999")
+        result.headerMappings[.title] = "Work"
+
+        #expect(result.hasTitleMapping)
+        #expect(result.usableRowCount == 0)
+        #expect(!result.canStartResolution)
+        #expect(TitleImportCSVParser().sourceRows(from: result).isEmpty)
     }
 
     @Test(
@@ -401,11 +441,13 @@ struct TitleImportTests {
 
     @Test("Parses 10,000 rows")
     func parsesLargeCSV() throws {
-        let rows = (1...10_000).map { "Movie \($0),2000" }.joined(separator: "\n")
-        let result = try TitleImportCSVParser().parse(string: "Title,Year\n\(rows)")
+        let csvRows = (1...10_000).map { "Movie \($0),2000" }.joined(separator: "\n")
+        let parser = TitleImportCSVParser()
+        let result = try parser.parse(string: "Title,Year\n\(csvRows)")
+        let rows = parser.sourceRows(from: result)
 
-        #expect(result.rows.count == 10_000)
-        #expect(result.rows.last?.title == "Movie 10000")
+        #expect(rows.count == 10_000)
+        #expect(rows.last?.title == "Movie 10000")
     }
 
     private func sourceRow(

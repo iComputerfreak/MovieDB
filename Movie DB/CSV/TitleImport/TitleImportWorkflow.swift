@@ -32,6 +32,7 @@ final class TitleImportWorkflow: Identifiable {
     var preflight: TitleImportPreflight?
     var reviewItems: [TitleImportReviewItem] = []
     var processedCount = 0
+    var resolutionTotalCount = 0
     var finalImportProcessedCount = 0
     var finalImportTotalCount = 0
     var finalResult: TitleImportFinalResult?
@@ -54,7 +55,9 @@ final class TitleImportWorkflow: Identifiable {
         self.finalImporter = finalImporter
     }
 
-    var totalCount: Int { preflight?.rows.count ?? 0 }
+    var totalCount: Int {
+        stage == .resolving ? resolutionTotalCount : preflight?.usableRowCount ?? 0
+    }
     var includedCount: Int { reviewItems.filter(\.isIncluded).count }
     var freeSelectionLimit: Int? {
         guard !StoreManager.shared.hasPurchasedPro else { return nil }
@@ -92,9 +95,10 @@ final class TitleImportWorkflow: Identifiable {
 
     /// Starts foreground candidate resolution, deduplication, and free-limit selection enforcement.
     func startResolution() {
-        guard let preflight, resolutionTask == nil else { return }
+        guard let preflight, preflight.canStartResolution, resolutionTask == nil else { return }
         stage = .resolving
         processedCount = 0
+        resolutionTotalCount = preflight.usableRowCount
         let priorIdleTimerState = UIApplication.shared.isIdleTimerDisabled
         // Resolution is foreground-only; prevent auto-lock while a long import is actively progressing.
         UIApplication.shared.isIdleTimerDisabled = true
@@ -107,8 +111,14 @@ final class TitleImportWorkflow: Identifiable {
                 resolutionTask = nil
             }
             do {
+                // Apply the confirmed mappings away from the main actor before starting network resolution.
+                let parser = TitleImportCSVParser()
+                let rows = await Task.detached(priority: .userInitiated) {
+                    parser.sourceRows(from: preflight)
+                }.value
+                try Task.checkCancellation()
                 // Resolve, deduplicate, and enforce entitlement limits before exposing mutable review state.
-                let items = try await resolver.resolve(preflight.rows) { [weak self] count in
+                let items = try await resolver.resolve(rows) { [weak self] count in
                     self?.processedCount = count
                 }
                 let existing = try await TitleImportDeduplicator.existingIdentities()

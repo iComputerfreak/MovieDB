@@ -10,7 +10,7 @@ struct TitleImportPreflightView: View {
     var body: some View {
         Form {
             Section(Strings.TitleImport.Preflight.fileSection) {
-                LabeledContent(Strings.TitleImport.Preflight.rows, value: preflight.rows.count.description)
+                LabeledContent(Strings.TitleImport.Preflight.rows, value: preflight.displayedRowCount.description)
                 LabeledContent(Strings.TitleImport.Preflight.delimiter, value: delimiterName)
                 if preflight.malformedRowCount > 0 {
                     LabeledContent(
@@ -21,7 +21,7 @@ struct TitleImportPreflightView: View {
                 }
             }
 
-            Section(Strings.TitleImport.Preflight.columnsSection) {
+            Section {
                 ForEach(TitleImportField.allCases, id: \.self) { field in
                     Picker(Strings.TitleImport.fieldName(field), selection: $preflight.headerMappings[field]) {
                         Text(Strings.TitleImport.noColumn)
@@ -32,6 +32,16 @@ struct TitleImportPreflightView: View {
                                 .tag(header as String?)
                         }
                     }
+                }
+            } header: {
+                Text(Strings.TitleImport.Preflight.columnsSection)
+            } footer: {
+                if !preflight.hasTitleMapping {
+                    Text(Strings.TitleImport.Preflight.titleRequired)
+                        .foregroundStyle(.red)
+                } else if preflight.usableRowCount == 0 {
+                    Text(Strings.TitleImport.Preflight.noUsableTitles)
+                        .foregroundStyle(.red)
                 }
             }
 
@@ -51,6 +61,7 @@ struct TitleImportPreflightView: View {
                 Button(role: .legacyConfirm, action: startAction) {
                     Text(Strings.TitleImport.Preflight.start)
                 }
+                .disabled(!preflight.canStartResolution)
             }
         }
     }

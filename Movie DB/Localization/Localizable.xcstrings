@@ -9514,24 +9514,6 @@
         }
       }
     },
-    "titleImport.error.ambiguousTitleHeader" : {
-      "comment" : "Ambiguous title header error. Argument lists matching headers.",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mehrere Titelspalten gefunden: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Multiple title columns were found: %@"
-          }
-        }
-      }
-    },
     "titleImport.error.emptyFile" : {
       "comment" : "Empty CSV error",
       "extractionState" : "extracted_with_value",
@@ -9546,24 +9528,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "The selected CSV file is empty."
-          }
-        }
-      }
-    },
-    "titleImport.error.missingTitleHeader" : {
-      "comment" : "Missing title header error. Argument lists found headers.",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Titelspalte gefunden. Verfügbare Spalten: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "No title column was found. Available headers: %@"
           }
         }
       }
@@ -10358,6 +10322,24 @@
         }
       }
     },
+    "titleImport.preflight.noUsableTitles" : {
+      "comment" : "Validation shown when every value in the selected title column is empty.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die ausgewählte Titelspalte enthält keine verwendbaren Titel."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The selected title column contains no usable titles."
+          }
+        }
+      }
+    },
     "titleImport.preflight.rows" : {
       "comment" : "CSV row count label",
       "extractionState" : "extracted_with_value",
@@ -10426,6 +10408,24 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Search"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.titleRequired" : {
+      "comment" : "Validation shown when no title column is mapped during CSV import preflight.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eine Titelspalte aus, um fortzufahren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Select a title column to continue."
           }
         }
       }

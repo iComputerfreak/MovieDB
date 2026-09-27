@@ -10,7 +10,7 @@ The existing exact TMDB-ID importer remains available for Movie DB exports conta
 
 - Support CSV files only. Do not support Excel workbooks or other spreadsheet formats.
 - Require a header row.
-- Require exactly one recognized title column. Reject the file otherwise.
+- Require one user-confirmed title-column mapping before resolution.
 - Use optional year, director, runtime, and media-type columns as matching evidence.
 - Support English and German header aliases regardless of the selected app language.
 - Make accepted matches included by default.
@@ -29,7 +29,6 @@ The existing exact TMDB-ID importer remains available for Movie DB exports conta
 - Checkpoints or restoration after app restart
 - AI-based matching
 - Manual candidate selection or manual TMDB search
-- Generic user-driven column mapping
 - Excel, Numbers, or OpenDocument spreadsheet files
 
 ## User Flow
@@ -37,7 +36,7 @@ The existing exact TMDB-ID importer remains available for Movie DB exports conta
 1. Open Settings and choose the new title-based CSV import action.
 2. Pick a CSV file.
 3. Parse the file and detect its delimiter and supported columns.
-4. Show preflight information and any recoverable warnings.
+4. Show preflight information, editable column mappings, and any recoverable warnings.
 5. Start foreground TMDB resolution.
 6. Show progress with processed and total row counts plus cancellation.
 7. After every row is processed, show the complete review list.
@@ -74,20 +73,17 @@ Reject files with:
 - No data rows
 - Invalid CSV structure
 - Unsupported text encoding
-- No recognized title column
-- More than one title column that maps with equal priority
 
 The preflight screen should show:
 
 - Parsed row count
 - Detected delimiter
-- Detected title column
-- Detected optional columns
+- Editable title and optional-column mappings
 - Ignored columns
 - Empty or malformed row count
 - Warnings for optional fields that could not be used
 
-There is no manual column-mapping fallback. Errors must show the actual headers and expected title aliases so the user can correct the source file.
+Keep raw rows through preflight so users can correct missing or ambiguous automatic mappings. Disable resolution until a title column is selected and contains at least one usable title. Apply every confirmed mapping only when materializing normalized source rows for resolution.
 
 ## 3. Header Recognition
 
@@ -454,8 +450,10 @@ If analytics are approved later, restrict them to allowlisted aggregate buckets 
 - Empty and malformed rows
 - English and German header aliases
 - Header normalization
-- Missing title header
-- Ambiguous title headers
+- Missing title header remains editable in preflight
+- Ambiguous title headers remain editable in preflight
+- Required title mapping and empty-title-column validation
+- Manual mappings affect parsed source metadata
 - Optional-header conflicts
 - Year, runtime, director, and media-type parsing
 - At least 10,000 synthetic rows
@@ -543,8 +541,8 @@ Use sanitized regression cases from `docs/ImportMatchingLearnings.md`.
 
 ## Acceptance Criteria
 
-- A valid CSV with a recognized English or German title header can enter resolution.
-- Invalid or missing title headers produce actionable localized errors.
+- A valid CSV can enter resolution after the user confirms a title-column mapping.
+- Missing or ambiguous automatic title mappings remain editable in preflight instead of ending the workflow.
 - Optional year, director, runtime, and media type improve deterministic matching.
 - Movie and TV candidates are both considered.
 - At least 10,000 rows can be parsed, resolved, reviewed, and imported without unbounded task or memory growth.

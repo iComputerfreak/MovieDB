@@ -34,7 +34,14 @@ enum TitleImportPreviewData {
     ]
 
     static let preflight = TitleImportPreflight(
-        rows: sourceRows,
+        rawRows: [
+            TitleImportRawRow(
+                rowNumber: 2,
+                values: ["The Matrix", "1999", "Lana Wachowski, Lilly Wachowski", "136", "movie", "", ""]
+            ),
+            TitleImportRawRow(rowNumber: 3, values: ["Dark", "2017", "Baran bo Odar", "60", "show", "", ""]),
+            TitleImportRawRow(rowNumber: 4, values: ["Unknown Film", "", "", "", "", "", ""]),
+        ],
         delimiter: ";",
         allHeaders: [
             "Titel",
@@ -51,9 +58,7 @@ enum TitleImportPreviewData {
             .director: "Regie",
             .runtime: "Laufzeit",
             .mediaType: "Typ",
-        ],
-        ignoredHeaders: ["Bewertung", "Notizen"],
-        malformedRowCount: 2
+        ]
     )
 
     static let acceptedItem = TitleImportReviewItem(
