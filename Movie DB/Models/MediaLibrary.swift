@@ -13,7 +13,7 @@ struct MediaLibrary {
     
     @AppStorage(JFLiterals.Keys.lastLibraryUpdate)
     var lastUpdated: TimeInterval = Date.now.timeIntervalSince1970
-    
+
     /// Returns all library problems that need to be resolved by the user
     func problems() -> [Problem] {
         var problems: [Problem] = []
@@ -23,8 +23,9 @@ struct MediaLibrary {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Media")
 
         // We need the result to include the count in order to only fetch duplicates
-        let propertyName = Schema.Media.tmdbID.rawValue
-        let tmdbIDExpr = NSExpression(forKeyPath: propertyName)
+        let mediaTypeProperty = Schema.Media.type.rawValue
+        let tmdbIDProperty = Schema.Media.tmdbID.rawValue
+        let tmdbIDExpr = NSExpression(forKeyPath: tmdbIDProperty)
         let countExpr = NSExpressionDescription()
         let countVariableExpr = NSExpression(forVariable: "count")
         
@@ -33,8 +34,8 @@ struct MediaLibrary {
         countExpr.expressionResultType = .integer64AttributeType
 
         fetchRequest.resultType = .dictionaryResultType
-        fetchRequest.propertiesToGroupBy = [propertyName]
-        fetchRequest.propertiesToFetch = [propertyName, "objectID", countExpr]
+        fetchRequest.propertiesToGroupBy = [tmdbIDProperty, mediaTypeProperty]
+        fetchRequest.propertiesToFetch = [mediaTypeProperty, tmdbIDProperty, "objectID", countExpr]
 
         // Only return results that have duplicates
         fetchRequest.havingPredicate = NSPredicate(format: "%@ > 1", countVariableExpr)
@@ -44,16 +45,17 @@ struct MediaLibrary {
                 let results = try context.fetch(fetchRequest) as? [[String: Any]],
                 !results.isEmpty
             {
-                // Process the duplicate TMDB IDs
-                let duplicateIDs = results.compactMap { $0[propertyName] as? Int }
                 // Fetch all duplicate IDs
+                let duplicateIDs = results.compactMap { $0[tmdbIDProperty] }
                 let duplicateRequest = Media.fetchRequest()
-                duplicateRequest.predicate = NSPredicate(format: "%K IN %@", propertyName, duplicateIDs)
+                duplicateRequest.predicate = NSPredicate(format: "%K IN %@", tmdbIDProperty, duplicateIDs)
                 let duplicateMedias = try context.fetch(duplicateRequest)
                 // Group all duplicate medias by tmdbID
-                Dictionary(grouping: duplicateMedias, by: \.tmdbID)
+                Dictionary(grouping: duplicateMedias, by: { "\($0.type).\($0.tmdbID)" })
                     // We don't care about the key
                     .values
+                    // Filter out false positives (identical TMDB ID, but different media type)
+                    .filter { $0.count > 1 }
                     // Add all duplicate arrays to the problems list
                     .forEach { duplicates in
                         problems.append(.init(type: .duplicateMedia, associatedMedias: duplicates))

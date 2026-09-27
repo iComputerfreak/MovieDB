@@ -8,7 +8,8 @@ struct ResolveProblemsView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var selectedMedia: Media?
-    
+    let ignoreProblems: () -> Void
+
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedMedia) {
@@ -34,7 +35,10 @@ struct ResolveProblemsView: View {
             .navigationTitle(Strings.ResolveProblems.navBarTitle)
             .toolbar {
                 Button(Strings.ResolveProblems.resolveLater, role: .cancel) {
-                    self.dismiss()
+                    MediaLibrary.shared.problems().forEach { problem in
+                        // Ignore problems until the next app start
+                        ignoreProblems()
+                    }
                 }
             }
         } detail: {
@@ -49,5 +53,5 @@ struct ResolveProblemsView: View {
 }
 
 #Preview {
-    ResolveProblemsView(problems: .constant([]))
+    ResolveProblemsView(problems: .constant([]), ignoreProblems: {})
 }

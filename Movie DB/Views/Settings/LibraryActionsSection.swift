@@ -41,13 +41,14 @@ struct LibraryActionsSection: View {
                     Button {
                         // swiftlint:disable force_try
                         // Do debugging things here
-                        var shows = try! PersistenceController.viewContext.fetch(Show.fetchRequest())
-                        shows = shows.filter { show in
-                            show.seasons.max(on: \.seasonNumber, by: <)?.episodeCount == 0
-                        }
-                        for show in shows {
-                            let seasons = show.seasons.map { "\($0.seasonNumber),\($0.episodeCount)" }.sorted()
-                            print("\(show.title) (\(show.numberOfSeasons ?? -1) != \(show.seasons.count)): \(seasons)")
+                        Task {
+                            let duplicateMedia = try await TMDBAPI.shared.media(
+                                for: 580,
+                                type: .movie,
+                                context: PersistenceController.viewContext
+                            )
+                            PersistenceController.viewContext.insert(duplicateMedia)
+                            PersistenceController.saveContext()
                         }
                         // swiftlint:enable force_try
                     } label: {
