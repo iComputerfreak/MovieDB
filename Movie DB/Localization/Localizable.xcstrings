@@ -401,6 +401,108 @@
         }
       }
     },
+    "decodingError.debugDescription" : {
+      "comment" : "Label for decoder-provided technical details in a decoding error diagnostic.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug-Beschreibung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug description"
+          }
+        }
+      }
+    },
+    "decodingError.expectedType" : {
+      "comment" : "Label for the expected Swift type in a technical decoding error diagnostic.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erwarteter Typ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expected type"
+          }
+        }
+      }
+    },
+    "decodingError.missingKey" : {
+      "comment" : "Label for a missing payload key in a technical decoding error diagnostic.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlender Schlüssel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing key"
+          }
+        }
+      }
+    },
+    "decodingError.path" : {
+      "comment" : "Label for the coding path in a technical decoding error diagnostic.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pfad"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Path"
+          }
+        }
+      }
+    },
+    "decodingError.rootPath" : {
+      "comment" : "Coding path shown when a technical decoding error occurs at the root payload value.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "<Wurzel>"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "<root>"
+          }
+        }
+      }
+    },
+    "decodingError.underlyingError" : {
+      "comment" : "Label for an underlying error in a technical decoding error diagnostic.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zugrunde liegender Fehler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Underlying error"
+          }
+        }
+      }
+    },
     "detail.alert.errorLoadingCastTitle" : {
       "comment" : "The title of an alert informing the user about an error while loading the cast information",
       "localizations" : {
@@ -9206,5 +9308,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.3"
 }
