@@ -35,7 +35,7 @@ struct AlertHandler {
     static func showError(title: String?, error: Error) {
         showSimpleAlert(
             title: title ?? Strings.Generic.alertErrorTitle,
-            message: error.localizedDescription
+            message: (error as? DecodingError)?.diagnosticDescription ?? error.localizedDescription
         )
     }
     
