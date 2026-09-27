@@ -1,4 +1,6 @@
-# By default, SwiftLint uses a set of sensible default rules you can adjust:
+excluded:
+  - vendor/
+
 disabled_rules:
   - identifier_name
   - todo
