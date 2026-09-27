@@ -199,7 +199,7 @@ struct TitleImportResolver: Sendable {
 
             // Enrich only when initial evidence cannot classify the leading candidate safely.
             var scored = score(Array(candidatesByIdentity.values), for: source)
-            if needsDetails(scored, source: source) {
+            if needsDetails(scored) {
                 // Enrich only leading candidates because details require a separate TMDB request per identity.
                 for scoredCandidate in scored.prefix(3) {
                     do {
@@ -279,18 +279,13 @@ struct TitleImportResolver: Sendable {
         return best.score >= 75 && margin >= 10 && best.evidence.titleMatch
     }
 
-    /// Determines whether candidate enrichment could improve confidence or requested metadata evidence.
-    /// - Parameters:
-    ///   - scored: The currently ranked candidates.
-    ///   - source: The source row supplying optional director and runtime hints.
+    /// Determines whether candidate enrichment could improve an uncertain match.
+    /// - Parameter scored: The currently ranked candidates.
     /// - Returns: Whether leading candidates should receive detail requests.
-    private func needsDetails(
-        _ scored: [TitleImportScoredCandidate],
-        source: TitleImportSourceRow
-    ) -> Bool {
+    private func needsDetails(_ scored: [TitleImportScoredCandidate]) -> Bool {
         guard let best = scored.first else { return false }
         let margin = best.score - (scored.dropFirst().first?.score ?? 0)
-        return best.score < 75 || margin < 10 || !source.directors.isEmpty || source.runtimeMinutes != nil
+        return best.score < 75 || margin < 10
     }
 
     /// Creates a review item without a candidate for unmatched or operationally failed rows.

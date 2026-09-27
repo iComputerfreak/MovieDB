@@ -304,6 +304,34 @@ struct TitleImportTests {
         #expect(result.status == .accepted)
         #expect(result.evidence.alternativeTitleMatch)
         #expect(result.evidence.directorMatch)
+        #expect(await provider.detailCallCount == 1)
+    }
+
+    @Test("Resolver skips enrichment for confident matches")
+    @MainActor
+    func skipsUnneededCandidateEnrichment() async throws {
+        let candidate = candidate(id: 1537, title: "Changing Lanes", year: 2002)
+        let provider = MockTitleImportProvider(
+            searchResults: ["Changing Lanes": [candidate]],
+            details: [
+                candidate.identity: TitleImportCandidateDetails(
+                    alternativeTitles: [],
+                    directors: ["Roger Michell"],
+                    runtimeMinutes: 98
+                ),
+            ]
+        )
+        let source = sourceRow(
+            title: "Changing Lanes",
+            year: 2002,
+            director: "Roger Michell",
+            runtime: 98
+        )
+
+        let result = try #require(try await TitleImportResolver(provider: provider).resolve([source]) { _ in }.first)
+
+        #expect(result.status == .accepted)
+        #expect(await provider.detailCallCount == 0)
     }
 
     @Test("Resolver cancellation aborts in-flight searches")
@@ -531,6 +559,7 @@ private actor MockTitleImportProvider: TitleImportTMDBProviding {
     private let delay: Duration?
     private(set) var searchCallCount = 0
     private(set) var cancelledSearchCount = 0
+    private(set) var detailCallCount = 0
 
     init(
         searchResults: [String: [TitleImportCandidate]],
@@ -556,7 +585,8 @@ private actor MockTitleImportProvider: TitleImportTMDBProviding {
     }
 
     func titleImportDetails(for identity: MediaIdentity) async throws -> TitleImportCandidateDetails {
-        details[identity] ?? TitleImportCandidateDetails(
+        detailCallCount += 1
+        return details[identity] ?? TitleImportCandidateDetails(
             alternativeTitles: [],
             directors: [],
             runtimeMinutes: nil
