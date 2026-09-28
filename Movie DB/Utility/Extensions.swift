@@ -18,7 +18,7 @@ extension View {
             .environmentObject(PlaceholderData.preview.staticMovie as Media)
         // Will not work, but will prevent the preview from crashing
             .environment(NotificationProxy())
-            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext()))
+            .environmentObject(FilterSetting(context: PersistenceController.createDisposableContext(forPreview: true)))
             .environment(UnifiedSearchCoordinator())
     }
 }

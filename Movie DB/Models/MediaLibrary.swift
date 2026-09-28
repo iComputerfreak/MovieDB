@@ -185,9 +185,15 @@ struct MediaLibrary {
         return updateCount
     }
     
-    /// Reloads all media objects in the library by re-fetching their TMDBData
-    /// - Parameter completion: A closure that will be executed when the reload has finished, providing the last occurred error
+    /// Reloads all media objects in the library by re-fetching their TMDB data.
+    /// - Parameters:
+    ///   - fromBackground: Whether thumbnail downloads should finish before this function returns.
+    ///   - origin: Source of the reload, used to report progress.
+    /// - Returns: Number of media objects successfully updated.
+    /// - Throws: An error when the reload cannot finish, including `CancellationError` when cancelled.
+    @discardableResult
     func reloadAll(fromBackground: Bool = false, origin: LibraryUpdateStatus.Origin) async throws -> Int {
+        // swiftlint:disable:previous function_body_length
         // Create a new child context to perform the reload in
         let reloadContext = context.newBackgroundContext()
         
@@ -216,29 +222,39 @@ struct MediaLibrary {
 
         let reloadID = await LibraryUpdateStatus.shared.begin(origin: origin, total: medias.count)
 
-        // Reload all media objects using a task group
-        let updatedMediaCount = await withTaskGroup(of: Bool.self) { group in
-            for media in medias {
-                _ = group.addTaskUnlessCancelled {
-                    // Catch individual download errors early, so we don't skip the other media downloads
-                    do {
-                        try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
-                        await LibraryUpdateStatus.shared.increment(reloadID)
-                        return true
-                    } catch {
-                        Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
-                        await LibraryUpdateStatus.shared.increment(reloadID)
-                        return false
+        let updatedMediaCount: Int
+        do {
+            // Reload all media objects while preserving individual request failures.
+            updatedMediaCount = try await withThrowingTaskGroup(of: Bool.self) { group in
+                for media in medias {
+                    _ = group.addTaskUnlessCancelled {
+                        do {
+                            try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                            await LibraryUpdateStatus.shared.increment(reloadID)
+                            return true
+                        } catch {
+                            if Task.isCancelled || error is CancellationError {
+                                throw CancellationError()
+                            }
+                            Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                            await LibraryUpdateStatus.shared.increment(reloadID)
+                            return false
+                        }
                     }
                 }
+                var updatedMediaCount = 0
+                for try await didUpdate in group where didUpdate {
+                    updatedMediaCount += 1
+                }
+                try Task.checkCancellation()
+                return updatedMediaCount
             }
-            var updatedMediaCount = 0
-            for await didUpdate in group where didUpdate {
-                updatedMediaCount += 1
-            }
-            return updatedMediaCount
+        } catch {
+            await LibraryUpdateStatus.shared.finish(reloadID)
+            throw error
         }
 
+        try Task.checkCancellation()
         // Save the reloaded media into the parent context (viewContext)
         await PersistenceController.saveContext(reloadContext)
         // Save the view context
@@ -247,6 +263,7 @@ struct MediaLibrary {
         // The per-item metadata refresh is done; the thumbnail reload below runs without progress tracking
         await LibraryUpdateStatus.shared.finish(reloadID)
 
+        try Task.checkCancellation()
         try await withThrowingTaskGroup(of: Void.self) { group in
             // Reload the thumbnails of all updated media objects in the main context
             for media in medias {

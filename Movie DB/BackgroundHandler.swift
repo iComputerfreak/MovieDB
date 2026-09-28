@@ -40,9 +40,7 @@ class BackgroundHandler {
     }
 
     static var currentBackgroundUpdateInterval: TimeInterval? {
-        guard AnalyticsService.shared.isFeatureEnabled(.backgroundUpdates) else {
-            return nil
-        }
+        guard AnalyticsService.shared.isFeatureEnabled(.backgroundUpdates) else { return nil }
 
         return resolvedBackgroundUpdateInterval()
     }
@@ -159,13 +157,18 @@ class BackgroundHandler {
         let operation = Task(priority: .high) {
             do {
                 Logger.background.info("Updating Library from background task...")
-                let updatedMediaCount = try await MediaLibrary.shared.reloadAll(fromBackground: true, origin: .backgroundRefresh)
+                let updatedMediaCount = try await MediaLibrary.shared.reloadAll(
+                    fromBackground: true,
+                    origin: .backgroundRefresh
+                )
                 Logger.background.info("Reloaded \(updatedMediaCount) media objects from background task.")
                 var debugState = Self.debugState
                 debugState.lastResult = .success
                 debugState.lastErrorDescription = nil
                 Self.debugState = debugState
-                AnalyticsService.shared.track(.backgroundFetch(result: .success, cancelled: false, updatedMediaCount: updatedMediaCount))
+                AnalyticsService.shared.track(
+                    .backgroundFetch(result: .success, cancelled: false, updatedMediaCount: updatedMediaCount)
+                )
                 bgTask.setTaskCompleted(success: true)
             } catch {
                 let wasCancelled = error is CancellationError || Task.isCancelled
@@ -175,7 +178,9 @@ class BackgroundHandler {
                 debugState.lastResult = .failure
                 debugState.lastErrorDescription = String(describing: error)
                 Self.debugState = debugState
-                AnalyticsService.shared.track(.backgroundFetch(result: .failure, cancelled: wasCancelled, updatedMediaCount: 0))
+                AnalyticsService.shared.track(
+                    .backgroundFetch(result: .failure, cancelled: wasCancelled, updatedMediaCount: 0)
+                )
                 bgTask.setTaskCompleted(success: false)
             }
         }

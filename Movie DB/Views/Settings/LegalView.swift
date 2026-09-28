@@ -11,7 +11,7 @@ struct LegalView: View {
     var tmdbLogo: some View {
         Image(uiImage: UIImage.tmDbLogo)
             .resizable()
-            .aspectRatio(contentMode: .fit)
+            .scaledToFit()
             .frame(height: 20)
     }
 

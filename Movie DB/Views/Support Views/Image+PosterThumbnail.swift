@@ -34,7 +34,7 @@ extension Image {
     func thumbnailStyle(size: CGSize = JFLiterals.thumbnailSize, cornerRadius: CGFloat = 14) -> some View {
         self
             .resizable()
-            .aspectRatio(contentMode: .fill)
+            .scaledToFill()
             .frame(width: size.width, height: size.height)
             .thumbnailStyle(cornerRadius: cornerRadius)
     }

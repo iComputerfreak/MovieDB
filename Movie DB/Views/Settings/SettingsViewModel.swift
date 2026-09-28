@@ -18,6 +18,8 @@ struct SettingsViewModel {
     /// suppressing the blurred popup itself, e.g. on iOS 26+ where the tab bar accessory already
     /// shows progress for manual library updates.
     var showsBlockingLoadingIndicator = true
+    /// Manual library operation currently started from Settings.
+    var activeLibraryOperation: LibraryUpdateStatus.Origin?
     var languageChanged = false
     var regionChanged = false
     var isShowingProInfo = false
@@ -40,6 +42,7 @@ struct SettingsViewModel {
         self.isLoading = false
         self.loadingText = nil
         self.showsBlockingLoadingIndicator = true
+        self.activeLibraryOperation = nil
     }
 
     func export(

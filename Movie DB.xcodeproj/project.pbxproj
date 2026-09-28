@@ -104,6 +104,13 @@
 			);
 			target = AB6718D222C0312B00F429E4 /* Movie DBTests */;
 		};
+		AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				.swiftlint.yml,
+			);
+			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -116,7 +123,7 @@
 		AB5028962D58AD8700D7DD9B /* APIs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = APIs; sourceTree = "<group>"; };
 		AB5028A02D58AD8700D7DD9B /* Migrations */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Migrations; sourceTree = "<group>"; };
 		AB50293A2D58AD8700D7DD9B /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
-		AB5029DA2D58AD8700D7DD9B /* Localization */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Localization; sourceTree = "<group>"; };
+		AB5029DA2D58AD8700D7DD9B /* Localization */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB9C00013089F00000F429E4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Localization; sourceTree = "<group>"; };
 		AB5029F82D58AD8B00D7DD9B /* SupportingFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB5029FA2D58AE1B00D7DD9B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportingFiles; sourceTree = "<group>"; };
 		AB5029F92D58AD9A00D7DD9B /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		AB8965132D57C58100F54EB1 /* Movie DBTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AB8965252D57C58100F54EB1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Movie DBTests"; sourceTree = "<group>"; };
@@ -259,6 +266,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD79FD203068264A0038C62E /* PBXTargetDependency */,
 				AB48BD702816CE3C00E53135 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -279,7 +287,6 @@
 			buildPhases = (
 				AB12C9FD285CCC010073F751 /* Obfuscate API Key */,
 				AB6718B922C0312A00F429E4 /* Sources */,
-				ABEEB07C28104BE100230F0B /* SwiftLint */,
 				ABD4C8422648734C00BEB3A6 /* Generate Licenses */,
 				AB6718BA22C0312A00F429E4 /* Frameworks */,
 				AB6718BB22C0312A00F429E4 /* Resources */,
@@ -287,6 +294,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD79F6383068205D0038C62E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AB5027AB2D58AD8700D7DD9B /* Utility */,
@@ -325,6 +333,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD79FD223068264D0038C62E /* PBXTargetDependency */,
 				AB6718D522C0312B00F429E4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -350,6 +359,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD79FD1E306826460038C62E /* PBXTargetDependency */,
 				ABB644A22971C10D0024BD80 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -409,6 +419,7 @@
 				ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				ABD248FF2A2394CC002DEB3D /* XCRemoteSwiftPackageReference "JFUtils" */,
 				AB02A0232B460F05008362D7 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
+				DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = AB6718BE22C0312B00F429E4 /* Products */;
 			projectDirPath = "";
@@ -457,22 +468,24 @@
 /* Begin PBXShellScriptBuildPhase section */
 		AB12C9FD285CCC010073F751 /* Obfuscate API Key */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.env.local",
+				"$(SRCROOT)/Movie DB/Generated/Secrets.swift.gyb",
 			);
 			name = "Obfuscate API Key";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Movie DB/Generated/Secrets.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\nfind . -name '*.gyb' |                                     \\\n    while read file; do                                              \\\n        echo \"Translating file $file...\"; \\\n        python3 \"$GYB_PATH\" --line-directive '' -o \"${file%.gyb}\" \"$file\"; \\\n    done\n\necho \"Obfuscation complete.\"\n";
+			shellScript = "#!/bin/zsh\n\nsource ~/.zshrc\n# Xcode Cloud homebrew path\nexport PATH=$PATH:/Users/local/Homebrew/bin\n\necho \"Obfuscating secrets...\"\n\nGYB_PATH=\"$(command -v gyb)\"\nif [[ -z \"$GYB_PATH\" ]]; then\n    echo \"error: Missing gyb. Install it with `brew install nshipster/formulae/gyb`.\"\n    exit 1\nfi\n\nENV_FILE=\"$PROJECT_DIR/.env.local\"\nTEMPLATE=\"$PROJECT_DIR/Movie DB/Generated/Secrets.swift.gyb\"\nOUTPUT=\"$PROJECT_DIR/Movie DB/Generated/Secrets.swift\"\nTEMP_OUTPUT=\"$DERIVED_FILE_DIR/Secrets.swift\"\n\nif [[ -f \"$ENV_FILE\" ]]; then\n    set -a\n    source \"$ENV_FILE\"\n    set +a\nfi\n\nrequired_env_vars=(TMDB_API_KEY POSTHOG_PROJECT_TOKEN POSTHOG_HOST)\nfor required_env_var in \"${required_env_vars[@]}\"; do\n    if [[ -z \"${(P)required_env_var}\" ]]; then\n        echo \"error: Missing $required_env_var. Add it to .env.local or export it before building.\"\n        exit 1\n    fi\ndone\n\necho \"Translating file $TEMPLATE...\"\npython3 \"$GYB_PATH\" --line-directive '' -o \"$TEMP_OUTPUT\" \"$TEMPLATE\"\n\nif [[ ! -f \"$OUTPUT\" ]] || ! cmp -s \"$TEMP_OUTPUT\" \"$OUTPUT\"; then\n    cp \"$TEMP_OUTPUT\" \"$OUTPUT\"\nfi\n\necho \"Obfuscation complete.\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ABD4C8422648734C00BEB3A6 /* Generate Licenses */ = {
@@ -493,27 +506,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n    export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nexport PATH=$PATH:/opt/homebrew/bin\n#if [ $CONFIGURATION = \"Debug\" ]; then\nlicense-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory\n#fi\n";
+			shellScript = "#!/bin/zsh\n\n# Install with `brew install mono0926/license-plist/license-plist`\n# https://github.com/mono0926/LicensePlist\n\n# Read the API key from a file, if it exists,\n# else use the environment variable as set before execution\nif [[ -f \"GITHUB_API_KEY\" ]]; then\n  export GITHUB_API_KEY=\"$(head GITHUB_API_KEY)\"\nfi\n\nif [ $CONFIGURATION = \"Debug\" ]; then\n  cd $SRCROOT\n  /opt/homebrew/bin/license-plist --output-path \"$SRCROOT/Movie DB/SupportingFiles/Settings.bundle\" --fail-if-missing-license --suppress-opening-directory\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		ABEEB07C28104BE100230F0B /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --quiet\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -572,6 +566,22 @@
 			target = AB6718BC22C0312A00F429E4 /* Movie DB */;
 			targetProxy = ABB644A12971C10D0024BD80 /* PBXContainerItemProxy */;
 		};
+		DD79F6383068205D0038C62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DD79F6373068205D0038C62E /* SwiftLintBuildToolPlugin */;
+		};
+		DD79FD1E306826460038C62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DD79FD1D306826460038C62E /* SwiftLintBuildToolPlugin */;
+		};
+		DD79FD203068264A0038C62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DD79FD1F3068264A0038C62E /* SwiftLintBuildToolPlugin */;
+		};
+		DD79FD223068264D0038C62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DD79FD213068264D0038C62E /* SwiftLintBuildToolPlugin */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -585,7 +595,6 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = Movie_DBUITests.TestSetup;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 2.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -606,7 +615,6 @@
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = Movie_DBUITests.TestSetup;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 2.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -671,7 +679,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -730,7 +738,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -830,7 +838,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				INFOPLIST_FILE = "Movie DBTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -852,7 +859,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				INFOPLIST_FILE = "Movie DBTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -875,7 +881,6 @@
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 2.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBScreenshots";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -894,7 +899,6 @@
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 46C9Y785NA;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 2.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.JonasFrey.Movie-DBScreenshots";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -999,6 +1003,14 @@
 				minimumVersion = 0.8.1;
 			};
 		};
+		DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.65.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1059,6 +1071,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ABD3C5EC29C39F56000B5107 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
 			productName = SwiftCSV;
+		};
+		DD79F6373068205D0038C62E /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		DD79FD1D306826460038C62E /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		DD79FD1F3068264A0038C62E /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		DD79FD213068264D0038C62E /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD79F63430681FC10038C62E /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

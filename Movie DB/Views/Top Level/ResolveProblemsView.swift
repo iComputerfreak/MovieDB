@@ -1,5 +1,6 @@
 // Copyright © 2022 Jonas Frey. All rights reserved.
 
+import CoreData
 import SwiftUI
 
 struct ResolveProblemsView: View {

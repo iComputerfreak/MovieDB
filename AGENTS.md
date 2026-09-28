@@ -24,13 +24,16 @@ Rules and guidelines for working on this Xcode project.
 
 ## SwiftUI conventions
 - Keep view modifiers in a consistent top-to-bottom order: layout -> style -> overlay -> padding.
+- Order view declarations as stored properties, non-view computed properties, `body`, view-producing computed properties, then functions.
 - Avoid heavy logic in views; move formatting and derived values into computed properties or models.
-- Provide `#Preview` entries for new views or variants when possible.
+- Provide each new view with a `#Preview` using representative sample data when practical.
 - Follow DRY: avoid duplicated code when a shared abstraction is appropriate.
 - Prefer modern native observation/state patterns already used by the codebase.
 
 ## Localization and content
 - Route user-facing copy through `Strings` helpers backed by `Localizable.xcstrings`.
+- Give every localized string a translator comment and a translation in `Localizable.xcstrings` for each supported language.
+- Always use informal address (`du`) in German localizations.
 - Do not inline visible UI strings with concatenation or interpolation in views when text can be localized.
 - When dynamic text is needed, add `Strings` static functions with localized format keys.
 - Keep changes localized to the feature you are working on; avoid broad copy rewrites unless requested.
@@ -41,6 +44,11 @@ Rules and guidelines for working on this Xcode project.
 - Analytics must remain explicit opt-in, anonymous-only, and allowlist-only unless the user explicitly changes policy.
 - Never send titles, IDs, notes, tags, ratings, search text, file names, URLs with content data, or other free-form/user-provided data.
 - Any new event or property requires a doc update in `ANALYTICS.md` and user approval before implementation.
+
+## Logging
+- Use OSLog (`Logger`) for production logging where it provides useful diagnostics.
+- Log caught errors in `do`-`catch` blocks when the failure is meaningful or otherwise hidden.
+- Log the full `Error` value, not `error.localizedDescription`, so diagnostics retain the error type and underlying context.
 
 ## Xcode project hygiene
 - Minimize changes to `project.pbxproj`; only edit when necessary for new files or resources.
@@ -64,6 +72,10 @@ Rules and guidelines for working on this Xcode project.
 ## Documentation
 - If you learn a new generalized project rule or receive a reusable instruction, persist it in `AGENTS.md`.
 - Prefer reusable, clean, maintainable, and human-readable implementations over one-off feature code.
+- Add a documentation comment to every new production type, function, and explicit initializer, including private declarations. Document every parameter, non-`Void` return value, and possible thrown error.
+- Update existing production documentation incrementally when adding or substantially changing a feature; do not perform unrelated codebase-wide documentation rewrites.
+- Add concise follow-along comments to long functions to identify non-obvious phases, decisions, side effects, and invariants without narrating syntax.
+- Add concise comments for non-obvious regexes, algorithms, and heuristics; explain intent or invariants, not syntax.
 - When adding an extension with a `// MARK: - <Description>` comment, place the extension immediately after the MARK without a blank line.
 - For long `Logger` messages, prefer direct interpolation plus a targeted `swiftlint:disable:next line_length` comment over building the message from temporary strings.
 

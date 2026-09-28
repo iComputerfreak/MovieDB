@@ -384,6 +384,74 @@
         }
       }
     },
+    "changelog.dismissButton" : {
+      "comment" : "Button that dismisses the major-feature announcement sheet",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verstanden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got It"
+          }
+        }
+      }
+    },
+    "changelog.title" : {
+      "comment" : "Navigation title for the major-feature announcement sheet",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuigkeiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's New"
+          }
+        }
+      }
+    },
+    "changelog.titleImport.description" : {
+      "comment" : "Description of the changelog item announcing title-based CSV import",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importiere eine vorhandene Film- oder Serienliste anhand der Titel und optionaler Angaben wie Jahr, Regie oder Laufzeit in Movie DB. Prüfe die Treffer vor dem Import. Du findest den neuen Import in den Einstellungen unter „Import & Export“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring an existing movie or show list into Movie DB using titles and optional details such as year, director, or runtime. Review the matches before importing them. You can find the new import in Settings under Import & Export."
+          }
+        }
+      }
+    },
+    "changelog.titleImport.title" : {
+      "comment" : "Title of the changelog item announcing title-based CSV import",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV nach Titel importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import CSV by Title"
+          }
+        }
+      }
+    },
     "components.subtitleContentPicker.useDefaultValue" : {
       "comment" : "The label for the subtitle content picker option to use the default setting.",
       "localizations" : {
@@ -1066,23 +1134,6 @@
         }
       }
     },
-    "detail.cast.noneAvailable" : {
-      "comment" : "The text displayed when there are no cast members available to display",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Besetzung verfügbar"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No cast available"
-          }
-        }
-      }
-    },
     "detail.cast.noSearchResults" : {
       "comment" : "The text displayed when there are no cast members available that match the search text",
       "localizations" : {
@@ -1096,6 +1147,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No cast matching your search"
+          }
+        }
+      }
+    },
+    "detail.cast.noneAvailable" : {
+      "comment" : "The text displayed when there are no cast members available to display",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Besetzung verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cast available"
           }
         }
       }
@@ -2634,57 +2702,6 @@
         }
       }
     },
-    "detail.watchprovider.ads" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Werbung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ads"
-          }
-        }
-      }
-    },
-    "detail.watchprovider.buy" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaufen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buy"
-          }
-        }
-      }
-    },
-    "detail.watchprovider.flatrate" : {
-      "comment" : "A type of watch provider (flatrate, ads, buy)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flatrate"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flatrate"
-          }
-        }
-      }
-    },
     "detail.watchProviders.attribution" : {
       "comment" : "Attribution below the watch providers panel that attributes the source of the data to JustWatch.com",
       "localizations" : {
@@ -2732,6 +2749,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "There is no streaming service information available."
+          }
+        }
+      }
+    },
+    "detail.watchprovider.ads" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werbung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ads"
+          }
+        }
+      }
+    },
+    "detail.watchprovider.buy" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaufen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy"
+          }
+        }
+      }
+    },
+    "detail.watchprovider.flatrate" : {
+      "comment" : "A type of watch provider (flatrate, ads, buy)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatrate"
           }
         }
       }
@@ -4616,23 +4684,6 @@
         }
       }
     },
-    "library.filter.watched.navBar.title" : {
-      "comment" : "The navigation bar title for the watched? field in the library's filter view",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Angesehen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Watched?"
-          }
-        }
-      }
-    },
     "library.filter.watchStateNotWatched" : {
       "comment" : "The picker value for a generic watch state of either a movie or a show that indicates that the user has not watched this media completely.",
       "localizations" : {
@@ -4714,6 +4765,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Watched partially"
+          }
+        }
+      }
+    },
+    "library.filter.watched.navBar.title" : {
+      "comment" : "The navigation bar title for the watched? field in the library's filter view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angesehen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched?"
           }
         }
       }
@@ -5073,23 +5141,6 @@
         }
       }
     },
-    "library.updateStatus.title.updating" : {
-      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bibliothek wird aktualisiert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Updating Library"
-          }
-        }
-      }
-    },
     "library.updateStatus.title.reloading" : {
       "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.reloadAll() (full reload) is running",
       "localizations" : {
@@ -5103,6 +5154,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reloading Library"
+          }
+        }
+      }
+    },
+    "library.updateStatus.title.updating" : {
+      "comment" : "Title shown in the library-update bottom bar accessory while MediaLibrary.update() (changed items only) is running",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothek wird aktualisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updating Library"
           }
         }
       }
@@ -5600,23 +5668,6 @@
         }
       }
     },
-    "lists.filteredListEmpty.message" : {
-      "comment" : "The message showed in a filtered list when the list is empty",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es gibt keine Einträge in dieser Liste."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are no media objects in this list."
-          }
-        }
-      }
-    },
     "lists.filterResetWarning" : {
       "comment" : "The warning showed in a filtered list when the filter is reset and thus the list is showing all media objects",
       "localizations" : {
@@ -5630,6 +5681,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This list currently has no filter configured."
+          }
+        }
+      }
+    },
+    "lists.filteredListEmpty.message" : {
+      "comment" : "The message showed in a filtered list when the list is empty",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es gibt keine Einträge in dieser Liste."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no media objects in this list."
           }
         }
       }
@@ -6161,23 +6229,6 @@
         }
       }
     },
-    "mediaSearch.loading" : {
-      "comment" : "Placeholder text to show while the data is loading",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laden..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading..."
-          }
-        }
-      }
-    },
     "mediaSearch.loadMore" : {
       "comment" : "The button label to load more search results",
       "localizations" : {
@@ -6191,6 +6242,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Load more results..."
+          }
+        }
+      }
+    },
+    "mediaSearch.loading" : {
+      "comment" : "Placeholder text to show while the data is loading",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
           }
         }
       }
@@ -6361,91 +6429,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rumored"
-          }
-        }
-      }
-    },
-    "problems.list.missingListPrefix" : {
-      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fehlt:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Missing:"
-          }
-        }
-      }
-    },
-    "problems.navBar.title" : {
-      "comment" : "The navigation bar title for the problems view",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probleme"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Problems"
-          }
-        }
-      }
-    },
-    "problems.noProblemsText" : {
-      "comment" : "The text displayed in the problems view when there are no problematic media objects",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Probleme in der Mediathek gefunden."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are no problems in your library."
-          }
-        }
-      }
-    },
-    "problemType.duplicateMedia.description" : {
-      "comment" : "A type of library problem (e.g. duplicate medias)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doppelte Medien"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duplicate media objects"
-          }
-        }
-      }
-    },
-    "problemType.duplicateMedia.recovery" : {
-      "comment" : "A recovery suggestion to resolve a library problem (e.g. duplicate medias)",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Löschen Sie eines der folgenden Medien"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete one of the following medias"
           }
         }
       }
@@ -6823,6 +6806,91 @@
         }
       }
     },
+    "problemType.duplicateMedia.description" : {
+      "comment" : "A type of library problem (e.g. duplicate medias)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doppelte Medien"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate media objects"
+          }
+        }
+      }
+    },
+    "problemType.duplicateMedia.recovery" : {
+      "comment" : "A recovery suggestion to resolve a library problem (e.g. duplicate medias)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen Sie eines der folgenden Medien"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete one of the following medias"
+          }
+        }
+      }
+    },
+    "problems.list.missingListPrefix" : {
+      "comment" : "Prefix for the list of missing information on a media. Shown in the problems view.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlt:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing:"
+          }
+        }
+      }
+    },
+    "problems.navBar.title" : {
+      "comment" : "The navigation bar title for the problems view",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probleme"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problems"
+          }
+        }
+      }
+    },
+    "problems.noProblemsText" : {
+      "comment" : "The text displayed in the problems view when there are no problematic media objects",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Probleme in der Mediathek gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no problems in your library."
+          }
+        }
+      }
+    },
     "resolveProblems.detail.placeholder" : {
       "comment" : "The placeholder text displayed in the detail column of the resolve problems view when no media is selected",
       "localizations" : {
@@ -6921,6 +6989,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export tags"
+          }
+        }
+      }
+    },
+    "settings.actions.cancelLibraryReload.label" : {
+      "comment" : "The label for the action that cancels an in-progress full library reload",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuladen abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel reload"
+          }
+        }
+      }
+    },
+    "settings.actions.cancelLibraryUpdate.label" : {
+      "comment" : "The label for the action that cancels an in-progress library update",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierung abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel update"
           }
         }
       }
@@ -9269,6 +9371,1639 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Library row customization"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.ambiguousIncluded" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Einbezogene unklare Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unclear Matches Included"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.back" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.estimatedTime" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Geschätzte Mindestdauer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Estimated Minimum Time"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.excluded" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ausgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Excluded"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.existingDuplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vorhandene Mediatheksduplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Existing Library Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fehlgeschlagene Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed Matches"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.fileDuplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "CSV-Duplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CSV Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.importSelected" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.noMatch" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Kein Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.selected" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selected"
+          }
+        }
+      }
+    },
+    "titleImport.confirmation.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Import bestätigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Confirm Import"
+          }
+        }
+      }
+    },
+    "titleImport.dismiss.action" : {
+      "comment" : "Destructive action that dismisses title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Abort Import"
+          }
+        }
+      }
+    },
+    "titleImport.dismiss.message" : {
+      "comment" : "Message shown before dismissing title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Importfortschritt und deine Trefferauswahl gehen verloren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your import progress and match selections will be lost."
+          }
+        }
+      }
+    },
+    "titleImport.dismiss.title" : {
+      "comment" : "Title of confirmation dialog shown before dismissing title import",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import abbrechen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Abort Import?"
+          }
+        }
+      }
+    },
+    "titleImport.error.emptyFile" : {
+      "comment" : "Empty CSV error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die ausgewählte CSV-Datei ist leer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The selected CSV file is empty."
+          }
+        }
+      }
+    },
+    "titleImport.error.noRows" : {
+      "comment" : "No usable CSV rows error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die CSV-Datei enthält keine verwendbaren Medieneinträge."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The CSV file contains no usable media rows."
+          }
+        }
+      }
+    },
+    "titleImport.error.title" : {
+      "comment" : "Title import error title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV kann nicht importiert werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unable to Import CSV"
+          }
+        }
+      }
+    },
+    "titleImport.error.unsupportedDelimiter" : {
+      "comment" : "Unsupported CSV delimiter error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur kommagetrennte und semikolongetrennte CSV-Dateien werden unterstützt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Only comma- and semicolon-separated CSV files are supported."
+          }
+        }
+      }
+    },
+    "titleImport.field.director" : {
+      "comment" : "Director CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Director"
+          }
+        }
+      }
+    },
+    "titleImport.field.mediaType" : {
+      "comment" : "Media type CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medientyp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media Type"
+          }
+        }
+      }
+    },
+    "titleImport.field.runtime" : {
+      "comment" : "Runtime CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laufzeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Runtime"
+          }
+        }
+      }
+    },
+    "titleImport.field.title" : {
+      "comment" : "Title CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "titleImport.field.year" : {
+      "comment" : "Year CSV field",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Year"
+          }
+        }
+      }
+    },
+    "titleImport.filter.all" : {
+      "comment" : "All results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "titleImport.filter.ambiguous" : {
+      "comment" : "Ambiguous results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unklar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ambiguous"
+          }
+        }
+      }
+    },
+    "titleImport.filter.duplicates" : {
+      "comment" : "Duplicate results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.filter.failed" : {
+      "comment" : "Failed results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.filter.included" : {
+      "comment" : "Included results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Included"
+          }
+        }
+      }
+    },
+    "titleImport.filter.noMatch" : {
+      "comment" : "No match results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.filter.notIncluded" : {
+      "comment" : "Not included results filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Not Included"
+          }
+        }
+      }
+    },
+    "titleImport.final.progress" : {
+      "comment" : "Final title import progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld verarbeitet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Processed %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.final.stop" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Import"
+          }
+        }
+      }
+    },
+    "titleImport.final.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Importing"
+          }
+        }
+      }
+    },
+    "titleImport.loadingFile" : {
+      "comment" : "CSV loading progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV wird gelesen …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reading CSV..."
+          }
+        }
+      }
+    },
+    "titleImport.match.accepted" : {
+      "comment" : "Accepted match score",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sicherer Treffer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Confident match."
+          }
+        }
+      }
+    },
+    "titleImport.match.ambiguous" : {
+      "comment" : "Ambiguous match score and runner-up margin",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorgeschlagenen Treffer prüfen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review suggested match."
+          }
+        }
+      }
+    },
+    "titleImport.match.existingDuplicate" : {
+      "comment" : "Match already exists in library",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereits in deiner Mediathek."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Already in your library."
+          }
+        }
+      }
+    },
+    "titleImport.match.fileDuplicate" : {
+      "comment" : "Duplicate source row number",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dasselbe TMDB-Medium wie in Quellzeile %lld."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Same TMDB media as source row %lld."
+          }
+        }
+      }
+    },
+    "titleImport.match.noResults" : {
+      "comment" : "No TMDB result",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein TMDB-Treffer gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No TMDB match found."
+          }
+        }
+      }
+    },
+    "titleImport.noColumn" : {
+      "comment" : "Picker value for mapping a field to no column.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— Keine Spalte —"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "— No column —"
+          }
+        }
+      }
+    },
+    "titleImport.parser.director.conjunctions" : {
+      "comment" : "Pipe-separated conjunctions joining director names. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "und"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "and"
+          }
+        }
+      }
+    },
+    "titleImport.parser.director.unknown" : {
+      "comment" : "Pipe-separated values meaning an unknown director. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "unbekannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "unknown"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.director" : {
+      "comment" : "Pipe-separated CSV director header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "regisseur|regisseure|regie|künstler"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "director|directors|artist"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.mediaType" : {
+      "comment" : "Pipe-separated CSV media-type header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "typ|medientyp|art"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "type|media type|kind"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.runtime" : {
+      "comment" : "Pipe-separated CSV runtime header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "laufzeit|dauer|gesamtdauer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "runtime|duration|length|total time"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.title" : {
+      "comment" : "Pipe-separated CSV title header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "titel|name|film|filmtitel|medientitel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "title|name|movie title|film|media title"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.date" : {
+      "comment" : "Pipe-separated generic date CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "datum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "date"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.exact" : {
+      "comment" : "Pipe-separated exact year CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "year"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.releaseDate" : {
+      "comment" : "Pipe-separated release-date CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "veröffentlichungsdatum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "release date"
+          }
+        }
+      }
+    },
+    "titleImport.parser.header.year.releaseYear" : {
+      "comment" : "Pipe-separated release-year CSV header aliases. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "erscheinungsjahr|veröffentlichungsjahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "release year"
+          }
+        }
+      }
+    },
+    "titleImport.parser.mediaType.movie" : {
+      "comment" : "Pipe-separated CSV values meaning movie. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "film|kino"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "movie|film"
+          }
+        }
+      }
+    },
+    "titleImport.parser.mediaType.show" : {
+      "comment" : "Pipe-separated CSV values meaning TV show. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "serie|fernsehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "tv|show|series|television"
+          }
+        }
+      }
+    },
+    "titleImport.parser.runtime.units" : {
+      "comment" : "Pipe-separated minute unit suffixes. Keep the pipe separators.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minute|minuten|min"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "minute|minutes|min|mins"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.columns" : {
+      "comment" : "Detected columns section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erkannte Spalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Detected Columns"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.comma" : {
+      "comment" : "Comma delimiter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komma"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Comma"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.delimiter" : {
+      "comment" : "CSV delimiter label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trennzeichen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delimiter"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.file" : {
+      "comment" : "File summary section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "File"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.foregroundWarning" : {
+      "comment" : "Foreground processing warning",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass Movie DB geöffnet, während Treffer gesucht werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Keep Movie DB open while matches are being found."
+          }
+        }
+      }
+    },
+    "titleImport.preflight.ignoredColumns" : {
+      "comment" : "Ignored columns section",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignorierte Spalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ignored Columns"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.noUsableTitles" : {
+      "comment" : "Validation shown when every value in the selected title column is empty.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die ausgewählte Titelspalte enthält keine verwendbaren Titel."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The selected title column contains no usable titles."
+          }
+        }
+      }
+    },
+    "titleImport.preflight.rows" : {
+      "comment" : "CSV row count label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medieneinträge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media Rows"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.semicolon" : {
+      "comment" : "Semicolon delimiter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semikolon"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Semicolon"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.skippedRows" : {
+      "comment" : "Skipped malformed rows label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übersprungene Zeilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Skipped Rows"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.start" : {
+      "comment" : "Start matching button",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Suchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "titleImport.preflight.titleRequired" : {
+      "comment" : "Validation shown when no title column is mapped during CSV import preflight.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eine Titelspalte aus, um fortzufahren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Select a title column to continue."
+          }
+        }
+      }
+    },
+    "titleImport.progress.resolving" : {
+      "comment" : "Matching progress. Arguments are processed and total row counts.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld abgeglichen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Matched %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.review.continue" : {
+      "comment" : "Continue from title import review to confirmation",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "titleImport.review.filter" : {
+      "comment" : "Review filter picker",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Filter"
+          }
+        }
+      }
+    },
+    "titleImport.review.include" : {
+      "comment" : "Include match toggle",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einbeziehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Include"
+          }
+        }
+      }
+    },
+    "titleImport.review.results" : {
+      "comment" : "Visible review result count",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergebnisse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Results"
+          }
+        }
+      }
+    },
+    "titleImport.review.search" : {
+      "comment" : "Review search prompt",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ergebnisse durchsuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search results"
+          }
+        }
+      }
+    },
+    "titleImport.review.selected" : {
+      "comment" : "Selected count label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selected"
+          }
+        }
+      }
+    },
+    "titleImport.review.selectedCount" : {
+      "comment" : "Selected count and total count",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "titleImport.review.selectedWithLimit" : {
+      "comment" : "Selected count, total and free-user limit",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld (Limit: %3$lld)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld (Limit: %3$lld)"
+          }
+        }
+      }
+    },
+    "titleImport.review.title" : {
+      "comment" : "Import review title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treffer prüfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review Matches"
+          }
+        }
+      }
+    },
+    "titleImport.settingsAction" : {
+      "comment" : "Settings action",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV nach Titel importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import CSV by Title"
+          }
+        }
+      }
+    },
+    "titleImport.status.accepted" : {
+      "comment" : "Accepted match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akzeptiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accepted"
+          }
+        }
+      }
+    },
+    "titleImport.status.ambiguous" : {
+      "comment" : "Ambiguous match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung nötig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Needs Review"
+          }
+        }
+      }
+    },
+    "titleImport.status.duplicate" : {
+      "comment" : "Duplicate match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duplicate"
+          }
+        }
+      }
+    },
+    "titleImport.status.failed" : {
+      "comment" : "Failed match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.status.noMatch" : {
+      "comment" : "No match status",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Treffer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Match"
+          }
+        }
+      }
+    },
+    "titleImport.stop.action" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop"
+          }
+        }
+      }
+    },
+    "titleImport.stop.message" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der aktuelle Vorgang wird sicher gestoppt. Abgeschlossene Importe bleiben in deiner Mediathek."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Current work stops safely. Completed imports stay in your library."
+          }
+        }
+      }
+    },
+    "titleImport.stop.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktuellen Vorgang stoppen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Current Work?"
+          }
+        }
+      }
+    },
+    "titleImport.summary.duplicates" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neu erkannte Duplikate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Newly Detected Duplicates"
+          }
+        }
+      }
+    },
+    "titleImport.summary.failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "titleImport.summary.finish" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Finish"
+          }
+        }
+      }
+    },
+    "titleImport.summary.imported" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Imported"
+          }
+        }
+      }
+    },
+    "titleImport.summary.remaining" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibend"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remaining"
+          }
+        }
+      }
+    },
+    "titleImport.summary.retryFailed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlgeschlagene wiederholen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retry Failed"
+          }
+        }
+      }
+    },
+    "titleImport.summary.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import abgeschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Import Complete"
+          }
+        }
+      }
+    },
+    "titleImport.title" : {
+      "comment" : "Import flow title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV-Import"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CSV Import"
           }
         }
       }

@@ -1,7 +1,8 @@
 // Copyright © 2023 Jonas Frey. All rights reserved.
 
-import Foundation
 import Analytics
+import CoreData
+import Foundation
 import JFUtils
 import OSLog
 import SwiftUI

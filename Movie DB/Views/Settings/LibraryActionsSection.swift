@@ -10,24 +10,46 @@ struct LibraryActionsSection: View {
     @Binding var config: SettingsViewModel
     @EnvironmentObject var preferences: JFConfig
     @State private var library: MediaLibrary = .shared
+    let updateHandler: () -> Void
     let reloadHandler: () -> Void
+    let cancelHandler: () -> Void
+
+    /// Whether the update button should cancel its active operation on iOS 26 or newer.
+    private var isUpdateCancellable: Bool {
+        guard #available(iOS 26, *) else { return false }
+        return config.activeLibraryOperation == .manualUpdate
+    }
+
+    /// Whether the reload button should cancel its active operation on iOS 26 or newer.
+    private var isReloadCancellable: Bool {
+        guard #available(iOS 26, *) else { return false }
+        return config.activeLibraryOperation == .manualReload
+    }
     
     var body: some View {
         Section {
-            Button(action: self.updateMedia) {
+            Button(action: isUpdateCancellable ? cancelHandler : updateHandler) {
                 SettingsActionLabel(
-                    title: Strings.Settings.updateLibraryLabel,
-                    systemImage: "square.and.arrow.down.on.square.fill",
-                    tint: .green
+                    title: isUpdateCancellable
+                        ? Strings.Settings.cancelLibraryUpdateLabel
+                        : Strings.Settings.updateLibraryLabel,
+                    systemImage: isUpdateCancellable
+                        ? "xmark.circle.fill"
+                        : "square.and.arrow.down.on.square.fill",
+                    tint: isUpdateCancellable ? .red : .green
                 )
             }
-            Button(action: self.reloadHandler) {
+            .disabled(config.isLoading && !isUpdateCancellable)
+            Button(action: isReloadCancellable ? cancelHandler : reloadHandler) {
                 SettingsActionLabel(
-                    title: Strings.Settings.reloadLibraryLabel,
-                    systemImage: "arrow.clockwise.circle.fill",
-                    tint: .indigo
+                    title: isReloadCancellable
+                        ? Strings.Settings.cancelLibraryReloadLabel
+                        : Strings.Settings.reloadLibraryLabel,
+                    systemImage: isReloadCancellable ? "xmark.circle.fill" : "arrow.clockwise.circle.fill",
+                    tint: isReloadCancellable ? .red : .indigo
                 )
             }
+            .disabled(config.isLoading && !isReloadCancellable)
             Button(action: self.resetLibrary) {
                 SettingsActionLabel(
                     title: Strings.Settings.resetLibraryLabel,
@@ -35,6 +57,7 @@ struct LibraryActionsSection: View {
                     tint: .red
                 )
             }
+            .disabled(config.isLoading)
             #if DEBUG
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
@@ -54,50 +77,14 @@ struct LibraryActionsSection: View {
                     } label: {
                         SettingsActionLabel(title: "Debug", systemImage: "ladybug", tint: .indigo)
                     }
+                    .disabled(config.isLoading)
                 }
             #endif
         } header: {
             Text(Strings.Settings.librarySectionHeader)
         }
-        .disabled(self.config.isLoading)
     }
-    
-    func updateMedia() {
-        let showsBlockingIndicator = if #available(iOS 26, *) { false } else { true }
-        config.beginLoading(Strings.Settings.ProgressView.updateMedia, showsBlockingIndicator: showsBlockingIndicator)
-        // Execute the update in the background
-        Task(priority: .userInitiated) {
-            // We have to handle our errors inside this task manually, otherwise they are simply discarded
-            do {
-                // Update the available TMDB Languages
-                try await Utils.updateTMDBLanguages()
-                // Update and show the result
-                let updateCount = try await self.library.update()
-                
-                // Report back the result to the user on the main thread
-                await MainActor.run {
-                    self.config.stopLoading()
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.Settings.Alert.updateMediaTitle,
-                        message: Strings.Settings.Alert.updateMediaMessage(updateCount)
-                    )
-                    AnalyticsService.shared.track(.libraryUpdate(result: .success))
-                }
-            } catch {
-                Logger.library.error("Error updating media objects: \(error, privacy: .public)")
-                AnalyticsService.shared.track(.libraryUpdate(result: .failure))
-                // Update UI on the main thread
-                await MainActor.run {
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.libraryUpdateErrorTitle,
-                        error: error
-                    )
-                    self.config.stopLoading()
-                }
-            }
-        }
-    }
-    
+
     func resetLibrary() {
         let controller = UIAlertController(
             title: Strings.Settings.Alert.resetLibraryConfirmTitle,
@@ -135,7 +122,9 @@ struct LibraryActionsSection: View {
     List {
         LibraryActionsSection(
             config: .constant(SettingsViewModel()),
-            reloadHandler: {}
+            updateHandler: {},
+            reloadHandler: {},
+            cancelHandler: {}
         )
     }
 }
@@ -144,7 +133,9 @@ struct LibraryActionsSection: View {
     List {
         LibraryActionsSection(
             config: .constant(SettingsViewModel(isLoading: true, loadingText: "Loading...")),
-            reloadHandler: {}
+            updateHandler: {},
+            reloadHandler: {},
+            cancelHandler: {}
         )
     }
 }

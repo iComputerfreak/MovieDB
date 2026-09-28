@@ -1,0 +1,90 @@
+// Copyright © 2026 Jonas Frey. All rights reserved.
+
+import SwiftUI
+
+/// Summarizes parsed CSV metadata and lets the user revise header mappings before resolution.
+struct TitleImportPreflightView: View {
+    @Binding var preflight: TitleImportPreflight
+    let startAction: () -> Void
+
+    var body: some View {
+        Form {
+            Section(Strings.TitleImport.Preflight.fileSection) {
+                LabeledContent(Strings.TitleImport.Preflight.rows, value: preflight.displayedRowCount.description)
+                LabeledContent(Strings.TitleImport.Preflight.delimiter, value: delimiterName)
+                if preflight.malformedRowCount > 0 {
+                    LabeledContent(
+                        Strings.TitleImport.Preflight.skippedRows,
+                        value: preflight.malformedRowCount.description
+                    )
+                    .foregroundStyle(.orange)
+                }
+            }
+
+            Section {
+                ForEach(TitleImportField.allCases, id: \.self) { field in
+                    Picker(Strings.TitleImport.fieldName(field), selection: $preflight.headerMappings[field]) {
+                        Text(Strings.TitleImport.noColumn)
+                            .tag(nil as String?)
+
+                        ForEach(preflight.allHeaders, id: \.self) { header in
+                            Text(header)
+                                .tag(header as String?)
+                        }
+                    }
+                }
+            } header: {
+                Text(Strings.TitleImport.Preflight.columnsSection)
+            } footer: {
+                VStack(alignment: .leading) {
+                    if !preflight.hasTitleMapping {
+                        Text(Strings.TitleImport.Preflight.titleRequired)
+                            .foregroundStyle(.red)
+                    } else if preflight.usableRowCount == 0 {
+                        Text(Strings.TitleImport.Preflight.noUsableTitles)
+                            .foregroundStyle(.red)
+                    }
+                    if #unavailable(iOS 26.0) {
+                        Text(Strings.TitleImport.Preflight.foregroundWarning)
+                    }
+                }
+            }
+
+            if !preflight.ignoredHeaders.isEmpty {
+                Section {
+                    Text(preflight.ignoredHeaders.joined(separator: ", "))
+                        .foregroundStyle(.secondary)
+                } header: {
+                    Text(Strings.TitleImport.Preflight.ignoredColumnsSection)
+                }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(role: .legacyConfirm, action: startAction) {
+                    Text(Strings.TitleImport.Preflight.start)
+                }
+                .disabled(!preflight.canStartResolution)
+            }
+        }
+    }
+
+    private var delimiterName: String {
+        switch preflight.delimiter {
+        case ",": Strings.TitleImport.Preflight.comma
+        case ";": Strings.TitleImport.Preflight.semicolon
+        default: String(preflight.delimiter)
+        }
+    }
+}
+
+#if DEBUG
+#Preview {
+    @Previewable @State var preflight = TitleImportPreviewData.preflight
+
+    NavigationStack {
+        TitleImportPreflightView(preflight: $preflight, startAction: {})
+            .navigationTitle(Strings.TitleImport.title)
+    }
+}
+#endif

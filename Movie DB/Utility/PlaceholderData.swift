@@ -16,15 +16,24 @@ class PlaceholderData {
     
     var medias: [Media] = []
     
-    let staticMovie: Movie
-    let staticShow: Show
-    let staticProblemShow: Show
-    let staticUpcomingShow: Show
-    let staticRecentlyReleasedMovie: Movie
-    let staticUpcomingMovie: Movie
-    let staticMinimalMovie: Movie
-    let staticMinimalShow: Show
-    let searchResultMovie: TMDBSearchResult = TMDBMovieSearchResult(
+    lazy var staticMovie: Movie = Self.createStaticMovie(in: context, isAdult: true, isFavorite: true)
+    lazy var staticShow: Show = Self.createStaticShow(in: context)
+    lazy var staticProblemShow: Show = Self.createStaticProblemShow(in: context)
+    lazy var staticUpcomingShow: Show = Self.createStaticUpcomingShow(in: context)
+    lazy var staticRecentlyReleasedMovie: Movie = Self.createStaticUpcomingMovie(
+        in: context,
+        releaseDate: Date.now.addingTimeInterval(-9 * .day)
+    )
+    lazy var staticUpcomingMovie: Movie = Self.createStaticUpcomingMovie(in: context)
+    lazy var staticMinimalMovie = Movie(
+        context: context,
+        tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .movie)
+    )
+    lazy var staticMinimalShow = Show(
+        context: context,
+        tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .show)
+    )
+    lazy var searchResultMovie: TMDBSearchResult = TMDBMovieSearchResult(
         id: 603,
         title: "The Matrix",
         mediaType: .movie,
@@ -38,7 +47,7 @@ class PlaceholderData {
         isAdult: true,
         releaseDate: Utils.tmdbUTCDateFormatter.date(from: "2020-04-20")
     )
-    let searchResultShow: TMDBSearchResult = TMDBShowSearchResult(
+    lazy var searchResultShow: TMDBSearchResult = TMDBShowSearchResult(
         id: 46953,
         title: "The Blacklist",
         mediaType: .show,
@@ -51,7 +60,7 @@ class PlaceholderData {
         voteCount: 0,
         firstAirDate: Utils.tmdbUTCDateFormatter.date(from: "2013-09-23")
     )
-    let searchResultMinimalMovie: TMDBSearchResult = TMDBMovieSearchResult(
+    lazy var searchResultMinimalMovie: TMDBSearchResult = TMDBMovieSearchResult(
         id: 1,
         title: "",
         mediaType: .movie,
@@ -75,23 +84,6 @@ class PlaceholderData {
     
     init(context: NSManagedObjectContext) {
         self.context = context
-        self.staticMovie = Self.createStaticMovie(in: context)
-        self.staticMovie.isAdult = true
-        self.staticMovie.isFavorite = true
-        self.staticShow = Self.createStaticShow(in: context)
-        self.staticProblemShow = Self.createStaticProblemShow(in: context)
-        self.staticRecentlyReleasedMovie = Self.createStaticUpcomingMovie(in: context)
-        self.staticRecentlyReleasedMovie.releaseDate = Date.now.addingTimeInterval(-9 * .day)
-        self.staticUpcomingShow = Self.createStaticUpcomingShow(in: context)
-        self.staticUpcomingMovie = Self.createStaticUpcomingMovie(in: context)
-        self.staticMinimalMovie = Movie(
-            context: context,
-            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .movie)
-        )
-        self.staticMinimalShow = Show(
-            context: context,
-            tmdbData: Self.createStaticMinimalTMDBData(in: context, mediaType: .show)
-        )
     }
     
     func populateSamples() {
@@ -210,11 +202,15 @@ class PlaceholderData {
         return media
     }
     
-    func createStaticMovie() -> Movie {
+    func createStaticMovie(isAdult: Bool = false, isFavorite: Bool = false) -> Movie {
         Self.createStaticMovie(in: self.context)
     }
     
-    static func createStaticMovie(in context: NSManagedObjectContext) -> Movie {
+    static func createStaticMovie(
+        in context: NSManagedObjectContext,
+        isAdult: Bool = false,
+        isFavorite: Bool = false
+    ) -> Movie {
         let tmdbData: TMDBData = load("Matrix.json", mediaType: .movie, into: context)
         let m = Movie(context: context, tmdbData: tmdbData)
         m.personalRating = .twoAndAHalfStars
@@ -223,6 +219,8 @@ class PlaceholderData {
         m.watched = .watched
         m.watchAgain = false
         m.parentalRating = fskRating(12, context: context)
+        m.isAdult = isAdult
+        m.isFavorite = isFavorite
         m.watchProviders = [
             .init(
                 context: context,
@@ -297,7 +295,7 @@ class PlaceholderData {
         s.watched = .season(7)
         s.watchAgain = true
         s.parentalRating = fskRating(16, context: context)
-        s.watchProviders = Set(s.watchProviders.filter { $0.logoImage == nil } )
+        s.watchProviders = Set(s.watchProviders.filter { $0.logoImage == nil })
         return s
     }
     
@@ -342,18 +340,18 @@ class PlaceholderData {
         return show
     }
     
-    func createStaticUpcomingMovie() -> Show {
+    func createStaticUpcomingMovie(releaseDate: Date? = nil) -> Show {
         Self.createStaticUpcomingShow(in: self.context)
     }
     
-    static func createStaticUpcomingMovie(in context: NSManagedObjectContext) -> Movie {
+    static func createStaticUpcomingMovie(in context: NSManagedObjectContext, releaseDate: Date? = nil) -> Movie {
         let movie = createStaticMovie(in: context)
         movie.personalRating = .noRating
         movie.watched = .notWatched
         movie.tags = []
         movie.notes = ""
         movie.watchAgain = true
-        movie.releaseDate = .now.addingTimeInterval(.day * 7).timeErased()
+        movie.releaseDate = releaseDate ?? .now.addingTimeInterval(.day * 7).timeErased()
         return movie
     }
 

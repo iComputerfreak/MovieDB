@@ -31,12 +31,14 @@ public class Media: NSManagedObject {
 
     /// Initialize all Media properties from the given TMDBData
     /// Call this function from `Show.init` or `Movie.init` to properly set up the common properties
-    func initMedia(type: MediaType, tmdbData: TMDBData) {
+    func initMedia(type: MediaType, tmdbData: TMDBData, shouldLoadImages: Bool = true) {
         self.type = type
         setTMDBData(tmdbData)
         
         // Load the thumbnail from disk or network
-        loadImages()
+        if shouldLoadImages {
+            loadImages()
+        }
     }
     
     deinit {
@@ -159,7 +161,6 @@ public extension Media {
         if self.id == nil {
             self.id = UUID()
         }
-        self.loadImages()
     }
     
     override func awakeFromInsert() {

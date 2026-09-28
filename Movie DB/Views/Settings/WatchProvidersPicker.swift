@@ -1,6 +1,7 @@
 // Copyright © 2025 Jonas Frey. All rights reserved.
 
 import Analytics
+import CoreData
 import SwiftUI
 
 struct WatchProvidersPicker: View {

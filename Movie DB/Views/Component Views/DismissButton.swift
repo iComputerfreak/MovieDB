@@ -20,16 +20,18 @@ struct DismissButton: View {
     }
 
     var body: some View {
-        Button(role: dismissRole) {
-            (onDismiss ?? dismiss.callAsFunction)()
-        } label: {
-            Label {
-                Text(Strings.Generic.dismissViewDone)
-                    .bold()
-            } icon: {
-                Image(systemName: "xmark")
+        Button(
+            role: dismissRole,
+            action: onDismiss ?? dismiss.callAsFunction,
+            label: {
+                Label {
+                    Text(Strings.Generic.dismissViewDone)
+                        .bold()
+                } icon: {
+                    Image(systemName: "xmark")
+                }
             }
-        }
+        )
     }
 }
 

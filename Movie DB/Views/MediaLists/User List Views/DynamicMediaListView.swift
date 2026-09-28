@@ -1,5 +1,6 @@
 // Copyright © 2022 Jonas Frey. All rights reserved.
 
+import CoreData
 import SwiftUI
 
 /// Represents a media list that is defined by a filter and dynamically updates according to the filter

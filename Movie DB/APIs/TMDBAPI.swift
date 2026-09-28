@@ -57,7 +57,12 @@ actor TMDBAPI {
     ///   - type: The type of media
     ///   - context: The context to insert the new media object into
     /// - Returns: The decoded media object
-    func media(for id: Int, type: MediaType, context: NSManagedObjectContext) async throws -> Media {
+    func media(
+        for id: Int,
+        type: MediaType,
+        context: NSManagedObjectContext,
+        loadImages: Bool = true
+    ) async throws -> Media {
         // Get the TMDB Data (TMDBData is no NSManagedObject, so we don't need to perform in the context's thread)
         let tmdbData = try await tmdbData(for: id, type: type, context: context)
         // We need to be in the context's thread to create new medias
@@ -66,13 +71,12 @@ actor TMDBAPI {
             let media: Media
             switch type {
             case .movie:
-                media = Movie(context: context, tmdbData: tmdbData)
+                media = Movie(context: context, tmdbData: tmdbData, loadImages: loadImages)
             case .show:
-                media = Show(context: context, tmdbData: tmdbData)
+                media = Show(context: context, tmdbData: tmdbData, loadImages: loadImages)
             }
             return media
         }
-        media.loadImages()
         return media
     }
     
@@ -204,6 +208,50 @@ actor TMDBAPI {
             pageWrapper: SearchResultsPageWrapper.self,
             context: disposableContext
         )
+    }
+
+    /// Searches one TMDB page and converts heterogeneous results into lightweight title-import candidates.
+    /// - Parameters:
+    ///   - query: The title query to search.
+    ///   - page: The one-based result page to request.
+    /// - Returns: Movie and show candidates containing metadata available directly from search results.
+    /// - Throws: A network, API, decoding, Core Data, or cancellation error when the search cannot complete.
+    func titleImportSearch(_ query: String, page: Int) async throws -> [TitleImportCandidate] {
+        let (results, _) = try await searchMedia(query, from: page, to: page)
+        return results.map { result in
+            let year: Int?
+            if let movie = result as? TMDBMovieSearchResult {
+                year = movie.releaseDate?[.year]
+            } else if let show = result as? TMDBShowSearchResult {
+                year = show.firstAirDate?[.year]
+            } else {
+                year = nil
+            }
+            return TitleImportCandidate(
+                identity: MediaIdentity(type: result.mediaType, tmdbID: result.id),
+                title: result.title,
+                originalTitle: result.originalTitle,
+                year: year,
+                imagePath: result.imagePath,
+                popularity: result.popularity,
+                alternativeTitles: [],
+                directors: [],
+                runtimeMinutes: nil
+            )
+        }
+    }
+
+    /// Loads combined credits and alternative-title details for one title-import candidate.
+    /// - Parameter identity: The movie or show identity to enrich.
+    /// - Returns: Alternative titles, directors or creators, and runtime metadata.
+    /// - Throws: A network, API, decoding, or cancellation error when candidate details cannot be loaded.
+    func titleImportDetails(for identity: MediaIdentity) async throws -> TitleImportCandidateDetails {
+        let response = try await decodeAPIURL(
+            path: "/\(identity.type.rawValue)/\(identity.tmdbID)",
+            additionalParameters: ["append_to_response": "credits,alternative_titles"],
+            as: TitleImportDetailsResponse.self
+        )
+        return response.candidateDetails
     }
     
     /// Returns all language codes available in the TMDB API
@@ -360,6 +408,7 @@ actor TMDBAPI {
         // We should never have to execute GET requests on the main thread
         assert(!Thread.isMainThread)
         assert(path.starts(with: "/"))
+        try Task.checkCancellation()
         
         // MARK: Build URL components
         var components = URLComponents()
@@ -393,6 +442,7 @@ actor TMDBAPI {
             timeSinceLastRequest = calculateTimeSinceLastRequest()
         }
         lastRequestDate = .now
+        try Task.checkCancellation()
         
         var request = URLRequest(url: components.url!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -60,6 +60,8 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                     subtitleContent()
                 }
             }
+            // List laziness now controls thumbnail work; fetched off-screen media no longer start downloads.
+            .task { mediaObject.loadImages() }
         }
     }
     

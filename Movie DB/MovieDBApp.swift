@@ -11,6 +11,16 @@ private let analyticsAppEnvironment = "debug"
 private let analyticsAppEnvironment = "release"
 #endif
 
+extension ProcessInfo {
+    static var isRunningForPreviews: Bool {
+        #if DEBUG
+        return processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        #else
+        return false
+        #endif
+    }
+}
+
 @main
 struct MovieDBApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self)
@@ -18,25 +28,30 @@ struct MovieDBApp: App {
 
     @ObservedObject private var config = JFConfig.shared
 
-    private let storeManager: StoreManager = .shared
-
     init() {
-        AnalyticsService.shared.configure(
-            AnalyticsConfiguration(
-                apiKey: Secrets.postHogProjectToken,
-                host: Secrets.postHogHost,
-                isTrackingEnabled: JFConfig.shared.isAnalyticsEnabled,
-                distinctID: JFConfig.shared.analyticsInstallationID,
-                personProperties: analyticsPersonProperties,
-                personPropertiesSetOnce: analyticsPersonPropertiesSetOnce
+        if !ProcessInfo.isRunningForPreviews {
+            AnalyticsService.shared.configure(
+                AnalyticsConfiguration(
+                    apiKey: Secrets.postHogProjectToken,
+                    host: Secrets.postHogHost,
+                    isTrackingEnabled: JFConfig.shared.isAnalyticsEnabled,
+                    distinctID: JFConfig.shared.analyticsInstallationID,
+                    personProperties: analyticsPersonProperties,
+                    personPropertiesSetOnce: analyticsPersonPropertiesSetOnce
+                )
             )
-        )
+        }
     }
 
     var body: some Scene {
         WindowGroup {
             AppRootView()
-                .environment(\.managedObjectContext, PersistenceController.viewContext)
+                .environment(
+                    \.managedObjectContext,
+                     ProcessInfo.isRunningForPreviews
+                       ? PersistenceController.xcodePreviewContext
+                       : PersistenceController.viewContext
+                )
                 .environmentObject(config)
             // Respond to universal links
             .openShareURLModifier()

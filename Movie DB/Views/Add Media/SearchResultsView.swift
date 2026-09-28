@@ -178,7 +178,7 @@ extension SearchResultsView {
             return
         }
 
-        guard searchText.count >= 3 else {
+        guard searchText.count >= 2 else {
             await MainActor.run {
                 clearResults()
             }

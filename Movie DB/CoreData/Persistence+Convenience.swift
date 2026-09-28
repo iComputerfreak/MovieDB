@@ -20,19 +20,21 @@ extension PersistenceController {
     
     /// Creates and returns a new `NSManagedObjectContext` that can be used for creating temporary data (e.g., Seasons that are part of a `SearchResult`)
     /// A context created by this method may not be saved!
-    static func createDisposableContext() -> NSManagedObjectContext {
+    static func createDisposableContext(forPreview: Bool = false) -> NSManagedObjectContext {
         // The disposable context is a new empty context without any data in it
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        let model = shared.container.persistentStoreCoordinator.managedObjectModel
+        let container = forPreview ? preview.container : shared.container
+        let model = container.persistentStoreCoordinator.managedObjectModel
         context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         context.type = .disposableContext
         context.transactionAuthor = appTransactionAuthorName
         return context
     }
     
-    static func createDisposableViewContext() -> NSManagedObjectContext {
+    static func createDisposableViewContext(forPreview: Bool = false) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let model = shared.container.persistentStoreCoordinator.managedObjectModel
+        let container = forPreview ? preview.container : shared.container
+        let model = container.persistentStoreCoordinator.managedObjectModel
         context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         context.type = .disposableContext
         context.transactionAuthor = appTransactionAuthorName
