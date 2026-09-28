@@ -32,6 +32,7 @@ Rules and guidelines for working on this Xcode project.
 ## Localization and content
 - Route user-facing copy through `Strings` helpers backed by `Localizable.xcstrings`.
 - Give every localized string a translator comment and a translation in `Localizable.xcstrings` for each supported language.
+- Always use informal address (`du`) in German localizations.
 - Do not inline visible UI strings with concatenation or interpolation in views when text can be localized.
 - When dynamic text is needed, add `Strings` static functions with localized format keys.
 - Keep changes localized to the feature you are working on; avoid broad copy rewrites unless requested.

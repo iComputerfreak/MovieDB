@@ -3,34 +3,28 @@
 import SwiftUI
 
 /// Represents a button that dismisses the currently active view (e.g., a sheet)
-struct DismissButton: View {
+struct ConfirmButton: View {
     @Environment(\.dismiss) private var dismiss
-    private let onDismiss: (() -> Void)?
+    private let onConfirm: (() -> Void)?
 
-    private var dismissRole: ButtonRole? {
+    private var confirmRole: ButtonRole? {
         if #available(iOS 26.0, *) {
-            return .close
+            return .confirm
         } else {
             return nil
         }
     }
 
-    init(onDismiss: (() -> Void)? = nil) {
-        self.onDismiss = onDismiss
+    init(onConfirm: (() -> Void)? = nil) {
+        self.onConfirm = onConfirm
     }
 
     var body: some View {
         Button(
-            role: dismissRole,
-            action: onDismiss ?? dismiss.callAsFunction,
-            label: {
-                Label {
-                    Text(Strings.Generic.dismissViewDone)
-                        .bold()
-                } icon: {
-                    Image(systemName: "xmark")
-                }
-            }
+            Strings.Generic.dismissViewDone,
+            systemImage: "checkmark",
+            role: confirmRole,
+            action: onConfirm ?? dismiss.callAsFunction
         )
     }
 }
@@ -43,7 +37,7 @@ struct DismissButton: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .toolbar {
-                        DismissButton()
+                        ConfirmButton()
                     }
             }
         })
