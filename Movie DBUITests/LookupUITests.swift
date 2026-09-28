@@ -29,4 +29,15 @@ class LookupUITests: XCTestCase {
         // swiftformat:disable:next isEmpty
         XCTAssert(app.alerts.count == 0)
     }
+
+    func testTwoCharacterLookupSearchesAutomatically() throws {
+        app.launch()
+
+        _ = app.openAddMediaEntryPoint()
+        app.addMediaSearch.tap()
+        app.addMediaSearch.typeText("It")
+
+        let mediaCell = app.cells.containing(.staticText, identifier: "It").firstMatch
+        XCTAssertTrue(mediaCell.waitForExistence(timeout: 10))
+    }
 }

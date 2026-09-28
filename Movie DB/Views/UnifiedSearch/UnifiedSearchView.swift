@@ -115,7 +115,7 @@ struct UnifiedSearchView: View {
                 unifiedSearchCoordinator.scope = .addMedia
             }
         case .addMedia:
-            if trimmedSearchText.count < 3 {
+            if trimmedSearchText.count < 2 {
                 ScreenUnavailableView(
                     title: Strings.AddMedia.navBarTitle,
                     systemImage: "magnifyingglass",
