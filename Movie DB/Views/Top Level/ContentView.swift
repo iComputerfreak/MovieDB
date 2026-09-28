@@ -92,13 +92,20 @@ struct ContentView: View {
     @available(iOS 26, *)
     var modernTabView: some View {
         Group {
-            if LibraryUpdateStatus.shared.isActive {
+            if #available(iOS 26.1, *) {
                 modernTabViewContent
-                    .tabViewBottomAccessory {
+                    .tabViewBottomAccessory(isEnabled: LibraryUpdateStatus.shared.isActive) {
                         LibraryUpdateBottomAccessory()
                     }
             } else {
-                modernTabViewContent
+                if LibraryUpdateStatus.shared.isActive {
+                    modernTabViewContent
+                        .tabViewBottomAccessory {
+                            LibraryUpdateBottomAccessory()
+                        }
+                } else {
+                    modernTabViewContent
+                }
             }
         }
         .tabViewSearchActivation(.searchTabSelection)
