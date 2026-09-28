@@ -15,8 +15,25 @@ struct SettingsView: View {
     private let storeManager: StoreManager = .shared
 
     @State private var viewModel = SettingsViewModel()
+    @State private var libraryOperationTask: Task<Void, Never>?
     @State private var isShowingAnalyticsConsent = false
     @State private var pendingAnalyticsEnableSource: AnalyticsEnabledSource?
+
+    @ToolbarContentBuilder
+    private var debugMenuToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            NavigationLink {
+                DebugView()
+            } label: {
+                Label {
+                    Text(verbatim: "Debug")
+                } icon: {
+                    Image(systemName: "ladybug")
+                }
+            }
+            .tint(.accentColor)
+        }
+    }
     
     var body: some View {
         LoadingView(
@@ -37,7 +54,12 @@ struct SettingsView: View {
                     }
                     ImportExportSection(config: $viewModel)
                     ContactSection(config: $viewModel)
-                    LibraryActionsSection(config: $viewModel, reloadHandler: self.reloadMedia)
+                    LibraryActionsSection(
+                        config: $viewModel,
+                        updateHandler: self.updateMedia,
+                        reloadHandler: self.reloadMedia,
+                        cancelHandler: self.cancelLibraryOperation
+                    )
                     AnalyticsSection(
                         enableAnalyticsHandler: { isShowingAnalyticsConsent = true },
                         disableAnalyticsHandler: disableAnalytics
@@ -86,54 +108,86 @@ struct SettingsView: View {
         }
     }
 
-    @ToolbarContentBuilder
-    private var debugMenuToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            NavigationLink {
-                DebugView()
-            } label: {
-                Label {
-                    Text(verbatim: "Debug")
-                } icon: {
-                    Image(systemName: "ladybug")
-                }
-            }
-            .tint(.accentColor)
-        }
-    }
-
+    /// Starts a full manual library reload.
+    @MainActor
     func reloadMedia() {
+        guard !viewModel.isLoading else { return }
+
         AnalyticsService.shared.track(.libraryReload)
         let showsBlockingIndicator = if #available(iOS 26, *) { false } else { true }
         viewModel.beginLoading(
             Strings.Settings.ProgressView.reloadLibrary,
             showsBlockingIndicator: showsBlockingIndicator
         )
+        viewModel.activeLibraryOperation = .manualReload
 
-        // Perform the reload in the background on a different thread
-        Task(priority: .userInitiated) {
+        libraryOperationTask = Task(priority: .userInitiated) { @MainActor in
             Logger.library.info("Starting reload...")
             do {
-                // Reload and show the result
                 try await self.library.reloadAll(origin: .manualReload)
-                await MainActor.run {
-                    self.viewModel.stopLoading()
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.Settings.Alert.reloadCompleteTitle,
-                        message: Strings.Settings.Alert.reloadCompleteMessage
-                    )
-                }
+                try Task.checkCancellation()
+                AlertHandler.showSimpleAlert(
+                    title: Strings.Settings.Alert.reloadCompleteTitle,
+                    message: Strings.Settings.Alert.reloadCompleteMessage
+                )
             } catch {
-                Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
-                await MainActor.run {
-                    self.viewModel.stopLoading()
+                if Task.isCancelled || error is CancellationError {
+                    Logger.library.info("Library reload cancelled.")
+                } else {
+                    Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
                     AlertHandler.showError(
                         title: Strings.Settings.Alert.reloadErrorTitle,
                         error: error
                     )
                 }
             }
+            self.viewModel.stopLoading()
+            self.libraryOperationTask = nil
         }
+    }
+
+    /// Starts a manual update of changed library items.
+    @MainActor
+    private func updateMedia() {
+        guard !viewModel.isLoading else { return }
+
+        let showsBlockingIndicator = if #available(iOS 26, *) { false } else { true }
+        viewModel.beginLoading(
+            Strings.Settings.ProgressView.updateMedia,
+            showsBlockingIndicator: showsBlockingIndicator
+        )
+        viewModel.activeLibraryOperation = .manualUpdate
+
+        libraryOperationTask = Task(priority: .userInitiated) { @MainActor in
+            do {
+                try await Utils.updateTMDBLanguages()
+                let updateCount = try await self.library.update()
+                try Task.checkCancellation()
+                AlertHandler.showSimpleAlert(
+                    title: Strings.Settings.Alert.updateMediaTitle,
+                    message: Strings.Settings.Alert.updateMediaMessage(updateCount)
+                )
+                AnalyticsService.shared.track(.libraryUpdate(result: .success))
+            } catch {
+                if Task.isCancelled || error is CancellationError {
+                    Logger.library.info("Library update cancelled.")
+                } else {
+                    Logger.library.error("Error updating media objects: \(error, privacy: .public)")
+                    AnalyticsService.shared.track(.libraryUpdate(result: .failure))
+                    AlertHandler.showError(
+                        title: Strings.Settings.Alert.libraryUpdateErrorTitle,
+                        error: error
+                    )
+                }
+            }
+            self.viewModel.stopLoading()
+            self.libraryOperationTask = nil
+        }
+    }
+
+    /// Cancels the manual library operation started from Settings.
+    private func cancelLibraryOperation() {
+        libraryOperationTask?.cancel()
     }
 
     private func disableAnalytics() {

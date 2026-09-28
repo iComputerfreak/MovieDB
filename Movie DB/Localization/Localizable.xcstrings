@@ -6993,6 +6993,40 @@
         }
       }
     },
+    "settings.actions.cancelLibraryReload.label" : {
+      "comment" : "The label for the action that cancels an in-progress full library reload",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuladen abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel reload"
+          }
+        }
+      }
+    },
+    "settings.actions.cancelLibraryUpdate.label" : {
+      "comment" : "The label for the action that cancels an in-progress library update",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierung abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel update"
+          }
+        }
+      }
+    },
     "settings.actions.importMedia.label" : {
       "comment" : "The label for the 'import media' action in the settings view",
       "localizations" : {

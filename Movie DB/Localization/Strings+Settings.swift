@@ -63,6 +63,14 @@ extension Strings {
             localized: "settings.actions.updateMedia.label",
             comment: "The label for the 'update media' action in the settings view"
         )
+        static let cancelLibraryUpdateLabel = String(
+            localized: "settings.actions.cancelLibraryUpdate.label",
+            comment: "The label for the action that cancels an in-progress library update"
+        )
+        static let cancelLibraryReloadLabel = String(
+            localized: "settings.actions.cancelLibraryReload.label",
+            comment: "The label for the action that cancels an in-progress full library reload"
+        )
         static let resetLibraryLabel = String(
             localized: "settings.actions.resetLibrary.label",
             comment: "The label for the 'reset library' action in the settings view"
