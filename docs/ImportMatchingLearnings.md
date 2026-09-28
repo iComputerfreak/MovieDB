@@ -193,6 +193,8 @@ Edition cleanup should support trailing text outside parentheses as well as pare
 
 For scoring, a trailing parenthesized known-edition label can be removed symmetrically from either source or candidate title. A colon-delimited subtitle can be removed from either side only when the source and candidate years match exactly; subtitle removal alone is not exact-title evidence.
 
+An exact year can also qualify symmetric title containment when the shorter normalized title appears as a contiguous whole-token sequence in the longer title. Require at least two tokens so short titles such as `Up` do not match unrelated same-year titles such as `Up in the Air`.
+
 ### Unicode and Punctuation
 
 Observed differences included:

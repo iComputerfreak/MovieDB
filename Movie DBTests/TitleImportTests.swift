@@ -248,6 +248,65 @@ struct TitleImportTests {
         #expect(!missingYear.evidence.titleMatch)
     }
 
+    @Test("Treats multi-token title containment as equivalent only with an exact year")
+    func scoresYearQualifiedTitleContainment() {
+        let scorer = TitleImportScorer()
+        let containedSource = scorer.score(
+            candidate(id: 1, title: "BBC Planet Earth Collection", year: 2006),
+            for: sourceRow(title: "Planet Earth", year: 2006)
+        )
+        let containedCandidate = scorer.score(
+            candidate(id: 2, title: "Planet Earth", year: 2006),
+            for: sourceRow(title: "BBC Planet Earth Collection", year: 2006)
+        )
+        let alternativeTitle = scorer.score(
+            candidate(
+                id: 3,
+                title: "Our World",
+                year: 2006,
+                alternativeTitles: ["BBC Planet Earth Collection"]
+            ),
+            for: sourceRow(title: "Planet Earth", year: 2006)
+        )
+        let wrongYear = scorer.score(
+            candidate(id: 4, title: "BBC Planet Earth Collection", year: 2007),
+            for: sourceRow(title: "Planet Earth", year: 2006)
+        )
+        let missingYear = scorer.score(
+            candidate(id: 5, title: "BBC Planet Earth Collection", year: nil),
+            for: sourceRow(title: "Planet Earth", year: nil)
+        )
+        let noncontiguous = scorer.score(
+            candidate(id: 6, title: "Planet Blue Earth", year: 2006),
+            for: sourceRow(title: "Planet Earth", year: 2006)
+        )
+        let partialWord = scorer.score(
+            candidate(id: 7, title: "Mankind Returns", year: 2006),
+            for: sourceRow(title: "Man Kind", year: 2006)
+        )
+        let singleWord = scorer.score(
+            candidate(id: 8, title: "Up in the Air", year: 2009),
+            for: sourceRow(title: "Up", year: 2009)
+        )
+
+        #expect(containedSource.score >= 75)
+        #expect(containedSource.evidence.titleMatch)
+        #expect(containedCandidate.score >= 75)
+        #expect(containedCandidate.evidence.titleMatch)
+        #expect(alternativeTitle.score >= 75)
+        #expect(alternativeTitle.evidence.titleMatch)
+        #expect(wrongYear.score < 75)
+        #expect(!wrongYear.evidence.titleMatch)
+        #expect(missingYear.score < 75)
+        #expect(!missingYear.evidence.titleMatch)
+        #expect(noncontiguous.score < 75)
+        #expect(!noncontiguous.evidence.titleMatch)
+        #expect(partialWord.score < 75)
+        #expect(!partialWord.evidence.titleMatch)
+        #expect(singleWord.score < 75)
+        #expect(!singleWord.evidence.titleMatch)
+    }
+
     @Test("Director and runtime overcome an incorrect year")
     func scoresCorroboratingDetails() {
         let source = sourceRow(title: "Crossroads", year: 2020, director: "Walter Hill", runtime: 99)
@@ -524,6 +583,7 @@ struct TitleImportTests {
         type: MediaType = .movie,
         title: String,
         year: Int?,
+        alternativeTitles: [String] = [],
         directors: [String] = [],
         runtime: Int? = nil
     ) -> TitleImportCandidate {
@@ -534,7 +594,7 @@ struct TitleImportTests {
             year: year,
             imagePath: nil,
             popularity: 1,
-            alternativeTitles: [],
+            alternativeTitles: alternativeTitles,
             directors: directors,
             runtimeMinutes: runtime
         )

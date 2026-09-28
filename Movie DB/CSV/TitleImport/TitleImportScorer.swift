@@ -29,6 +29,7 @@ struct TitleImportScorer {
         let rawExact = normalizedCandidates.contains(rawTitle)
         let editionExact = equivalences.contains { $0 == .edition }
         let subtitleExact = equivalences.contains { $0 == .subtitle }
+        let containedExact = equivalences.contains { $0 == .contained }
         let variantExact = candidateTitles.contains { candidateTitle in
             matchesSourceVariant(
                 candidateTitle,
@@ -53,7 +54,7 @@ struct TitleImportScorer {
             .max() ?? 0
 
         var evidence = TitleImportMatchEvidence()
-        evidence.titleMatch = rawExact || editionExact || subtitleExact || variantExact
+        evidence.titleMatch = rawExact || editionExact || subtitleExact || containedExact || variantExact
         evidence.alternativeTitleMatch = alternativeExact
 
         // Exact and safe-equivalence matches establish the base score; fuzzy matches receive less weight.
@@ -62,7 +63,7 @@ struct TitleImportScorer {
             score = 75
         } else if editionExact {
             score = 75
-        } else if subtitleExact {
+        } else if subtitleExact || containedExact {
             score = 66
         } else if variantExact || alternativeExact {
             score = 66

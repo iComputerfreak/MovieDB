@@ -9,6 +9,7 @@ enum TitleImportTitleMatcher {
         case exact
         case edition
         case subtitle
+        case contained
     }
 
     private static let romanNumbers: [String: String] = [
@@ -106,6 +107,9 @@ enum TitleImportTitleMatcher {
            (leftSubtitleBase ?? normalizedLeft) == (rightSubtitleBase ?? normalizedRight) {
             return .subtitle
         }
+        if hasContainedTitle(normalizedLeft, normalizedRight) {
+            return .contained
+        }
         return nil
     }
 
@@ -167,6 +171,25 @@ enum TitleImportTitleMatcher {
         let base = String(title[..<separator]).trimmingCharacters(in: .whitespacesAndNewlines)
         guard base.count >= 3 else { return nil }
         return normalize(base)
+    }
+
+    /// Checks whether the shorter normalized title is a contiguous whole-token segment of the longer title.
+    /// - Parameters:
+    ///   - left: The first normalized title.
+    ///   - right: The second normalized title.
+    /// - Returns: Whether a title containing at least two tokens is fully contained in the other title.
+    private static func hasContainedTitle(_ left: String, _ right: String) -> Bool {
+        let leftTokens = left.split(separator: " ")
+        let rightTokens = right.split(separator: " ")
+        let shorter = leftTokens.count < rightTokens.count ? leftTokens : rightTokens
+        let longer = leftTokens.count < rightTokens.count ? rightTokens : leftTokens
+        guard shorter.count >= 2, shorter.count < longer.count else { return false }
+
+        for startIndex in 0...(longer.count - shorter.count)
+        where longer[startIndex..<(startIndex + shorter.count)].elementsEqual(shorter) {
+            return true
+        }
+        return false
     }
 
     /// Calculates edit distance using one retained dynamic-programming row.
