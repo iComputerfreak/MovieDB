@@ -4978,6 +4978,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -4997,6 +4998,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5016,6 +5018,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5043,6 +5046,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5062,6 +5066,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5081,6 +5086,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5108,6 +5114,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5127,6 +5134,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5146,6 +5154,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5173,6 +5182,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5192,6 +5202,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5211,6 +5222,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5238,6 +5250,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5257,6 +5270,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5276,6 +5290,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5303,6 +5318,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5316,6 +5332,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5329,6 +5346,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5350,6 +5368,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5369,6 +5388,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5388,6 +5408,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5415,6 +5436,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5428,6 +5450,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5441,6 +5464,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
@@ -5462,6 +5486,7 @@
           },
           "substitutions" : {
             "max" : {
+              "argNum" : 2,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5493,6 +5518,7 @@
               }
             },
             "points" : {
+              "argNum" : 1,
               "formatSpecifier" : "lf",
               "variations" : {
                 "plural" : {
@@ -5524,6 +5550,7 @@
               }
             },
             "voteCount" : {
+              "argNum" : 3,
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
