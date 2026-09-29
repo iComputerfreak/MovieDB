@@ -28,6 +28,41 @@
           "description" : "Unlock all app features",
           "displayName" : "Pro",
           "locale" : "en_US"
+        },
+        {
+          "description" : "Desbloquea todas las funciones de la app",
+          "displayName" : "Pro",
+          "locale" : "es_ES"
+        },
+        {
+          "description" : "Débloque toutes les fonctionnalités de l’app",
+          "displayName" : "Pro",
+          "locale" : "fr_FR"
+        },
+        {
+          "description" : "Sblocca tutte le funzionalità dell’app",
+          "displayName" : "Pro",
+          "locale" : "it_IT"
+        },
+        {
+          "description" : "アプリのすべての機能をアンロック",
+          "displayName" : "Pro",
+          "locale" : "ja_JP"
+        },
+        {
+          "description" : "앱의 모든 기능 잠금 해제",
+          "displayName" : "Pro",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Odblokuj wszystkie funkcje aplikacji",
+          "displayName" : "Pro",
+          "locale" : "pl_PL"
+        },
+        {
+          "description" : "Desbloqueie todos os recursos do app",
+          "displayName" : "Pro",
+          "locale" : "pt_BR"
         }
       ],
       "productID" : "movie_db_pro",
