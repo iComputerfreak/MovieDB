@@ -75,6 +75,8 @@ enum TitleImportPreviewData {
             directors: ["Lana Wachowski", "Lilly Wachowski"],
             runtimeMinutes: 136
         ),
+        score: 107,
+        runnerUpScore: 42,
         status: .accepted,
         reason: Strings.TitleImport.Match.accepted,
         evidence: TitleImportMatchEvidence(
@@ -103,6 +105,8 @@ enum TitleImportPreviewData {
                 directors: ["Baran bo Odar"],
                 runtimeMinutes: 60
             ),
+            score: 71,
+            runnerUpScore: 68,
             status: .ambiguous,
             reason: Strings.TitleImport.Match.ambiguous,
             evidence: TitleImportMatchEvidence(titleMatch: true, yearMatch: true),
@@ -112,6 +116,8 @@ enum TitleImportPreviewData {
             id: 4,
             source: sourceRows[2],
             candidate: nil,
+            score: nil,
+            runnerUpScore: nil,
             status: .noMatch,
             reason: Strings.TitleImport.Match.noResults,
             evidence: TitleImportMatchEvidence(),

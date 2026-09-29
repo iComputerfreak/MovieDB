@@ -43,6 +43,8 @@ struct TitleImportFlowView: View {
                     if let result = workflow.finalResult {
                         TitleImportSummaryView(
                             result: result,
+                            reportData: workflow.reportData,
+                            reportFilename: workflow.reportFilename,
                             retryAction: workflow.retryFailedImports,
                             finishAction: dismiss.callAsFunction
                         )

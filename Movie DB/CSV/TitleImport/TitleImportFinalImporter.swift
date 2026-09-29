@@ -174,6 +174,7 @@ struct TitleImportFinalImporter {
                 let isStored = isPending ? false : try await contains(identity)
                 if isPending || isStored {
                     result.duplicateCount += 1
+                    result.duplicateIdentities.append(identity)
                 } else {
                     let childContext = makeChildContext()
                     do {
@@ -268,6 +269,7 @@ struct TitleImportFinalImporter {
                 writerContext.reset()
             }
             result.importedCount += pendingIdentities.count
+            result.importedIdentities.append(contentsOf: pendingIdentities)
         } catch {
             result.failedIdentities.append(contentsOf: pendingIdentities)
             await writerContext.perform {

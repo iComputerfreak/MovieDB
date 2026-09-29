@@ -129,6 +129,8 @@ struct TitleImportReviewRow: View {
                 alternativeTitles: [],
                 directors: []
             ),
+            score: 99,
+            runnerUpScore: 12,
             status: .accepted,
             reason: "Reason",
             evidence: .init(titleMatch: true),
@@ -154,6 +156,8 @@ struct TitleImportReviewRow: View {
                 alternativeTitles: [],
                 directors: []
             ),
+            score: 99,
+            runnerUpScore: 12,
             status: .duplicate,
             reason: "Already included.",
             evidence: .init(titleMatch: true),
@@ -179,6 +183,8 @@ struct TitleImportReviewRow: View {
                 alternativeTitles: [],
                 directors: []
             ),
+            score: 72,
+            runnerUpScore: 69,
             status: .ambiguous,
             reason: "This reason is long as well, forcing a line break too.",
             evidence: .init(titleMatch: true),
@@ -195,6 +201,8 @@ struct TitleImportReviewRow: View {
                 mediaType: nil
             ),
             candidate: nil,
+            score: nil,
+            runnerUpScore: nil,
             status: .noMatch,
             reason: "Nothing found.",
             evidence: .init(titleMatch: true),

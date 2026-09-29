@@ -6,6 +6,8 @@ import Foundation
 struct TitleImportFinalResult: Sendable {
     var importedCount = 0
     var duplicateCount = 0
+    var importedIdentities: [MediaIdentity] = []
+    var duplicateIdentities: [MediaIdentity] = []
     var failedIdentities: [MediaIdentity] = []
     var remainingIdentities: [MediaIdentity] = []
 

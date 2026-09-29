@@ -564,6 +564,16 @@ extension Strings {
                 localized: "titleImport.summary.retryFailed",
                 defaultValue: "Retry Failed"
             )
+            static let exportReport = String(
+                localized: "titleImport.summary.exportReport",
+                defaultValue: "Export Import Report",
+                comment: "Button that saves the completed title import report as a CSV file."
+            )
+            static let invalidRowReason = String(
+                localized: "titleImport.summary.invalidRowReason",
+                defaultValue: "The mapped title is missing.",
+                comment: "Reason written to the import report for a source row skipped before matching."
+            )
             static let finish = String(localized: "titleImport.summary.finish", defaultValue: "Finish")
         }
 

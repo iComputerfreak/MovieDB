@@ -462,6 +462,8 @@ struct TitleImportTests {
 
         #expect(result.importedCount == 1)
         #expect(result.duplicateCount == 1)
+        #expect(result.importedIdentities == [MediaIdentity(type: .movie, tmdbID: 1)])
+        #expect(result.duplicateIdentities == [duplicate])
         #expect(result.failedIdentities == [MediaIdentity(type: .movie, tmdbID: 3)])
         let verificationContext = container.newBackgroundContext()
         let storedIDs = try await verificationContext.perform {
@@ -550,6 +552,110 @@ struct TitleImportTests {
         #expect(result.remainingIdentities == identities)
     }
 
+    @Test("Import report covers imported, unmatched, and invalid source rows")
+    func createsCompleteImportReport() throws {
+        let importedCandidate = candidate(id: 603, title: "=The; \"Matrix\"", year: 1999)
+        let importedItem = TitleImportReviewItem(
+            id: 2,
+            source: sourceRow(id: 2, title: importedCandidate.title, year: 1999),
+            candidate: importedCandidate,
+            score: 107,
+            runnerUpScore: 42,
+            status: .ambiguous,
+            reason: "Review suggested match.",
+            evidence: TitleImportMatchEvidence(titleMatch: true, yearMatch: true),
+            isIncluded: true
+        )
+        let unmatchedItem = TitleImportReviewItem(
+            id: 3,
+            source: sourceRow(id: 3, title: "Unknown", year: nil),
+            candidate: nil,
+            score: nil,
+            runnerUpScore: nil,
+            status: .noMatch,
+            reason: "No TMDB match found.",
+            evidence: TitleImportMatchEvidence(),
+            isIncluded: false
+        )
+        let preflight = TitleImportPreflight(
+            rawRows: [
+                TitleImportRawRow(rowNumber: 2, values: ["=The; \"Matrix\"", "1999"]),
+                TitleImportRawRow(rowNumber: 3, values: ["Unknown", ""]),
+                TitleImportRawRow(rowNumber: 4, values: ["", "2001"]),
+            ],
+            delimiter: ";",
+            allHeaders: ["Title", "Year"],
+            headerMappings: [.title: "Title", .year: "Year"]
+        )
+        let result = TitleImportFinalResult(
+            importedCount: 1,
+            importedIdentities: [importedCandidate.identity]
+        )
+
+        let data = TitleImportReportExporter.createData(
+            preflight: preflight,
+            reviewItems: [importedItem, unmatchedItem],
+            result: result
+        )
+        let csv = try #require(String(data: data, encoding: .utf8))
+        let lines = csv.components(separatedBy: "\n")
+
+        #expect(lines.count == 4)
+        #expect(lines[0].contains("confidence_score;runner_up_score;score_margin"))
+        #expect(lines[1].contains("\"'=The; \"\"Matrix\"\"\""))
+        #expect(lines[1].contains("\"107.00\";\"42.00\";\"65.00\";\"ambiguous\";\"include\";\"imported\""))
+        #expect(lines[2].contains("\"noMatch\";\"exclude\";\"not_imported_no_match\""))
+        #expect(lines[3].contains("\"invalid\";\"exclude\";\"not_imported_invalid\""))
+    }
+
+    @Test("Import report distinguishes exclusion, duplicate, failure, and remaining outcomes")
+    func reportsTerminalImportOutcomes() throws {
+        let candidates = (1...6).map { candidate(id: $0, title: "Title \($0)", year: 2000) }
+        let items = [
+            reviewItem(id: 2, candidate: candidates[0], included: false),
+            reviewItem(
+                id: 3,
+                candidate: candidates[1],
+                status: .duplicate,
+                duplicateKind: .existingLibrary,
+                included: false
+            ),
+            reviewItem(
+                id: 4,
+                candidate: candidates[2],
+                status: .duplicate,
+                duplicateKind: .sourceRow(2),
+                included: false
+            ),
+            reviewItem(id: 5, candidate: candidates[3]),
+            reviewItem(id: 6, candidate: candidates[4]),
+            reviewItem(id: 7, candidate: candidates[5]),
+        ]
+        let preflight = TitleImportPreflight(
+            rawRows: (2...7).map { TitleImportRawRow(rowNumber: $0, values: ["Title \($0 - 1)"]) },
+            delimiter: ";",
+            allHeaders: ["Title"],
+            headerMappings: [.title: "Title"]
+        )
+        let result = TitleImportFinalResult(
+            duplicateCount: 1,
+            duplicateIdentities: [candidates[3].identity],
+            failedIdentities: [candidates[4].identity],
+            remainingIdentities: [candidates[5].identity]
+        )
+
+        let data = TitleImportReportExporter.createData(preflight: preflight, reviewItems: items, result: result)
+        let csv = try #require(String(data: data, encoding: .utf8))
+        let lines = csv.components(separatedBy: "\n")
+
+        #expect(lines[1].contains("\"accepted\";\"exclude\";\"not_imported_excluded\""))
+        #expect(lines[2].contains("\"duplicate\";\"exclude\";\"not_imported_existing_duplicate\""))
+        #expect(lines[3].contains("\"duplicate\";\"exclude\";\"not_imported_source_duplicate\""))
+        #expect(lines[4].contains("\"accepted\";\"include\";\"not_imported_duplicate_during_import\""))
+        #expect(lines[5].contains("\"accepted\";\"include\";\"not_imported_final_failed\""))
+        #expect(lines[6].contains("\"accepted\";\"include\";\"not_imported_remaining\""))
+    }
+
     @Test("Parses 10,000 rows")
     func parsesLargeCSV() throws {
         let csvRows = (1...10_000).map { "Movie \($0),2000" }.joined(separator: "\n")
@@ -600,15 +706,24 @@ struct TitleImportTests {
         )
     }
 
-    private func reviewItem(id: Int, candidate: TitleImportCandidate) -> TitleImportReviewItem {
+    private func reviewItem(
+        id: Int,
+        candidate: TitleImportCandidate,
+        status: TitleImportReviewStatus = .accepted,
+        duplicateKind: TitleImportDuplicateKind? = nil,
+        included: Bool = true
+    ) -> TitleImportReviewItem {
         TitleImportReviewItem(
             id: id,
             source: sourceRow(id: id, title: candidate.title, year: candidate.year),
             candidate: candidate,
-            status: .accepted,
+            score: 99,
+            runnerUpScore: 12,
+            status: status,
+            duplicateKind: duplicateKind,
             reason: "",
             evidence: TitleImportMatchEvidence(titleMatch: true),
-            isIncluded: true
+            isIncluded: included
         )
     }
 }

@@ -36,6 +36,7 @@ final class TitleImportWorkflow: Identifiable {
     var finalImportProcessedCount = 0
     var finalImportTotalCount = 0
     var finalResult: TitleImportFinalResult?
+    var reportData: Data?
     var error: Error?
     var reviewFilter: TitleImportReviewFilter = .all
     var reviewSearchText = ""
@@ -214,6 +215,7 @@ extension TitleImportWorkflow {
     }
     var fileDuplicateCount: Int { count(for: .duplicate) - existingDuplicateCount }
     var isPerformingWork: Bool { stage == .resolving || stage == .importing }
+    var reportFilename: String { "MovieDB_Title_Import_Report_\(Utils.isoDateString()).csv" }
 
     /// Freezes currently included identities and advances to final confirmation.
     func prepareForImport() {
@@ -292,11 +294,20 @@ extension TitleImportWorkflow {
                 finalResult = TitleImportFinalResult(
                     importedCount: previousResult.importedCount + result.importedCount,
                     duplicateCount: previousResult.duplicateCount + result.duplicateCount,
+                    importedIdentities: previousResult.importedIdentities + result.importedIdentities,
+                    duplicateIdentities: previousResult.duplicateIdentities + result.duplicateIdentities,
                     failedIdentities: result.failedIdentities,
                     remainingIdentities: previousResult.remainingIdentities + result.remainingIdentities
                 )
             } else {
                 finalResult = result
+            }
+            if let finalResult, let preflight {
+                reportData = TitleImportReportExporter.createData(
+                    preflight: preflight,
+                    reviewItems: reviewItems,
+                    result: finalResult
+                )
             }
             stage = .summary
         }

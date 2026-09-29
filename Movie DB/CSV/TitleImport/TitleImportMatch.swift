@@ -39,6 +39,8 @@ struct TitleImportReviewItem: Identifiable, Sendable {
     let id: Int
     let source: TitleImportSourceRow
     let candidate: TitleImportCandidate?
+    let score: Double?
+    let runnerUpScore: Double?
     var status: TitleImportReviewStatus
     var duplicateKind: TitleImportDuplicateKind? = nil
     var reason: String
@@ -47,5 +49,10 @@ struct TitleImportReviewItem: Identifiable, Sendable {
 
     var inclusionLocked: Bool {
         status == .duplicate || status == .noMatch || status == .failed
+    }
+
+    var scoreMargin: Double? {
+        guard let score, let runnerUpScore else { return nil }
+        return score - runnerUpScore
     }
 }
