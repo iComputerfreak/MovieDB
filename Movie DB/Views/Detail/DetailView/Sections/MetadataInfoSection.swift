@@ -29,7 +29,7 @@ struct MetadataInfoSection: View {
                     }
                 }
             }
-            .headline(Image(systemName: "list.bullet"), "Lists")
+            .headline(Image(systemName: "list.bullet"), Strings.Detail.listsHeadline)
 
             if let id = mediaObject.id {
                 Text(id.uuidString)

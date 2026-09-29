@@ -413,6 +413,10 @@ extension Strings {
             localized: "detail.metadata.headline.internalID",
             comment: "The headline for the 'internal id' property in the detail view"
         )
+        static let listsHeadline = String(
+            localized: "detail.metadata.headline.lists",
+            comment: "The headline for the lists containing the media object in the metadata section of the detail view"
+        )
         static let createdHeadline = String(
             localized: "detail.metadata.headline.created",
             comment: "The headline for the 'creation date' property in the detail view"

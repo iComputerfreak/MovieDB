@@ -38,7 +38,7 @@ struct LegacyMetadataInfo: View {
                     }
                 }
                 .padding(.top, 5)
-                .headline("Lists")
+                .headline(Strings.Detail.listsHeadline)
                 if let id = mediaObject.id {
                     Text(id.uuidString)
                         .headline(Strings.Detail.internalIDHeadline)
