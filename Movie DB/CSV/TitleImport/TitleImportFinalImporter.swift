@@ -7,6 +7,7 @@ import OSLog
 
 /// Imports resolved identities through disposable child contexts and bounded writer-context batches.
 struct TitleImportFinalImporter {
+    // swiftlint:disable:previous type_body_length
     private let provider: any TitleImportMediaProviding
     private let writerContext: NSManagedObjectContext
     private let batchSize: Int
@@ -36,7 +37,7 @@ struct TitleImportFinalImporter {
     ///   - libraryLimit: The maximum allowed total library count, or `nil` for no limit.
     ///   - onProgress: A main-actor callback receiving the number of processed identities.
     /// - Returns: A summary of imported, duplicate, failed, and unprocessed identities.
-    func startMediaImport(
+    func startMediaImport( // swiftlint:disable:this function_body_length
         identities: [MediaIdentity],
         libraryLimit: Int?,
         onProgress: @MainActor @escaping (Int) -> Void

@@ -36,10 +36,8 @@ struct ResolveProblemsView: View {
             .navigationTitle(Strings.ResolveProblems.navBarTitle)
             .toolbar {
                 Button(Strings.ResolveProblems.resolveLater, role: .cancel) {
-                    MediaLibrary.shared.problems().forEach { problem in
-                        // Ignore problems until the next app start
-                        ignoreProblems()
-                    }
+                    // Ignore problems until the next app start
+                    ignoreProblems()
                 }
             }
         } detail: {
