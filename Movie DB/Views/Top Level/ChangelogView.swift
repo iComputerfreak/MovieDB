@@ -39,7 +39,7 @@ struct ChangelogView: View {
     Color.clear
         .sheet(isPresented: .constant(true)) {
             ChangelogView()
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.height(320), .large])
                 .presentationDragIndicator(.visible)
         }
 }
