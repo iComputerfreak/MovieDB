@@ -13,6 +13,11 @@ struct Utils {
     static var documentsPath: URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
+
+    /// The URL describing the purgeable caches directory of the app.
+    static var cachesPath: URL? {
+        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+    }
     
     private init() {}
     
@@ -44,7 +49,18 @@ struct Utils {
     }
     
     static func imagesDirectory() -> URL? {
-        url(for: "images")
+        guard let url = cachesPath?.appendingPathComponent("images") else { return nil }
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        } catch {
+            Logger.fileSystem.error("Error creating image cache directory: \(error, privacy: .public)")
+        }
+        return url
+    }
+
+    /// The pre-2026 poster location. Only used to remove obsolete, non-purgeable poster files.
+    static var legacyImagesDirectory: URL? {
+        documentsPath?.appendingPathComponent("images")
     }
     
     static func imageFileURL(path imagePath: String) -> URL? {
@@ -76,6 +92,20 @@ struct Utils {
     /// - Parameter url: The URL to download the image from
     /// - Returns: The downloaded UIImage
     static func loadImage(from url: URL) async throws -> UIImage {
+        let data = try await loadData(from: url)
+
+        guard let image = UIImage(data: data) else {
+            throw JFError.decodingError
+        }
+
+        return image
+    }
+
+    /// Downloads and validates data from the given URL.
+    /// - Parameter url: Remote resource URL.
+    /// - Returns: Downloaded response data.
+    /// - Throws: Network errors or ``HTTPError/invalidResponse`` for non-success responses.
+    static func loadData(from url: URL) async throws -> Data {
         Logger.network.info("Loading image from \(url.absoluteString, privacy: .public)")
         let (data, response) = try await Self.request(from: url)
         
@@ -92,11 +122,7 @@ struct Utils {
             throw HTTPError.invalidResponse
         }
         
-        guard let image = UIImage(data: data) else {
-            throw JFError.decodingError
-        }
-        
-        return image
+        return data
     }
     
     /// Returns a closed range containing the years of all media objects in the library

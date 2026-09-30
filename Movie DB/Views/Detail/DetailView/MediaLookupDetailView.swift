@@ -19,7 +19,12 @@ struct MediaLookupDetailView: View {
 
     var body: some View {
         ParallaxHeaderContentView {
-            LoadableImageView(source: .image(mediaObject.thumbnail), contentMode: .fit, alignment: .top)
+            MediaPosterView(
+                request: mediaObject.posterRequest,
+                pointSize: CGSize(width: 500 / 1.5, height: 500),
+                contentMode: .fit,
+                alignment: .top
+            )
                 .aspectRatio(1 / 1.5, contentMode: .fit)
         } header: {
             MediaTitleView(showsUserSpecificFields: false)
@@ -52,11 +57,6 @@ struct MediaLookupDetailView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     DismissButton()
                 }
-            }
-        }
-        .task(priority: .userInitiated) {
-            if mediaObject.thumbnail == nil {
-                mediaObject.loadImages()
             }
         }
     }

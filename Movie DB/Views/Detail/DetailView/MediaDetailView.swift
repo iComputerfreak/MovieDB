@@ -40,13 +40,6 @@ struct MediaDetailView: View {
                 .scrollEdgeEffectHidden(for: .top)
                 // We show the title manually already
                 .navigationTitle("")
-                .task(priority: .userInitiated) {
-                    // If there is no thumbnail, try to download it again
-                    // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
-                    if mediaObject.thumbnail == nil {
-                        mediaObject.loadImages()
-                    }
-                }
                 .navigationDestination(for: TagListView.NavigationDestination.self) { _ in
                     TagListView.EditView(tags: $mediaObject.tags)
                 }
@@ -98,7 +91,12 @@ struct MediaDetailView: View {
     @ViewBuilder
     private var detailView: some View {
         ParallaxHeaderContentView {
-            LoadableImageView(source: .image(mediaObject.thumbnail), contentMode: .fit, alignment: .top)
+            MediaPosterView(
+                request: mediaObject.posterRequest,
+                pointSize: CGSize(width: 500 / 1.5, height: 500),
+                contentMode: .fit,
+                alignment: .top
+            )
                 .aspectRatio(1 / 1.5, contentMode: .fit)
         } header: {
             MediaTitleView()

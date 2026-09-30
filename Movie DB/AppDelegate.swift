@@ -84,6 +84,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let migrationManager = MigrationManager()
         
         migrationManager.register(DeleteOldPosterFilesMigration.self)
+        migrationManager.register(DeleteLegacyPosterCacheMigration.self)
         migrationManager.register(ReloadLibraryMigration.self)
         
         migrationManager.run()
@@ -171,12 +172,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
             await MainActor.run {
                 // Commit to parent store (view context)
-                // swiftlint:disable force_try
                 try! bgContext.save()
-                try! PersistenceController.viewContext.fetch(Media.fetchRequest()).forEach { media in
-                    media.loadImages(force: true)
-                }
-                // swiftlint:enable force_try
             }
         }
     }

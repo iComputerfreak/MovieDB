@@ -22,8 +22,7 @@ extension TMDBAPI: TitleImportMediaProviding {
         _ = try await media(
             for: identity.tmdbID,
             type: identity.type,
-            context: context,
-            loadImages: false
+            context: context
         )
     }
 }

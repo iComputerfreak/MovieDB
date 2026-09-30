@@ -7,7 +7,7 @@ struct LegacyTitleView: View {
     @ObservedObject var media: Media
     
     var body: some View {
-        if media.thumbnail == nil {
+        if media.imagePath == nil {
             self.titleView
         } else {
             NavigationLink {
@@ -20,14 +20,18 @@ struct LegacyTitleView: View {
     
     private var titleView: some View {
         HStack(alignment: VerticalAlignment.center) {
-            Group {
-                if let thumbnail = media.thumbnail {
-                    Image(uiImage: thumbnail)
-                        .thumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
-                } else {
-                    PosterPlaceholderView.legacyThumbnail(multiplier: JFLiterals.detailThumbnailMultiplier)
-                }
-            }
+            MediaPosterView(
+                request: media.posterRequest,
+                pointSize: CGSize(
+                    width: JFLiterals.thumbnailSize.width * JFLiterals.detailThumbnailMultiplier,
+                    height: JFLiterals.thumbnailSize.height * JFLiterals.detailThumbnailMultiplier
+                )
+            )
+            .frame(
+                width: JFLiterals.thumbnailSize.width * JFLiterals.detailThumbnailMultiplier,
+                height: JFLiterals.thumbnailSize.height * JFLiterals.detailThumbnailMultiplier
+            )
+            .thumbnailStyle()
             .padding(.trailing)
             // Title and year
             VStack(alignment: .leading) {

@@ -96,12 +96,17 @@ struct LoadableImageView: View {
         loadedImage = nil
 
         do {
-            loadedImage = try await load()
+            let image = try await load()
+            try Task.checkCancellation()
+            loadedImage = image
         } catch {
+            guard !Task.isCancelled else { return }
             loadedImage = nil
         }
 
-        isLoading = false
+        if !Task.isCancelled {
+            isLoading = false
+        }
     }
 
     private var loadingState: some View {

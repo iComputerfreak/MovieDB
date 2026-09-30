@@ -39,7 +39,7 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
         } else {
             HStack(spacing: 12) {
                 // MARK: Thumbnail
-                LoadableImageView(source: .image(mediaObject.thumbnail))
+                MediaPosterView(request: mediaObject.posterRequest, pointSize: JFLiterals.thumbnailSize)
                     .frame(width: JFLiterals.thumbnailSize.width, height: JFLiterals.thumbnailSize.height)
                     .thumbnailStyle()
 
@@ -60,8 +60,6 @@ struct BaseLibraryRow<SubtitleContent>: View where SubtitleContent: View {
                     subtitleContent()
                 }
             }
-            // List laziness now controls thumbnail work; fetched off-screen media no longer start downloads.
-            .task { mediaObject.loadImages() }
         }
     }
     
