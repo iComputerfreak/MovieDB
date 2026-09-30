@@ -73,10 +73,21 @@ struct TitleImportFlowView: View {
                             if workflow.isPerformingWork {
                                 isShowingStopConfirmation = true
                             } else {
-                                requestDismissal()
+                                isShowingDismissalConfirmation = true
                             }
                         }
-                        .titleImportDismissalConfirmationDialog(fallbackIsPresented: $isShowingDismissalConfirmation)
+                        .confirmationDialog(
+                            Strings.TitleImport.DismissConfirmation.title,
+                            isPresented: $isShowingDismissalConfirmation,
+                            titleVisibility: .visible
+                        ) {
+                            Button(Strings.TitleImport.DismissConfirmation.abort, role: .destructive) {
+                                dismiss()
+                            }
+                            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+                        } message: {
+                            Text(Strings.TitleImport.DismissConfirmation.message)
+                        }
                         .confirmationDialog(
                             Strings.TitleImport.StopConfirmation.title,
                             isPresented: $isShowingStopConfirmation,
@@ -139,8 +150,16 @@ struct TitleImportFlowView: View {
 
 #if DEBUG
 #Preview("Review") {
+    @Previewable @State var isShowingSheet = true
     NavigationStack {
-        TitleImportFlowView(workflow: TitleImportPreviewData.workflow())
+        Button {
+            isShowingSheet = true
+        } label: {
+            Text(verbatim: "Show sheet")
+        }
+        .fullScreenCover(isPresented: $isShowingSheet) {
+            TitleImportFlowView(workflow: TitleImportPreviewData.workflow())
+        }
     }
 }
 #Preview("Confirmation") {
