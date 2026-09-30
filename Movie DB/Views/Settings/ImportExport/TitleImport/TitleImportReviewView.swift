@@ -7,7 +7,6 @@ import SwiftUI
 struct TitleImportReviewView: View {
     @Bindable var workflow: TitleImportWorkflow
     @Environment(\.dismiss) private var dismiss: DismissAction
-    @State private var isShowingDismissalConfirmation = false
 
     var body: some View {
         let filteredItems = workflow.filteredReviewItems
@@ -55,21 +54,8 @@ struct TitleImportReviewView: View {
                         action: workflow.prepareForImport
                     )
                     .disabled(workflow.includedCount == 0)
-                    .titleImportDismissalConfirmationDialog(
-                        fallbackIsPresented: $isShowingDismissalConfirmation
-                    )
                 }
             }
-        }
-    }
-
-    /// Requests dismissal immediately or presents the compatibility confirmation dialog when review state exists.
-    private func requestDismissal() {
-        if #available(iOS 27.0, *) {
-            // Dismiss confirmation is handled by the view modifier
-            dismiss()
-        } else {
-            isShowingDismissalConfirmation = true
         }
     }
 
