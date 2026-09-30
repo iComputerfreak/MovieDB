@@ -11,7 +11,8 @@ struct PosterPlaceholderView: View {
 
     let cornerRadius: CGFloat
 
-    @State private var viewSize: CGSize = .zero
+    // We need some initial default other than zero (to prevent error messages for trying to render a SFSymbol at size 0)
+    @State private var viewSize: CGSize = JFLiterals.thumbnailSize
 
     init(cornerRadius: CGFloat = 14) {
         self.cornerRadius = cornerRadius
