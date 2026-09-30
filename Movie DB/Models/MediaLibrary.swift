@@ -273,9 +273,7 @@ struct MediaLibrary {
     func reset() throws {
         try PersistenceController.shared.reset()
         // Delete images
-        if let imagesDirectory = Utils.imagesDirectory() {
-            try FileManager.default.removeItem(at: imagesDirectory)
-        }
+        try FileManager.default.removeItem(at: Utils.imagesDirectory())
     }
     
     /// Performs a cleanup of the library, deleting unused entities

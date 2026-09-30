@@ -11,14 +11,21 @@ actor TitleImportRequestCache {
     }
 
     private let provider: any TitleImportTMDBProviding
+    private let persistentCache: TitleImportPersistentRequestCache?
     // Cache in-flight tasks, not only values, so concurrent duplicate rows share the same request.
     private var searchTasks: [SearchKey: Task<[TitleImportCandidate], Error>] = [:]
     private var detailTasks: [MediaIdentity: Task<TitleImportCandidateDetails, Error>] = [:]
 
     /// Creates an import-scoped request cache.
-    /// - Parameter provider: The provider used to perform uncached TMDB requests.
-    init(provider: any TitleImportTMDBProviding) {
+    /// - Parameters:
+    ///   - provider: The provider used to perform uncached TMDB requests.
+    ///   - persistentCache: The optional durable response cache.
+    init(
+        provider: any TitleImportTMDBProviding,
+        persistentCache: TitleImportPersistentRequestCache? = nil
+    ) {
         self.provider = provider
+        self.persistentCache = persistentCache
     }
 
     /// Returns a shared, retried search result for a normalized query and page.
@@ -28,10 +35,20 @@ actor TitleImportRequestCache {
     /// - Returns: Candidates from the requested search page.
     /// - Throws: The final provider error after retries, or `CancellationError` when the caller is cancelled.
     func search(_ query: String, page: Int = 1) async throws -> [TitleImportCandidate] {
-        let key = SearchKey(query: query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines), page: page)
+        let normalizedQuery = query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        let key = SearchKey(query: normalizedQuery, page: page)
         if let task = searchTasks[key] { return try await value(of: task) }
-        let task = Task { [provider] in
-            try await Self.retry { try await provider.titleImportSearch(query, page: page) }
+        let task = Task { [provider, persistentCache] in
+            if let cached = await persistentCache?.search(query: normalizedQuery, page: page) {
+                return cached
+            }
+            let candidates = try await Self.retry { try await provider.titleImportSearch(query, page: page) }
+            await persistentCache?.insertSearch(
+                candidates,
+                query: normalizedQuery,
+                page: page
+            )
+            return candidates
         }
         searchTasks[key] = task
         return try await value(of: task)
@@ -56,6 +73,11 @@ actor TitleImportRequestCache {
         detailTasks.values.forEach { $0.cancel() }
         searchTasks.removeAll()
         detailTasks.removeAll()
+    }
+
+    /// Persists durable response-cache changes accumulated during this import.
+    func persist() async {
+        await persistentCache?.persist()
     }
 
     /// Awaits a cached unstructured task while forwarding caller cancellation.

@@ -31,15 +31,16 @@ struct DeleteOldPosterFilesMigration: Migration {
         }
         
         // Go over all images on disk and delete all images that do not match the regex
-        if let url = Utils.imagesDirectory() {
-            let files = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
-            for file in files {
-                let filename = file.lastPathComponent
-                if try uuidFilenameRegex.wholeMatch(in: filename) == nil {
-                    // Make sure we only delete images
-                    if filename.hasSuffix(".png") || filename.hasSuffix(".jpg") || filename.hasSuffix(".jpeg") {
-                        try FileManager.default.removeItem(at: file)
-                    }
+        let files = try FileManager.default.contentsOfDirectory(
+            at: Utils.imagesDirectory(),
+            includingPropertiesForKeys: nil
+        )
+        for file in files {
+            let filename = file.lastPathComponent
+            if try uuidFilenameRegex.wholeMatch(in: filename) == nil {
+                // Make sure we only delete images
+                if filename.hasSuffix(".png") || filename.hasSuffix(".jpg") || filename.hasSuffix(".jpeg") {
+                    try FileManager.default.removeItem(at: file)
                 }
             }
         }

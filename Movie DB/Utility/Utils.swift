@@ -14,11 +14,6 @@ struct Utils {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
 
-    /// The URL describing the purgeable caches directory of the app.
-    static var cachesPath: URL? {
-        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
-    }
-    
     private init() {}
     
     /// Executes an HTTP request with the given URL
@@ -48,8 +43,8 @@ struct Utils {
         return url
     }
     
-    static func imagesDirectory() -> URL? {
-        guard let url = cachesPath?.appendingPathComponent("images") else { return nil }
+    static func imagesDirectory() -> URL {
+        let url = URL.cachesDirectory.appendingPathComponent("images")
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         } catch {
@@ -63,13 +58,13 @@ struct Utils {
         documentsPath?.appendingPathComponent("images")
     }
     
-    static func imageFileURL(path imagePath: String) -> URL? {
+    static func imageFileURL(path imagePath: String) -> URL {
         // The image path already contains the jpg extension
-        imagesDirectory()?.appendingPathComponent(imagePath)
+        imagesDirectory().appendingPathComponent(imagePath)
     }
     
-    static func imageFileURL(for mediaID: UUID) -> URL? {
-        imagesDirectory()?.appendingPathComponent(mediaID.uuidString.appending(".jpg"))
+    static func imageFileURL(for mediaID: UUID) -> URL {
+        imagesDirectory().appendingPathComponent(mediaID.uuidString.appending(".jpg"))
     }
     
     /// Returns either black or white, depending on the color scheme
@@ -80,10 +75,8 @@ struct Utils {
     
     /// Removes the local image for the given media ID
     static func deleteImage(for mediaID: UUID) throws {
-        if
-            let fileURL = imageFileURL(for: mediaID),
-            FileManager.default.fileExists(atPath: fileURL.path())
-        {
+        let fileURL = imageFileURL(for: mediaID)
+        if FileManager.default.fileExists(atPath: fileURL.path()) {
             try FileManager.default.removeItem(at: fileURL)
         }
     }

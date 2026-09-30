@@ -3,7 +3,7 @@
 import Foundation
 
 /// Identifies a TMDB work by media type and TMDB identifier.
-struct MediaIdentity: Hashable, Sendable {
+struct MediaIdentity: Codable, Hashable, Sendable {
     let type: MediaType
     let tmdbID: Int
 }

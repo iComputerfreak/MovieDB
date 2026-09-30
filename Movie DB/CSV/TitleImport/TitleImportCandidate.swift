@@ -3,7 +3,7 @@
 import Foundation
 
 /// Represents a TMDB search candidate and the metadata available for matching it to a source row.
-struct TitleImportCandidate: Identifiable, Hashable, Sendable {
+struct TitleImportCandidate: Codable, Identifiable, Hashable, Sendable {
     let identity: MediaIdentity
     let title: String
     let originalTitle: String

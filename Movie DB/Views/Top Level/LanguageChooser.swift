@@ -46,6 +46,7 @@ struct LanguageChooser: View {
                     .environment(\.editMode, .constant(.active))
                     .onChange(of: config.language) { _, _ in
                         Logger.settings.info("Language changed to \(config.language, privacy: .public)")
+                        Task { await TitleImportPersistentRequestCache.shared.invalidate() }
                     }
                 }
             }

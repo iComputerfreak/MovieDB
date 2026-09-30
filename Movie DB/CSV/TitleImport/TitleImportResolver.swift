@@ -19,12 +19,19 @@ struct TitleImportResolver: Sendable {
     ///   - provider: The provider used for TMDB search and detail requests.
     ///   - workerCount: The maximum number of source rows resolved concurrently.
     ///   - usesBackgroundContinuation: Whether resolution uses continued background processing on supported systems.
+    ///   - persistentCache: A durable cache override, primarily used to isolate tests.
     init(
         provider: any TitleImportTMDBProviding = TMDBAPI.shared,
         workerCount: Int = 6,
-        usesBackgroundContinuation: Bool = true
+        usesBackgroundContinuation: Bool = true,
+        persistentCache: TitleImportPersistentRequestCache? = nil
     ) {
-        self.cache = TitleImportRequestCache(provider: provider)
+        let usesDefaultProvider = provider is TMDBAPI
+        let persistentCache = persistentCache ?? (usesDefaultProvider ? .shared : nil)
+        self.cache = TitleImportRequestCache(
+            provider: provider,
+            persistentCache: persistentCache
+        )
         self.workerCount = max(1, workerCount)
         self.usesBackgroundContinuation = usesBackgroundContinuation
     }
@@ -143,8 +150,13 @@ struct TitleImportResolver: Sendable {
             }
         } catch is CancellationError {
             await cache.cancelAll()
+            await cache.persist()
             throw CancellationError()
+        } catch {
+            await cache.persist()
+            throw error
         }
+        await cache.persist()
         return resolved.compactMap { $0 }
     }
 

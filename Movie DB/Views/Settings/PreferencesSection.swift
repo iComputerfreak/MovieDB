@@ -25,6 +25,7 @@ struct PreferencesSection: View {
             LanguagePickerView()
                 .onChange(of: preferences.language) { _, languageCode in
                     Logger.settings.info("Language changed to \(languageCode, privacy: .public)")
+                    Task { await TitleImportPersistentRequestCache.shared.invalidate() }
                     self.config.languageChanged = true
                     AnalyticsService.shared.track(
                         .settingChanged(settingKey: .language, newValue: .string(languageCode))
@@ -33,6 +34,7 @@ struct PreferencesSection: View {
             RegionPickerView()
                 .onChange(of: preferences.region) { _, regionCode in
                     Logger.settings.info("Region changed to \(regionCode, privacy: .public)")
+                    Task { await TitleImportPersistentRequestCache.shared.invalidate() }
                     self.config.regionChanged = true
                     AnalyticsService.shared.track(
                         .settingChanged(settingKey: .region, newValue: .string(regionCode))

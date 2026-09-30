@@ -342,6 +342,100 @@ struct TitleImportTests {
         #expect(await provider.searchCallCount == 1)
     }
 
+    @Test("Request cache persists searches but not detail responses")
+    func persistsRequestResponses() async throws {
+        let location = temporaryCacheLocation()
+        defer { try? FileManager.default.removeItem(at: location.directory) }
+        let candidate = candidate(id: 603, title: "The Matrix", year: 1999)
+        let details = TitleImportCandidateDetails(
+            alternativeTitles: ["Matrix"],
+            directors: ["Lana Wachowski", "Lilly Wachowski"],
+            runtimeMinutes: 136
+        )
+        let provider = MockTitleImportProvider(
+            searchResults: ["The Matrix": [candidate]],
+            details: [candidate.identity: details]
+        )
+        let persistentCache = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
+        let firstCache = TitleImportRequestCache(
+            provider: provider,
+            persistentCache: persistentCache
+        )
+
+        #expect(try await firstCache.search("The Matrix") == [candidate])
+        let firstDetails = try await firstCache.details(for: candidate.identity)
+        #expect(firstDetails.alternativeTitles == details.alternativeTitles)
+        #expect(try await firstCache.search("Missing") == [])
+        await firstCache.persist()
+
+        let reopenedStore = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
+        let reopenedCache = TitleImportRequestCache(
+            provider: provider,
+            persistentCache: reopenedStore
+        )
+        #expect(try await reopenedCache.search("The Matrix") == [candidate])
+        #expect(try await reopenedCache.search("Missing") == [])
+        let reopenedDetails = try await reopenedCache.details(for: candidate.identity)
+        #expect(reopenedDetails.directors == details.directors)
+        #expect(await provider.searchCallCount == 2)
+        #expect(await provider.detailCallCount == 2)
+    }
+
+    @Test("Persistent request cache invalidation clears memory and disk")
+    func invalidatesPersistentRequestCache() async throws {
+        let location = temporaryCacheLocation()
+        defer { try? FileManager.default.removeItem(at: location.directory) }
+        let candidate = candidate(id: 603, title: "The Matrix", year: 1999)
+        let store = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
+
+        await store.insertSearch([candidate], query: "the matrix", page: 1)
+        await store.persist()
+        #expect(FileManager.default.fileExists(atPath: location.file.path()))
+
+        await store.invalidate()
+
+        #expect(await store.search(query: "the matrix", page: 1) == nil)
+        #expect(!FileManager.default.fileExists(atPath: location.file.path()))
+    }
+
+    @Test("Persistent request cache evicts least-recently-used entries")
+    func evictsLeastRecentlyUsedCacheEntry() async throws {
+        let location = temporaryCacheLocation()
+        defer { try? FileManager.default.removeItem(at: location.directory) }
+        let store = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 2)
+        let first = candidate(id: 1, title: "First", year: 2001)
+        let second = candidate(id: 2, title: "Second", year: 2002)
+        let third = candidate(id: 3, title: "Third", year: 2003)
+
+        await store.insertSearch([first], query: "first", page: 1)
+        await store.insertSearch([second], query: "second", page: 1)
+        _ = await store.search(query: "first", page: 1)
+        await store.insertSearch([third], query: "third", page: 1)
+        await store.persist()
+
+        let reopenedStore = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 2)
+        #expect(await reopenedStore.search(query: "first", page: 1) == [first])
+        #expect(await reopenedStore.search(query: "second", page: 1) == nil)
+        #expect(await reopenedStore.search(query: "third", page: 1) == [third])
+    }
+
+    @Test("Persistent request cache replaces corrupt storage")
+    func replacesCorruptRequestCache() async throws {
+        let location = temporaryCacheLocation()
+        defer { try? FileManager.default.removeItem(at: location.directory) }
+        try FileManager.default.createDirectory(at: location.directory, withIntermediateDirectories: true)
+        try Data("invalid".utf8).write(to: location.file)
+        let candidate = candidate(id: 603, title: "The Matrix", year: 1999)
+        let store = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
+
+        #expect(await store.search(query: "the matrix", page: 1) == nil)
+        await store.insertSearch([candidate], query: "the matrix", page: 1)
+        await store.persist()
+
+        let reopenedStore = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
+        #expect(await reopenedStore.search(query: "the matrix", page: 1) == [candidate])
+    }
+
     @Test("Resolver enriches uncertain candidates")
     @MainActor
     func enrichesCandidates() async throws {
@@ -725,6 +819,12 @@ struct TitleImportTests {
             evidence: TitleImportMatchEvidence(titleMatch: true),
             isIncluded: included
         )
+    }
+
+    private func temporaryCacheLocation() -> (directory: URL, file: URL) {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("TitleImportTests-\(UUID().uuidString)", isDirectory: true)
+        return (directory, directory.appendingPathComponent("requests.json"))
     }
 }
 
