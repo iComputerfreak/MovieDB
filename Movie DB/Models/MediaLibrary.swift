@@ -260,31 +260,7 @@ struct MediaLibrary {
         // Save the view context
         await PersistenceController.saveContext(PersistenceController.viewContext)
 
-        // The per-item metadata refresh is done; the thumbnail reload below runs without progress tracking
         await LibraryUpdateStatus.shared.finish(reloadID)
-
-        try Task.checkCancellation()
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            // Reload the thumbnails of all updated media objects in the main context
-            for media in medias {
-                _ = group.addTaskUnlessCancelled {
-                    let objectID = media.objectID
-                    let mainMedia = await self.context.perform {
-                        self.context.object(with: objectID) as? Media
-                    }
-                    try Task.checkCancellation()
-                    mainMedia?.loadImages(force: true)
-                    // If we are in a background task, wait for the thumbnail download to finish
-                    if fromBackground {
-                        await mainMedia?.waitForThumbnailDownload()
-                    }
-                }
-            }
-            if fromBackground {
-                // Wait for all thumbnails to finish downloading
-                try await group.waitForAll()
-            }
-        }
         // Since we just reloaded all media, they are all up-to-date
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970

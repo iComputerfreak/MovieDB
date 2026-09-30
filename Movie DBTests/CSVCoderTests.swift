@@ -112,8 +112,9 @@ class CSVCoderTests: XCTestCase {
         try await Task.sleep(for: .seconds(2))
         
         let importer = try CSVImporter(string: csv)
+        let importContext = PersistenceController.createDisposableContext()
         let mediaObjects = try await importer.decodeMediaObjects(
-            importContext: PersistenceController.createDisposableContext()
+            importContext: importContext
         )
         XCTAssertEqual(mediaObjects.count, samples.count)
         

@@ -60,8 +60,7 @@ actor TMDBAPI {
     func media(
         for id: Int,
         type: MediaType,
-        context: NSManagedObjectContext,
-        loadImages: Bool = true
+        context: NSManagedObjectContext
     ) async throws -> Media {
         // Get the TMDB Data (TMDBData is no NSManagedObject, so we don't need to perform in the context's thread)
         let tmdbData = try await tmdbData(for: id, type: type, context: context)
@@ -71,9 +70,9 @@ actor TMDBAPI {
             let media: Media
             switch type {
             case .movie:
-                media = Movie(context: context, tmdbData: tmdbData, loadImages: loadImages)
+                media = Movie(context: context, tmdbData: tmdbData)
             case .show:
-                media = Show(context: context, tmdbData: tmdbData, loadImages: loadImages)
+                media = Show(context: context, tmdbData: tmdbData)
             }
             return media
         }
@@ -89,14 +88,33 @@ actor TMDBAPI {
         if !(media.managedObjectContext == context || context.parent == media.managedObjectContext) {
             Logger.api.warning("Trying to update a media object in the wrong context!")
         }
-        let tmdbData = try await tmdbData(for: media.tmdbID, type: media.type, context: context)
-        // Update the media in the correct thread
-        await context.perform {
-            // Update the media object and thumbnail
-            media.update(tmdbData: tmdbData)
+        let objectID = media.objectID
+        let (tmdbID, mediaType) = try await context.perform {
+            guard let contextMedia = try context.existingObject(with: objectID) as? Media else {
+                throw APIError.updateError
+            }
+            return (contextMedia.tmdbID, contextMedia.type)
         }
-        // We have to always reload the thumbnail, because an iCloud sync could potentially update the imagePath, leaving the loaded thumbnail in an inconsistent state
-        media.loadImages(force: true)
+        let tmdbData = try await tmdbData(for: tmdbID, type: mediaType, context: context)
+        // Update the media in the correct thread
+        let mediaID = try await context.perform {
+            guard let contextMedia = try context.existingObject(with: objectID) as? Media else {
+                throw APIError.updateError
+            }
+            // Update the media object and capture its cache key on the context queue.
+            contextMedia.update(tmdbData: tmdbData)
+            return contextMedia.id
+        }
+        // Invalidate the poster because an iCloud sync may have changed its remote path.
+        if let mediaID {
+            do {
+                try await TMDBImageService.mediaThumbnails.removeThumbnail(for: mediaID)
+            } catch {
+                Logger.imageService.error(
+                    "Unable to invalidate poster for media \(mediaID.uuidString, privacy: .public): \(error)"
+                )
+            }
+        }
         // We save immediately, because the whole "update all medias" flow that might be running could be interrupted at any moment.
         PersistenceController.saveContext()
     }

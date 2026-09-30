@@ -41,13 +41,6 @@ struct MediaDetailLegacyView: View {
             .listStyle(.insetGrouped)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(mediaObject.title)
-            .task(priority: .userInitiated) {
-                // If there is no thumbnail, try to download it again
-                // If a media object really has no thumbnail (e.g., link broken), this may be a bit too much...
-                if mediaObject.thumbnail == nil {
-                    mediaObject.loadImages()
-                }
-            }
             .navigationDestination(for: TagListView.NavigationDestination.self) { _ in
                 TagListView.EditView(tags: $mediaObject.tags)
             }
