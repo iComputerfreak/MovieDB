@@ -188,7 +188,7 @@ struct TitleImportResolver: Sendable {
         }
     }
 
-    /// Resolves one source row through search variants, optional enrichment, and page-two fallback.
+    /// Resolves one source row through page-one search variants and optional enrichment.
     /// - Parameter source: The source row to resolve.
     /// - Returns: An accepted, ambiguous, unmatched, or failed review item.
     /// - Throws: `CancellationError` when resolution is cancelled; operational failures become failed review items.
@@ -227,15 +227,6 @@ struct TitleImportResolver: Sendable {
                         continue
                     }
                 }
-                scored = score(Array(candidatesByIdentity.values), for: source)
-            }
-
-            if
-                !isConfident(scored.map(\.candidate), for: source),
-                let pageTwo = try? await cache.search(source.title, page: 2)
-            {
-                // Page two is a final fallback for weak page-one results, not part of every lookup.
-                for candidate in pageTwo { candidatesByIdentity[candidate.identity] = candidate }
                 scored = score(Array(candidatesByIdentity.values), for: source)
             }
 
