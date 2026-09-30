@@ -60,8 +60,13 @@ actor TitleImportRequestCache {
     /// - Throws: The final provider error after retries, or `CancellationError` when the caller is cancelled.
     func details(for identity: MediaIdentity) async throws -> TitleImportCandidateDetails {
         if let task = detailTasks[identity] { return try await value(of: task) }
-        let task = Task { [provider] in
-            try await Self.retry { try await provider.titleImportDetails(for: identity) }
+        let task = Task { [provider, persistentCache] in
+            if let cached = await persistentCache?.details(for: identity) {
+                return cached
+            }
+            let details = try await Self.retry { try await provider.titleImportDetails(for: identity) }
+            await persistentCache?.insertDetails(details, for: identity)
+            return details
         }
         detailTasks[identity] = task
         return try await value(of: task)

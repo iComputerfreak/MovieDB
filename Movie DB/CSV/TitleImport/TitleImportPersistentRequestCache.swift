@@ -3,18 +3,43 @@
 import Foundation
 import OSLog
 
-/// Persists successful title-import TMDB search responses in a bounded least-recently-used cache.
+/// Persists successful title-import TMDB responses in a bounded least-recently-used cache.
 actor TitleImportPersistentRequestCache {
-    /// Identifies one TMDB search response.
+    /// Distinguishes search responses from candidate-detail responses.
+    private enum EntryKind: String, Codable {
+        case search
+        case details
+    }
+
+    /// Identifies one TMDB response used during title-import matching.
     private struct Key: Codable, Hashable {
-        let query: String
-        let page: Int
+        let kind: EntryKind
+        let query: String?
+        let page: Int?
+        let identity: MediaIdentity?
+
+        /// Creates a key for one search-result page.
+        /// - Parameters:
+        ///   - query: The normalized search query.
+        ///   - page: The one-based result page.
+        /// - Returns: A search cache key.
+        static func search(query: String, page: Int) -> Self {
+            Self(kind: .search, query: query, page: page, identity: nil)
+        }
+
+        /// Creates a key for one candidate-detail response.
+        /// - Parameter identity: The candidate identity.
+        /// - Returns: A detail cache key.
+        static func details(identity: MediaIdentity) -> Self {
+            Self(kind: .details, query: nil, page: nil, identity: identity)
+        }
     }
 
     /// Stores one cache payload and its relative recency.
     private struct Entry: Codable {
         let key: Key
-        let candidates: [TitleImportCandidate]
+        let candidates: [TitleImportCandidate]?
+        let details: TitleImportCandidateDetails?
         var lastAccess: UInt64
     }
 
@@ -32,7 +57,7 @@ actor TitleImportPersistentRequestCache {
         capacity: 10_000
     )
 
-    private static let schemaVersion = 2
+    private static let schemaVersion = 3
 
     private let fileURL: URL?
     private let capacity: Int
@@ -44,7 +69,7 @@ actor TitleImportPersistentRequestCache {
     /// Creates a persistent response cache.
     /// - Parameters:
     ///   - fileURL: The archive location, or `nil` to keep values in memory only.
-    ///   - capacity: The maximum search entry count.
+    ///   - capacity: The maximum combined search and detail entry count.
     init(fileURL: URL?, capacity: Int = 10_000) {
         self.fileURL = fileURL
         self.capacity = max(0, capacity)
@@ -57,12 +82,12 @@ actor TitleImportPersistentRequestCache {
     /// - Returns: Cached candidates, including a cached empty result, or `nil` on a miss.
     func search(query: String, page: Int) -> [TitleImportCandidate]? {
         loadIfNeeded()
-        let key = Key(query: query, page: page)
-        guard var entry = entries[key] else { return nil }
+        let key = Key.search(query: query, page: page)
+        guard var entry = entries[key], let candidates = entry.candidates else { return nil }
         entry.lastAccess = nextAccess()
         entries[key] = entry
         isDirty = true
-        return entry.candidates
+        return candidates
     }
 
     /// Stores a successful search response.
@@ -76,17 +101,48 @@ actor TitleImportPersistentRequestCache {
         page: Int
     ) {
         loadIfNeeded()
-        let key = Key(query: query, page: page)
+        let key = Key.search(query: query, page: page)
         entries[key] = Entry(
             key: key,
             candidates: candidates,
+            details: nil,
             lastAccess: nextAccess()
         )
         trimToCapacity()
         isDirty = true
     }
 
-    /// Clears all cached search responses from memory and disk.
+    /// Returns cached candidate details and marks them recently used.
+    /// - Parameter identity: The candidate identity.
+    /// - Returns: Cached details, or `nil` on a miss.
+    func details(for identity: MediaIdentity) -> TitleImportCandidateDetails? {
+        loadIfNeeded()
+        let key = Key.details(identity: identity)
+        guard var entry = entries[key], let details = entry.details else { return nil }
+        entry.lastAccess = nextAccess()
+        entries[key] = entry
+        isDirty = true
+        return details
+    }
+
+    /// Stores a successful candidate-detail response used during import review matching.
+    /// - Parameters:
+    ///   - details: The candidate details returned by TMDB.
+    ///   - identity: The candidate identity.
+    func insertDetails(_ details: TitleImportCandidateDetails, for identity: MediaIdentity) {
+        loadIfNeeded()
+        let key = Key.details(identity: identity)
+        entries[key] = Entry(
+            key: key,
+            candidates: nil,
+            details: details,
+            lastAccess: nextAccess()
+        )
+        trimToCapacity()
+        isDirty = true
+    }
+
+    /// Clears all cached import-matching responses from memory and disk.
     func invalidate() {
         entries.removeAll()
         accessCounter = 0

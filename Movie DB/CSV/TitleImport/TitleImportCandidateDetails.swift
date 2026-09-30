@@ -3,7 +3,7 @@
 import Foundation
 
 /// Contains enriched TMDB metadata used to refine an uncertain title-import match.
-struct TitleImportCandidateDetails: Sendable {
+struct TitleImportCandidateDetails: Codable, Sendable {
     let alternativeTitles: [String]
     let directors: [String]
     let runtimeMinutes: Int?

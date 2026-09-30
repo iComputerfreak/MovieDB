@@ -342,7 +342,7 @@ struct TitleImportTests {
         #expect(await provider.searchCallCount == 1)
     }
 
-    @Test("Request cache persists searches but not detail responses")
+    @Test("Request cache persists search and review-detail responses")
     func persistsRequestResponses() async throws {
         let location = temporaryCacheLocation()
         defer { try? FileManager.default.removeItem(at: location.directory) }
@@ -378,7 +378,7 @@ struct TitleImportTests {
         let reopenedDetails = try await reopenedCache.details(for: candidate.identity)
         #expect(reopenedDetails.directors == details.directors)
         #expect(await provider.searchCallCount == 2)
-        #expect(await provider.detailCallCount == 2)
+        #expect(await provider.detailCallCount == 1)
     }
 
     @Test("Persistent request cache invalidation clears memory and disk")
@@ -386,15 +386,22 @@ struct TitleImportTests {
         let location = temporaryCacheLocation()
         defer { try? FileManager.default.removeItem(at: location.directory) }
         let candidate = candidate(id: 603, title: "The Matrix", year: 1999)
+        let details = TitleImportCandidateDetails(
+            alternativeTitles: ["Matrix"],
+            directors: [],
+            runtimeMinutes: nil
+        )
         let store = TitleImportPersistentRequestCache(fileURL: location.file, capacity: 10_000)
 
         await store.insertSearch([candidate], query: "the matrix", page: 1)
+        await store.insertDetails(details, for: candidate.identity)
         await store.persist()
         #expect(FileManager.default.fileExists(atPath: location.file.path()))
 
         await store.invalidate()
 
         #expect(await store.search(query: "the matrix", page: 1) == nil)
+        #expect(await store.details(for: candidate.identity) == nil)
         #expect(!FileManager.default.fileExists(atPath: location.file.path()))
     }
 
@@ -485,6 +492,18 @@ struct TitleImportTests {
 
         #expect(result.status == .accepted)
         #expect(await provider.detailCallCount == 0)
+    }
+
+    @Test("Resolver never requests page two")
+    @MainActor
+    func doesNotRequestPageTwo() async throws {
+        let candidate = candidate(id: 1, title: "Distant Result", year: 1980)
+        let provider = MockTitleImportProvider(searchResults: ["Unknown Original": [candidate]])
+        let source = sourceRow(title: "Unknown Original", year: 2020)
+
+        _ = try await TitleImportResolver(provider: provider).resolve([source]) { _ in }
+
+        #expect(!(await provider.searchedPages).contains(2))
     }
 
     @Test("Resolver cancellation aborts in-flight searches")
@@ -835,6 +854,7 @@ private actor MockTitleImportProvider: TitleImportTMDBProviding {
     private(set) var searchCallCount = 0
     private(set) var cancelledSearchCount = 0
     private(set) var detailCallCount = 0
+    private(set) var searchedPages: [Int] = []
 
     init(
         searchResults: [String: [TitleImportCandidate]],
@@ -848,6 +868,7 @@ private actor MockTitleImportProvider: TitleImportTMDBProviding {
 
     func titleImportSearch(_ query: String, page: Int) async throws -> [TitleImportCandidate] {
         searchCallCount += 1
+        searchedPages.append(page)
         if let delay {
             do {
                 try await Task.sleep(for: delay)
