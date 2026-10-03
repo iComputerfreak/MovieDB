@@ -23,7 +23,7 @@ struct UserMediaListView: View {
     @Binding var selectedMediaObjects: Set<Media>
     @State private var isShowingConfiguration = false
     
-    var iconColor: Binding<UIColor>? {
+    var iconColor: Binding<NSUIColor>? {
         Binding($list.iconColor)
     }
     

@@ -7,7 +7,7 @@ import SwiftUI
 struct LegacySeasonsInfo: View {
     @EnvironmentObject private var mediaObject: Media
     /// The season thumbnails
-    @State private var seasonThumbnails: [Int: UIImage?] = [:]
+    @State private var seasonThumbnails: [Int: NSUIImage?] = [:]
     
     // swiftlint:disable:next force_cast
     private var show: Show { mediaObject as! Show }
@@ -55,7 +55,7 @@ struct LegacySeasonsInfo: View {
         
         // We don't use a throwing task group, since we want to fail silently.
         // Unavailable images should just not be loaded instead of showing an error message
-        let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
+        let images: [Int: NSUIImage] = await withTaskGroup(of: (Int, NSUIImage?).self) { group in
             for season in show.seasons {
                 _ = group.addTaskUnlessCancelled {
                     guard let imagePath = season.imagePath else {
@@ -67,7 +67,7 @@ struct LegacySeasonsInfo: View {
             }
             
             // Accumulate results
-            var results: [Int: UIImage] = [:]
+            var results: [Int: NSUIImage] = [:]
             for await (seasonID, image) in group {
                 guard let image else { continue }
                 results[seasonID] = image
@@ -84,13 +84,13 @@ struct LegacySeasonsInfo: View {
 
 struct SeasonInfo: View {
     @State var season: Season
-    @Binding var thumbnail: UIImage??
+    @Binding var thumbnail: NSUIImage??
     
     var body: some View {
         HStack {
             Group {
                 if case let .some(.some(thumbnail)) = thumbnail {
-                    Image(uiImage: thumbnail)
+                    Image(platformImage: thumbnail)
                         .thumbnail()
                 } else {
                     PosterPlaceholderView.legacyThumbnail()

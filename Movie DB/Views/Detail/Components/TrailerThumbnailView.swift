@@ -1,7 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import UIKit
 import os.log
 
 struct TrailerThumbnailView: View {
@@ -29,7 +28,7 @@ struct TrailerThumbnailView: View {
         from thumbnailURLs: [URL],
         videoName: String,
         videoKey: String
-    ) async -> UIImage? {
+    ) async -> NSUIImage? {
         for thumbnailURL in thumbnailURLs {
             do {
                 let (data, response) = try await URLSession.shared.data(from: thumbnailURL)
@@ -42,7 +41,7 @@ struct TrailerThumbnailView: View {
                     continue
                 }
 
-                guard let loadedImage = UIImage(data: data) else {
+                guard let loadedImage = NSUIImage(data: data) else {
                     // swiftlint:disable:next line_length
                     Logger.detail.warning("Trailer thumbnail decode failed for \(videoName, privacy: .public): \(thumbnailURLString, privacy: .public)")
                     continue

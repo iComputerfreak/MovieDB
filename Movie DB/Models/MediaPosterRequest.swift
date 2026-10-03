@@ -1,7 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 import Foundation
-import UIKit
 
 /// Immutable values needed to load a media poster without retaining its managed object.
 struct MediaPosterRequest: Hashable, Sendable {
@@ -12,7 +11,7 @@ struct MediaPosterRequest: Hashable, Sendable {
     /// Loads a downsampled poster from the local cache or TMDB.
     /// - Parameter maxPixelSize: Maximum width or height of the decoded image in pixels.
     /// - Returns: The loaded poster, or `nil` when no valid image is available.
-    func load(maxPixelSize: Int) async throws -> UIImage? {
+    func load(maxPixelSize: Int) async throws -> NSUIImage? {
         try await TMDBImageService.mediaThumbnails.thumbnail(
             for: mediaID,
             imagePath: imagePath,

@@ -1,10 +1,9 @@
 // Copyright © 2023 Jonas Frey. All rights reserved.
 
 import CoreData
-import UIKit
 
 extension CDColor? {
-    mutating func update(from uiColor: UIColor?, in managedObjectContext: NSManagedObjectContext) {
+    mutating func update(from uiColor: NSUIColor?, in managedObjectContext: NSManagedObjectContext) {
         if let uiColor {
             // Update or create
             if let self {

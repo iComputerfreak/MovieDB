@@ -2,7 +2,6 @@
 
 import CoreData
 import Foundation
-import UIKit
 
 public extension WatchProvider {
     var id: Int {
@@ -30,15 +29,15 @@ public extension WatchProvider {
     @NSManaged private var pngData: Data?
 
     /// The logo image of this watch provider
-    var logoImage: UIImage? {
+    var logoImage: NSUIImage? {
         get {
             if let pngData {
-                return UIImage(data: pngData)
+                return NSUIImage(data: pngData)
             }
             return nil
         }
         set {
-            self.pngData = newValue?.pngData()
+            self.pngData = newValue?.pngDataRepresentation
         }
     }
 

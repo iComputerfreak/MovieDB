@@ -12,7 +12,11 @@ struct UnifiedSearchView: View {
     @State private var isShowingProPopup = false
 
     private var showsScopePickerInContent: Bool {
+        #if canImport(UIKit)
         UIDevice.current.userInterfaceIdiom == .pad
+        #else
+        true
+        #endif
     }
 
     private var trimmedSearchText: String {

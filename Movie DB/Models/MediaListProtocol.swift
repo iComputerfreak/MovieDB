@@ -15,7 +15,7 @@ protocol MediaListProtocol: ObservableObject, Hashable {
     /// The SF Symbols name of the icon used for this list
     var iconName: String { get }
     /// The color of the icon
-    var iconColor: UIColor? { get }
+    var iconColor: NSUIColor? { get }
     /// The rendering mode of the icon
     var iconRenderingMode: IconRenderingMode { get }
     /// The current ``SortingOrder`` used for this list

@@ -2,7 +2,6 @@
 
 import CoreData
 import Foundation
-import UIKit
 
 public extension UserMediaList {
     /// The internal library id
@@ -36,8 +35,8 @@ public extension UserMediaList {
         set { setOptional(newValue, forKey: Schema.UserMediaList.iconColor) }
     }
     
-    var iconColor: UIColor? {
-        get { _iconColor.map(UIColor.init(cdColor:)) }
+    var iconColor: NSUIColor? {
+        get { _iconColor.map(NSUIColor.init(cdColor:)) }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
     }
     

@@ -8,7 +8,6 @@ import JFSwiftUI
 import os.log
 import StoreKit
 import TipKit
-import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     @UserDefault("lastAppStartUpdate", defaultValue: nil)
@@ -88,7 +87,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         migrationManager.run()
 
-
         // MARK: Initialize Store Manager
         _ = StoreManager.shared
 
@@ -167,11 +165,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let bgContext = PersistenceController.viewContext.newBackgroundContext()
         // Add sample data
         Task(priority: .userInitiated) {
-            // swiftlint:disable:next force_try
-            try! await AppStoreScreenshotData(context: bgContext).prepareSampleData()
-            await MainActor.run {
-                // Commit to parent store (view context)
-                try! bgContext.save()
+            do {
+                try await AppStoreScreenshotData(context: bgContext).prepareSampleData()
+                await MainActor.run {
+                    // Commit to parent store (view context)
+                    try bgContext.save()
+                }
+            } catch {
+                Logger.general.error("Error setting up screenshot samples")
             }
         }
     }

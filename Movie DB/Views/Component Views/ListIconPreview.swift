@@ -5,7 +5,7 @@ import SwiftUI
 struct ListIconPreview: View {
     let name: String
     let iconName: String
-    let iconColor: UIColor?
+    let iconColor: NSUIColor?
     
     var color: Color? {
         if let iconColor {

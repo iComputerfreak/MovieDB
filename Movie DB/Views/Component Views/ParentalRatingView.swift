@@ -1,7 +1,6 @@
 // Copyright © 2023 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import UIKit
 
 struct ParentalRatingView: View {
     let rating: ParentalRating
@@ -30,7 +29,7 @@ struct ParentalRatingView: View {
                 context: context,
                 countryCode: "US",
                 label: "R",
-                color: UIColor(named: "US-Movie-R")
+                color: NSUIColor(named: "US-Movie-R")
             ))
         }
         HStack {
@@ -39,7 +38,7 @@ struct ParentalRatingView: View {
                 context: context,
                 countryCode: "DE",
                 label: "16",
-                color: UIColor(named: "AgeSixteen")
+                color: NSUIColor(named: "AgeSixteen")
             ))
         }
         HStack {

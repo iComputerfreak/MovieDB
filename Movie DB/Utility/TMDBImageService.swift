@@ -26,7 +26,7 @@ actor TMDBImageService {
     let imageSize: Int?
     
     private var activeDownloads: [DownloadKey: ActiveDownload] = [:]
-    private let decodedImages = NSCache<NSString, UIImage>()
+    private let decodedImages = NSCache<NSString, NSUIImage>()
     
     /// Creates a new `TMDBImageService`
     /// - Parameter imageSize: The size used by the TMDB API for fetching images.
@@ -48,7 +48,7 @@ actor TMDBImageService {
         imagePath: String?,
         maxPixelSize: Int? = nil,
         force: Bool = false
-    ) async throws -> UIImage? {
+    ) async throws -> NSUIImage? {
         guard let mediaID, let imagePath else { return nil }
         return try await image(
             for: imagePath,
@@ -87,7 +87,7 @@ actor TMDBImageService {
         downloadID: AnyHashable,
         maxPixelSize: Int? = nil,
         force: Bool = false
-    ) async throws -> UIImage? {
+    ) async throws -> NSUIImage? {
         guard let imagePath, !imagePath.isEmpty else { return nil }
         return try await image(
             for: imagePath,
@@ -122,7 +122,7 @@ actor TMDBImageService {
         downloadID: AnyHashable,
         maxPixelSize: Int? = nil,
         force: Bool = false
-    ) async throws -> UIImage? {
+    ) async throws -> NSUIImage? {
         let cacheKey = "\(imagePath)|\(maxPixelSize.map(String.init) ?? "original")" as NSString
         let downloadKey = DownloadKey(id: downloadID, imagePath: imagePath)
         if !force, let image = decodedImages.object(forKey: cacheKey) {
@@ -180,8 +180,8 @@ actor TMDBImageService {
     ///   - data: Encoded image data.
     ///   - maxPixelSize: Maximum decoded width or height, or `nil` to decode at source dimensions.
     /// - Returns: A decoded image, or `nil` when the data is invalid.
-    static func decodeImage(_ data: Data, maxPixelSize: Int?) -> UIImage? {
-        guard let maxPixelSize else { return UIImage(data: data) }
+    static func decodeImage(_ data: Data, maxPixelSize: Int?) -> NSUIImage? {
+        guard let maxPixelSize else { return NSUIImage(data: data) }
         guard let source = CGImageSourceCreateWithData(data as CFData, [
             kCGImageSourceShouldCache: false,
         ] as CFDictionary) else {
@@ -195,14 +195,14 @@ actor TMDBImageService {
             kCGImageSourceThumbnailMaxPixelSize: maxPixelSize,
         ] as CFDictionary
         guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options) else { return nil }
-        return UIImage(cgImage: cgImage)
+        return NSUIImage.from(cgImage: cgImage)
     }
 
     /// Returns the decoded bitmap cost used by `NSCache`.
     /// - Parameter image: Decoded image to measure.
     /// - Returns: Approximate decoded byte count.
-    private static func decodedCost(of image: UIImage) -> Int {
-        guard let cgImage = image.cgImage else { return 0 }
+    private static func decodedCost(of image: NSUIImage) -> Int {
+        guard let cgImage = image.platformCGImage else { return 0 }
         return cgImage.bytesPerRow * cgImage.height
     }
 }

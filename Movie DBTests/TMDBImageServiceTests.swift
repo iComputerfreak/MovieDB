@@ -1,7 +1,6 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 @testable import Movie_DB
-import UIKit
 import XCTest
 
 final class TMDBImageServiceTests: XCTestCase {

@@ -2,7 +2,6 @@
 
 import os.log
 import SwiftUI
-import UIKit
 
 struct SeasonsDetailView: View {
     enum PreviewState {
@@ -14,7 +13,7 @@ struct SeasonsDetailView: View {
 
     private let previewState: PreviewState?
 
-    @State private var seasonThumbnails: [Int: UIImage?] = [:]
+    @State private var seasonThumbnails: [Int: NSUIImage?] = [:]
     @State private var isLoading = false
     @State private var loadTaskID = UUID()
 
@@ -88,7 +87,7 @@ struct SeasonsDetailView: View {
 
         // We don't use a throwing task group, since we want to fail silently.
         // Unavailable images should just not be loaded instead of showing an error message.
-        let images: [Int: UIImage] = await withTaskGroup(of: (Int, UIImage?).self) { group in
+        let images: [Int: NSUIImage] = await withTaskGroup(of: (Int, NSUIImage?).self) { group in
             for season in show.seasons {
                 _ = group.addTaskUnlessCancelled {
                     guard let imagePath = season.imagePath else { return (0, nil) }
@@ -99,7 +98,7 @@ struct SeasonsDetailView: View {
                 }
             }
 
-            var results: [Int: UIImage] = [:]
+            var results: [Int: NSUIImage] = [:]
             for await (seasonID, image) in group {
                 guard let image else { continue }
                 results[seasonID] = image

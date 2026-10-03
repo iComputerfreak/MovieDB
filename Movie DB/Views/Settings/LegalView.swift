@@ -1,7 +1,6 @@
 // Copyright © 2021 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import UIKit
 
 struct LegalView: View {
     @EnvironmentObject private var config: JFConfig
@@ -9,7 +8,7 @@ struct LegalView: View {
     @State private var isShowingCopyConfirmation = false
 
     var tmdbLogo: some View {
-        Image(uiImage: UIImage.tmDbLogo)
+        Image(platformImage: NSUIImage.tmDbLogo)
             .resizable()
             .scaledToFit()
             .frame(height: 20)

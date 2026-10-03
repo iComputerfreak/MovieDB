@@ -5,7 +5,6 @@ import class CoreGraphics.CGColorSpace
 import struct CoreGraphics.CGFloat
 import Foundation
 import struct SwiftUI.Color
-import class UIKit.UIColor
 
 public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
     public static var supportsSecureCoding = true
@@ -20,11 +19,11 @@ public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
     
     var color: Color { Color(self.uiColor) }
     
-    var uiColor: UIColor {
+    var uiColor: NSUIColor {
         if colorSpace == .displayP3 {
-            return UIColor(displayP3Red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
+            return NSUIColor(displayP3Red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
         } else {
-            return UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
+            return NSUIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
         }
     }
     
@@ -77,10 +76,10 @@ public class SerializableColor: NSObject, NSCoding, NSSecureCoding {
     }
     
     convenience init(from color: Color) {
-        self.init(from: UIColor(color))
+        self.init(from: NSUIColor(color))
     }
     
-    convenience init(from uiColor: UIColor) {
+    convenience init(from uiColor: NSUIColor) {
         self.init(from: uiColor.cgColor)
     }
     

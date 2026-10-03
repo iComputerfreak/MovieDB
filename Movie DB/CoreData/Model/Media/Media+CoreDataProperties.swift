@@ -3,7 +3,6 @@
 import CoreData
 import Foundation
 import SwiftUI
-import UIKit
 
 public extension Media {
     /// The internal library id

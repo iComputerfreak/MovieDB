@@ -10,7 +10,7 @@ class PredicateMediaList: MediaListProtocol {
     let name: String
     let listDescription: String?
     let iconName: String
-    let iconColor: UIColor?
+    let iconColor: NSUIColor?
     let iconRenderingMode: IconRenderingMode
     let predicate: NSPredicate
     let customFilter: ((Media) -> Bool)?
@@ -63,7 +63,7 @@ class PredicateMediaList: MediaListProtocol {
         defaultSubtitleContent: LibraryRow.SubtitleContent?,
         description: String,
         iconName: String,
-        iconColor: UIColor? = nil,
+        iconColor: NSUIColor? = nil,
         iconRenderingMode: IconRenderingMode = .multicolor,
         defaultSortingOrder: SortingOrder? = nil,
         predicate: NSPredicate,

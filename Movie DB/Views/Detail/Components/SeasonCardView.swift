@@ -1,12 +1,11 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import UIKit
 
 struct SeasonCardView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State var season: Season
-    @Binding var thumbnail: UIImage??
+    @Binding var thumbnail: NSUIImage??
 
     private var overview: String? {
         guard let overview = season.overview, !overview.isEmpty else { return nil }

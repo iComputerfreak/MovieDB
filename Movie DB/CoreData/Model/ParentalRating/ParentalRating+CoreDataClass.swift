@@ -2,11 +2,10 @@
 
 import CoreData
 import Foundation
-import UIKit
 
 @objc(ParentalRating)
 public class ParentalRating: NSManagedObject {
-    convenience init(context: NSManagedObjectContext, countryCode: String, label: String, color: UIColor? = nil) {
+    convenience init(context: NSManagedObjectContext, countryCode: String, label: String, color: NSUIColor? = nil) {
         self.init(context: context)
         self.countryCode = countryCode
         self.label = label

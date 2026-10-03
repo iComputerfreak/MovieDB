@@ -5,7 +5,7 @@ import SwiftUI
 struct ListIconConfigurator<Content: View>: View {
     @Binding var name: String
     @Binding var iconName: String
-    @Binding var iconColor: UIColor
+    @Binding var iconColor: NSUIColor
     @Binding var iconMode: IconRenderingMode
     var configurationSection: Content
     
@@ -16,7 +16,7 @@ struct ListIconConfigurator<Content: View>: View {
     init(
         name: Binding<String>,
         iconName: Binding<String>,
-        iconColor: Binding<UIColor>,
+        iconColor: Binding<NSUIColor>,
         iconMode: Binding<IconRenderingMode>,
         @ViewBuilder configurationSection: () -> Content
     ) {
@@ -30,7 +30,7 @@ struct ListIconConfigurator<Content: View>: View {
     init(
         name: Binding<String>,
         iconName: Binding<String>,
-        iconColor: Binding<UIColor?>,
+        iconColor: Binding<NSUIColor?>,
         iconMode: Binding<IconRenderingMode>,
         @ViewBuilder configurationSection: () -> Content
     ) {
@@ -108,7 +108,7 @@ struct ListIconConfigurator<Content: View>: View {
 #Preview {
     @Previewable @State var listName = "Dynamic List"
     @Previewable @State var iconName = "music.note"
-    @Previewable @State var iconColor: UIColor? = nil
+    @Previewable @State var iconColor: NSUIColor? = nil
     @Previewable @State var iconMode: IconRenderingMode = .multicolor
 
     return ListIconConfigurator(

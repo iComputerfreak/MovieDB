@@ -1,12 +1,11 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
 import SwiftUI
-import UIKit
 
 enum LoadableImageSource {
-    case image(UIImage?)
+    case image(NSUIImage?)
     case url(URL?)
-    case loader(id: AnyHashable, load: @Sendable () async throws -> UIImage?)
+    case loader(id: AnyHashable, load: @Sendable () async throws -> NSUIImage?)
 }
 
 struct LoadableImageView: View {
@@ -14,7 +13,7 @@ struct LoadableImageView: View {
     let contentMode: ContentMode
     let alignment: Alignment
 
-    @State private var loadedImage: UIImage?
+    @State private var loadedImage: NSUIImage?
     @State private var isLoading = false
 
     init(source: LoadableImageSource, contentMode: ContentMode = .fill, alignment: Alignment = .center) {
@@ -44,7 +43,7 @@ struct LoadableImageView: View {
         switch source {
         case let .image(image):
             if let image {
-                Image(uiImage: image)
+                Image(platformImage: image)
                     .resizable()
                     .aspectRatio(contentMode: contentMode)
             } else {
@@ -78,7 +77,7 @@ struct LoadableImageView: View {
             if isLoading {
                 loadingState
             } else if let loadedImage {
-                Image(uiImage: loadedImage)
+                Image(platformImage: loadedImage)
                     .resizable()
                     .aspectRatio(contentMode: contentMode)
             } else {

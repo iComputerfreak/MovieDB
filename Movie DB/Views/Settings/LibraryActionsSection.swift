@@ -62,7 +62,6 @@ struct LibraryActionsSection: View {
                 // Don't show the debug button when doing App Store screenshots via Fastlane
                 if ProcessInfo.processInfo.environment["FASTLANE_SNAPSHOT"] != "YES" {
                     Button {
-                        // swiftlint:disable force_try
                         // Do debugging things here
                         Task {
                             let duplicateMedia = try await TMDBAPI.shared.media(
@@ -73,7 +72,6 @@ struct LibraryActionsSection: View {
                             PersistenceController.viewContext.insert(duplicateMedia)
                             PersistenceController.saveContext()
                         }
-                        // swiftlint:enable force_try
                     } label: {
                         SettingsActionLabel(title: "Debug", systemImage: "ladybug", tint: .indigo)
                     }

@@ -3,7 +3,6 @@
 import CoreData
 import Foundation
 import os.log
-import UIKit
 
 // swiftlint:disable:next blanket_disable_command
 // swiftlint:disable function_body_length type_body_length file_length

@@ -11,7 +11,7 @@ extension PredicateMediaList {
         defaultSubtitleContent: .watchState,
         description: Strings.Lists.watchlistDescription,
         iconName: "bookmark.fill",
-        iconColor: UIColor(Color.blue),
+        iconColor: NSUIColor(Color.blue),
         iconRenderingMode: .monochrome,
         predicate: NSPredicate(
             format: "%K = %@",

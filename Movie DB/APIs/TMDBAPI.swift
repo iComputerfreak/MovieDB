@@ -3,7 +3,6 @@
 import CoreData
 import Foundation
 import os.log
-import UIKit
 
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length

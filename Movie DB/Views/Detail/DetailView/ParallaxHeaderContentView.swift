@@ -54,7 +54,7 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
                 backgroundView
                     .overlay(alignment: .bottom) {
                         // Cover the part of the image below the header with the background color to prevent it showing below the content
-                        Color(UIColor.systemBackground)
+                        Color.systemBackground
                             .offset(y: imageHeight)
                     }
 

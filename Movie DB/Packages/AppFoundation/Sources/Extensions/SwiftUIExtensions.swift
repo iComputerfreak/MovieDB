@@ -4,7 +4,7 @@ import SwiftUI
 
 public extension ButtonRole {
     static var legacyConfirm: Self? {
-        if #available(iOS 26.0, *) {
+        if #available(anyAppleOS 26.0, *) {
             return .confirm
         } else {
             return nil
@@ -12,7 +12,7 @@ public extension ButtonRole {
     }
 
     static var legacyClose: Self? {
-        if #available(iOS 26.0, *) {
+        if #available(anyAppleOS 26.0, *) {
             return .close
         } else {
             return nil

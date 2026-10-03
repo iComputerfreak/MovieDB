@@ -22,7 +22,7 @@ class TMDBSearchResult: Decodable, Identifiable, ObservableObject, Hashable {
     /// The language the movie was originally created in as an ISO-639-1 string (e.g. 'en')
     let originalLanguage: String
     /// The thumbnail for this media
-    var thumbnail: UIImage?
+    var thumbnail: NSUIImage?
     
     // TMDB Scoring
     /// The popularity of the media on TMDB

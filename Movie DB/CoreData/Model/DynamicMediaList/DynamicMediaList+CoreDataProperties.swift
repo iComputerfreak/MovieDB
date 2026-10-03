@@ -2,7 +2,6 @@
 
 import CoreData
 import Foundation
-import UIKit
 
 public extension DynamicMediaList {
     /// The internal library id
@@ -36,8 +35,8 @@ public extension DynamicMediaList {
         set { setOptional(newValue, forKey: Schema.DynamicMediaList.iconColor) }
     }
     
-    var iconColor: UIColor? {
-        get { _iconColor.map(UIColor.init(cdColor:)) }
+    var iconColor: NSUIColor? {
+        get { _iconColor.map(NSUIColor.init(cdColor:)) }
         set { managedObjectContext.map { _iconColor.update(from: newValue, in: $0) } }
     }
     

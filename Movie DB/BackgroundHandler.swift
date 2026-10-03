@@ -4,7 +4,6 @@ import BackgroundTasks
 import Analytics
 import Foundation
 import os.log
-import UIKit
 
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"

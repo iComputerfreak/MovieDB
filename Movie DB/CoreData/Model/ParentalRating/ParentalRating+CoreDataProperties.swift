@@ -4,7 +4,6 @@ import CoreData
 import Foundation
 import os.log
 import SwiftUI
-import UIKit
 
 public extension ParentalRating {
     @NSManaged var id: UUID?
@@ -25,14 +24,18 @@ public extension ParentalRating {
         set { setOptional(newValue, forKey: Schema.ParentalRating.color) }
     }
     
-    var uiColor: UIColor? {
-        get { _color.map { UIColor(cdColor: $0) } }
+    var uiColor: NSUIColor? {
+        get { _color.map { NSUIColor(cdColor: $0) } }
         set { managedObjectContext.map { _color.update(from: newValue, in: $0) } }
     }
     
     var color: Color? {
         if let uiColor {
+            #if canImport(UIKit)
             return Color(uiColor: uiColor)
+            #elseif canImport(AppKit)
+            return Color(nsColor: uiColor)
+            #endif
         }
         return nil
     }

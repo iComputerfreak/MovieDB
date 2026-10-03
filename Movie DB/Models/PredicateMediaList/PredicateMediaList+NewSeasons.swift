@@ -11,7 +11,7 @@ extension PredicateMediaList {
         defaultSubtitleContent: .watchState,
         description: Strings.Lists.newSeasonsDescription,
         iconName: "sparkles.tv",
-        iconColor: UIColor(Color.purple),
+        iconColor: NSUIColor(Color.purple),
         iconRenderingMode: .monochrome,
         predicate: NSCompoundPredicate(type: .and, subpredicates: [
             // Only shows that have been started watching

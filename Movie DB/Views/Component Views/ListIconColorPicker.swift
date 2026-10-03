@@ -4,26 +4,26 @@ import Flow
 import SwiftUI
 
 struct ListIconColorPicker: View {
-    static let defaultColors: [UIColor] = [
-        UIColor.primaryIcon,
-        UIColor.redIcon,
-        UIColor.orangeIcon,
-        UIColor.yellowIcon,
-        UIColor.greenIcon,
-        UIColor.lightBlueIcon,
-        UIColor.blueIcon,
-        UIColor.violetIcon,
-        UIColor.pinkIcon,
-        UIColor.roseIcon,
-        UIColor.brownIcon,
-        UIColor.grayIcon,
+    static let defaultColors: [NSUIColor] = [
+        NSUIColor.primaryIcon,
+        NSUIColor.redIcon,
+        NSUIColor.orangeIcon,
+        NSUIColor.yellowIcon,
+        NSUIColor.greenIcon,
+        NSUIColor.lightBlueIcon,
+        NSUIColor.blueIcon,
+        NSUIColor.violetIcon,
+        NSUIColor.pinkIcon,
+        NSUIColor.roseIcon,
+        NSUIColor.brownIcon,
+        NSUIColor.grayIcon,
     ]
     
-    let colors: [UIColor]
-    @Binding var color: UIColor
+    let colors: [NSUIColor]
+    @Binding var color: NSUIColor
     @State private var colorIndex: Int
     
-    init(colors: [UIColor] = Self.defaultColors, color: Binding<UIColor>) {
+    init(colors: [NSUIColor] = Self.defaultColors, color: Binding<NSUIColor>) {
         self.colors = colors
         self._color = color
         // We compare the components, because the colors stored in Core Data have been transformed
@@ -65,7 +65,7 @@ struct ColorSwatch: View {
 }
 
 #Preview {
-    @Previewable @State var color: UIColor = .red
+    @Previewable @State var color: NSUIColor = .red
     
     return List {
         HStack {

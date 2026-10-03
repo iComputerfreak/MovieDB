@@ -6,6 +6,8 @@ import OSLog
 
 /// Resolves source rows into ranked TMDB candidates using bounded concurrency and progressive fallbacks.
 struct TitleImportResolver: Sendable {
+    // swiftlint:disable:previous type_body_length
+
     /// Carries resolution values and errors through the nonthrowing scheduler coordinator.
     private typealias ResolutionOutcome = Result<[TitleImportReviewItem], any Error>
 

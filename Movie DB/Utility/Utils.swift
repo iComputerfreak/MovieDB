@@ -6,7 +6,6 @@ import JFUtils
 import os.log
 import StoreKit
 import SwiftUI
-import UIKit
 
 struct Utils {
     /// The URL describing the documents directory of the app
@@ -69,7 +68,7 @@ struct Utils {
     
     /// Returns either black or white, depending on the color scheme
     /// - Parameter colorScheme: The current color scheme environment variable
-    static func primaryUIColor(_ colorScheme: ColorScheme) -> UIColor {
+    static func primaryUIColor(_ colorScheme: ColorScheme) -> NSUIColor {
         colorScheme == .light ? .black : .white
     }
     
@@ -83,11 +82,11 @@ struct Utils {
     
     /// Downloads an image using the given URL
     /// - Parameter url: The URL to download the image from
-    /// - Returns: The downloaded UIImage
-    static func loadImage(from url: URL) async throws -> UIImage {
+    /// - Returns: The downloaded platform image
+    static func loadImage(from url: URL) async throws -> NSUIImage {
         let data = try await loadData(from: url)
 
-        guard let image = UIImage(data: data) else {
+        guard let image = NSUIImage(data: data) else {
             throw JFError.decodingError
         }
 
@@ -249,27 +248,27 @@ struct Utils {
         for country: String,
         label: String,
         in context: NSManagedObjectContext
-    ) -> UIColor? {
+    ) -> NSUIColor? {
         // swiftlint:disable switch_case_on_newline
         switch country.uppercased() {
             // Germany: FSK Ratings
         case "DE":
             switch label {
-            case "0": return UIColor.noRestriction
-            case "6": return UIColor.ageSix
-            case "12": return UIColor.ageTwelve
-            case "16": return UIColor.ageSixteen
-            case "18": return UIColor.ageEighteen
+            case "0": return NSUIColor.noRestriction
+            case "6": return NSUIColor.ageSix
+            case "12": return NSUIColor.ageTwelve
+            case "16": return NSUIColor.ageSixteen
+            case "18": return NSUIColor.ageEighteen
             default: return nil
             }
         case "US":
             switch label {
-            case "NR": return UIColor.usMovieNR
-            case "G": return UIColor.usMovieG
-            case "PG": return UIColor.usMoviePG
-            case "PG-13": return UIColor.usMoviePG13
-            case "R": return UIColor.usMovieR
-            case "NC-17": return UIColor.usMovieNC17
+            case "NR": return NSUIColor.usMovieNR
+            case "G": return NSUIColor.usMovieG
+            case "PG": return NSUIColor.usMoviePG
+            case "PG-13": return NSUIColor.usMoviePG13
+            case "R": return NSUIColor.usMovieR
+            case "NC-17": return NSUIColor.usMovieNC17
             default: return nil
             }
         default:
@@ -320,8 +319,8 @@ extension Utils {
     
     /// Downloads an image using the given TMDB image path
     /// - Parameter imagePath: The TMDB image path
-    /// - Returns: The downloaded UIImage
-    static func loadImage(with imagePath: String, size: Int?) async throws -> UIImage? {
+    /// - Returns: The downloaded platform image
+    static func loadImage(with imagePath: String, size: Int?) async throws -> NSUIImage? {
         if let url = getTMDBImageURL(path: imagePath, size: size) {
             return try await loadImage(from: url)
         }

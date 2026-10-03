@@ -3,7 +3,6 @@
 import Foundation
 import OSLog
 import SwiftUI
-import UIKit
 
 /// Represents a utility struct that displays Alerts
 struct AlertHandler {

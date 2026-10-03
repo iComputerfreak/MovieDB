@@ -3,7 +3,6 @@
 import Foundation
 import os.log
 import StoreKit
-import UIKit
 
 class SceneDelegate: NSObject, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {

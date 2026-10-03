@@ -2,7 +2,6 @@
 
 import CoreData
 import Foundation
-import UIKit
 
 public extension CDColor {
     @NSManaged var redComponent: Double

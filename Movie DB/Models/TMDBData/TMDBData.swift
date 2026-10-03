@@ -3,7 +3,6 @@
 import CoreData
 import Foundation
 import OSLog
-import UIKit
 
 /// Represents a set of data about the media from themoviedb.org. Only used for decoding JSON responses
 struct TMDBData: Decodable, Sendable {

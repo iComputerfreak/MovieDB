@@ -47,8 +47,8 @@ struct LegacyProviderView: View {
             }
     }
 
-    private func providerImageView(for image: UIImage) -> some View {
-        Image(uiImage: image)
+    private func providerImageView(for image: NSUIImage) -> some View {
+        Image(platformImage: image)
             .resizable()
             .cornerRadius(0.2 * iconSize)
             .shadow(radius: 1, y: 1.5)

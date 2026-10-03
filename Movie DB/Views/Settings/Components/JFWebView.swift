@@ -1,33 +1,54 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
-import UIKit
 import SwiftUI
 import WebKit
 
-struct JFWebView: UIViewRepresentable {
+struct JFWebView: PlatformViewRepresentable {
     let url: URL
 
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
 
-    func makeUIView(context: Context) -> WKWebView {
+    private func makeWebView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: configuration)
 
+        #if canImport(UIKit)
         webView.backgroundColor = .clear
         webView.isOpaque = false
-        webView.navigationDelegate = context.coordinator
         webView.scrollView.contentInsetAdjustmentBehavior = .never
+        #elseif canImport(AppKit)
+        webView.underPageBackgroundColor = .clear
+        #endif
+        webView.navigationDelegate = context.coordinator
 
         return webView
     }
 
-    func updateUIView(_ webView: WKWebView, context: Context) {
+    private func updateWebView(_ webView: WKWebView) {
         guard webView.url != url else { return }
 
         webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
     }
+
+    #if canImport(UIKit)
+    func makeUIView(context: Context) -> WKWebView {
+        makeWebView(context: context)
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        updateWebView(webView)
+    }
+    #elseif canImport(AppKit)
+    func makeNSView(context: Context) -> WKWebView {
+        makeWebView(context: context)
+    }
+
+    func updateNSView(_ webView: WKWebView, context: Context) {
+        updateWebView(webView)
+    }
+    #endif
 
     final class Coordinator: NSObject, WKNavigationDelegate {
         func webView(
@@ -45,7 +66,11 @@ struct JFWebView: UIViewRepresentable {
                 return
             }
 
+            #if canImport(UIKit)
             UIApplication.shared.open(requestURL)
+            #else
+            NSWorkspace.shared.open(requestURL)
+            #endif
             decisionHandler(.cancel)
         }
     }

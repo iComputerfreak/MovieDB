@@ -3,10 +3,6 @@
 import Foundation
 import SwiftUI
 
-extension Color {
-    static let systemBackground = Color(UIColor.systemBackground)
-}
-
 extension View {
     /// Prepares the view for executing in a preview environment.
     ///

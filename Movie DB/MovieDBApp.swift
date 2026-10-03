@@ -48,9 +48,9 @@ struct MovieDBApp: App {
             AppRootView()
                 .environment(
                     \.managedObjectContext,
-                     ProcessInfo.isRunningForPreviews
-                       ? PersistenceController.xcodePreviewContext
-                       : PersistenceController.viewContext
+                    ProcessInfo.isRunningForPreviews
+                      ? PersistenceController.xcodePreviewContext
+                      : PersistenceController.viewContext
                 )
                 .environmentObject(config)
             // Respond to universal links
