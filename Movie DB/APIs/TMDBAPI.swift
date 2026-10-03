@@ -79,16 +79,12 @@ actor TMDBAPI {
         return media
     }
     
-    /// Updates the given media object by re-loading and replacing the TMDB data
+    /// Updates the media object with the given ID by re-loading and replacing the TMDB data.
     /// - Parameters:
-    ///   - media: The media object to update
-    ///   - context: The context to update the media objects in
-    func updateMedia(_ media: Media, context: NSManagedObjectContext) async throws {
-        // The given media object should be from the context to perform the update in
-        if !(media.managedObjectContext == context || context.parent == media.managedObjectContext) {
-            Logger.api.warning("Trying to update a media object in the wrong context!")
-        }
-        let objectID = media.objectID
+    ///   - objectID: The permanent ID of the media object to update.
+    ///   - context: The context containing the media object.
+    /// - Throws: An API, Core Data lookup, or Core Data save error.
+    func updateMedia(_ objectID: NSManagedObjectID, context: NSManagedObjectContext) async throws {
         let (tmdbID, mediaType) = try await context.perform {
             guard let contextMedia = try context.existingObject(with: objectID) as? Media else {
                 throw APIError.updateError
@@ -96,13 +92,16 @@ actor TMDBAPI {
             return (contextMedia.tmdbID, contextMedia.type)
         }
         let tmdbData = try await tmdbData(for: tmdbID, type: mediaType, context: context)
-        // Update the media in the correct thread
+        // Update and persist atomically because background execution can expire at any time.
         let mediaID = try await context.perform {
             guard let contextMedia = try context.existingObject(with: objectID) as? Media else {
                 throw APIError.updateError
             }
             // Update the media object and capture its cache key on the context queue.
             contextMedia.update(tmdbData: tmdbData)
+            if context.hasChanges {
+                try context.save()
+            }
             return contextMedia.id
         }
         // Invalidate the poster because an iCloud sync may have changed its remote path.
@@ -115,8 +114,6 @@ actor TMDBAPI {
                 )
             }
         }
-        // We save immediately, because the whole "update all medias" flow that might be running could be interrupted at any moment.
-        PersistenceController.saveContext()
     }
     
     /// Loads the TMDB IDs of all media objects changed in the given timeframe

@@ -14,9 +14,10 @@ struct ReloadMediaButton: View {
     var body: some View {
         Button {
             onAction?()
+            let mediaID = mediaObject.objectID
             Task(priority: .userInitiated) {
                 do {
-                    try await TMDBAPI.shared.updateMedia(mediaObject, context: managedObjectContext)
+                    try await TMDBAPI.shared.updateMedia(mediaID, context: managedObjectContext)
                     await PersistenceController.saveContext(managedObjectContext)
                     notificationProxy.show(
                         title: Strings.Detail.reloadCompleteNotificationTitle,

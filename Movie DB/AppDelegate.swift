@@ -72,12 +72,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         AnalyticsService.shared.reloadFeatureFlags { [weak self] in
             guard let self else { return }
 
-            Task(priority: .background) {
-                let didSchedule = await self.backgroundHandler.refreshBackgroundFetch()
+            Task { @MainActor in
+                let didSchedule = self.backgroundHandler.refreshBackgroundFetch()
                 Logger.background.info("Background fetch config refresh finished: \(didSchedule, privacy: .public)")
+                self.performAppLaunchBackgroundUpdateIfNeeded()
             }
-
-            self.performAppLaunchBackgroundUpdateIfNeeded()
         }
         
         // MARK: Run Migrations

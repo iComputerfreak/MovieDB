@@ -135,34 +135,38 @@ struct MediaLibrary {
         let lastUpdate = Date(timeIntervalSince1970: lastUpdated)
         let changedIDs = try await TMDBAPI.shared.changedIDs(from: lastUpdate, to: Date.now)
         
-        // Create a child context to update the media objects in
-        let updateContext = context.newBackgroundContext()
+        // Use a store-backed context so each completed update persists independently.
+        let updateContext = PersistenceController.shared.newBackgroundContext()
         
-        var medias: [Media] = []
+        var mediaIDs: [NSManagedObjectID] = []
         for type in changedIDs.keys {
-            // swiftlint:disable:next implicitly_unwrapped_optional
-            let fetchRequest: NSFetchRequest<Media>!
-            switch type {
-            case .movie:
-                fetchRequest = Movie.fetchRequest()
-            case .show:
-                fetchRequest = Show.fetchRequest()
+            let typeChangedIDs = changedIDs[type] ?? []
+            let fetchedIDs = try await context.perform {
+                let fetchRequest: NSFetchRequest<Media> = switch type {
+                case .movie: Movie.fetchRequest()
+                case .show: Show.fetchRequest()
+                }
+                fetchRequest.predicate = NSPredicate(
+                    format: "type = %@ AND tmdbID IN %@",
+                    type.rawValue,
+                    typeChangedIDs
+                )
+                return try context.fetch(fetchRequest).map(\.objectID)
             }
-            fetchRequest.predicate = NSPredicate(format: "type = %@ AND tmdbID IN %@", type.rawValue, changedIDs[type]!)
-            try medias.append(contentsOf: context.fetch(fetchRequest))
+            mediaIDs.append(contentsOf: fetchedIDs)
         }
-        Logger.library.info("Updating \(medias.count) media objects.")
+        Logger.library.info("Updating \(mediaIDs.count) media objects.")
 
-        let updateID = await LibraryUpdateStatus.shared.begin(origin: .manualUpdate, total: medias.count)
+        let updateID = await LibraryUpdateStatus.shared.begin(origin: .manualUpdate, total: mediaIDs.count)
 
         // Update the media objects using a task group
         var updateCount = 0
         do {
             try await withThrowingTaskGroup(of: Void.self) { group in
-                for media in medias {
+                for mediaID in mediaIDs {
                     _ = group.addTaskUnlessCancelled {
                         // Update the media inside the update context (including the thumbnail)
-                        try await TMDBAPI.shared.updateMedia(media, context: updateContext)
+                        try await TMDBAPI.shared.updateMedia(mediaID, context: updateContext)
                         await LibraryUpdateStatus.shared.increment(updateID)
                     }
                 }
@@ -193,50 +197,49 @@ struct MediaLibrary {
     /// - Throws: An error when the reload cannot finish, including `CancellationError` when cancelled.
     @discardableResult
     func reloadAll(fromBackground: Bool = false, origin: LibraryUpdateStatus.Origin) async throws -> Int {
-        // swiftlint:disable:previous function_body_length
-        // Create a new child context to perform the reload in
-        let reloadContext = context.newBackgroundContext()
+        // Use a store-backed context so each completed update survives background expiration.
+        let reloadContext = PersistenceController.shared.newBackgroundContext()
         
-        // Fetch all media objects from the store (using the reload context)
-        let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
-        // Nil values are sorted at the top, followed by the medias that were longest not updated
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.lastUpdated, ascending: true)]
-        if fromBackground {
-            // Don't update medias that were updated in the last x days
-            // => only update medias that were last updated before the cutoff date
-            let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
-            fetchRequest.predicate = NSPredicate(
-                format: "%K == nil OR %K < %@",
-                Schema.Media.lastUpdated.rawValue,
-                Schema.Media.lastUpdated.rawValue,
-                cutoffDate as NSDate
-            )
+        let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
+        let mediaIDs = try await reloadContext.perform {
+            // Fetch object IDs only; managed objects remain confined to their context queue.
+            let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Media.lastUpdated, ascending: true)]
+            if fromBackground {
+                fetchRequest.predicate = NSPredicate(
+                    format: "%K == nil OR %K < %@",
+                    Schema.Media.lastUpdated.rawValue,
+                    Schema.Media.lastUpdated.rawValue,
+                    cutoffDate as NSDate
+                )
+            }
+            return try reloadContext.fetch(fetchRequest).map(\.objectID)
         }
-        let medias = (try? reloadContext.fetch(fetchRequest)) ?? []
-        Logger.library.info("Reloading \(medias.count) media objects.")
+        Logger.library.info("Reloading \(mediaIDs.count) media objects.")
 
-        guard !medias.isEmpty else {
+        guard !mediaIDs.isEmpty else {
             lastUpdated = Date.now.timeIntervalSince1970
             return 0
         }
 
-        let reloadID = await LibraryUpdateStatus.shared.begin(origin: origin, total: medias.count)
+        let reloadID = await LibraryUpdateStatus.shared.begin(origin: origin, total: mediaIDs.count)
 
         let updatedMediaCount: Int
         do {
             // Reload all media objects while preserving individual request failures.
             updatedMediaCount = try await withThrowingTaskGroup(of: Bool.self) { group in
-                for media in medias {
+                for mediaID in mediaIDs {
                     _ = group.addTaskUnlessCancelled {
                         do {
-                            try await TMDBAPI.shared.updateMedia(media, context: reloadContext)
+                            try await TMDBAPI.shared.updateMedia(mediaID, context: reloadContext)
                             await LibraryUpdateStatus.shared.increment(reloadID)
                             return true
                         } catch {
                             if Task.isCancelled || error is CancellationError {
                                 throw CancellationError()
                             }
-                            Logger.library.error("Error updating '\(media.title)': \(error, privacy: .public)")
+                            // swiftlint:disable:next line_length
+                            Logger.library.error("Error updating media \(mediaID.uriRepresentation().absoluteString, privacy: .public): \(error, privacy: .public)")
                             await LibraryUpdateStatus.shared.increment(reloadID)
                             return false
                         }
@@ -265,7 +268,7 @@ struct MediaLibrary {
         // We also need this, in the case of an invalid set lastUpdated value that prevents the update to work
         lastUpdated = Date.now.timeIntervalSince1970
         PersistenceController.saveContext()
-        Logger.library.info("Successfully reloaded \(medias.count) medias.")
+        Logger.library.info("Successfully reloaded \(mediaIDs.count) medias.")
         return updatedMediaCount
     }
     

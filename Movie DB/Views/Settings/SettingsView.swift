@@ -201,7 +201,7 @@ struct SettingsView: View {
         AnalyticsService.shared.setTrackingEnabled(true)
         AnalyticsService.shared.reloadFeatureFlags {
             Task {
-                _ = await BackgroundHandler().refreshBackgroundFetch()
+                _ = BackgroundHandler().refreshBackgroundFetch()
             }
         }
         AnalyticsService.shared.track(.analyticsEnabled(source: source))

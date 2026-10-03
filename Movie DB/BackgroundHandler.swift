@@ -78,13 +78,11 @@ class BackgroundHandler {
                 "The background task could not be registered, because its identifier is missing from Info.plist"
             )
         }
-        Task {
-            _ = await refreshBackgroundFetch()
-        }
+        _ = refreshBackgroundFetch()
     }
 
     @discardableResult
-    func refreshBackgroundFetch() async -> Bool {
+    func refreshBackgroundFetch() -> Bool {
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.bgTaskID)
 
         guard let interval = Self.currentBackgroundUpdateInterval else {
@@ -100,11 +98,11 @@ class BackgroundHandler {
         var debugState = Self.debugState
         debugState.lastResolvedInterval = interval
         Self.debugState = debugState
-        return await scheduleBackgroundFetch(after: interval)
+        return scheduleBackgroundFetch(after: interval)
     }
 
     /// Schedules a background fetch to be executed after the passed interval.
-    private func scheduleBackgroundFetch(after interval: TimeInterval) async -> Bool {
+    private func scheduleBackgroundFetch(after interval: TimeInterval) -> Bool {
         let request = BGProcessingTaskRequest(identifier: Self.bgTaskID)
         request.earliestBeginDate = Date(timeIntervalSinceNow: interval)
         request.requiresNetworkConnectivity = true
@@ -149,9 +147,7 @@ class BackgroundHandler {
         Self.debugState = debugState
 
         // MARK: Re-schedule
-        Task {
-            _ = await scheduleBackgroundFetch(after: interval)
-        }
+        _ = scheduleBackgroundFetch(after: interval)
 
         // MARK: Create Operation
         let operation = Task(priority: .high) {

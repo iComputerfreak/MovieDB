@@ -173,10 +173,11 @@ private extension MultiSelectionMenu {
     var reloadButton: some View {
         Button {
             AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .reload))
+            let mediaIDs = selectedMediaObjects.map(\.objectID)
             Task {
-                for media in selectedMediaObjects {
+                for mediaID in mediaIDs {
                     do {
-                        try await TMDBAPI.shared.updateMedia(media, context: managedObjectContext)
+                        try await TMDBAPI.shared.updateMedia(mediaID, context: managedObjectContext)
                         await PersistenceController.saveContext(managedObjectContext)
                     } catch {
                         Logger.api.error("Failed to update media object: \(error)")

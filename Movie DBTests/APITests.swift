@@ -70,7 +70,7 @@ class APITests: XCTestCase {
             // Modify the title to check, if the update function correctly restores it
             result.title = "None"
             // Should not throw
-            try await api.updateMedia(result, context: testContext)
+            try await api.updateMedia(result.objectID, context: testContext)
             assertMediaMatches(result, dummy)
         }
     }
@@ -80,7 +80,7 @@ class APITests: XCTestCase {
             _ = try await api.media(for: -1, type: .movie, context: testContext)
         }
         await assertAPIErrorThrown {
-            try await api.updateMedia(brokenMedia, context: testContext)
+            try await api.updateMedia(brokenMedia.objectID, context: testContext)
         }
     }
     

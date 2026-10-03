@@ -63,7 +63,7 @@ struct AppRootView: View {
         .task {
             AnalyticsService.shared.reloadFeatureFlags {
                 Task {
-                    _ = await BackgroundHandler().refreshBackgroundFetch()
+                    _ = BackgroundHandler().refreshBackgroundFetch()
                 }
             }
         }
@@ -75,7 +75,7 @@ struct AppRootView: View {
         AnalyticsService.shared.setTrackingEnabled(true)
         AnalyticsService.shared.reloadFeatureFlags {
             Task {
-                _ = await BackgroundHandler().refreshBackgroundFetch()
+                _ = BackgroundHandler().refreshBackgroundFetch()
             }
         }
         AnalyticsService.shared.track(.analyticsEnabled(source: source))
