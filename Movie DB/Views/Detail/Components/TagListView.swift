@@ -54,6 +54,9 @@ struct TagListView: View {
         @FetchRequest(sortDescriptors: [SortDescriptor(\Tag.name, order: .forward)])
         var allTags: FetchedResults<Tag>
         @Binding var tags: Set<Tag>
+        @State private var isAddingTag = false
+        @State private var isShowingDuplicateAlert = false
+        @State private var newTagName = ""
         
         init(tags: Binding<Set<Tag>>) {
             self._tags = tags
@@ -99,38 +102,38 @@ struct TagListView: View {
             }
             .listStyle(.grouped)
             .navigationTitle(Strings.Detail.tagsNavBarTitle)
-            .navigationBarItems(trailing: Button(action: addTag) {
+            .navigationBarItems(trailing: Button {
+                newTagName = ""
+                isAddingTag = true
+            } label: {
                 Image(systemName: "plus")
             })
+            .alert(Strings.Detail.Alert.newTagTitle, isPresented: $isAddingTag) {
+                TextField(Strings.Detail.Alert.newTagTitle, text: $newTagName)
+                Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+                Button(Strings.Detail.Alert.newTagButtonAdd, action: addTag)
+                    .disabled(newTagName.trimmingCharacters(in: .whitespaces).isEmpty)
+            } message: {
+                Text(Strings.Detail.Alert.newTagMessage)
+            }
+            .messageAlert(
+                title: Strings.Detail.Alert.tagAlreadyExistsTitle,
+                message: Strings.Detail.Alert.tagAlreadyExistsMessage,
+                isPresented: $isShowingDuplicateAlert
+            )
         }
         
         func addTag() {
-            let alert = UIAlertController(
-                title: Strings.Detail.Alert.newTagTitle,
-                message: Strings.Detail.Alert.newTagMessage,
-                preferredStyle: .alert
-            )
-            alert.addTextField { textField in
-                // Change textField properties
-                textField.autocapitalizationType = .words
-            }
-            alert.addAction(.cancelAction())
-            alert.addAction(UIAlertAction(
-                title: Strings.Detail.Alert.newTagButtonAdd,
-                style: .default
-            ) { _ in
-                guard let textField = alert.textFields?.first else { return }
-                guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return }
-                guard !self.tags.contains(where: { $0.name == text }) else {
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.Detail.Alert.tagAlreadyExistsTitle,
-                        message: Strings.Detail.Alert.tagAlreadyExistsMessage
-                    )
-                    return
+            let name = newTagName.trimmingCharacters(in: .whitespaces)
+            guard !allTags.contains(where: { $0.name == name }) else {
+                Task { @MainActor in
+                    // Let the text-entry alert dismiss before presenting the duplicate-name alert.
+                    await Task.yield()
+                    isShowingDuplicateAlert = true
                 }
-                _ = Tag(name: text, context: self.managedObjectContext)
-            })
-            AlertHandler.presentAlert(alert: alert)
+                return
+            }
+            _ = Tag(name: name, context: managedObjectContext)
         }
     }
 }

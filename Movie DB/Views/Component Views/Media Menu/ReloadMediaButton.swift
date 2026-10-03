@@ -9,6 +9,7 @@ struct ReloadMediaButton: View {
     @EnvironmentObject private var mediaObject: Media
     @Environment(NotificationProxy.self) private var notificationProxy: NotificationProxy
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @State private var errorMessage: String?
     var onAction: (() -> Void)? = nil
     
     var body: some View {
@@ -27,18 +28,16 @@ struct ReloadMediaButton: View {
                     Logger.library.error(
                         "Error updating \(mediaObject.title, privacy: .public): \(error, privacy: .public)"
                     )
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.Library.Alert.updateErrorTitle,
-                        message: Strings.Library.Alert.updateErrorMessage(
-                            mediaObject.title,
-                            error.localizedDescription
-                        )
+                    errorMessage = Strings.Library.Alert.updateErrorMessage(
+                        mediaObject.title,
+                        error.localizedDescription
                     )
                 }
             }
         } label: {
             Label(Strings.Library.mediaActionReload, systemImage: "arrow.clockwise")
         }
+        .messageAlert(title: Strings.Library.Alert.updateErrorTitle, message: $errorMessage)
     }
 }
 

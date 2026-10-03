@@ -10,6 +10,8 @@ struct LibraryActionsSection: View {
     @Binding var config: SettingsViewModel
     @EnvironmentObject var preferences: JFConfig
     @State private var library: MediaLibrary = .shared
+    @State private var isShowingResetConfirmation = false
+    @State private var error: (any Error)?
     let updateHandler: () -> Void
     let reloadHandler: () -> Void
     let cancelHandler: () -> Void
@@ -50,7 +52,9 @@ struct LibraryActionsSection: View {
                 )
             }
             .disabled(config.isLoading && !isReloadCancellable)
-            Button(action: self.resetLibrary) {
+            Button {
+                isShowingResetConfirmation = true
+            } label: {
                 SettingsActionLabel(
                     title: Strings.Settings.resetLibraryLabel,
                     systemImage: "trash.fill",
@@ -81,38 +85,29 @@ struct LibraryActionsSection: View {
         } header: {
             Text(Strings.Settings.librarySectionHeader)
         }
+        .destructiveAlert(
+            title: Strings.Settings.Alert.resetLibraryConfirmTitle,
+            message: Strings.Settings.Alert.resetLibraryConfirmMessage,
+            destructiveButtonTitle: Strings.Settings.Alert.resetLibraryConfirmButtonDelete,
+            isPresented: $isShowingResetConfirmation,
+            action: resetLibrary
+        )
+        .errorAlert(error: $error)
     }
 
     func resetLibrary() {
-        let controller = UIAlertController(
-            title: Strings.Settings.Alert.resetLibraryConfirmTitle,
-            message: Strings.Settings.Alert.resetLibraryConfirmMessage,
-            preferredStyle: .alert
-        )
-        controller.addAction(.cancelAction())
-        controller.addAction(UIAlertAction(
-            title: Strings.Settings.Alert.resetLibraryConfirmButtonDelete,
-            style: .destructive
-        ) { _ in
-            config.beginLoading(Strings.Settings.ProgressView.resetLibrary)
-            Task(priority: .userInitiated) {
-                do {
-                    Logger.library.info("Resetting Library...")
-                    AnalyticsService.shared.track(.libraryReset)
-                    try self.library.reset()
-                } catch {
-                    Logger.library.error("Error resetting library: \(error, privacy: .public)")
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.resetLibraryErrorTitle,
-                        error: error
-                    )
-                }
-                await MainActor.run {
-                    self.config.stopLoading()
-                }
+        config.beginLoading(Strings.Settings.ProgressView.resetLibrary)
+        Task(priority: .userInitiated) {
+            do {
+                Logger.library.info("Resetting Library...")
+                AnalyticsService.shared.track(.libraryReset)
+                try self.library.reset()
+            } catch {
+                Logger.library.error("Error resetting library: \(error, privacy: .public)")
+                self.error = error
             }
-        })
-        AlertHandler.presentAlert(alert: controller)
+            self.config.stopLoading()
+        }
     }
 }
 

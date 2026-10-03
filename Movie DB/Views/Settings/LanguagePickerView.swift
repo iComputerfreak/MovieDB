@@ -6,6 +6,7 @@ import SwiftUI
 
 struct LanguagePickerView: View {
     @EnvironmentObject var preferences: JFConfig
+    @State private var error: (any Error)?
     
     var body: some View {
         Picker(Strings.Settings.languageNavBarTitle, selection: $preferences.language) {
@@ -21,6 +22,7 @@ struct LanguagePickerView: View {
             }
         }
         .pickerStyle(.navigationLink)
+        .errorAlert(error: $error)
     }
     
     private func updateLanguages() async {
@@ -32,10 +34,7 @@ struct LanguagePickerView: View {
                 Logger.settings.error("Error updating TMDB languages: \(error, privacy: .public)")
                 // We need to report the error, otherwise the user may be confused due to the loading text
                 await MainActor.run {
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.errorLoadingLanguagesTitle,
-                        error: error
-                    )
+                    self.error = error
                 }
             }
         }

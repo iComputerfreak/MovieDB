@@ -58,10 +58,14 @@ struct ImportExportSection: View {
         )
     }
     
-    // TODO: Should be an async function without `isLoading`
-    // Generic import function with a custom handler, does not save the changes.
+    /// Runs an import in a background context without saving its changes.
+    /// - Parameters:
+    ///   - isLoading: Binding updated while the import is running.
+    ///   - onError: Main-actor callback that receives an import failure.
+    ///   - handler: Import work to perform in the temporary context.
     static func `import`(
         isLoading: Binding<Bool>,
+        onError: @escaping @MainActor (any Error) -> Void,
         handler: @escaping (NSManagedObjectContext) async throws -> Void
     ) {
         // Use iOS file picker
@@ -82,10 +86,7 @@ struct ImportExportSection: View {
                 Task(priority: .userInitiated) {
                     await MainActor.run {
                         isLoading.wrappedValue = false
-                        AlertHandler.showError(
-                            title: Strings.Settings.Alert.genericImportErrorTitle,
-                            error: error
-                        )
+                        onError(error)
                     }
                 }
             }

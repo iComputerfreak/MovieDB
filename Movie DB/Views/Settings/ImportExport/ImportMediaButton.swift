@@ -8,6 +8,11 @@ import Analytics
 struct ImportMediaButton: View {
     @Binding var config: SettingsViewModel
     @State private var isImportingMedia = false
+    @State private var isConfirmingImport = false
+    @State private var error: (any Error)?
+    @State private var pendingImportContext: NSManagedObjectContext?
+    @State private var pendingImportStartedAt: Date?
+    @State private var pendingImportCount = 0
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
 
     private let storeManager: StoreManager = .shared
@@ -22,15 +27,26 @@ struct ImportMediaButton: View {
                 tint: .green
             )
         }
-            .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in
-                do {
-                    let url = try result.get()
-                    self.importMedia(url: url)
-                } catch {
-                    // Error picking file to import. No need to display an error, as the user is probably aware?
-                    Logger.importExport.error("Error picking import file: \(error, privacy: .public)")
-                }
+        .fileImporter(isPresented: $isImportingMedia, allowedContentTypes: [.commaSeparatedText]) { result in
+            do {
+                let url = try result.get()
+                self.importMedia(url: url)
+            } catch {
+                // Error picking file to import. No need to display an error, as the user is probably aware?
+                Logger.importExport.error("Error picking import file: \(error, privacy: .public)")
             }
+        }
+        .alert(Strings.Settings.Alert.importMediaConfirmTitle, isPresented: $isConfirmingImport) {
+            Button(
+                Strings.Settings.Alert.importMediaConfirmButtonUndo,
+                role: .destructive,
+                action: undoPendingImport
+            )
+            Button(Strings.Generic.alertButtonOk, action: completePendingImport)
+        } message: {
+            Text(Strings.Settings.Alert.importMediaConfirmMessage(pendingImportCount))
+        }
+        .errorAlert(error: $error)
     }
     
     // swiftlint:disable:next function_body_length
@@ -46,7 +62,9 @@ struct ImportMediaButton: View {
         }
         // Initialize the logger
         self.config.importLogger = .init()
-        ImportExportSection.import(isLoading: $config.isLoading) { importContext in
+        ImportExportSection.import(isLoading: $config.isLoading, onError: { error in
+            self.error = error
+        }) { importContext in
             // Import using CSVImporter
             guard url.startAccessingSecurityScopedResource() else {
                 throw ImportError.noPermissions
@@ -74,56 +92,64 @@ struct ImportMediaButton: View {
             }
             
             await MainActor.run {
-                let controller = UIAlertController(
-                    title: Strings.Settings.Alert.importMediaConfirmTitle,
-                    message: Strings.Settings.Alert.importMediaConfirmMessage(medias.count),
-                    preferredStyle: .alert
-                )
-                controller.addAction(UIAlertAction(
-                    title: Strings.Settings.Alert.importMediaConfirmButtonUndo,
-                    style: .destructive
-                ) { _ in
-                    // Reset all the work we have just done
-                    importContext.reset()
-                    config.importLogger?.info("Undoing import. All imported objects removed.")
-                    let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
-                    let errorCount = config.importLogger?.count(of: .error) ?? 0
-                    AnalyticsService.shared.track(
-                        .mediaImportAborted(
-                            importCountBucket: .bucket(for: medias.count),
-                            durationSeconds: durationSeconds,
-                            errorCount: errorCount
-                        )
-                    )
-                    self.config.importLogShowing = true
-                })
-                controller.addAction(.okayAction { _ in
-                    Task(priority: .userInitiated) {
-                        // Make the changes to this context permanent by saving them to the
-                        // main context and then to disk
-                        await PersistenceController.saveContext(importContext)
-                        await PersistenceController.saveContext(PersistenceController.viewContext)
-                        let durationSeconds = Int(Date().timeIntervalSince(importStartedAt).rounded())
-                        let errorCount = config.importLogger?.count(of: .error) ?? 0
-                        AnalyticsService.shared.track(
-                            .mediaImported(
-                                importCountBucket: .bucket(for: medias.count),
-                                durationSeconds: durationSeconds,
-                                errorCount: errorCount
-                            )
-                        )
-                        await MainActor.run {
-                            self.config.importLogger?.info("Import complete.")
-                            self.config.importLogShowing = true
-                        }
-                    }
-                })
                 self.config.isLoading = false
-                // Reset the loading text
                 self.config.loadingText = nil
-                AlertHandler.presentAlert(alert: controller)
+                self.pendingImportContext = importContext
+                self.pendingImportStartedAt = importStartedAt
+                self.pendingImportCount = medias.count
+                self.isConfirmingImport = true
             }
         }
+    }
+
+    /// Discards objects created by the pending import.
+    private func undoPendingImport() {
+        pendingImportContext?.reset()
+        config.importLogger?.info("Undoing import. All imported objects removed.")
+        AnalyticsService.shared.track(
+            .mediaImportAborted(
+                importCountBucket: .bucket(for: pendingImportCount),
+                durationSeconds: pendingImportDurationSeconds,
+                errorCount: config.importLogger?.count(of: .error) ?? 0
+            )
+        )
+        config.importLogShowing = true
+        clearPendingImport()
+    }
+
+    /// Saves objects created by the pending import.
+    private func completePendingImport() {
+        guard let importContext = pendingImportContext else { return }
+        let importCount = pendingImportCount
+        let durationSeconds = pendingImportDurationSeconds
+        let errorCount = config.importLogger?.count(of: .error) ?? 0
+        clearPendingImport()
+
+        Task(priority: .userInitiated) {
+            await PersistenceController.saveContext(importContext)
+            await PersistenceController.saveContext(PersistenceController.viewContext)
+            AnalyticsService.shared.track(
+                .mediaImported(
+                    importCountBucket: .bucket(for: importCount),
+                    durationSeconds: durationSeconds,
+                    errorCount: errorCount
+                )
+            )
+            config.importLogger?.info("Import complete.")
+            config.importLogShowing = true
+        }
+    }
+
+    /// Elapsed seconds for the pending import.
+    private var pendingImportDurationSeconds: Int {
+        Int(Date().timeIntervalSince(pendingImportStartedAt ?? .now).rounded())
+    }
+
+    /// Clears temporary import confirmation state.
+    private func clearPendingImport() {
+        pendingImportContext = nil
+        pendingImportStartedAt = nil
+        pendingImportCount = 0
     }
 }
 

@@ -62,10 +62,6 @@ extension PersistenceController {
                 Logger.coreData.info("Core Data context saved.")
             } catch {
                 Logger.coreData.error("Error saving Core Data context: \(error, privacy: .public)")
-                AlertHandler.showError(
-                    title: Strings.Alert.errorSavingCoreDataTitle,
-                    error: error
-                )
             }
         } else {
             Logger.coreData.debug("Context has no changes.")

@@ -5,6 +5,7 @@ import SwiftUI
 
 struct ExportMediaButton: View {
     @Binding var config: SettingsViewModel
+    @State private var error: (any Error)?
     
     var body: some View {
         Button(action: self.exportMedia) {
@@ -14,6 +15,7 @@ struct ExportMediaButton: View {
                 tint: .orange
             )
         }
+        .errorAlert(error: $error)
     }
     
     func exportMedia() {
@@ -24,26 +26,32 @@ struct ExportMediaButton: View {
                 config.isLoading = true
             }
 
-            let exportedData = await config.export(
-                filename: "MovieDB_Export_\(Utils.isoDateString()).csv",
-                operation: .mediaExport
-            ) { context in
-                let medias = Utils.allMedias(context: context)
-                let exporter = CSVExporter()
-                guard let exportData = exporter.createCSV(from: medias).data(using: .utf8) else {
-                    throw SettingsViewModel.ExportFailure.failed(.mediaExport, .contentGeneration)
+            do {
+                let exportedData = try await config.export(
+                    filename: "MovieDB_Export_\(Utils.isoDateString()).csv",
+                    operation: .mediaExport
+                ) { context in
+                    let medias = Utils.allMedias(context: context)
+                    let exporter = CSVExporter()
+                    guard let exportData = exporter.createCSV(from: medias).data(using: .utf8) else {
+                        throw SettingsViewModel.ExportFailure.failed(.mediaExport, .contentGeneration)
+                    }
+                    return exportData
                 }
-                return exportData
-            }
 
-            await MainActor.run {
-                config.isLoading = false
-                config.exportedData = exportedData
-                if exportedData != nil {
+                await MainActor.run {
+                    config.exportedData = exportedData
                     AnalyticsService.shared.track(
                         .mediaExported(exportCountBucket: .bucket(for: mediaCount))
                     )
                 }
+            } catch {
+                await MainActor.run {
+                    self.error = error
+                }
+            }
+            await MainActor.run {
+                config.isLoading = false
             }
         }
     }

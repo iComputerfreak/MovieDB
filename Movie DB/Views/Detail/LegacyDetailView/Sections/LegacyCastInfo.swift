@@ -7,6 +7,7 @@ struct LegacyCastInfo: View {
     @EnvironmentObject private var mediaObject: Media
     
     @State private var cast: [CastMemberDummy] = []
+    @State private var error: (any Error)?
     
     var body: some View {
         Group {
@@ -28,10 +29,7 @@ struct LegacyCastInfo: View {
                         Logger.api.error(
                             "Error loading cast for \(mediaObject.title, privacy: .public): \(error, privacy: .public)"
                         )
-                        AlertHandler.showError(
-                            title: Strings.Detail.Alert.errorLoadingCastTitle,
-                            error: error
-                        )
+                        self.error = error
                     }
                 }
             } else {
@@ -44,6 +42,7 @@ struct LegacyCastInfo: View {
         }
         .navigationBarTitleDisplayMode(.large)
         .navigationTitle(Strings.Detail.castLabel)
+        .errorAlert(error: $error)
     }
 }
 

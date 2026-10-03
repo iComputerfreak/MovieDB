@@ -17,6 +17,8 @@ struct AddMediaView: View {
     @State private var library: MediaLibrary = .shared
     @State private var isShowingProPopup = false
     @State private var isLoading = false
+    @State private var error: (any Error)?
+    @State private var alreadyAddedMessage: String?
     let initialSearchText: String
     
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -64,6 +66,8 @@ struct AddMediaView: View {
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView(source: .addMediaLimit)
         }
+        .messageAlert(title: Strings.AddMedia.Alert.alreadyAddedTitle, message: $alreadyAddedMessage)
+        .errorAlert(error: $error)
         .onAppear {
             AnalyticsService.shared.track(.screenViewed(screenName: .addMedia))
         }
@@ -86,10 +90,7 @@ struct AddMediaView: View {
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 isLoading = false
-                AlertHandler.showSimpleAlert(
-                    title: Strings.AddMedia.Alert.alreadyAddedTitle,
-                    message: Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
-                )
+                alreadyAddedMessage = Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
             }
         } catch UserError.noPro {
             // If the user tried to add media without having bought Pro, show the popup
@@ -99,10 +100,7 @@ struct AddMediaView: View {
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")
             await MainActor.run {
-                AlertHandler.showError(
-                    title: Strings.AddMedia.Alert.errorLoadingTitle,
-                    error: error
-                )
+                self.error = error
                 self.isLoading = false
             }
         }

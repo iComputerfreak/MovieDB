@@ -14,6 +14,7 @@ struct AddMediaButton: View {
     
     // TODO: Replace workaround with some other view update.
     @State private var justAdded = false
+    @State private var error: (any Error)?
     
     var body: some View {
         Button {
@@ -30,7 +31,7 @@ struct AddMediaButton: View {
                 } catch {
                     Logger.addMedia.error("Error adding a lookup media object: \(error, privacy: .public)")
                     await MainActor.run {
-                        AlertHandler.showError(title: Strings.Generic.alertErrorTitle, error: error)
+                        self.error = error
                     }
                 }
             }
@@ -49,6 +50,7 @@ struct AddMediaButton: View {
         }
         .tint(.accentColor)
         .disabled(alreadyAdded)
+        .errorAlert(error: $error)
     }
 }
 

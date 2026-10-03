@@ -12,6 +12,7 @@ enum PurchaseError: Error {
 struct ProInfoView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isLoading = false
+    @State private var restoreErrorMessage: String?
 
     let showCancelButton: Bool
     let source: AnalyticsProSheetSource
@@ -52,9 +53,8 @@ struct ProInfoView: View {
                                     try await storeManager.restorePurchases()
                                     AnalyticsService.shared.track(.restoredPro)
                                 } catch {
-                                    AlertHandler.showSimpleAlert(
-                                        title: Strings.ProInfo.Alert.restoreFailedTitle,
-                                        message: Strings.ProInfo.Alert.restoreFailedMessage(error.localizedDescription)
+                                    restoreErrorMessage = Strings.ProInfo.Alert.restoreFailedMessage(
+                                        error.localizedDescription
                                     )
                                 }
                             }
@@ -77,6 +77,7 @@ struct ProInfoView: View {
         .task {
             AnalyticsService.shared.track(.proSheetViewed(source: source))
         }
+        .messageAlert(title: Strings.ProInfo.Alert.restoreFailedTitle, message: $restoreErrorMessage)
     }
 
     private var backgroundGradient: some View {

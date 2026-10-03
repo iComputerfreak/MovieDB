@@ -49,15 +49,15 @@ struct SettingsViewModel {
         filename: String,
         operation: AnalyticsImportExportOperation,
         content: @escaping (NSManagedObjectContext) throws -> Data
-    ) async -> ExportData? {
+    ) async throws -> ExportData {
         Logger.importExport.debug("Exporting \(filename, privacy: .public)...")
 
-        return await PersistenceController.shared.container.performBackgroundTask { context -> ExportData? in
+        let result = await PersistenceController.shared.container.performBackgroundTask { context in
             context.type = .backgroundContext
             do {
                 // Get the content to export
                 let exportData = try content(context)
-                return ExportData(filename: filename, data: exportData)
+                return Result.success(ExportData(filename: filename, data: exportData))
             } catch {
                 let failure: ExportFailure
                 if let exportFailure = error as? ExportFailure {
@@ -69,14 +69,9 @@ struct SettingsViewModel {
                     AnalyticsService.shared.track(.importExportFailed(operation: operation, stage: stage))
                 }
                 Logger.importExport.error("Error writing export file: \(error, privacy: .public)")
-                DispatchQueue.main.async {
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.Settings.Alert.genericExportErrorTitle,
-                        message: Strings.Settings.Alert.genericExportErrorMessage
-                    )
-                }
-                return nil
+                return Result.failure(error)
             }
         }
+        return try result.get()
     }
 }

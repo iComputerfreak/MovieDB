@@ -8,6 +8,7 @@ import Analytics
 struct BuyProButton: View {
     @Environment(\.dismiss) private var dismiss
     @Binding private var isLoading: Bool
+    @State private var isShowingPurchaseError = false
 
     private let storeManager: StoreManager = .shared
 
@@ -44,15 +45,17 @@ struct BuyProButton: View {
                 do {
                     try await buyPro()
                 } catch {
-                    AlertHandler.showSimpleAlert(
-                        title: Strings.ProInfo.Alert.buyProErrorTitle,
-                        message: Strings.ProInfo.Alert.buyProErrorMessage
-                    )
+                    isShowingPurchaseError = true
                 }
             }
         }
         .buttonStyle(.borderedProminent)
         .disabled(storeManager.hasPurchasedPro || isLoading)
+        .messageAlert(
+            title: Strings.ProInfo.Alert.buyProErrorTitle,
+            message: Strings.ProInfo.Alert.buyProErrorMessage,
+            isPresented: $isShowingPurchaseError
+        )
     }
     
     func buyPro() async throws {

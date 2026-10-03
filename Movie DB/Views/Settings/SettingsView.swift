@@ -18,6 +18,9 @@ struct SettingsView: View {
     @State private var libraryOperationTask: Task<Void, Never>?
     @State private var isShowingAnalyticsConsent = false
     @State private var pendingAnalyticsEnableSource: AnalyticsEnabledSource?
+    @State private var error: (any Error)?
+    @State private var isShowingReloadCompleteAlert = false
+    @State private var updateCompleteMessage: String?
 
     @ToolbarContentBuilder
     private var debugMenuToolbarItem: some ToolbarContent {
@@ -106,6 +109,13 @@ struct SettingsView: View {
             )
             .presentationDetents([.large])
         }
+        .messageAlert(
+            title: Strings.Settings.Alert.reloadCompleteTitle,
+            message: Strings.Settings.Alert.reloadCompleteMessage,
+            isPresented: $isShowingReloadCompleteAlert
+        )
+        .messageAlert(title: Strings.Settings.Alert.updateMediaTitle, message: $updateCompleteMessage)
+        .errorAlert(error: $error)
     }
 
     /// Starts a full manual library reload.
@@ -126,19 +136,13 @@ struct SettingsView: View {
             do {
                 try await self.library.reloadAll(origin: .manualReload)
                 try Task.checkCancellation()
-                AlertHandler.showSimpleAlert(
-                    title: Strings.Settings.Alert.reloadCompleteTitle,
-                    message: Strings.Settings.Alert.reloadCompleteMessage
-                )
+                isShowingReloadCompleteAlert = true
             } catch {
                 if Task.isCancelled || error is CancellationError {
                     Logger.library.info("Library reload cancelled.")
                 } else {
                     Logger.library.fault("Error reloading media objects: \(error, privacy: .public)")
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.reloadErrorTitle,
-                        error: error
-                    )
+                    self.error = error
                 }
             }
             self.viewModel.stopLoading()
@@ -163,10 +167,7 @@ struct SettingsView: View {
                 try await Utils.updateTMDBLanguages()
                 let updateCount = try await self.library.update()
                 try Task.checkCancellation()
-                AlertHandler.showSimpleAlert(
-                    title: Strings.Settings.Alert.updateMediaTitle,
-                    message: Strings.Settings.Alert.updateMediaMessage(updateCount)
-                )
+                updateCompleteMessage = Strings.Settings.Alert.updateMediaMessage(updateCount)
                 AnalyticsService.shared.track(.libraryUpdate(result: .success))
             } catch {
                 if Task.isCancelled || error is CancellationError {
@@ -174,10 +175,7 @@ struct SettingsView: View {
                 } else {
                     Logger.library.error("Error updating media objects: \(error, privacy: .public)")
                     AnalyticsService.shared.track(.libraryUpdate(result: .failure))
-                    AlertHandler.showError(
-                        title: Strings.Settings.Alert.libraryUpdateErrorTitle,
-                        error: error
-                    )
+                    self.error = error
                 }
             }
             self.viewModel.stopLoading()

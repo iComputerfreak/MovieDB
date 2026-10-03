@@ -37,6 +37,14 @@ struct MediaListsRootView: View {
     @State private var selectedMediaObjects: Set<Media> = []
     // Show the sidebar by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var isShowingNewListAlert = false
+    @State private var isCreatingDynamicList = false
+    @State private var newListName = ""
+    @State private var duplicateListMessage: String?
+
+    private var newListAlertTitle: String {
+        isCreatingDynamicList ? Strings.Lists.Alert.newDynamicListTitle : Strings.Lists.Alert.newCustomListTitle
+    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -96,6 +104,15 @@ struct MediaListsRootView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
+        .alert(newListAlertTitle, isPresented: $isShowingNewListAlert) {
+            TextField(newListAlertTitle, text: $newListName)
+            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+            Button(Strings.Lists.Alert.newListButtonAdd, action: createList)
+                .disabled(newListName.trimmingCharacters(in: .whitespaces).isEmpty)
+        } message: {
+            Text(Strings.Lists.Alert.newListMessage)
+        }
+        .messageAlert(title: Strings.Lists.Alert.alreadyExistsTitle, message: $duplicateListMessage)
         .onAppear {
             AnalyticsService.shared.track(.screenViewed(screenName: .mediaLists))
         }
@@ -129,23 +146,15 @@ struct MediaListsRootView: View {
         ToolbarItem(placement: .navigationBarLeading) {
             Menu(Strings.Lists.newListLabel) {
                 Button(Strings.Lists.newDynamicListLabel) {
-                    let alert = buildAlert(Strings.Lists.Alert.newDynamicListTitle) { name in
-                        let list = DynamicMediaList(context: managedObjectContext)
-                        list.name = name
-                        AnalyticsService.shared.track(.dynamicListCreated(predicateType: .unconfigured))
-                        PersistenceController.saveContext(managedObjectContext)
-                    }
-                    AlertHandler.presentAlert(alert: alert)
+                    isCreatingDynamicList = true
+                    newListName = ""
+                    isShowingNewListAlert = true
                 }
                 .accessibilityIdentifier("new-dynamic-list")
                 Button(Strings.Lists.newCustomListLabel) {
-                    let alert = buildAlert(Strings.Lists.Alert.newCustomListTitle) { name in
-                        let list = UserMediaList(context: managedObjectContext)
-                        list.name = name
-                        AnalyticsService.shared.track(.customListCreated)
-                        PersistenceController.saveContext(managedObjectContext)
-                    }
-                    AlertHandler.presentAlert(alert: alert)
+                    isCreatingDynamicList = false
+                    newListName = ""
+                    isShowingNewListAlert = true
                 }
                 .accessibilityIdentifier("new-custom-list")
             }
@@ -153,24 +162,28 @@ struct MediaListsRootView: View {
         }
     }
     
-    private func buildAlert(_ title: String, onSubmit: @escaping (String) -> Void) -> UIAlertController {
-        let alert = UIAlertController(title: title, message: Strings.Lists.Alert.newListMessage, preferredStyle: .alert)
-        alert.addTextField { $0.autocapitalizationType = .words }
-        alert.addAction(.cancelAction())
-        alert.addAction(.init(title: Strings.Lists.Alert.newListButtonAdd, style: .default, handler: { _ in
-            guard let textField = alert.textFields?.first else { return }
-            guard let text = textField.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return }
-            // Check on equality, ignoring case
-            guard !allLists.map(\.name).map({ $0.lowercased() }).contains(text.lowercased()) else {
-                AlertHandler.showSimpleAlert(
-                    title: Strings.Lists.Alert.alreadyExistsTitle,
-                    message: Strings.Lists.Alert.alreadyExistsMessage(text)
-                )
-                return
+    /// Creates a list from current alert input when its name is unique.
+    private func createList() {
+        let name = newListName.trimmingCharacters(in: .whitespaces)
+        guard !allLists.map(\.name).contains(where: { $0.localizedCaseInsensitiveCompare(name) == .orderedSame }) else {
+            Task { @MainActor in
+                // Let the text-entry alert dismiss before presenting the duplicate-name alert.
+                await Task.yield()
+                duplicateListMessage = Strings.Lists.Alert.alreadyExistsMessage(name)
             }
-            onSubmit(text)
-        }))
-        return alert
+            return
+        }
+
+        if isCreatingDynamicList {
+            let list = DynamicMediaList(context: managedObjectContext)
+            list.name = name
+            AnalyticsService.shared.track(.dynamicListCreated(predicateType: .unconfigured))
+        } else {
+            let list = UserMediaList(context: managedObjectContext)
+            list.name = name
+            AnalyticsService.shared.track(.customListCreated)
+        }
+        PersistenceController.saveContext(managedObjectContext)
     }
 }
 

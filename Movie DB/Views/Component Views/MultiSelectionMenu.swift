@@ -194,20 +194,25 @@ private extension MultiSelectionMenu {
     var deleteButton: some View {
         Button(role: .destructive) {
             isShowingDeleteAlert = true
-            AlertHandler.showDeleteAlert(
-                message: Strings.Library.multiDeleteAlertMessage(count: selectedMediaObjects.count)
-            ) {
-                AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .delete))
-                withAnimation {
-                    for media in selectedMediaObjects {
-                        managedObjectContext.delete(media)
-                    }
-                }
-                dismissEditing()
-            }
         } label: {
             Label(Strings.Generic.alertDeleteButtonTitle, systemImage: "trash")
         }
+        .destructiveAlert(
+            message: Strings.Library.multiDeleteAlertMessage(count: selectedMediaObjects.count),
+            isPresented: $isShowingDeleteAlert,
+            action: deleteSelectedMedia
+        )
+    }
+
+    /// Deletes selected media after confirmation.
+    private func deleteSelectedMedia() {
+        AnalyticsService.shared.track(.libraryMultiselectActionUsed(action: .delete))
+        withAnimation {
+            for media in selectedMediaObjects {
+                managedObjectContext.delete(media)
+            }
+        }
+        dismissEditing()
     }
     
     private func dismissEditing() {

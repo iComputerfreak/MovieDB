@@ -10,6 +10,8 @@ struct UnifiedSearchView: View {
     @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
     @State private var isLoading = false
     @State private var isShowingProPopup = false
+    @State private var error: (any Error)?
+    @State private var alreadyAddedMessage: String?
 
     private var showsScopePickerInContent: Bool {
         #if canImport(UIKit)
@@ -66,6 +68,8 @@ struct UnifiedSearchView: View {
         .sheet(isPresented: $isShowingProPopup) {
             ProInfoView(source: .addMediaLimit)
         }
+        .messageAlert(title: Strings.AddMedia.Alert.alreadyAddedTitle, message: $alreadyAddedMessage)
+        .errorAlert(error: $error)
         .onAppear {
             unifiedSearchCoordinator.isPresented = true
             AnalyticsService.shared.track(.screenViewed(screenName: .lookup))
@@ -160,10 +164,7 @@ struct UnifiedSearchView: View {
         } catch UserError.mediaAlreadyAdded {
             await MainActor.run {
                 isLoading = false
-                AlertHandler.showSimpleAlert(
-                    title: Strings.AddMedia.Alert.alreadyAddedTitle,
-                    message: Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
-                )
+                alreadyAddedMessage = Strings.AddMedia.Alert.alreadyAddedMessage(result.title)
             }
             return false
         } catch UserError.noPro {
@@ -177,10 +178,7 @@ struct UnifiedSearchView: View {
         } catch {
             Logger.general.error("Error loading media: \(error, privacy: .public)")
             await MainActor.run {
-                AlertHandler.showError(
-                    title: Strings.AddMedia.Alert.errorLoadingTitle,
-                    error: error
-                )
+                self.error = error
                 isLoading = false
             }
             return false

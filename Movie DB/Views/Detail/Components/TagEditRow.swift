@@ -5,6 +5,9 @@ import SwiftUI
 struct TagEditRow: View {
     @ObservedObject var tag: Tag
     @Binding var tags: Set<Tag>
+    @State private var isRenaming = false
+    @State private var isShowingDuplicateAlert = false
+    @State private var name = ""
     
     var body: some View {
         HStack {
@@ -13,39 +16,39 @@ struct TagEditRow: View {
             Text(tag.name)
             Spacer()
             Button {
-                // Rename
-                let alert = UIAlertController(
-                    title: Strings.Detail.Alert.renameTagTitle,
-                    message: Strings.Detail.Alert.renameTagMessage,
-                    preferredStyle: .alert
-                )
-                alert.addTextField { textField in
-                    textField.autocapitalizationType = .words
-                    // Fill in the current name
-                    textField.text = tag.name
-                }
-                alert.addAction(.cancelAction())
-                alert.addAction(UIAlertAction(
-                    title: Strings.Detail.Alert.renameTagButtonRename,
-                    style: .default
-                ) { _ in
-                    guard let textField = alert.textFields?.first else { return }
-                    guard let text = textField.text, !text.isEmpty else { return }
-                    guard !self.tags.contains(where: { $0.name == text }) else {
-                        AlertHandler.showSimpleAlert(
-                            title: Strings.Detail.Alert.tagAlreadyExistsTitle,
-                            message: Strings.Detail.Alert.tagAlreadyExistsMessage
-                        )
-                        return
-                    }
-                    tag.name = text
-                })
-                AlertHandler.presentAlert(alert: alert)
+                name = tag.name
+                isRenaming = true
             } label: {
                 Image(systemName: "pencil")
             }
             .foregroundColor(.accentColor)
         }
+        .alert(Strings.Detail.Alert.renameTagTitle, isPresented: $isRenaming) {
+            TextField(Strings.Detail.Alert.renameTagTitle, text: $name)
+            Button(Strings.Generic.alertButtonCancel, role: .cancel) {}
+            Button(Strings.Detail.Alert.renameTagButtonRename, action: renameTag)
+                .disabled(name.isEmpty)
+        } message: {
+            Text(Strings.Detail.Alert.renameTagMessage)
+        }
+        .messageAlert(
+            title: Strings.Detail.Alert.tagAlreadyExistsTitle,
+            message: Strings.Detail.Alert.tagAlreadyExistsMessage,
+            isPresented: $isShowingDuplicateAlert
+        )
+    }
+
+    /// Renames the tag when its proposed name is unique.
+    private func renameTag() {
+        guard !tags.contains(where: { $0.name == name }) else {
+            Task { @MainActor in
+                // Let the text-entry alert dismiss before presenting the duplicate-name alert.
+                await Task.yield()
+                isShowingDuplicateAlert = true
+            }
+            return
+        }
+        tag.name = name
     }
 }
 
