@@ -100,14 +100,18 @@ struct TagListView: View {
                     })
                 }
             }
-            .listStyle(.grouped)
+            .groupedListStyle()
             .navigationTitle(Strings.Detail.tagsNavBarTitle)
-            .navigationBarItems(trailing: Button {
-                newTagName = ""
-                isAddingTag = true
-            } label: {
-                Image(systemName: "plus")
-            })
+            .toolbar {
+                ToolbarItem(placement: .secondaryAction) {
+                    Button {
+                        newTagName = ""
+                        isAddingTag = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
             .alert(Strings.Detail.Alert.newTagTitle, isPresented: $isAddingTag) {
                 TextField(Strings.Detail.Alert.newTagTitle, text: $newTagName)
                 Button(Strings.Generic.alertButtonCancel, role: .cancel) {}

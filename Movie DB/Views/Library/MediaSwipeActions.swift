@@ -25,7 +25,7 @@ struct MediaSwipeActionsModifier: ViewModifier {
 
                 if let iconColor = PredicateMediaList.watchlist.iconColor {
                     watchlistButton
-                        .tint(Color(iconColor))
+                        .tint(Color(platformColor: iconColor))
                 } else {
                     watchlistButton
                 }

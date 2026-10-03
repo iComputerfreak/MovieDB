@@ -23,8 +23,10 @@ extension ProcessInfo {
 
 @main
 struct MovieDBApp: App {
+    #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate
+    #endif
 
     @ObservedObject private var config = JFConfig.shared
 
@@ -41,6 +43,7 @@ struct MovieDBApp: App {
                 )
             )
         }
+        AppStartup.shared.run()
     }
 
     var body: some Scene {

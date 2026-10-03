@@ -4,6 +4,7 @@ import SwiftUI
 
 struct BackgroundFetchDebugSection: View {
     var body: some View {
+        #if os(iOS)
         Section("Background Fetch" as String) {
             let debugState = BackgroundHandler.debugState
             let time = debugState.lastRunTime?.formatted(.iso8601) ?? "never"
@@ -31,6 +32,11 @@ struct BackgroundFetchDebugSection: View {
                 """
             )
         }
+        #else
+        Section("Background Fetch" as String) {
+            Text("Periodic background fetch is unavailable on macOS." as String)
+        }
+        #endif
     }
 
     private static func intervalDescription(_ interval: TimeInterval) -> String {

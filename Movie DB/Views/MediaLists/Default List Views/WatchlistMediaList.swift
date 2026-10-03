@@ -21,7 +21,7 @@ struct WatchlistMediaList: View {
                             .labelStyle(.iconOnly)
 
                         if let iconColor = PredicateMediaList.watchlist.iconColor {
-                            label.tint(Color(iconColor))
+                            label.tint(Color(platformColor: iconColor))
                         } else {
                             label
                         }

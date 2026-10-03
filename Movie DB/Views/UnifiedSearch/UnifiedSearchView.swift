@@ -8,14 +8,17 @@ import SwiftUI
 
 struct UnifiedSearchView: View {
     @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    #endif
     @State private var isLoading = false
     @State private var isShowingProPopup = false
     @State private var error: (any Error)?
     @State private var alreadyAddedMessage: String?
 
     private var showsScopePickerInContent: Bool {
-        #if canImport(UIKit)
-        UIDevice.current.userInterfaceIdiom == .pad
+        #if os(iOS)
+        horizontalSizeClass == .regular
         #else
         true
         #endif
@@ -104,7 +107,7 @@ struct UnifiedSearchView: View {
             showsScopePickerInContent,
             unifiedSearchCoordinator.isPresented || !unifiedSearchCoordinator.text.isEmpty
         {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     unifiedSearchCoordinator.dismiss()
                 } label: {

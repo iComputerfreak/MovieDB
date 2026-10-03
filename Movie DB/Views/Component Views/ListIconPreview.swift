@@ -9,7 +9,7 @@ struct ListIconPreview: View {
     
     var color: Color? {
         if let iconColor {
-            return Color(iconColor)
+            return Color(platformColor: iconColor)
         }
         return .accentColor
     }

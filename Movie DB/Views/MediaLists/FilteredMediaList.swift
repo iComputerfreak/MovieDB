@@ -13,7 +13,9 @@ struct FilteredMediaList<
     let rowContent: (Media) -> RowContent
     let extraMoreMenuItems: () -> ExtraMenuItemContent
 
+    #if os(iOS)
     @Environment(\.editMode) private var editMode
+    #endif
 
     @State private var searchText = ""
     // Mirrors the respective property of the list for view updates
@@ -112,7 +114,9 @@ struct FilteredMediaList<
                 }
             }
             .safeAreaPadding(.top, 8)
+            #if os(iOS)
             .animation(.default, value: editMode?.wrappedValue)
+            #endif
             .searchable(text: $searchText, prompt: Text(Strings.Lists.searchPlaceholder(list.name)))
             // Disable autocorrection in the search field as a workaround to search text changing after transitioning
             // to a detail and invalidating the transition
@@ -158,7 +162,7 @@ struct FilteredMediaList<
     @ToolbarContentBuilder
     var toolbarInfoButton: some ToolbarContent {
         if let description = list.listDescription {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     self.showingInfo = true
                 } label: {
@@ -175,7 +179,7 @@ struct FilteredMediaList<
     
     @ToolbarContentBuilder
     var toolbarMoreButton: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        ToolbarItem(placement: .primaryAction) {
             Menu {
                 MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: Set(medias))
                 // The section will only be rendered, if it actually has content, so we don't need an extra `if` here

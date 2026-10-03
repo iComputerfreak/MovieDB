@@ -1,5 +1,7 @@
 // Copyright © 2023 Jonas Frey. All rights reserved.
 
+#if os(iOS)
+
 import BackgroundTasks
 import Analytics
 import Foundation
@@ -7,7 +9,7 @@ import os.log
 
 class BackgroundHandler {
     static let bgTaskID = "de.JonasFrey.Movie-DB.updateLibrary"
-    static let defaultBackgroundUpdateInterval: TimeInterval = .day
+    static let defaultBackgroundUpdateInterval = LibraryUpdatePolicy.defaultBackgroundUpdateInterval
 
     enum DebugExecutionResult: String, Codable {
         case success
@@ -39,9 +41,7 @@ class BackgroundHandler {
     }
 
     static var currentBackgroundUpdateInterval: TimeInterval? {
-        guard AnalyticsService.shared.isFeatureEnabled(.backgroundUpdates) else { return nil }
-
-        return resolvedBackgroundUpdateInterval()
+        LibraryUpdatePolicy.currentBackgroundUpdateInterval
     }
 
     static var debugState: DebugState {
@@ -191,16 +191,5 @@ class BackgroundHandler {
         }
     }
 
-    private static func resolvedBackgroundUpdateInterval() -> TimeInterval {
-        let hours = AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Int.self)
-            .map(Double.init)
-            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Double.self)
-            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: String.self).flatMap(Double.init)
-
-        guard let hours, hours > 0 else {
-            return defaultBackgroundUpdateInterval
-        }
-
-        return hours * 60 * 60
-    }
 }
+#endif

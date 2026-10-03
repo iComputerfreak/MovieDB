@@ -6,7 +6,6 @@ import SwiftUI
 /// Represents a media list that is defined by a filter and dynamically updates according to the filter
 struct DynamicMediaListView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.editMode) private var editMode
     
     @ObservedObject var list: DynamicMediaList
     @Binding var selectedMediaObjects: Set<Media>

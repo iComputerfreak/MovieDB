@@ -18,11 +18,15 @@ struct ContentView: View {
     var body: some View {
         NotificationView { notificationProxy in
             Group {
+                #if os(iOS)
                 if #available(iOS 26, *) {
                     modernTabView
                 } else {
                     legacyTabView
                 }
+                #else
+                legacyTabView
+                #endif
             }
             .environment(unifiedSearchCoordinator)
             .environment(notificationProxy)
@@ -68,6 +72,7 @@ struct ContentView: View {
         }
     }
 
+    #if os(iOS)
     @available(iOS 26, *)
     private var modernTabViewContent: some View {
         TabView(selection: $selectedTab) {
@@ -110,6 +115,7 @@ struct ContentView: View {
         }
         .tabViewSearchActivation(.searchTabSelection)
     }
+    #endif
 }
 
 #Preview(traits: .landscapeLeft) {

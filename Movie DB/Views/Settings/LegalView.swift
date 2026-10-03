@@ -39,7 +39,7 @@ struct LegalView: View {
                         .textSelection(.enabled)
 
                     Button(Strings.Legal.analyticsIdentifierCopyButton) {
-                        UIPasteboard.general.string = config.analyticsInstallationID
+                        Clipboard.copy(config.analyticsInstallationID)
                         isShowingCopyConfirmation = true
                     }
                 }

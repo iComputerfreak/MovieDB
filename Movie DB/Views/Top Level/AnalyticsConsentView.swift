@@ -90,7 +90,7 @@ struct AnalyticsConsentView: View {
                 .background(.background)
             }
             .navigationTitle(Strings.Settings.AnalyticsConsent.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
         }
         .interactiveDismissDisabled()
         .task {

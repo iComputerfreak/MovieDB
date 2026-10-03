@@ -16,7 +16,6 @@
 		AB5027882D58AD7400D7DD9B /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB50265E2D58AD7400D7DD9B /* Logging.swift */; };
 		AB50278A2D58AD7400D7DD9B /* MovieDBApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026612D58AD7400D7DD9B /* MovieDBApp.swift */; };
 		AB50278B2D58AD7400D7DD9B /* OpenShareURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026622D58AD7400D7DD9B /* OpenShareURL.swift */; };
-		AB50278C2D58AD7400D7DD9B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026642D58AD7400D7DD9B /* SceneDelegate.swift */; };
 		AB50278D2D58AD7400D7DD9B /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5026652D58AD7400D7DD9B /* Secrets.swift */; };
 		AB6478D822C7B2A300F3E14E /* JFSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB6478D722C7B2A300F3E14E /* JFSwiftUI */; };
 		AB9A1C2D3E4F5061728394A5 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB9A1C2D3E4F5061728394A4 /* Analytics */; };
@@ -66,7 +65,6 @@
 		AB50265E2D58AD7400D7DD9B /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		AB5026612D58AD7400D7DD9B /* MovieDBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBApp.swift; sourceTree = "<group>"; };
 		AB5026622D58AD7400D7DD9B /* OpenShareURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenShareURL.swift; sourceTree = "<group>"; };
-		AB5026642D58AD7400D7DD9B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AB5026652D58AD7400D7DD9B /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		AB5026662D58AD7400D7DD9B /* Secrets.swift.gyb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.swift.gyb; sourceTree = "<group>"; };
 		AB6718BD22C0312B00F429E4 /* Movie DB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie DB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,7 +206,6 @@
 				AB50265E2D58AD7400D7DD9B /* Logging.swift */,
 				AB5026612D58AD7400D7DD9B /* MovieDBApp.swift */,
 				AB5026622D58AD7400D7DD9B /* OpenShareURL.swift */,
-				AB5026642D58AD7400D7DD9B /* SceneDelegate.swift */,
 				AB32B2812D58AFAE003CC26E /* Products.storekit */,
 			);
 			path = "Movie DB";
@@ -529,7 +526,6 @@
 				AB5027882D58AD7400D7DD9B /* Logging.swift in Sources */,
 				AB50278A2D58AD7400D7DD9B /* MovieDBApp.swift in Sources */,
 				AB50278B2D58AD7400D7DD9B /* OpenShareURL.swift in Sources */,
-				AB50278C2D58AD7400D7DD9B /* SceneDelegate.swift in Sources */,
 				AB50278D2D58AD7400D7DD9B /* Secrets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -769,6 +765,7 @@
 				INFOPLIST_FILE = "Movie DB/SupportingFiles/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB (dev)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -810,6 +807,7 @@
 				INFOPLIST_FILE = "Movie DB/SupportingFiles/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Movie DB";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

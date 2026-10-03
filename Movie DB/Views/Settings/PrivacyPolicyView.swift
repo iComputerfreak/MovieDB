@@ -57,7 +57,7 @@ struct PrivacyPolicyView: View {
             }
         }
         .navigationTitle(Strings.Legal.privacyPolicyTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .onAppear {
             guard !didApplyPreferredLanguage else { return }
 

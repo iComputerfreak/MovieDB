@@ -146,7 +146,7 @@ extension PredicateMediaList {
             .symbolRenderingMode(iconRenderingMode.symbolRenderingMode)
 
         if let iconColor {
-            image.foregroundStyle(Color(iconColor))
+            image.foregroundStyle(Color(platformColor: iconColor))
         } else {
             image
         }

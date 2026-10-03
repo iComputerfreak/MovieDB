@@ -43,7 +43,9 @@ struct NotesView: View {
         var body: some View {
             TextEditor(text: $notes)
                 .focused($isFocused)
+                #if os(iOS)
                 .textInputAutocapitalization(.sentences)
+                #endif
                 .padding(5)
                 .navigationTitle(Strings.Detail.notesNavBarTitle)
                 .onAppear {

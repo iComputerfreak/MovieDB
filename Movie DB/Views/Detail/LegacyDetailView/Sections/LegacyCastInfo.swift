@@ -40,7 +40,7 @@ struct LegacyCastInfo: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.large)
+        .largeNavigationTitle()
         .navigationTitle(Strings.Detail.castLabel)
         .errorAlert(error: $error)
     }

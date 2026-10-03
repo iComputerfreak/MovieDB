@@ -65,7 +65,7 @@ struct TitleImportFlowView: View {
                 }
             }
             .navigationTitle(navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 if showCancelButton {
                     ToolbarItem(placement: .cancellationAction) {
@@ -157,7 +157,7 @@ struct TitleImportFlowView: View {
         } label: {
             Text(verbatim: "Show sheet")
         }
-        .fullScreenCover(isPresented: $isShowingSheet) {
+        .sheet(isPresented: $isShowingSheet) {
             TitleImportFlowView(workflow: TitleImportPreviewData.workflow())
         }
     }

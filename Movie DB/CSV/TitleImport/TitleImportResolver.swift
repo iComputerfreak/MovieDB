@@ -1,6 +1,8 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+#if os(iOS)
 import BackgroundTasks
+#endif
 import Foundation
 import OSLog
 
@@ -48,6 +50,7 @@ struct TitleImportResolver: Sendable {
         _ rows: [TitleImportSourceRow],
         onProgress: @MainActor @escaping (Int) -> Void
     ) async throws -> [TitleImportReviewItem] {
+        #if os(iOS)
         guard #available(iOS 26.0, *), usesBackgroundContinuation else {
             return try await resolve(rows, onProgress: onProgress)
         }
@@ -107,6 +110,9 @@ struct TitleImportResolver: Sendable {
         }
 
         return try outcome.get()
+        #else
+        return try await resolve(rows, onProgress: onProgress)
+        #endif
     }
 
     /// Resolves source rows while preserving source order and reporting throttled progress on the main actor.
@@ -162,6 +168,7 @@ struct TitleImportResolver: Sendable {
         return resolved.compactMap { $0 }
     }
 
+    #if os(iOS)
     /// Resolves rows and converts throwing completion into a scheduler-safe outcome.
     /// - Parameters:
     ///   - rows: The normalized source rows to resolve.
@@ -189,6 +196,7 @@ struct TitleImportResolver: Sendable {
             return .failure(error)
         }
     }
+    #endif
 
     /// Resolves one source row through page-one search variants and optional enrichment.
     /// - Parameter source: The source row to resolve.

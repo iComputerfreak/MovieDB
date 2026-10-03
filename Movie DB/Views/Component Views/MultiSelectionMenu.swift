@@ -6,14 +6,18 @@ import OSLog
 import SwiftUI
 
 struct MultiSelectionMenu: View {
+    #if os(iOS)
     @Environment(\.editMode) private var editMode
+    #endif
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     @Binding var selectedMediaObjects: Set<Media>
     var allMediaObjects: Set<Media>
     @State private var isShowingDeleteAlert: Bool = false
     
+    #if os(iOS)
     private var isEditing: Bool { editMode?.wrappedValue.isEditing ?? false }
+    #endif
     
     private var areAllFavorite: Bool {
         !selectedMediaObjects.isEmpty && selectedMediaObjects.allSatisfy(\.isFavorite)
@@ -28,6 +32,7 @@ struct MultiSelectionMenu: View {
     }
     
     var body: some View {
+        #if os(iOS)
         Button {
             AnalyticsService.shared.track(
                 .libraryHomeMultiselect(action: isEditing ? .exited : .entered)
@@ -46,6 +51,11 @@ struct MultiSelectionMenu: View {
                 multiSelectActions
             }
         }
+        #else
+        Section {
+            multiSelectActions
+        }
+        #endif
     }
 }
 
@@ -218,15 +228,19 @@ private extension MultiSelectionMenu {
     private func dismissEditing() {
         DispatchQueue.main.async {
             selectedMediaObjects = []
+            #if os(iOS)
             withAnimation {
                 editMode?.wrappedValue = .inactive
             }
+            #endif
         }
     }
 }
 
 #Preview {
     MultiSelectionMenu(selectedMediaObjects: .constant([]), allMediaObjects: [])
+        #if os(iOS)
         .environment(\.editMode, .constant(.active))
+        #endif
         .previewEnvironment()
 }

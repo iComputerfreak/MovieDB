@@ -29,9 +29,13 @@ struct RangeEditingView<Label, ValueLabel, T>: View
                 self.setting = nil
             }
         }
-        .navigationBarItems(trailing: Button(Strings.Generic.pickerNavBarButtonReset) {
-            self.setting = nil
-        })
+        .toolbar {
+            ToolbarItem(placement: .secondaryAction) {
+                Button(Strings.Generic.pickerNavBarButtonReset) {
+                    self.setting = nil
+                }
+            }
+        }
     }
     
     func makeStepperBody() -> some View {

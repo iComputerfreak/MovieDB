@@ -17,7 +17,7 @@ struct DynamicMediaListFilterConfigurationView: View {
             comment: "The navigation title for the list configuration view's filter settings."
         ))
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 DismissButton(onDismiss: { onDismiss?() })
             }
         }

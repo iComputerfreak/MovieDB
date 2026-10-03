@@ -17,15 +17,15 @@ struct LegacyMediaLookupDetailView: View {
                 LegacyTrailersView()
                 LegacyExtendedInfo()
             }
-            .listStyle(.grouped)
+            .groupedListStyle()
             .navigationTitle(mediaObject.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
                 }
                 if showingDismissButton {
-                    ToolbarItem(placement: .topBarLeading) {
+                    ToolbarItem(placement: .secondaryAction) {
                         DismissButton()
                     }
                 }

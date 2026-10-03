@@ -316,7 +316,7 @@ extension SearchResultsView {
         }
         .navigationTitle(Text(verbatim: "Add Media"))
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {} label: {
                     Text(verbatim: "Done")
                 }
@@ -340,7 +340,7 @@ extension SearchResultsView {
                 }
                 .navigationTitle(Text(verbatim: "Add Media"))
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .primaryAction) {
                         Button {} label: {
                             Text(verbatim: "Done")
                         }
@@ -364,7 +364,7 @@ extension SearchResultsView {
                 }
                 .navigationTitle(Text(verbatim: "Add Media"))
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .primaryAction) {
                         Button {} label: {
                             Text(verbatim: "Done")
                         }

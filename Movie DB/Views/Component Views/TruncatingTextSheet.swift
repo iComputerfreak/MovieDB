@@ -85,9 +85,9 @@ struct TruncatingTextSheet: View {
                     .padding()
             }
             .navigationTitle(sheetTitle)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     DismissButton()
                 }
             }

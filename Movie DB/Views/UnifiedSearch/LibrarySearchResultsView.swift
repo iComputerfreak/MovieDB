@@ -56,7 +56,7 @@ struct LibrarySearchResultsView: View {
                         }
                     }
                 }
-                .listStyle(.insetGrouped)
+                .groupedListStyle()
             }
         }
     }

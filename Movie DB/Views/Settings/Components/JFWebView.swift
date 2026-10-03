@@ -4,10 +4,12 @@ import SwiftUI
 import WebKit
 
 struct JFWebView: PlatformViewRepresentable {
+    @Environment(\.openURL) private var openURL
+
     let url: URL
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(openURL: openURL)
     }
 
     private func makeWebView(context: Context) -> WKWebView {
@@ -38,6 +40,7 @@ struct JFWebView: PlatformViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
+        context.coordinator.openURL = openURL
         updateWebView(webView)
     }
     #elseif canImport(AppKit)
@@ -46,11 +49,22 @@ struct JFWebView: PlatformViewRepresentable {
     }
 
     func updateNSView(_ webView: WKWebView, context: Context) {
+        context.coordinator.openURL = openURL
         updateWebView(webView)
     }
     #endif
 
+    /// Routes external navigation through SwiftUI's platform-aware URL action.
+    @MainActor
     final class Coordinator: NSObject, WKNavigationDelegate {
+        var openURL: OpenURLAction
+
+        /// Creates a navigation coordinator.
+        /// - Parameter openURL: Action used for external links.
+        init(openURL: OpenURLAction) {
+            self.openURL = openURL
+        }
+
         func webView(
             _ webView: WKWebView,
             decidePolicyFor navigationAction: WKNavigationAction,
@@ -66,11 +80,7 @@ struct JFWebView: PlatformViewRepresentable {
                 return
             }
 
-            #if canImport(UIKit)
-            UIApplication.shared.open(requestURL)
-            #else
-            NSWorkspace.shared.open(requestURL)
-            #endif
+            openURL(requestURL)
             decisionHandler(.cancel)
         }
     }

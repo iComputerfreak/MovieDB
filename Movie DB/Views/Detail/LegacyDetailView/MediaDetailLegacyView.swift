@@ -38,17 +38,17 @@ struct MediaDetailLegacyView: View {
                 LegacyExtendedInfo()
                 LegacyMetadataInfo()
             }
-            .listStyle(.insetGrouped)
-            .navigationBarTitleDisplayMode(.inline)
+            .groupedListStyle()
+            .inlineNavigationTitle()
             .navigationTitle(mediaObject.title)
             .navigationDestination(for: TagListView.NavigationDestination.self) { _ in
                 TagListView.EditView(tags: $mediaObject.tags)
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .primaryAction) {
                     CustomEditButton(isEditing: $isEditing)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Section {
                             AddToFavoritesButton {
@@ -57,9 +57,9 @@ struct MediaDetailLegacyView: View {
                             AddToWatchlistButton {
                                 AnalyticsService.shared.track(.detailMenuActionUsed(action: .toggleWatchlist))
                             }
-                            AddEnvironmentMediaToListMenu {
+                            AddEnvironmentMediaToListMenu(onCompletion: {
                                 AnalyticsService.shared.track(.detailMenuActionUsed(action: .addToList))
-                            }
+                            })
                         }
                         Section {
                             ReloadMediaButton {

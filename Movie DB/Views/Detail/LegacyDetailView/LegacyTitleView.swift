@@ -62,6 +62,6 @@ struct LegacyTitleView: View {
                 LegacyTitleView(media: PlaceholderData.preview.staticMovie)
             }
         }
-        .listStyle(.grouped)
+        .listStyle(.automatic)
     }
 }

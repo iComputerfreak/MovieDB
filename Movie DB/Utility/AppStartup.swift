@@ -1,0 +1,189 @@
+// Copyright © 2026 Jonas Frey. All rights reserved.
+
+import Analytics
+import CoreData
+import Foundation
+import JFSwiftUI
+import OSLog
+import TipKit
+
+/// Performs platform-neutral process startup and launch-update work.
+@MainActor
+final class AppStartup {
+    static let shared = AppStartup()
+
+    @UserDefault("lastAppStartUpdate", defaultValue: nil)
+    private var lastAppStartUpdate: Date?
+
+    private var didRun = false
+
+    /// Performs one-time process initialization.
+    func run() {
+        guard !didRun else { return }
+        didRun = true
+
+        #if DEBUG
+        handleDebugParameters()
+        #endif
+
+        if !ProcessInfo.isRunningForPreviews {
+            _ = PersistenceController.shared
+        }
+
+        SerializableColorTransformer.register()
+        EpisodeTransformer.register()
+
+        guard !ProcessInfo.isRunningForPreviews else { return }
+
+        Task(priority: .background) {
+            do {
+                try MediaLibrary.shared.cleanup()
+            } catch {
+                Logger.lifeCycle.error("Error cleaning up library: \(error)")
+            }
+        }
+
+        Task(priority: .background) {
+            try? await Task.sleep(for: .seconds(3))
+            let viewContext = PersistenceController.viewContext
+            await viewContext.perform {
+                do {
+                    let sharedFilterSettingID = FilterSetting.shared.id ?? UUID()
+                    let request = FilterSetting.fetchRequest()
+                    request.predicate = NSPredicate(format: "%K == nil", Schema.FilterSetting.mediaList.rawValue)
+                    let orphanedFilterSettings = try viewContext.fetch(request)
+                        .filter(where: \.id, isNotEqualTo: sharedFilterSettingID)
+                    Logger.coreData.info("Cleaning up \(orphanedFilterSettings.count) orphaned filter settings.")
+                    orphanedFilterSettings.forEach(viewContext.delete)
+                    PersistenceController.saveContext()
+                } catch {
+                    Logger.coreData.error("Error cleaning up filter settings: \(error, privacy: .public)")
+                }
+            }
+        }
+
+        let migrationManager = MigrationManager()
+        migrationManager.register(DeleteOldPosterFilesMigration.self)
+        migrationManager.register(DeleteLegacyPosterCacheMigration.self)
+        migrationManager.register(ReloadLibraryMigration.self)
+        migrationManager.run()
+
+        _ = StoreManager.shared
+    }
+
+    /// Applies refreshed feature flags to platform services and starts a launch update when due.
+    func featureFlagsDidReload() {
+        #if os(iOS)
+        let didSchedule = BackgroundHandler().refreshBackgroundFetch()
+        Logger.background.info("Background fetch config refresh finished: \(didSchedule, privacy: .public)")
+        #endif
+
+        performAppLaunchBackgroundUpdateIfNeeded()
+    }
+
+    /// Starts the launch-triggered library update when enabled and due.
+    private func performAppLaunchBackgroundUpdateIfNeeded() {
+        guard let interval = LibraryUpdatePolicy.currentBackgroundUpdateInterval else {
+            Logger.library.info("Skipping app start library update because background updates are disabled.")
+            return
+        }
+
+        if let lastAppStartUpdate, lastAppStartUpdate.distance(to: .now) <= interval {
+            return
+        }
+
+        Task(priority: .background) {
+            do {
+                Logger.library.info("Updating media library after app start...")
+                try await MediaLibrary.shared.reloadAll(fromBackground: true, origin: .appLaunch)
+                Logger.library.info("App start update complete.")
+                lastAppStartUpdate = .now
+            } catch {
+                Logger.library.error("Error updating media library after app start: \(error, privacy: .public)")
+            }
+        }
+    }
+
+    #if DEBUG
+    /// Applies launch arguments used by previews, UI tests, and screenshot generation.
+    private func handleDebugParameters() {
+        let isPreview = ProcessInfo.isRunningForPreviews
+        let isUITesting = CommandLine.launchArguments.contains(.uiTesting)
+        let isScreenshots = CommandLine.launchArguments.contains(.screenshots)
+
+        if isPreview || isUITesting || isScreenshots {
+            JFConfig.shared.analyticsConsentState = .denied
+            UserDefaults.standard.set(1, forKey: JFLiterals.Keys.askedForAppRating)
+            UserDefaults.standard.set(true, forKey: JFLiterals.Keys.hasPurchasedPro)
+            Tips.hideAllTipsForTesting()
+        }
+
+        if isUITesting {
+            PersistenceController.prepareForUITesting()
+            JFConfig.shared.region = "DE"
+            JFConfig.shared.language = "en-US"
+        } else if isScreenshots {
+            PersistenceController.prepareForUITesting()
+            JFConfig.shared.region = Locale.current.region?.identifier ?? ""
+            let lang = Locale.current.language.languageCode!.identifier
+            let region = Locale.current.language.region!.identifier
+            JFConfig.shared.language = "\(lang)-\(region)"
+            prepareSamples()
+        }
+        if CommandLine.launchArguments.contains(.prepareSamples) {
+            prepareSamples()
+        }
+    }
+
+    /// Loads the view context with screenshot samples.
+    private func prepareSamples() {
+        let backgroundContext = PersistenceController.viewContext.newBackgroundContext()
+        Task(priority: .userInitiated) {
+            do {
+                try await AppStoreScreenshotData(context: backgroundContext).prepareSampleData()
+                try await MainActor.run {
+                    try backgroundContext.save()
+                }
+            } catch {
+                Logger.general.error("Error setting up screenshot samples: \(error, privacy: .public)")
+            }
+        }
+    }
+    #endif
+}
+
+/// Resolves shared automatic-library-update policy independently of platform scheduling APIs.
+enum LibraryUpdatePolicy {
+    static let defaultBackgroundUpdateInterval: TimeInterval = .day
+
+    static var currentBackgroundUpdateInterval: TimeInterval? {
+        guard AnalyticsService.shared.isFeatureEnabled(.backgroundUpdates) else { return nil }
+
+        let hours = AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Int.self)
+            .map(Double.init)
+            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: Double.self)
+            ?? AnalyticsService.shared.featureFlagPayload(.backgroundUpdates, as: String.self).flatMap(Double.init)
+
+        guard let hours, hours > 0 else { return defaultBackgroundUpdateInterval }
+        return hours * 60 * 60
+    }
+}
+
+public extension CommandLine {
+    /// Launch arguments supported by development and automation flows.
+    enum LaunchArgument: String {
+        case screenshots
+        case prepareSamples = "prepare-samples"
+        case uiTesting = "uitesting"
+    }
+
+    /// Typed launch arguments with their leading dashes removed.
+    static var launchArguments: [LaunchArgument] {
+        get {
+            arguments.map { $0.removingPrefix("--") }.compactMap(LaunchArgument.init(rawValue:))
+        }
+        set {
+            arguments = newValue.map(\.rawValue).map { "--\($0)" }
+        }
+    }
+}

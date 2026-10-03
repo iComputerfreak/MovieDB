@@ -23,7 +23,11 @@ struct RegionPickerView: View {
                     .tag(code)
             }
         }
+        #if os(iOS)
         .pickerStyle(.navigationLink)
+        #elseif os(macOS)
+        .pickerStyle(.automatic)
+        #endif
     }
 }
 

@@ -31,11 +31,7 @@ public extension ParentalRating {
     
     var color: Color? {
         if let uiColor {
-            #if canImport(UIKit)
-            return Color(uiColor: uiColor)
-            #elseif canImport(AppKit)
-            return Color(nsColor: uiColor)
-            #endif
+            return Color(platformColor: uiColor)
         }
         return nil
     }

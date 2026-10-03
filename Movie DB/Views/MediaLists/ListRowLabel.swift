@@ -16,7 +16,7 @@ struct ListRowLabel<List: MediaListProtocol>: View {
         }, icon: {
             Image(systemName: list.iconName)
                 .symbolRenderingMode(list.iconRenderingMode.symbolRenderingMode)
-                .foregroundStyle(list.iconColor.map(Color.init) ?? .primaryIcon)
+                .foregroundStyle(list.iconColor.map { Color(platformColor: $0) } ?? .primaryIcon)
         })
     }
 }

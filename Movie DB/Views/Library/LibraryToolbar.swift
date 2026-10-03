@@ -14,7 +14,9 @@ struct LibraryToolbar: ToolbarContent {
 
     // TODO: Use @EnvironmentObject
     @Binding var config: LibraryViewModel
+    #if os(iOS)
     @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    #endif
     @Binding var selectedMediaObjects: Set<Media>
     var allMediaObjects: Set<Media>
     
@@ -27,13 +29,15 @@ struct LibraryToolbar: ToolbarContent {
     
     var body: some ToolbarContent {
         moreMenu
+        #if os(iOS)
         multiSelectDoneButton
+        #endif
         addMediaButton
     }
     
     @ToolbarContentBuilder
     private var moreMenu: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .secondaryAction) {
             Menu {
                 MultiSelectionMenu(selectedMediaObjects: $selectedMediaObjects, allMediaObjects: allMediaObjects)
                 Section {
@@ -64,10 +68,11 @@ struct LibraryToolbar: ToolbarContent {
         }
     }
     
+    #if os(iOS)
     @ToolbarContentBuilder
     private var multiSelectDoneButton: some ToolbarContent {
         if editMode?.wrappedValue.isEditing == true {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     selectedMediaObjects = []
                     AnalyticsService.shared.track(.libraryHomeMultiselect(action: .exited))
@@ -81,15 +86,18 @@ struct LibraryToolbar: ToolbarContent {
             }
         }
     }
-    
+    #endif
+
     @ToolbarContentBuilder
     private var addMediaButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .primaryAction) {
             Button {
+                #if os(iOS)
                 if #available(iOS 26, *) {
                     unifiedSearchCoordinator.open(scope: .addMedia)
                     return
                 }
+                #endif
 
                 config.activeSheet = .addMedia(initialSearchText: "")
             } label: {

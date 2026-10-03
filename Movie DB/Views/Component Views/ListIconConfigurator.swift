@@ -91,7 +91,7 @@ struct ListIconConfigurator<Content: View>: View {
             Section {
                 ListIconPicker(symbolName: $iconName)
                     .symbolRenderingMode(iconMode.symbolRenderingMode)
-                    .foregroundStyle(Color(iconColor))
+                    .foregroundStyle(Color(platformColor: iconColor))
                     .padding(.horizontal, 0)
             } header: {
                 Text(
@@ -101,7 +101,9 @@ struct ListIconConfigurator<Content: View>: View {
             }
         }
         .symbolVariant(.fill)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 }
 

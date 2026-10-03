@@ -44,7 +44,9 @@ struct PredicateMediaListConfigurationView: View {
                 DismissButton()
             }
             .navigationTitle(list.name)
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
         .presentationDetents([.medium])
         .onChange(of: list.subtitleContent) { _, _ in

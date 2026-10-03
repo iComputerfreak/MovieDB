@@ -8,7 +8,6 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct MediaDetailView: View {
     @EnvironmentObject private var mediaObject: Media
-    @Environment(\.editMode) private var editMode
     @Environment(\.managedObjectContext) private var managedObjectContext
     // Whether the user is in edit mode right now (editing the user data)
     // !!!: We cannot use @Environment's \.editMode here since that is meant for list editing (delete, move)
@@ -44,10 +43,10 @@ struct MediaDetailView: View {
                     TagListView.EditView(tags: $mediaObject.tags)
                 }
                 .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    ToolbarItemGroup(placement: .primaryAction) {
                         CustomEditButton(isEditing: $isEditing)
                     }
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .primaryAction) {
                         Menu {
                             Section {
                                 AddToFavoritesButton {

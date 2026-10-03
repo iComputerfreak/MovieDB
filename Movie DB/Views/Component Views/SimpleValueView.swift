@@ -4,8 +4,6 @@ import SwiftUI
 
 /// Represents a single, editable value which can be chosen from a few options
 struct SimpleValueView<T: Hashable>: View {
-    @Environment(\.editMode) private var editMode
-    
     let values: [T]
     @Binding var value: T
     var label: (T) -> String

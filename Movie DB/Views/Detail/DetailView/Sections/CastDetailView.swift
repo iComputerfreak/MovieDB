@@ -68,7 +68,7 @@ struct CastDetailView: View {
         .task(id: loadTaskID) {
             await loadCast()
         }
-        .navigationBarTitleDisplayMode(.large)
+        .largeNavigationTitle()
         .navigationTitle(Strings.Detail.castLabel)
     }
 

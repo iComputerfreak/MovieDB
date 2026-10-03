@@ -31,7 +31,7 @@ struct SelectUserListView: View {
             .navigationTitle(Strings.AddToList.title)
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button(Strings.AddToList.toolbarButtonCancel) {
                     dismiss()
                 }

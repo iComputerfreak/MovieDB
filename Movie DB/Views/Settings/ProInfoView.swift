@@ -36,7 +36,7 @@ struct ProInfoView: View {
                 }
                 .background(backgroundGradient.ignoresSafeArea())
                 .navigationTitle(Strings.ProInfo.navBarTitle)
-                .navigationBarTitleDisplayMode(.inline)
+                .inlineNavigationTitle()
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button(Strings.ProInfo.restoreButtonLabel) {

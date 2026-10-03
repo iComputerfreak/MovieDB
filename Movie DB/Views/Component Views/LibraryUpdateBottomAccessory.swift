@@ -36,6 +36,7 @@ struct LibraryUpdateBottomAccessory: View {
     }
 }
 
+#if os(iOS)
 @available(iOS 26.0, *)
 #Preview {
     let status = LibraryUpdateStatus.shared
@@ -62,3 +63,4 @@ struct LibraryUpdateBottomAccessory: View {
             }
     }
 }
+#endif

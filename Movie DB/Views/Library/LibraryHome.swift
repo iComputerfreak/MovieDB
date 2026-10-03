@@ -9,7 +9,9 @@ import SwiftUI
 struct LibraryHome: View {
     @Environment(UnifiedSearchCoordinator.self) private var unifiedSearchCoordinator: UnifiedSearchCoordinator
     @Environment(\.managedObjectContext) private var managedObjectContext: NSManagedObjectContext
+    #if os(iOS)
     @State private var editMode: EditMode = .inactive
+    #endif
     @State private var selectedMediaObjects: Set<Media> = .init()
 
     @State private var viewModel: LibraryViewModel = .init()
@@ -62,7 +64,9 @@ struct LibraryHome: View {
                                 .mediaSwipeActions()
                                 .mediaContextMenu()
                                 .environmentObject(mediaObject)
+                                #if os(iOS)
                                 .environment(\.editMode, $editMode)
+                                #endif
                         }
                     }
                 }
@@ -77,7 +81,7 @@ struct LibraryHome: View {
                 )
                     .opacity(filteredMedia.isEmpty ? 1 : 0)
             }
-            .listStyle(.insetGrouped)
+            .groupedListStyle()
             .searchable(text: $searchText, prompt: Text(Strings.Library.searchPlaceholder))
             // Update the fetch request if anything changes
             .onChange(of: searchText) { _, _ in
@@ -112,13 +116,19 @@ struct LibraryHome: View {
                 )
             }
             .navigationTitle(Strings.TabView.libraryLabel)
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
+            #elseif os(macOS)
+            .toolbarTitleDisplayMode(.automatic)
+            #endif
             .navigationDestination(for: Media.self) { mediaObject in
                 MediaDetail()
                     .environmentObject(mediaObject)
             }
+            #if os(iOS)
             .animation(.default, value: editMode)
             .environment(\.editMode, $editMode)
+            #endif
         } detail: {
             NavigationStack {
                 if selectedMediaObjects.isEmpty {

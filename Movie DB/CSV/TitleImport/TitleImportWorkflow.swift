@@ -99,20 +99,17 @@ final class TitleImportWorkflow: Identifiable {
         stage = .resolving
         processedCount = 0
         resolutionTotalCount = preflight.usableRowCount
-        let priorIdleTimerState = UIApplication.shared.isIdleTimerDisabled
         let shouldDisableIdleTimer: Bool
         if #available(iOS 26.0, *) {
             shouldDisableIdleTimer = false
         } else {
             shouldDisableIdleTimer = true
-            // Keep older-system foreground-only resolution progressing through long imports.
-            UIApplication.shared.isIdleTimerDisabled = true
         }
+        // Keep older-system foreground-only resolution progressing through long imports.
+        let idleTimerController = IdleTimerController(disabling: shouldDisableIdleTimer)
         resolutionTask = Task { [weak self, resolver] in
             defer {
-                if shouldDisableIdleTimer {
-                    UIApplication.shared.isIdleTimerDisabled = priorIdleTimerState
-                }
+                idleTimerController.restore()
             }
             guard let self else { return }
             defer {
@@ -270,12 +267,11 @@ extension TitleImportWorkflow {
         stage = .importing
         finalImportProcessedCount = 0
         finalImportTotalCount = identities.count
-        let priorIdleTimerState = UIApplication.shared.isIdleTimerDisabled
-        UIApplication.shared.isIdleTimerDisabled = true
+        let idleTimerController = IdleTimerController(disabling: true)
         let libraryLimit = StoreManager.shared.hasPurchasedPro ? nil : JFLiterals.nonProMediaLimit
         importTask = Task { [weak self, finalImporter] in
             defer {
-                UIApplication.shared.isIdleTimerDisabled = priorIdleTimerState
+                idleTimerController.restore()
             }
             guard let self else { return }
             defer {

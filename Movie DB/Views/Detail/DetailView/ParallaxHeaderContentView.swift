@@ -87,7 +87,10 @@ struct ParallaxHeaderContentView<Background: View, Header: View, Content: View>:
         }
         .coordinateSpace(name: scrollCoordinateSpaceName)
         .ignoresSafeArea(edges: .top)
+        #if os(iOS)
+        // TODO: Still needed?
         .toolbarBackgroundVisibility(.hidden, for: .tabBar)
+        #endif
     }
 
     private var backgroundView: some View {

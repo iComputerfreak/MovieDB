@@ -20,12 +20,12 @@ struct ImportLogViewer: View {
             }
             .navigationTitle(Strings.Settings.importLogNavBarTitle)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     DismissButton()
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .secondaryAction) {
                     Button(Strings.Settings.importLogNavBarButtonCopy) {
-                        UIPasteboard.general.string = logger.log
+                        Clipboard.copy(logger.log)
                     }
                 }
             }

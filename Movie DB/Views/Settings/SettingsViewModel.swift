@@ -52,7 +52,8 @@ struct SettingsViewModel {
     ) async throws -> ExportData {
         Logger.importExport.debug("Exporting \(filename, privacy: .public)...")
 
-        let result = await PersistenceController.shared.container.performBackgroundTask { context in
+        let result: Result<ExportData, any Error> = await PersistenceController.shared.container.performBackgroundTask {
+            context in
             context.type = .backgroundContext
             do {
                 // Get the content to export

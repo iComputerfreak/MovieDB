@@ -30,7 +30,7 @@ struct ChangelogView: View {
                 }
             }
             .navigationTitle(Strings.Changelog.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
         }
     }
 }

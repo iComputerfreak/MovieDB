@@ -1,6 +1,8 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+#if os(iOS)
 import BackgroundTasks
+#endif
 import CoreData
 import Foundation
 import OSLog
@@ -42,6 +44,7 @@ struct TitleImportFinalImporter {
         libraryLimit: Int?,
         onProgress: @MainActor @escaping (Int) -> Void
     ) async -> TitleImportFinalResult {
+        #if os(iOS)
         if #available(iOS 26.0, *), usesBackgroundContinuation {
             let bundleIdentifier = Bundle.main.bundleIdentifier ?? "de.JonasFrey.Movie-DB"
             let taskIdentifier = "\(bundleIdentifier).import.\(UUID().uuidString)"
@@ -110,11 +113,12 @@ struct TitleImportFinalImporter {
             } onCancel: {
                 coordinator.cancel()
             }
-        } else {
-            return await importMedia(identities: identities, libraryLimit: libraryLimit, onProgress: onProgress)
         }
+        #endif
+        return await importMedia(identities: identities, libraryLimit: libraryLimit, onProgress: onProgress)
     }
 
+    #if os(iOS)
     /// Runs an import while reporting system-visible continued-task progress.
     /// - Parameters:
     ///   - identities: The ordered identities selected for import.
@@ -143,6 +147,7 @@ struct TitleImportFinalImporter {
             onProgress(completedCount)
         }
     }
+    #endif
 
     /// Imports identities sequentially while preserving completed batches across failures or cancellation.
     /// - Parameters:

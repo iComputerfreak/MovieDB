@@ -7,8 +7,7 @@ import SwiftUI
 
 struct MediaListsRootView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.editMode) private var editMode
-    
+
     // MARK: Default Lists
     var defaultLists: [PredicateMediaList] {
         [
@@ -139,11 +138,13 @@ struct MediaListsRootView: View {
     
     @ToolbarContentBuilder
     private func toolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        ToolbarItem(placement: .primaryAction) {
             // !!!: Only used for deleting lists (maybe later reordering), not configuring them!
+            #if os(iOS)
             EditButton()
+            #endif
         }
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .secondaryAction) {
             Menu(Strings.Lists.newListLabel) {
                 Button(Strings.Lists.newDynamicListLabel) {
                     isCreatingDynamicList = true

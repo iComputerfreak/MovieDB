@@ -19,23 +19,11 @@ struct SafariWebView: UIViewControllerRepresentable {
 #elseif canImport(AppKit)
 import WebKit
 
-struct SafariWebView: NSViewRepresentable {
+struct SafariWebView: View {
     let url: URL
 
-    /// Creates the web view used to display remote trailer content.
-    /// - Parameter context: SwiftUI representable context.
-    /// - Returns: Configured web view.
-    func makeNSView(context: Context) -> WKWebView {
-        WKWebView()
-    }
-
-    /// Loads the requested URL when it changes.
-    /// - Parameters:
-    ///   - webView: Web view managed by SwiftUI.
-    ///   - context: SwiftUI representable context.
-    func updateNSView(_ webView: WKWebView, context: Context) {
-        guard webView.url != url else { return }
-        webView.load(URLRequest(url: url))
+    var body: some View {
+        WebView(url: url)
     }
 }
 #endif

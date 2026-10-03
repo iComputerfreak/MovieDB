@@ -1,5 +1,7 @@
 // Copyright © 2026 Jonas Frey. All rights reserved.
 
+#if os(iOS)
+
 import BackgroundTasks
 import Foundation
 
@@ -150,3 +152,4 @@ final class TitleImportTaskCoordinator<Outcome: Sendable> {
         continuation?.resume(returning: outcome)
     }
 }
+#endif

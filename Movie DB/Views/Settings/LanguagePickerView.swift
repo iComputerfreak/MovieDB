@@ -21,7 +21,11 @@ struct LanguagePickerView: View {
                 }
             }
         }
+        #if os(iOS)
         .pickerStyle(.navigationLink)
+        #elseif os(macOS)
+        .pickerStyle(.automatic)
+        #endif
         .errorAlert(error: $error)
     }
     

@@ -24,7 +24,7 @@ struct SettingsView: View {
 
     @ToolbarContentBuilder
     private var debugMenuToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .secondaryAction) {
             NavigationLink {
                 DebugView()
             } label: {
@@ -198,9 +198,11 @@ struct SettingsView: View {
 
         AnalyticsService.shared.setTrackingEnabled(true)
         AnalyticsService.shared.reloadFeatureFlags {
+            #if os(iOS)
             Task {
                 _ = BackgroundHandler().refreshBackgroundFetch()
             }
+            #endif
         }
         AnalyticsService.shared.track(.analyticsEnabled(source: source))
         pendingAnalyticsEnableSource = nil

@@ -50,11 +50,11 @@ struct MediaLookupDetailView: View {
         .navigationTitle("")
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 AddMediaButton(tmdbID: mediaObject.tmdbID, mediaType: mediaObject.type)
             }
             if showingDismissButton {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .secondaryAction) {
                     DismissButton()
                 }
             }

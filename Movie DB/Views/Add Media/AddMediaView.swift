@@ -4,7 +4,6 @@ import Combine
 import CoreData
 import Foundation
 import Analytics
-import struct JFSwiftUI.LoadingView
 import os.log
 import SwiftUI
 
@@ -58,8 +57,12 @@ struct AddMediaView: View {
                         .foregroundColor(.primary)
                     }
                     .navigationTitle(Strings.AddMedia.navBarTitle)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(trailing: DismissButton())
+                    .inlineNavigationTitle()
+                    .toolbar {
+                        ToolbarItem(placement: .secondaryAction) {
+                            DismissButton()
+                        }
+                    }
                 }
             }
         }

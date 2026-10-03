@@ -57,7 +57,7 @@ struct ImprintView: View {
             }
         }
         .navigationTitle(Strings.Legal.imprintTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationTitle()
         .onAppear {
             guard !didApplyPreferredLanguage else { return }
 

@@ -43,7 +43,9 @@ struct LanguageChooser: View {
                         }
                         .safeAreaPadding(.top, 8)
                     }
+                    #if os(iOS)
                     .environment(\.editMode, .constant(.active))
+                    #endif
                     .onChange(of: config.language) { _, _ in
                         Logger.settings.info("Language changed to \(config.language, privacy: .public)")
                         Task { await TitleImportPersistentRequestCache.shared.invalidate() }
