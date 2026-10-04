@@ -16,6 +16,7 @@ final class AppStartup {
     private var lastAppStartUpdate: Date?
 
     private var didRun = false
+    private var isPerformingAppLaunchUpdate = false
 
     /// Performs one-time process initialization.
     func run() {
@@ -83,6 +84,7 @@ final class AppStartup {
 
     /// Starts the launch-triggered library update when enabled and due.
     private func performAppLaunchBackgroundUpdateIfNeeded() {
+        guard !isPerformingAppLaunchUpdate else { return }
         guard let interval = LibraryUpdatePolicy.currentBackgroundUpdateInterval else {
             Logger.library.info("Skipping app start library update because background updates are disabled.")
             return
@@ -92,7 +94,9 @@ final class AppStartup {
             return
         }
 
+        isPerformingAppLaunchUpdate = true
         Task(priority: .background) {
+            defer { isPerformingAppLaunchUpdate = false }
             do {
                 Logger.library.info("Updating media library after app start...")
                 try await MediaLibrary.shared.reloadAll(fromBackground: true, origin: .appLaunch)

@@ -28,6 +28,21 @@ public extension Color {
     static let systemBackground = Color(NSColor.windowBackgroundColor)
 }
 
+public extension NSColor {
+    /// Returns the red, green, blue, and alpha components of this color
+    var components: [CGFloat] {
+        guard let rgbColor = usingColorSpace(.deviceRGB) else { return [0, 0, 0, 0] }
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        rgbColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return [red, green, blue, alpha]
+    }
+}
+
+#endif
+
 public extension View {
     /// Uses an inline navigation title on iOS and the platform default elsewhere.
     /// - Returns: The platform-configured view.
@@ -73,21 +88,6 @@ public extension View {
         #endif
     }
 }
-
-public extension NSColor {
-    /// Returns the red, green, blue, and alpha components of this color
-    var components: [CGFloat] {
-        guard let rgbColor = usingColorSpace(.deviceRGB) else { return [0, 0, 0, 0] }
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        rgbColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        return [red, green, blue, alpha]
-    }
-}
-
-#endif
 
 public extension NSUIImage {
     /// Creates a platform image from a Core Graphics image.
