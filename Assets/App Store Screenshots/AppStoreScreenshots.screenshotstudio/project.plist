@@ -22,6 +22,13 @@
 	<array>
 		<string>en-US</string>
 		<string>de-DE</string>
+		<string>fr-FR</string>
+		<string>es-ES</string>
+		<string>it</string>
+		<string>ja</string>
+		<string>ko</string>
+		<string>pl</string>
+		<string>pt-BR</string>
 	</array>
 	<key>selectedAppleWatchSpecification</key>
 	<string>appleWatchUltra</string>

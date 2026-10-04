@@ -123,6 +123,62 @@
 				<key>title</key>
 				<string>Movie DB</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Garde une trace des films et séries que tu as regardés</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Lleva un registro de las películas y series que has visto</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Tieni traccia dei film e delle serie TV che hai visto</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>観た映画やテレビ番組を記録</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>시청한 영화와 TV 프로그램을 기록하세요</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Śledź obejrzane filmy i seriale</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Acompanhe os filmes e séries que você assistiu</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Movie DB</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -245,6 +301,62 @@
 				<string>de-DE</string>
 				<key>title</key>
 				<string>Organisieren</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Classe et évalue tes films et séries</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Organise</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Clasifica y puntúa tus películas y series</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Organiza</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Cataloga e valuta i tuoi film e le tue serie TV</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Organizza</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>映画やテレビ番組を分類して評価</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>整理</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>영화와 TV 프로그램을 분류하고 평가하세요</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>정리</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Kategoryzuj i oceniaj swoje filmy i seriale</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Organizuj</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Categorize e avalie seus filmes e séries</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Organize</string>
 			</dict>
 		</array>
 	</dict>
@@ -369,6 +481,62 @@
 				<key>title</key>
 				<string>Vordefinierte Listen</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Découvre les séries avec des saisons non vues ainsi que les films et séries à venir</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Listes prédéfinies</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Consulta series con temporadas sin ver y próximos estrenos de películas y series</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Listas predefinidas</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Scopri le serie con stagioni non viste e i film e le serie TV in arrivo</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Elenchi predefiniti</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>未視聴のシーズンがある番組や公開予定の映画・番組を確認</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>プリセットリスト</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>보지 않은 시즌이 있는 프로그램과 공개 예정인 영화 및 프로그램을 확인하세요</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>사전 설정 목록</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Zobacz seriale z nieobejrzanymi sezonami oraz nadchodzące filmy i seriale</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Gotowe listy</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Veja séries com temporadas não assistidas e filmes e séries em breve</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Listas predefinidas</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -492,6 +660,62 @@
 				<key>title</key>
 				<string>Eigene Listen</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Crée des listes dynamiques affichant le contenu que tu définis</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Listes personnalisées</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Crea listas dinámicas que muestren el contenido que tú decidas</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Listas personalizadas</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Crea elenchi dinamici che mostrano i contenuti scelti da te</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Elenchi personalizzati</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>条件に合う作品を表示する動的なリストを作成</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>カスタムリスト</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>원하는 콘텐츠를 표시하는 동적 목록을 만드세요</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>사용자 지정 목록</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Twórz dynamiczne listy wyświetlające wybrane przez ciebie treści</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Własne listy</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Crie listas dinâmicas que mostram o conteúdo definido por você</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Listas personalizadas</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -614,6 +838,62 @@
 				<string>de-DE</string>
 				<key>title</key>
 				<string>Import/Export</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Importe et exporte ton contenu au format CSV</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Import/Export</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Importa y exporta tu contenido en formato CSV</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Importar/Exportar</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Importa ed esporta i tuoi contenuti in formato CSV</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Importa/Esporta</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>コンテンツをCSV形式でインポート・エクスポート</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>インポート／エクスポート</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>콘텐츠를 CSV 형식으로 가져오고 내보내세요</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>가져오기/내보내기</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Importuj i eksportuj swoje treści w formacie CSV</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Import/Eksport</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Importe e exporte seu conteúdo no formato CSV</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Importar/Exportar</string>
 			</dict>
 		</array>
 	</dict>
