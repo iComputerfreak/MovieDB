@@ -31,10 +31,23 @@
 	<integer>0</integer>
 	<key>bodyTextSize</key>
 	<string>xSmall</string>
+	<key>borderColor</key>
+	<string>#00000080</string>
+	<key>clayColor</key>
+	<string>#1B1B1B</string>
 	<key>devicePosition</key>
 	<string>overflowBottom</string>
 	<key>deviceScaleFactor</key>
 	<real>1</real>
+	<key>deviceShadow</key>
+	<dict>
+		<key>color</key>
+		<string>#9CADD1CC</string>
+		<key>isEnabled</key>
+		<false/>
+		<key>size</key>
+		<string>medium</string>
+	</dict>
 	<key>frameStyle</key>
 	<string>borderless</string>
 	<key>glitchDirection</key>
@@ -85,6 +98,8 @@
 	<string>none</string>
 	<key>textColorStyle</key>
 	<string>manual</string>
+	<key>textVerticalAlignment</key>
+	<string>center</string>
 	<key>titleColor</key>
 	<string>#FFFFFF</string>
 	<key>titleFontName</key>

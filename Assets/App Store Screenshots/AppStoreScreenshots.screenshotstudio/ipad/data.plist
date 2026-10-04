@@ -25,6 +25,15 @@
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -96,6 +105,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -204,6 +215,15 @@
 			<string>trailingBottom</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -275,6 +295,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -383,6 +405,15 @@
 			<string>fullTop</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -454,6 +485,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -562,6 +595,15 @@
 			<string>fullBottom</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -633,6 +675,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
