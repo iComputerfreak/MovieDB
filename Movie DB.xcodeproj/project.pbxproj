@@ -410,6 +410,13 @@
 				en,
 				Base,
 				de,
+				es,
+				it,
+				fr,
+				"pt-BR",
+				pl,
+				ko,
+				ja,
 			);
 			mainGroup = AB6718B422C0312A00F429E4;
 			packageReferences = (
