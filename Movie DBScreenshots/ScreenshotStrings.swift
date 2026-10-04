@@ -9,25 +9,34 @@ struct ScreenshotStrings {
 
     private let bundle = Bundle(for: Movie_DBScreenshots.self)
 
+    private var localizedBundle: Bundle {
+        let localization = Bundle.preferredLocalizations(
+            from: bundle.localizations,
+            forPreferences: [locale.identifier]
+        ).first ?? "en"
+
+        guard let url = bundle.url(forResource: localization, withExtension: "lproj"),
+              let localizedBundle = Bundle(url: url) else {
+            return bundle
+        }
+        return localizedBundle
+    }
+
     /// Name assigned to the sample dynamic list.
     var dynamicListName: String {
-        String(
-            localized: "screenshots.listName.dynamic",
-            defaultValue: "5-Star Movies",
-            bundle: bundle,
-            locale: locale,
-            comment: "Name of a dynamic media list created for App Store screenshots"
+        localizedBundle.localizedString(
+            forKey: "screenshots.listName.dynamic",
+            value: "5-Star Movies",
+            table: nil
         )
     }
 
     /// Name assigned to the sample custom list.
     var customListName: String {
-        String(
-            localized: "screenshots.listName.custom",
-            defaultValue: "Recommend to Ben",
-            bundle: bundle,
-            locale: locale,
-            comment: "Name of a custom media list created for App Store screenshots"
+        localizedBundle.localizedString(
+            forKey: "screenshots.listName.custom",
+            value: "Recommend to Ben",
+            table: nil
         )
     }
 }
