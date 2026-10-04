@@ -20,30 +20,56 @@ struct AppStoreScreenshotData {
         case timeTravel
         case space
     }
-    
+
     private var tags: [TagName: Tag] = [:]
+    private let languageCode: String
     
+    /// Creates a provider that inserts localized sample data for App Store screenshots.
+    /// - Parameter context: The context into which sample data is inserted.
     init(context: NSManagedObjectContext) {
         self.context = context
-        
+        self.languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+
+        let tagNames: [TagName: String]
+        if languageCode == "fr" {
+            tagNames = [
+                .future: "Futur",
+                .conspiracy: "Complot",
+                .dark: "Sombre",
+                .violent: "Violent",
+                .gangsters: "Gangsters",
+                .terrorist: "Terrorisme",
+                .past: "Passé",
+                .fantasy: "Fantastique",
+                .comedy: "Comédie",
+                .timeTravel: "Voyage dans le temps",
+                .space: "Espace",
+            ]
+        } else {
+            tagNames = [
+                .future: "Future",
+                .conspiracy: "Conspiracy",
+                .dark: "Dark",
+                .violent: "Violent",
+                .gangsters: "Gangsters",
+                .terrorist: "Terrorist",
+                .past: "Past",
+                .fantasy: "Fantasy",
+                .comedy: "Comedy",
+                .timeTravel: "Time Travel",
+                .space: "Space",
+            ]
+        }
+
         // Create some tags
-        self.tags = [
-            .future: Tag(name: "Future", context: context),
-            .conspiracy: Tag(name: "Conspiracy", context: context),
-            .dark: Tag(name: "Dark", context: context),
-            .violent: Tag(name: "Violent", context: context),
-            .gangsters: Tag(name: "Gangsters", context: context),
-            .terrorist: Tag(name: "Terrorist", context: context),
-            .past: Tag(name: "Past", context: context),
-            .fantasy: Tag(name: "Fantasy", context: context),
-            .comedy: Tag(name: "Comedy", context: context),
-            .timeTravel: Tag(name: "Time Travel", context: context),
-            .space: Tag(name: "Space", context: context),
-        ]
+        self.tags = tagNames.mapValues { Tag(name: $0, context: context) }
     }
     
     // swiftlint:disable force_cast
     func prepareSampleData() async throws {
+        let matrixNote = languageCode == "fr" ? "Un très bon film !" : "A pretty good movie!"
+        let lokiNote = languageCode == "fr" ? "Vivement la prochaine saison !" : "Can't wait for another season!"
+
         // MARK: Create Movies and Shows
         let api = TMDBAPI.shared
         
@@ -61,13 +87,13 @@ struct AppStoreScreenshotData {
             matrix.watchAgain = true
             matrix.watchDate = .now
             matrix.tags = getTags([.future, .conspiracy])
-            matrix.notes = "A pretty good movie!"
+            matrix.notes = matrixNote
             
             loki.personalRating = .fiveStars
             loki.watched = .notWatched
             loki.watchAgain = nil
             loki.tags = getTags([.comedy])
-            loki.notes = "Can't wait for another season!"
+            loki.notes = lokiNote
             loki.isOnWatchlist = true
             
             expanse.personalRating = .fourAndAHalfStars

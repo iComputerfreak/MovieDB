@@ -46,24 +46,28 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "film")
                     Text(Strings.TabView.libraryLabel)
+                        .accessibilityIdentifier("tab-library")
                 }
 
             MediaListsRootView()
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text(Strings.TabView.listsLabel)
+                        .accessibilityIdentifier("tab-lists")
                 }
 
             UnifiedSearchView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text(Strings.TabView.lookupLabel)
+                        .accessibilityIdentifier("tab-search")
                 }
 
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text(Strings.TabView.settingsLabel)
+                        .accessibilityIdentifier("tab-settings")
                 }
         }
     }
@@ -74,18 +78,22 @@ struct ContentView: View {
             Tab(Strings.TabView.libraryLabel, systemImage: "film", value: .library) {
                 LibraryHome()
             }
+            .accessibilityIdentifier("tab-library")
 
             Tab(Strings.TabView.listsLabel, systemImage: "list.bullet", value: .lists) {
                 MediaListsRootView()
             }
+            .accessibilityIdentifier("tab-lists")
 
             Tab(Strings.TabView.settingsLabel, systemImage: "gear", value: .settings) {
                 SettingsView()
             }
+            .accessibilityIdentifier("tab-settings")
 
             Tab(value: RootTab.search, role: .search) {
                 UnifiedSearchView()
             }
+            .accessibilityIdentifier("tab-search")
         }
     }
 

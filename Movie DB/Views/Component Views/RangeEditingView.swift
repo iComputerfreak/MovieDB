@@ -39,9 +39,11 @@ struct RangeEditingView<Label, ValueLabel, T>: View
             Stepper(value: self.proxies.lower, in: self.bounds.lowerBound...self.proxies.upper.wrappedValue) {
                 self.fromLabel(self.proxies.lower.wrappedValue)
             }
+            .accessibilityIdentifier("range-lower-stepper")
             Stepper(value: self.proxies.upper, in: self.proxies.lower.wrappedValue...self.bounds.upperBound) {
                 self.toLabel(self.proxies.upper.wrappedValue)
             }
+            .accessibilityIdentifier("range-upper-stepper")
             .navigationTitle(title)
         }
     }

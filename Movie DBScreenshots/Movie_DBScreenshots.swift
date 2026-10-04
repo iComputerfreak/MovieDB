@@ -7,10 +7,16 @@ import XCTest
 // swiftlint:disable implicitly_unwrapped_optional
 @MainActor
 final class Movie_DBScreenshots: XCTestCase {
-    private enum RootTab: Int {
-        case library
-        case lists
-        case settings
+    private enum RootTab: String {
+        case lists = "tab-lists"
+        case settings = "tab-settings"
+
+        var phoneFallbackIndex: Int {
+            switch self {
+            case .lists: 1
+            case .settings: 2
+            }
+        }
     }
 
     var app: XCUIApplication!
@@ -39,19 +45,25 @@ final class Movie_DBScreenshots: XCTestCase {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 
-    var usesGermanCopy: Bool {
-        Snapshot.currentLocale.hasPrefix("de") ||
-            Snapshot.deviceLanguage.hasPrefix("de") ||
-            app.launchArguments.joined(separator: " ").contains("de") ||
-            Locale.current.identifier.hasPrefix("de")
+    var screenshotLanguageCode: String {
+        let identifier = Snapshot.currentLocale.isEmpty ? Snapshot.deviceLanguage : Snapshot.currentLocale
+        return Locale(identifier: identifier).language.languageCode?.identifier ?? "en"
     }
 
     var dynamicListName: String {
-        usesGermanCopy ? "5-Sterne-Filme" : "5-Star Movies"
+        switch screenshotLanguageCode {
+        case "de": "5-Sterne-Filme"
+        case "fr": "Films 5 étoiles"
+        default: "5-Star Movies"
+        }
     }
 
     var customListName: String {
-        usesGermanCopy ? "Empfehlungen für Ben" : "Recommend to Ben"
+        switch screenshotLanguageCode {
+        case "de": "Empfehlungen für Ben"
+        case "fr": "À recommander à Ben"
+        default: "Recommend to Ben"
+        }
     }
 
     func testScreenshots() throws {
@@ -149,8 +161,9 @@ final class Movie_DBScreenshots: XCTestCase {
         app.collectionViews.firstMatch.buttons.element(boundBy: 1).tap() // Movie
         app.cells.buttons.element(boundBy: 5).tap() // Personal Rating
         // Increase to 5 stars
-        app.steppers.firstMatch.buttons["Increment"].tap(withNumberOfTaps: 5, numberOfTouches: 5)
-        app.steppers.firstMatch.buttons["Increment"].tap(withNumberOfTaps: 5, numberOfTouches: 5)
+        let incrementRatingButton = app.steppers["range-lower-stepper"].buttons.element(boundBy: 1)
+        incrementRatingButton.tap(withNumberOfTaps: 5, numberOfTouches: 5)
+        incrementRatingButton.tap(withNumberOfTaps: 5, numberOfTouches: 5)
         app.navigationBars.buttons.firstMatch.tap() // Back
         app.navigationBars.buttons.firstMatch.tap() // Back
         
@@ -180,36 +193,14 @@ final class Movie_DBScreenshots: XCTestCase {
     }
 
     private func openTab(_ tab: RootTab) {
-        let button = app.tabBars.buttons[tabLabel(for: tab)]
-        if button.waitForExistence(timeout: 3) {
-            button.forceTap()
+        let identifiedButton = app.buttons[tab.rawValue].firstMatch
+        if identifiedButton.waitForExistence(timeout: 2) {
+            identifiedButton.forceTap()
             return
         }
 
-        let fallbackButton = app.buttons[tabSymbolName(for: tab)].firstMatch
-        XCTAssertTrue(fallbackButton.waitForExistence(timeout: 10))
-        fallbackButton.forceTap()
-    }
-
-    private func tabLabel(for tab: RootTab) -> String {
-        switch tab {
-        case .library:
-            usesGermanCopy ? "Mediathek" : "Library"
-        case .lists:
-            usesGermanCopy ? "Listen" : "Lists"
-        case .settings:
-            usesGermanCopy ? "Einstellungen" : "Settings"
-        }
-    }
-
-    private func tabSymbolName(for tab: RootTab) -> String {
-        switch tab {
-        case .library:
-            "film"
-        case .lists:
-            "list.bullet"
-        case .settings:
-            "gear"
-        }
+        let button = app.tabBars.buttons.element(boundBy: tab.phoneFallbackIndex)
+        XCTAssertTrue(button.waitForExistence(timeout: 10))
+        button.forceTap()
     }
 }
