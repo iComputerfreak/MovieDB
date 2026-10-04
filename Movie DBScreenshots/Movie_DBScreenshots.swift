@@ -45,25 +45,17 @@ final class Movie_DBScreenshots: XCTestCase {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 
-    var screenshotLanguageCode: String {
+    var screenshotLocale: Locale {
         let identifier = Snapshot.currentLocale.isEmpty ? Snapshot.deviceLanguage : Snapshot.currentLocale
-        return Locale(identifier: identifier).language.languageCode?.identifier ?? "en"
+        return Locale(identifier: identifier)
     }
 
     var dynamicListName: String {
-        switch screenshotLanguageCode {
-        case "de": "5-Sterne-Filme"
-        case "fr": "Films 5 étoiles"
-        default: "5-Star Movies"
-        }
+        ScreenshotStrings(locale: screenshotLocale).dynamicListName
     }
 
     var customListName: String {
-        switch screenshotLanguageCode {
-        case "de": "Empfehlungen für Ben"
-        case "fr": "À recommander à Ben"
-        default: "Recommend to Ben"
-        }
+        ScreenshotStrings(locale: screenshotLocale).customListName
     }
 
     func testScreenshots() throws {
