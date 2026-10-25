@@ -200,7 +200,7 @@ struct MediaLibrary {
         // Use a store-backed context so each completed update survives background expiration.
         let reloadContext = PersistenceController.shared.newBackgroundContext()
         
-        let cutoffDate = Date.now.addingTimeInterval(-7 * .day)
+        let cutoffDate = Date.now.addingTimeInterval(-30 * .day)
         let mediaIDs = try await reloadContext.perform {
             // Fetch object IDs only; managed objects remain confined to their context queue.
             let fetchRequest: NSFetchRequest<Media> = Media.fetchRequest()
