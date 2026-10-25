@@ -39,6 +39,12 @@ final class LibraryUpdateStatus {
         let startedAt = Date.now
         var current = 0
         var total: Int
+        var isShownToUser: Bool {
+            switch origin {
+            case .manualUpdate, .manualReload, .migration: return true
+            case .appLaunch, .backgroundRefresh: return false
+            }
+        }
 
         var percentage: Double {
             guard total > 0 else { return 0 }
@@ -48,7 +54,7 @@ final class LibraryUpdateStatus {
 
     private(set) var entries: [UUID: Entry] = [:]
 
-    var isActive: Bool { !entries.isEmpty }
+    var isActive: Bool { entries.values.contains(where: \.isShownToUser) }
 
     /// Starts tracking a new update with the given number of items to process.
     /// - Returns: An identifier to pass to `increment(_:)`/`finish(_:)`, or `nil` if `total` is `0`
