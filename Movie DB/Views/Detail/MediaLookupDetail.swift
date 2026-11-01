@@ -16,8 +16,7 @@ struct MediaLookupDetail: View {
     let mediaType: MediaType
     let showingDismissButton: Bool
 
-    private let localContext: NSManagedObjectContext
-
+    @State private var localContext: NSManagedObjectContext
     @State private var state: LoadingState = .loading
     @State private var loadTaskID = UUID()
 
